@@ -1,0 +1,327 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    /* Printer mouth the tickets feed out of. */
+    #tk-slot {
+      position: absolute;
+      left: 30px;
+      top: 194px;
+      width: 590px;
+      height: 26px;
+    }
+    #tk-slot-bar {
+      width: 100%;
+      height: 100%;
+      border-radius: 13px;
+      background: linear-gradient(#2a211b, #0e0a08);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45), inset 0 2px 0 rgba(255, 255, 255, 0.12);
+    }
+    .tk-wrap {
+      position: absolute;
+      left: 44px;
+      top: 208px;
+      width: 562px;
+      height: 760px;
+      clip-path: inset(0 -2000px -2000px -2000px);
+    }
+    .tk-wrap.narrow {
+      width: 448px;
+    }
+    .tk {
+      position: relative;
+      width: 100%;
+      padding: 30px 28px 52px;
+      background: #fff8ec;
+      color: #1b1410;
+      font-family: "Space Mono", monospace;
+      -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 30px 100%;
+      mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 30px 100%;
+      filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.35));
+      transform-origin: 50% 0%;
+    }
+    .tk-head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+    }
+    .tk-rule {
+      margin: 14px 0;
+      border-top: 3px dashed #1b1410;
+      opacity: 0.55;
+    }
+    .tk-kicker {
+      display: inline-block;
+      margin-bottom: 8px;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: #fff8ec;
+      background: #e63b1f;
+      padding: 4px 12px 2px;
+      border-radius: 4px;
+    }
+    .tk-title {
+      font-family: "Archivo Black", sans-serif;
+      font-size: 60px;
+      line-height: 0.98;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+    }
+    .narrow .tk-title {
+      font-size: 44px;
+    }
+    .tk-sub {
+      margin-top: 12px;
+      font-size: 27px;
+      line-height: 1.25;
+    }
+    .tk-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+    }
+    .tk-heat {
+      display: flex;
+      gap: 7px;
+    }
+    .tk-heat i {
+      display: block;
+      width: 26px;
+      height: 26px;
+      border: 3px solid #1b1410;
+      border-radius: 4px;
+    }
+    .tk-heat i.on {
+      background: #e63b1f;
+      border-color: #e63b1f;
+    }
+    #tk-saved {
+      position: absolute;
+      left: 296px;
+      top: 300px;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 7px solid #e63b1f;
+      color: #e63b1f;
+      font-family: "Archivo Black", sans-serif;
+      font-size: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      line-height: 1;
+      background: rgba(255, 248, 236, 0.9);
+    }
+    #tk-saved small {
+      font-family: "Space Mono", monospace;
+      font-size: 17px;
+      letter-spacing: 0.12em;
+      margin-top: 6px;
+    }
+
+    /* Secret counter, top right: the open loop from the hook. */
+    #chip {
+      position: absolute;
+      right: 40px;
+      top: 200px;
+      width: 300px;
+      height: 132px;
+    }
+    #chip-in {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 0 20px;
+      background: #1b1410;
+      border-radius: 22px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
+      color: #fff8ec;
+      transform-origin: 100% 0%;
+    }
+    #chip-label {
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 0.08em;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      opacity: 0.8;
+    }
+    .chip-bottle {
+      width: 44px;
+      height: 84px;
+    }
+    .chip-bottle .fill {
+      opacity: 0;
+    }
+    #chip-count {
+      position: relative;
+      width: 96px;
+      height: 56px;
+      overflow: hidden;
+      font-family: "Archivo Black", sans-serif;
+      font-size: 46px;
+      line-height: 56px;
+    }
+    #chip-roll {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    #chip-roll div {
+      height: 56px;
+    }
+  </style>
+  <div id="root" data-composition-id="tickets" data-width="1080" data-height="1920"
+    data-composition-variables='[{"id":"step1","type":"string","label":"Step 1","default":"Tumis cili kisar"},{"id":"step2","type":"string","label":"Step 2","default":"Kacau sampai garing"},{"id":"step3","type":"string","label":"Step 3","default":"Masuk kangkung"},{"id":"secret1","type":"string","label":"Rahsia 1","default":"Sos ikan"},{"id":"secret1Brand","type":"string","label":"Rahsia 1 jenama","default":"Tiparos · ikut rasa"},{"id":"secret2","type":"string","label":"Rahsia 2","default":"Sos perasa"},{"id":"secret2Brand","type":"string","label":"Rahsia 2 jenama","default":"Golden Mountain · ikut rasa"},{"id":"step6","type":"string","label":"Step 6","default":"Tomato last sekali"},{"id":"cta","type":"string","label":"CTA","default":"Save dulu, masak nanti."},{"id":"ctaSub","type":"string","label":"CTA sub","default":"share kat geng yang suka kangkung"}]'>
+    <div id="tk-slot" class="clip" data-start="2.9" data-duration="31.15" data-track-index="0">
+      <div id="tk-slot-bar"></div>
+    </div>
+
+    <div id="tk1" class="tk-wrap clip" data-start="3.35" data-duration="5.15" data-track-index="1">
+      <div class="tk">
+        <div class="tk-head"><span>DAPUR KITA</span><span>#01</span></div>
+        <div class="tk-rule"></div>
+        <div class="tk-title" data-var-text="step1">Tumis cili kisar</div>
+        <div class="tk-sub">minyak panas dulu, baru tuang</div>
+        <div class="tk-rule"></div>
+        <div class="tk-foot"><span>API</span><span class="tk-heat"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></div>
+      </div>
+    </div>
+
+    <div id="tk2" class="tk-wrap clip" data-start="8.5" data-duration="3.65" data-track-index="2">
+      <div class="tk">
+        <div class="tk-head"><span>DAPUR KITA</span><span>#02</span></div>
+        <div class="tk-rule"></div>
+        <div class="tk-title" data-var-text="step2">Kacau sampai garing</div>
+        <div class="tk-sub">jangan bagi hangit</div>
+        <div class="tk-rule"></div>
+        <div class="tk-foot"><span>API</span><span class="tk-heat"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></div>
+      </div>
+    </div>
+
+    <div id="tk3" class="tk-wrap clip" data-start="12.17" data-duration="3.65" data-track-index="3">
+      <div class="tk">
+        <div class="tk-head"><span>DAPUR KITA</span><span>#03</span></div>
+        <div class="tk-rule"></div>
+        <div class="tk-title" data-var-text="step3">Masuk kangkung</div>
+        <div class="tk-sub">api besar, gaul cepat</div>
+        <div class="tk-rule"></div>
+        <div class="tk-foot"><span>API</span><span class="tk-heat"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></div>
+      </div>
+    </div>
+
+    <div id="tk4" class="tk-wrap clip" data-start="15.8" data-duration="3.1" data-track-index="4">
+      <div class="tk">
+        <div class="tk-head"><span>DAPUR KITA</span><span>#04</span></div>
+        <div class="tk-rule"></div>
+        <div class="tk-kicker">RAHSIA #1</div>
+        <div class="tk-title" data-var-text="secret1">Sos ikan</div>
+        <div class="tk-sub" data-var-text="secret1Brand">Tiparos &middot; ikut rasa</div>
+      </div>
+    </div>
+
+    <div id="tk5" class="tk-wrap clip" data-start="18.92" data-duration="3.8" data-track-index="5">
+      <div class="tk">
+        <div class="tk-head"><span>DAPUR KITA</span><span>#05</span></div>
+        <div class="tk-rule"></div>
+        <div class="tk-kicker">RAHSIA #2</div>
+        <div class="tk-title" data-var-text="secret2">Sos perasa</div>
+        <div class="tk-sub" data-var-text="secret2Brand">Golden Mountain &middot; ikut rasa</div>
+      </div>
+    </div>
+
+    <div id="tk6" class="tk-wrap clip" data-start="22.72" data-duration="1.8" data-track-index="6">
+      <div class="tk">
+        <div class="tk-head"><span>DAPUR KITA</span><span>#06</span></div>
+        <div class="tk-rule"></div>
+        <div class="tk-title" data-var-text="step6">Tomato last sekali</div>
+        <div class="tk-sub">biar tak lembik</div>
+      </div>
+    </div>
+
+    <div id="tk7" class="tk-wrap narrow clip" data-start="30.64" data-duration="3.41" data-track-index="7">
+      <div class="tk">
+        <div class="tk-head"><span>TERIMA KASIH</span><span>&#10003;</span></div>
+        <div class="tk-rule"></div>
+        <div class="tk-title" data-var-text="cta">Save dulu, masak nanti.</div>
+        <div class="tk-sub" data-var-text="ctaSub">share kat geng yang suka kangkung</div>
+      </div>
+      <div id="tk-saved">SAVE<small>RESEPI</small></div>
+    </div>
+
+    <div id="chip" class="clip" data-start="2.3" data-duration="31.75" data-track-index="8">
+      <div id="chip-in">
+        <div id="chip-label">RAHSIA</div>
+        <svg class="chip-bottle" id="chip-b1" viewBox="0 0 44 84">
+          <path class="fill" d="M16 4h12v14c0 4 10 8 10 18v42H6V36c0-10 10-14 10-18z" fill="#e63b1f" />
+          <rect class="fill" x="9" y="44" width="26" height="20" rx="3" fill="#ffd23f" />
+          <path d="M16 4h12v14c0 4 10 8 10 18v42H6V36c0-10 10-14 10-18z" fill="none" stroke="#fff8ec" stroke-width="3" />
+        </svg>
+        <svg class="chip-bottle" id="chip-b2" viewBox="0 0 44 84">
+          <path class="fill" d="M16 4h12v14c0 4 10 8 10 18v42H6V36c0-10 10-14 10-18z" fill="#1fa34a" />
+          <rect class="fill" x="9" y="44" width="26" height="20" rx="3" fill="#ffd23f" />
+          <path d="M16 4h12v14c0 4 10 8 10 18v42H6V36c0-10 10-14 10-18z" fill="none" stroke="#fff8ec" stroke-width="3" />
+        </svg>
+        <div id="chip-count">
+          <div id="chip-roll" data-layout-ignore><div>0/2</div><div>1/2</div><div style="color:#ffd23f">2/2</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // Slot: drops in before the first ticket, hides for the plate hero, returns for the CTA.
+    tl.fromTo("#tk-slot-bar", { y: -60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "expo.out" }, 3.1);
+    tl.to("#tk-slot-bar", { y: -60, opacity: 0, duration: 0.2, ease: "power3.in" }, 24.35);
+    tl.to("#tk-slot-bar", { y: 0, opacity: 1, duration: 0.3, ease: "expo.out" }, 30.4);
+
+    // Each ticket prints in mechanical steps, then is torn off to the left.
+    const tickets = [
+      ["#tk1", 3.35, 8.41],
+      ["#tk2", 8.5, 12.03],
+      ["#tk3", 12.17, 15.71],
+      ["#tk4", 15.8, 18.78],
+      ["#tk5", 18.92, 22.64],
+      ["#tk6", 22.72, 24.41],
+    ];
+    tickets.forEach(([sel, inT, outT]) => {
+      tl.fromTo(`${sel} .tk`, { yPercent: -101, rotation: 0 },
+        { yPercent: 0, duration: 0.85, ease: "steps(9)" }, inT);
+      tl.to(`${sel} .tk`, { rotation: -1.4, duration: 0.5, ease: "power2.out" }, inT + 0.85);
+      tl.to(`${sel} .tk`, { x: -720, y: 90, rotation: -14, duration: 0.3, ease: "power3.in" }, outT - 0.22);
+    });
+    // CTA ticket stays.
+    tl.fromTo("#tk7 .tk", { yPercent: -101 }, { yPercent: 0, duration: 0.95, ease: "steps(10)" }, 30.64);
+    tl.to("#tk7 .tk", { rotation: 1.2, duration: 0.5, ease: "power2.out" }, 31.6);
+    tl.fromTo("#tk-saved", { scale: 2.4, rotation: -30, opacity: 0 },
+      { scale: 1, rotation: -14, opacity: 1, duration: 0.22, ease: "power4.in" }, 31.7);
+
+    // Counter chip.
+    tl.fromTo("#chip-in", { scale: 0.3, opacity: 0, rotation: 8 },
+      { scale: 1, opacity: 1, rotation: 0, duration: 0.45, ease: "back.out(1.7)" }, 2.3);
+    const found = (bottle, t, row) => {
+      tl.fromTo(`${bottle} .fill`, { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "none" }, t);
+      tl.fromTo(bottle, { scale: 1.5, y: -8 }, { scale: 1, y: 0, duration: 0.4, ease: "back.out(2)" }, t);
+      tl.to("#chip-roll", { y: -56 * row, duration: 0.3, ease: "expo.out" }, t + 0.05);
+    };
+    found("#chip-b1", 16.0, 1);
+    found("#chip-b2", 19.2, 2);
+    // Final reminder pulse when the bottles appear together.
+    tl.to("#chip-in", { scale: 1.12, duration: 0.14, ease: "power2.out", yoyo: true, repeat: 1 }, 30.2);
+
+    window.__timelines["tickets"] = tl;
+  </script>
+</template>

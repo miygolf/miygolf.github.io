@@ -1,0 +1,59 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #fin-stamp {
+      position: absolute;
+      left: 60px;
+      top: 214px;
+      width: 470px;
+      height: 230px;
+    }
+    #fin-stamp-in {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 10px solid #e63b1f;
+      border-radius: 26px;
+      background: rgba(255, 248, 236, 0.92);
+      color: #e63b1f;
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.35);
+    }
+    #fin-word {
+      font-family: "Archivo Black", sans-serif;
+      font-size: 132px;
+      line-height: 0.9;
+      letter-spacing: -0.01em;
+    }
+    #fin-sub {
+      margin-top: 8px;
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 0.32em;
+      color: #1b1410;
+    }
+  </style>
+  <div id="root" data-composition-id="finale" data-width="1080" data-height="1920">
+    <div id="fin-stamp" class="clip" data-start="25.45" data-duration="2.0" data-track-index="0">
+      <div id="fin-stamp-in">
+        <div id="fin-word">SIAP!</div>
+        <div id="fin-sub">ORDER UP</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // Rubber stamp: falls in large and fast, lands with a hard stop on the stamp sound.
+    tl.fromTo("#fin-stamp-in", { scale: 2.6, rotation: -24, opacity: 0 },
+      { scale: 1, rotation: -8, opacity: 1, duration: 0.17, ease: "power4.in" }, 25.45);
+    tl.to("#fin-stamp-in", { scale: 1.04, duration: 0.06, ease: "power1.out", yoyo: true, repeat: 1 }, 25.62);
+    tl.to("#fin-stamp-in", { opacity: 0, scale: 0.92, duration: 0.18, ease: "power2.in" }, 27.22);
+    window.__timelines["finale"] = tl;
+  </script>
+</template>

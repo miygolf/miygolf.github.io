@@ -1,0 +1,7 @@
+# Large/derived media: regenerate with tools/prepare_footage.sh and hyperframes render
+assets/footage/
+renders/
+.hyperframes/
+.media/
+node_modules/
+.src/

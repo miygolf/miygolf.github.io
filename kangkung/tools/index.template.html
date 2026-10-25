@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ms" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --paper: #fff8ec;
+        --ink: #1b1410;
+        --chili: #e63b1f;
+        --leaf: #1fa34a;
+        --yolk: #ffd23f;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #000;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #000;
+      }
+      #cam {
+        position: absolute;
+        inset: 0;
+        transform-origin: 50% 46%;
+      }
+      .shot {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1920px;
+        object-fit: cover;
+      }
+      #flash {
+        position: absolute;
+        inset: 0;
+        background: var(--paper);
+        opacity: 0;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="{{TOTAL}}"
+      data-width="1080"
+      data-height="1920"
+      data-motion-blur="on"
+    >
+      <div id="cam">
+{{VIDEOS}}
+      </div>
+      <div id="flash" data-layout-ignore></div>
+
+      <div id="hook" data-composition-id="hook" data-composition-src="compositions/hook.html"
+        data-start="0" data-duration="3.4" data-track-index="2" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+      <div id="tickets" data-composition-id="tickets" data-composition-src="compositions/tickets.html"
+        data-start="0" data-duration="{{TOTAL}}" data-track-index="3" data-track-kind="graphics" data-motion-blur="off"
+        data-width="1080" data-height="1920"></div>
+      <div id="notes" data-composition-id="notes" data-composition-src="compositions/notes.html"
+        data-start="0" data-duration="{{TOTAL}}" data-track-index="4" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+      <div id="finale" data-composition-id="finale" data-composition-src="compositions/finale.html"
+        data-start="0" data-duration="{{TOTAL}}" data-track-index="5" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+
+{{AUDIO}}
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const cam = "#cam";
+
+      // Camera: each cut resets the frame, then its own move plays.
+      // whip(t, dx, dy): the incoming shot lands from a fast slide (motion blur smears it).
+      const whip = (t, dx, dy) => {
+        tl.set(cam, { x: dx, y: dy, scale: 1.18 }, t);
+        tl.to(cam, { x: 0, y: 0, scale: 1, duration: 0.32, ease: "expo.out" }, t);
+      };
+      const reset = (t) => tl.set(cam, { x: 0, y: 0, scale: 1 }, t);
+      // punch(t, s, settle): snap in on an impact, then ease back to a held framing.
+      const punch = (t, s, settleTo, settleDur) => {
+        tl.to(cam, { scale: s, duration: 0.12, ease: "power3.out" }, t);
+        tl.to(cam, { scale: settleTo, duration: settleDur, ease: "power2.inOut" }, t + 0.12);
+      };
+
+      // v01 hook: plate pushed at the lens, frame lands from slightly wide.
+      tl.set(cam, { scale: 1.1 }, 0);
+      tl.to(cam, { scale: 1, duration: 0.7, ease: "expo.out" }, 0);
+      // v02 pour: whip in, punch as the steam erupts.
+      whip(1.5, 140, 0);
+      punch(1.9, 1.07, 1.02, 1.2);
+      // v03 timelapse, v04 stir
+      reset(4.7);
+      reset(6.2);
+      punch(6.25, 1.06, 1.0, 0.8);
+      // v05 stir hard
+      reset(8.4);
+      // v06 kangkung drops in
+      // drop the frame a little so the ticket sits above the greens
+      tl.set(cam, { x: 0, y: 80, scale: 1.08 }, 11.4);
+      punch(12.0, 1.16, 1.1, 1.4);
+      // v07
+      reset(14.0);
+      // v08 secret #1: whip from the left
+      whip(15.6, -150, 0);
+      reset(17.0);
+      // v10 secret #2
+      whip(18.6, 150, 0);
+      reset(20.0);
+      // v12 tomato
+      reset(22.6);
+      punch(22.9, 1.08, 1.03, 1.0);
+      // v13 payoff: paper flash, land from close
+      tl.set(cam, { x: 0, y: 0, scale: 1.2 }, 24.4);
+      tl.to(cam, { scale: 1, duration: 0.8, ease: "expo.out" }, 24.4);
+      tl.fromTo("#flash", { opacity: 0.85 }, { opacity: 0, duration: 0.28, ease: "power2.out", immediateRender: false }, 24.4);
+      // v14 bottles: whip up
+      whip(27.5, 0, 160);
+      // v15 CTA hold
+      reset(30.6);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,119 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Caveat Brush";
+      src: url("assets/fonts/CaveatBrush.ttf");
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    .hk-block {
+      position: absolute;
+      left: 56px;
+      right: 56px;
+    }
+    #hook-a {
+      top: 196px;
+    }
+    #hook-tag {
+      display: inline-block;
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 30px;
+      letter-spacing: 0.14em;
+      color: var(--paper, #fff8ec);
+      background: #e63b1f;
+      padding: 8px 18px 6px;
+      border-radius: 6px;
+    }
+    #hook-title {
+      margin-top: 10px;
+      font-family: "Archivo Black", sans-serif;
+      font-size: 140px;
+      line-height: 0.92;
+      letter-spacing: -0.02em;
+      color: #fff8ec;
+      -webkit-text-stroke: 4px #1b1410;
+      paint-order: stroke fill;
+      text-shadow: 9px 9px 0 #e63b1f;
+    }
+    #hook-script {
+      margin-top: 8px;
+      font-family: "Caveat Brush", cursive;
+      font-size: 66px;
+      line-height: 1;
+      color: #ffd23f;
+      text-shadow: 0 3px 0 #1b1410, 0 0 18px rgba(0, 0, 0, 0.55);
+    }
+    #hook-b {
+      top: 206px;
+    }
+    #hook-q {
+      display: inline-block;
+      padding: 10px 26px 4px;
+      border-radius: 16px;
+      background: rgba(27, 20, 16, 0.86);
+      font-family: "Caveat Brush", cursive;
+      font-size: 84px;
+      line-height: 1;
+      color: #fff8ec;
+      text-shadow: 0 4px 0 #1b1410, 0 0 22px rgba(0, 0, 0, 0.6);
+    }
+    #hook-ans {
+      margin-top: 18px;
+      font-family: "Archivo Black", sans-serif;
+      font-size: 112px;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      color: #1b1410;
+    }
+    .hk-hl {
+      display: inline-block;
+      background: #ffd23f;
+      padding: 4px 18px 0;
+      border-radius: 8px;
+      box-shadow: 8px 8px 0 #1b1410;
+    }
+    .hk-tail {
+      margin-top: 14px;
+      padding: 4px 18px 0;
+      border-radius: 8px;
+      background: #1b1410;
+      color: #fff8ec;
+    }
+    .hk-word {
+      display: inline-block;
+    }
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+    <div id="hook-a" class="hk-block clip" data-start="0" data-duration="1.5" data-track-index="0">
+      <div id="hook-tag">RESEPI ALA THAI</div>
+      <div id="hook-title">KANGKUNG</div>
+      <div id="hook-script">confirm nasi tambah!</div>
+    </div>
+    <div id="hook-b" class="hk-block clip" data-start="1.5" data-duration="1.95" data-track-index="1">
+      <div id="hook-q">
+        <span class="hk-word">Rahsia</span> <span class="hk-word">sedap</span> <span class="hk-word">dia?</span>
+      </div>
+      <div id="hook-ans"><span id="hook-hl" class="hk-hl">2 BOTOL</span><br /><span id="hook-tail" class="hk-word hk-tail">NI JE.</span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // Frame 0 is the thumbnail: everything in hook-a is already on screen and settles.
+    tl.fromTo("#hook-title", { scale: 1.08, transformOrigin: "0% 50%" }, { scale: 1, duration: 0.5, ease: "expo.out" }, 0);
+    tl.fromTo("#hook-script", { y: 8 }, { y: 0, duration: 0.4, ease: "power2.out" }, 0.1);
+    tl.to("#hook-a > *", { opacity: 0, x: -60, duration: 0.18, stagger: 0.03, ease: "power3.in" }, 1.28);
+
+    // Question word by word, blur-in, no translate.
+    tl.fromTo("#hook-q .hk-word", { opacity: 0, filter: "blur(6px)" },
+      { opacity: 1, filter: "blur(0px)", duration: 0.14, stagger: 0.06, ease: "power2.out" }, 1.55);
+    // Answer slams: highlight block scales from small, tail drops in.
+    tl.fromTo("#hook-hl", { scale: 0.4, rotation: -6, opacity: 0 },
+      { scale: 1, rotation: -2, opacity: 1, duration: 0.42, ease: "back.out(1.6)" }, 1.85);
+    tl.fromTo("#hook-tail", { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.3, ease: "expo.out" }, 2.1);
+    tl.to("#hook-b > *", { opacity: 0, filter: "blur(8px)", duration: 0.2, stagger: 0.04, ease: "power2.in" }, 3.18);
+    window.__timelines["hook"] = tl;
+  </script>
+</template>

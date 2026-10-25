@@ -1,0 +1,134 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Caveat Brush";
+      src: url("assets/fonts/CaveatBrush.ttf");
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    .nt {
+      position: absolute;
+      inset: 0;
+    }
+    .nt-text {
+      position: absolute;
+      font-family: "Caveat Brush", cursive;
+      font-size: 68px;
+      line-height: 0.95;
+      color: #ffd23f;
+      text-shadow: 0 4px 0 #1b1410, 0 0 20px rgba(0, 0, 0, 0.65);
+      transform-origin: 0% 50%;
+    }
+    .nt svg {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: visible;
+    }
+    .ink {
+      fill: none;
+      stroke: #ffd23f;
+      stroke-width: 8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 3px 0 #1b1410);
+    }
+    #nt-fast {
+      position: absolute;
+      right: 44px;
+      top: 346px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 22px 8px 18px;
+      background: #ffd23f;
+      color: #1b1410;
+      border-radius: 14px;
+      box-shadow: 6px 6px 0 #1b1410;
+      font-family: "Archivo Black", sans-serif;
+      font-size: 54px;
+      line-height: 1;
+    }
+  </style>
+  <div id="root" data-composition-id="notes" data-width="1080" data-height="1920">
+    <!-- Timelapse: frying until the oil splits -->
+    <div id="nt1" class="nt clip" data-start="4.75" data-duration="1.45" data-track-index="0">
+      <div id="nt-fast"><svg width="46" height="40" viewBox="0 0 46 40" style="position:static;width:46px;height:40px"><path d="M2 2l20 18L2 38zM24 2l20 18-20 18z" fill="#1b1410" /></svg>8X</div>
+      <div class="nt-text" id="nt1-t" style="left:64px;top:600px">tunggu sampai<br />pecah minyak</div>
+      <svg viewBox="0 0 1080 1920"><path id="nt1-a" class="ink" d="M420 735 C 470 790, 520 820, 590 830 M560 800 L592 831 L552 852" /></svg>
+    </div>
+
+    <!-- Hard stir -->
+    <div id="nt2" class="nt clip" data-start="8.9" data-duration="2.45" data-track-index="1">
+      <div class="nt-text" id="nt2-t" style="left:64px;top:1190px">wangi satu rumah!</div>
+      <svg viewBox="0 0 1080 1920"><path id="nt2-a" class="ink" d="M70 1278 C 220 1300, 420 1296, 590 1272" /></svg>
+    </div>
+
+    <!-- Kangkung lands -->
+    <div id="nt3" class="nt clip" data-start="12.35" data-duration="1.6" data-track-index="2">
+      <svg viewBox="0 0 1080 1920"><path id="nt3-c" class="ink" d="M720 470 C 960 452, 1100 600, 1060 800 C 1020 1010, 780 1080, 560 1030 C 380 990, 360 760, 450 600 C 520 490, 640 466, 770 478" /></svg>
+      <div class="nt-text" id="nt3-t" style="left:64px;top:1160px">kangkung<br />segar!</div>
+      <svg viewBox="0 0 1080 1920"><path id="nt3-a" class="ink" d="M250 1150 C 290 1090, 360 1060, 430 1040 M392 1020 L432 1040 L404 1076" /></svg>
+    </div>
+
+    <!-- Tomato -->
+    <div id="nt5" class="nt clip" data-start="23.2" data-duration="1.2" data-track-index="3">
+      <svg viewBox="0 0 1080 1920"><path id="nt5-c" class="ink" d="M600 690 C 790 700, 850 900, 820 1050 C 790 1220, 600 1270, 480 1200 C 360 1120, 350 860, 430 760 C 480 700, 560 688, 640 694" /></svg>
+      <div class="nt-text" id="nt5-t" style="left:64px;top:1250px">warna cantik!</div>
+    </div>
+
+    <!-- The two bottles -->
+    <div id="nt6" class="nt clip" data-start="28.05" data-duration="2.5" data-track-index="4">
+      <div class="nt-text" id="nt6-t" style="left:64px;top:300px">#2 sos<br />perasa</div>
+      <svg viewBox="0 0 1080 1920"><path id="nt6-a" class="ink" d="M300 360 C 360 330, 420 330, 482 350 M448 322 L484 350 L444 374" /></svg>
+    </div>
+    <div id="nt7" class="nt clip" data-start="30.2" data-duration="3.85" data-track-index="5">
+      <div class="nt-text" id="nt7-t" style="left:56px;top:740px">#1 sos<br />ikan</div>
+      <svg viewBox="0 0 1080 1920"><path id="nt7-a" class="ink" d="M250 760 C 380 690, 560 650, 690 610 M650 596 L692 610 L664 646" /></svg>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // Ink draws on with the marker sound; text writes in letter-ish via a wipe.
+    const draw = (sel, t, dur) => {
+      const el = document.querySelector(sel);
+      const len = el.getTotalLength();
+      tl.fromTo(sel, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: dur, ease: "power2.inOut" }, t);
+    };
+    const write = (sel, t) => {
+      tl.fromTo(sel, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.35, ease: "power1.out" }, t);
+    };
+    const out = (sel, t) => tl.to(sel, { opacity: 0, duration: 0.15, ease: "power2.in" }, t);
+
+    tl.fromTo("#nt-fast", { scale: 0.2, rotation: -12 }, { scale: 1, rotation: -4, duration: 0.35, ease: "back.out(2)" }, 4.75);
+    write("#nt1-t", 4.85);
+    draw("#nt1-a", 5.1, 0.35);
+    out("#nt1 > *", 6.02);
+
+    write("#nt2-t", 8.95);
+    draw("#nt2-a", 9.2, 0.4);
+    out("#nt2 > *", 11.15);
+
+    draw("#nt3-c", 12.4, 0.5);
+    write("#nt3-t", 12.6);
+    draw("#nt3-a", 12.8, 0.3);
+    out("#nt3 > *", 13.8);
+
+    draw("#nt5-c", 23.25, 0.45);
+    write("#nt5-t", 23.4);
+    out("#nt5 > *", 24.2);
+
+    write("#nt6-t", 28.1);
+    draw("#nt6-a", 28.35, 0.3);
+    out("#nt6 > *", 30.35);
+
+    write("#nt7-t", 30.25);
+    draw("#nt7-a", 30.45, 0.35);
+
+    window.__timelines["notes"] = tl;
+  </script>
+</template>
