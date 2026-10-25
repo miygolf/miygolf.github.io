@@ -1,0 +1,81 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    /* evidence tent markers */
+    .s2-tent {
+      position: absolute;
+      top: 1036px;
+      width: 88px;
+      height: 92px;
+      margin-left: -44px;
+    }
+    .s2-tent b {
+      position: absolute;
+      inset: 0;
+      background: var(--red);
+      clip-path: polygon(14% 0, 86% 0, 100% 100%, 0 100%);
+      box-shadow: 0 8px 0 rgba(0, 0, 0, 0.25);
+    }
+    .s2-tent i {
+      position: absolute;
+      inset: 0;
+      font-style: normal;
+      font-family: "Archivo Black", sans-serif;
+      font-size: 54px;
+      line-height: 98px;
+      text-align: center;
+      color: var(--paper);
+    }
+    #s2-kicker {
+      position: absolute;
+      left: 70px;
+      top: 1164px;
+      font-size: 32px;
+      background: var(--paper);
+      color: var(--ink);
+      padding: 6px 14px 4px;
+    }
+    #s2-big {
+      position: absolute;
+      left: 62px;
+      top: 1206px;
+      font-family: "League Gothic", sans-serif;
+      font-size: 140px;
+      line-height: 1;
+      color: var(--red);
+      text-shadow: 0 6px 0 rgba(18, 18, 18, 0.25);
+    }
+  </style>
+  <div id="root" data-composition-id="s2" data-width="1080" data-height="1920">
+    <div class="foot">
+      <!-- scaled from the bottom so the old top title (y 300-500) leaves the frame -->
+      <div id="s2-rig" class="foot-rig">
+        <video id="s2-v" class="clip" src="assets/raw.mp4" muted playsinline
+          data-start="0" data-duration="1.16" data-media-start="3.17" data-playback-rate="0.7"
+          data-track-index="0"></video>
+      </div>
+    </div>
+    <div id="s2-t1" class="s2-tent" style="left: 222px"><b></b><i>1</i></div>
+    <div id="s2-t2" class="s2-tent" style="left: 498px"><b></b><i>2</i></div>
+    <div id="s2-t3" class="s2-tent" style="left: 792px"><b></b><i>3</i></div>
+    <div id="s2-kicker" class="mono">KALAU TAK HILANG…</div>
+    <div id="s2-big">BERSELERAK.</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#s2-rig", { scale: 1.37, x: 132, transformOrigin: "50% 100%" },
+      { scale: 1.37, x: 108, duration: 1.16, ease: "none" }, 0);
+    tl.fromTo("#s2-kicker", { opacity: 0, filter: "blur(6px)" },
+      { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.0);
+    tl.fromTo("#s2-big", { scale: 1.3, opacity: 0, transformOrigin: "0% 60%" },
+      { scale: 1, opacity: 1, duration: 0.16, ease: "expo.out" }, 0.06);
+    ["#s2-t1", "#s2-t2", "#s2-t3"].forEach((sel, i) => {
+      tl.fromTo(sel, { y: 40, scale: 0.4, opacity: 0 },
+        { y: 0, scale: 1, opacity: 1, duration: 0.22, ease: "back.out(2)" }, 0.12 + i * 0.12);
+    });
+    window.__timelines["s2"] = tl;
+  </script>
+</template>

@@ -1,0 +1,117 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    /* Police report card: covers the old burned-in hook text (x 554-946, y 480-1060). */
+    #s1-card {
+      position: absolute;
+      left: 466px;
+      top: 462px;
+      width: 680px;
+      height: 668px;
+      background:
+        repeating-linear-gradient(180deg, transparent 0 57px, rgba(18, 18, 18, 0.08) 57px 59px),
+        var(--paper);
+      box-shadow: -14px 22px 40px rgba(0, 0, 0, 0.35);
+      padding: 34px 40px;
+    }
+    #s1-card .hdr {
+      display: inline-block;
+      background: var(--red);
+      color: var(--paper);
+      font-size: 30px;
+      letter-spacing: 1px;
+      padding: 8px 14px 6px;
+    }
+    #s1-card .no {
+      margin-top: 14px;
+      font-size: 28px;
+      font-weight: 400;
+      color: rgba(18, 18, 18, 0.6);
+    }
+    #s1-card .rule {
+      margin: 16px 0 14px;
+      width: 430px;
+      border-top: 3px dashed rgba(18, 18, 18, 0.5);
+    }
+    #s1-card .ln {
+      display: table;
+      font-size: 31px;
+      line-height: 60px;
+      color: var(--ink);
+    }
+    #s1-clip {
+      position: absolute;
+      left: 852px;
+      top: 430px;
+      width: 46px;
+      height: 120px;
+      border: 7px solid #8d8d8d;
+      border-radius: 23px;
+    }
+    #s1-stamp {
+      left: 548px;
+      top: 912px;
+      font-size: 84px;
+    }
+  </style>
+  <div id="root" data-composition-id="s1" data-width="1080" data-height="1920">
+    <div class="foot">
+      <div id="s1-rig" class="foot-rig">
+        <video id="s1-v" class="clip" src="assets/raw.mp4" muted playsinline
+          data-start="0" data-duration="2.3" data-media-start="0" data-playback-rate="0.652"
+          data-track-index="0"></video>
+      </div>
+    </div>
+
+    <div id="s1-strip1" class="strip" style="top: 196px">3 REMOTE. 1 SOFA.</div>
+    <div id="s1-strip2" class="strip red" style="top: 330px">0 JUMPA.</div>
+
+    <div id="s1-card" class="mono">
+      <div class="hdr">LAPORAN KEHILANGAN</div>
+      <div class="no">NO. KES: 047/26</div>
+      <div class="rule"></div>
+      <div id="s1-l1" class="ln type">BARANG : REMOTE</div>
+      <div id="s1-l2" class="ln type">JUMLAH : 3 BIJI</div>
+      <div id="s1-l3" class="ln type">LOKASI : CELAH SOFA</div>
+      <div id="s1-l4" class="ln type">STATUS :</div>
+    </div>
+    <div id="s1-clip"></div>
+    <div id="s1-stamp" class="stamp">DICARI</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // footage: punch-in kicks with the stamp
+    tl.fromTo("#s1-rig", { scale: 1, transformOrigin: "280px 900px" },
+      { scale: 1.07, duration: 0.14, ease: "expo.out" }, 1.62);
+
+    // hook line 1 is on screen at frame 0; "0 JUMPA." slams in
+    tl.fromTo("#s1-strip1", { rotation: -2 }, { rotation: -2, duration: 0.01 }, 0);
+    tl.fromTo("#s1-strip2", { scale: 1.45, rotation: 1.5, opacity: 0, transformOrigin: "20% 50%" },
+      { scale: 1, rotation: 1.5, opacity: 1, duration: 0.16, ease: "expo.out" }, 0.3);
+
+    // card sits over the old copy from frame 0
+    tl.fromTo("#s1-card", { rotation: -1.5, x: 0 }, { rotation: -1.5, x: 0, duration: 0.01 }, 0);
+    tl.fromTo("#s1-clip", { rotation: -1.5 }, { rotation: -1.5, duration: 0.01 }, 0);
+
+    // typewriter fields
+    const lines = [["#s1-l1", 0.55, 0.25, 15], ["#s1-l2", 0.82, 0.23, 15], ["#s1-l3", 1.07, 0.32, 19], ["#s1-l4", 1.42, 0.13, 8]];
+    for (const [sel, at, dur, n] of lines) {
+      tl.fromTo(sel, { clipPath: "inset(0 100% 0 0)" },
+        { clipPath: "inset(0 0% 0 0)", duration: dur, ease: `steps(${n})` }, at);
+    }
+
+    // DICARI stamp + card jolt
+    tl.fromTo("#s1-stamp", { scale: 1.9, rotation: -10, opacity: 0 },
+      { scale: 1, rotation: -10, opacity: 0.94, duration: 0.12, ease: "power4.in" }, 1.5);
+    tl.fromTo("#s1-card", { x: 0 }, { x: -6, duration: 0.04, ease: "none" }, 1.62);
+    tl.to("#s1-card", { x: 0, duration: 0.18, ease: "power2.out" }, 1.66);
+
+    // exit: strips fly up as we cut
+    tl.to("#s1-strip1", { y: -260, duration: 0.18, ease: "power3.in" }, 2.12);
+    tl.to("#s1-strip2", { y: -260, duration: 0.18, ease: "power3.in" }, 2.15);
+    window.__timelines["s1"] = tl;
+  </script>
+</template>

@@ -1,0 +1,144 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #s6-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(90deg, rgba(242, 234, 219, 0.045) 0 2px, transparent 2px 60px),
+        repeating-linear-gradient(180deg, rgba(242, 234, 219, 0.045) 0 2px, transparent 2px 60px),
+        var(--ink);
+    }
+    #s6-pola {
+      position: absolute;
+      left: 210px;
+      top: 226px;
+      width: 660px;
+      height: 1086px;
+      background: #f7f3ea;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.55);
+    }
+    #s6-photo {
+      position: absolute;
+      left: 30px;
+      top: 30px;
+      width: 600px;
+      height: 930px;
+      overflow: hidden;
+      background: #777;
+    }
+    /* crop of source x 352-1000, y 340-1344: clear of the old feature cards */
+    #s6-v {
+      position: absolute;
+      left: -326px;
+      top: -315px;
+      width: 1000px;
+      height: 1778px;
+      object-fit: cover;
+    }
+    #s6-cap {
+      position: absolute;
+      left: 30px;
+      right: 30px;
+      top: 980px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      font-size: 40px;
+      color: var(--ink);
+    }
+    #s6-cap svg {
+      flex: 0 0 auto;
+    }
+    #s6-pin {
+      position: absolute;
+      left: 312px;
+      top: -18px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 6px 0 rgba(0, 0, 0, 0.35);
+    }
+    #s6-stamp {
+      left: 190px;
+      top: 960px;
+      font-size: 78px;
+      color: var(--paper);
+      background: var(--red);
+      border-color: var(--red);
+    }
+    .s6-tape {
+      position: absolute;
+      left: -200px;
+      width: 1480px;
+      height: 88px;
+      background: var(--paper);
+      border-top: 10px solid var(--red);
+      border-bottom: 10px solid var(--red);
+      font-family: "Archivo Black", sans-serif;
+      font-size: 40px;
+      line-height: 68px;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      letter-spacing: 3px;
+    }
+    #s6-flash {
+      position: absolute;
+      inset: 0;
+      background: #fff;
+    }
+  </style>
+  <div id="root" data-composition-id="s6" data-width="1080" data-height="1920">
+    <div id="s6-bg"></div>
+    <div id="s6-tape1" class="s6-tape" data-layout-ignore style="top: 1400px">KES DITUTUP • JANGAN LINTAS • KES DITUTUP • JANGAN LINTAS • KES DITUTUP •</div>
+    <div id="s6-tape2" class="s6-tape" data-layout-ignore style="top: 1560px">JANGAN LINTAS • KES DITUTUP • JANGAN LINTAS • KES DITUTUP • JANGAN LINTAS •</div>
+    <div id="s6-pola" class="mono">
+      <div id="s6-photo">
+        <video id="s6-v" class="clip" src="assets/raw.mp4" muted playsinline
+          data-start="0" data-duration="4.07" data-media-start="14.6" data-playback-rate="0.565"
+          data-track-index="0"></video>
+      </div>
+      <div id="s6-cap">
+        <svg width="50" height="50" viewBox="0 0 50 50" aria-hidden="true">
+          <path d="M9 18h32l-3 25H12z" fill="var(--basket)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M17 18v-4a8 8 0 0 1 16 0v4" fill="none" stroke="var(--ink)" stroke-width="3.5" stroke-linecap="round"/>
+        </svg>
+        <span id="s6-cta" class="type">TEKAN BEG KUNING</span>
+      </div>
+      <div id="s6-pin"></div>
+    </div>
+    <div id="s6-stamp" class="stamp" data-layout-allow-occlusion>KES DITUTUP</div>
+    <div id="s6-flash"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // camera flash: the evidence photo is taken
+    tl.fromTo("#s6-flash", { opacity: 0.9 }, { opacity: 0, duration: 0.3, ease: "power2.out" }, 0);
+    tl.fromTo("#s6-pola", { scale: 1.14, rotation: -9, y: 40 },
+      { scale: 1, rotation: -3, y: 0, duration: 0.5, ease: "expo.out" }, 0);
+
+    // police tape slides across the bottom (decoration in the platform UI zone)
+    tl.fromTo("#s6-tape1", { x: -1500, rotation: -6 }, { x: 0, rotation: -6, duration: 0.4, ease: "expo.out" }, 1.0);
+    tl.fromTo("#s6-tape2", { x: 1500, rotation: 5 }, { x: 0, rotation: 5, duration: 0.4, ease: "expo.out" }, 1.08);
+
+    // KES DITUTUP lands on the riser's impact
+    tl.fromTo("#s6-stamp", { scale: 2.2, rotation: -9, opacity: 0 },
+      { scale: 1, rotation: -9, opacity: 0.95, duration: 0.13, ease: "power4.in" }, 0.72);
+    tl.fromTo("#s6-pola", { x: 0 }, { x: 7, duration: 0.04, ease: "none" }, 0.85);
+    tl.to("#s6-pola", { x: 0, duration: 0.22, ease: "power2.out" }, 0.89);
+
+    // CTA typed on the polaroid caption, basket pops
+    tl.fromTo("#s6-cta", { clipPath: "inset(0 100% 0 0)" },
+      { clipPath: "inset(0 0% 0 0)", duration: 0.6, ease: "steps(16)" }, 1.25);
+    tl.fromTo("#s6-cap svg", { scale: 0, rotation: -20 },
+      { scale: 1, rotation: 0, duration: 0.3, ease: "back.out(2.2)" }, 1.95);
+    window.__timelines["s6"] = tl;
+  </script>
+</template>

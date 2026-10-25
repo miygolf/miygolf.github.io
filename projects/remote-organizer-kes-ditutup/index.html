@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ms" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* "Laporan Polis: Kes Remote Hilang" — case-file look.
+         ink / paper / signal red; League Gothic + Space Mono + Archivo Black. */
+      :root {
+        --ink: #121212;
+        --paper: #f2eadb;
+        --red: #e5322d;
+        --basket: #ffc21a;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: var(--ink);
+      }
+      body {
+        font-family: "Space Mono", monospace;
+      }
+      .foot {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+      .foot-rig {
+        position: absolute;
+        inset: 0;
+      }
+      .foot-rig video {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1920px;
+        object-fit: cover;
+      }
+      /* label-maker strip */
+      .strip {
+        position: absolute;
+        left: 64px;
+        font-family: "League Gothic", sans-serif;
+        font-size: 118px;
+        line-height: 1;
+        padding: 10px 24px 2px;
+        color: var(--paper);
+        background: var(--ink);
+        letter-spacing: 1px;
+        white-space: nowrap;
+        box-shadow: 0 10px 0 rgba(0, 0, 0, 0.18);
+      }
+      .strip.red {
+        background: var(--red);
+      }
+      .mono {
+        font-family: "Space Mono", monospace;
+        font-weight: 700;
+      }
+      .stamp {
+        position: absolute;
+        font-family: "Archivo Black", sans-serif;
+        color: var(--red);
+        border: 8px solid var(--red);
+        border-radius: 10px;
+        padding: 4px 22px 0;
+        line-height: 1.05;
+        white-space: nowrap;
+        letter-spacing: 2px;
+      }
+      .type {
+        white-space: pre;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="15.2"
+      data-width="1080"
+      data-height="1920"
+    >
+      <div id="s1" data-composition-id="s1" data-composition-src="compositions/s1.html"
+        data-start="0" data-duration="2.3" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+      <div id="s2" data-composition-id="s2" data-composition-src="compositions/s2.html"
+        data-start="2.3" data-duration="1.16" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+      <div id="s3" data-composition-id="s3" data-composition-src="compositions/s3.html"
+        data-start="3.46" data-duration="5.5" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+      <div id="s5" data-composition-id="s5" data-composition-src="compositions/s5.html"
+        data-start="8.96" data-duration="2.17" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+      <div id="s6" data-composition-id="s6" data-composition-src="compositions/s6.html"
+        data-start="11.13" data-duration="4.07" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+
+      <!-- SFX only (no music). Each start = picture moment − file peak + 1 frame. -->
+      <!-- S1 hook -->
+      <audio id="sx-open" src="assets/sfx/1464.mp3" data-start="0" data-duration="1.13" data-volume="0.7" data-track-index="10"></audio>
+      <audio id="sx-jumpa" src="assets/sfx/772.mp3" data-start="0.21" data-media-start="0.4" data-duration="0.83" data-volume="0.85" data-track-index="11"></audio>
+      <audio id="sx-type1" src="assets/sfx/1372.mp3" data-start="0.55" data-duration="1.0" data-fade-out="0.1" data-volume="1.8" data-track-index="12"></audio>
+      <audio id="sx-dicari-a" src="assets/sfx/2182.mp3" data-start="1.6" data-duration="0.42" data-volume="1.5" data-track-index="13"></audio>
+      <audio id="sx-dicari-b" src="assets/sfx/2995.mp3" data-start="1.54" data-duration="1.18" data-volume="0.9" data-track-index="14"></audio>
+      <!-- S2 evidence -->
+      <audio id="sx-cut2" src="assets/sfx/1492.mp3" data-start="1.25" data-duration="1.36" data-volume="0.8" data-track-index="15"></audio>
+      <audio id="sx-tag1" src="assets/sfx/2364.mp3" data-start="2.41" data-duration="1.18" data-volume="0.7" data-track-index="16"></audio>
+      <audio id="sx-tag2" src="assets/sfx/2358.mp3" data-start="2.54" data-duration="0.5" data-volume="0.8" data-track-index="17"></audio>
+      <audio id="sx-tag3" src="assets/sfx/3005.mp3" data-start="2.67" data-duration="0.19" data-volume="0.7" data-track-index="18"></audio>
+      <!-- S3 solution + counter -->
+      <audio id="sx-card" src="assets/sfx/1490.mp3" data-start="2.77" data-duration="1.78" data-volume="0.8" data-track-index="19"></audio>
+      <audio id="sx-type2" src="assets/sfx/1372.mp3" data-start="3.56" data-media-start="1.3" data-duration="0.42" data-fade-out="0.08" data-volume="1.8" data-track-index="20"></audio>
+      <audio id="sx-title" src="assets/sfx/175.mp3" data-start="3.48" data-duration="0.63" data-volume="0.6" data-track-index="21"></audio>
+      <audio id="sx-jc1" src="assets/sfx/3115.mp3" data-start="5.77" data-duration="0.58" data-volume="0.45" data-track-index="22"></audio>
+      <audio id="sx-jc2" src="assets/sfx/1464.mp3" data-start="6.6" data-duration="1.13" data-volume="0.45" data-track-index="23"></audio>
+      <audio id="sx-jc3" src="assets/sfx/3115.mp3" data-start="7.27" data-duration="0.58" data-volume="0.45" data-track-index="24"></audio>
+      <audio id="sx-n1" src="assets/sfx/1124.mp3" data-start="6.28" data-duration="0.22" data-volume="0.9" data-track-index="25"></audio>
+      <audio id="sx-n2" src="assets/sfx/2364.mp3" data-start="7.15" data-duration="1.18" data-volume="0.7" data-track-index="26"></audio>
+      <audio id="sx-n3" src="assets/sfx/3005.mp3" data-start="8.17" data-duration="0.19" data-volume="0.7" data-track-index="27"></audio>
+      <audio id="sx-ada-a" src="assets/sfx/2182.mp3" data-start="8.26" data-duration="0.42" data-volume="1.4" data-track-index="28"></audio>
+      <audio id="sx-ada-b" src="assets/sfx/772.mp3" data-start="8.19" data-media-start="0.4" data-duration="0.83" data-volume="0.55" data-track-index="29"></audio>
+      <!-- S5 payoff -->
+      <audio id="sx-cut5" src="assets/sfx/1489.mp3" data-start="8.27" data-duration="2.33" data-volume="0.75" data-track-index="30"></audio>
+      <audio id="sx-st1" src="assets/sfx/2358.mp3" data-start="9.06" data-duration="0.5" data-volume="0.8" data-track-index="31"></audio>
+      <audio id="sx-st2" src="assets/sfx/2364.mp3" data-start="9.26" data-duration="1.18" data-volume="0.7" data-track-index="32"></audio>
+      <audio id="sx-spec1" src="assets/sfx/1365.mp3" data-start="9.32" data-duration="0.69" data-volume="0.8" data-track-index="33"></audio>
+      <audio id="sx-spec2" src="assets/sfx/1365.mp3" data-start="9.57" data-duration="0.69" data-volume="0.7" data-track-index="34"></audio>
+      <audio id="sx-spec3" src="assets/sfx/1365.mp3" data-start="9.82" data-duration="0.69" data-volume="0.8" data-track-index="35"></audio>
+      <!-- S6 case closed + CTA -->
+      <audio id="sx-shutter" src="assets/sfx/1133.mp3" data-start="10.97" data-duration="0.37" data-volume="1.4" data-track-index="36"></audio>
+      <audio id="sx-riser" src="assets/sfx/1143.mp3" data-start="11.38" data-duration="4.08" data-volume="0.9" data-fade-out="0.6" data-track-index="37"></audio>
+      <audio id="sx-tutup" src="assets/sfx/2182.mp3" data-start="11.95" data-duration="0.42" data-volume="1.3" data-track-index="38"></audio>
+      <audio id="sx-tape" src="assets/sfx/3115.mp3" data-start="12.04" data-duration="0.58" data-volume="0.4" data-track-index="39"></audio>
+      <audio id="sx-type3" src="assets/sfx/1372.mp3" data-start="12.38" data-media-start="2.2" data-duration="0.62" data-fade-out="0.1" data-volume="1.8" data-track-index="40"></audio>
+      <audio id="sx-basket" src="assets/sfx/3005.mp3" data-start="13.09" data-duration="0.19" data-volume="0.8" data-track-index="41"></audio>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

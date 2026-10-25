@@ -1,0 +1,199 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    /* One ink card for the whole scene: covers the old title / chips / caption (y 1229-1445). */
+    #s3-card {
+      position: absolute;
+      left: 80px;
+      top: 1168px;
+      width: 920px;
+      height: 318px;
+      background: var(--ink);
+      border-top: 8px solid var(--red);
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+    .s3-pane {
+      position: absolute;
+      inset: 0;
+      padding: 22px 44px;
+    }
+    .s3-tag {
+      font-size: 28px;
+      color: var(--red);
+      letter-spacing: 1px;
+    }
+    #s3-title {
+      margin-top: 4px;
+      font-family: "League Gothic", sans-serif;
+      font-size: 112px;
+      line-height: 1;
+      color: var(--paper);
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+    .s3-deco {
+      position: absolute;
+      left: 44px;
+      right: 44px;
+      bottom: 20px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      color: rgba(242, 234, 219, 0.45);
+      font-size: 22px;
+    }
+    .s3-deco .bars {
+      flex: 0 0 220px;
+      height: 42px;
+      background: repeating-linear-gradient(90deg,
+        rgba(242, 234, 219, 0.55) 0 3px, transparent 3px 7px,
+        rgba(242, 234, 219, 0.55) 7px 8px, transparent 8px 13px,
+        rgba(242, 234, 219, 0.55) 13px 18px, transparent 18px 21px);
+    }
+    /* counter pane */
+    #s3-count {
+      position: absolute;
+      left: 44px;
+      top: 66px;
+      height: 130px;
+      display: flex;
+      font-family: "League Gothic", sans-serif;
+      font-size: 136px;
+      line-height: 130px;
+      color: var(--paper);
+    }
+    #s3-roll-win {
+      height: 130px;
+      overflow: hidden;
+    }
+    #s3-roll div {
+      height: 130px;
+    }
+    .s3-slots {
+      position: absolute;
+      left: 290px;
+      top: 84px;
+      display: flex;
+      gap: 18px;
+    }
+    .s3-slot {
+      position: relative;
+      width: 178px;
+      height: 96px;
+      border: 3px solid rgba(242, 234, 219, 0.5);
+      color: rgba(242, 234, 219, 0.75);
+      font-size: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .s3-slot .fill {
+      position: absolute;
+      inset: -3px;
+      background: var(--red);
+      color: var(--paper);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 28px;
+    }
+    #s3-ada {
+      left: 470px;
+      top: 1072px;
+      font-size: 64px;
+      color: var(--paper);
+      background: var(--red);
+      border-color: var(--red);
+    }
+  </style>
+  <div id="root" data-composition-id="s3" data-width="1080" data-height="1920">
+    <div class="foot">
+      <div id="s3-rig-a" class="foot-rig">
+        <video id="s3-va" class="clip" src="assets/raw.mp4" muted playsinline
+          data-start="0" data-duration="2.4" data-media-start="4.26" data-playback-rate="0.85" data-track-index="0"></video>
+      </div>
+      <div id="s3-rig-b" class="foot-rig">
+        <video id="s3-vb" class="clip" src="assets/raw.mp4" muted playsinline
+          data-start="2.4" data-duration="0.8" data-media-start="6.3" data-track-index="0"></video>
+      </div>
+      <div id="s3-rig-c" class="foot-rig">
+        <video id="s3-vc" class="clip" src="assets/raw.mp4" muted playsinline
+          data-start="3.2" data-duration="0.7" data-media-start="8.3" data-track-index="0"></video>
+      </div>
+      <div id="s3-rig-d" class="foot-rig">
+        <video id="s3-vd" class="clip" src="assets/raw.mp4" muted playsinline
+          data-start="3.9" data-duration="1.6" data-media-start="9.4" data-track-index="0"></video>
+      </div>
+    </div>
+
+    <div id="s3-card" class="mono">
+      <div id="s3-pa" class="s3-pane">
+        <div id="s3-tag-a" class="s3-tag type">BUKTI #04 — PENYELESAIAN</div>
+        <div id="s3-title">REMOTE ORGANIZER</div>
+        <div class="s3-deco" data-layout-ignore><div class="bars"></div><span>KES 047/26 · BILIK TAMU</span></div>
+      </div>
+      <div id="s3-pb" class="s3-pane">
+        <div class="s3-tag">REMOTE DIJUMPAI</div>
+        <div id="s3-count">
+          <div id="s3-roll-win"><div id="s3-roll"><div>0</div><div>1</div><div>2</div><div>3</div></div></div>
+          <div>/3</div>
+        </div>
+        <div class="s3-slots">
+          <div class="s3-slot">TV<div id="s3-f1" class="fill">✓ TV</div></div>
+          <div class="s3-slot">BOX<div id="s3-f2" class="fill">✓ BOX</div></div>
+          <div class="s3-slot">AIRCOND<div id="s3-f3" class="fill">✓ AIRCOND</div></div>
+        </div>
+        <div class="s3-deco" data-layout-ignore><div class="bars"></div><span>3 RUANG · CORAK KAYU</span></div>
+      </div>
+    </div>
+    <div id="s3-ada" class="stamp">SEMUA ADA.</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // footage: each cut arrives slightly large and settles; jump cuts alternate framing
+    tl.fromTo("#s3-rig-a", { scale: 1.12, transformOrigin: "540px 760px" },
+      { scale: 1, duration: 0.5, ease: "expo.out" }, 0);
+    tl.fromTo("#s3-rig-b", { scale: 1, transformOrigin: "540px 700px" },
+      { scale: 1, duration: 0.01 }, 2.4);
+    tl.fromTo("#s3-rig-c", { scale: 1.08, transformOrigin: "540px 700px" },
+      { scale: 1.08, duration: 0.01 }, 3.2);
+    tl.fromTo("#s3-rig-d", { scale: 1, transformOrigin: "540px 600px" },
+      { scale: 1.06, duration: 0.14, ease: "expo.out" }, 4.82);
+
+    // card: already covering at frame 0, lands from slightly large
+    tl.fromTo("#s3-card", { scale: 1.06, transformOrigin: "50% 100%" },
+      { scale: 1, duration: 0.25, ease: "expo.out" }, 0);
+    tl.fromTo("#s3-tag-a", { clipPath: "inset(0 100% 0 0)" },
+      { clipPath: "inset(0 0% 0 0)", duration: 0.4, ease: "steps(24)" }, 0.1);
+    tl.fromTo("#s3-title", { clipPath: "inset(0 100% 0 0)", x: -30 },
+      { clipPath: "inset(0 0% 0 0)", x: 0, duration: 0.32, ease: "expo.out" }, 0.45);
+
+    // pane swap A -> B
+    tl.fromTo("#s3-pb", { opacity: 0, y: 30 }, { opacity: 0, y: 30, duration: 0.01 }, 0);
+    tl.to("#s3-pa", { opacity: 0, y: -30, filter: "blur(8px)", duration: 0.16, ease: "power3.in" }, 2.26);
+    tl.to("#s3-pb", { opacity: 1, y: 0, duration: 0.22, ease: "expo.out" }, 2.4);
+
+    // counter ticks with each remote landing (TV 2.90, BOX 3.70, AIRCOND 4.75)
+    const lands = [2.9, 3.7, 4.75];
+    lands.forEach((t, i) => {
+      tl.to("#s3-roll", { y: -130 * (i + 1), duration: 0.24, ease: "expo.out" }, t);
+      tl.fromTo(`#s3-f${i + 1}`, { opacity: 0, scale: 1.25 },
+        { opacity: 1, scale: 1, duration: 0.18, ease: "expo.out" }, t);
+    });
+
+    // SEMUA ADA stamp
+    tl.fromTo("#s3-ada", { scale: 1.9, rotation: -7, opacity: 0 },
+      { scale: 1, rotation: -7, opacity: 1, duration: 0.12, ease: "power4.in" }, 4.7);
+    tl.fromTo("#s3-card", { y: 0 }, { y: 8, duration: 0.04, ease: "none" }, 4.82);
+    tl.to("#s3-card", { y: 0, duration: 0.2, ease: "power2.out" }, 4.86);
+
+    // the card holds to the hard cut: an exit would uncover the old caption underneath
+    window.__timelines["s3"] = tl;
+  </script>
+</template>

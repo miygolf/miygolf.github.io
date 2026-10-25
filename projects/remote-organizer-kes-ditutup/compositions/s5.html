@@ -1,0 +1,87 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    /* evidence luggage tag: covers the old feature cards (x 40-351, y 1053-1418) */
+    #s5-tag {
+      position: absolute;
+      left: 20px;
+      top: 996px;
+      width: 396px;
+      height: 478px;
+      background: var(--paper);
+      clip-path: polygon(0 9%, 13% 0, 100% 0, 100% 100%, 0 100%);
+      padding: 58px 30px 0 34px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+    }
+    #s5-hole {
+      position: absolute;
+      left: 26px;
+      top: 22px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--ink);
+      border: 5px solid #b9b1a2;
+    }
+    #s5-tag .hd {
+      display: inline-block;
+      font-size: 28px;
+      color: var(--paper);
+      background: var(--red);
+      padding: 6px 12px 4px;
+      letter-spacing: 1px;
+    }
+    #s5-tag .ln {
+      display: table;
+      margin-top: 16px;
+      font-size: 31px;
+      line-height: 44px;
+      color: var(--ink);
+    }
+    #s5-tag .ln b {
+      color: var(--red);
+    }
+  </style>
+  <div id="root" data-composition-id="s5" data-width="1080" data-height="1920">
+    <div class="foot">
+      <div id="s5-rig" class="foot-rig">
+        <video id="s5-v" class="clip" src="assets/raw.mp4" muted playsinline
+          data-start="0" data-duration="2.17" data-media-start="12.0" data-playback-rate="1.2"
+          data-track-index="0"></video>
+      </div>
+    </div>
+    <!-- payoff mirrors the hook: 3 REMOTE. 1 SOFA. 0 JUMPA. -->
+    <div id="s5-strip1" class="strip" style="top: 196px; font-size: 100px">3 REMOTE. 1 TEMPAT.</div>
+    <div id="s5-strip2" class="strip red" style="top: 324px">0 STRES.</div>
+
+    <div id="s5-tag" class="mono">
+      <div class="hd">SPESIFIKASI</div>
+      <div id="s5-l1" class="ln type"><b>✓</b> 3 RUANG</div>
+      <div id="s5-l2" class="ln type"><b>✓</b> CORAK KAYU</div>
+      <div id="s5-l3" class="ln type"><b>✓</b> MEJA KEMAS</div>
+      <div id="s5-hole"></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#s5-rig", { scale: 1.1, transformOrigin: "640px 900px" },
+      { scale: 1, duration: 0.45, ease: "expo.out" }, 0);
+
+    tl.fromTo("#s5-strip1", { x: -900, rotation: -2 },
+      { x: 0, rotation: -2, duration: 0.3, ease: "expo.out" }, 0.0);
+    tl.fromTo("#s5-strip2", { scale: 1.45, rotation: 1.5, opacity: 0, transformOrigin: "20% 50%" },
+      { scale: 1, rotation: 1.5, opacity: 1, duration: 0.16, ease: "expo.out" }, 0.28);
+
+    // tag is already over the old cards at frame 0 ("APA YANG ADA" shows from src 12.0)
+    tl.fromTo("#s5-tag", { scale: 1.08, rotation: 6, transformOrigin: "60px 40px" },
+      { scale: 1, rotation: 3, duration: 0.35, ease: "expo.out" }, 0);
+    [["#s5-l1", 0.5, 9], ["#s5-l2", 0.75, 12], ["#s5-l3", 1.0, 12]].forEach(([sel, at, n]) => {
+      tl.fromTo(sel, { clipPath: "inset(0 100% 0 0)" },
+        { clipPath: "inset(0 0% 0 0)", duration: 0.2, ease: `steps(${n})` }, at);
+    });
+    window.__timelines["s5"] = tl;
+  </script>
+</template>
