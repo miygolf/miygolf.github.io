@@ -1,0 +1,121 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Fredoka";
+      src: url("assets/fonts/Fredoka-var.woff2") format("woff2");
+      font-weight: 300 700;
+    }
+    @font-face {
+      font-family: "Space Mono";
+      src: url("assets/fonts/SpaceMono-700.woff2") format("woff2");
+      font-weight: 700;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #141311;
+    }
+    #s4-cam {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+    }
+    #s4-img {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      object-fit: cover;
+    }
+    #s4-marks {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+    }
+    .s4-tag {
+      position: absolute;
+      left: 60px;
+      top: 214px;
+      padding: 22px 34px 26px 30px;
+      border-radius: 24px;
+      background: var(--board);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+      white-space: nowrap;
+    }
+    .s4-kick {
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 30px;
+      line-height: 38px;
+      letter-spacing: 4px;
+      color: var(--yolk);
+    }
+    .s4-big {
+      font-family: "Fredoka", sans-serif;
+      font-weight: 700;
+      font-size: 80px;
+      line-height: 88px;
+      color: var(--cream);
+    }
+    .s4-big b {
+      color: var(--yolk);
+      font-weight: 700;
+    }
+    #s4-flood {
+      position: absolute;
+      left: 350px;
+      top: 1104px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: var(--yolk);
+    }
+  </style>
+  <div id="root" data-composition-id="s4" data-width="1080" data-height="1920">
+    <div id="s4-cam">
+      <img id="s4-img" class="clip" src="assets/stills/menu.jpg" data-start="0" data-duration="3.97" data-track-index="0" alt="62 Breakfast Club menu" />
+      <!-- marker rings drawn on the menu's own price pills; they ride the same push -->
+      <svg id="s4-marks" viewBox="0 0 1080 1920" aria-hidden="true">
+        <path id="s4-ring1" d="M 372 868 C 372 838, 300 830, 246 832 C 170 835, 120 852, 122 884 C 124 916, 190 930, 256 928 C 330 926, 380 912, 376 880 C 373 858, 340 842, 300 838"
+          fill="none" stroke="#E23D28" stroke-width="9" stroke-linecap="round" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110" />
+        <path id="s4-ring2" d="M 500 1142 C 498 1120, 450 1114, 398 1116 C 336 1118, 296 1132, 298 1156 C 300 1180, 352 1190, 404 1188 C 462 1186, 506 1174, 504 1150 C 502 1132, 470 1122, 430 1119"
+          fill="none" stroke="#E23D28" stroke-width="9" stroke-linecap="round" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110" />
+      </svg>
+    </div>
+    <div id="s4-tag-a" class="s4-tag">
+      <div class="s4-kick">MENU NO. 1</div>
+      <div class="s4-big">The Big Breakfast</div>
+    </div>
+    <div id="s4-tag-b" class="s4-tag">
+      <div class="s4-kick">BAJET?</div>
+      <div class="s4-big">Mula <b>RM7.90</b> je.</div>
+    </div>
+    <div id="s4-flood"></div>
+  </div>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+      // blur swap in, then one slow push toward the two prices
+      tl.fromTo("#s4-cam", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.14, ease: "power2.out" }, 0);
+      tl.fromTo("#s4-cam", { scale: 1.0, x: 0, y: 0 }, { scale: 1.14, x: 30, y: -8, duration: 3.97, ease: "power1.inOut" }, 0);
+      // A: the hero set, ringed
+      tl.fromTo("#s4-tag-a", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 0.15);
+      tl.fromTo("#s4-ring1", { strokeDashoffset: 110 }, { strokeDashoffset: 0, duration: 0.4, ease: "power2.inOut" }, 0.42);
+      tl.to("#s4-tag-a", { opacity: 0, filter: "blur(8px)", duration: 0.14, ease: "power2.in" }, 1.8);
+      // B: the entry price, ringed
+      tl.fromTo("#s4-tag-b", { opacity: 0, scale: 0.86 }, { opacity: 1, scale: 1, duration: 0.42, ease: "back.out(1.6)" }, 1.96);
+      tl.fromTo("#s4-ring2", { strokeDashoffset: 110 }, { strokeDashoffset: 0, duration: 0.4, ease: "power2.inOut" }, 2.06);
+      // the yolk floods out of the RM7.90 ring and becomes the ticket's world
+      tl.fromTo("#s4-flood", { scale: 0, x: 0, y: 0 }, { scale: 24, x: 0, y: 0, duration: 0.47, ease: "power3.in" }, 3.5);
+      tl.to("#s4-tag-b", { opacity: 0, filter: "blur(8px)", duration: 0.16, ease: "power2.in" }, 3.5);
+      window.__timelines["s4"] = tl;
+    })();
+  </script>
+</template>

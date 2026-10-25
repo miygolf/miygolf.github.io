@@ -1,0 +1,190 @@
+<!doctype html>
+<html
+  lang="ms"
+  data-resolution="portrait"
+  data-composition-variables='[
+    {"id":"color-yolk","type":"color","label":"Kuning telur (accent)","default":"#FFC72C"},
+    {"id":"color-board","type":"color","label":"Papan jadual","default":"#1C1B19"},
+    {"id":"color-cream","type":"color","label":"Kertas tiket","default":"#FFF6E0"},
+    {"id":"color-ketchup","type":"color","label":"Merah sos","default":"#E23D28"}
+  ]'
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* "Jadual Sarapan" — a bus-station departure board and a bus ticket, in the
+         62 Breakfast Club egg-yolk yellow. Fredoka (the menu's rounded voice) + Space Mono
+         (the board). Every word sits in y 190–1300 and x 60–940: clear of the TikTok/IG
+         top bar, the caption/handle area at the bottom and the right action rail.
+         Food is never under a word: footage with food is either shown clean or pushed
+         below the board. */
+      @font-face {
+        font-family: "Fredoka";
+        src: url("assets/fonts/Fredoka-var.woff2") format("woff2");
+        font-weight: 300 700;
+      }
+      @font-face {
+        font-family: "Space Mono";
+        src: url("assets/fonts/SpaceMono-700.woff2") format("woff2");
+        font-weight: 700;
+      }
+      :root {
+        --yolk: var(--color-yolk, #ffc72c);
+        --board: var(--color-board, #1c1b19);
+        --cream: var(--color-cream, #fff6e0);
+        --ketchup: var(--color-ketchup, #e23d28);
+        --flap: #2b2a27;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #141311;
+      }
+      body {
+        font-family: "Fredoka", sans-serif;
+      }
+      /* split-flap cells (mechanism from the registry's split-flap-board) */
+      .flaprow {
+        position: absolute;
+        display: flex;
+        align-items: center;
+      }
+      .sf-cell {
+        position: relative;
+        flex: 0 0 auto;
+        perspective: 700px;
+        border-radius: 8px;
+        background: #0e0d0c;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.45);
+      }
+      .sf-gap {
+        flex: 0 0 auto;
+      }
+      .sf-face {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 50%;
+        overflow: hidden;
+        background: linear-gradient(180deg, #34322e 0%, #2a2926 100%);
+      }
+      .sf-top,
+      .sf-leaf-a {
+        top: 0;
+        border-radius: 8px 8px 0 0;
+      }
+      .sf-bot,
+      .sf-leaf-b {
+        top: 50%;
+        border-radius: 0 0 8px 8px;
+        background: linear-gradient(180deg, #262522 0%, #302e2a 100%);
+      }
+      .sf-leaf-a {
+        transform-origin: 50% 100%;
+        z-index: 3;
+        backface-visibility: hidden;
+      }
+      .sf-leaf-b {
+        transform-origin: 50% 0%;
+        z-index: 3;
+        backface-visibility: hidden;
+      }
+      .sf-glyph {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        display: block;
+        text-align: center;
+        font-family: "Space Mono", monospace;
+        font-weight: 700;
+        color: var(--cream);
+        white-space: pre;
+      }
+      .sf-seam {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        height: 3px;
+        margin-top: -1.5px;
+        background: #0a0908;
+        z-index: 4;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="20.6"
+      data-width="1080"
+      data-height="1920"
+    >
+      <!-- Scene cuts sit on the music's beat grid (121 BPM, beat = 0.4959 s; the drop is video 3.0). -->
+      <div id="s1" data-composition-id="s1" data-composition-src="compositions/s1.html"
+        data-start="0" data-duration="3.0" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+      <div id="s2" data-composition-id="s2" data-composition-src="compositions/s2.html"
+        data-start="3.0" data-duration="2.48" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+      <div id="s3" data-composition-id="s3" data-composition-src="compositions/s3.html"
+        data-start="5.48" data-duration="4.46" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+      <div id="s4" data-composition-id="s4" data-composition-src="compositions/s4.html"
+        data-start="9.94" data-duration="3.97" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+      <div id="s5" data-composition-id="s5" data-composition-src="compositions/s5.html"
+        data-start="13.91" data-duration="6.69" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+
+      <!-- Music: Mixkit "Motivating Mornings" (free licence). Enters 3 s before its drop (track 12.09 s). -->
+      <audio id="bgm" src="assets/bgm/motivating-mornings.mp3" data-start="0" data-media-start="9.092"
+        data-duration="20.6" data-fade-out="1.4" data-volume="0.5" data-track-index="5"></audio>
+
+      <!-- SFX (Mixkit). start = picture moment − file peak + 1 frame. -->
+      <!-- S1 hook: the plate is hot, the board clatters, the kicker swaps, the board lifts -->
+      <audio id="fx-sizzle" src="assets/sfx/121.mp3" data-start="0" data-media-start="2.0" data-duration="3.2" data-fade-out="0.5" data-volume="0.45" data-track-index="10"></audio>
+      <audio id="fx-flap1" src="assets/sfx/1053.mp3" data-start="0.28" data-duration="0.95" data-fade-out="0.15" data-volume="0.75" data-track-index="11"></audio>
+      <audio id="fx-kick" src="assets/sfx/175.mp3" data-start="0.89" data-duration="0.6" data-volume="0.55" data-track-index="12"></audio>
+      <audio id="fx-lift" src="assets/sfx/1492.mp3" data-start="1.86" data-duration="1.3" data-volume="0.6" data-track-index="13"></audio>
+      <!-- S2 plate: lands on the drop, two punch-ins -->
+      <audio id="fx-plate" src="assets/sfx/2933.mp3" data-start="2.96" data-duration="1.2" data-volume="1.0" data-track-index="14"></audio>
+      <audio id="fx-punch1" src="assets/sfx/3115.mp3" data-start="3.91" data-duration="0.55" data-volume="0.7" data-track-index="15"></audio>
+      <audio id="fx-crack" src="assets/sfx/3143.mp3" data-start="4.70" data-media-start="0.76" data-duration="1.0" data-fade-out="0.3" data-volume="0.9" data-track-index="16"></audio>
+      <!-- S3 location: whip in, the board drops with a bus-door hiss, flaps, the station under it -->
+      <audio id="fx-whip" src="assets/sfx/3115.mp3" data-start="5.40" data-duration="0.55" data-volume="0.75" data-track-index="17"></audio>
+      <audio id="fx-hiss" src="assets/sfx/2709.mp3" data-start="5.43" data-duration="1.7" data-volume="0.8" data-track-index="18"></audio>
+      <audio id="fx-flap2" src="assets/sfx/1053.mp3" data-start="6.08" data-duration="1.1" data-fade-out="0.15" data-volume="0.75" data-track-index="19"></audio>
+      <audio id="fx-bus" src="assets/sfx/3033.mp3" data-start="5.48" data-media-start="3.0" data-duration="4.46" data-fade-in="0.6" data-fade-out="0.8" data-volume="0.35" data-track-index="20"></audio>
+      <!-- S4 menu: marker rings, the price pops, the yolk floods -->
+      <audio id="fx-swap4" src="assets/sfx/166.mp3" data-start="9.66" data-duration="0.7" data-volume="0.55" data-track-index="21"></audio>
+      <audio id="fx-ring1" src="assets/sfx/2998.mp3" data-start="10.37" data-duration="0.5" data-volume="0.8" data-track-index="22"></audio>
+      <audio id="fx-pop4" src="assets/sfx/1821.mp3" data-start="11.90" data-duration="0.6" data-volume="0.9" data-track-index="23"></audio>
+      <audio id="fx-ring2" src="assets/sfx/2998.mp3" data-start="12.0" data-duration="0.5" data-volume="0.8" data-track-index="24"></audio>
+      <audio id="fx-flood" src="assets/sfx/1490.mp3" data-start="13.12" data-duration="1.4" data-volume="0.6" data-track-index="25"></audio>
+      <!-- S5 ticket: paper, day pills, time flaps, the stamp (the film's one impact), the stub swap -->
+      <audio id="fx-paper" src="assets/sfx/2380.mp3" data-start="13.62" data-duration="0.9" data-volume="0.8" data-track-index="26"></audio>
+      <audio id="fx-days" src="assets/sfx/2364.mp3" data-start="15.38" data-duration="0.4" data-volume="0.65" data-track-index="27"></audio>
+      <audio id="fx-flap3" src="assets/sfx/1053.mp3" data-start="15.86" data-duration="0.95" data-fade-out="0.15" data-volume="0.7" data-track-index="28"></audio>
+      <audio id="fx-impact" src="assets/sfx/2903.mp3" data-start="16.29" data-duration="2.6" data-fade-out="0.8" data-volume="0.7" data-track-index="29"></audio>
+      <audio id="fx-stamp" src="assets/sfx/2995.mp3" data-start="17.04" data-duration="0.5" data-volume="1.0" data-track-index="30"></audio>
+      <audio id="fx-tear" src="assets/sfx/2384.mp3" data-start="18.04" data-duration="0.39" data-volume="0.9" data-track-index="31"></audio>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

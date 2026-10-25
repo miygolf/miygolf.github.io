@@ -1,0 +1,222 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Fredoka";
+      src: url("assets/fonts/Fredoka-var.woff2") format("woff2");
+      font-weight: 300 700;
+    }
+    @font-face {
+      font-family: "Space Mono";
+      src: url("assets/fonts/SpaceMono-700.woff2") format("woff2");
+      font-weight: 700;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #141311;
+    }
+    /* the plate footage sits 200 px low so the board never covers food:
+       at every frame of src 0–3 the food starts below y 517 */
+    #s1-cam {
+      position: absolute;
+      left: 0;
+      top: 200px;
+      width: 1080px;
+      height: 1920px;
+    }
+    #s1-vid {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      object-fit: cover;
+    }
+    #s1-board {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 488px;
+    }
+    #s1-board-bg {
+      position: absolute;
+      inset: 0;
+      background: var(--board);
+      border-bottom: 8px solid var(--yolk);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+    }
+    .s1-kick {
+      position: absolute;
+      left: 70px;
+      top: 188px;
+      font-family: "Fredoka", sans-serif;
+      font-weight: 600;
+      font-size: 50px;
+      line-height: 64px;
+      color: var(--yolk);
+      white-space: nowrap;
+    }
+    #s1-pagi {
+      position: absolute;
+      left: 700px;
+      top: 392px;
+      font-family: "Fredoka", sans-serif;
+      font-weight: 600;
+      font-size: 46px;
+      line-height: 64px;
+      color: var(--yolk);
+    }
+  </style>
+  <div id="root" data-composition-id="s1" data-width="1080" data-height="1920">
+    <div id="s1-cam">
+      <video id="s1-vid" class="clip" src="assets/footage/plate-pan.mp4" data-start="0" data-duration="3.0"
+        data-media-start="0" data-track-index="0" muted playsinline></video>
+    </div>
+    <div id="s1-board">
+      <div id="s1-board-bg"></div>
+      <div id="s1-kick-a" class="s1-kick">Sarapan ni…</div>
+      <div id="s1-kick-b" class="s1-kick">Lambat sikit, melepas.</div>
+      <div id="s1-row1" class="flaprow" style="left: 70px; top: 266px" data-layout-allow-overlap data-layout-allow-occlusion data-layout-allow-overflow></div>
+      <div id="s1-row2" class="flaprow" style="left: 70px; top: 392px" data-layout-allow-overlap data-layout-allow-occlusion data-layout-allow-overflow></div>
+      <div id="s1-pagi">PAGI</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var DRUM = " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:-.,'=";
+      var N = DRUM.length;
+      var DEG = Math.PI / 180;
+      // Split-flap row (mechanism from the registry's split-flap-board): each cell walks its
+      // drum forward `walk(i)` flaps and lands on its letter; a pure function of time.
+      function flapRow(row, o) {
+        var cells = [];
+        var k = 0;
+        for (var i = 0; i < o.text.length; i++) {
+          var ch = o.text.charAt(i);
+          if (ch === " ") {
+            var gap = document.createElement("div");
+            gap.className = "sf-gap";
+            gap.style.width = o.space + "px";
+            row.appendChild(gap);
+            continue;
+          }
+          var cell = document.createElement("div");
+          cell.className = "sf-cell";
+          cell.style.width = o.cw + "px";
+          cell.style.height = o.ch + "px";
+          cell.style.marginRight = o.gap + "px";
+          // the mechanism is stacked half-glyphs under a falling leaf: overlap is the design
+          cell.setAttribute("data-layout-allow-overlap", "");
+          cell.setAttribute("data-layout-allow-occlusion", "");
+          cell.setAttribute("data-layout-allow-overflow", "");
+          var faces = ["sf-top", "sf-bot", "sf-leaf-a", "sf-leaf-b"].map(function (cls, n) {
+            var f = document.createElement("div");
+            f.className = "sf-face " + cls;
+            var g = document.createElement("span");
+            g.className = "sf-glyph";
+            g.setAttribute("data-layout-allow-occlusion", "");
+            g.style.height = o.ch + "px";
+            g.style.lineHeight = o.ch + "px";
+            g.style.fontSize = o.fs + "px";
+            g.style.top = (n % 2 ? -Math.round(o.ch / 2) : 0) + "px";
+            f.appendChild(g);
+            cell.appendChild(f);
+            return f;
+          });
+          var seam = document.createElement("div");
+          seam.className = "sf-seam";
+          seam.setAttribute("data-layout-ignore", "");
+          cell.appendChild(seam);
+          row.appendChild(cell);
+          var target = Math.max(0, DRUM.indexOf(ch));
+          var steps = o.walk(k);
+          cells.push({
+            k: k,
+            steps: steps,
+            from: (target - steps + N * 4) % N,
+            top: faces[0].firstChild,
+            bot: faces[1].firstChild,
+            la: faces[2],
+            lb: faces[3],
+          });
+          k++;
+        }
+        function leaf(l, ch, ang, shade) {
+          l.firstChild.textContent = ch;
+          l.style.opacity = ch === null ? "0" : "1";
+          l.style.transform = ch === null ? "" : "rotateX(" + ang.toFixed(2) + "deg)";
+          l.style.filter = ch === null ? "" : "brightness(" + shade + ")";
+          if (ch === null) l.firstChild.textContent = "";
+        }
+        return function paint(t) {
+          for (var i = 0; i < cells.length; i++) {
+            var c = cells[i];
+            var local = t - o.start - c.k * o.stagger;
+            var raw = local <= 0 ? 0 : local / o.flip;
+            var count = Math.floor(raw);
+            var p = raw - count;
+            if (count >= c.steps) {
+              count = c.steps;
+              p = 0;
+            }
+            // a cell shows blank until its first flap falls, so no stray letters sit on screen
+            var out = count === 0 && c.steps > 0 ? " " : DRUM.charAt((c.from + count) % N);
+            var inc = DRUM.charAt((c.from + count + 1) % N);
+            if (!(count < c.steps && p > 0)) {
+              c.top.textContent = out;
+              c.bot.textContent = out;
+              leaf(c.la, null);
+              leaf(c.lb, null);
+              continue;
+            }
+            c.top.textContent = inc;
+            c.bot.textContent = out;
+            var th = 180 * p * p;
+            var sh = (1 - 0.5 * Math.sin(th * DEG)).toFixed(3);
+            if (th < 90) {
+              leaf(c.la, out, -th, sh);
+              leaf(c.lb, null);
+            } else {
+              leaf(c.la, null);
+              leaf(c.lb, inc, 180 - th, sh);
+            }
+          }
+        };
+      }
+
+      // Row 1 is already landed at frame 0: the thumbnail reads "BUKA 3 JAM JE."
+      var p1 = flapRow(document.getElementById("s1-row1"), {
+        text: "BUKA 3 JAM JE.", cw: 62, ch: 100, fs: 70, gap: 6, space: 26,
+        start: 0, flip: 0.06, stagger: 0, walk: function () { return 0; },
+      });
+      // Row 2 flips in the hours
+      var p2 = flapRow(document.getElementById("s1-row2"), {
+        text: "08:00 - 11:00", cw: 46, ch: 64, fs: 44, gap: 5, space: 18,
+        start: 0.3, flip: 0.055, stagger: 0.035, walk: function (k) { return 7 + ((k * 3) % 6); },
+      });
+
+      var tl = gsap.timeline({ paused: true });
+      var drv = { _t: 0 };
+      Object.defineProperty(drv, "t", {
+        configurable: true,
+        get: function () { return this._t; },
+        set: function (v) { this._t = v; p1(v); p2(v); },
+      });
+      tl.to(drv, { t: 3.0, duration: 3.0, ease: "none" }, 0);
+
+      tl.fromTo("#s1-pagi", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 1.0);
+      // kicker swap: the warning line replaces the setup line
+      tl.fromTo("#s1-kick-a", { opacity: 1, filter: "blur(0px)" }, { opacity: 0, filter: "blur(8px)", duration: 0.15, ease: "power2.in" }, 1.2);
+      tl.fromTo("#s1-kick-b", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power4.out" }, 1.32);
+      // the board lifts away and the cut lands mid-flight on the drop
+      tl.fromTo("#s1-board", { y: 0, filter: "blur(0px)" }, { y: -520, filter: "blur(10px)", duration: 0.3, ease: "power3.in" }, 2.7);
+      tl.fromTo("#s1-cam", { y: 0 }, { y: -200, duration: 0.3, ease: "power3.in" }, 2.7);
+      p1(0);
+      p2(0);
+      window.__timelines["s1"] = tl;
+    })();
+  </script>
+</template>

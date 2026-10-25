@@ -1,0 +1,4 @@
+.hyperframes/artifacts/
+.hyperframes/*-lock
+node_modules/
+renders/.hf-segments/

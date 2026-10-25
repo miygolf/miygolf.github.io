@@ -1,0 +1,258 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Fredoka";
+      src: url("assets/fonts/Fredoka-var.woff2") format("woff2");
+      font-weight: 300 700;
+    }
+    @font-face {
+      font-family: "Space Mono";
+      src: url("assets/fonts/SpaceMono-700.woff2") format("woff2");
+      font-weight: 700;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #141311;
+    }
+    #s3-cam {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+    }
+    #s3-vid {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      object-fit: cover;
+    }
+    /* soft floor scrim under the board so the cream type holds on the bright pavement */
+    #s3-scrim {
+      position: absolute;
+      left: 0;
+      top: 860px;
+      width: 1080px;
+      height: 620px;
+      background: radial-gradient(70% 60% at 45% 55%, rgba(12, 11, 10, 0.55) 0%, rgba(12, 11, 10, 0) 100%);
+    }
+    #s3-board {
+      position: absolute;
+      left: 60px;
+      top: 968px;
+      width: 880px;
+      height: 336px;
+    }
+    #s3-board-bg {
+      position: absolute;
+      inset: 0;
+      border-radius: 26px;
+      background: var(--board);
+      box-shadow: 0 26px 50px rgba(0, 0, 0, 0.5);
+    }
+    #s3-head {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 880px;
+      height: 64px;
+      border-radius: 26px 26px 0 0;
+      background: var(--yolk);
+    }
+    #s3-head-l {
+      position: absolute;
+      left: 34px;
+      top: 0;
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 30px;
+      line-height: 64px;
+      letter-spacing: 4px;
+      color: var(--board);
+    }
+    #s3-bus {
+      position: absolute;
+      left: 760px;
+      top: 13px;
+      width: 76px;
+      height: 38px;
+    }
+    #s3-line2 {
+      position: absolute;
+      left: 34px;
+      top: 214px;
+      font-family: "Fredoka", sans-serif;
+      font-weight: 600;
+      font-size: 62px;
+      line-height: 70px;
+      color: var(--cream);
+      white-space: nowrap;
+    }
+    #s3-line3 {
+      position: absolute;
+      left: 34px;
+      top: 284px;
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+      line-height: 36px;
+      letter-spacing: 1px;
+      color: var(--yolk);
+      white-space: nowrap;
+    }
+  </style>
+  <div id="root" data-composition-id="s3" data-width="1080" data-height="1920">
+    <div id="s3-cam">
+      <video id="s3-vid" class="clip" src="assets/footage/shop.mp4" data-start="0" data-duration="4.46"
+        data-media-start="3.2" data-playback-rate="1.031" data-track-index="0" data-has-audio="true"
+        data-volume="0.45" playsinline></video>
+    </div>
+    <div id="s3-scrim"></div>
+    <div id="s3-board">
+      <div id="s3-board-bg"></div>
+      <div id="s3-head">
+        <div id="s3-head-l">DESTINASI</div>
+        <svg id="s3-bus" viewBox="0 0 76 38" aria-hidden="true">
+          <rect x="2" y="2" width="70" height="26" rx="6" fill="#1C1B19" />
+          <rect x="8" y="7" width="12" height="9" rx="2" fill="#FFC72C" />
+          <rect x="24" y="7" width="12" height="9" rx="2" fill="#FFC72C" />
+          <rect x="40" y="7" width="12" height="9" rx="2" fill="#FFC72C" />
+          <rect x="56" y="7" width="11" height="15" rx="2" fill="#FFC72C" />
+          <circle cx="18" cy="30" r="6" fill="#1C1B19" stroke="#FFC72C" stroke-width="3" />
+          <circle cx="56" cy="30" r="6" fill="#1C1B19" stroke="#FFC72C" stroke-width="3" />
+        </svg>
+      </div>
+      <div id="s3-row" class="flaprow" style="left: 34px; top: 88px" data-layout-allow-overlap data-layout-allow-occlusion data-layout-allow-overflow></div>
+      <div id="s3-line2">Damansara Damai</div>
+      <div id="s3-line3">62 BREAKFAST CLUB · 62 GRILLSTREET</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var DRUM = " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:-.,'=";
+      var N = DRUM.length;
+      var DEG = Math.PI / 180;
+      // Split-flap row (same mechanism as s1).
+      function flapRow(row, o) {
+        var cells = [];
+        var k = 0;
+        for (var i = 0; i < o.text.length; i++) {
+          var ch = o.text.charAt(i);
+          if (ch === " ") {
+            var gap = document.createElement("div");
+            gap.className = "sf-gap";
+            gap.style.width = o.space + "px";
+            row.appendChild(gap);
+            continue;
+          }
+          var cell = document.createElement("div");
+          cell.className = "sf-cell";
+          cell.style.width = o.cw + "px";
+          cell.style.height = o.ch + "px";
+          cell.style.marginRight = o.gap + "px";
+          // the mechanism is stacked half-glyphs under a falling leaf: overlap is the design
+          cell.setAttribute("data-layout-allow-overlap", "");
+          cell.setAttribute("data-layout-allow-occlusion", "");
+          cell.setAttribute("data-layout-allow-overflow", "");
+          var faces = ["sf-top", "sf-bot", "sf-leaf-a", "sf-leaf-b"].map(function (cls, n) {
+            var f = document.createElement("div");
+            f.className = "sf-face " + cls;
+            var g = document.createElement("span");
+            g.className = "sf-glyph";
+            g.setAttribute("data-layout-allow-occlusion", "");
+            g.style.height = o.ch + "px";
+            g.style.lineHeight = o.ch + "px";
+            g.style.fontSize = o.fs + "px";
+            g.style.top = (n % 2 ? -Math.round(o.ch / 2) : 0) + "px";
+            f.appendChild(g);
+            cell.appendChild(f);
+            return f;
+          });
+          var seam = document.createElement("div");
+          seam.className = "sf-seam";
+          seam.setAttribute("data-layout-ignore", "");
+          cell.appendChild(seam);
+          row.appendChild(cell);
+          var target = Math.max(0, DRUM.indexOf(ch));
+          var steps = o.walk(k);
+          cells.push({ k: k, steps: steps, from: (target - steps + N * 4) % N,
+            top: faces[0].firstChild, bot: faces[1].firstChild, la: faces[2], lb: faces[3] });
+          k++;
+        }
+        function leaf(l, ch, ang, shade) {
+          if (ch === null) {
+            l.firstChild.textContent = "";
+            l.style.opacity = "0";
+            l.style.transform = "";
+            l.style.filter = "";
+            return;
+          }
+          l.firstChild.textContent = ch;
+          l.style.opacity = "1";
+          l.style.transform = "rotateX(" + ang.toFixed(2) + "deg)";
+          l.style.filter = "brightness(" + shade + ")";
+        }
+        return function paint(t) {
+          for (var i = 0; i < cells.length; i++) {
+            var c = cells[i];
+            var local = t - o.start - c.k * o.stagger;
+            var raw = local <= 0 ? 0 : local / o.flip;
+            var count = Math.floor(raw);
+            var p = raw - count;
+            if (count >= c.steps) { count = c.steps; p = 0; }
+            // a cell shows blank until its first flap falls, so no stray letters sit on screen
+            var out = count === 0 && c.steps > 0 ? " " : DRUM.charAt((c.from + count) % N);
+            var inc = DRUM.charAt((c.from + count + 1) % N);
+            if (!(count < c.steps && p > 0)) {
+              c.top.textContent = out;
+              c.bot.textContent = out;
+              leaf(c.la, null);
+              leaf(c.lb, null);
+              continue;
+            }
+            c.top.textContent = inc;
+            c.bot.textContent = out;
+            var th = 180 * p * p;
+            var sh = (1 - 0.5 * Math.sin(th * DEG)).toFixed(3);
+            if (th < 90) { leaf(c.la, out, -th, sh); leaf(c.lb, null); }
+            else { leaf(c.la, null); leaf(c.lb, inc, 180 - th, sh); }
+          }
+        };
+      }
+
+      var p = flapRow(document.getElementById("s3-row"), {
+        text: "STESEN BAS", cw: 74, ch: 108, fs: 78, gap: 7, space: 30,
+        start: 0.62, flip: 0.05, stagger: 0.045, walk: function (k) { return 9 + ((k * 5) % 7); },
+      });
+
+      var tl = gsap.timeline({ paused: true });
+      var drv = { _t: 0 };
+      Object.defineProperty(drv, "t", {
+        configurable: true,
+        get: function () { return this._t; },
+        set: function (v) { this._t = v; p(v); },
+      });
+      tl.to(drv, { t: 4.46, duration: 4.46, ease: "none" }, 0);
+
+      // whip in from the right, matching S2's exit
+      tl.fromTo("#s3-cam", { x: 900, filter: "blur(18px)" }, { x: 0, filter: "blur(0px)", duration: 0.26, ease: "power3.out" }, 0);
+      // the board drops in like a bus pulling up: fast in, long tail
+      tl.fromTo("#s3-board", { y: 380, opacity: 0, filter: "blur(10px)" }, { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "expo.out" }, 0.18);
+      tl.fromTo("#s3-scrim", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, 0.18);
+      tl.fromTo("#s3-bus", { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "expo.out" }, 0.5);
+      tl.fromTo("#s3-line2", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 1.45);
+      tl.fromTo("#s3-line3", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power4.out" }, 1.75);
+      // leave clean: blur swap into the menu
+      tl.to("#s3-board", { opacity: 0, filter: "blur(10px)", duration: 0.18, ease: "power2.in" }, 4.1);
+      tl.to("#s3-scrim", { opacity: 0, duration: 0.18, ease: "power2.in" }, 4.1);
+      tl.to("#s3-cam", { opacity: 0, filter: "blur(8px)", duration: 0.16, ease: "power2.in" }, 4.3);
+      p(0);
+      window.__timelines["s3"] = tl;
+    })();
+  </script>
+</template>
