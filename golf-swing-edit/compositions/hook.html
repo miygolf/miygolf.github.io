@@ -1,0 +1,155 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      font-family: "JetBrains Mono", monospace;
+      color: #f4f1ea;
+    }
+    #hook-scrim {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 620px;
+      background: linear-gradient(180deg, rgba(10, 13, 11, 0.78) 0%, rgba(10, 13, 11, 0.5) 60%, rgba(10, 13, 11, 0) 100%);
+    }
+    #hook-chips {
+      position: absolute;
+      left: 60px;
+      top: 190px;
+      width: 960px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 28px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .hk-chip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hk-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--signal, #d4ff3a);
+    }
+    #hook-rate {
+      padding: 6px 14px;
+      border: 2px solid var(--signal, #d4ff3a);
+      color: var(--signal, #d4ff3a);
+      border-radius: 6px;
+    }
+    #hook-title {
+      position: absolute;
+      left: 60px;
+      top: 248px;
+      width: 960px;
+      font-family: "League Gothic", sans-serif;
+      font-size: 132px;
+      line-height: 0.92;
+      text-transform: uppercase;
+      letter-spacing: 0.005em;
+    }
+    .hk-line {
+      display: block;
+      overflow: visible;
+    }
+    #hook-line2 {
+      color: var(--signal, #d4ff3a);
+    }
+    #hook-rule {
+      position: absolute;
+      left: 60px;
+      top: 500px;
+      width: 960px;
+      height: 6px;
+      background: var(--signal, #d4ff3a);
+      transform-origin: left center;
+    }
+    /* Impact burst, centred on the ball */
+    #hook-burst {
+      position: absolute;
+      left: 653px;
+      top: 1240px;
+      width: 0;
+      height: 0;
+    }
+    .hk-ring {
+      position: absolute;
+      left: -110px;
+      top: -110px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      border: 6px solid var(--signal, #d4ff3a);
+      opacity: 0;
+    }
+    #hook-ring2 {
+      border-width: 3px;
+      border-color: #f4f1ea;
+    }
+    #hook-impact-tag {
+      position: absolute;
+      left: 790px;
+      top: 1140px;
+      font-size: 30px;
+      letter-spacing: 0.14em;
+      color: #0a0d0b;
+      background: var(--signal, #d4ff3a);
+      padding: 6px 14px;
+      border-radius: 4px;
+      opacity: 0;
+    }
+    #hook-flash {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+      opacity: 0;
+    }
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+    <div id="hook-scrim"></div>
+    <div id="hook-chips">
+      <div class="hk-chip"><span class="hk-dot"></span><span id="hook-brand" data-var-text="brandTag">MIY GOLF · SWING LAB</span></div>
+      <div id="hook-rate">0.35× SLOW-MO</div>
+    </div>
+    <h1 id="hook-title">
+      <span id="hook-line1" class="hk-line" data-var-text="hookLine1">SATU ADJUSTMENT.</span>
+      <span id="hook-line2" class="hk-line" data-var-text="hookLine2">TENGOK BEZA DIA.</span>
+    </h1>
+    <div id="hook-rule"></div>
+    <div id="hook-burst" data-layout-ignore>
+      <div id="hook-ring1" class="hk-ring"></div>
+      <div id="hook-ring2" class="hk-ring"></div>
+    </div>
+    <div id="hook-impact-tag">IMPACT</div>
+    <div id="hook-flash" data-layout-ignore></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const IMPACT = 1.15;
+    // Frame 0 is the thumbnail: the title is already on screen, the rule draws under it.
+    tl.fromTo("#hook-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.55, ease: "expo.out" }, 0.05);
+    tl.fromTo("#hook-line2", { x: -18 }, { x: 0, duration: 0.6, ease: "power3.out" }, 0);
+    tl.fromTo("#hook-rate", { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, 0.25);
+
+    // Impact
+    tl.fromTo("#hook-flash", { opacity: 0 }, { opacity: 0.55, duration: 0.04, ease: "none" }, IMPACT);
+    tl.to("#hook-flash", { opacity: 0, duration: 0.22, ease: "power2.out" }, IMPACT + 0.04);
+    tl.fromTo("#hook-ring1", { scale: 0.15, opacity: 1 }, { scale: 1.9, opacity: 0, duration: 0.7, ease: "expo.out" }, IMPACT);
+    tl.fromTo("#hook-ring2", { scale: 0.1, opacity: 0.9 }, { scale: 1.3, opacity: 0, duration: 0.55, ease: "expo.out" }, IMPACT + 0.06);
+    tl.fromTo("#hook-impact-tag", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.18, ease: "back.out(2.5)" }, IMPACT + 0.05);
+    tl.fromTo("#hook-title", { scale: 1 }, { scale: 1.04, duration: 0.12, ease: "power2.out", transformOrigin: "left top", yoyo: true, repeat: 1 }, IMPACT);
+
+    // Exit into the cut
+    tl.to("#hook-impact-tag", { opacity: 0, duration: 0.15, ease: "power2.in" }, 1.85);
+    tl.to(["#hook-title", "#hook-rule", "#hook-chips"], { y: -40, opacity: 0, duration: 0.18, ease: "power3.in", stagger: 0.02 }, 1.88);
+    tl.to("#hook-scrim", { opacity: 0, duration: 0.2, ease: "power2.in" }, 1.88);
+    window.__timelines["hook"] = tl;
+  </script>
+</template>
