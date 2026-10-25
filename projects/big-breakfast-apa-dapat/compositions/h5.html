@@ -1,0 +1,107 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #121110;
+    }
+    /* same low framing as the hook: the words sit on the table, the whole tray below them */
+    #h5-cam {
+      position: absolute;
+      left: 0;
+      top: 250px;
+      width: 1080px;
+      height: 1920px;
+      -webkit-mask-image: linear-gradient(180deg, transparent 0px, #000 170px);
+      mask-image: linear-gradient(180deg, transparent 0px, #000 170px);
+    }
+    #h5-vid {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      object-fit: cover;
+    }
+    #h5-title {
+      position: absolute;
+      left: 56px;
+      top: 200px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    #h5-save {
+      position: relative;
+      font-size: 108px;
+      line-height: 116px;
+    }
+    #h5-mark {
+      position: relative;
+      width: 58px;
+      height: 78px;
+    }
+    #h5-sub {
+      position: absolute;
+      left: 60px;
+      top: 318px;
+      font-family: "Inter", sans-serif;
+      font-weight: 900;
+      font-size: 46px;
+      line-height: 54px;
+      color: var(--y);
+      white-space: nowrap;
+      text-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
+    }
+    #h5-loc,
+    #h5-time {
+      left: 60px;
+      padding: 10px 24px 10px 16px;
+      font-size: 32px;
+      line-height: 40px;
+    }
+    #h5-loc {
+      top: 394px;
+    }
+    #h5-time {
+      top: 462px;
+    }
+    #h5-loc svg {
+      width: 22px;
+      height: 28px;
+    }
+  </style>
+  <div id="root" data-composition-id="h5" data-width="1080" data-height="1920">
+    <div id="h5-cam">
+      <video id="h5-vid" class="clip" src="assets/footage/plate-pan.mp4" data-start="0" data-duration="3.0"
+        data-media-start="2.9" data-playback-rate="0.5" data-track-index="0" muted playsinline></video>
+    </div>
+    <div id="h5-title">
+      <div id="h5-save" class="hl">SAVE DULU</div>
+      <svg id="h5-mark" viewBox="0 0 58 78" aria-hidden="true">
+        <path d="M4 4 H54 V74 L29 54 L4 74 Z" fill="#FFCB2E" stroke="#141312" stroke-width="4" stroke-linejoin="round" />
+      </svg>
+    </div>
+    <div id="h5-sub">ajak geng breakfast korang</div>
+    <div id="h5-loc" class="chip-d">
+      <svg viewBox="0 0 22 28" aria-hidden="true"><path d="M11 1C5.5 1 1 5.3 1 10.7 1 17.8 11 27 11 27s10-9.2 10-16.3C21 5.3 16.5 1 11 1z" fill="#E23D28" /><circle cx="11" cy="10.5" r="3.8" fill="#FFCB2E" /></svg>
+      62 Grillstreet · Stesen Bas Damansara Damai
+    </div>
+    <div id="h5-time" class="chip-d"><span class="y">Sel – Sab</span> · 8 – 11 pagi</div>
+  </div>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+      tl.fromTo("#h5-cam", { opacity: 0, scale: 1.08, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.3, ease: "expo.out" }, 0);
+      tl.fromTo("#h5-save", { opacity: 0, scale: 1.25, filter: "blur(10px)", transformOrigin: "0% 50%" },
+        { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.22, ease: "power4.out" }, 0.08);
+      tl.fromTo("#h5-mark", { opacity: 0, y: -60 }, { opacity: 1, y: 0, duration: 0.3, ease: "back.out(2.2)" }, 0.22);
+      tl.fromTo("#h5-sub", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power4.out" }, 0.55);
+      tl.fromTo("#h5-loc", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.3, ease: "expo.out" }, 0.8);
+      tl.fromTo("#h5-time", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.3, ease: "expo.out" }, 0.9);
+      window.__timelines["h5"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,179 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #121110;
+    }
+    #h4-img {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 2560px;
+    }
+    #h4-title {
+      position: absolute;
+      left: 56px;
+      top: 204px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    #h4-apa {
+      position: relative;
+      font-size: 92px;
+      line-height: 104px;
+    }
+    #h4-count {
+      position: relative;
+      width: 104px;
+      height: 56px;
+    }
+    .h4-c {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 104px;
+      height: 56px;
+      border-radius: 12px;
+      background: var(--y);
+      color: var(--ink);
+      font-family: "Inter", sans-serif;
+      font-weight: 900;
+      font-size: 34px;
+      line-height: 56px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    }
+    .h4-lab {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+    }
+    .h4-dot {
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--y);
+      border: 5px solid rgba(20, 19, 18, 0.85);
+    }
+    .h4-lead {
+      position: absolute;
+      width: 4px;
+      height: 56px;
+      border-radius: 2px;
+      background: var(--y);
+      transform-origin: 50% 0%;
+    }
+    .h4-chip {
+      padding: 10px 28px 10px 10px;
+      font-size: 38px;
+      line-height: 44px;
+    }
+  </style>
+  <div id="root" data-composition-id="h4" data-width="1080" data-height="1920">
+    <img id="h4-img" class="clip" src="assets/stills/plate.jpg" data-start="0" data-duration="7.2" data-track-index="0" alt="The Big Breakfast" />
+    <div class="scrim-top"></div>
+    <div id="h4-lab1" class="h4-lab">
+      <div id="h4-dot1" class="h4-dot" style="left: 574px; top: 978px"></div>
+      <div id="h4-lead1" class="h4-lead" style="left: 585px; top: 923px"></div>
+      <div id="h4-chip1" class="chip-d h4-chip" style="left: 382px; top: 859px"><span class="num">1</span>Chicken sausage</div>
+    </div>
+    <div id="h4-lab2" class="h4-lab">
+      <div id="h4-dot2" class="h4-dot" style="left: 527px; top: 684px"></div>
+      <div id="h4-lead2" class="h4-lead" style="left: 538px; top: 629px"></div>
+      <div id="h4-chip2" class="chip-d h4-chip" style="left: 314px; top: 565px"><span class="num">2</span>Hash brown rangup</div>
+    </div>
+    <div id="h4-lab3" class="h4-lab">
+      <div id="h4-dot3" class="h4-dot" style="left: 434px; top: 954px"></div>
+      <div id="h4-lead3" class="h4-lead" style="left: 445px; top: 899px"></div>
+      <div id="h4-chip3" class="chip-d h4-chip" style="left: 263px; top: 835px"><span class="num">3</span>Scrambled egg</div>
+    </div>
+    <div id="h4-lab4" class="h4-lab">
+      <div id="h4-dot4" class="h4-dot" style="left: 648px; top: 1001px"></div>
+      <div id="h4-lead4" class="h4-lead" style="left: 659px; top: 946px"></div>
+      <div id="h4-chip4" class="chip-d h4-chip" style="left: 488px; top: 882px"><span class="num">4</span>Beef streaky</div>
+    </div>
+    <div id="h4-lab5" class="h4-lab">
+      <div id="h4-dot5" class="h4-dot" style="left: 504px; top: 777px"></div>
+      <div id="h4-lead5" class="h4-lead" style="left: 515px; top: 722px"></div>
+      <div id="h4-chip5" class="chip-d h4-chip" style="left: 270px; top: 658px"><span class="num">5</span>Roti bakar + butter</div>
+    </div>
+    <div id="h4-lab6" class="h4-lab">
+      <div id="h4-dot6" class="h4-dot" style="left: 741px; top: 1047px"></div>
+      <div id="h4-lead6" class="h4-lead" style="left: 752px; top: 992px"></div>
+      <div id="h4-chip6" class="chip-d h4-chip" style="left: 591px; top: 928px"><span class="num">6</span>Baked beans</div>
+    </div>
+    <div id="h4-title">
+      <div id="h4-apa" class="hl">APA DAPAT?</div>
+      <div id="h4-count"><span id="h4-c1" class="h4-c">1/6</span><span id="h4-c2" class="h4-c">2/6</span><span id="h4-c3" class="h4-c">3/6</span><span id="h4-c4" class="h4-c">4/6</span><span id="h4-c5" class="h4-c">5/6</span><span id="h4-c6" class="h4-c">6/6</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+      var S = 1.1625; // 1.55x the cover scale of the 1920x2560 photo
+      // start on the whole plate (cover framing), then tour item by item on the beat (1.2 s each)
+      tl.set("#h4-img", { x: -180, y: 0, scale: 0.75, transformOrigin: "0px 0px" }, 0);
+      tl.fromTo("#h4-img", { filter: "blur(8px)" }, { filter: "blur(0px)", duration: 0.12, ease: "power2.out" }, 0);
+      tl.fromTo("#h4-apa", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 0);
+      // 1: Chicken sausage
+      tl.to("#h4-img", { x: -576, y: -846, scale: S, duration: 0.24, ease: "power3.inOut" }, 0.0);
+      tl.fromTo("#h4-c1", { opacity: 0, scale: 1.5 }, { opacity: 1, scale: 1, duration: 0.22, ease: "back.out(2)" }, 0.05);
+      tl.fromTo("#h4-dot1", { scale: 0 }, { scale: 1, duration: 0.2, ease: "back.out(2.4)" }, 0.24);
+      tl.fromTo("#h4-lead1", { scaleY: 0 }, { scaleY: 1, duration: 0.14, ease: "power2.out" }, 0.27);
+      tl.fromTo("#h4-chip1", { opacity: 0, scale: 0.7, y: 14 }, { opacity: 1, scale: 1, y: 0, duration: 0.26, ease: "back.out(1.8)" }, 0.3);
+      tl.to("#h4-lab1", { opacity: 0, duration: 0.08, ease: "power2.in" }, 1.16);
+      tl.to("#h4-c1", { opacity: 0, duration: 0.05 }, 1.2);
+      // 2: Hash brown rangup
+      tl.to("#h4-img", { x: -262, y: 0, scale: S, duration: 0.24, ease: "power3.inOut" }, 1.2);
+      tl.fromTo("#h4-c2", { opacity: 0, scale: 1.5 }, { opacity: 1, scale: 1, duration: 0.22, ease: "back.out(2)" }, 1.25);
+      tl.fromTo("#h4-dot2", { scale: 0 }, { scale: 1, duration: 0.2, ease: "back.out(2.4)" }, 1.44);
+      tl.fromTo("#h4-lead2", { scaleY: 0 }, { scaleY: 1, duration: 0.14, ease: "power2.out" }, 1.47);
+      tl.fromTo("#h4-chip2", { opacity: 0, scale: 0.7, y: 14 }, { opacity: 1, scale: 1, y: 0, duration: 0.26, ease: "back.out(1.8)" }, 1.5);
+      tl.to("#h4-lab2", { opacity: 0, duration: 0.08, ease: "power2.in" }, 2.36);
+      tl.to("#h4-c2", { opacity: 0, duration: 0.05 }, 2.4);
+      // 3: Scrambled egg
+      tl.to("#h4-img", { x: -157, y: -521, scale: S, duration: 0.24, ease: "power3.inOut" }, 2.4);
+      tl.fromTo("#h4-c3", { opacity: 0, scale: 1.5 }, { opacity: 1, scale: 1, duration: 0.22, ease: "back.out(2)" }, 2.45);
+      tl.fromTo("#h4-dot3", { scale: 0 }, { scale: 1, duration: 0.2, ease: "back.out(2.4)" }, 2.64);
+      tl.fromTo("#h4-lead3", { scaleY: 0 }, { scaleY: 1, duration: 0.14, ease: "power2.out" }, 2.67);
+      tl.fromTo("#h4-chip3", { opacity: 0, scale: 0.7, y: 14 }, { opacity: 1, scale: 1, y: 0, duration: 0.26, ease: "back.out(1.8)" }, 2.7);
+      tl.to("#h4-lab3", { opacity: 0, duration: 0.08, ease: "power2.in" }, 3.56);
+      tl.to("#h4-c3", { opacity: 0, duration: 0.05 }, 3.6);
+      // 4: Beef streaky
+      tl.to("#h4-img", { x: -1152, y: -916, scale: S, duration: 0.24, ease: "power3.inOut" }, 3.6);
+      tl.fromTo("#h4-c4", { opacity: 0, scale: 1.5 }, { opacity: 1, scale: 1, duration: 0.22, ease: "back.out(2)" }, 3.65);
+      tl.fromTo("#h4-dot4", { scale: 0 }, { scale: 1, duration: 0.2, ease: "back.out(2.4)" }, 3.84);
+      tl.fromTo("#h4-lead4", { scaleY: 0 }, { scaleY: 1, duration: 0.14, ease: "power2.out" }, 3.87);
+      tl.fromTo("#h4-chip4", { opacity: 0, scale: 0.7, y: 14 }, { opacity: 1, scale: 1, y: 0, duration: 0.26, ease: "back.out(1.8)" }, 3.9);
+      tl.to("#h4-lab4", { opacity: 0, duration: 0.08, ease: "power2.in" }, 4.76);
+      tl.to("#h4-c4", { opacity: 0, duration: 0.05 }, 4.8);
+      // 5: Roti bakar + butter
+      tl.to("#h4-img", { x: -1087, y: 0, scale: S, duration: 0.24, ease: "power3.inOut" }, 4.8);
+      tl.fromTo("#h4-c5", { opacity: 0, scale: 1.5 }, { opacity: 1, scale: 1, duration: 0.22, ease: "back.out(2)" }, 4.85);
+      tl.fromTo("#h4-dot5", { scale: 0 }, { scale: 1, duration: 0.2, ease: "back.out(2.4)" }, 5.04);
+      tl.fromTo("#h4-lead5", { scaleY: 0 }, { scaleY: 1, duration: 0.14, ease: "power2.out" }, 5.07);
+      tl.fromTo("#h4-chip5", { opacity: 0, scale: 0.7, y: 14 }, { opacity: 1, scale: 1, y: 0, duration: 0.26, ease: "back.out(1.8)" }, 5.1);
+      tl.to("#h4-lab5", { opacity: 0, duration: 0.08, ease: "power2.in" }, 5.96);
+      tl.to("#h4-c5", { opacity: 0, duration: 0.05 }, 6.0);
+      // 6: Baked beans
+      tl.to("#h4-img", { x: -1152, y: -195, scale: S, duration: 0.24, ease: "power3.inOut" }, 6.0);
+      tl.fromTo("#h4-c6", { opacity: 0, scale: 1.5 }, { opacity: 1, scale: 1, duration: 0.22, ease: "back.out(2)" }, 6.05);
+      tl.fromTo("#h4-dot6", { scale: 0 }, { scale: 1, duration: 0.2, ease: "back.out(2.4)" }, 6.24);
+      tl.fromTo("#h4-lead6", { scaleY: 0 }, { scaleY: 1, duration: 0.14, ease: "power2.out" }, 6.27);
+      tl.fromTo("#h4-chip6", { opacity: 0, scale: 0.7, y: 14 }, { opacity: 1, scale: 1, y: 0, duration: 0.26, ease: "back.out(1.8)" }, 6.3);
+      tl.to("#h4-lab6", { opacity: 0, duration: 0.08, ease: "power2.in" }, 6.95);
+      // pull back to the whole plate and hand over to the closing shot
+      tl.to("#h4-img", { x: -180, y: 0, scale: 0.75, filter: "blur(10px)", duration: 0.22, ease: "power2.in" }, 6.98);
+      tl.to("#h4-title", { opacity: 0, filter: "blur(8px)", duration: 0.14, ease: "power2.in" }, 7.0);
+      window.__timelines["h4"] = tl;
+    })();
+  </script>
+</template>

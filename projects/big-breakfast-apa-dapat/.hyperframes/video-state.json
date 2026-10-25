@@ -1,0 +1,535 @@
+{
+  "version": 1,
+  "historyId": "d70e3596-12e4-46c2-b1b0-ea0a138219a2",
+  "currentRevision": "80bf278a-15fd-46c5-baad-daa95e76f85c",
+  "pendingChanges": false,
+  "files": {
+    "AGENTS.md": {
+      "hash": "1b36171117cb7c18f4100a0db6a3782ff2e096115995733200445cc2e80a4060",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/1b/1b36171117cb7c18f4100a0db6a3782ff2e096115995733200445cc2e80a4060"
+    },
+    "CLAUDE.md": {
+      "hash": "1b36171117cb7c18f4100a0db6a3782ff2e096115995733200445cc2e80a4060",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/1b/1b36171117cb7c18f4100a0db6a3782ff2e096115995733200445cc2e80a4060"
+    },
+    "assets/sfx/117.mp3": {
+      "hash": "a9b70704b7e83cbe00e8717e5d813c5575f7ed93b307c9a491834e6094cd3990",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/a9/a9b70704b7e83cbe00e8717e5d813c5575f7ed93b307c9a491834e6094cd3990"
+    },
+    "assets/sfx/123.mp3": {
+      "hash": "0abfe7c75bdcedb4c48d354c95f2a8b592599bd220f0b2ad734660e48ccc8f18",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/0a/0abfe7c75bdcedb4c48d354c95f2a8b592599bd220f0b2ad734660e48ccc8f18"
+    },
+    "assets/sfx/129.mp3": {
+      "hash": "368b4702fa0fc4786a8acfe74c8ff16777a9e38ed9ef7491828e52f1f997627b",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/36/368b4702fa0fc4786a8acfe74c8ff16777a9e38ed9ef7491828e52f1f997627b"
+    },
+    "assets/sfx/1490.mp3": {
+      "hash": "b88fd5d484251930efd6eca78c4340339908ea29d1e69bd24fb5191a10da4f78",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/b8/b88fd5d484251930efd6eca78c4340339908ea29d1e69bd24fb5191a10da4f78"
+    },
+    "assets/sfx/1492.mp3": {
+      "hash": "5a20424fb50af5c0eda1c8aecfa2836fd347f5072391c0b3c685dc03dab7ed0d",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/5a/5a20424fb50af5c0eda1c8aecfa2836fd347f5072391c0b3c685dc03dab7ed0d"
+    },
+    "assets/sfx/166.mp3": {
+      "hash": "5d8153579cfbd4ec23738494dff8dec95b3737981578222b793eff9e3fdd4ca8",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/5d/5d8153579cfbd4ec23738494dff8dec95b3737981578222b793eff9e3fdd4ca8"
+    },
+    "assets/sfx/175.mp3": {
+      "hash": "49a2706fb3e7923db4228629865ccecf8e49e196b0dbcb65343a489e5406d4bc",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/49/49a2706fb3e7923db4228629865ccecf8e49e196b0dbcb65343a489e5406d4bc"
+    },
+    "assets/sfx/2244.mp3": {
+      "hash": "6fcb53a54efbd8ecfe251dad69c159a2b45fe20f8758ea3286b2c677b07c4c6a",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/6f/6fcb53a54efbd8ecfe251dad69c159a2b45fe20f8758ea3286b2c677b07c4c6a"
+    },
+    "assets/sfx/2357.mp3": {
+      "hash": "d87b208f391d35df3c51e36d988f1c24a8017c7a24afeed44849a3aeeacdf91b",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/d8/d87b208f391d35df3c51e36d988f1c24a8017c7a24afeed44849a3aeeacdf91b"
+    },
+    "assets/sfx/2358.mp3": {
+      "hash": "14aad47518786ea2556b45f050fed2a301d521ff9dedd46b73701b3cc3d54a2e",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/14/14aad47518786ea2556b45f050fed2a301d521ff9dedd46b73701b3cc3d54a2e"
+    },
+    "assets/sfx/2364.mp3": {
+      "hash": "2fc680a90f2e9a090de8d7afc4c047acfbc2cc9f5a8543a01ee87a8dfa401422",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/2f/2fc680a90f2e9a090de8d7afc4c047acfbc2cc9f5a8543a01ee87a8dfa401422"
+    },
+    "assets/sfx/2568.mp3": {
+      "hash": "1b41ec99c2791eb1d292e0f1b09355a3cf0c184db42458d34cd041e249951e4b",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/1b/1b41ec99c2791eb1d292e0f1b09355a3cf0c184db42458d34cd041e249951e4b"
+    },
+    "assets/sfx/2933.mp3": {
+      "hash": "771ae8a06c1497ae3a613244e42e45faea33aed7f17959a2c0d86c15bb251ee0",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/77/771ae8a06c1497ae3a613244e42e45faea33aed7f17959a2c0d86c15bb251ee0"
+    },
+    "assets/sfx/2998.mp3": {
+      "hash": "ae15103bc9f247c52255ea424a7c1e19e642f2eb95d2dd4e7f398e0cb7967cf4",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/ae/ae15103bc9f247c52255ea424a7c1e19e642f2eb95d2dd4e7f398e0cb7967cf4"
+    },
+    "assets/sfx/3005.mp3": {
+      "hash": "966bc3f7f2d8c19570f8826562b987f4d701854c1b63b98aba2f2c86178022b0",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/96/966bc3f7f2d8c19570f8826562b987f4d701854c1b63b98aba2f2c86178022b0"
+    },
+    "assets/sfx/3115.mp3": {
+      "hash": "9f7e4edb094569f9cb40e8dbb987a5fc20926b30326a1a9d827236960980f070",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/9f/9f7e4edb094569f9cb40e8dbb987a5fc20926b30326a1a9d827236960980f070"
+    },
+    "assets/sfx/3145.mp3": {
+      "hash": "632deeb53070f5827a1e16d2820156636f67250b7d8c1d41915260ea4f9f8932",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/63/632deeb53070f5827a1e16d2820156636f67250b7d8c1d41915260ea4f9f8932"
+    },
+    "assets/stills/menu.jpg": {
+      "hash": "16ead7e7f0eb4d476c42ecf89e3ad66889c8d02d53177dd33e20d32353727a94",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/16/16ead7e7f0eb4d476c42ecf89e3ad66889c8d02d53177dd33e20d32353727a94"
+    },
+    "assets/stills/plate.jpg": {
+      "hash": "fc2f3f48d90aa4260e0452b0a6bc4e7387032956d1e5535347b5ffbbc046ade8",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/fc/fc2f3f48d90aa4260e0452b0a6bc4e7387032956d1e5535347b5ffbbc046ade8"
+    },
+    "compositions/h1.html": {
+      "hash": "7fc8f506742a4e62ea8f0bf9290a00824c1fa0598755666eb8f6cb301d22a3bf",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/7f/7fc8f506742a4e62ea8f0bf9290a00824c1fa0598755666eb8f6cb301d22a3bf"
+    },
+    "compositions/h2.html": {
+      "hash": "17f4abf5cdd8e246ba9184469389b1fa77c5badafd1e8f6b770feb4766420cac",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/17/17f4abf5cdd8e246ba9184469389b1fa77c5badafd1e8f6b770feb4766420cac"
+    },
+    "compositions/h3.html": {
+      "hash": "0b9929a0c6963693c9c6b29ac1eb2edcc135fedd08122d80be09b487c89169b0",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/0b/0b9929a0c6963693c9c6b29ac1eb2edcc135fedd08122d80be09b487c89169b0"
+    },
+    "compositions/h4.html": {
+      "hash": "9fedfdd1c297bff7a7484f9fec7e638e7f2f73f3ce289200ad173bdd84e2ea61",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/9f/9fedfdd1c297bff7a7484f9fec7e638e7f2f73f3ce289200ad173bdd84e2ea61"
+    },
+    "compositions/h5.html": {
+      "hash": "2bddbad157ed727399f26902b29038f2a20c199600bf54ed5ba596ae1991f005",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/2b/2bddbad157ed727399f26902b29038f2a20c199600bf54ed5ba596ae1991f005"
+    },
+    "hyperframes.json": {
+      "hash": "35a6d4ea79ebe911f0d81705f7aace5d8ff0316b745b0311d56af50c9c237cb7",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/35/35a6d4ea79ebe911f0d81705f7aace5d8ff0316b745b0311d56af50c9c237cb7"
+    },
+    "index.html": {
+      "hash": "4f159cbe5f7bc5bee51912133dbc683ffec88754bb17e8713529d437f41fd8ca",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/4f/4f159cbe5f7bc5bee51912133dbc683ffec88754bb17e8713529d437f41fd8ca"
+    },
+    "meta.json": {
+      "hash": "c97a126ba5d8b537d75bed12a5e4afd11beb1e14337c72120bab73978fd7d392",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/c9/c97a126ba5d8b537d75bed12a5e4afd11beb1e14337c72120bab73978fd7d392"
+    },
+    "package.json": {
+      "hash": "e107064f47025706b6d292e6c31d3b216414f8d3b0ec53895cfd435e5fcef850",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/e1/e107064f47025706b6d292e6c31d3b216414f8d3b0ec53895cfd435e5fcef850"
+    },
+    "assets/bgm/funky-triplets.mp3": {
+      "hash": "9f99baed5d9069f9490367716a685581bc8396d7597b8de56e5f6e87855b7650",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/9f/9f99baed5d9069f9490367716a685581bc8396d7597b8de56e5f6e87855b7650"
+    },
+    "assets/footage/plate-pan.mp4": {
+      "hash": "cd5e7fa3f4aa658e160726be39f5dd97e5ee138ab6027b39a8368339f708d07b",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/cd/cd5e7fa3f4aa658e160726be39f5dd97e5ee138ab6027b39a8368339f708d07b"
+    },
+    "assets/footage/shop.mp4": {
+      "hash": "396fcda5b2e8f90d5a9354714c20a0ae0bdfaf73699b72fa4acb12557b9927cf",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/39/396fcda5b2e8f90d5a9354714c20a0ae0bdfaf73699b72fa4acb12557b9927cf"
+    },
+    "assets/sfx/121.mp3": {
+      "hash": "6a3610bb8e53d525cd65845c91c3b0675814e2473867b9db50623f1dd601d300",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/6a/6a3610bb8e53d525cd65845c91c3b0675814e2473867b9db50623f1dd601d300"
+    },
+    "master.sh": {
+      "hash": "3728873da4b0fb4466135b06b2537cf7f9e4e92a9ebc766b4aa7262f3958ff99",
+      "content": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/37/3728873da4b0fb4466135b06b2537cf7f9e4e92a9ebc766b4aa7262f3958ff99"
+    }
+  },
+  "revisions": {
+    "d593dbd4-66ec-4944-8359-73191c6cf324": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792934305323,
+      "endedAt": 1792934305328,
+      "files": {
+        "compositions/h4.html": {
+          "before": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/16/16ec6f4b0b9886e76abf6cb0ce5279a086ef35717fa1a1231439b4c5a2cca8d3",
+          "after": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/9f/9fedfdd1c297bff7a7484f9fec7e638e7f2f73f3ce289200ad173bdd84e2ea61"
+        },
+        "index.html": {
+          "before": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/8d/8d5d691562b82405b9ca1f452a5b24856d9e50088eff8d4faaf8a517eae422d6",
+          "after": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/4f/4f159cbe5f7bc5bee51912133dbc683ffec88754bb17e8713529d437f41fd8ca"
+        }
+      }
+    },
+    "80bf278a-15fd-46c5-baad-daa95e76f85c": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792934448840,
+      "endedAt": 1792934448842,
+      "files": {
+        "master.sh": {
+          "before": null,
+          "after": "/root/.cache/hyperframes/history/d70e3596-12e4-46c2-b1b0-ea0a138219a2/blobs/37/3728873da4b0fb4466135b06b2537cf7f9e4e92a9ebc766b4aa7262f3958ff99"
+        }
+      }
+    }
+  },
+  "checks": {
+    "latest": {
+      "revision": "d593dbd4-66ec-4944-8359-73191c6cf324",
+      "id": "b9e74064-07d4-4d4c-ada1-d40ff38f56e6"
+    },
+    "revisions": {
+      "d593dbd4-66ec-4944-8359-73191c6cf324": [
+        {
+          "id": "b9e74064-07d4-4d4c-ada1-d40ff38f56e6",
+          "scope": "project",
+          "report": "/home/user/video-claude/projects/big-breakfast-apa-dapat/.hyperframes/artifacts/checks/b9e74064-07d4-4d4c-ada1-d40ff38f56e6.json",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 3000,
+              "contrast": true,
+              "strict": false,
+              "snapshots": false,
+              "browserGpuMode": "auto"
+            }
+          },
+          "createdAt": 1792934317322,
+          "contentHash": "c533387bc923d4151120dc7d32bfac89ce7f1293cab1113d3f0234ce6fec98ce",
+          "revision": "d593dbd4-66ec-4944-8359-73191c6cf324",
+          "inputFingerprint": "0a9abaa84eebc9cf63203e799a3874d8a627236f74ac4e7f95be470469ad1775",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ]
+    },
+    "unversioned": [
+      {
+        "id": "b6ff2496-3595-42d2-8048-54e81a553031",
+        "scope": "project",
+        "report": "/home/user/video-claude/projects/big-breakfast-apa-dapat/.hyperframes/artifacts/checks/b6ff2496-3595-42d2-8048-54e81a553031.json",
+        "metadata": {
+          "ok": true,
+          "browserSkipped": false,
+          "options": {
+            "samples": 9,
+            "atTransitions": false,
+            "maxIssues": 80,
+            "collapseStatic": true,
+            "tolerance": 2,
+            "timeout": 3000,
+            "contrast": true,
+            "strict": false,
+            "snapshots": false,
+            "browserGpuMode": "auto"
+          }
+        },
+        "createdAt": 1792934282230,
+        "contentHash": "e50988d03bb52df9975f14a68a174f8a728e5b61cbeaee916a66267374d43f5d",
+        "revision": null,
+        "inputFingerprint": "e909e413853ad819dec81f58348245cc77fe16210a87b24cf74218a528e97569",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      }
+    ]
+  },
+  "snapshots": {
+    "latest": {
+      "revision": "d593dbd4-66ec-4944-8359-73191c6cf324",
+      "id": "41d68065-d84f-46b1-8185-0c174c0b2645-12"
+    },
+    "revisions": {
+      "d593dbd4-66ec-4944-8359-73191c6cf324": [
+        {
+          "scope": "full",
+          "id": "41d68065-d84f-46b1-8185-0c174c0b2645-0",
+          "image": "/home/user/video-claude/projects/big-breakfast-apa-dapat/.hyperframes/artifacts/snapshots/fb97b07a-51dc-4938-b997-823860083051/frame-00-at-0s.png",
+          "time": 0,
+          "metadata": {
+            "width": 1080,
+            "height": 1920,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792934337034,
+          "contentHash": "bee29d4d67dbf5139edb3b5fa8c32625794ba63816660bf6d8d0e654cdc19648",
+          "revision": "d593dbd4-66ec-4944-8359-73191c6cf324",
+          "inputFingerprint": "0a9abaa84eebc9cf63203e799a3874d8a627236f74ac4e7f95be470469ad1775",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "41d68065-d84f-46b1-8185-0c174c0b2645-1",
+          "image": "/home/user/video-claude/projects/big-breakfast-apa-dapat/.hyperframes/artifacts/snapshots/fb97b07a-51dc-4938-b997-823860083051/frame-01-at-1.5s.png",
+          "time": 1.5,
+          "metadata": {
+            "width": 1080,
+            "height": 1920,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792934337034,
+          "contentHash": "2ebf003486ddf2ea976ac1f78311a99f5878b6ddd3b64d5e69b43c3d53d43005",
+          "revision": "d593dbd4-66ec-4944-8359-73191c6cf324",
+          "inputFingerprint": "0a9abaa84eebc9cf63203e799a3874d8a627236f74ac4e7f95be470469ad1775",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "41d68065-d84f-46b1-8185-0c174c0b2645-2",
+          "image": "/home/user/video-claude/projects/big-breakfast-apa-dapat/.hyperframes/artifacts/snapshots/fb97b07a-51dc-4938-b997-823860083051/frame-02-at-3.6s.png",
+          "time": 3.6,
+          "metadata": {
+            "width": 1080,
+            "height": 1920,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792934337034,
+          "contentHash": "f230f2e1bc01f592dd3bd33464cf779e8744bd651c70cd61f054cdba700f6563",
+          "revision": "d593dbd4-66ec-4944-8359-73191c6cf324",
+          "inputFingerprint": "0a9abaa84eebc9cf63203e799a3874d8a627236f74ac4e7f95be470469ad1775",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "41d68065-d84f-46b1-8185-0c174c0b2645-3",
+          "image": "/home/user/video-claude/projects/big-breakfast-apa-dapat/.hyperframes/artifacts/snapshots/fb97b07a-51dc-4938-b997-823860083051/frame-03-at-5.9s.png",
+          "time": 5.9,
+          "metadata": {
+            "width": 1080,
+            "height": 1920,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792934337034,
+          "contentHash": "156b65a4b65f49a77dd5e1a8807e47d0536582bb6a56e1432357c2ca0b19a113",
+          "revision": "d593dbd4-66ec-4944-8359-73191c6cf324",
+          "inputFingerprint": "0a9abaa84eebc9cf63203e799a3874d8a627236f74ac4e7f95be470469ad1775",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "41d68065-d84f-46b1-8185-0c174c0b2645-4",
+          "image": "/home/user/video-claude/projects/big-breakfast-apa-dapat/.hyperframes/artifacts/snapshots/fb97b07a-51dc-4938-b997-823860083051/frame-04-at-7.7s.png",
+          "time": 7.7,
+          "metadata": {
+            "width": 1080,
+            "height": 1920,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792934337034,
+          "contentHash": "90c1189646dc72c924e0b95cc2c0ef04933a9f3dbb0a5ad86c107c245f2a2ea2",
+          "revision": "d593dbd4-66ec-4944-8359-73191c6cf324",
+          "inputFingerprint": "0a9abaa84eebc9cf63203e799a3874d8a627236f74ac4e7f95be470469ad1775",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "41d68065-d84f-46b1-8185-0c174c0b2645-5",
+          "image": "/home/user/video-claude/projects/big-breakfast-apa-dapat/.hyperframes/artifacts/snapshots/fb97b07a-51dc-4938-b997-823860083051/frame-05-at-8.9s.png",
+          "time": 8.9,
+          "metadata": {
+            "width": 1080,
+            "height": 1920,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792934337034,
+          "contentHash": "c5c908c588a8a8383df93584a6de1b6e3f3c290221e7725e655a0799b1c02ed2",
+          "revision": "d593dbd4-66ec-4944-8359-73191c6cf324",
+          "inputFingerprint": "0a9abaa84eebc9cf63203e799a3874d8a627236f74ac4e7f95be470469ad1775",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "41d68065-d84f-46b1-8185-0c174c0b2645-6",
+          "image": "/home/user/video-claude/projects/big-breakfast-apa-dapat/.hyperframes/artifacts/snapshots/fb97b07a-51dc-4938-b997-823860083051/frame-06-at-10.1s.png",
+          "time": 10.1,
+          "metadata": {
+            "width": 1080,
+            "height": 1920,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792934337034,
+          "contentHash": "319f919e6626c18edf5eaaebf2032b9dd18b9e19f580d4470b5ef845dc3c59f0",
+          "revision": "d593dbd4-66ec-4944-8359-73191c6cf324",
+          "inputFingerprint": "0a9abaa84eebc9cf63203e799a3874d8a627236f74ac4e7f95be470469ad1775",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "41d68065-d84f-46b1-8185-0c174c0b2645-7",
+          "image": "/home/user/video-claude/projects/big-breakfast-apa-dapat/.hyperframes/artifacts/snapshots/fb97b07a-51dc-4938-b997-823860083051/frame-07-at-11.3s.png",
+          "time": 11.3,
+          "metadata": {
+            "width": 1080,
+            "height": 1920,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792934337034,
+          "contentHash": "5fcf9de0d8328da6d3ceb4caea204dc737697d2ee7a57a84fde2a1e1a6494822",
+          "revision": "d593dbd4-66ec-4944-8359-73191c6cf324",
+          "inputFingerprint": "0a9abaa84eebc9cf63203e799a3874d8a627236f74ac4e7f95be470469ad1775",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "41d68065-d84f-46b1-8185-0c174c0b2645-8",
+          "image": "/home/user/video-claude/projects/big-breakfast-apa-dapat/.hyperframes/artifacts/snapshots/fb97b07a-51dc-4938-b997-823860083051/frame-08-at-12.5s.png",
+          "time": 12.5,
+          "metadata": {
+            "width": 1080,
+            "height": 1920,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792934337034,
+          "contentHash": "0902adaca208eeb2f7a82d4c8ceb0fae062155b6415e7fa29e1a7c858d2da043",
+          "revision": "d593dbd4-66ec-4944-8359-73191c6cf324",
+          "inputFingerprint": "0a9abaa84eebc9cf63203e799a3874d8a627236f74ac4e7f95be470469ad1775",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "41d68065-d84f-46b1-8185-0c174c0b2645-9",
+          "image": "/home/user/video-claude/projects/big-breakfast-apa-dapat/.hyperframes/artifacts/snapshots/fb97b07a-51dc-4938-b997-823860083051/frame-09-at-13.7s.png",
+          "time": 13.7,
+          "metadata": {
+            "width": 1080,
+            "height": 1920,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792934337034,
+          "contentHash": "77ce41becd466f9d7b3d4d1cd78797d1ca7ffe13c561ed48502c66110631f73c",
+          "revision": "d593dbd4-66ec-4944-8359-73191c6cf324",
+          "inputFingerprint": "0a9abaa84eebc9cf63203e799a3874d8a627236f74ac4e7f95be470469ad1775",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "41d68065-d84f-46b1-8185-0c174c0b2645-10",
+          "image": "/home/user/video-claude/projects/big-breakfast-apa-dapat/.hyperframes/artifacts/snapshots/fb97b07a-51dc-4938-b997-823860083051/frame-10-at-15.6s.png",
+          "time": 15.6,
+          "metadata": {
+            "width": 1080,
+            "height": 1920,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792934337034,
+          "contentHash": "0276116ea7f8ad81356574ca3d0877ce7d4ebe302027a17b16108a9a69f50b90",
+          "revision": "d593dbd4-66ec-4944-8359-73191c6cf324",
+          "inputFingerprint": "0a9abaa84eebc9cf63203e799a3874d8a627236f74ac4e7f95be470469ad1775",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "41d68065-d84f-46b1-8185-0c174c0b2645-11",
+          "image": "/home/user/video-claude/projects/big-breakfast-apa-dapat/.hyperframes/artifacts/snapshots/fb97b07a-51dc-4938-b997-823860083051/frame-11-at-17.3s.png",
+          "time": 17.3,
+          "metadata": {
+            "width": 1080,
+            "height": 1920,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792934337034,
+          "contentHash": "f9583da29fc6ce75596d2ee2521e6df6da4795f76066b3c32b1e36ad8c884a20",
+          "revision": "d593dbd4-66ec-4944-8359-73191c6cf324",
+          "inputFingerprint": "0a9abaa84eebc9cf63203e799a3874d8a627236f74ac4e7f95be470469ad1775",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "41d68065-d84f-46b1-8185-0c174c0b2645-12",
+          "image": "/home/user/video-claude/projects/big-breakfast-apa-dapat/.hyperframes/artifacts/snapshots/fb97b07a-51dc-4938-b997-823860083051/frame-12-at-16.878s.png",
+          "time": 16.878,
+          "metadata": {
+            "width": 1080,
+            "height": 1920,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792934337034,
+          "contentHash": "aa97de4553b9c5d85127362270f94b4fecc55957ef1aafc11618b5a0bea8ef2f",
+          "revision": "d593dbd4-66ec-4944-8359-73191c6cf324",
+          "inputFingerprint": "0a9abaa84eebc9cf63203e799a3874d8a627236f74ac4e7f95be470469ad1775",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ]
+    },
+    "unversioned": []
+  },
+  "renders": {
+    "latest": {
+      "id": "1e608b86-29c9-4eac-8c33-dd3442658544",
+      "completedAt": 1792934514553,
+      "output": "/home/user/video-claude/projects/big-breakfast-apa-dapat/renders/draft-raw.mp4",
+      "status": "completed",
+      "revision": "80bf278a-15fd-46c5-baad-daa95e76f85c"
+    },
+    "retainedRevisions": [
+      "80bf278a-15fd-46c5-baad-daa95e76f85c",
+      "d593dbd4-66ec-4944-8359-73191c6cf324"
+    ]
+  },
+  "pendingArtifactCleanup": []
+}

@@ -1,0 +1,92 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #121110;
+    }
+    #h3-cam {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+    }
+    #h3-img {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      object-fit: cover;
+    }
+    #h3-marks {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+    }
+    #h3-card {
+      position: absolute;
+      left: 60px;
+      top: 1050px;
+      padding: 22px 34px 24px 30px;
+      border-radius: 22px;
+      background: var(--y);
+      color: var(--ink);
+      white-space: nowrap;
+      box-shadow: 0 22px 46px rgba(0, 0, 0, 0.42);
+    }
+    #h3-k {
+      font-family: "Inter", sans-serif;
+      font-weight: 900;
+      font-size: 30px;
+      line-height: 36px;
+      letter-spacing: 2px;
+    }
+    #h3-p {
+      font-family: "Archivo Black", sans-serif;
+      font-size: 100px;
+      line-height: 106px;
+      letter-spacing: -2px;
+    }
+    #h3-a {
+      font-family: "Inter", sans-serif;
+      font-weight: 700;
+      font-size: 32px;
+      line-height: 38px;
+    }
+  </style>
+  <div id="root" data-composition-id="h3" data-width="1080" data-height="1920">
+    <div id="h3-cam">
+      <img id="h3-img" class="clip" src="assets/stills/menu.jpg" data-start="0" data-duration="2.4" data-track-index="0" alt="62 Breakfast Club menu" />
+      <!-- yellow box drawn round menu item 1, riding the same push -->
+      <svg id="h3-marks" viewBox="0 0 1080 1920" aria-hidden="true">
+        <rect id="h3-box" x="92" y="668" width="306" height="276" rx="24" fill="none" stroke="#FFCB2E" stroke-width="9"
+          pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110" />
+      </svg>
+    </div>
+    <div id="h3-card">
+      <div id="h3-k">THE BIG BREAKFAST</div>
+      <div id="h3-p">SET RM21.90</div>
+      <div id="h3-a">Ala carte RM18.90</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+      tl.fromTo("#h3-cam", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.14, ease: "power2.out" }, 0);
+      tl.fromTo("#h3-cam", { scale: 1, transformOrigin: "245px 806px" }, { scale: 1.1, duration: 2.2, ease: "power1.inOut" }, 0);
+      tl.fromTo("#h3-box", { strokeDashoffset: 110 }, { strokeDashoffset: 0, duration: 0.4, ease: "power2.inOut" }, 0.2);
+      tl.fromTo("#h3-card", { opacity: 0, scale: 0.7, rotation: -7, transformOrigin: "20% 60%" },
+        { opacity: 1, scale: 1, rotation: -2, duration: 0.42, ease: "back.out(1.7)" }, 0.7);
+      // zoom through item 1 into the plate
+      tl.to("#h3-card", { opacity: 0, filter: "blur(8px)", duration: 0.14, ease: "power2.in" }, 2.2);
+      tl.to("#h3-cam", { scale: 2.8, filter: "blur(10px)", duration: 0.2, ease: "power3.in" }, 2.2);
+      window.__timelines["h3"] = tl;
+    })();
+  </script>
+</template>

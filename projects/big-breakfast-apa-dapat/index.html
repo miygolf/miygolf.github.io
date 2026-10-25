@@ -1,0 +1,162 @@
+<!doctype html>
+<html
+  lang="ms"
+  data-resolution="portrait"
+  data-composition-variables='[
+    {"id":"color-yellow","type":"color","label":"Kuning","default":"#FFCB2E"},
+    {"id":"color-ink","type":"color","label":"Gelap","default":"#141312"}
+  ]'
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* "Apa Dapat?" — the reference's grammar: Archivo Black headlines with one yellow word,
+         yellow sticker chips, dark numbered labels pinned to each item with a dot and a leader.
+         Words stay in y 200–1310, x 60–940 (TikTok/IG safe band); headlines never sit on food. */
+      :root {
+        --y: var(--color-yellow, #ffcb2e);
+        --ink: var(--color-ink, #141312);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: var(--ink);
+      }
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .hl {
+        position: absolute;
+        font-family: "Archivo Black", sans-serif;
+        color: #fff;
+        white-space: nowrap;
+        letter-spacing: -1px;
+        text-shadow: 0 6px 26px rgba(0, 0, 0, 0.55);
+      }
+      .hl .y,
+      .y {
+        color: var(--y);
+      }
+      .chip-y {
+        position: absolute;
+        background: var(--y);
+        color: var(--ink);
+        font-family: "Inter", sans-serif;
+        font-weight: 900;
+        white-space: nowrap;
+        border-radius: 12px;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+      }
+      .chip-d {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        background: rgba(20, 19, 18, 0.84);
+        color: #fff;
+        font-family: "Inter", sans-serif;
+        font-weight: 700;
+        white-space: nowrap;
+        border-radius: 999px;
+        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
+      }
+      .num {
+        flex: 0 0 auto;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: var(--y);
+        color: var(--ink);
+        font-weight: 900;
+        font-size: 28px;
+        line-height: 44px;
+        text-align: center;
+      }
+      .scrim-top {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 640px;
+        background: linear-gradient(180deg, rgba(10, 9, 8, 0.62) 0%, rgba(10, 9, 8, 0.3) 55%, rgba(10, 9, 8, 0) 100%);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="17.4"
+      data-width="1080"
+      data-height="1920"
+    >
+      <!-- Cuts on the music's bar grid (100 BPM: beat 0.6 s, bar 2.4 s). -->
+      <div id="h1" data-composition-id="h1" data-composition-src="compositions/h1.html"
+        data-start="0" data-duration="2.4" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+      <div id="h2" data-composition-id="h2" data-composition-src="compositions/h2.html"
+        data-start="2.4" data-duration="2.4" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+      <div id="h3" data-composition-id="h3" data-composition-src="compositions/h3.html"
+        data-start="4.8" data-duration="2.4" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+      <div id="h4" data-composition-id="h4" data-composition-src="compositions/h4.html"
+        data-start="7.2" data-duration="7.2" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+      <div id="h5" data-composition-id="h5" data-composition-src="compositions/h5.html"
+        data-start="14.4" data-duration="3.0" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+
+      <!-- Music: Mixkit "Funky Triplets" (free licence), entered on its first full downbeat (4.734 s). -->
+      <audio id="bgm" src="assets/bgm/funky-triplets.mp3" data-start="0" data-media-start="4.734"
+        data-duration="17.4" data-fade-out="1.0" data-volume="0.5" data-track-index="5"></audio>
+
+      <!-- SFX (Mixkit). start = picture moment − file peak + 1 frame. -->
+      <!-- h1 hook -->
+      <audio id="fx-sizzle" src="assets/sfx/121.mp3" data-start="0" data-media-start="2.0" data-duration="2.5" data-fade-out="0.5" data-volume="0.35" data-track-index="10"></audio>
+      <audio id="fx-padu" src="assets/sfx/3005.mp3" data-start="0.61" data-duration="0.21" data-volume="0.9" data-track-index="11"></audio>
+      <audio id="fx-rm22" src="assets/sfx/2364.mp3" data-start="1.19" data-duration="0.5" data-volume="0.8" data-track-index="12"></audio>
+      <audio id="fx-cut2" src="assets/sfx/1492.mp3" data-start="1.35" data-duration="1.3" data-volume="0.6" data-track-index="13"></audio>
+      <!-- h2 lokasi -->
+      <audio id="fx-pin" src="assets/sfx/2357.mp3" data-start="2.35" data-duration="0.42" data-volume="0.7" data-track-index="14"></audio>
+      <audio id="fx-cut3" src="assets/sfx/166.mp3" data-start="4.52" data-duration="0.7" data-volume="0.55" data-track-index="15"></audio>
+      <!-- h3 menu -->
+      <audio id="fx-box" src="assets/sfx/2998.mp3" data-start="4.99" data-duration="0.5" data-volume="0.8" data-track-index="16"></audio>
+      <audio id="fx-card" src="assets/sfx/2358.mp3" data-start="5.5" data-duration="0.5" data-volume="0.8" data-track-index="17"></audio>
+      <audio id="fx-cut4" src="assets/sfx/1490.mp3" data-start="6.52" data-duration="1.2" data-volume="0.6" data-track-index="18"></audio>
+      <!-- h4 apa dapat: a short whoosh on each camera travel, the item's own sound on its label -->
+      <audio id="fx-t1" src="assets/sfx/3115.mp3" data-start="7.25" data-duration="0.55" data-volume="0.5" data-track-index="19"></audio>
+      <audio id="fx-i1" src="assets/sfx/117.mp3" data-start="6.80" data-duration="1.2" data-volume="0.9" data-track-index="20"></audio>
+      <audio id="fx-t2" src="assets/sfx/175.mp3" data-start="8.11" data-duration="0.6" data-volume="0.5" data-track-index="21"></audio>
+      <audio id="fx-i2" src="assets/sfx/2244.mp3" data-start="8.44" data-duration="0.95" data-volume="1.0" data-track-index="22"></audio>
+      <audio id="fx-t3" src="assets/sfx/166.mp3" data-start="9.49" data-duration="0.7" data-volume="0.5" data-track-index="23"></audio>
+      <audio id="fx-i3" src="assets/sfx/121.mp3" data-start="9.82" data-media-start="6.0" data-duration="0.95" data-fade-in="0.05" data-fade-out="0.3" data-volume="0.7" data-track-index="24"></audio>
+      <audio id="fx-t4" src="assets/sfx/3115.mp3" data-start="10.85" data-duration="0.55" data-volume="0.5" data-track-index="25"></audio>
+      <audio id="fx-i4" src="assets/sfx/123.mp3" data-start="11.02" data-media-start="3.0" data-duration="0.95" data-fade-in="0.05" data-fade-out="0.3" data-volume="0.7" data-track-index="26"></audio>
+      <audio id="fx-t5" src="assets/sfx/175.mp3" data-start="11.71" data-duration="0.6" data-volume="0.5" data-track-index="27"></audio>
+      <audio id="fx-i5" src="assets/sfx/3145.mp3" data-start="12.0" data-media-start="0.6" data-duration="1.0" data-fade-out="0.3" data-volume="0.9" data-track-index="28"></audio>
+      <audio id="fx-t6" src="assets/sfx/166.mp3" data-start="13.09" data-duration="0.7" data-volume="0.5" data-track-index="29"></audio>
+      <audio id="fx-i6" src="assets/sfx/2358.mp3" data-start="13.49" data-duration="0.5" data-volume="0.8" data-track-index="30"></audio>
+      <!-- h5 save -->
+      <audio id="fx-cut5" src="assets/sfx/1492.mp3" data-start="13.35" data-duration="1.3" data-volume="0.55" data-track-index="31"></audio>
+      <audio id="fx-mark" src="assets/sfx/2568.mp3" data-start="14.82" data-duration="0.23" data-volume="1.0" data-track-index="32"></audio>
+      <audio id="fx-chips" src="assets/sfx/2357.mp3" data-start="14.98" data-duration="0.42" data-volume="0.7" data-track-index="33"></audio>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>
