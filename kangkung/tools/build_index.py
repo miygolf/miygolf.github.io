@@ -72,8 +72,7 @@ SFX = [
     ("sx-pop-9", "pop", 32.45, 0.20, 0.5, 0, 0, 0),
 ]
 
-MUSIC_START = 40.0  # into "Cool Cool Bossa", past the quiet intro
-MUSIC_VOLUME = 0.13
+# No music bed: the cooking sound and the effects carry the film.
 
 total = round(sum(d for _, _, _, d, _, _ in EDL), 2)
 
@@ -94,11 +93,7 @@ for i, (vid, src, ms, dur, rate, audio) in enumerate(EDL):
     )
     t = round(t + dur, 2)
 
-audios = [
-    f'    <audio id="music" class="clip" src="assets/music/cool-cool-bossa.mp3" data-start="0" '
-    f'data-duration="{fmt(total)}" data-media-start="{fmt(MUSIC_START)}" data-volume="{MUSIC_VOLUME}" '
-    f'data-fade-in="0.2" data-fade-out="1.2" data-track-index="10"></audio>'
-]
+audios = []
 lanes = []  # end time per lane
 for sid, f, st, dur, vol, ms, fi, fo in sorted(SFX, key=lambda r: r[2]):
     lane = next((i for i, end in enumerate(lanes) if end <= st), None)

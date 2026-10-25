@@ -1,8 +1,5 @@
 # Credits
 
-## Music
-- "Cool Cool Bossa" by TOM ALLANE — CC BY (Jamendo, via Openverse). https://www.jamendo.com/track/174859
-
 ## Sound effects (Freesound via Openverse)
 - `printer-b.mp3` — "cash drawer and receipt.wav" by kalisemorrison is marked with CC0 1.0. To view the terms, visit https://creativecommons.org/publicdomain/zero/1.0/. https://freesound.org/people/kalisemorrison/sounds/202531
 - `printer-a.mp3` — "Epson receipt printer 2" by azumarill is marked with CC0 1.0. To view the terms, visit https://creativecommons.org/publicdomain/zero/1.0/. https://freesound.org/people/azumarill/sounds/316962
