@@ -17,6 +17,9 @@
   and the band clears before the rider stands (helmet rises to y≈480 at 4.25 s).
 - Draft loudness after `loudnorm`: −16.0 LUFS integrated, −0.8 dBFS sample peak. Measured, not heard.
 
+## Delivered
+- `render -q delivery`, then two-pass `loudnorm=I=-14:TP=-1.5:LRA=11:linear=true` (video stream copied):
+  −14.5 LUFS integrated, −1.2 dBFS peak, 1080×1920 30 fps, 25.5 s, ~100 MB.
+
 ## Weakest shot / next
 - S3 (2.56 s) is the shortest read; "JALAN LURUS / TAK HABIS-HABIS" holds about 1.8 s.
-- The final master should use a two-pass loudnorm or limiter to land at −14 LUFS / −1 dBTP.

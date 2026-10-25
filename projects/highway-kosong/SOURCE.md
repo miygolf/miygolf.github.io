@@ -10,4 +10,6 @@
   30–38.5 360 selfie (rider's helmet within x 0–700, y 480–1100), 39.5–47.8 back on the highway.
 - Sound: the footage's own engine/wind is the bed (0.45 per scene). SFX from Mixkit (free licence),
   ids in `assets/sfx/<id>.mp3`.
+- Final mix: `render -q delivery`, then two-pass `loudnorm=I=-14:TP=-1.5:LRA=11:linear=true` with the
+  video stream copied (≈ −14.5 LUFS, peak ≈ −1.2 dBFS).
 - Fonts: Overpass (variable) and Barlow Condensed italic 800/900, Google Fonts (OFL), in `assets/fonts/`.
