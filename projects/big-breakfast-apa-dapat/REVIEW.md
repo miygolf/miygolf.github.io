@@ -1,4 +1,4 @@
-# Review — "Apa Dapat?" Big Breakfast breakdown (preview stage)
+# Review — "Apa Dapat?" Big Breakfast breakdown (delivered)
 
 ## Creative calls
 - Built to the reference's grammar on request ("buat macam video ni"): same beats, same copy where it
@@ -22,6 +22,10 @@
 ## Measured
 - `check`: ok. Kept on purpose: `line_unread` on the 3-word labels (0.90 s each) — the reference's pace.
 - Preview after `master.sh`: −14.4 LUFS, −1.4 dBTP. Measured, not heard.
+
+## Delivered
+- `render -q delivery`, then `./master.sh`: −14.4 LUFS integrated, −1.4 dBTP, 1080×1920 30 fps H.264,
+  17.4 s, ~25 MB. File: `renders/big-breakfast_apa-dapat.mp4`. Approved from `renders/preview.mp4`.
 
 ## Weakest shot / next
 - The tour is one still with camera moves; real close-up footage of each item (like the reference's)
