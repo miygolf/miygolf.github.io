@@ -1,4 +1,4 @@
-# Review — "Jadual Sarapan" (preview stage)
+# Review — "Jadual Sarapan" (delivered)
 
 ## Creative calls
 - Look: bus-station departure board + bus ticket (the shop is at Stesen Bas Damansara Damai), in the
@@ -27,6 +27,11 @@
 - `check`: ok (0 errors, 0 warnings outside the split-flap cells; their per-flap `line_unread`/occlusion
   findings are the mechanism itself: each glyph is a half-face under a falling leaf).
 - Preview loudness after `loudnorm`: −13.9 LUFS integrated, −0.9 dBFS peak. Measured, not heard.
+
+## Delivered
+- `render -q delivery`, then two-pass `loudnorm=I=-14:TP=-1.5:LRA=11:linear=true` (video stream copied)
+  and a true-peak limiter at −2 dB: −14.1 LUFS integrated, −1.3 dBTP, 1080×1920 30 fps H.264, 20.6 s, ~26 MB.
+  File: `renders/sarapan-62_jadual-sarapan.mp4`. Approved from `renders/preview.mp4` (draft).
 
 ## Weakest shot / next
 - The tray clip is 720p upscaled; it reads fine on a phone but is softer than the 4K shop footage.

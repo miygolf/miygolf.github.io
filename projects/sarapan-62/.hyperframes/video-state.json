@@ -1,7 +1,7 @@
 {
   "version": 1,
   "historyId": "fed0044b-630a-411d-89f6-90a57a5f2644",
-  "currentRevision": "17f015c4-748e-498e-a18f-b529a6b28259",
+  "currentRevision": "4a2c5c13-3cf5-4fa1-b4fe-95a35bb46bb6",
   "pendingChanges": false,
   "files": {
     "AGENTS.md": {
@@ -23,14 +23,6 @@
     "assets/sfx/1053.mp3": {
       "hash": "977928e0bd369e0e716a7ad3f40c073c64cfc844e81b0a702a7e4aacd971c4c0",
       "content": "/root/.cache/hyperframes/history/fed0044b-630a-411d-89f6-90a57a5f2644/blobs/97/977928e0bd369e0e716a7ad3f40c073c64cfc844e81b0a702a7e4aacd971c4c0"
-    },
-    "assets/sfx/1061.mp3": {
-      "hash": "70d0e0fe1d930949e1f86e24bfb9a6521ad4cb6c5e1a07190cc6d1f3e7603d37",
-      "content": "/root/.cache/hyperframes/history/fed0044b-630a-411d-89f6-90a57a5f2644/blobs/70/70d0e0fe1d930949e1f86e24bfb9a6521ad4cb6c5e1a07190cc6d1f3e7603d37"
-    },
-    "assets/sfx/1063.mp3": {
-      "hash": "2b479eabaf49705cde4968882087b0036603171468904b82a362ac11016f9a7a",
-      "content": "/root/.cache/hyperframes/history/fed0044b-630a-411d-89f6-90a57a5f2644/blobs/2b/2b479eabaf49705cde4968882087b0036603171468904b82a362ac11016f9a7a"
     },
     "assets/sfx/1490.mp3": {
       "hash": "b88fd5d484251930efd6eca78c4340339908ea29d1e69bd24fb5191a10da4f78",
@@ -72,10 +64,6 @@
       "hash": "3dcf30f79d60866facb3e447d242933315a35e70e77974128faadddd7d380556",
       "content": "/root/.cache/hyperframes/history/fed0044b-630a-411d-89f6-90a57a5f2644/blobs/3d/3dcf30f79d60866facb3e447d242933315a35e70e77974128faadddd7d380556"
     },
-    "assets/sfx/2908.mp3": {
-      "hash": "b38888dcdfb4d5c3b13988308b430a0172846dcaa0ccde2feedc8ed4d1d911c2",
-      "content": "/root/.cache/hyperframes/history/fed0044b-630a-411d-89f6-90a57a5f2644/blobs/b3/b38888dcdfb4d5c3b13988308b430a0172846dcaa0ccde2feedc8ed4d1d911c2"
-    },
     "assets/sfx/2933.mp3": {
       "hash": "771ae8a06c1497ae3a613244e42e45faea33aed7f17959a2c0d86c15bb251ee0",
       "content": "/root/.cache/hyperframes/history/fed0044b-630a-411d-89f6-90a57a5f2644/blobs/77/771ae8a06c1497ae3a613244e42e45faea33aed7f17959a2c0d86c15bb251ee0"
@@ -99,10 +87,6 @@
     "assets/sfx/3143.mp3": {
       "hash": "0e2f64ae0c433a7265055663119767ba564630758aa55e1fc833b73b46abe2c8",
       "content": "/root/.cache/hyperframes/history/fed0044b-630a-411d-89f6-90a57a5f2644/blobs/0e/0e2f64ae0c433a7265055663119767ba564630758aa55e1fc833b73b46abe2c8"
-    },
-    "assets/sfx/931.mp3": {
-      "hash": "270283ab3f098d25358fea866ffbd4cf9cfbd210a209c98a56e8fe41ab146f2e",
-      "content": "/root/.cache/hyperframes/history/fed0044b-630a-411d-89f6-90a57a5f2644/blobs/27/270283ab3f098d25358fea866ffbd4cf9cfbd210a209c98a56e8fe41ab146f2e"
     },
     "assets/stills/menu.jpg": {
       "hash": "16ead7e7f0eb4d476c42ecf89e3ad66889c8d02d53177dd33e20d32353727a94",
@@ -167,6 +151,14 @@
     "assets/sfx/121.mp3": {
       "hash": "6a3610bb8e53d525cd65845c91c3b0675814e2473867b9db50623f1dd601d300",
       "content": "/root/.cache/hyperframes/history/fed0044b-630a-411d-89f6-90a57a5f2644/blobs/6a/6a3610bb8e53d525cd65845c91c3b0675814e2473867b9db50623f1dd601d300"
+    },
+    "SOURCE.md": {
+      "hash": "fbb21e4c653e1b419f1344772b3a92790dcfc78c3eb0bc595c970b20a996b1df",
+      "content": "/root/.cache/hyperframes/history/fed0044b-630a-411d-89f6-90a57a5f2644/blobs/fb/fbb21e4c653e1b419f1344772b3a92790dcfc78c3eb0bc595c970b20a996b1df"
+    },
+    "REVIEW.md": {
+      "hash": "9ff181b78b863364d3ade5590188e683980c4161ea08908572f6a9bf60dec2c6",
+      "content": "/root/.cache/hyperframes/history/fed0044b-630a-411d-89f6-90a57a5f2644/blobs/9f/9ff181b78b863364d3ade5590188e683980c4161ea08908572f6a9bf60dec2c6"
     }
   },
   "revisions": {
@@ -313,6 +305,41 @@
         "compositions/s5.html": {
           "before": "/root/.cache/hyperframes/history/fed0044b-630a-411d-89f6-90a57a5f2644/blobs/68/6867755f60a9483c17a380afebd2140407f8a3330cc52bfca507422db09cac50",
           "after": "/root/.cache/hyperframes/history/fed0044b-630a-411d-89f6-90a57a5f2644/blobs/96/96c2d1c2922dfb1b7d68eaaf174b785332f93813e97fe7bc82a967c08b160c69"
+        }
+      }
+    },
+    "4a2c5c13-3cf5-4fa1-b4fe-95a35bb46bb6": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792924596898,
+      "endedAt": 1792924596911,
+      "files": {
+        "assets/sfx/1061.mp3": {
+          "before": "/root/.cache/hyperframes/history/fed0044b-630a-411d-89f6-90a57a5f2644/blobs/70/70d0e0fe1d930949e1f86e24bfb9a6521ad4cb6c5e1a07190cc6d1f3e7603d37",
+          "after": null
+        },
+        "assets/sfx/1063.mp3": {
+          "before": "/root/.cache/hyperframes/history/fed0044b-630a-411d-89f6-90a57a5f2644/blobs/2b/2b479eabaf49705cde4968882087b0036603171468904b82a362ac11016f9a7a",
+          "after": null
+        },
+        "assets/sfx/2908.mp3": {
+          "before": "/root/.cache/hyperframes/history/fed0044b-630a-411d-89f6-90a57a5f2644/blobs/b3/b38888dcdfb4d5c3b13988308b430a0172846dcaa0ccde2feedc8ed4d1d911c2",
+          "after": null
+        },
+        "assets/sfx/931.mp3": {
+          "before": "/root/.cache/hyperframes/history/fed0044b-630a-411d-89f6-90a57a5f2644/blobs/27/270283ab3f098d25358fea866ffbd4cf9cfbd210a209c98a56e8fe41ab146f2e",
+          "after": null
+        },
+        "REVIEW.md": {
+          "before": null,
+          "after": "/root/.cache/hyperframes/history/fed0044b-630a-411d-89f6-90a57a5f2644/blobs/9f/9ff181b78b863364d3ade5590188e683980c4161ea08908572f6a9bf60dec2c6"
+        },
+        "SOURCE.md": {
+          "before": null,
+          "after": "/root/.cache/hyperframes/history/fed0044b-630a-411d-89f6-90a57a5f2644/blobs/fb/fbb21e4c653e1b419f1344772b3a92790dcfc78c3eb0bc595c970b20a996b1df"
         }
       }
     }
@@ -1031,13 +1058,14 @@
   },
   "renders": {
     "latest": {
-      "id": "ff6fd780-ff1a-435d-8f08-1ae62cd5419a",
-      "completedAt": 1792924461145,
-      "output": "/home/user/video-claude/projects/sarapan-62/renders/preview-draft.mp4",
+      "id": "fc4f7c46-2a0f-4f01-8f3d-be0d6509160e",
+      "completedAt": 1792924688920,
+      "output": "/home/user/video-claude/projects/sarapan-62/renders/raw-delivery.mp4",
       "status": "completed",
-      "revision": "17f015c4-748e-498e-a18f-b529a6b28259"
+      "revision": "4a2c5c13-3cf5-4fa1-b4fe-95a35bb46bb6"
     },
     "retainedRevisions": [
+      "4a2c5c13-3cf5-4fa1-b4fe-95a35bb46bb6",
       "17f015c4-748e-498e-a18f-b529a6b28259"
     ]
   },
