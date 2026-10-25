@@ -127,6 +127,38 @@
       background: #ffffff;
       opacity: 0;
     }
+    #af-focus {
+      position: absolute;
+      left: 220px;
+      top: 860px;
+      width: 290px;
+      height: 470px;
+      opacity: 0;
+    }
+    .af-corner {
+      position: absolute;
+      width: 46px;
+      height: 46px;
+      border-color: #d4ff3a;
+      border-style: solid;
+      border-width: 0;
+    }
+    #af-c1 { left: 0; top: 0; border-left-width: 6px; border-top-width: 6px; }
+    #af-c2 { right: 0; top: 0; border-right-width: 6px; border-top-width: 6px; }
+    #af-c3 { left: 0; bottom: 0; border-left-width: 6px; border-bottom-width: 6px; }
+    #af-c4 { right: 0; bottom: 0; border-right-width: 6px; border-bottom-width: 6px; }
+    #af-focus-tag {
+      position: absolute;
+      left: 220px;
+      top: 802px;
+      padding: 6px 14px;
+      font-size: 30px;
+      letter-spacing: 0.1em;
+      color: #0a0d0b;
+      background: #d4ff3a;
+      border-radius: 4px;
+      opacity: 0;
+    }
     #af-wipe {
       position: absolute;
       left: 0;
@@ -139,7 +171,7 @@
   <div id="root" data-composition-id="after" data-width="1080" data-height="1920">
     <div id="af-scrim"></div>
     <div id="af-chips">
-      <div id="af-index"><span class="af-sq"></span><span>02 / AFTER ADJUSTMENT</span></div>
+      <div id="af-index"><span class="af-sq"></span><span>02 / AFTER · WEIGHT SHIFT</span></div>
       <div id="af-rate">0.4× SLOW-MO</div>
     </div>
     <h2 id="af-word">AFTER</h2>
@@ -155,6 +187,11 @@
     </div>
     <div id="af-tag">IMPACT</div>
     <div id="af-flash" data-layout-ignore></div>
+    <div id="af-focus" data-layout-ignore>
+      <div id="af-c1" class="af-corner"></div><div id="af-c2" class="af-corner"></div>
+      <div id="af-c3" class="af-corner"></div><div id="af-c4" class="af-corner"></div>
+    </div>
+    <div id="af-focus-tag">WEIGHT SHIFT</div>
     <div id="af-wipe" data-layout-ignore></div>
   </div>
   <script>
@@ -197,6 +234,12 @@
     tl.fromTo("#af-ring2", { scale: 0.1, opacity: 0.9 }, { scale: 1.3, opacity: 0, duration: 0.55, ease: "expo.out" }, T.impact + 0.06);
     tl.fromTo("#af-tag", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.18, ease: "back.out(2.5)" }, T.impact + 0.05);
     tl.to("#af-tag", { opacity: 0, duration: 0.2, ease: "power2.in" }, T.impact + 0.9);
+
+    // Weight-shift focus on the lower body, from the top of the backswing through the finish
+    tl.fromTo("#af-focus", { opacity: 0, scale: 1.15 }, { opacity: 1, scale: 1, duration: 0.25, ease: "expo.out" }, T.top);
+    tl.fromTo("#af-focus-tag", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.22, ease: "power3.out" }, T.top + 0.05);
+    tl.fromTo("#af-focus-tag", { scale: 1 }, { scale: 1.12, duration: 0.12, ease: "power2.out", yoyo: true, repeat: 1, transformOrigin: "left center" }, T.impact);
+    tl.to(["#af-focus", "#af-focus-tag"], { opacity: 0, duration: 0.2, ease: "power2.in" }, 4.3);
 
     tl.to(["#af-word", "#af-chips", "#af-phases"], { y: -30, opacity: 0, duration: 0.2, ease: "power3.in", stagger: 0.03 }, 4.6);
     tl.to("#af-scrim", { opacity: 0, duration: 0.2, ease: "power2.in" }, 4.62);

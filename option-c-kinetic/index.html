@@ -1,0 +1,130 @@
+<!doctype html>
+<html
+  lang="ms"
+  data-resolution="portrait"
+  data-composition-variables='[
+    {"id":"highlight","type":"color","label":"Highlight colour","default":"#FFE14D"}
+  ]'
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #000;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        overflow: hidden;
+      }
+      /* Camera wrapper: punch-ins and shake move this, never the clips */
+      #cam {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1920px;
+        transform-origin: 450px 1000px;
+      }
+      .shot {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1920px;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="12.6"
+      data-width="1080"
+      data-height="1920"
+    >
+      <div id="cam">
+        <video id="shot-hook" class="clip shot" src="assets/footage/hook.mp4" data-start="0" data-duration="2.1" data-track-index="0" muted playsinline style="z-index: 1"
+          data-color-grading='{"adjust":{"exposure":0.08,"contrast":0.14,"shadows":0.32,"vibrance":0.35,"temperature":0.04}}'></video>
+        <video id="shot-dulu" class="clip shot" src="assets/footage/swing1.mp4" data-start="2.1" data-duration="3.1" data-track-index="0" muted playsinline style="z-index: 2"
+          data-color-grading='{"adjust":{"contrast":0.12,"shadows":0.18,"saturation":-0.6,"temperature":-0.05}}'></video>
+        <video id="shot-now" class="clip shot" src="assets/footage/swing2.mp4" data-start="5.2" data-duration="4.867" data-track-index="0" muted playsinline style="z-index: 3"
+          data-color-grading='{"adjust":{"exposure":0.08,"contrast":0.14,"shadows":0.32,"vibrance":0.35,"temperature":0.04}}'></video>
+        <img id="shot-end" class="clip shot" src="assets/stills/finish2.jpg" alt="After, finish position" data-start="10.067" data-duration="2.533" data-track-index="0" style="z-index: 4"
+          data-color-grading='{"adjust":{"exposure":0.08,"contrast":0.14,"shadows":0.32,"vibrance":0.35,"temperature":0.04}}' />
+      </div>
+
+      <div
+        id="kin"
+        data-composition-id="kin"
+        data-composition-src="compositions/kin.html"
+        data-start="0"
+        data-duration="12.6"
+        data-track-index="1"
+        data-track-kind="captions"
+        data-width="1080"
+        data-height="1920"
+        style="z-index: 10"
+      ></div>
+
+      <audio id="amb-dulu" class="clip" src="assets/footage/amb_swing1.wav" data-start="2.1" data-duration="3.1" data-track-index="2" data-volume="0.8"></audio>
+      <audio id="amb-now" class="clip" src="assets/footage/amb_swing2.wav" data-start="5.2" data-duration="4.867" data-track-index="2" data-volume="1"
+        data-fx-chain="{&quot;version&quot;:1,&quot;nodes&quot;:[{&quot;type&quot;:&quot;highpass&quot;,&quot;id&quot;:&quot;n1&quot;,&quot;label&quot;:&quot;Remove wind rumble&quot;,&quot;params&quot;:{&quot;frequency&quot;:120}},{&quot;type&quot;:&quot;peaking&quot;,&quot;id&quot;:&quot;n2&quot;,&quot;label&quot;:&quot;Voice clarity&quot;,&quot;params&quot;:{&quot;frequency&quot;:3000,&quot;gain&quot;:3,&quot;q&quot;:1}},{&quot;type&quot;:&quot;limiter&quot;,&quot;id&quot;:&quot;n3&quot;,&quot;params&quot;:{&quot;limit&quot;:-1}}]}"
+        data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":1.2},{"t":3.48,"v":1.2},{"t":3.55,"v":3.2},{"t":4.1,"v":3.2},{"t":4.25,"v":1.2}]}]}'></audio>
+      <audio id="music" class="clip" src="assets/bgm/bed.wav" data-start="0" data-duration="12.6" data-track-index="3" data-volume="1" data-fade-out="1.0"
+        data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0.85},{"t":8.55,"v":0.85},{"t":8.7,"v":0.25},{"t":9.35,"v":0.25},{"t":9.6,"v":0.85}]}]}'></audio>
+
+      <audio id="sfx-w1" class="clip" src="assets/sfx/pop.mp3" data-start="0.04" data-duration="0.72" data-track-index="4" data-volume="0.5"></audio>
+      <audio id="sfx-w2" class="clip" src="assets/sfx/click-soft.mp3" data-start="0.71" data-duration="0.36" data-track-index="5" data-volume="0.6"></audio>
+      <audio id="sfx-hook-hit" class="clip" src="assets/sfx/impact-bass-1.mp3" data-start="1.11" data-duration="1.2" data-track-index="6" data-volume="0.8" data-fade-out="0.4"></audio>
+      <audio id="sfx-cut1" class="clip" src="assets/sfx/whoosh.mp3" data-start="1.97" data-duration="0.57" data-track-index="7" data-volume="0.6"></audio>
+      <audio id="sfx-w3" class="clip" src="assets/sfx/pop.mp3" data-start="2.19" data-duration="0.72" data-track-index="4" data-volume="0.5"></audio>
+      <audio id="sfx-w4" class="clip" src="assets/sfx/click-soft.mp3" data-start="4.2" data-duration="0.36" data-track-index="5" data-volume="0.6"></audio>
+      <audio id="sfx-cut2" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="5.07" data-duration="0.57" data-track-index="7" data-volume="0.6"></audio>
+      <audio id="sfx-w5" class="clip" src="assets/sfx/pop.mp3" data-start="5.29" data-duration="0.72" data-track-index="4" data-volume="0.5"></audio>
+      <audio id="sfx-w6" class="clip" src="assets/sfx/click-soft.mp3" data-start="6.36" data-duration="0.36" data-track-index="5" data-volume="0.6"></audio>
+      <audio id="sfx-now-hit" class="clip" src="assets/sfx/impact-bass-2.mp3" data-start="5.497" data-duration="2.59" data-track-index="6" data-volume="0.9"></audio>
+      <audio id="sfx-nice" class="clip" src="assets/sfx/pop.mp3" data-start="8.66" data-duration="0.72" data-track-index="4" data-volume="0.45"></audio>
+      <audio id="sfx-cut3" class="clip" src="assets/sfx/whoosh.mp3" data-start="9.94" data-duration="0.57" data-track-index="7" data-volume="0.55"></audio>
+      <audio id="sfx-end" class="clip" src="assets/sfx/ping.mp3" data-start="10.78" data-duration="1.32" data-track-index="5" data-volume="0.45"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      // Punch-in on the hook impact
+      tl.fromTo("#cam", { scale: 1 }, { scale: 1.08, duration: 0.07, ease: "power3.out" }, 1.15);
+      tl.to("#cam", { scale: 1, duration: 0.5, ease: "power2.out" }, 1.22);
+      // Small nudge on the DULU impact
+      tl.to("#cam", { scale: 1.04, duration: 0.07, ease: "power3.out" }, 4.2);
+      tl.to("#cam", { scale: 1, duration: 0.5, ease: "power2.out" }, 4.27);
+      // SEKARANG impact: hard punch-in with a short shake, then a slow push while it holds
+      tl.to("#cam", { scale: 1.15, duration: 0.06, ease: "power4.out" }, 7.45);
+      tl.to("#cam", { x: 14, y: -8, duration: 0.04, ease: "none" }, 7.47);
+      tl.to("#cam", { x: -12, y: 6, duration: 0.04, ease: "none" }, 7.51);
+      tl.to("#cam", { x: 8, y: -4, duration: 0.04, ease: "none" }, 7.55);
+      tl.to("#cam", { x: -4, y: 2, duration: 0.04, ease: "none" }, 7.59);
+      tl.to("#cam", { x: 0, y: 0, duration: 0.05, ease: "none" }, 7.63);
+      tl.to("#cam", { scale: 1.06, duration: 0.6, ease: "power2.out" }, 7.6);
+      tl.to("#cam", { scale: 1.1, duration: 1.85, ease: "none" }, 8.2);
+      // End still: reset under the cut, then a slow push
+      tl.set("#cam", { scale: 1 }, 10.067);
+      tl.to("#cam", { scale: 1.05, duration: 2.5, ease: "none" }, 10.07);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

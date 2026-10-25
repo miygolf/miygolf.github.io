@@ -1,0 +1,381 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      color: #ffffff;
+      font-family: "Space Mono", monospace;
+    }
+    #bp-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, rgba(201, 212, 255, 0.5) 0 2px, transparent 2px 120px),
+        repeating-linear-gradient(90deg, rgba(201, 212, 255, 0.5) 0 2px, transparent 2px 120px);
+      opacity: 0.12;
+    }
+    #bp-frame {
+      position: absolute;
+      inset: 0;
+      border: 16px solid #2f4bff;
+      opacity: 0;
+    }
+    #bp-scrim {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 640px;
+      background: linear-gradient(180deg, rgba(11, 20, 64, 0.88) 0%, rgba(11, 20, 64, 0.6) 60%, rgba(11, 20, 64, 0) 100%);
+    }
+    /* Hook */
+    #bp-hook {
+      position: absolute;
+      left: 64px;
+      top: 196px;
+      width: 952px;
+    }
+    #bp-hook-kicker {
+      font-size: 28px;
+      letter-spacing: 0.12em;
+      color: #c9d4ff;
+    }
+    #bp-hook-title {
+      margin-top: 6px;
+      font-family: "Oswald", sans-serif;
+      font-weight: 700;
+      font-size: 168px;
+      line-height: 0.95;
+      text-transform: uppercase;
+    }
+    #bp-hook-sub {
+      margin-top: 12px;
+      display: inline-block;
+      padding: 8px 16px;
+      background: #2f4bff;
+      font-size: 30px;
+      letter-spacing: 0.08em;
+    }
+    /* Section headers */
+    .bp-sec {
+      position: absolute;
+      left: 64px;
+      top: 196px;
+      display: flex;
+      align-items: flex-end;
+      gap: 22px;
+      opacity: 0;
+    }
+    .bp-sec-letter {
+      font-family: "Oswald", sans-serif;
+      font-weight: 700;
+      font-size: 150px;
+      line-height: 0.85;
+    }
+    .bp-sec-name {
+      padding-bottom: 10px;
+      font-size: 32px;
+      letter-spacing: 0.14em;
+      color: #c9d4ff;
+    }
+    /* Freeze callouts */
+    .bp-call {
+      position: absolute;
+      left: 64px;
+      top: 352px;
+      padding: 10px 18px 12px;
+      background: #2f4bff;
+      font-size: 34px;
+      letter-spacing: 0.08em;
+      opacity: 0;
+    }
+    .bp-call small {
+      display: block;
+      font-size: 28px;
+      color: #c9d4ff;
+      letter-spacing: 0.06em;
+    }
+    /* Crosshair markers */
+    .bp-x {
+      position: absolute;
+      width: 0;
+      height: 0;
+      opacity: 0;
+    }
+    .bp-x::before,
+    .bp-x::after {
+      content: "";
+      position: absolute;
+      background: #ffffff;
+    }
+    .bp-x::before {
+      left: -50px;
+      top: -1.5px;
+      width: 100px;
+      height: 3px;
+    }
+    .bp-x::after {
+      left: -1.5px;
+      top: -50px;
+      width: 3px;
+      height: 100px;
+    }
+    .bp-x-ring {
+      position: absolute;
+      left: -34px;
+      top: -34px;
+      width: 68px;
+      height: 68px;
+      border: 3px solid #ffffff;
+      border-radius: 50%;
+    }
+    #bp-x-a1 { left: 367px; top: 783px; }
+    #bp-x-a2 { left: 564px; top: 1362px; }
+    #bp-x-b1 { left: 324px; top: 497px; }
+    #bp-x-b2 { left: 653px; top: 1238px; }
+    /* Weight-shift brackets on the impact holds */
+    .bp-br {
+      position: absolute;
+      border: 3px dashed #ffffff;
+      opacity: 0;
+    }
+    #bp-br-a {
+      left: 220px;
+      top: 980px;
+      width: 250px;
+      height: 460px;
+    }
+    #bp-br-b {
+      left: 220px;
+      top: 860px;
+      width: 290px;
+      height: 470px;
+      border: 5px solid #ffffff;
+    }
+    .bp-br-tag {
+      position: absolute;
+      left: -3px;
+      top: -54px;
+      padding: 4px 12px;
+      font-size: 28px;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+      background: #ffffff;
+      color: #0b1440;
+    }
+    #bp-br-b .bp-br-tag {
+      background: #2f4bff;
+      color: #ffffff;
+      left: -5px;
+    }
+    #bp-flash {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+      opacity: 0;
+    }
+    /* End plate */
+    #bp-end {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      background: #0b1440;
+    }
+    .bp-half {
+      position: absolute;
+      top: 0;
+      width: 540px;
+      height: 1920px;
+      overflow: hidden;
+    }
+    #bp-half-a { left: 0; }
+    #bp-half-b { left: 540px; }
+    #bp-end-a {
+      position: absolute;
+      left: -198px;
+      top: -260px;
+      width: 1296px;
+      height: 2304px;
+    }
+    #bp-end-b {
+      position: absolute;
+      left: -120px;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+    }
+    .bp-end-shade {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 540px;
+      height: 620px;
+      background: linear-gradient(180deg, rgba(11, 20, 64, 0.92) 0%, rgba(11, 20, 64, 0.7) 55%, rgba(11, 20, 64, 0) 100%);
+    }
+    #bp-end-div {
+      position: absolute;
+      left: 537px;
+      top: 0;
+      width: 6px;
+      height: 1920px;
+      background: #2f4bff;
+    }
+    .bp-end-lbl {
+      position: absolute;
+      top: 196px;
+      width: 540px;
+      text-align: center;
+    }
+    .bp-end-lbl b {
+      display: block;
+      font-family: "Oswald", sans-serif;
+      font-size: 120px;
+      line-height: 0.95;
+    }
+    .bp-end-lbl span {
+      font-size: 28px;
+      letter-spacing: 0.12em;
+      color: #c9d4ff;
+    }
+    #bp-end-lbl-a { left: 0; }
+    #bp-end-lbl-b { left: 540px; }
+    #bp-end-badge {
+      position: absolute;
+      left: 0;
+      top: 420px;
+      width: 1080px;
+      text-align: center;
+    }
+    #bp-end-badge span {
+      display: inline-block;
+      padding: 10px 24px;
+      background: #ffffff;
+      color: #0b1440;
+      font-size: 32px;
+      letter-spacing: 0.08em;
+    }
+    #bp-end-cta {
+      position: absolute;
+      left: 90px;
+      top: 1100px;
+      width: 900px;
+      padding: 26px 30px 30px;
+      background: rgba(47, 75, 255, 0.94);
+      text-align: center;
+    }
+    #bp-end-cta b {
+      display: block;
+      font-family: "Oswald", sans-serif;
+      font-size: 96px;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+    #bp-end-cta span {
+      font-size: 32px;
+      letter-spacing: 0.06em;
+    }
+  </style>
+  <div id="root" data-composition-id="bp" data-width="1080" data-height="1920">
+    <div id="bp-grid" data-layout-ignore></div>
+    <div id="bp-scrim"></div>
+
+    <div id="bp-hook">
+      <div id="bp-hook-kicker">SWING BREAKDOWN // FIG. 00</div>
+      <div id="bp-hook-title">WEIGHT SHIFT</div>
+      <div id="bp-hook-sub">BEFORE vs AFTER · 1 ADJUSTMENT</div>
+    </div>
+
+    <div id="bp-sec-a" class="bp-sec"><div class="bp-sec-letter">A</div><div class="bp-sec-name">BEFORE</div></div>
+    <div id="bp-sec-b" class="bp-sec"><div class="bp-sec-letter">B</div><div class="bp-sec-name">AFTER · WEIGHT SHIFT</div></div>
+
+    <div id="bp-call-a1" class="bp-call">A1 — TOP<small>FRAME 036</small></div>
+    <div id="bp-call-a2" class="bp-call">A2 — IMPACT<small>FRAME 062</small></div>
+    <div id="bp-call-a3" class="bp-call">A3 — FINISH<small>FRAME 084</small></div>
+    <div id="bp-call-b1" class="bp-call">B1 — TOP<small>FRAME 043</small></div>
+    <div id="bp-call-b2" class="bp-call">B2 — IMPACT<small>FRAME 067</small></div>
+    <div id="bp-call-b3" class="bp-call">B3 — FINISH<small>FRAME 093</small></div>
+
+    <div id="bp-x-a1" class="bp-x" data-layout-ignore><div class="bp-x-ring"></div></div>
+    <div id="bp-x-a2" class="bp-x" data-layout-ignore><div class="bp-x-ring"></div></div>
+    <div id="bp-x-b1" class="bp-x" data-layout-ignore><div class="bp-x-ring"></div></div>
+    <div id="bp-x-b2" class="bp-x" data-layout-ignore><div class="bp-x-ring"></div></div>
+
+    <div id="bp-br-a" class="bp-br" data-layout-ignore><div class="bp-br-tag">LOWER BODY · A2</div></div>
+    <div id="bp-br-b" class="bp-br" data-layout-ignore><div class="bp-br-tag">WEIGHT SHIFT · B2</div></div>
+
+    <div id="bp-frame" data-layout-ignore></div>
+    <div id="bp-flash" data-layout-ignore></div>
+
+    <div id="bp-end">
+      <div id="bp-half-a" class="bp-half">
+        <img id="bp-end-a" src="assets/stills/impact1.jpg" alt="Before, impact"
+          data-color-grading='{"adjust":{"contrast":0.1,"shadows":0.2,"saturation":-0.55,"temperature":-0.12}}' />
+        <div class="bp-end-shade"></div>
+      </div>
+      <div id="bp-half-b" class="bp-half">
+        <img id="bp-end-b" src="assets/stills/impact2.jpg" alt="After, impact"
+          data-color-grading='{"adjust":{"exposure":0.04,"contrast":0.1,"shadows":0.3,"vibrance":0.15,"temperature":-0.06}}' />
+        <div class="bp-end-shade"></div>
+      </div>
+      <div id="bp-end-div"></div>
+      <div id="bp-end-lbl-a" class="bp-end-lbl"><b>A2</b><span>BEFORE · IMPACT</span></div>
+      <div id="bp-end-lbl-b" class="bp-end-lbl"><b>B2</b><span>AFTER · IMPACT</span></div>
+      <div id="bp-end-badge"><span>ADJUSTMENT: WEIGHT SHIFT</span></div>
+      <div id="bp-end-cta"><b>Save untuk rujukan</b><span>Komen kalau nak drill weight shift ↓</span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const HOLDS = {
+      a1: [2.6, 3.4], a2: [4.233, 5.233], a3: [5.933, 6.733],
+      b1: [7.866, 8.666], b2: [9.433, 10.433], b3: [11.266, 12.066],
+    };
+
+    // Hook: on screen from frame 0, the grid draws up behind it
+    tl.fromTo("#bp-grid", { opacity: 0.3 }, { opacity: 0.12, duration: 1.2, ease: "power2.out" }, 0);
+    tl.fromTo("#bp-hook-title", { x: -12 }, { x: 0, duration: 1.0, ease: "power3.out" }, 0);
+    tl.fromTo("#bp-hook-sub", { y: 12 }, { y: 0, duration: 0.4, ease: "power3.out" }, 0);
+    tl.to("#bp-hook", { y: -30, opacity: 0, duration: 0.2, ease: "power3.in" }, 1.42);
+
+    // Section headers
+    tl.fromTo("#bp-sec-a", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.3, ease: "expo.out" }, 1.62);
+    tl.to("#bp-sec-a", { opacity: 0, duration: 0.15, ease: "power2.in" }, 6.6);
+    tl.fromTo("#bp-sec-b", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.3, ease: "expo.out" }, 6.75);
+    tl.to("#bp-sec-b", { opacity: 0, duration: 0.15, ease: "power2.in" }, 11.95);
+
+    // Each hold: snap flash, blueprint frame + grid up, callout in, marker in; all out as play resumes
+    tl.set(["#bp-flash", "#bp-frame"], { opacity: 0 }, 0);
+    Object.entries(HOLDS).forEach(([k, [a, b]]) => {
+      tl.to("#bp-flash", { opacity: 0.7, duration: 0.03, ease: "none" }, a);
+      tl.to("#bp-flash", { opacity: 0, duration: 0.25, ease: "power2.out" }, a + 0.03);
+      tl.to("#bp-frame", { opacity: 1, duration: 0.08, ease: "none" }, a);
+      tl.to("#bp-frame", { opacity: 0, duration: 0.1, ease: "none" }, b - 0.1);
+      tl.to("#bp-grid", { opacity: 0.32, duration: 0.1, ease: "none" }, a);
+      tl.to("#bp-grid", { opacity: 0.12, duration: 0.1, ease: "none" }, b - 0.1);
+      tl.fromTo(`#bp-call-${k}`, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.2, ease: "expo.out" }, a + 0.04);
+      tl.to(`#bp-call-${k}`, { opacity: 0, duration: 0.1, ease: "power2.in" }, b - 0.1);
+    });
+    [["#bp-x-a1", "a1"], ["#bp-x-a2", "a2"], ["#bp-x-b1", "b1"], ["#bp-x-b2", "b2"]].forEach(([sel, k]) => {
+      const [a, b] = HOLDS[k];
+      tl.fromTo(sel, { opacity: 0, scale: 1.8, rotation: 45 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.25, ease: "expo.out" }, a + 0.06);
+      tl.to(sel, { opacity: 0, duration: 0.1, ease: "power2.in" }, b - 0.1);
+    });
+    [["#bp-br-a", "a2"], ["#bp-br-b", "b2"]].forEach(([sel, k]) => {
+      const [a, b] = HOLDS[k];
+      tl.fromTo(sel, { opacity: 0, scale: 1.12 }, { opacity: 1, scale: 1, duration: 0.25, ease: "expo.out" }, a + 0.12);
+      tl.to(sel, { opacity: 0, duration: 0.1, ease: "power2.in" }, b - 0.1);
+    });
+
+    // End plate: impact against impact
+    tl.fromTo("#bp-end", { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "none" }, 12.067);
+    tl.fromTo("#bp-half-a", { xPercent: -100 }, { xPercent: 0, duration: 0.45, ease: "expo.out" }, 12.067);
+    tl.fromTo("#bp-half-b", { xPercent: 100 }, { xPercent: 0, duration: 0.45, ease: "expo.out" }, 12.067);
+    tl.fromTo(["#bp-end-lbl-a", "#bp-end-lbl-b"], { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3, ease: "back.out(1.8)", stagger: 0.08 }, 12.35);
+    tl.fromTo("#bp-end-badge span", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2.2)" }, 12.4);
+    tl.fromTo("#bp-end-cta", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.35, ease: "expo.out" }, 12.6);
+    tl.fromTo("#bp-end-a", { scale: 1 }, { scale: 1.05, duration: 2.6, ease: "none" }, 12.067);
+    tl.fromTo("#bp-end-b", { scale: 1 }, { scale: 1.05, duration: 2.6, ease: "none" }, 12.067);
+    window.__timelines["bp"] = tl;
+  </script>
+</template>

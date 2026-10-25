@@ -1,0 +1,145 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: visible;
+      font-family: "Archivo Black", sans-serif;
+    }
+    /* Caption groups: full-width, centred, in the lower part of the safe band (below the face) */
+    .kc {
+      position: absolute;
+      left: 70px;
+      top: 1110px;
+      width: 940px;
+      text-align: center;
+      overflow: visible;
+    }
+    .kc-in {
+      display: inline-block;
+      font-size: 96px;
+      line-height: 1.02;
+      color: #ffffff;
+      text-transform: uppercase;
+      text-shadow:
+        0 6px 0 #000, 0 -4px 0 #000, 5px 0 0 #000, -5px 0 0 #000,
+        4px 4px 0 #000, -4px 4px 0 #000, 4px -4px 0 #000, -4px -4px 0 #000,
+        0 14px 24px rgba(0, 0, 0, 0.45);
+      opacity: 0;
+    }
+    .kc-hl {
+      color: var(--highlight, #ffe14d);
+    }
+    .kc-big .kc-in {
+      font-size: 132px;
+    }
+    #kc-end {
+      top: 1030px;
+    }
+    #kc-end-pill {
+      position: absolute;
+      left: 0;
+      top: 1290px;
+      width: 1080px;
+      text-align: center;
+    }
+    #kc-end-pill span {
+      display: inline-block;
+      padding: 10px 30px 12px;
+      background: var(--highlight, #ffe14d);
+      color: #000;
+      font-size: 40px;
+      border-radius: 40px;
+      opacity: 0;
+    }
+    /* Top tags */
+    .kt {
+      position: absolute;
+      left: 0;
+      top: 230px;
+      width: 1080px;
+      text-align: center;
+    }
+    .kt span {
+      display: inline-block;
+      padding: 12px 34px 14px;
+      font-size: 54px;
+      border-radius: 14px;
+      opacity: 0;
+    }
+    #kt-dulu span {
+      background: #ff3b3b;
+      color: #ffffff;
+    }
+    #kt-now span {
+      background: var(--highlight, #ffe14d);
+      color: #000;
+    }
+    #kf-flash {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+      opacity: 0;
+    }
+  </style>
+  <div id="root" data-composition-id="kin" data-width="1080" data-height="1920">
+    <div id="kt-dulu" class="kt"><span>DULU</span></div>
+    <div id="kt-now" class="kt"><span>SEKARANG</span></div>
+
+    <div id="kc-1" class="kc"><span class="kc-in">SATU BENDA</span></div>
+    <div id="kc-2" class="kc"><span class="kc-in">JE AKU UBAH</span></div>
+    <div id="kc-3" class="kc kc-big"><span class="kc-in kc-hl">WEIGHT SHIFT</span></div>
+    <div id="kc-4" class="kc"><span class="kc-in">DULU MACAM NI...</span></div>
+    <div id="kc-5" class="kc"><span class="kc-in">OKAY... TAPI</span></div>
+    <div id="kc-6" class="kc"><span class="kc-in">LEPAS BETULKAN</span></div>
+    <div id="kc-7" class="kc kc-big"><span class="kc-in kc-hl">WEIGHT SHIFT</span></div>
+    <div id="kc-8" class="kc kc-big"><span class="kc-in">BOOM.</span></div>
+    <div id="kc-9" class="kc kc-big"><span class="kc-in"><span class="kc-hl">“NICE.”</span></span></div>
+    <div id="kc-end" class="kc"><span class="kc-in">BEZA DIA<br /><span class="kc-hl">BESAR TAK?</span></span></div>
+    <div id="kc-end-pill"><span>KOMEN ↓</span></div>
+
+    <div id="kf-flash" data-layout-ignore></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // [group, in, out]; captions pop in on the beat and are hard-killed at their end
+    const groups = [
+      ["#kc-1 .kc-in", 0.1, 0.72],
+      ["#kc-2 .kc-in", 0.72, 1.13],
+      ["#kc-3 .kc-in", 1.15, 2.02],
+      ["#kc-4 .kc-in", 2.25, 3.5],
+      ["#kc-5 .kc-in", 4.22, 5.1],
+      ["#kc-6 .kc-in", 5.35, 6.45],
+      ["#kc-7 .kc-in", 6.45, 7.42],
+      ["#kc-8 .kc-in", 7.45, 8.4],
+      ["#kc-9 .kc-in", 8.75, 9.75],
+    ];
+    groups.forEach(([sel, a, b]) => {
+      tl.fromTo(sel, { opacity: 0, scale: 0.55, y: 30 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.6)" }, a);
+      tl.to(sel, { opacity: 0, scale: 0.9, duration: 0.08, ease: "power2.in" }, b - 0.08);
+      tl.set(sel, { opacity: 0 }, b);
+    });
+    // The big impact words wobble once
+    tl.fromTo("#kc-8 .kc-in", { rotation: -6 }, { rotation: 0, duration: 0.35, ease: "elastic.out(1.2, 0.4)" }, 7.45);
+    tl.fromTo("#kc-3 .kc-in", { rotation: 5 }, { rotation: 0, duration: 0.35, ease: "elastic.out(1.2, 0.4)" }, 1.15);
+
+    // Tags
+    tl.fromTo("#kt-dulu span", { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 0.2, ease: "back.out(2)" }, 2.15);
+    tl.to("#kt-dulu span", { opacity: 0, duration: 0.1, ease: "power2.in" }, 5.08);
+    tl.fromTo("#kt-now span", { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 0.2, ease: "back.out(2)" }, 5.25);
+    tl.to("#kt-now span", { opacity: 0, duration: 0.1, ease: "power2.in" }, 9.95);
+
+    // Cut flashes
+    tl.set("#kf-flash", { opacity: 0 }, 0);
+    [2.1, 5.2, 10.067].forEach((t) => {
+      tl.to("#kf-flash", { opacity: 0.8, duration: 0.03, ease: "none" }, t - 0.03);
+      tl.to("#kf-flash", { opacity: 0, duration: 0.14, ease: "power2.out" }, t);
+    });
+
+    // End question
+    tl.fromTo("#kc-end .kc-in", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.22, ease: "back.out(2.2)" }, 10.2);
+    tl.fromTo("#kc-end-pill span", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.2, ease: "back.out(2)" }, 10.8);
+    tl.fromTo("#kc-end-pill span", { scale: 1 }, { scale: 1.08, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 3 }, 11.1);
+    window.__timelines["kin"] = tl;
+  </script>
+</template>

@@ -1,0 +1,198 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      color: #1b1a17;
+      font-family: "IBM Plex Mono", monospace;
+    }
+    #bd-band {
+      position: absolute;
+      left: 0;
+      top: 880px;
+      width: 1080px;
+      height: 160px;
+      background: #f2ede3;
+    }
+    .bd-rule {
+      position: absolute;
+      left: 40px;
+      width: 1000px;
+      height: 2px;
+      background: #1b1a17;
+      transform-origin: left center;
+    }
+    #bd-rule-a {
+      top: 896px;
+    }
+    #bd-rule-b {
+      top: 1022px;
+    }
+    .bd-side {
+      position: absolute;
+      top: 946px;
+      font-size: 28px;
+      letter-spacing: 0.12em;
+    }
+    #bd-side-before {
+      left: 40px;
+    }
+    #bd-side-after {
+      left: 820px;
+      width: 220px;
+      text-align: right;
+      color: #c8553d;
+    }
+    .bd-title {
+      position: absolute;
+      left: 230px;
+      top: 904px;
+      width: 620px;
+      text-align: center;
+      font-family: "Playfair Display", serif;
+      font-size: 92px;
+      line-height: 1.2;
+      font-weight: 700;
+      opacity: 0;
+    }
+    #bd-title-main {
+      opacity: 1;
+    }
+    .bd-num {
+      color: #c8553d;
+    }
+    #bd-cta {
+      position: absolute;
+      left: 0;
+      top: 900px;
+      width: 1080px;
+      text-align: center;
+      opacity: 0;
+    }
+    #bd-cta-title {
+      font-family: "Playfair Display", serif;
+      font-weight: 700;
+      font-size: 78px;
+      line-height: 1;
+    }
+    #bd-cta-sub {
+      margin-top: 10px;
+      font-size: 28px;
+      letter-spacing: 0.14em;
+      color: #c8553d;
+    }
+    /* Window corner tags */
+    .bd-tag {
+      position: absolute;
+      padding: 8px 16px;
+      font-size: 30px;
+      letter-spacing: 0.14em;
+      background: #f2ede3;
+    }
+    #bd-tag-before {
+      left: 84px;
+      top: 196px;
+    }
+    #bd-tag-after {
+      left: 700px;
+      top: 1096px;
+      background: #c8553d;
+      color: #f2ede3;
+    }
+    #bd-tag-shift {
+      left: 700px;
+      top: 1160px;
+      background: #1b1a17;
+      color: #f2ede3;
+      opacity: 0;
+    }
+    .bd-flash {
+      position: absolute;
+      left: 60px;
+      width: 960px;
+      height: 820px;
+      background: #ffffff;
+      opacity: 0;
+    }
+    #bd-flash-top {
+      top: 40px;
+    }
+    #bd-flash-bottom {
+      top: 1060px;
+    }
+    .bd-ring {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      margin: -90px 0 0 -90px;
+      border-radius: 50%;
+      border: 5px solid #c8553d;
+      opacity: 0;
+    }
+    #bd-ring-before {
+      left: 561px;
+      top: 833px;
+    }
+    #bd-ring-after {
+      left: 640px;
+      top: 1778px;
+    }
+  </style>
+  <div id="root" data-composition-id="band" data-width="1080" data-height="1920">
+    <div id="bd-flash-top" class="bd-flash" data-layout-ignore></div>
+    <div id="bd-flash-bottom" class="bd-flash" data-layout-ignore></div>
+    <div id="bd-ring-before" class="bd-ring" data-layout-ignore></div>
+    <div id="bd-ring-after" class="bd-ring" data-layout-ignore></div>
+
+    <div id="bd-band"></div>
+    <div id="bd-rule-a" class="bd-rule"></div>
+    <div id="bd-rule-b" class="bd-rule"></div>
+    <div id="bd-side-before" class="bd-side">↑ BEFORE</div>
+    <div id="bd-side-after" class="bd-side">AFTER ↓</div>
+    <div id="bd-title-main" class="bd-title" data-var-text="title">Weight shift.</div>
+    <div id="bd-title-top" class="bd-title"><span class="bd-num">01</span> Top</div>
+    <div id="bd-title-imp" class="bd-title"><span class="bd-num">02</span> Impact</div>
+    <div id="bd-title-fin" class="bd-title"><span class="bd-num">03</span> Finish</div>
+    <div id="bd-cta">
+      <div id="bd-cta-title" data-var-text="ctaLine">Nampak beza?</div>
+      <div id="bd-cta-sub" data-var-text="ctaSub">KOMEN KALAU NAK TIPS ↓</div>
+    </div>
+
+    <div id="bd-tag-before" class="bd-tag">BEFORE</div>
+    <div id="bd-tag-after" class="bd-tag">AFTER</div>
+    <div id="bd-tag-shift" class="bd-tag">WEIGHT SHIFT</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const IMPACT = 2.1;
+    const FZ = [3.1, 4.6, 6.4];
+
+    // Frame 0 already reads: both windows, the band and its title. Rules draw in.
+    tl.fromTo(["#bd-rule-a", "#bd-rule-b"], { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "expo.out", stagger: 0.08 }, 0.05);
+    tl.fromTo("#bd-title-main", { scale: 1.06 }, { scale: 1, duration: 0.8, ease: "power3.out" }, 0);
+
+    // Synced impact
+    tl.fromTo([".bd-flash"], { opacity: 0 }, { opacity: 0.5, duration: 0.04, ease: "none" }, IMPACT);
+    tl.to([".bd-flash"], { opacity: 0, duration: 0.25, ease: "power2.out" }, IMPACT + 0.04);
+    tl.fromTo([".bd-ring"], { scale: 0.2, opacity: 1 }, { scale: 1.8, opacity: 0, duration: 0.7, ease: "expo.out" }, IMPACT);
+
+    // Freeze frames: a photo-snap flash on both windows, the band title swaps
+    const titles = ["#bd-title-main", "#bd-title-top", "#bd-title-imp", "#bd-title-fin"];
+    FZ.forEach((t, i) => {
+      tl.fromTo([".bd-flash"], { opacity: 0 }, { opacity: 0.85, duration: 0.03, ease: "none" }, t);
+      tl.to([".bd-flash"], { opacity: 0, duration: 0.3, ease: "power2.out" }, t + 0.03);
+      tl.to(titles[i], { y: -24, opacity: 0, duration: 0.16, ease: "power2.in" }, t - 0.12);
+      tl.fromTo(titles[i + 1], { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.28, ease: "power3.out" }, t + 0.04);
+    });
+
+    // Impact freeze names the adjustment on the AFTER window
+    tl.fromTo("#bd-tag-shift", { x: 30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.25, ease: "power3.out" }, FZ[1] + 0.15);
+
+    // End: the band carries the question
+    tl.to(["#bd-title-fin", "#bd-side-before", "#bd-side-after"], { opacity: 0, duration: 0.18, ease: "power2.in" }, 7.2);
+    tl.fromTo("#bd-cta", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out" }, 7.32);
+    tl.fromTo("#bd-cta-title", { scale: 1 }, { scale: 1.04, duration: 0.7, ease: "sine.inOut", yoyo: true, repeat: 3 }, 7.8);
+    window.__timelines["band"] = tl;
+  </script>
+</template>

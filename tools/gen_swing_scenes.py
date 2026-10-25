@@ -134,6 +134,7 @@ TEMPLATE = r'''<template>
       background: #ffffff;
       opacity: 0;
     }
+    {{FOCUSCSS}}
     #P-wipe {
       position: absolute;
       left: 0;
@@ -162,6 +163,7 @@ TEMPLATE = r'''<template>
     </div>
     <div id="P-tag">IMPACT</div>
     <div id="P-flash" data-layout-ignore></div>
+    {{FOCUSEL}}
     {{WIPEEL}}
   </div>
   <script>
@@ -202,6 +204,8 @@ TEMPLATE = r'''<template>
     tl.fromTo("#P-tag", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.18, ease: "back.out(2.5)" }, T.impact + 0.05);
     tl.to("#P-tag", { opacity: 0, duration: 0.2, ease: "power2.in" }, T.impact + 0.9);
 
+    {{FOCUSJS}}
+
     {{OUTRO}}
     window.__timelines["{{ID}}"] = tl;
   </script>
@@ -216,6 +220,49 @@ def scene(cfg):
     assert "{{" not in s
     return s
 
+FOCUS_CSS = '''#P-focus {
+      position: absolute;
+      left: 220px;
+      top: 860px;
+      width: 290px;
+      height: 470px;
+      opacity: 0;
+    }
+    .P-corner {
+      position: absolute;
+      width: 46px;
+      height: 46px;
+      border-color: #d4ff3a;
+      border-style: solid;
+      border-width: 0;
+    }
+    #P-c1 { left: 0; top: 0; border-left-width: 6px; border-top-width: 6px; }
+    #P-c2 { right: 0; top: 0; border-right-width: 6px; border-top-width: 6px; }
+    #P-c3 { left: 0; bottom: 0; border-left-width: 6px; border-bottom-width: 6px; }
+    #P-c4 { right: 0; bottom: 0; border-right-width: 6px; border-bottom-width: 6px; }
+    #P-focus-tag {
+      position: absolute;
+      left: 220px;
+      top: 802px;
+      padding: 6px 14px;
+      font-size: 30px;
+      letter-spacing: 0.1em;
+      color: #0a0d0b;
+      background: #d4ff3a;
+      border-radius: 4px;
+      opacity: 0;
+    }'''
+FOCUS_EL = '''<div id="P-focus" data-layout-ignore>
+      <div id="P-c1" class="P-corner"></div><div id="P-c2" class="P-corner"></div>
+      <div id="P-c3" class="P-corner"></div><div id="P-c4" class="P-corner"></div>
+    </div>
+    <div id="P-focus-tag">WEIGHT SHIFT</div>'''
+FOCUS_JS = '''// Weight-shift focus on the lower body, from the top of the backswing through the finish
+    tl.fromTo("#P-focus", { opacity: 0, scale: 1.15 }, { opacity: 1, scale: 1, duration: 0.25, ease: "expo.out" }, T.top);
+    tl.fromTo("#P-focus-tag", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.22, ease: "power3.out" }, T.top + 0.05);
+    tl.fromTo("#P-focus-tag", { scale: 1 }, { scale: 1.12, duration: 0.12, ease: "power2.out", yoyo: true, repeat: 1, transformOrigin: "left center" }, T.impact);
+    tl.to(["#P-focus", "#P-focus-tag"], { opacity: 0, duration: 0.2, ease: "power2.in" }, 4.3);'''
+
 BEFORE = {
     "prefix": "bf",
     "repl": {
@@ -226,6 +273,7 @@ BEFORE = {
         "SLOW0": "1.5", "SLOW1": "2.5", "FLASH": "0.3",
         "BALLX": "564", "BALLY": "1362", "TAGX": "680", "TAGY": "1262",
         "WIPEEL": '<div id="P-wipe" data-layout-ignore></div>',
+        "FOCUSCSS": "", "FOCUSEL": "", "FOCUSJS": "",
         "INTRO": """tl.fromTo("#P-word", { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: "expo.out" }, 0);
     tl.fromTo("#P-chips", { y: -16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 0.05);
     tl.fromTo("#P-phases", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power2.out" }, 0.12);""",
@@ -236,7 +284,8 @@ BEFORE = {
 AFTER = {
     "prefix": "af",
     "repl": {
-        "ID": "after", "INDEX": "02 / AFTER ADJUSTMENT", "WORD": "AFTER", "RATE": "0.4×",
+        "ID": "after", "INDEX": "02 / AFTER · WEIGHT SHIFT",
+        "FOCUSCSS": FOCUS_CSS, "FOCUSEL": FOCUS_EL, "FOCUSJS": FOCUS_JS, "WORD": "AFTER", "RATE": "0.4×",
         "ACCENT": "#d4ff3a",
         "WORDSTYLE": "color: #d4ff3a;",
         "TAKEAWAY": "0.5", "TOP": "1.45", "IMPACT": "2.25", "FINISH": "3.1",
