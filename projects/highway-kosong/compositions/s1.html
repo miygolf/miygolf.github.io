@@ -1,0 +1,99 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #s1-streaks {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+    }
+    #s1-streaks line {
+      stroke: rgba(255, 255, 255, 0.55);
+      stroke-linecap: round;
+      stroke-dasharray: 150 520;
+    }
+    #s1-sign {
+      left: 96px;
+      top: 250px;
+    }
+    #s1-sign .sign-in {
+      padding: 26px 40px 20px 30px;
+      gap: 26px;
+    }
+    #s1-sign .big {
+      font-size: 92px;
+    }
+    #s1-kita {
+      left: 118px;
+      top: 560px;
+      font-size: 268px;
+    }
+  </style>
+  <div id="root" data-composition-id="s1" data-width="1080" data-height="1920">
+    <!-- Footage: the empty straight (src 15.4–20.6) at 2×. Road vanishes at about (540, 930). -->
+    <div class="plate">
+      <div id="s1-cam" class="cam">
+        <video id="s1-v" class="clip" src="assets/raw.mp4" playsinline data-has-audio="true"
+          data-start="0" data-duration="2.6" data-media-start="15.4" data-playback-rate="2"
+          data-volume="0.45" data-track-index="0"></video>
+      </div>
+    </div>
+    <div class="sky"></div>
+
+    <svg id="s1-streaks" viewBox="0 0 1080 1920">
+      <line x1="990" y1="930" x2="1690" y2="930" stroke-width="4" />
+      <line x1="956" y1="1102" x2="1603" y2="1370" stroke-width="3" />
+      <line x1="858" y1="1248" x2="1353" y2="1743" stroke-width="5" />
+      <line x1="712" y1="1346" x2="980" y2="1993" stroke-width="3" />
+      <line x1="368" y1="1346" x2="100" y2="1993" stroke-width="4" />
+      <line x1="222" y1="1248" x2="-273" y2="1743" stroke-width="3" />
+      <line x1="124" y1="1102" x2="-523" y2="1370" stroke-width="5" />
+      <line x1="90" y1="930" x2="-610" y2="930" stroke-width="3" />
+      <line x1="124" y1="758" x2="-523" y2="490" stroke-width="4" />
+      <line x1="222" y1="612" x2="-273" y2="117" stroke-width="3" />
+      <line x1="368" y1="514" x2="100" y2="-133" stroke-width="5" />
+      <line x1="540" y1="480" x2="540" y2="-220" stroke-width="3" />
+      <line x1="712" y1="514" x2="980" y2="-133" stroke-width="4" />
+      <line x1="858" y1="612" x2="1353" y2="117" stroke-width="3" />
+      <line x1="956" y1="758" x2="1603" y2="490" stroke-width="5" />
+      <line x1="540" y1="1380" x2="540" y2="2080" stroke-width="4" />
+    </svg>
+
+    <!-- frame 0 is the thumbnail: the sign is already up -->
+    <div id="s1-sign" class="sign">
+      <div class="sign-in">
+        <svg width="78" height="112" viewBox="0 0 78 112" aria-hidden="true">
+          <path d="M39 0 L78 44 H54 V112 H24 V44 H0 Z" fill="#f7f7f2" />
+        </svg>
+        <div id="s1-sign-t" class="big">SATU HIGHWAY</div>
+      </div>
+    </div>
+    <div id="s1-kita" class="kin amber">KITA JE.</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // streaks flow outward the whole shot, a constant-speed thing
+    tl.fromTo("#s1-streaks line", { strokeDashoffset: 0 }, { strokeDashoffset: -2600, duration: 2.6, ease: "none" }, 0);
+    tl.fromTo("#s1-streaks", { opacity: 0.55 }, { opacity: 0.55, duration: 0.01 }, 0);
+
+    // sign is landed at frame 0; it takes the hit when "KITA JE." slams
+    tl.fromTo("#s1-sign", { y: 0 }, { y: 10, duration: 0.05, ease: "power2.out" }, 0.47);
+    tl.to("#s1-sign", { y: 0, duration: 0.3, ease: "back.out(2)" }, 0.52);
+
+    tl.fromTo("#s1-kita",
+      { scale: 1.7, opacity: 0, filter: "blur(10px)", transformOrigin: "30% 60%" },
+      { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.17, ease: "expo.out" }, 0.42);
+
+    // zoom-through into the vanishing point
+    tl.fromTo("#s1-cam", { scale: 1, filter: "blur(0px)", transformOrigin: "540px 930px" },
+      { scale: 2.3, filter: "blur(12px)", duration: 0.5, ease: "power3.in" }, 2.1);
+    tl.to("#s1-streaks", { opacity: 1, scale: 1.5, transformOrigin: "540px 930px", duration: 0.5, ease: "power3.in" }, 2.1);
+    tl.to("#s1-sign", { y: -560, duration: 0.34, ease: "power3.in" }, 2.16);
+    tl.to("#s1-kita", { scale: 2.6, opacity: 0, filter: "blur(14px)", duration: 0.34, ease: "power3.in" }, 2.2);
+    window.__timelines["s1"] = tl;
+  </script>
+</template>

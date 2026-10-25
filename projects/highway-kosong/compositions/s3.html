@@ -1,0 +1,80 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #s3-l1 {
+      left: 96px;
+      top: 270px;
+      font-size: 178px;
+    }
+    #s3-l2 {
+      left: 104px;
+      top: 432px;
+      font-size: 136px;
+    }
+    .w {
+      display: inline-block;
+    }
+    #s3-ff {
+      left: 108px;
+      top: 600px;
+      font-size: 40px;
+      padding: 16px 26px 10px;
+      background: rgba(16, 16, 16, 0.82);
+      color: var(--white);
+      letter-spacing: 2px;
+    }
+    #s3-ff b {
+      color: var(--amber);
+    }
+    /* lane-marking wipe: double amber line on both edges, white body */
+    #s3-wipe {
+      position: absolute;
+      left: 0;
+      top: -420px;
+      width: 1900px;
+      height: 2760px;
+      background: linear-gradient(90deg,
+        var(--amber) 0 34px, transparent 34px 60px, var(--amber) 60px 94px,
+        var(--white) 94px 1806px,
+        var(--amber) 1806px 1840px, transparent 1840px 1866px, var(--amber) 1866px 1900px);
+    }
+  </style>
+  <div id="root" data-composition-id="s3" data-width="1080" data-height="1920">
+    <!-- Footage: the long straight (src 9.0–15.4) at 2.5×. -->
+    <div class="plate">
+      <div id="s3-cam" class="cam">
+        <video id="s3-v" class="clip" src="assets/raw.mp4" playsinline data-has-audio="true"
+          data-start="0" data-duration="2.56" data-media-start="9.0" data-playback-rate="2.5"
+          data-volume="0.45" data-track-index="0"></video>
+      </div>
+    </div>
+    <div class="sky"></div>
+
+    <div id="s3-l1" class="kin"><span class="w">JALAN</span> <span class="w">LURUS</span></div>
+    <div id="s3-l2" class="kin amber"><span class="w">TAK</span> <span class="w">HABIS-HABIS</span></div>
+    <div id="s3-ff" class="chip">&#9654;&#9654; <b>2.5X</b> LAJU</div>
+    <div id="s3-wipe" data-layout-ignore></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // land out of the whip
+    tl.fromTo("#s3-cam", { x: 280, filter: "blur(18px)" },
+      { x: 0, filter: "blur(0px)", duration: 0.24, ease: "power3.out" }, 0);
+
+    tl.fromTo("#s3-ff", { scale: 0.5, opacity: 0, transformOrigin: "0% 50%" },
+      { scale: 1, opacity: 1, duration: 0.22, ease: "back.out(2.2)" }, 0.12);
+
+    // per word: blur and opacity only, no travel
+    tl.fromTo(".w", { opacity: 0, filter: "blur(6px)" },
+      { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power2.out", stagger: 0.075 }, 0.2);
+
+    // lane-marking wipe covers the frame by the cut
+    tl.fromTo("#s3-wipe", { x: -2150, skewX: -16 },
+      { x: -410, skewX: -16, duration: 0.36, ease: "power3.in" }, 2.2);
+    tl.to(["#s3-l1", "#s3-l2", "#s3-ff"], { x: 160, opacity: 0, filter: "blur(8px)", duration: 0.2, ease: "power3.in" }, 2.24);
+    window.__timelines["s3"] = tl;
+  </script>
+</template>

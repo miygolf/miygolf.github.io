@@ -1,0 +1,124 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #s4-wipe {
+      position: absolute;
+      left: 0;
+      top: -420px;
+      width: 1900px;
+      height: 2760px;
+      background: linear-gradient(90deg,
+        var(--amber) 0 34px, transparent 34px 60px, var(--amber) 60px 94px,
+        var(--white) 94px 1806px,
+        var(--amber) 1806px 1840px, transparent 1840px 1866px, var(--amber) 1866px 1900px);
+    }
+    /* warning diamond: the square is turned 45°, the "!" stays upright */
+    #s4-dia {
+      position: absolute;
+      left: 96px;
+      top: 280px;
+      width: 330px;
+      height: 330px;
+    }
+    #s4-dia-sq {
+      position: absolute;
+      left: 50px;
+      top: 50px;
+      width: 230px;
+      height: 230px;
+      background: var(--amber);
+      border-radius: 18px;
+      box-shadow: inset 0 0 0 9px var(--amber), inset 0 0 0 19px var(--ink), 0 20px 40px rgba(0, 0, 0, 0.35);
+    }
+    #s4-dia-x {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 190px;
+      line-height: 1;
+      padding-top: 26px;
+      color: var(--ink);
+    }
+    #s4-plate {
+      position: absolute;
+      left: 440px;
+      top: 330px;
+      background: var(--ink);
+      border-radius: 18px;
+      padding: 24px 34px 14px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+    }
+    #s4-plate div {
+      font-weight: 900;
+      font-size: 88px;
+      line-height: 0.95;
+      color: var(--amber);
+      white-space: nowrap;
+    }
+    #s4-chip {
+      left: 446px;
+      top: 590px;
+      font-size: 40px;
+      padding: 16px 26px 10px;
+      background: var(--white);
+      color: var(--ink);
+    }
+    #s4-dip {
+      position: absolute;
+      inset: 0;
+      background: #fff;
+      opacity: 0;
+    }
+  </style>
+  <div id="root" data-composition-id="s4" data-width="1080" data-height="1920">
+    <!-- Footage: the stop at the junction (src 20.9–30.2) at 2×. Other riders stand around y 770–1700:
+         every card stays in the sky above y 700. -->
+    <div class="plate">
+      <div id="s4-cam" class="cam">
+        <video id="s4-v" class="clip" src="assets/raw.mp4" playsinline data-has-audio="true"
+          data-start="0" data-duration="4.65" data-media-start="20.9" data-playback-rate="2"
+          data-volume="0.45" data-track-index="0"></video>
+      </div>
+    </div>
+    <div class="sky"></div>
+
+    <div id="s4-dia">
+      <div id="s4-dia-sq"></div>
+      <div id="s4-dia-x">!</div>
+    </div>
+    <div id="s4-plate">
+      <div>BERHENTI</div>
+      <div>SEKEJAP</div>
+    </div>
+    <div id="s4-chip" class="chip">tunggu geng regroup</div>
+    <div id="s4-wipe" data-layout-ignore></div>
+    <div id="s4-dip" data-layout-ignore></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // the lane-marking wipe carries on off frame, revealing the stop
+    tl.fromTo("#s4-wipe", { x: -410, skewX: -16 }, { x: 1400, skewX: -16, duration: 0.42, ease: "power3.out" }, 0);
+
+    // diamond spins in and lands
+    tl.fromTo("#s4-dia-sq", { rotation: 45 }, { rotation: 45, duration: 0.01 }, 0);
+    tl.fromTo("#s4-dia", { rotation: -200, scale: 0.3, opacity: 0, transformOrigin: "50% 50%" },
+      { rotation: 0, scale: 1, opacity: 1, duration: 0.55, ease: "back.out(1.5)" }, 0.12);
+
+    tl.fromTo("#s4-plate", { x: 70, opacity: 0, filter: "blur(8px)" },
+      { x: 0, opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power4.out" }, 0.5);
+
+    tl.fromTo("#s4-chip", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 2.06);
+
+    // out: punch in, cards leave, flash into the selfie
+    tl.to("#s4-cam", { scale: 1.07, transformOrigin: "540px 900px", duration: 0.2, ease: "power2.in" }, 4.45);
+    tl.to(["#s4-dia", "#s4-plate", "#s4-chip"], { opacity: 0, filter: "blur(8px)", duration: 0.18, ease: "power2.in" }, 4.4);
+    tl.fromTo("#s4-dip", { opacity: 0 }, { opacity: 0.92, duration: 0.12, ease: "power2.in" }, 4.52);
+    window.__timelines["s4"] = tl;
+  </script>
+</template>

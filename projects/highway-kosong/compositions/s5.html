@@ -1,0 +1,103 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    /* FACE-SAFE: the rider's helmet sits within x 0–700, y 480–1100 across this shot.
+       Nothing here goes below y 760 or left of x 600 under y 760 while the face is up. */
+    #s5-q {
+      left: 96px;
+      top: 250px;
+    }
+    #s5-q .sign-in {
+      padding: 22px 36px 14px;
+    }
+    #s5-q .big {
+      font-size: 62px;
+    }
+    #s5-aku {
+      left: 610px;
+      top: 430px;
+      font-size: 210px;
+    }
+    #s5-arrow {
+      position: absolute;
+      left: 470px;
+      top: 470px;
+      width: 200px;
+      height: 300px;
+    }
+    #s5-arrow path {
+      fill: none;
+      stroke: var(--amber);
+      stroke-width: 14;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    #s5-jom {
+      left: 96px;
+      top: 250px;
+      font-size: 150px;
+    }
+    #s5-flash {
+      position: absolute;
+      inset: 0;
+      background: #fff;
+    }
+  </style>
+  <div id="root" data-composition-id="s5" data-width="1080" data-height="1920">
+    <!-- Footage: the 360 selfie on the red bike (src 31.4–38.4) at 1.2×. -->
+    <div class="plate">
+      <div id="s5-cam" class="cam">
+        <video id="s5-v" class="clip" src="assets/raw.mp4" playsinline data-has-audio="true"
+          data-start="0" data-duration="5.83" data-media-start="31.4" data-playback-rate="1.2"
+          data-volume="0.45" data-track-index="0"></video>
+      </div>
+    </div>
+    <div class="sky"></div>
+
+    <div id="s5-q" class="sign">
+      <div class="sign-in"><div class="big">YANG RAKAM SEMUA NI?</div></div>
+    </div>
+    <!-- arrow ends at about (520, 760), above the helmet, never on it -->
+    <svg id="s5-arrow" viewBox="0 0 200 300" aria-hidden="true">
+      <path id="s5-arrow-l" d="M170 10 C 150 120, 110 200, 60 270" />
+      <path id="s5-arrow-h" d="M40 214 L 58 274 L 118 262" />
+    </svg>
+    <div id="s5-aku" class="kin amber">AKU.</div>
+    <div id="s5-jom" class="kin">JOM SAMBUNG &#8594;</div>
+    <div id="s5-flash" data-layout-ignore></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#s5-flash", { opacity: 0.92 }, { opacity: 0, duration: 0.32, ease: "power2.out" }, 0);
+    tl.fromTo("#s5-cam", { scale: 1.06, transformOrigin: "540px 900px" },
+      { scale: 1, duration: 0.5, ease: "expo.out" }, 0);
+
+    // the question slides in from the left edge
+    tl.fromTo("#s5-q", { x: -900, filter: "blur(10px)" },
+      { x: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }, 0.3);
+
+    // payoff: the answer slams, the arrow draws down toward (not onto) the face
+    tl.fromTo("#s5-aku", { scale: 2.2, opacity: 0, filter: "blur(12px)", transformOrigin: "40% 60%" },
+      { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "expo.out" }, 1.6);
+    tl.fromTo("#s5-arrow-l", { strokeDasharray: 330, strokeDashoffset: 330 },
+      { strokeDashoffset: 0, duration: 0.3, ease: "power2.out" }, 1.72);
+    tl.fromTo("#s5-arrow-h", { strokeDasharray: 150, strokeDashoffset: 150 },
+      { strokeDashoffset: 0, duration: 0.14, ease: "power2.out" }, 1.98);
+    tl.fromTo("#s5-q", { y: 0 }, { y: -8, duration: 0.05 }, 1.66);
+    tl.to("#s5-q", { y: 0, duration: 0.3, ease: "back.out(2)" }, 1.71);
+
+    // clear the band before the rider stands up (helmet rises to y≈480 from 4.25 s)
+    tl.to(["#s5-q", "#s5-aku", "#s5-arrow"], { opacity: 0, filter: "blur(8px)", duration: 0.2, ease: "power2.in", stagger: 0.04 }, 3.9);
+
+    tl.fromTo("#s5-jom", { x: -120, opacity: 0, filter: "blur(10px)" },
+      { x: 0, opacity: 1, filter: "blur(0px)", duration: 0.35, ease: "expo.out" }, 4.3);
+
+    // whip up into the ride
+    tl.to("#s5-jom", { y: -420, duration: 0.22, ease: "power3.in" }, 5.58);
+    tl.to("#s5-cam", { y: -320, filter: "blur(18px)", duration: 0.23, ease: "power3.in" }, 5.6);
+    window.__timelines["s5"] = tl;
+  </script>
+</template>

@@ -1,0 +1,74 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #s2-sign {
+      left: 96px;
+      top: 250px;
+    }
+    #s2-sign .sign-in {
+      padding: 26px 46px 22px 34px;
+      gap: 30px;
+    }
+    #s2-sign .big {
+      font-size: 128px;
+    }
+    #s2-sign .small {
+      font-size: 56px;
+      margin-top: 8px;
+    }
+    #s2-pov {
+      left: 108px;
+      top: 590px;
+      font-size: 44px;
+      padding: 18px 30px 12px;
+      background: var(--amber);
+      color: var(--ink);
+      letter-spacing: 1px;
+    }
+  </style>
+  <div id="root" data-composition-id="s2" data-width="1080" data-height="1920">
+    <!-- Footage: following the group (src 0.5–8.18) at 1.6×. Riders sit around y 1150–1350. -->
+    <div class="plate">
+      <div id="s2-cam" class="cam">
+        <video id="s2-v" class="clip" src="assets/raw.mp4" playsinline data-has-audio="true"
+          data-start="0" data-duration="4.8" data-media-start="0.5" data-playback-rate="1.6"
+          data-volume="0.45" data-track-index="0"></video>
+      </div>
+    </div>
+    <div class="sky"></div>
+
+    <div id="s2-sign" class="sign">
+      <div class="sign-in">
+        <svg width="96" height="150" viewBox="0 0 78 112" aria-hidden="true">
+          <path d="M39 0 L78 44 H54 V112 H24 V44 H0 Z" fill="#f7f7f2" />
+        </svg>
+        <div>
+          <div class="big">GENG</div>
+          <div class="small">DAH GERAK</div>
+        </div>
+      </div>
+    </div>
+    <div id="s2-pov" class="chip">POV: IKUT BELAKANG</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // arrive out of the zoom-through: large and blurred, settling
+    tl.fromTo("#s2-cam", { scale: 1.4, filter: "blur(12px)", transformOrigin: "540px 930px" },
+      { scale: 1, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }, 0);
+
+    // the sign drops on its top hinge like a gantry panel
+    tl.fromTo("#s2-sign", { rotationX: -95, transformPerspective: 1400, transformOrigin: "50% 0%", opacity: 0 },
+      { rotationX: 0, opacity: 1, duration: 0.62, ease: "back.out(1.4)" }, 0.3);
+
+    tl.fromTo("#s2-pov", { x: -60, opacity: 0, filter: "blur(8px)" },
+      { x: 0, opacity: 1, filter: "blur(0px)", duration: 0.35, ease: "power4.out" }, 1.9);
+
+    // whip left into the next shot
+    tl.to(["#s2-sign", "#s2-pov"], { x: -760, duration: 0.24, ease: "power3.in", stagger: 0.03 }, 4.5);
+    tl.to("#s2-cam", { x: -280, filter: "blur(18px)", duration: 0.24, ease: "power3.in" }, 4.56);
+    window.__timelines["s2"] = tl;
+  </script>
+</template>

@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ms" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* "Papan Tanda Lebuhraya" — Malaysian highway signage.
+         sign green / reflective white / warning amber; Overpass + Barlow Condensed italic.
+         Every word lives in the sky band (y 220–1000) and inside x 60–960:
+         clear of TikTok/IG top bar, bottom caption area and the right action rail. */
+      @font-face {
+        font-family: "Overpass";
+        src: url("assets/fonts/Overpass-var.woff2") format("woff2");
+        font-weight: 100 900;
+      }
+      @font-face {
+        font-family: "Barlow Condensed";
+        src: url("assets/fonts/BarlowCondensed-900i.woff2") format("woff2");
+        font-weight: 900;
+        font-style: italic;
+      }
+      @font-face {
+        font-family: "Barlow Condensed";
+        src: url("assets/fonts/BarlowCondensed-800i.woff2") format("woff2");
+        font-weight: 800;
+        font-style: italic;
+      }
+      :root {
+        --green: #0b6a43;
+        --green-deep: #08502f;
+        --white: #f7f7f2;
+        --amber: #ffc21c;
+        --ink: #101010;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: var(--ink);
+      }
+      body {
+        font-family: "Overpass", sans-serif;
+      }
+      .plate {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+      .cam {
+        position: absolute;
+        inset: 0;
+      }
+      .cam video {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1920px;
+        object-fit: cover;
+      }
+      /* sky scrim so white type reads on the overcast sky */
+      .sky {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 900px;
+        background: linear-gradient(180deg, rgba(6, 22, 14, 0.5) 0%, rgba(6, 22, 14, 0.22) 55%, rgba(6, 22, 14, 0) 100%);
+      }
+      /* green highway sign: green body, inset reflective white border */
+      .sign {
+        position: absolute;
+        background: var(--green);
+        border-radius: 28px;
+        padding: 11px;
+        box-shadow: 0 22px 44px rgba(0, 0, 0, 0.38);
+      }
+      .sign-in {
+        border: 7px solid var(--white);
+        border-radius: 19px;
+        color: var(--white);
+        display: flex;
+        align-items: center;
+      }
+      .sign .big {
+        font-weight: 900;
+        line-height: 0.9;
+        letter-spacing: -1px;
+        white-space: nowrap;
+      }
+      .sign .small {
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: 1px;
+        white-space: nowrap;
+      }
+      /* speed type */
+      .kin {
+        position: absolute;
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 900;
+        font-style: italic;
+        line-height: 0.86;
+        white-space: nowrap;
+        color: var(--white);
+        text-shadow: 0 8px 26px rgba(0, 0, 0, 0.45);
+      }
+      .kin.amber {
+        color: var(--amber);
+      }
+      .chip {
+        position: absolute;
+        font-weight: 800;
+        white-space: nowrap;
+        border-radius: 999px;
+        line-height: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="25.44"
+      data-width="1080"
+      data-height="1920"
+    >
+      <div id="s1" data-composition-id="s1" data-composition-src="compositions/s1.html"
+        data-start="0" data-duration="2.6" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+      <div id="s2" data-composition-id="s2" data-composition-src="compositions/s2.html"
+        data-start="2.6" data-duration="4.8" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+      <div id="s3" data-composition-id="s3" data-composition-src="compositions/s3.html"
+        data-start="7.4" data-duration="2.56" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+      <div id="s4" data-composition-id="s4" data-composition-src="compositions/s4.html"
+        data-start="9.96" data-duration="4.65" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+      <div id="s5" data-composition-id="s5" data-composition-src="compositions/s5.html"
+        data-start="14.61" data-duration="5.83" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+      <div id="s6" data-composition-id="s6" data-composition-src="compositions/s6.html"
+        data-start="20.44" data-duration="5.0" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+
+      <!-- SFX (Mixkit). Each start = picture moment − file peak + 1 frame; the engine bed is the footage's own sound. -->
+      <!-- S1 hook -->
+      <audio id="fx-open" src="assets/sfx/2909.mp3" data-start="0" data-media-start="0.09" data-duration="2.0" data-fade-out="0.4" data-volume="0.8" data-track-index="10"></audio>
+      <audio id="fx-rev" src="assets/sfx/2724.mp3" data-start="0" data-media-start="1.44" data-duration="2.75" data-fade-out="0.35" data-volume="0.55" data-track-index="11"></audio>
+      <audio id="fx-kita" src="assets/sfx/2303.mp3" data-start="0.31" data-duration="1.2" data-volume="0.85" data-track-index="12"></audio>
+      <audio id="fx-zoom" src="assets/sfx/1486.mp3" data-start="2.01" data-duration="2.2" data-fade-out="0.6" data-volume="0.7" data-track-index="13"></audio>
+      <!-- S2 squad -->
+      <audio id="fx-sign2" src="assets/sfx/3120.mp3" data-start="3.17" data-duration="0.6" data-volume="1.4" data-track-index="14"></audio>
+      <audio id="fx-pass" src="assets/sfx/1606.mp3" data-start="6.72" data-duration="1.6" data-volume="1.5" data-track-index="15"></audio>
+      <audio id="fx-whip1" src="assets/sfx/1469.mp3" data-start="6.9" data-duration="1.1" data-volume="0.6" data-track-index="16"></audio>
+      <!-- S3 endless straight -->
+      <audio id="fx-ff" src="assets/sfx/2568.mp3" data-start="7.52" data-duration="0.23" data-volume="1.3" data-track-index="17"></audio>
+      <audio id="fx-words3" src="assets/sfx/1471.mp3" data-start="7.25" data-duration="1.2" data-volume="0.8" data-track-index="18"></audio>
+      <audio id="fx-shift" src="assets/sfx/2725.mp3" data-start="7.5" data-media-start="7.0" data-duration="2.3" data-fade-out="0.4" data-volume="0.45" data-track-index="19"></audio>
+      <audio id="fx-wipe" src="assets/sfx/1484.mp3" data-start="9.39" data-duration="1.6" data-fade-out="0.3" data-volume="0.75" data-track-index="20"></audio>
+      <!-- S4 pit stop -->
+      <audio id="fx-brake" src="assets/sfx/2726.mp3" data-start="9.6" data-duration="3.4" data-fade-out="0.8" data-volume="0.7" data-track-index="21"></audio>
+      <audio id="fx-diamond" src="assets/sfx/2299.mp3" data-start="10.56" data-duration="0.9" data-volume="0.8" data-track-index="22"></audio>
+      <audio id="fx-chip4" src="assets/sfx/2568.mp3" data-start="12.04" data-duration="0.23" data-volume="1.2" data-track-index="23"></audio>
+      <audio id="fx-flash" src="assets/sfx/2639.mp3" data-start="14.03" data-duration="1.3" data-volume="0.7" data-track-index="24"></audio>
+      <!-- S5 the rider: riser into the one big impact on "AKU." -->
+      <audio id="fx-q" src="assets/sfx/3120.mp3" data-start="14.95" data-duration="0.6" data-volume="1.3" data-track-index="25"></audio>
+      <audio id="fx-riser" src="assets/sfx/790.mp3" data-start="13.71" data-duration="2.58" data-volume="1.2" data-track-index="26"></audio>
+      <audio id="fx-aku" src="assets/sfx/2901.mp3" data-start="14.83" data-duration="3.6" data-fade-out="0.8" data-volume="0.75" data-track-index="27"></audio>
+      <audio id="fx-jom" src="assets/sfx/1474.mp3" data-start="17.74" data-duration="2.2" data-fade-out="0.4" data-volume="0.4" data-track-index="28"></audio>
+      <audio id="fx-start" src="assets/sfx/2731.mp3" data-start="18.79" data-media-start="3.4" data-duration="2.6" data-fade-out="0.6" data-volume="2.2" data-track-index="29"></audio>
+      <!-- S6 end card -->
+      <audio id="fx-gantry" src="assets/sfx/2919.mp3" data-start="20.51" data-media-start="2.3" data-duration="2.2" data-fade-out="0.4" data-volume="0.85" data-track-index="30"></audio>
+      <audio id="fx-follow" src="assets/sfx/2568.mp3" data-start="22.14" data-duration="0.23" data-volume="1.3" data-track-index="31"></audio>
+      <audio id="fx-comment" src="assets/sfx/3120.mp3" data-start="22.6" data-duration="0.6" data-volume="1.2" data-track-index="32"></audio>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>
