@@ -17,7 +17,8 @@ FALL=$SRC/VID_20261025_182602.mp4    # air terjun tepi tasik
 BOLD=/usr/share/fonts/opentype/inter/Inter-Black.otf
 SOFT=/usr/share/fonts/opentype/inter/Inter-ExtraBold.otf
 FIT="scale=1080:1920:flags=lanczos,setsar=1"
-ENC=(-c:v libx264 -preset medium -crf 21 -pix_fmt yuv420p -r 30
+# Draf: CRF=21 (default). Render final: CRF=17 PRESET=slow
+ENC=(-c:v libx264 -preset "${PRESET:-medium}" -crf "${CRF:-21}" -pix_fmt yuv420p -r 30
      -c:a aac -b:a 192k -ar 48000 -ac 2 -movflags +faststart)
 
 # Tulis teks ke fail supaya tak perlu escape tanda baca dalam drawtext
@@ -84,7 +85,20 @@ OFF=$(echo "$MAIN - 0.6" | bc -l)
 
 ffmpeg -v error -y -i "$WORK/main.mp4" -i "$WORK/g.mp4" \
   -filter_complex "[0:v][1:v]xfade=transition=fade:duration=0.6:offset=$OFF[v];
-                   [0:a][1:a]acrossfade=d=0.6,loudnorm=I=-14:TP=-1.5:LRA=11[a]" \
-  -map "[v]" -map "[a]" "${ENC[@]}" "$OUT"
+                   [0:a][1:a]acrossfade=d=0.6[a]" \
+  -map "[v]" -map "[a]" "${ENC[@]:0:10}" -c:a pcm_s16le "$WORK/joined.mkv"
+
+# Kuatkan ke -14 LUFS (standard TikTok/IG); limiter tahan peak bunyi impak bawah -1.5 dBFS.
+# Limiter makan sedikit loudness, jadi ukur semula dan tambah gain sekali lagi.
+lufs() { ffmpeg -hide_banner -i "$1" -af ebur128 -f null - 2>&1 | sed -n 's/^ *I: *\(-*[0-9.]*\) LUFS/\1/p' | tail -1; }
+ffmpeg -v error -y -i "$WORK/joined.mkv" -vn -c:a pcm_s16le "$WORK/raw.wav"
+GAIN=$(echo "-14 - ($(lufs "$WORK/raw.wav"))" | bc -l)
+for pass in 1 2; do
+  ffmpeg -v error -y -i "$WORK/raw.wav" \
+    -af "volume=${GAIN}dB,alimiter=limit=0.84:attack=1:release=60:level=disabled" "$WORK/norm.wav"
+  GAIN=$(echo "$GAIN + (-14 - ($(lufs "$WORK/norm.wav")))" | bc -l)
+done
+ffmpeg -v error -y -i "$WORK/joined.mkv" -i "$WORK/norm.wav" -map 0:v -map 1:a \
+  -c:v copy -c:a aac -b:a 192k -ar 48000 -movflags +faststart "$OUT"
 
 echo "Siap: $OUT ($(ffprobe -v error -show_entries format=duration -of csv=p=0 "$OUT")s)"
