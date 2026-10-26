@@ -65,27 +65,34 @@
     }
   </style>
   <div id="root" data-composition-id="outro" data-width="1080" data-height="1920">
-    <div id="o-tag" class="clip o-row" data-start="0.7" data-duration="3.9" style="top: 200px">
+    <div id="o-tag" class="clip o-row" data-start="0.7" data-duration="3.8" style="top: 200px">
       <div id="o-tag-in" class="o-tag">kusyen donut</div>
     </div>
-    <div id="o-title" class="clip o-row" data-start="0.7" data-duration="3.9" style="top: 268px">
+    <div id="o-title" class="clip o-row" data-start="0.7" data-duration="3.8" style="top: 268px">
       <div id="o-title-in" class="o-title" style="transform: rotate(-2deg)">
         <span class="o-l o-tw">comel</span> <span class="o-l o-tw">&amp;</span> <span class="o-l o-tw">lembut</span>
       </div>
     </div>
-    <div id="o-chips" class="clip o-row" data-start="0.7" data-duration="3.9" style="top: 410px">
+    <div id="o-chips" class="clip o-row" data-start="0.7" data-duration="3.8" style="top: 410px">
       <div class="o-chip o-c">biru navy</div>
       <div class="o-chip o-c">bentuk donut</div>
       <div class="o-chip o-c">kain lembut</div>
     </div>
-    <div id="o-cta" class="clip o-row" data-start="0.7" data-duration="3.9" style="top: 500px">
+    <div id="o-cta" class="clip o-row" data-start="0.7" data-duration="3.8" style="top: 500px">
       <div id="o-cta-in" class="o-cta">
-        jom grab satu
-        <svg width="36" height="32" viewBox="0 0 30 28" aria-hidden="true">
-          <path d="M15 26 C 4 18 1 12 2 8 C 3 3 10 1 15 7 C 20 1 27 3 28 8 C 29 12 26 18 15 26 Z"
-            fill="#FFF6E9" stroke="#1D2A6B" stroke-width="3" stroke-linejoin="round" />
+        <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+          <path d="M5 12 H29 L27 30 H7 Z" fill="#FFD45E" stroke="#1D2A6B" stroke-width="3" stroke-linejoin="round" />
+          <path d="M11 12 V9 C 11 5 14 3 17 3 C 20 3 23 5 23 9 V12" fill="none" stroke="#1D2A6B" stroke-width="3" stroke-linecap="round" />
         </svg>
+        klik beg kuning
       </div>
+    </div>
+    <!-- Doodle arrow toward the shop link at the bottom-left (decoration only) -->
+    <div id="o-point" class="clip" data-start="0.7" data-duration="3.8" style="position: absolute; inset: 0">
+      <svg width="1080" height="1920" viewBox="0 0 1080 1920" style="position: absolute; left: 0; top: 0; overflow: visible">
+        <path id="o-arrow" d="M330 590 C 230 700 300 820 200 930" fill="none" stroke="#FFD45E" stroke-width="10" stroke-linecap="round" />
+        <path id="o-arrow-head" d="M190 884 L196 936 L242 914" fill="none" stroke="#FFD45E" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
     </div>
   </div>
   <script>
@@ -96,6 +103,8 @@
     tl.fromTo(".o-tw", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.2, stagger: 0.08, ease: "power3.out" }, 0.9);
     tl.fromTo(".o-c", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.36, stagger: 0.08, ease: "back.out(2.2)" }, 1.6);
     tl.fromTo("#o-cta-in", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "expo.out" }, 2.15);
+    tl.fromTo("#o-arrow", { strokeDasharray: 420, strokeDashoffset: 420 }, { strokeDashoffset: 0, duration: 0.4, ease: "power2.out" }, 2.5);
+    tl.fromTo("#o-arrow-head", { opacity: 0 }, { opacity: 1, duration: 0.08 }, 2.86);
 
     window.__timelines["outro"] = tl;
   </script>
