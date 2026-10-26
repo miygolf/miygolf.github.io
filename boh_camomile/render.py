@@ -298,7 +298,7 @@ def build_assets():
     a["tag_note"] = text_img(PRICE["note"], FONT_BOLD, 44, stroke=5,
                              max_w=inner_w) if PRICE.get("note") else None
 
-    a["cta_bag"] = drop_shadow(icon_bag(240), blur=14)
+    a["cta_bag"] = drop_shadow(icon_bag(150), blur=10)
     a["cta_text"] = stack([
         text_img(line, FONT_BLACK, 120, fill=YELLOW if i else WHITE, stroke=11,
                  max_w=inner_w) for i, line in enumerate(CTA["lines"])],
@@ -394,7 +394,7 @@ def render_frame(t, a, guides):
         p, al = e
         dt = t - CTA["start"]
         bounce = abs(math.sin(dt * 5)) * 26 * clamp(dt / 0.4)
-        place(frame, a["cta_bag"], cx, 560 - bounce,
+        place(frame, a["cta_bag"], cx, 630 - bounce * 0.7,
               0.3 + 0.7 * ease_out_back(p), al, angle=math.sin(dt * 5) * 6)
         p2 = clamp((dt - 0.15) / 0.3)
         place(frame, a["cta_text"], cx, 870, 0.5 + 0.5 * ease_out_back(p2), p2)
