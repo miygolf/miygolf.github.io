@@ -34,5 +34,17 @@ watermark/apply.sh input.mp4 output.mp4 iqbal.yusoff "ride santai je"
 - Output H.264 + AAC, `faststart`, max 8 Mbps, sesuai untuk upload IG.
 - Tukar kedudukan: `POS_X=60 POS_Y=400 watermark/apply.sh ...`; matikan float: `BOB=0`.
 
-Perlu: `python3` + Pillow, `ffmpeg`.
+## Buang watermark lama (@IQBAL.YUSOFF)
+
+```bash
+python3 watermark/remove_old.py input.mp4 clean.mp4
+watermark/apply.sh clean.mp4 final.mp4 iqbal.yusoff "ride santai je"
+```
+
+`remove_old.py` cari watermark lama setiap frame (bawah PiP, tengah kiri, end card,
+termasuk ikon versi warna dan teks "Shadow Bass King…") guna template dalam
+`old_templates/`, lepas tu tampal (inpaint) piksel huruf tu sahaja. Kawasan lain
+tak disentuh. `--debug-mask mask.mp4` untuk tengok kawasan yang ditampal.
+
+Perlu: `python3` + Pillow, `ffmpeg`; untuk `remove_old.py` tambah `numpy` + `opencv-python-headless`.
 Font: Poppins & Caveat (SIL OFL, lesen dalam `fonts/`).
