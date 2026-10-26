@@ -1,0 +1,173 @@
+<!doctype html>
+<html
+  lang="ms"
+  data-resolution="portrait"
+  data-composition-variables='[
+    {"id":"cream","type":"color","label":"Sticker cream","default":"#FFF6E9"},
+    {"id":"ink","type":"color","label":"Ink navy","default":"#1D2A6B"},
+    {"id":"butter","type":"color","label":"Butter yellow","default":"#FFD45E"},
+    {"id":"bubblegum","type":"color","label":"Bubblegum pink","default":"#FF8FB8"}
+  ]'
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* "Blueberry Cloud": cream sticker labels, navy ink, butter + bubblegum doodles. */
+      :root {
+        --cream: #fff6e9;
+        --ink: #1d2a6b;
+        --butter: #ffd45e;
+        --bubblegum: #ff8fb8;
+        --font-display: "Nunito", sans-serif;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: var(--ink);
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: var(--font-display);
+      }
+      .cam {
+        position: absolute;
+        inset: 0;
+        transform-origin: 50% 50%;
+      }
+      .cam video {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1920px;
+        object-fit: cover;
+      }
+      #cam-s7 {
+        z-index: 8;
+      }
+      .ovl {
+        z-index: 20;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="20.6"
+      data-width="1080"
+      data-height="1920"
+      data-motion-blur="on"
+    >
+      <!-- Footage: each shot is a trimmed, muted clip inside an untimed camera wrapper. -->
+      <div class="cam" id="cam-s1" style="z-index: 1">
+        <video id="s1" class="clip" src="assets/footage/clip2.mp4" muted playsinline
+          data-start="0" data-duration="2.6" data-media-start="4.0" data-track-index="0"></video>
+      </div>
+      <div class="cam" id="cam-s2" style="z-index: 2">
+        <video id="s2" class="clip" src="assets/footage/clip2.mp4" muted playsinline
+          data-start="2.6" data-duration="1.8" data-media-start="7.7" data-track-index="1"></video>
+      </div>
+      <div class="cam" id="cam-s3" style="z-index: 3">
+        <video id="s3" class="clip" src="assets/footage/clip3.mp4" muted playsinline
+          data-start="4.4" data-duration="2.6" data-media-start="4.0" data-track-index="0"></video>
+      </div>
+      <div class="cam" id="cam-s4" style="z-index: 4">
+        <video id="s4" class="clip" src="assets/footage/clip3.mp4" muted playsinline
+          data-start="7.0" data-duration="2.6" data-media-start="12.6" data-track-index="1"></video>
+      </div>
+      <div class="cam" id="cam-s5" style="z-index: 5">
+        <video id="s5" class="clip" src="assets/footage/clip1.mp4" muted playsinline
+          data-start="9.6" data-duration="2.2" data-media-start="0.2" data-track-index="0"></video>
+      </div>
+      <div class="cam" id="cam-s6" style="z-index: 6">
+        <video id="s6" class="clip" src="assets/footage/clip1.mp4" muted playsinline
+          data-start="11.8" data-duration="3.4" data-media-start="11.0" data-track-index="1"></video>
+      </div>
+      <div class="cam" id="cam-s7">
+        <video id="s7" class="clip" src="assets/footage/clip3.mp4" muted playsinline
+          data-start="14.85" data-duration="5.75" data-media-start="19.55" data-track-index="0"></video>
+      </div>
+
+      <!-- Graphics: one overlay scene per chapter. -->
+      <div id="hook" class="ovl" data-composition-id="hook" data-composition-src="compositions/hook.html"
+        data-start="0" data-duration="4.4" data-track-index="2" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+      <div id="feel" class="ovl" data-composition-id="feel" data-composition-src="compositions/feel.html"
+        data-start="4.4" data-duration="5.2" data-track-index="2" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+      <div id="chair" class="ovl" data-composition-id="chair" data-composition-src="compositions/chair.html"
+        data-start="9.6" data-duration="5.6" data-track-index="2" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+      <div id="outro" class="ovl" data-composition-id="outro" data-composition-src="compositions/outro.html"
+        data-start="15.2" data-duration="5.4" data-track-index="2" data-track-kind="graphics"
+        data-width="1080" data-height="1920"></div>
+
+      <!-- Music bed: enters at the track's fuller section, fades under the end card. -->
+      <audio id="bgm" class="clip" src="assets/music/positive-whistling.mp3"
+        data-start="0" data-duration="20.6" data-media-start="15.6"
+        data-volume="0.55" data-fade-in="0.15" data-fade-out="1.4" data-track-index="5"></audio>
+
+      <!-- Sound effects: each one has a cause on screen. -->
+      <audio id="sfx-pop-hook" class="clip" src="assets/sfx/pop.mp3" data-start="0.04" data-duration="0.72" data-volume="0.45" data-track-index="6"></audio>
+      <audio id="sfx-pop-back" class="clip" src="assets/sfx/pop.mp3" data-start="2.52" data-duration="0.72" data-volume="0.5" data-track-index="7"></audio>
+      <audio id="sfx-sparkle-back" class="clip" src="assets/sfx/sparkle.mp3" data-start="2.7" data-duration="1.8" data-volume="0.28" data-track-index="8"></audio>
+      <audio id="sfx-whoosh-1" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="4.22" data-duration="0.57" data-volume="0.42" data-track-index="9"></audio>
+      <audio id="sfx-pop-soft" class="clip" src="assets/sfx/pop.mp3" data-start="4.54" data-duration="0.72" data-volume="0.4" data-track-index="10"></audio>
+      <audio id="sfx-whoosh-2" class="clip" src="assets/sfx/whoosh.mp3" data-start="6.84" data-duration="0.57" data-volume="0.35" data-track-index="11"></audio>
+      <audio id="sfx-sparkle-ring" class="clip" src="assets/sfx/sparkle.mp3" data-start="7.68" data-duration="1.8" data-volume="0.3" data-track-index="12"></audio>
+      <audio id="sfx-click-label" class="clip" src="assets/sfx/click-soft.mp3" data-start="7.53" data-duration="0.37" data-volume="0.65" data-track-index="13"></audio>
+      <audio id="sfx-whoosh-3" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="9.45" data-duration="0.57" data-volume="0.42" data-track-index="14"></audio>
+      <audio id="sfx-pop-chair" class="clip" src="assets/sfx/pop.mp3" data-start="12.0" data-duration="0.72" data-volume="0.4" data-track-index="15"></audio>
+      <audio id="sfx-click-tick" class="clip" src="assets/sfx/click-soft.mp3" data-start="12.3" data-duration="0.37" data-volume="0.6" data-track-index="16"></audio>
+      <audio id="sfx-chime-iris" class="clip" src="assets/sfx/chime.mp3" data-start="14.44" data-duration="2.5" data-volume="0.22" data-track-index="17"></audio>
+      <audio id="sfx-pop-title" class="clip" src="assets/sfx/pop.mp3" data-start="15.95" data-duration="0.72" data-volume="0.45" data-track-index="18"></audio>
+      <audio id="sfx-sparkle-chips" class="clip" src="assets/sfx/sparkle.mp3" data-start="17.12" data-duration="1.8" data-volume="0.25" data-track-index="19"></audio>
+      <audio id="sfx-pop-cta" class="clip" src="assets/sfx/pop.mp3" data-start="17.86" data-duration="0.72" data-volume="0.45" data-track-index="20"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      // S1 hook: a slow push while the hands squash it.
+      tl.fromTo("#cam-s1", { scale: 1.12 }, { scale: 1.02, duration: 2.6, ease: "power1.out" }, 0);
+      // S2 release: lands slightly large, settles (continuous action, hard cut).
+      tl.fromTo("#cam-s2", { scale: 1.1 }, { scale: 1, duration: 0.7, ease: "expo.out" }, 2.6);
+      // S2 -> S3 whip left.
+      tl.to("#cam-s2", { x: -1080, duration: 0.22, ease: "power3.in" }, 4.18);
+      tl.fromTo("#cam-s3", { x: 1080 }, { x: 0, duration: 0.3, ease: "power3.out" }, 4.4);
+      tl.fromTo("#cam-s3", { scale: 1 }, { scale: 1.06, duration: 2.2, ease: "none" }, 4.4);
+      // S3 -> S4 push into the hole.
+      tl.to("#cam-s3", { scale: 1.5, duration: 0.3, ease: "power3.in" }, 6.7);
+      tl.fromTo("#cam-s4", { scale: 1.25 }, { scale: 1, duration: 0.6, ease: "expo.out" }, 7.0);
+      // S4 -> S5 vertical whip.
+      tl.to("#cam-s4", { y: -1920, duration: 0.22, ease: "power3.in" }, 9.38);
+      tl.fromTo("#cam-s5", { y: 1920 }, { y: 0, duration: 0.32, ease: "power3.out" }, 9.6);
+      // S6 settles on the chair.
+      tl.fromTo("#cam-s6", { scale: 1.08 }, { scale: 1, duration: 1.2, ease: "power2.out" }, 11.8);
+      // S6 -> S7 iris from the centre of the cushion.
+      tl.fromTo(
+        "#cam-s7",
+        { clipPath: "circle(0% at 50% 62%)" },
+        { clipPath: "circle(130% at 50% 62%)", duration: 0.55, ease: "power2.inOut" },
+        14.85,
+      );
+      tl.fromTo("#cam-s7", { scale: 1.06 }, { scale: 1, duration: 1.4, ease: "power2.out" }, 14.85);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,91 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      font-family: "Nunito", sans-serif;
+      pointer-events: none;
+    }
+    .c-row {
+      position: absolute;
+      left: 70px;
+      width: 860px;
+      display: flex;
+      justify-content: center;
+    }
+    .c-stk {
+      background: var(--cream, #fff6e9);
+      color: var(--ink, #1d2a6b);
+      font-size: 48px;
+      font-weight: 900;
+      line-height: 1.1;
+      padding: 16px 32px 20px;
+      border-radius: 36px;
+      border: 4px solid var(--ink, #1d2a6b);
+      box-shadow: 6px 7px 0 var(--ink, #1d2a6b);
+      white-space: nowrap;
+    }
+    .c-chip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--ink, #1d2a6b);
+      color: var(--cream, #fff6e9);
+      font-size: 30px;
+      font-weight: 800;
+      padding: 9px 22px 11px 14px;
+      border-radius: 999px;
+      border: 3px solid var(--cream, #fff6e9);
+      white-space: nowrap;
+    }
+    .c-dot {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--butter, #ffd45e);
+    }
+    .c-w {
+      display: inline-block;
+    }
+  </style>
+  <div id="root" data-composition-id="chair" data-width="1080" data-height="1920">
+    <div id="c-l1" class="clip c-row" data-start="0" data-duration="2.2" style="top: 270px">
+      <div id="c-l1-in" class="c-stk" style="transform: rotate(-2deg)">
+        <span class="c-w c-w1">letak</span> <span class="c-w c-w1">je</span> <span class="c-w c-w1">atas</span> <span class="c-w c-w1">kerusi</span>
+      </div>
+    </div>
+
+    <div id="c-l2" class="clip c-row" data-start="2.2" data-duration="3.4" style="top: 270px">
+      <div id="c-l2-in" class="c-stk" style="transform: rotate(1.5deg)">kerusi ofis pun muat</div>
+    </div>
+    <div id="c-chip" class="clip c-row" data-start="2.2" data-duration="3.4" style="top: 400px">
+      <div id="c-chip-in" class="c-chip">
+        <span class="c-dot">
+          <svg width="22" height="18" viewBox="0 0 22 18" aria-hidden="true">
+            <path id="c-tick" d="M2 9 L8 15 L20 2" fill="none" stroke="#1D2A6B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+        nampak kemas je
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // Line 1 arrives with the vertical whip: words drop in from above.
+    tl.fromTo("#c-l1-in", { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "expo.out" }, 0.3);
+    tl.fromTo(".c-w1", { y: -18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.22, stagger: 0.07, ease: "back.out(2)" }, 0.34);
+    tl.to("#c-l1-in", { opacity: 0, filter: "blur(8px)", duration: 0.18, ease: "power2.in" }, 2.0);
+
+    // Line 2 and the tick chip.
+    tl.fromTo("#c-l2-in", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out" }, 2.25);
+    tl.fromTo("#c-chip-in", { scale: 0, rotation: 6 }, { scale: 1, rotation: 2, duration: 0.42, ease: "back.out(2.2)" }, 2.5);
+    tl.fromTo("#c-tick", { strokeDasharray: 30, strokeDashoffset: 30 }, { strokeDashoffset: 0, duration: 0.28, ease: "power2.out" }, 2.75);
+
+    tl.to(["#c-l2-in", "#c-chip-in"], { scale: 0.85, opacity: 0, duration: 0.2, ease: "power2.in" }, 5.2);
+
+    window.__timelines["chair"] = tl;
+  </script>
+</template>

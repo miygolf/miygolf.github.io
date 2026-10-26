@@ -1,0 +1,101 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      font-family: "Nunito", sans-serif;
+      pointer-events: none;
+    }
+    .f-row {
+      position: absolute;
+      left: 70px;
+      width: 860px;
+      display: flex;
+      justify-content: center;
+    }
+    .f-stk {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--cream, #fff6e9);
+      color: var(--ink, #1d2a6b);
+      font-size: 48px;
+      font-weight: 900;
+      line-height: 1.1;
+      padding: 16px 32px 20px;
+      border-radius: 36px;
+      border: 4px solid var(--ink, #1d2a6b);
+      box-shadow: 6px 7px 0 var(--ink, #1d2a6b);
+      white-space: nowrap;
+    }
+    .f-sub {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--butter, #ffd45e);
+      color: var(--ink, #1d2a6b);
+      font-size: 30px;
+      font-weight: 800;
+      padding: 8px 22px 10px;
+      border-radius: 999px;
+      border: 3px solid var(--ink, #1d2a6b);
+      white-space: nowrap;
+    }
+    .f-ch {
+      display: inline-block;
+    }
+  </style>
+  <div id="root" data-composition-id="feel" data-width="1080" data-height="1920">
+    <!-- Texture beat -->
+    <div id="f-l1" class="clip f-row" data-start="0" data-duration="2.6" style="top: 270px">
+      <div id="f-l1-in" class="f-stk" style="transform: rotate(-2deg)">
+        <svg width="58" height="40" viewBox="0 0 58 40" aria-hidden="true">
+          <path d="M14 36 C 4 36 2 26 9 22 C 7 12 19 7 25 13 C 29 3 45 4 46 16 C 55 16 57 30 48 36 Z"
+            fill="#BFD8FF" stroke="#1D2A6B" stroke-width="3.5" stroke-linejoin="round" />
+        </svg>
+        <span><span class="f-ch f-w1">kain</span> <span class="f-ch f-w1">lembut,</span> <span class="f-ch f-w1">rasa</span> <span class="f-ch f-w1">gebu</span></span>
+      </div>
+    </div>
+
+    <!-- Hole beat: a doodle arrow points down into the hole -->
+    <div id="f-ring" class="clip" data-start="2.6" data-duration="2.6" style="position: absolute; inset: 0">
+      <svg id="f-ring-svg" width="1080" height="1920" viewBox="0 0 1080 1920" style="position: absolute; left: 0; top: 0; overflow: visible">
+        <path id="f-arrow" d="M640 478 C 700 540 640 600 560 640" fill="none" stroke="#FFD45E"
+          stroke-width="10" stroke-linecap="round" />
+        <path id="f-arrow-head" d="M590 610 L556 642 L600 656" fill="none" stroke="#FFD45E"
+          stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </div>
+    <div id="f-l2" class="clip f-row" data-start="2.6" data-duration="2.6" style="top: 270px">
+      <div id="f-l2-in" class="f-stk" style="transform: rotate(1.5deg)">ada lubang kat tengah</div>
+    </div>
+    <div id="f-l3" class="clip f-row" data-start="2.6" data-duration="2.6" style="top: 398px">
+      <div id="f-l3-in" class="f-sub">
+        sebab tu nama dia donut
+        <svg width="30" height="28" viewBox="0 0 30 28" aria-hidden="true">
+          <path d="M15 26 C 4 18 1 12 2 8 C 3 3 10 1 15 7 C 20 1 27 3 28 8 C 29 12 26 18 15 26 Z"
+            fill="#FF8FB8" stroke="#1D2A6B" stroke-width="3" stroke-linejoin="round" />
+        </svg>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // Texture: words go from blurred to sharp, like touching the fabric.
+    tl.fromTo("#f-l1-in", { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.42, ease: "back.out(1.8)" }, 0.22);
+    tl.fromTo(".f-w1", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, stagger: 0.08, ease: "power2.out" }, 0.3);
+    tl.to("#f-l1-in", { scale: 1.2, opacity: 0, duration: 0.24, ease: "power3.in" }, 2.3);
+
+    // Hole: the arrow draws itself toward the hole, then the label lands.
+    tl.fromTo("#f-arrow", { strokeDasharray: 260, strokeDashoffset: 260 }, { strokeDashoffset: 0, duration: 0.35, ease: "power2.out" }, 3.3);
+    tl.fromTo("#f-arrow-head", { opacity: 0 }, { opacity: 1, duration: 0.08 }, 3.62);
+    tl.fromTo("#f-l2-in", { y: -30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "expo.out" }, 2.75);
+    tl.fromTo("#f-ring-svg", { y: 0 }, { y: 14, duration: 1.2, ease: "none" }, 3.7);
+    tl.fromTo("#f-l3-in", { scale: 0, rotation: -8 }, { scale: 1, rotation: -3, duration: 0.42, ease: "back.out(2.4)" }, 3.2);
+
+    tl.to(["#f-l2-in", "#f-l3-in", "#f-ring-svg"], { y: -240, opacity: 0, duration: 0.2, ease: "power3.in" }, 4.96);
+
+    window.__timelines["feel"] = tl;
+  </script>
+</template>

@@ -1,0 +1,6 @@
+# Large/derived media: re-create with ./fetch-footage.sh
+assets/footage/
+.hyperframes/
+renders/
+node_modules/
+.src/
