@@ -55,8 +55,8 @@
         height: 1920px;
         object-fit: cover;
       }
-      #cam-s7 {
-        z-index: 8;
+      #cam-s9 {
+        z-index: 10;
       }
       .ovl {
         z-index: 20;
@@ -68,7 +68,7 @@
       id="root"
       data-composition-id="main"
       data-start="0"
-      data-duration="20.6"
+      data-duration="20.5"
       data-width="1080"
       data-height="1920"
       data-motion-blur="on"
@@ -76,7 +76,7 @@
       <!-- Footage: each shot is a trimmed, muted clip inside an untimed camera wrapper. -->
       <div class="cam" id="cam-s1" style="z-index: 1">
         <video id="s1" class="clip" src="assets/footage/clip2.mp4" muted playsinline
-          data-start="0" data-duration="2.6" data-media-start="4.0" data-track-index="0"></video>
+          data-start="0.0" data-duration="2.6" data-media-start="4.0" data-track-index="0"></video>
       </div>
       <div class="cam" id="cam-s2" style="z-index: 2">
         <video id="s2" class="clip" src="assets/footage/clip2.mp4" muted playsinline
@@ -84,23 +84,31 @@
       </div>
       <div class="cam" id="cam-s3" style="z-index: 3">
         <video id="s3" class="clip" src="assets/footage/clip3.mp4" muted playsinline
-          data-start="4.4" data-duration="2.6" data-media-start="4.0" data-track-index="0"></video>
+          data-start="4.4" data-duration="2.0" data-media-start="5.8" data-track-index="0"></video>
       </div>
       <div class="cam" id="cam-s4" style="z-index: 4">
         <video id="s4" class="clip" src="assets/footage/clip3.mp4" muted playsinline
-          data-start="7.0" data-duration="2.6" data-media-start="12.6" data-track-index="1"></video>
+          data-start="6.4" data-duration="1.8" data-media-start="17.4" data-track-index="1"></video>
       </div>
       <div class="cam" id="cam-s5" style="z-index: 5">
-        <video id="s5" class="clip" src="assets/footage/clip1.mp4" muted playsinline
-          data-start="9.6" data-duration="2.2" data-media-start="0.2" data-track-index="0"></video>
+        <video id="s5" class="clip" src="assets/footage/clip2.mp4" muted playsinline
+          data-start="8.2" data-duration="2.4" data-media-start="9.3" data-track-index="0"></video>
       </div>
       <div class="cam" id="cam-s6" style="z-index: 6">
-        <video id="s6" class="clip" src="assets/footage/clip1.mp4" muted playsinline
-          data-start="11.8" data-duration="3.4" data-media-start="11.0" data-track-index="1"></video>
+        <video id="s6" class="clip" src="assets/footage/clip2.mp4" muted playsinline
+          data-start="10.6" data-duration="1.4" data-media-start="12.6" data-track-index="1"></video>
       </div>
-      <div class="cam" id="cam-s7">
-        <video id="s7" class="clip" src="assets/footage/clip3.mp4" muted playsinline
-          data-start="14.85" data-duration="5.75" data-media-start="19.55" data-track-index="0"></video>
+      <div class="cam" id="cam-s7" style="z-index: 7">
+        <video id="s7" class="clip" src="assets/footage/clip1.mp4" muted playsinline
+          data-start="12.0" data-duration="2.0" data-media-start="0.2" data-track-index="0"></video>
+      </div>
+      <div class="cam" id="cam-s8" style="z-index: 8">
+        <video id="s8" class="clip" src="assets/footage/clip1.mp4" muted playsinline
+          data-start="14.0" data-duration="2.2" data-media-start="11.6" data-track-index="1"></video>
+      </div>
+      <div class="cam" id="cam-s9">
+        <video id="s9" class="clip" src="assets/footage/clip2.mp4" muted playsinline
+          data-start="15.9" data-duration="4.6" data-media-start="14.0" data-playback-rate="0.75" data-track-index="0"></video>
       </div>
 
       <!-- Graphics: one overlay scene per chapter. -->
@@ -108,36 +116,43 @@
         data-start="0" data-duration="4.4" data-track-index="2" data-track-kind="graphics"
         data-width="1080" data-height="1920"></div>
       <div id="feel" class="ovl" data-composition-id="feel" data-composition-src="compositions/feel.html"
-        data-start="4.4" data-duration="5.2" data-track-index="2" data-track-kind="graphics"
+        data-start="4.4" data-duration="6.2" data-track-index="2" data-track-kind="graphics"
         data-width="1080" data-height="1920"></div>
       <div id="chair" class="ovl" data-composition-id="chair" data-composition-src="compositions/chair.html"
-        data-start="9.6" data-duration="5.6" data-track-index="2" data-track-kind="graphics"
+        data-start="12.0" data-duration="3.9" data-track-index="2" data-track-kind="graphics"
         data-width="1080" data-height="1920"></div>
       <div id="outro" class="ovl" data-composition-id="outro" data-composition-src="compositions/outro.html"
-        data-start="15.2" data-duration="5.4" data-track-index="2" data-track-kind="graphics"
+        data-start="15.9" data-duration="4.6" data-track-index="2" data-track-kind="graphics"
         data-width="1080" data-height="1920"></div>
 
-      <!-- Music bed: enters at the track's fuller section, fades under the end card. -->
-      <audio id="bgm" class="clip" src="assets/music/positive-whistling.mp3"
-        data-start="0" data-duration="20.6" data-media-start="15.6"
-        data-volume="0.55" data-fade-in="0.15" data-fade-out="1.4" data-track-index="5"></audio>
+      <!-- No music: the footage's own (cleaned) sound under each shot, so hands on fabric are heard. -->
+      <audio id="foley-s1" class="clip" src="assets/foley/clip2.m4a" data-start="0.0" data-duration="2.6" data-media-start="4.0" data-volume="1" data-fade-in="0.04" data-fade-out="0.06" data-track-index="3"></audio>
+      <audio id="foley-s2" class="clip" src="assets/foley/clip2.m4a" data-start="2.6" data-duration="1.8" data-media-start="7.7" data-volume="1" data-fade-in="0.04" data-fade-out="0.06" data-track-index="4"></audio>
+      <audio id="foley-s3" class="clip" src="assets/foley/clip3.m4a" data-start="4.4" data-duration="2.0" data-media-start="5.8" data-volume="1" data-fade-in="0.04" data-fade-out="0.06" data-track-index="3"></audio>
+      <audio id="foley-s4" class="clip" src="assets/foley/clip3.m4a" data-start="6.4" data-duration="1.8" data-media-start="17.4" data-volume="1" data-fade-in="0.04" data-fade-out="0.06" data-track-index="4"></audio>
+      <audio id="foley-s5" class="clip" src="assets/foley/clip2.m4a" data-start="8.2" data-duration="2.4" data-media-start="9.3" data-volume="1" data-fade-in="0.04" data-fade-out="0.06" data-track-index="3"></audio>
+      <audio id="foley-s6" class="clip" src="assets/foley/clip2.m4a" data-start="10.6" data-duration="1.4" data-media-start="12.6" data-volume="1" data-fade-in="0.04" data-fade-out="0.06" data-track-index="4"></audio>
+      <audio id="foley-s7" class="clip" src="assets/foley/clip1.m4a" data-start="12.0" data-duration="2.0" data-media-start="0.2" data-volume="1" data-fade-in="0.04" data-fade-out="0.06" data-track-index="3"></audio>
+      <audio id="foley-s8" class="clip" src="assets/foley/clip1.m4a" data-start="14.0" data-duration="2.2" data-media-start="11.6" data-volume="1" data-fade-in="0.04" data-fade-out="0.06" data-track-index="4"></audio>
+      <audio id="foley-s9" class="clip" src="assets/foley/clip2.m4a" data-start="15.9" data-duration="4.6" data-media-start="14.0" data-playback-rate="0.75" data-volume="1" data-fade-in="0.04" data-fade-out="0.06" data-track-index="3"></audio>
 
       <!-- Sound effects: each one has a cause on screen. -->
-      <audio id="sfx-pop-hook" class="clip" src="assets/sfx/pop.mp3" data-start="0.04" data-duration="0.72" data-volume="0.45" data-track-index="6"></audio>
-      <audio id="sfx-pop-back" class="clip" src="assets/sfx/pop.mp3" data-start="2.52" data-duration="0.72" data-volume="0.5" data-track-index="7"></audio>
-      <audio id="sfx-sparkle-back" class="clip" src="assets/sfx/sparkle.mp3" data-start="2.7" data-duration="1.8" data-volume="0.28" data-track-index="8"></audio>
-      <audio id="sfx-whoosh-1" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="4.22" data-duration="0.57" data-volume="0.42" data-track-index="9"></audio>
-      <audio id="sfx-pop-soft" class="clip" src="assets/sfx/pop.mp3" data-start="4.54" data-duration="0.72" data-volume="0.4" data-track-index="10"></audio>
-      <audio id="sfx-whoosh-2" class="clip" src="assets/sfx/whoosh.mp3" data-start="6.84" data-duration="0.57" data-volume="0.35" data-track-index="11"></audio>
-      <audio id="sfx-sparkle-ring" class="clip" src="assets/sfx/sparkle.mp3" data-start="7.68" data-duration="1.8" data-volume="0.3" data-track-index="12"></audio>
-      <audio id="sfx-click-label" class="clip" src="assets/sfx/click-soft.mp3" data-start="7.53" data-duration="0.37" data-volume="0.65" data-track-index="13"></audio>
-      <audio id="sfx-whoosh-3" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="9.45" data-duration="0.57" data-volume="0.42" data-track-index="14"></audio>
-      <audio id="sfx-pop-chair" class="clip" src="assets/sfx/pop.mp3" data-start="12.0" data-duration="0.72" data-volume="0.4" data-track-index="15"></audio>
-      <audio id="sfx-click-tick" class="clip" src="assets/sfx/click-soft.mp3" data-start="12.3" data-duration="0.37" data-volume="0.6" data-track-index="16"></audio>
-      <audio id="sfx-chime-iris" class="clip" src="assets/sfx/chime.mp3" data-start="14.44" data-duration="2.5" data-volume="0.22" data-track-index="17"></audio>
-      <audio id="sfx-pop-title" class="clip" src="assets/sfx/pop.mp3" data-start="15.95" data-duration="0.72" data-volume="0.45" data-track-index="18"></audio>
-      <audio id="sfx-sparkle-chips" class="clip" src="assets/sfx/sparkle.mp3" data-start="17.12" data-duration="1.8" data-volume="0.25" data-track-index="19"></audio>
-      <audio id="sfx-pop-cta" class="clip" src="assets/sfx/pop.mp3" data-start="17.86" data-duration="0.72" data-volume="0.45" data-track-index="20"></audio>
+      <audio id="sfx-pop-hook" class="clip" src="assets/sfx/pop.mp3" data-start="0.04" data-duration="0.72" data-volume="0.6" data-track-index="6"></audio>
+      <audio id="sfx-pop-back" class="clip" src="assets/sfx/pop.mp3" data-start="2.52" data-duration="0.72" data-volume="0.68" data-track-index="7"></audio>
+      <audio id="sfx-sparkle-back" class="clip" src="assets/sfx/sparkle.mp3" data-start="2.7" data-duration="1.8" data-volume="0.33" data-track-index="8"></audio>
+      <audio id="sfx-whoosh-1" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="4.22" data-duration="0.57" data-volume="0.57" data-track-index="9"></audio>
+      <audio id="sfx-pop-soft" class="clip" src="assets/sfx/pop.mp3" data-start="4.54" data-duration="0.72" data-volume="0.52" data-track-index="10"></audio>
+      <audio id="sfx-pop-edge" class="clip" src="assets/sfx/click-soft.mp3" data-start="6.47" data-duration="0.37" data-volume="0.83" data-track-index="11"></audio>
+      <audio id="sfx-whoosh-2" class="clip" src="assets/sfx/whoosh.mp3" data-start="8.04" data-duration="0.57" data-volume="0.52" data-track-index="12"></audio>
+      <audio id="sfx-click-label" class="clip" src="assets/sfx/click-soft.mp3" data-start="8.36" data-duration="0.37" data-volume="0.83" data-track-index="13"></audio>
+      <audio id="sfx-sparkle-arrow" class="clip" src="assets/sfx/sparkle.mp3" data-start="8.92" data-duration="1.8" data-volume="0.33" data-track-index="14"></audio>
+      <audio id="sfx-whoosh-3" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="11.84" data-duration="0.57" data-volume="0.57" data-track-index="15"></audio>
+      <audio id="sfx-pop-chair" class="clip" src="assets/sfx/pop.mp3" data-start="12.2" data-duration="0.72" data-volume="0.52" data-track-index="16"></audio>
+      <audio id="sfx-click-tick" class="clip" src="assets/sfx/click-soft.mp3" data-start="14.48" data-duration="0.37" data-volume="0.83" data-track-index="17"></audio>
+      <audio id="sfx-chime-iris" class="clip" src="assets/sfx/chime.mp3" data-start="15.5" data-duration="2.5" data-volume="0.27" data-track-index="18"></audio>
+      <audio id="sfx-pop-title" class="clip" src="assets/sfx/pop.mp3" data-start="16.65" data-duration="0.72" data-volume="0.6" data-track-index="19"></audio>
+      <audio id="sfx-sparkle-chips" class="clip" src="assets/sfx/sparkle.mp3" data-start="17.48" data-duration="1.8" data-volume="0.3" data-track-index="20"></audio>
+      <audio id="sfx-pop-cta" class="clip" src="assets/sfx/pop.mp3" data-start="17.96" data-duration="0.72" data-volume="0.6" data-track-index="21"></audio>
     </div>
     <script>
       const tl = gsap.timeline({ paused: true });
@@ -149,23 +164,26 @@
       // S2 -> S3 whip left.
       tl.to("#cam-s2", { x: -1080, duration: 0.22, ease: "power3.in" }, 4.18);
       tl.fromTo("#cam-s3", { x: 1080 }, { x: 0, duration: 0.3, ease: "power3.out" }, 4.4);
-      tl.fromTo("#cam-s3", { scale: 1 }, { scale: 1.06, duration: 2.2, ease: "none" }, 4.4);
-      // S3 -> S4 push into the hole.
-      tl.to("#cam-s3", { scale: 1.5, duration: 0.3, ease: "power3.in" }, 6.7);
-      tl.fromTo("#cam-s4", { scale: 1.25 }, { scale: 1, duration: 0.6, ease: "expo.out" }, 7.0);
+      // S3 -> S4 punch-in on the hand pressing the edge.
+      tl.fromTo("#cam-s4", { scale: 1.16 }, { scale: 1.02, duration: 0.55, ease: "expo.out" }, 6.4);
       // S4 -> S5 vertical whip.
-      tl.to("#cam-s4", { y: -1920, duration: 0.22, ease: "power3.in" }, 9.38);
-      tl.fromTo("#cam-s5", { y: 1920 }, { y: 0, duration: 0.32, ease: "power3.out" }, 9.6);
-      // S6 settles on the chair.
-      tl.fromTo("#cam-s6", { scale: 1.08 }, { scale: 1, duration: 1.2, ease: "power2.out" }, 11.8);
-      // S6 -> S7 iris from the centre of the cushion.
+      tl.to("#cam-s4", { y: -1920, duration: 0.2, ease: "power3.in" }, 8.0);
+      tl.fromTo("#cam-s5", { y: 1920 }, { y: 0, duration: 0.3, ease: "power3.out" }, 8.2);
+      // S6 the lift: small push with the hand.
+      tl.fromTo("#cam-s6", { scale: 1 }, { scale: 1.08, duration: 1.4, ease: "power1.inOut" }, 10.6);
+      // S6 -> S7 whip left onto the chair.
+      tl.to("#cam-s6", { x: -1080, duration: 0.2, ease: "power3.in" }, 11.8);
+      tl.fromTo("#cam-s7", { x: 1080 }, { x: 0, duration: 0.3, ease: "power3.out" }, 12.0);
+      // S8 settles on the chair.
+      tl.fromTo("#cam-s8", { scale: 1.1 }, { scale: 1, duration: 0.9, ease: "expo.out" }, 14.0);
+      // S8 -> S9 iris from the centre of the cushion.
       tl.fromTo(
-        "#cam-s7",
+        "#cam-s9",
         { clipPath: "circle(0% at 50% 62%)" },
         { clipPath: "circle(130% at 50% 62%)", duration: 0.55, ease: "power2.inOut" },
-        14.85,
+        15.9,
       );
-      tl.fromTo("#cam-s7", { scale: 1.06 }, { scale: 1, duration: 1.4, ease: "power2.out" }, 14.85);
+      tl.fromTo("#cam-s9", { scale: 1.06 }, { scale: 1, duration: 1.4, ease: "power2.out" }, 15.9);
 
       window.__timelines["main"] = tl;
     </script>

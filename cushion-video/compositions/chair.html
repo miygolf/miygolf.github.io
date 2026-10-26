@@ -51,16 +51,16 @@
     }
   </style>
   <div id="root" data-composition-id="chair" data-width="1080" data-height="1920">
-    <div id="c-l1" class="clip c-row" data-start="0" data-duration="2.2" style="top: 270px">
+    <div id="c-l1" class="clip c-row" data-start="0" data-duration="2.0" style="top: 270px">
       <div id="c-l1-in" class="c-stk" style="transform: rotate(-2deg)">
         <span class="c-w c-w1">letak</span> <span class="c-w c-w1">je</span> <span class="c-w c-w1">atas</span> <span class="c-w c-w1">kerusi</span>
       </div>
     </div>
 
-    <div id="c-l2" class="clip c-row" data-start="2.2" data-duration="3.4" style="top: 270px">
+    <div id="c-l2" class="clip c-row" data-start="2.0" data-duration="1.9" style="top: 270px">
       <div id="c-l2-in" class="c-stk" style="transform: rotate(1.5deg)">kerusi ofis pun muat</div>
     </div>
-    <div id="c-chip" class="clip c-row" data-start="2.2" data-duration="3.4" style="top: 400px">
+    <div id="c-chip" class="clip c-row" data-start="2.0" data-duration="1.9" style="top: 400px">
       <div id="c-chip-in" class="c-chip">
         <span class="c-dot">
           <svg width="22" height="18" viewBox="0 0 22 18" aria-hidden="true">
@@ -77,14 +77,14 @@
     // Line 1 arrives with the vertical whip: words drop in from above.
     tl.fromTo("#c-l1-in", { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "expo.out" }, 0.3);
     tl.fromTo(".c-w1", { y: -18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.22, stagger: 0.07, ease: "back.out(2)" }, 0.34);
-    tl.to("#c-l1-in", { opacity: 0, filter: "blur(8px)", duration: 0.18, ease: "power2.in" }, 2.0);
+    tl.to("#c-l1-in", { opacity: 0, filter: "blur(8px)", duration: 0.16, ease: "power2.in" }, 1.82);
 
     // Line 2 and the tick chip.
-    tl.fromTo("#c-l2-in", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out" }, 2.25);
-    tl.fromTo("#c-chip-in", { scale: 0, rotation: 6 }, { scale: 1, rotation: 2, duration: 0.42, ease: "back.out(2.2)" }, 2.5);
-    tl.fromTo("#c-tick", { strokeDasharray: 30, strokeDashoffset: 30 }, { strokeDashoffset: 0, duration: 0.28, ease: "power2.out" }, 2.75);
+    tl.fromTo("#c-l2-in", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out" }, 2.05);
+    tl.fromTo("#c-chip-in", { scale: 0, rotation: 6 }, { scale: 1, rotation: 2, duration: 0.42, ease: "back.out(2.2)" }, 2.3);
+    tl.fromTo("#c-tick", { strokeDasharray: 30, strokeDashoffset: 30 }, { strokeDashoffset: 0, duration: 0.28, ease: "power2.out" }, 2.55);
 
-    tl.to(["#c-l2-in", "#c-chip-in"], { scale: 0.85, opacity: 0, duration: 0.2, ease: "power2.in" }, 5.2);
+    tl.to(["#c-l2-in", "#c-chip-in"], { scale: 0.85, opacity: 0, duration: 0.2, ease: "power2.in" }, 3.68);
 
     window.__timelines["chair"] = tl;
   </script>

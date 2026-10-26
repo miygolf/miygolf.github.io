@@ -47,7 +47,7 @@
   </style>
   <div id="root" data-composition-id="feel" data-width="1080" data-height="1920">
     <!-- Texture beat -->
-    <div id="f-l1" class="clip f-row" data-start="0" data-duration="2.6" style="top: 270px">
+    <div id="f-l1" class="clip f-row" data-start="0" data-duration="2.0" style="top: 270px">
       <div id="f-l1-in" class="f-stk" style="transform: rotate(-2deg)">
         <svg width="58" height="40" viewBox="0 0 58 40" aria-hidden="true">
           <path d="M14 36 C 4 36 2 26 9 22 C 7 12 19 7 25 13 C 29 3 45 4 46 16 C 55 16 57 30 48 36 Z"
@@ -57,19 +57,26 @@
       </div>
     </div>
 
+    <!-- Edge beat: the hand presses the side -->
+    <div id="f-e" class="clip f-row" data-start="2.0" data-duration="1.8" style="top: 270px">
+      <div id="f-e-in" class="f-stk" style="transform: rotate(-1.5deg)">
+        <span class="f-ch f-we">tekan</span> <span class="f-ch f-we">tepi…</span> <span class="f-ch f-we">lembut</span> <span class="f-ch f-we">je</span>
+      </div>
+    </div>
+
     <!-- Hole beat: a doodle arrow points down into the hole -->
-    <div id="f-ring" class="clip" data-start="2.6" data-duration="2.6" style="position: absolute; inset: 0">
+    <div id="f-ring" class="clip" data-start="3.8" data-duration="2.4" style="position: absolute; inset: 0">
       <svg id="f-ring-svg" width="1080" height="1920" viewBox="0 0 1080 1920" style="position: absolute; left: 0; top: 0; overflow: visible">
-        <path id="f-arrow" d="M640 478 C 700 540 640 600 560 640" fill="none" stroke="#FFD45E"
+        <path id="f-arrow" d="M650 478 C 760 600 700 820 575 925" fill="none" stroke="#FFD45E"
           stroke-width="10" stroke-linecap="round" />
-        <path id="f-arrow-head" d="M590 610 L556 642 L600 656" fill="none" stroke="#FFD45E"
+        <path id="f-arrow-head" d="M598 884 L570 930 L624 936" fill="none" stroke="#FFD45E"
           stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
     </div>
-    <div id="f-l2" class="clip f-row" data-start="2.6" data-duration="2.6" style="top: 270px">
+    <div id="f-l2" class="clip f-row" data-start="3.8" data-duration="2.4" style="top: 270px">
       <div id="f-l2-in" class="f-stk" style="transform: rotate(1.5deg)">ada lubang kat tengah</div>
     </div>
-    <div id="f-l3" class="clip f-row" data-start="2.6" data-duration="2.6" style="top: 398px">
+    <div id="f-l3" class="clip f-row" data-start="3.8" data-duration="2.4" style="top: 398px">
       <div id="f-l3-in" class="f-sub">
         sebab tu nama dia donut
         <svg width="30" height="28" viewBox="0 0 30 28" aria-hidden="true">
@@ -85,16 +92,21 @@
     // Texture: words go from blurred to sharp, like touching the fabric.
     tl.fromTo("#f-l1-in", { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.42, ease: "back.out(1.8)" }, 0.22);
     tl.fromTo(".f-w1", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, stagger: 0.08, ease: "power2.out" }, 0.3);
-    tl.to("#f-l1-in", { scale: 1.2, opacity: 0, duration: 0.24, ease: "power3.in" }, 2.3);
+    tl.to("#f-l1-in", { scale: 1.2, opacity: 0, duration: 0.2, ease: "power3.in" }, 1.78);
 
-    // Hole: the arrow draws itself toward the hole, then the label lands.
-    tl.fromTo("#f-arrow", { strokeDasharray: 260, strokeDashoffset: 260 }, { strokeDashoffset: 0, duration: 0.35, ease: "power2.out" }, 3.3);
-    tl.fromTo("#f-arrow-head", { opacity: 0 }, { opacity: 1, duration: 0.08 }, 3.62);
-    tl.fromTo("#f-l2-in", { y: -30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "expo.out" }, 2.75);
-    tl.fromTo("#f-ring-svg", { y: 0 }, { y: 14, duration: 1.2, ease: "none" }, 3.7);
-    tl.fromTo("#f-l3-in", { scale: 0, rotation: -8 }, { scale: 1, rotation: -3, duration: 0.42, ease: "back.out(2.4)" }, 3.2);
+    // Edge: words tap in one by one, like fingers pressing.
+    tl.fromTo("#f-e-in", { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.38, ease: "back.out(2)" }, 2.05);
+    tl.fromTo(".f-we", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.1, ease: "back.out(3)" }, 2.1);
+    tl.to("#f-e-in", { y: -200, opacity: 0, duration: 0.18, ease: "power3.in" }, 3.6);
 
-    tl.to(["#f-l2-in", "#f-l3-in", "#f-ring-svg"], { y: -240, opacity: 0, duration: 0.2, ease: "power3.in" }, 4.96);
+    // Hole: label drops in, the pill pops, then the arrow draws toward the hole.
+    tl.fromTo("#f-l2-in", { y: -30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "expo.out" }, 3.95);
+    tl.fromTo("#f-l3-in", { scale: 0, rotation: -8 }, { scale: 1, rotation: -3, duration: 0.42, ease: "back.out(2.4)" }, 4.35);
+    tl.fromTo("#f-arrow", { strokeDasharray: 560, strokeDashoffset: 560 }, { strokeDashoffset: 0, duration: 0.42, ease: "power2.out" }, 4.5);
+    tl.fromTo("#f-arrow-head", { opacity: 0 }, { opacity: 1, duration: 0.08 }, 4.88);
+    tl.fromTo("#f-ring-svg", { y: 0 }, { y: 14, duration: 1.1, ease: "none" }, 4.9);
+
+    tl.to(["#f-l2-in", "#f-l3-in", "#f-ring-svg"], { y: -240, opacity: 0, duration: 0.2, ease: "power3.in" }, 5.98);
 
     window.__timelines["feel"] = tl;
   </script>
