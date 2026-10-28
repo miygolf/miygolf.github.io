@@ -19,7 +19,7 @@
     .bf-title { text-shadow: 0 3px 18px rgba(0, 0, 0, 0.55); }
     .bf-title .bf-n { color: #ff3d7f; margin-right: 18px; }
     .bf-sub { text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6); position: absolute; left: 62px; top: 356px; width: 900px; font-weight: 500; font-size: 38px; line-height: 1.15; }
-    #bf-speed { position: absolute; left: 62px; top: 420px; font-weight: 700; font-size: 28px; letter-spacing: 0.12em;
+    #bf-speed { position: absolute; left: 62px; top: 486px; font-weight: 700; font-size: 28px; letter-spacing: 0.12em;
       color: #0d0e12; background: #f5f3ee; padding: 4px 12px; }
     #bf-tele { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible;
       filter: drop-shadow(0 0 6px rgba(255, 61, 127, 0.55)) drop-shadow(0 3px 4px rgba(0, 0, 0, 0.45)); }
@@ -30,9 +30,17 @@
     #bf-label-v { margin-top: 4px; font-weight: 500; font-size: 32px; line-height: 1.15; }
     #bf-t1, #bf-s1, #bf-t2, #bf-s2, #bf-speed, #bf-label { opacity: 0; }
     #bf-tele path { stroke-dashoffset: 1; }
+    #bf-seq { position: absolute; left: 60px; top: 414px; display: flex; gap: 12px; opacity: 0; }
+    .bf-step { position: relative; padding: 8px 16px 8px 12px; border: 2px solid rgba(245, 243, 238, 0.4);
+      background: rgba(13, 14, 18, 0.72); color: #f5f3ee; font-weight: 700; font-size: 28px; letter-spacing: 0.06em;
+      text-transform: uppercase; white-space: nowrap; }
+    .bf-step b { display: inline-block; margin-right: 10px; color: #ff3d7f; }
+    #bf-stuck { position: absolute; left: -6px; top: 58px; padding: 4px 14px; border: 4px solid #ff3d7f; color: #ff3d7f;
+      background: rgba(13, 14, 18, 0.85); font-family: "Unbounded", sans-serif; font-weight: 900; font-size: 30px;
+      letter-spacing: 0.04em; text-transform: uppercase; opacity: 0; }
   </style>
   <div id="root" data-composition-id="before" data-width="1080" data-height="1920"
-    data-composition-variables='[{"id":"bfTransitionSub","type":"string","label":"Before: transition line","default":"Perhati pinggul."},{"id":"bfImpactSub","type":"string","label":"Before: impact line","default":"Frame tepat bola kena."},{"id":"bfKneeKey","type":"string","label":"Before: face-on label","default":"Lutut kanan"},{"id":"bfKneeVal","type":"string","label":"Before: face-on note","default":"collapse ke depan"}]'>
+    data-composition-variables='[{"id":"bfTransitionSub","type":"string","label":"Before: transition line","default":"Stuck. Sequence lari."},{"id":"bfImpactSub","type":"string","label":"Before: impact line","default":"Hasilnya: top, tak consistent."},{"id":"bfKneeKey","type":"string","label":"Before: face-on label","default":"Lutut kanan"},{"id":"bfKneeVal","type":"string","label":"Before: face-on note","default":"collapse ke depan"}]'>
     <div id="bf-f1" class="bf-freeze clip" data-start="2.133" data-duration="1.2" data-track-index="0">
       <img id="bf-f1-img" src="assets/stills/bdtl_imp.jpg" alt="" />
       <div id="bf-f1-flash" class="bf-flash"></div>
@@ -50,10 +58,17 @@
     </svg>
     <div class="bf-chip-wrap"><div id="bf-chip" class="bf-chip">Before · 13:06</div></div>
     <div id="bf-t1" class="bf-title"><span class="bf-n">01</span><span>Transition</span></div>
-    <div id="bf-s1" class="bf-sub" data-var-text="bfTransitionSub">Perhati pinggul.</div>
+    <div id="bf-s1" class="bf-sub" data-var-text="bfTransitionSub">Stuck. Sequence lari.</div>
     <div id="bf-t2" class="bf-title"><span class="bf-n">02</span><span>Impact</span></div>
-    <div id="bf-s2" class="bf-sub" data-var-text="bfImpactSub">Frame tepat bola kena.</div>
+    <div id="bf-s2" class="bf-sub" data-var-text="bfImpactSub">Hasilnya: top, tak consistent.</div>
     <div id="bf-speed">SLOW-MO</div>
+    <div id="bf-seq" data-layout-allow-overflow>
+      <div id="bf-st1" class="bf-step"><b>1</b>Pinggul</div>
+      <div id="bf-st2" class="bf-step"><b>2</b>Badan</div>
+      <div id="bf-st3" class="bf-step"><b>3</b>Tangan</div>
+      <div id="bf-st4" class="bf-step"><b>4</b>Club</div>
+      <div id="bf-stuck">Stuck</div>
+    </div>
     <div id="bf-label">
       <div id="bf-label-k" data-var-text="bfKneeKey">Lutut kanan</div>
       <div id="bf-label-v" data-var-text="bfKneeVal">collapse ke depan</div>
@@ -92,6 +107,16 @@
     tl.fromTo("#bf-s1", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18 }, 0.98);
     tl.fromTo("#bf-speed", { opacity: 0 }, { opacity: 1, duration: 0.1 }, 0.9);
     draw("#bf-ring-hip", 0.98, 0.34);
+    // sequence row: hands and club fire first, the hips stay stuck
+    tl.fromTo("#bf-seq", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.2, ease: "expo.out" }, 0.92);
+    tl.to("#bf-st3", { backgroundColor: "#ff3d7f", color: "#0d0e12", borderColor: "#ff3d7f", duration: 0.08 }, 1.12);
+    tl.to("#bf-st4", { backgroundColor: "#ff3d7f", color: "#0d0e12", borderColor: "#ff3d7f", duration: 0.08 }, 1.32);
+    tl.set("#bf-st3 b", { color: "#0d0e12" }, 1.12);
+    tl.set("#bf-st4 b", { color: "#0d0e12" }, 1.32);
+    tl.fromTo("#bf-stuck", { opacity: 0, scale: 1.7, rotation: -14 }, { opacity: 1, scale: 1, rotation: -7, duration: 0.18, ease: "power4.out" }, 1.55);
+    tl.to("#bf-st1", { opacity: 0.45, duration: 0.15 }, 1.55);
+    tl.to("#bf-speed", { opacity: 0, duration: 0.1 }, 1.45);
+    tl.to("#bf-seq", { opacity: 0, filter: "blur(8px)", duration: 0.14, ease: "power2.in" }, 2.053);
 
     // 02 impact — freeze down the line
     tl.fromTo("#bf-f1-img", { scale: 1 }, { scale: 1.08, duration: 0.35, ease: "expo.out" }, 2.133);

@@ -1,0 +1,542 @@
+{
+  "ok": true,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "filesScanned": 8
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 4,
+    "findings": [
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 1.269,
+        "selector": "#hk-freeze-img",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": -40.8,
+          "top": -96,
+          "right": 1125.6,
+          "bottom": 1977.6,
+          "width": 1166.4,
+          "height": 2073.6
+        },
+        "containerSelector": "#hk-freeze",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1080,
+          "bottom": 1920,
+          "width": 1080,
+          "height": 1920
+        },
+        "overflow": {
+          "left": 40.8,
+          "right": 45.6,
+          "top": 96,
+          "bottom": 57.6
+        },
+        "dataAttributes": {
+          "data-hf-render-id": "hk-freeze-img",
+          "data-hf-authored-opacity": ""
+        },
+        "sourceFile": "compositions/hook.html",
+        "bbox": {
+          "x": -40.8,
+          "y": -96,
+          "width": 1166.4,
+          "height": 2073.6
+        },
+        "firstSeen": 1.269,
+        "lastSeen": 1.269,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          1.269
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 6.347,
+        "selector": "#bf-f1-img",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": -48,
+          "top": -92,
+          "right": 1118.4,
+          "bottom": 1981.6,
+          "width": 1166.4,
+          "height": 2073.6
+        },
+        "containerSelector": "#bf-f1",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1080,
+          "bottom": 1920,
+          "width": 1080,
+          "height": 1920
+        },
+        "overflow": {
+          "left": 48,
+          "right": 38.4,
+          "top": 92,
+          "bottom": 61.6
+        },
+        "dataAttributes": {
+          "data-hf-render-id": "bf-f1-img",
+          "data-hf-authored-opacity": ""
+        },
+        "sourceFile": "compositions/before.html",
+        "bbox": {
+          "x": -48,
+          "y": -92,
+          "width": 1166.4,
+          "height": 2073.6
+        },
+        "firstSeen": 6.347,
+        "lastSeen": 6.347,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          6.347
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 8.886,
+        "selector": "#bf-f2-img",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": -47,
+          "top": -115,
+          "right": 1141,
+          "bottom": 1997,
+          "width": 1188,
+          "height": 2112
+        },
+        "containerSelector": "#bf-f2",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1080,
+          "bottom": 1920,
+          "width": 1080,
+          "height": 1920
+        },
+        "overflow": {
+          "left": 47,
+          "right": 61,
+          "top": 115,
+          "bottom": 77
+        },
+        "dataAttributes": {
+          "data-hf-render-id": "bf-f2-img",
+          "data-hf-authored-opacity": ""
+        },
+        "sourceFile": "compositions/before.html",
+        "bbox": {
+          "x": -47,
+          "y": -115,
+          "width": 1188,
+          "height": 2112
+        },
+        "firstSeen": 8.886,
+        "lastSeen": 8.886,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          8.886
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 13.964,
+        "selector": "#af-f2-img",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": -48,
+          "top": -115,
+          "right": 1140,
+          "bottom": 1997,
+          "width": 1188,
+          "height": 2112
+        },
+        "containerSelector": "#af-f2",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1080,
+          "bottom": 1920,
+          "width": 1080,
+          "height": 1920
+        },
+        "overflow": {
+          "left": 48,
+          "right": 60,
+          "top": 115,
+          "bottom": 77
+        },
+        "dataAttributes": {
+          "data-hf-render-id": "af-f2-img",
+          "data-hf-authored-opacity": ""
+        },
+        "sourceFile": "compositions/after.html",
+        "bbox": {
+          "x": -48,
+          "y": -115,
+          "width": 1188,
+          "height": 2112
+        },
+        "firstSeen": 13.964,
+        "lastSeen": 13.964,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          13.964
+        ]
+      }
+    ],
+    "duration": 22.85,
+    "samples": [
+      1.269,
+      3.808,
+      6.347,
+      8.886,
+      11.425,
+      13.964,
+      16.503,
+      19.042,
+      21.581
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 4,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 3,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "contrast_aa_failure",
+        "severity": "warning",
+        "message": "Contrast is 2.39:1; WCAG AA requires 3:1.",
+        "text": "02",
+        "fg": "rgb(255,61,127)",
+        "bg": "rgb(79,80,83)",
+        "ratio": 2.39,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(255,107,157)",
+        "large": true,
+        "selector": "div > div:nth-of-type(3) > div > div:nth-of-type(7) > span:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/before.html",
+        "bbox": {
+          "x": 58,
+          "y": 246,
+          "width": 141.6875,
+          "height": 100
+        },
+        "time": 6.347,
+        "times": [
+          6.347
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "warning",
+        "message": "Contrast is 2.34:1; WCAG AA requires 3:1.",
+        "text": "4Club",
+        "fg": "rgb(157,156,154)",
+        "bg": "rgb(43,105,92)",
+        "ratio": 2.34,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(179,178,176)",
+        "large": true,
+        "selector": "#af-st4",
+        "dataAttributes": {},
+        "sourceFile": "compositions/after.html",
+        "bbox": {
+          "x": 615.15625,
+          "y": 414,
+          "width": 138.28125,
+          "height": 56
+        },
+        "time": 11.425,
+        "times": [
+          11.425
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "warning",
+        "message": "Contrast is 2.97:1; WCAG AA requires 3:1.",
+        "text": "4",
+        "fg": "rgb(13,14,18)",
+        "bg": "rgb(42,104,92)",
+        "ratio": 2.97,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(176,177,178)",
+        "large": true,
+        "selector": "div > div:nth-of-type(5) > div > div:nth-of-type(10) > div:nth-of-type(4) > b",
+        "dataAttributes": {},
+        "sourceFile": "compositions/after.html",
+        "bbox": {
+          "x": 629.15625,
+          "y": 424,
+          "width": 19.5,
+          "height": 36
+        },
+        "time": 11.425,
+        "times": [
+          11.425
+        ]
+      }
+    ],
+    "enabled": true,
+    "samples": [
+      1.269,
+      6.347,
+      11.425,
+      16.503,
+      21.581
+    ],
+    "checked": 31,
+    "passed": 28
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 9,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"REWIND\" (1 word) is on screen 0.34 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (0.80 s here) before it leaves or changes; see references/motion.md.",
+        "text": "REWIND",
+        "selector": "#rp-rw-word",
+        "dataAttributes": {},
+        "sourceFile": "compositions/replay.html",
+        "bbox": {
+          "x": 66,
+          "y": 372,
+          "width": 204.97000000000003,
+          "height": 51
+        },
+        "time": 2.271,
+        "words": 1,
+        "seconds": 0.335,
+        "floorSeconds": 0.4
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"22 MINIT SEBELUM\" (3 words) is on screen 0.83 s (±0.01 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "22 MINIT SEBELUM",
+        "selector": "#rp-kicker",
+        "dataAttributes": {},
+        "sourceFile": "compositions/replay.html",
+        "bbox": {
+          "x": 330.77,
+          "y": 700.02,
+          "width": 418.44000000000005,
+          "height": 42.99000000000001
+        },
+        "time": 2.638,
+        "words": 3,
+        "seconds": 0.835,
+        "floorSeconds": 1.05
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"28\" (1 word) is on screen 0.13 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (0.80 s here) before it leaves or changes; see references/motion.md.",
+        "text": "28",
+        "selector": "#rp-col > div:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/replay.html",
+        "bbox": {
+          "x": 535.88,
+          "y": 761.01,
+          "width": 289.43999999999994,
+          "height": 157.75
+        },
+        "time": 2.638,
+        "words": 1,
+        "seconds": 0.133,
+        "floorSeconds": 0.4
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"24\" (1 word) is on screen 0.06 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (0.80 s here) before it leaves or changes; see references/motion.md.",
+        "text": "24",
+        "selector": "#rp-col > div:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/replay.html",
+        "bbox": {
+          "x": 537.47,
+          "y": 900.76,
+          "width": 286.25,
+          "height": 50.23000000000002
+        },
+        "time": 2.739,
+        "words": 1,
+        "seconds": 0.063,
+        "floorSeconds": 0.4
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"06\" (1 word) is on screen 0.10 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (0.80 s here) before it leaves or changes; see references/motion.md.",
+        "text": "06",
+        "selector": "#ff-col > div:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/ffwd.html",
+        "bbox": {
+          "x": 532.44,
+          "y": 761.05,
+          "width": 296.21000000000004,
+          "height": 125.89999999999998
+        },
+        "time": 9.17,
+        "words": 1,
+        "seconds": 0.102,
+        "floorSeconds": 0.4
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"09\" (1 word) is on screen 0.03 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (0.80 s here) before it leaves or changes; see references/motion.md.",
+        "text": "09",
+        "selector": "#ff-col > div:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/ffwd.html",
+        "bbox": {
+          "x": 532.44,
+          "y": 868.95,
+          "width": 296.21000000000004,
+          "height": 82.00999999999999
+        },
+        "time": 9.24,
+        "words": 1,
+        "seconds": 0.031,
+        "floorSeconds": 0.4
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"Sequence betul: bawah dulu.\" (4 words) is on screen 1.01 s (±0.01 s), under its 1.27 s floor: hold it about 0.5 s + 0.3 s a word (1.70 s here) before it leaves or changes; see references/motion.md.",
+        "text": "Sequence betul: bawah dulu.",
+        "selector": "#af-s1",
+        "dataAttributes": {},
+        "sourceFile": "compositions/after.html",
+        "bbox": {
+          "x": 62,
+          "y": 353,
+          "width": 531.72,
+          "height": 48
+        },
+        "time": 10.801,
+        "words": 4,
+        "seconds": 1.007,
+        "floorSeconds": 1.275
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"stabil, tak jatuh\" (3 words) is on screen 0.93 s (±0.01 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "stabil, tak jatuh",
+        "selector": "#af-label-v",
+        "dataAttributes": {},
+        "sourceFile": "compositions/after.html",
+        "bbox": {
+          "x": 86.22,
+          "y": 1024,
+          "width": 240.80999999999997,
+          "height": 40
+        },
+        "time": 14.273,
+        "words": 3,
+        "seconds": 0.929,
+        "floorSeconds": 1.05
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"After · 13:28\" (3 words) is on screen 0.90 s (±0.01 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "After · 13:28",
+        "selector": "div.af-chip-wrap",
+        "dataAttributes": {},
+        "sourceFile": "compositions/after.html",
+        "bbox": {
+          "x": 86,
+          "y": 196,
+          "width": 217.81,
+          "height": 39
+        },
+        "time": 15.374,
+        "words": 3,
+        "seconds": 0.897,
+        "floorSeconds": 1.05
+      }
+    ],
+    "enabled": true,
+    "step": 0.125,
+    "samples": 183
+  },
+  "audio": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}

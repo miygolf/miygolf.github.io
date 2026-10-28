@@ -19,7 +19,7 @@
     .af-title { text-shadow: 0 3px 18px rgba(0, 0, 0, 0.55); }
     .af-title .af-n { color: #31f2c0; margin-right: 18px; }
     .af-sub { text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6); position: absolute; left: 62px; top: 356px; width: 900px; font-weight: 500; font-size: 38px; line-height: 1.15; }
-    #af-speed { position: absolute; left: 62px; top: 420px; font-weight: 700; font-size: 28px; letter-spacing: 0.12em;
+    #af-speed { position: absolute; left: 62px; top: 486px; font-weight: 700; font-size: 28px; letter-spacing: 0.12em;
       color: #0d0e12; background: #f5f3ee; padding: 4px 12px; }
     #af-tele { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible;
       filter: drop-shadow(0 0 6px rgba(49, 242, 192, 0.5)) drop-shadow(0 3px 4px rgba(0, 0, 0, 0.45)); }
@@ -37,9 +37,14 @@
       text-shadow: 0 6px 30px rgba(0, 0, 0, 0.45); }
     #af-t1, #af-s1, #af-t2, #af-s2, #af-speed, #af-label, #af-hand, #af-padu { opacity: 0; }
     #af-tele path { stroke-dashoffset: 1; }
+    #af-seq { position: absolute; left: 60px; top: 414px; display: flex; gap: 12px; opacity: 0; }
+    .af-step { position: relative; padding: 8px 16px 8px 12px; border: 2px solid rgba(245, 243, 238, 0.4);
+      background: rgba(13, 14, 18, 0.72); color: #f5f3ee; font-weight: 700; font-size: 28px; letter-spacing: 0.06em;
+      text-transform: uppercase; white-space: nowrap; }
+    .af-step b { display: inline-block; margin-right: 10px; color: #31f2c0; }
   </style>
   <div id="root" data-composition-id="after" data-width="1080" data-height="1920"
-    data-composition-variables='[{"id":"afTransitionSub","type":"string","label":"After: transition line","default":"Perhati pinggul."},{"id":"afImpactSub","type":"string","label":"After: impact line","default":"Frame tepat bola kena."},{"id":"afKneeKey","type":"string","label":"After: face-on label","default":"Lutut kanan"},{"id":"afKneeVal","type":"string","label":"After: face-on note","default":"stabil, tak jatuh"},{"id":"afHandKey","type":"string","label":"After: hands label","default":"Tangan"},{"id":"afHandVal","type":"string","label":"After: hands note","default":"depan bola"}]'>
+    data-composition-variables='[{"id":"afTransitionSub","type":"string","label":"After: transition line","default":"Sequence betul: bawah dulu."},{"id":"afImpactSub","type":"string","label":"After: impact line","default":"Sequence betul = padu."},{"id":"afKneeKey","type":"string","label":"After: face-on label","default":"Lutut kanan"},{"id":"afKneeVal","type":"string","label":"After: face-on note","default":"stabil, tak jatuh"},{"id":"afHandKey","type":"string","label":"After: hands label","default":"Tangan"},{"id":"afHandVal","type":"string","label":"After: hands note","default":"depan bola"}]'>
     <div id="af-f1" class="af-freeze clip" data-start="1.967" data-duration="1.2" data-track-index="0">
       <img id="af-f1-img" src="assets/stills/adtl_imp.jpg" alt="" />
       <div id="af-f1-flash" class="af-flash"></div>
@@ -58,10 +63,16 @@
     </svg>
     <div class="af-chip-wrap"><div id="af-chip" class="af-chip">After · 13:28</div></div>
     <div id="af-t1" class="af-title"><span class="af-n">01</span><span>Transition</span></div>
-    <div id="af-s1" class="af-sub" data-var-text="afTransitionSub">Perhati pinggul.</div>
+    <div id="af-s1" class="af-sub" data-var-text="afTransitionSub">Sequence betul: bawah dulu.</div>
     <div id="af-t2" class="af-title"><span class="af-n">02</span><span>Impact</span></div>
-    <div id="af-s2" class="af-sub" data-var-text="afImpactSub">Frame tepat bola kena.</div>
+    <div id="af-s2" class="af-sub" data-var-text="afImpactSub">Sequence betul = padu.</div>
     <div id="af-speed">SLOW-MO</div>
+    <div id="af-seq" data-layout-allow-overflow>
+      <div id="af-st1" class="af-step"><b>1</b>Pinggul</div>
+      <div id="af-st2" class="af-step"><b>2</b>Badan</div>
+      <div id="af-st3" class="af-step"><b>3</b>Tangan</div>
+      <div id="af-st4" class="af-step"><b>4</b>Club</div>
+    </div>
     <div id="af-label">
       <div id="af-label-k" data-var-text="afKneeKey">Lutut kanan</div>
       <div id="af-label-v" data-var-text="afKneeVal">stabil, tak jatuh</div>
@@ -105,6 +116,13 @@
     tl.fromTo("#af-s1", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18 }, 0.95);
     tl.fromTo("#af-speed", { opacity: 0 }, { opacity: 1, duration: 0.1 }, 0.87);
     draw("#af-ring-hip", 0.92, 0.34);
+    // sequence row lights in order: hips, body, hands, club
+    tl.fromTo("#af-seq", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.2, ease: "expo.out" }, 0.86);
+    [1, 2, 3, 4].forEach((n, i) => {
+      tl.to("#af-st" + n, { backgroundColor: "#31f2c0", color: "#0d0e12", borderColor: "#31f2c0", duration: 0.08 }, 1.0 + i * 0.2);
+      tl.set("#af-st" + n + " b", { color: "#0d0e12" }, 1.0 + i * 0.2);
+    });
+    tl.to("#af-seq", { opacity: 0, filter: "blur(8px)", duration: 0.14, ease: "power2.in" }, 1.89);
 
     // 02 impact, down the line
     tl.fromTo("#af-f1-img", { scale: 1 }, { scale: 1.08, duration: 0.35, ease: "expo.out" }, 1.967);

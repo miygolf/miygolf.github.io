@@ -39,6 +39,14 @@ Cut away: ~3 s of address/waggle before each swing and every post-finish walk-of
 
 ## Coaching copy (editable variables)
 
+Coach's diagnosis: the transition is stuck, so the sequence runs out of order and the strike is
+inconsistent (tops); with the proper sequence the strike is solid. Shown as a 4-step row
+(1 Pinggul, 2 Badan, 3 Tangan, 4 Club) during each slow-mo transition: before, Tangan and Club light
+first and Pinggul gets a STUCK stamp; after, the steps light 1 → 4 in order (click on each).
+Subs: before "Stuck. Sequence lari." / "Hasilnya: top, tak consistent."; after
+"Sequence betul: bawah dulu." / "Sequence betul = padu."
+
+
 The telestrator labels are read off the frames only: before face-on, the trail (right) knee kicks in
 toward the target at impact; after face-on, the knee holds and the hands lead the clubhead. Every
 line is a composition variable (`bfKneeVal`, `afKneeVal`, `afHandVal`, the transition/impact subs, the
