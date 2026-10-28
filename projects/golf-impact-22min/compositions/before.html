@@ -1,0 +1,118 @@
+<template>
+  <style>
+    @font-face { font-family: "Unbounded"; src: url("assets/fonts/Unbounded-var.woff2") format("woff2"); font-weight: 200 900; }
+    @font-face { font-family: "Space Grotesk"; src: url("assets/fonts/SpaceGrotesk-var.woff2") format("woff2"); font-weight: 300 700; }
+    #root { position: absolute; inset: 0; overflow: hidden; color: #f5f3ee; font-family: "Space Grotesk", sans-serif; }
+    .bf-freeze { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+    .bf-freeze img { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+    #bf-f1-img { transform-origin: 600px 1150px; }
+    #bf-f2-img { transform-origin: 470px 1150px; }
+    .bf-flash { position: absolute; inset: 0; background: #ffffff; opacity: 0; }
+    #bf-scrim { position: absolute; left: 0; top: 0; width: 1080px; height: 600px;
+      background: linear-gradient(180deg, rgba(13,14,18,0.82) 0%, rgba(13,14,18,0.6) 60%, rgba(13,14,18,0) 100%); }
+    .bf-chip-wrap { position: absolute; left: 60px; top: 186px; overflow: hidden; padding-right: 4px; }
+    .bf-chip { display: inline-block; padding: 10px 30px 10px 26px; background: #ff3d7f; color: #0d0e12;
+      font-weight: 700; font-size: 30px; letter-spacing: 0.08em; text-transform: uppercase;
+      clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%); }
+    .bf-title { position: absolute; left: 58px; top: 256px; width: 960px; font-family: "Unbounded", sans-serif;
+      font-weight: 900; font-size: 80px; line-height: 1; letter-spacing: -0.02em; text-transform: uppercase; }
+    .bf-title { text-shadow: 0 3px 18px rgba(0, 0, 0, 0.55); }
+    .bf-title .bf-n { color: #ff3d7f; margin-right: 18px; }
+    .bf-sub { text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6); position: absolute; left: 62px; top: 356px; width: 900px; font-weight: 500; font-size: 38px; line-height: 1.15; }
+    #bf-speed { position: absolute; left: 62px; top: 420px; font-weight: 700; font-size: 28px; letter-spacing: 0.12em;
+      color: #0d0e12; background: #f5f3ee; padding: 4px 12px; }
+    #bf-tele { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible;
+      filter: drop-shadow(0 0 6px rgba(255, 61, 127, 0.55)) drop-shadow(0 3px 4px rgba(0, 0, 0, 0.45)); }
+    #bf-tele path { fill: none; stroke: #ff3d7f; stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; }
+    #bf-label { position: absolute; left: 60px; top: 968px; width: 300px; padding: 14px 18px 16px 22px;
+      background: rgba(13, 14, 18, 0.82); border-left: 8px solid #ff3d7f; }
+    #bf-label-k { font-weight: 700; font-size: 32px; letter-spacing: 0.08em; text-transform: uppercase; color: #ff3d7f; }
+    #bf-label-v { margin-top: 4px; font-weight: 500; font-size: 32px; line-height: 1.15; }
+    #bf-t1, #bf-s1, #bf-t2, #bf-s2, #bf-speed, #bf-label { opacity: 0; }
+    #bf-tele path { stroke-dashoffset: 1; }
+  </style>
+  <div id="root" data-composition-id="before" data-width="1080" data-height="1920"
+    data-composition-variables='[{"id":"bfTransitionSub","type":"string","label":"Before: transition line","default":"Perhati pinggul."},{"id":"bfImpactSub","type":"string","label":"Before: impact line","default":"Frame tepat bola kena."},{"id":"bfKneeKey","type":"string","label":"Before: face-on label","default":"Lutut kanan"},{"id":"bfKneeVal","type":"string","label":"Before: face-on note","default":"collapse ke depan"}]'>
+    <div id="bf-f1" class="bf-freeze clip" data-start="2.133" data-duration="1.2" data-track-index="0">
+      <img id="bf-f1-img" src="assets/stills/bdtl_imp.jpg" alt="" />
+      <div id="bf-f1-flash" class="bf-flash"></div>
+    </div>
+    <div id="bf-f2" class="bf-freeze clip" data-start="3.933" data-duration="2.15" data-track-index="0">
+      <img id="bf-f2-img" src="assets/stills/bfo_imp.jpg" alt="" />
+      <div id="bf-f2-flash" class="bf-flash"></div>
+    </div>
+    <div id="bf-scrim"></div>
+    <svg id="bf-tele" viewBox="0 0 1080 1920" data-layout-ignore>
+      <path id="bf-ring-hip" pathLength="1" />
+      <path id="bf-ring-imp" pathLength="1" />
+      <path id="bf-ring-knee" pathLength="1" />
+      <path id="bf-lead" pathLength="1" d="M 364 1030 C 420 1040, 410 1140, 350 1182" />
+    </svg>
+    <div class="bf-chip-wrap"><div id="bf-chip" class="bf-chip">Before · 13:06</div></div>
+    <div id="bf-t1" class="bf-title"><span class="bf-n">01</span><span>Transition</span></div>
+    <div id="bf-s1" class="bf-sub" data-var-text="bfTransitionSub">Perhati pinggul.</div>
+    <div id="bf-t2" class="bf-title"><span class="bf-n">02</span><span>Impact</span></div>
+    <div id="bf-s2" class="bf-sub" data-var-text="bfImpactSub">Frame tepat bola kena.</div>
+    <div id="bf-speed">SLOW-MO</div>
+    <div id="bf-label">
+      <div id="bf-label-k" data-var-text="bfKneeKey">Lutut kanan</div>
+      <div id="bf-label-v" data-var-text="bfKneeVal">collapse ke depan</div>
+    </div>
+  </div>
+  <script>
+    // Hand-drawn telestrator ring: a slightly wobbly ellipse that overshoots its start.
+    function ringD(cx, cy, rx, ry, rot) {
+      let d = "";
+      const N = 72, turn = 1.12;
+      for (let i = 0; i <= N; i++) {
+        const t = -Math.PI * 0.6 + (i / N) * Math.PI * 2 * turn;
+        const w = 1 + 0.035 * Math.sin(3 * t + 0.7) + 0.03 * (i / N);
+        const x = rx * w * Math.cos(t), y = ry * w * Math.sin(t);
+        const xr = cx + x * Math.cos(rot) - y * Math.sin(rot);
+        const yr = cy + x * Math.sin(rot) + y * Math.cos(rot);
+        d += (i ? "L" : "M") + xr.toFixed(1) + " " + yr.toFixed(1);
+      }
+      return d;
+    }
+    document.getElementById("bf-ring-hip").setAttribute("d", ringD(318, 905, 118, 150, -0.2));
+    document.getElementById("bf-ring-imp").setAttribute("d", ringD(640, 1228, 235, 190, 0.35));
+    document.getElementById("bf-ring-knee").setAttribute("d", ringD(458, 1185, 100, 128, 0.15));
+
+    const tl = gsap.timeline({ paused: true });
+    const draw = (sel, at, dur) => tl.fromTo(sel, { strokeDashoffset: 1, opacity: 1 }, { strokeDashoffset: 0, duration: dur, ease: "power2.inOut" }, at);
+    const words = (sel, at) => tl.fromTo(sel + " span", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, stagger: 0.067, ease: "power2.out" }, at);
+
+    // chip: wipes in once the replay bands clear
+    tl.fromTo("#bf-chip", { xPercent: -110 }, { xPercent: 0, duration: 0.4, ease: "expo.out" }, 0.22);
+    tl.fromTo("#bf-scrim", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.2);
+
+    // 01 transition — slow motion from the top of the swing
+    tl.set("#bf-t1", { opacity: 1 }, 0.83);
+    words("#bf-t1", 0.83);
+    tl.fromTo("#bf-s1", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18 }, 0.98);
+    tl.fromTo("#bf-speed", { opacity: 0 }, { opacity: 1, duration: 0.1 }, 0.9);
+    draw("#bf-ring-hip", 0.98, 0.34);
+
+    // 02 impact — freeze down the line
+    tl.fromTo("#bf-f1-img", { scale: 1 }, { scale: 1.08, duration: 0.35, ease: "expo.out" }, 2.133);
+    tl.fromTo("#bf-f1-flash", { opacity: 0.7 }, { opacity: 0, duration: 0.22 }, 2.133);
+    tl.to(["#bf-t1", "#bf-s1"], { opacity: 0, filter: "blur(8px)", duration: 0.14, ease: "power2.in" }, 2.053);
+    tl.to("#bf-ring-hip", { opacity: 0, duration: 0.12 }, 2.113);
+    tl.to("#bf-speed", { opacity: 0, duration: 0.1 }, 2.113);
+    tl.set("#bf-t2", { opacity: 1 }, 2.193);
+    words("#bf-t2", 2.193);
+    tl.fromTo("#bf-s2", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18 }, 2.333);
+    draw("#bf-ring-imp", 2.363, 0.36);
+    tl.to("#bf-ring-imp", { opacity: 0, duration: 0.15 }, 3.233);
+
+    // face-on: slow motion into the second freeze
+    tl.to("#bf-speed", { opacity: 1, duration: 0.1 }, 3.333);
+    tl.to("#bf-speed", { opacity: 0, duration: 0.1 }, 3.913);
+    tl.fromTo("#bf-f2-img", { scale: 1 }, { scale: 1.1, duration: 0.4, ease: "expo.out" }, 3.933);
+    tl.fromTo("#bf-f2-flash", { opacity: 0.7 }, { opacity: 0, duration: 0.22 }, 3.933);
+    draw("#bf-ring-knee", 4.253, 0.34);
+    draw("#bf-lead", 4.553, 0.14);
+    tl.fromTo("#bf-label", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.3, ease: "expo.out" }, 4.633);
+    window.__timelines["before"] = tl;
+  </script>
+</template>

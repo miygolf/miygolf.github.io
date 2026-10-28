@@ -1,0 +1,138 @@
+<template>
+  <style>
+    @font-face { font-family: "Unbounded"; src: url("assets/fonts/Unbounded-var.woff2") format("woff2"); font-weight: 200 900; }
+    @font-face { font-family: "Space Grotesk"; src: url("assets/fonts/SpaceGrotesk-var.woff2") format("woff2"); font-weight: 300 700; }
+    #root { position: absolute; inset: 0; overflow: hidden; color: #f5f3ee; font-family: "Space Grotesk", sans-serif; }
+    .af-freeze { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+    .af-freeze img { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+    #af-f1-img { transform-origin: 640px 1150px; }
+    #af-f2-img { transform-origin: 480px 1150px; }
+    .af-flash { position: absolute; inset: 0; background: #ffffff; opacity: 0; }
+    #af-scrim { position: absolute; left: 0; top: 0; width: 1080px; height: 600px;
+      background: linear-gradient(180deg, rgba(13,14,18,0.82) 0%, rgba(13,14,18,0.6) 60%, rgba(13,14,18,0) 100%); }
+    .af-chip-wrap { position: absolute; left: 60px; top: 186px; overflow: hidden; padding-right: 4px; }
+    .af-chip { display: inline-block; padding: 10px 30px 10px 26px; background: #31f2c0; color: #0d0e12;
+      font-weight: 700; font-size: 30px; letter-spacing: 0.08em; text-transform: uppercase;
+      clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%); }
+    .af-title { position: absolute; left: 58px; top: 256px; width: 960px; font-family: "Unbounded", sans-serif;
+      font-weight: 900; font-size: 80px; line-height: 1; letter-spacing: -0.02em; text-transform: uppercase; }
+    .af-title { text-shadow: 0 3px 18px rgba(0, 0, 0, 0.55); }
+    .af-title .af-n { color: #31f2c0; margin-right: 18px; }
+    .af-sub { text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6); position: absolute; left: 62px; top: 356px; width: 900px; font-weight: 500; font-size: 38px; line-height: 1.15; }
+    #af-speed { position: absolute; left: 62px; top: 420px; font-weight: 700; font-size: 28px; letter-spacing: 0.12em;
+      color: #0d0e12; background: #f5f3ee; padding: 4px 12px; }
+    #af-tele { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible;
+      filter: drop-shadow(0 0 6px rgba(49, 242, 192, 0.5)) drop-shadow(0 3px 4px rgba(0, 0, 0, 0.45)); }
+    #af-tele path { fill: none; stroke: #31f2c0; stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; }
+    #af-label { position: absolute; left: 60px; top: 968px; width: 300px; padding: 14px 18px 16px 22px;
+      background: rgba(13, 14, 18, 0.82); border-left: 8px solid #31f2c0; }
+    #af-label-k { font-weight: 700; font-size: 32px; letter-spacing: 0.08em; text-transform: uppercase; color: #31f2c0; }
+    #af-label-v { margin-top: 4px; font-weight: 500; font-size: 32px; line-height: 1.15; }
+    #af-hand { position: absolute; left: 640px; top: 880px; width: 260px; padding: 14px 18px 16px 22px;
+      background: rgba(13, 14, 18, 0.82); border-left: 8px solid #31f2c0; }
+    #af-hand-k { font-weight: 700; font-size: 32px; letter-spacing: 0.08em; text-transform: uppercase; color: #31f2c0; }
+    #af-hand-v { margin-top: 4px; font-weight: 500; font-size: 32px; line-height: 1.15; }
+    #af-padu { position: absolute; left: 56px; top: 250px; width: 968px; font-family: "Unbounded", sans-serif; font-weight: 900;
+      font-size: 150px; line-height: 1; letter-spacing: -0.02em; color: #31f2c0; text-transform: uppercase;
+      text-shadow: 0 6px 30px rgba(0, 0, 0, 0.45); }
+    #af-t1, #af-s1, #af-t2, #af-s2, #af-speed, #af-label, #af-hand, #af-padu { opacity: 0; }
+    #af-tele path { stroke-dashoffset: 1; }
+  </style>
+  <div id="root" data-composition-id="after" data-width="1080" data-height="1920"
+    data-composition-variables='[{"id":"afTransitionSub","type":"string","label":"After: transition line","default":"Perhati pinggul."},{"id":"afImpactSub","type":"string","label":"After: impact line","default":"Frame tepat bola kena."},{"id":"afKneeKey","type":"string","label":"After: face-on label","default":"Lutut kanan"},{"id":"afKneeVal","type":"string","label":"After: face-on note","default":"stabil, tak jatuh"},{"id":"afHandKey","type":"string","label":"After: hands label","default":"Tangan"},{"id":"afHandVal","type":"string","label":"After: hands note","default":"depan bola"}]'>
+    <div id="af-f1" class="af-freeze clip" data-start="1.967" data-duration="1.2" data-track-index="0">
+      <img id="af-f1-img" src="assets/stills/adtl_imp.jpg" alt="" />
+      <div id="af-f1-flash" class="af-flash"></div>
+    </div>
+    <div id="af-f2" class="af-freeze clip" data-start="3.767" data-duration="1.7" data-track-index="0">
+      <img id="af-f2-img" src="assets/stills/afo_imp.jpg" alt="" />
+      <div id="af-f2-flash" class="af-flash"></div>
+    </div>
+    <div id="af-scrim"></div>
+    <svg id="af-tele" viewBox="0 0 1080 1920" data-layout-ignore>
+      <path id="af-ring-hip" pathLength="1" />
+      <path id="af-ring-imp" pathLength="1" />
+      <path id="af-ring-knee" pathLength="1" />
+      <path id="af-lead" pathLength="1" d="M 364 1020 C 410 1040, 396 1120, 338 1150" />
+      <path id="af-lead2" pathLength="1" d="M 640 930 C 600 930, 580 960, 556 992" />
+    </svg>
+    <div class="af-chip-wrap"><div id="af-chip" class="af-chip">After · 13:28</div></div>
+    <div id="af-t1" class="af-title"><span class="af-n">01</span><span>Transition</span></div>
+    <div id="af-s1" class="af-sub" data-var-text="afTransitionSub">Perhati pinggul.</div>
+    <div id="af-t2" class="af-title"><span class="af-n">02</span><span>Impact</span></div>
+    <div id="af-s2" class="af-sub" data-var-text="afImpactSub">Frame tepat bola kena.</div>
+    <div id="af-speed">SLOW-MO</div>
+    <div id="af-label">
+      <div id="af-label-k" data-var-text="afKneeKey">Lutut kanan</div>
+      <div id="af-label-v" data-var-text="afKneeVal">stabil, tak jatuh</div>
+    </div>
+    <div id="af-hand">
+      <div id="af-hand-k" data-var-text="afHandKey">Tangan</div>
+      <div id="af-hand-v" data-var-text="afHandVal">depan bola</div>
+    </div>
+    <div id="af-padu">Padu.</div>
+  </div>
+  <script>
+    // Hand-drawn telestrator ring: a slightly wobbly ellipse that overshoots its start.
+    function ringD(cx, cy, rx, ry, rot) {
+      let d = "";
+      const N = 72, turn = 1.12;
+      for (let i = 0; i <= N; i++) {
+        const t = -Math.PI * 0.6 + (i / N) * Math.PI * 2 * turn;
+        const w = 1 + 0.035 * Math.sin(3 * t + 0.7) + 0.03 * (i / N);
+        const x = rx * w * Math.cos(t), y = ry * w * Math.sin(t);
+        const xr = cx + x * Math.cos(rot) - y * Math.sin(rot);
+        const yr = cy + x * Math.sin(rot) + y * Math.cos(rot);
+        d += (i ? "L" : "M") + xr.toFixed(1) + " " + yr.toFixed(1);
+      }
+      return d;
+    }
+    document.getElementById("af-ring-hip").setAttribute("d", ringD(385, 900, 118, 150, -0.2));
+    document.getElementById("af-ring-imp").setAttribute("d", ringD(683, 1182, 225, 190, 0.35));
+    document.getElementById("af-ring-knee").setAttribute("d", ringD(427, 1168, 95, 122, 0.15));
+
+    const tl = gsap.timeline({ paused: true });
+    const draw = (sel, at, dur) => tl.fromTo(sel, { strokeDashoffset: 1, opacity: 1 }, { strokeDashoffset: 0, duration: dur, ease: "power2.inOut" }, at);
+    const words = (sel, at) => tl.fromTo(sel + " span", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, stagger: 0.067, ease: "power2.out" }, at);
+
+    // chip: wipes in once the fast-forward bands clear
+    tl.fromTo("#af-chip", { xPercent: -110 }, { xPercent: 0, duration: 0.4, ease: "expo.out" }, 0.3);
+    tl.fromTo("#af-scrim", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.3);
+
+    // 01 transition
+    tl.set("#af-t1", { opacity: 1 }, 0.8);
+    words("#af-t1", 0.8);
+    tl.fromTo("#af-s1", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18 }, 0.95);
+    tl.fromTo("#af-speed", { opacity: 0 }, { opacity: 1, duration: 0.1 }, 0.87);
+    draw("#af-ring-hip", 0.92, 0.34);
+
+    // 02 impact, down the line
+    tl.fromTo("#af-f1-img", { scale: 1 }, { scale: 1.08, duration: 0.35, ease: "expo.out" }, 1.967);
+    tl.fromTo("#af-f1-flash", { opacity: 0.7 }, { opacity: 0, duration: 0.22 }, 1.967);
+    tl.to(["#af-t1", "#af-s1"], { opacity: 0, filter: "blur(8px)", duration: 0.14, ease: "power2.in" }, 1.89);
+    tl.to("#af-ring-hip", { opacity: 0, duration: 0.12 }, 1.945);
+    tl.to("#af-speed", { opacity: 0, duration: 0.1 }, 1.945);
+    tl.set("#af-t2", { opacity: 1 }, 2.02);
+    words("#af-t2", 2.02);
+    tl.fromTo("#af-s2", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18 }, 2.16);
+    draw("#af-ring-imp", 2.2, 0.36);
+    tl.to("#af-ring-imp", { opacity: 0, duration: 0.15 }, 3.07);
+
+    // face-on freeze
+    tl.to("#af-speed", { opacity: 1, duration: 0.1 }, 3.167);
+    tl.to("#af-speed", { opacity: 0, duration: 0.1 }, 3.74);
+    tl.fromTo("#af-f2-img", { scale: 1 }, { scale: 1.1, duration: 0.4, ease: "expo.out" }, 3.767);
+    tl.fromTo("#af-f2-flash", { opacity: 0.7 }, { opacity: 0, duration: 0.22 }, 3.767);
+    draw("#af-ring-knee", 4.08, 0.32);
+    draw("#af-lead", 4.38, 0.14);
+    tl.fromTo("#af-label", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.3, ease: "expo.out" }, 4.45);
+    tl.fromTo("#af-hand", { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.3, ease: "expo.out" }, 4.75);
+    draw("#af-lead2", 4.9, 0.14);
+
+    // release: the swing plays on at full speed through the strike
+    tl.to(["#af-label", "#af-hand", "#af-tele", "#af-t2", "#af-s2"], { opacity: 0, duration: 0.12 }, 5.36);
+    tl.fromTo("#af-padu", { opacity: 0, scale: 1.35, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.2, ease: "expo.out" }, 5.58);
+    tl.to("#af-padu", { opacity: 0, filter: "blur(8px)", duration: 0.15, ease: "power2.in" }, 6.28);
+    window.__timelines["after"] = tl;
+  </script>
+</template>

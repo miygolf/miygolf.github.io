@@ -1,0 +1,50 @@
+<template>
+  <style>
+    @font-face { font-family: "Unbounded"; src: url("assets/fonts/Unbounded-var.woff2") format("woff2"); font-weight: 200 900; }
+    @font-face { font-family: "Space Grotesk"; src: url("assets/fonts/SpaceGrotesk-var.woff2") format("woff2"); font-weight: 300 700; }
+    #root { position: absolute; inset: 0; overflow: hidden; color: #f5f3ee; font-family: "Space Grotesk", sans-serif; background: #0d0e12; }
+    #ot-shot { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+    #ot-img { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+    #ot-scrim { position: absolute; left: 0; top: 0; width: 1080px; height: 640px;
+      background: linear-gradient(180deg, rgba(13,14,18,0.82) 0%, rgba(13,14,18,0.5) 60%, rgba(13,14,18,0) 100%); }
+    #ot-low { position: absolute; left: 0; top: 1060px; width: 1080px; height: 860px;
+      background: linear-gradient(0deg, rgba(13,14,18,0.8) 0%, rgba(13,14,18,0.55) 55%, rgba(13,14,18,0) 100%); }
+    #ot-big { position: absolute; left: 56px; top: 196px; width: 968px; font-family: "Unbounded", sans-serif; font-weight: 900;
+      font-size: 128px; line-height: 1; letter-spacing: -0.02em; text-transform: uppercase; }
+    #ot-big .ot-n { color: #31f2c0; }
+    #ot-line { position: absolute; left: 62px; top: 348px; width: 900px; font-weight: 500; font-size: 40px; }
+    #ot-tags { position: absolute; left: 60px; top: 412px; display: flex; gap: 16px; }
+    .ot-tag { padding: 10px 30px 10px 26px; color: #0d0e12; font-weight: 700; font-size: 34px; letter-spacing: 0.1em;
+      text-transform: uppercase; clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%); }
+    #ot-tag1 { background: #ff3d7f; } #ot-tag2 { background: #31f2c0; }
+    #ot-cta { position: absolute; left: 60px; top: 1170px; width: 840px; }
+    #ot-cta-k { font-family: "Unbounded", sans-serif; font-weight: 800; font-size: 50px; line-height: 1.05; text-transform: uppercase; }
+    #ot-cta-v { margin-top: 12px; font-weight: 500; font-size: 36px; color: rgba(245, 243, 238, 0.88); }
+  </style>
+  <div id="root" data-composition-id="outro" data-width="1080" data-height="1920"
+    data-composition-variables='[{"id":"otLine","type":"string","label":"Outro line","default":"Fokus 2 benda je:"},{"id":"otCta","type":"string","label":"CTA","default":"Save video ni."},{"id":"otCtaSub","type":"string","label":"CTA line","default":"Cuba masa sesi range nanti."}]'>
+    <div id="ot-shot"><img id="ot-img" src="assets/stills/afo_fin.jpg" alt="" /></div>
+    <div id="ot-scrim"></div>
+    <div id="ot-low"></div>
+    <div id="ot-big"><span class="ot-n">22</span> <span>minit.</span></div>
+    <div id="ot-line" data-var-text="otLine">Fokus 2 benda je:</div>
+    <div id="ot-tags"><div id="ot-tag1" class="ot-tag">Transition</div><div id="ot-tag2" class="ot-tag">Impact</div></div>
+    <div id="ot-cta">
+      <div id="ot-cta-k" data-var-text="otCta">Save video ni.</div>
+      <div id="ot-cta-v" data-var-text="otCtaSub">Cuba masa sesi range nanti.</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // blur swap in from the compare stage; the finish pose holds still under the type
+    tl.fromTo("#ot-shot", { opacity: 0, filter: "blur(14px)", scale: 1.06 }, { opacity: 1, filter: "blur(0px)", scale: 1, duration: 0.3, ease: "expo.out" }, 0);
+    tl.fromTo(["#ot-scrim", "#ot-low"], { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.05);
+    tl.fromTo("#ot-big span", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, stagger: 0.08, ease: "power2.out" }, 0.18);
+    tl.fromTo("#ot-line", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18 }, 0.42);
+    tl.fromTo("#ot-tag1", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.28, ease: "back.out(1.5)" }, 0.6);
+    tl.fromTo("#ot-tag2", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.28, ease: "back.out(1.5)" }, 0.68);
+    tl.fromTo("#ot-cta-k", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.35, ease: "expo.out" }, 1.0);
+    tl.fromTo("#ot-cta-v", { opacity: 0 }, { opacity: 1, duration: 0.25 }, 1.08);
+    window.__timelines["outro"] = tl;
+  </script>
+</template>

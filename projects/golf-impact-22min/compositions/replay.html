@@ -1,0 +1,61 @@
+<template>
+  <style>
+    @font-face { font-family: "Unbounded"; src: url("assets/fonts/Unbounded-var.woff2") format("woff2"); font-weight: 200 900; }
+    @font-face { font-family: "Space Grotesk"; src: url("assets/fonts/SpaceGrotesk-var.woff2") format("woff2"); font-weight: 300 700; }
+    #root { position: absolute; inset: 0; overflow: hidden; color: #f5f3ee; font-family: "Space Grotesk", sans-serif; }
+    #rp-rw { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #rp-rw-tint { position: absolute; inset: 0; background: rgba(255, 61, 127, 0.18); mix-blend-mode: multiply; }
+    #rp-rw-glyph { position: absolute; left: 60px; top: 230px; font-family: "Unbounded", sans-serif; font-weight: 900;
+      font-size: 120px; line-height: 1; color: #ff3d7f; letter-spacing: -0.06em; text-shadow: 0 4px 24px rgba(0,0,0,0.35); }
+    #rp-rw-word { position: absolute; left: 66px; top: 372px; font-weight: 700; font-size: 40px; letter-spacing: 0.24em; }
+    .rp-streak { position: absolute; height: 6px; background: rgba(245, 243, 238, 0.7); }
+    #rp-s1 { top: 760px; width: 420px; } #rp-s2 { top: 1040px; width: 260px; } #rp-s3 { top: 1230px; width: 520px; } #rp-s4 { top: 610px; width: 180px; }
+    .rp-band { position: absolute; left: 0; top: 0; width: 1800px; height: 1920px;
+      clip-path: polygon(300px 0, 100% 0, calc(100% - 300px) 100%, 0 100%); }
+    #rp-b1 { background: #f5f3ee; } #rp-b2 { background: #ff3d7f; } #rp-b3 { background: #0d0e12; }
+    #rp-clock { position: absolute; left: 0; top: 700px; width: 1080px; text-align: center; }
+    #rp-kicker { font-weight: 700; font-size: 34px; letter-spacing: 0.22em; color: #ff3d7f; }
+    #rp-time { margin-top: 18px; display: inline-flex; align-items: flex-start; font-family: "Unbounded", sans-serif;
+      font-weight: 900; font-size: 168px; line-height: 190px; height: 190px; letter-spacing: -0.03em; }
+    #rp-mins { display: inline-block; height: 190px; overflow: hidden; }
+    #rp-col div { height: 190px; }
+    #rp-tag { margin-top: 26px; display: inline-block; padding: 10px 30px 10px 26px; background: #ff3d7f; color: #0d0e12;
+      font-weight: 700; font-size: 34px; letter-spacing: 0.1em; text-transform: uppercase;
+      clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%); }
+  </style>
+  <div id="root" data-composition-id="replay" data-width="1080" data-height="1920">
+    <div id="rp-rw" class="clip" data-start="0.067" data-duration="0.4" data-track-index="0" data-layout-allow-overflow>
+      <div id="rp-rw-tint"></div>
+      <div id="rp-s1" class="rp-streak"></div><div id="rp-s2" class="rp-streak"></div>
+      <div id="rp-s3" class="rp-streak"></div><div id="rp-s4" class="rp-streak"></div>
+      <div id="rp-rw-glyph">◀◀</div>
+      <div id="rp-rw-word">REWIND</div>
+    </div>
+    <div id="rp-b1" class="rp-band"></div>
+    <div id="rp-b2" class="rp-band"></div>
+    <div id="rp-b3" class="rp-band"></div>
+    <div id="rp-clock">
+      <div id="rp-kicker">22 MINIT SEBELUM</div>
+      <div id="rp-time"><span>13:</span><span id="rp-mins"><div id="rp-col"><div>28</div><div>24</div><div>20</div><div>16</div><div>12</div><div>09</div><div>06</div></div></span></div>
+      <div><span id="rp-tag">Before</span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // rewind streaks run right → left
+    [["#rp-s1", 0.0], ["#rp-s2", 0.05], ["#rp-s3", 0.02], ["#rp-s4", 0.09]].forEach(([s, d]) => {
+      tl.fromTo(s, { x: 1150 }, { x: -600, duration: 0.3, ease: "none" }, 0.067 + d);
+    });
+    tl.fromTo("#rp-rw-glyph", { x: 40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.15, ease: "expo.out" }, 0.07);
+    tl.fromTo("#rp-rw-word", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 0.12);
+    // broadcast replay bands sweep in from the right, then carry on out to the left
+    ["#rp-b1", "#rp-b2", "#rp-b3"].forEach((b, i) => {
+      tl.fromTo(b, { x: 1300 }, { x: -360, duration: 0.32, ease: "power3.inOut" }, 0.3 + i * 0.05);
+      tl.to(b, { x: -2300, duration: 0.26, ease: "power3.in" }, 1.16 + (2 - i) * 0.03);
+    });
+    tl.fromTo("#rp-clock", { opacity: 0, scale: 0.92 }, { opacity: 1, scale: 1, duration: 0.18, ease: "expo.out" }, 0.5);
+    tl.fromTo("#rp-col", { y: 0 }, { y: -6 * 190, duration: 0.16, ease: "power2.inOut" }, 0.6);
+    tl.to("#rp-clock", { x: -700, opacity: 0, filter: "blur(10px)", duration: 0.22, ease: "power3.in" }, 1.18);
+    window.__timelines["replay"] = tl;
+  </script>
+</template>

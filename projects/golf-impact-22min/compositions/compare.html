@@ -1,0 +1,64 @@
+<template>
+  <style>
+    @font-face { font-family: "Unbounded"; src: url("assets/fonts/Unbounded-var.woff2") format("woff2"); font-weight: 200 900; }
+    @font-face { font-family: "Space Grotesk"; src: url("assets/fonts/SpaceGrotesk-var.woff2") format("woff2"); font-weight: 300 700; }
+    #root { position: absolute; inset: 0; overflow: hidden; color: #f5f3ee; font-family: "Space Grotesk", sans-serif; background: #0d0e12; }
+    #cp-stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+    .cp-img { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+    #cp-after { clip-path: inset(0px 0px 0px 1080px); }
+    #cp-scrim { position: absolute; left: 0; top: 0; width: 1080px; height: 560px;
+      background: linear-gradient(180deg, rgba(13,14,18,0.78) 0%, rgba(13,14,18,0.48) 58%, rgba(13,14,18,0) 100%); }
+    #cp-divider { position: absolute; left: 0; top: 0; width: 0; height: 1920px; }
+    #cp-line { position: absolute; left: -4px; top: 0; width: 8px; height: 1920px; background: #f5f3ee;
+      box-shadow: 0 0 18px rgba(0, 0, 0, 0.5); }
+    #cp-handle { position: absolute; left: -46px; top: 1134px; width: 92px; height: 92px; border-radius: 50%;
+      background: #f5f3ee; color: #0d0e12; display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 30px; letter-spacing: -0.04em; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45); }
+    #cp-title { position: absolute; left: 0; top: 196px; width: 1080px; text-align: center; font-family: "Unbounded", sans-serif;
+      font-weight: 900; font-size: 64px; line-height: 1; letter-spacing: -0.02em; text-transform: uppercase; }
+    #cp-sub { position: absolute; left: 0; top: 278px; width: 1080px; text-align: center; font-weight: 500; font-size: 36px; }
+    .cp-tag { position: absolute; top: 352px; padding: 10px 30px 10px 26px; color: #0d0e12; font-weight: 700; font-size: 32px;
+      letter-spacing: 0.1em; text-transform: uppercase; clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%); }
+    #cp-tag-b { left: 60px; background: #ff3d7f; }
+    #cp-tag-a { left: 700px; width: 200px; text-align: center; background: #31f2c0; }
+  </style>
+  <div id="root" data-composition-id="compare" data-width="1080" data-height="1920"
+    data-composition-variables='[{"id":"cpSub","type":"string","label":"Compare line","default":"Frame yang sama. 22 minit beza."}]'>
+    <div id="cp-stage">
+      <img id="cp-before" class="cp-img" src="assets/stills/bfo_imp.jpg" alt="" />
+      <img id="cp-after" class="cp-img" src="assets/stills/afo_imp_al.jpg" alt="" />
+      <div id="cp-divider" data-layout-allow-overflow>
+        <div id="cp-line"></div>
+        <div id="cp-handle">◀ ▶</div>
+      </div>
+    </div>
+    <div id="cp-scrim"></div>
+    <div id="cp-title">Impact <span style="color:#ff3d7f">vs</span> Impact</div>
+    <div id="cp-sub" data-var-text="cpSub">Frame yang sama. 22 minit beza.</div>
+    <div id="cp-tag-b" class="cp-tag">Before</div>
+    <div id="cp-tag-a" class="cp-tag">After</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // the after image's left inset and the divider move together on the same eases
+    const wipe = (x, dur, at) => {
+      tl.to("#cp-after", { clipPath: "inset(0px 0px 0px " + x + "px)", duration: dur, ease: "power3.inOut" }, at);
+      tl.to("#cp-divider", { x: x, duration: dur, ease: "power3.inOut" }, at);
+    };
+    // whip in from the payoff shot
+    tl.fromTo("#cp-stage", { x: 260, filter: "blur(18px)" }, { x: 0, filter: "blur(0px)", duration: 0.26, ease: "expo.out" }, 0);
+    tl.fromTo("#cp-after", { clipPath: "inset(0px 0px 0px 1080px)" }, { clipPath: "inset(0px 0px 0px 1080px)", duration: 0.01 }, 0);
+    tl.fromTo("#cp-divider", { x: 1080 }, { x: 1080, duration: 0.01 }, 0);
+    wipe(720, 0.55, 0.3);
+    wipe(330, 0.5, 1.4);
+    wipe(760, 0.55, 2.1);
+    wipe(330, 0.45, 2.85);
+    tl.fromTo("#cp-scrim", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.1);
+    tl.fromTo("#cp-title", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power2.out" }, 0.2);
+    tl.fromTo("#cp-sub", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.42);
+    tl.fromTo("#cp-tag-b", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.25, ease: "expo.out" }, 0.5);
+    tl.fromTo("#cp-tag-a", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.25, ease: "expo.out" }, 0.6);
+    tl.fromTo("#cp-handle", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(1.6)" }, 0.55);
+    window.__timelines["compare"] = tl;
+  </script>
+</template>
