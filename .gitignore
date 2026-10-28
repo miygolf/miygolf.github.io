@@ -1,0 +1,4 @@
+golf_edit/work/
+*.mp4
+*.wav
+__pycache__/
