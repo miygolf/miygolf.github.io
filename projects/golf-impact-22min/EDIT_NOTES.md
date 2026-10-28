@@ -10,7 +10,10 @@ Rebuild the cut footage and stills: `tools/prepare_footage.sh <folder with the f
 | `VID_20261028_132845.mp4` | After, down the line (13:28) | 6.133 |
 | `VID_20261028_132901.mp4` | After, face on (13:29) | 5.333 |
 
-The filenames' timestamps are the hook: the two sessions are 22 minutes apart.
+The golfer is the coach's student. Today's complaint: he keeps topping the ball and the strike isn't solid
+("asyik top, tak padu"). The filenames' timestamps are the hook: the two swings are 22 minutes apart
+in the same lesson. Hook "22 MINIT. Dari asyik top, jadi padu."; payoff "PADU." on the after strike;
+outro CTA "Asyik top jugak?".
 
 ## Transcript (faster-whisper medium, `ms` + auto, word timestamps)
 
