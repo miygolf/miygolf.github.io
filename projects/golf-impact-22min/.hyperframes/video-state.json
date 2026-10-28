@@ -1,7 +1,7 @@
 {
   "version": 1,
   "historyId": "aababf20-6eba-4c76-b8e0-debbd8da5357",
-  "currentRevision": "ea178665-9a9f-4c49-a96d-522834d38288",
+  "currentRevision": "0024478a-5a8b-4d0d-b987-75c175e84fde",
   "pendingChanges": false,
   "files": {
     "AGENTS.md": {
@@ -203,6 +203,14 @@
     "assets/footage/hook_b.mp4": {
       "hash": "24ba2864a44cc7b640a1a91efd50fb1d507341e9c081ed2cddf3c1797dbdc8d0",
       "content": "/root/.cache/hyperframes/history/aababf20-6eba-4c76-b8e0-debbd8da5357/blobs/24/24ba2864a44cc7b640a1a91efd50fb1d507341e9c081ed2cddf3c1797dbdc8d0"
+    },
+    "tools/master.sh": {
+      "hash": "d1413c5be491c0414bf95c8d5677902b56d0b52ef9fd99bb55be4284fbb2ba12",
+      "content": "/root/.cache/hyperframes/history/aababf20-6eba-4c76-b8e0-debbd8da5357/blobs/d1/d1413c5be491c0414bf95c8d5677902b56d0b52ef9fd99bb55be4284fbb2ba12"
+    },
+    "EDIT_NOTES.md": {
+      "hash": "49f2ca5dda8d475212c0e2cc14433713f5f8a8de251f1b7c6f12d6597d58c4ea",
+      "content": "/root/.cache/hyperframes/history/aababf20-6eba-4c76-b8e0-debbd8da5357/blobs/49/49f2ca5dda8d475212c0e2cc14433713f5f8a8de251f1b7c6f12d6597d58c4ea"
     }
   },
   "revisions": {
@@ -307,6 +315,25 @@
         "compositions/compare.html": {
           "before": "/root/.cache/hyperframes/history/aababf20-6eba-4c76-b8e0-debbd8da5357/blobs/3f/3fa1061e2c9b7f3adcbbbddaabfc69d84ea26711eea3301d321b09700f952975",
           "after": "/root/.cache/hyperframes/history/aababf20-6eba-4c76-b8e0-debbd8da5357/blobs/9a/9a3efe72be76cb1df131936287e24474c555f777a9a32333edb9123bedd30ff2"
+        }
+      }
+    },
+    "0024478a-5a8b-4d0d-b987-75c175e84fde": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1793181668512,
+      "endedAt": 1793181668525,
+      "files": {
+        "EDIT_NOTES.md": {
+          "before": null,
+          "after": "/root/.cache/hyperframes/history/aababf20-6eba-4c76-b8e0-debbd8da5357/blobs/49/49f2ca5dda8d475212c0e2cc14433713f5f8a8de251f1b7c6f12d6597d58c4ea"
+        },
+        "tools/master.sh": {
+          "before": null,
+          "after": "/root/.cache/hyperframes/history/aababf20-6eba-4c76-b8e0-debbd8da5357/blobs/d1/d1413c5be491c0414bf95c8d5677902b56d0b52ef9fd99bb55be4284fbb2ba12"
         }
       }
     }
@@ -921,13 +948,14 @@
   },
   "renders": {
     "latest": {
-      "id": "17118197-5185-4371-a61f-33f426dd5288",
-      "completedAt": 1793181381862,
-      "output": "/home/user/video-claude/projects/golf-impact-22min/renders/preview_draft.mp4",
+      "id": "bb862183-f8ea-4cda-a37f-43db5946083d",
+      "completedAt": 1793181783710,
+      "output": "/home/user/video-claude/projects/golf-impact-22min/renders/delivery_raw.mp4",
       "status": "completed",
-      "revision": "ea178665-9a9f-4c49-a96d-522834d38288"
+      "revision": "0024478a-5a8b-4d0d-b987-75c175e84fde"
     },
     "retainedRevisions": [
+      "0024478a-5a8b-4d0d-b987-75c175e84fde",
       "ea178665-9a9f-4c49-a96d-522834d38288"
     ]
   },

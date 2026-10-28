@@ -65,5 +65,5 @@ camera shutter on each freeze, 1088 tape rewind, 1474/3115 band sweeps, 166 tran
 790 riser into the release, 2908 trailer impact on the after strike, 2299 bass hit on the outro.
 Each placed so its peak lands one frame after the picture.
 
-Master: `tools/master.sh` (two-pass loudnorm −14 LUFS + −2 dB limiter). Preview measured
+Master: `tools/master.sh` (two-pass loudnorm −14 LUFS + −2 dB limiter). Final: `render -q delivery` → `tools/master.sh` → `output/golf-impact-22min_FINAL.mp4` (1080×1920 30 fps H.264 ~12.5 Mbps, 22.9 s, 36 MB). Preview and final measured
 −15.0 LUFS, −0.8 dBTP (measured, not listened to).
