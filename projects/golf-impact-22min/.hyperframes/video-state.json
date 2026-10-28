@@ -1,7 +1,7 @@
 {
   "version": 1,
   "historyId": "aababf20-6eba-4c76-b8e0-debbd8da5357",
-  "currentRevision": "537bc3eb-b73a-423b-92aa-e70f4fe693a0",
+  "currentRevision": "33344aaf-9e4a-4e07-88c3-3fe506d98d43",
   "pendingChanges": false,
   "files": {
     "AGENTS.md": {
@@ -205,8 +205,8 @@
       "content": "/root/.cache/hyperframes/history/aababf20-6eba-4c76-b8e0-debbd8da5357/blobs/24/24ba2864a44cc7b640a1a91efd50fb1d507341e9c081ed2cddf3c1797dbdc8d0"
     },
     "EDIT_NOTES.md": {
-      "hash": "ccb35dcf9a7d2159fc8e8fcc50cd55c9e62e9325b767f04ee75bc13d0853389e",
-      "content": "/root/.cache/hyperframes/history/aababf20-6eba-4c76-b8e0-debbd8da5357/blobs/cc/ccb35dcf9a7d2159fc8e8fcc50cd55c9e62e9325b767f04ee75bc13d0853389e"
+      "hash": "23bbb28654bfa2a7f1c41097e52bf2ed34f2037a1bd1e67f9e9ea9aedf4c0dd9",
+      "content": "/root/.cache/hyperframes/history/aababf20-6eba-4c76-b8e0-debbd8da5357/blobs/23/23bbb28654bfa2a7f1c41097e52bf2ed34f2037a1bd1e67f9e9ea9aedf4c0dd9"
     },
     "tools/master.sh": {
       "hash": "d1413c5be491c0414bf95c8d5677902b56d0b52ef9fd99bb55be4284fbb2ba12",
@@ -421,6 +421,21 @@
           "after": "/root/.cache/hyperframes/history/aababf20-6eba-4c76-b8e0-debbd8da5357/blobs/18/18291f8cdbcc04897b0659c91020fd62ff4fb13958774aff306c5b5392915dcd"
         }
       }
+    },
+    "33344aaf-9e4a-4e07-88c3-3fe506d98d43": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1793182789644,
+      "endedAt": 1793182789645,
+      "files": {
+        "EDIT_NOTES.md": {
+          "before": "/root/.cache/hyperframes/history/aababf20-6eba-4c76-b8e0-debbd8da5357/blobs/cc/ccb35dcf9a7d2159fc8e8fcc50cd55c9e62e9325b767f04ee75bc13d0853389e",
+          "after": "/root/.cache/hyperframes/history/aababf20-6eba-4c76-b8e0-debbd8da5357/blobs/23/23bbb28654bfa2a7f1c41097e52bf2ed34f2037a1bd1e67f9e9ea9aedf4c0dd9"
+        }
+      }
     }
   },
   "checks": {
@@ -493,7 +508,6 @@
         {
           "id": "85af76f0-945f-48ab-a005-df5763122d5d",
           "scope": "project",
-          "report": "/home/user/video-claude/projects/golf-impact-22min/.hyperframes/artifacts/checks/85af76f0-945f-48ab-a005-df5763122d5d.json",
           "metadata": {
             "ok": true,
             "browserSkipped": false,
@@ -515,7 +529,9 @@
           "revision": "3386f3b9-0bf8-4219-9ff7-150030c2bd50",
           "inputFingerprint": "f31091143ee1d7c40f61fdb7c55a6c4012eb75bfc26dada1836ef3a8d0cbce8a",
           "inputScope": "local-project-files",
-          "attribution": "recorded-revision"
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "1d39ef4c-c813-4848-a3d4-def9ce4b1dcd"
         }
       ],
       "12cc9963-3aa6-4029-b9dc-7737b16ddd11": [
@@ -1307,15 +1323,15 @@
   },
   "renders": {
     "latest": {
-      "id": "284bd53c-6ba2-4d0f-8e19-dcb803e0cc6e",
-      "completedAt": 1793182601913,
-      "output": "/home/user/video-claude/projects/golf-impact-22min/renders/preview_draft_v3.mp4",
+      "id": "1d39ef4c-c813-4848-a3d4-def9ce4b1dcd",
+      "completedAt": 1793182912343,
+      "output": "/home/user/video-claude/projects/golf-impact-22min/renders/delivery_raw.mp4",
       "status": "completed",
-      "revision": "537bc3eb-b73a-423b-92aa-e70f4fe693a0"
+      "revision": "33344aaf-9e4a-4e07-88c3-3fe506d98d43"
     },
     "retainedRevisions": [
-      "537bc3eb-b73a-423b-92aa-e70f4fe693a0",
-      "3386f3b9-0bf8-4219-9ff7-150030c2bd50"
+      "33344aaf-9e4a-4e07-88c3-3fe506d98d43",
+      "537bc3eb-b73a-423b-92aa-e70f4fe693a0"
     ]
   },
   "pendingArtifactCleanup": []
