@@ -12,7 +12,7 @@ Kita betulkan sequence:
 3️⃣ Tangan
 4️⃣ Club
 
-22 minit kemudian, bunyi pun dah lain. PADU. 🔥
+22 minit kemudian, impact dah lain. PADU. 🔥
 
 Asyik top jugak? Check transition korang dulu. Save video ni untuk sesi range nanti 📌
 
@@ -37,7 +37,7 @@ Sequence yang betul masa turun:
 3. Tangan
 4. Club
 
-Bawah dulu, baru atas. Bila turutan ni betul, impact jadi padu sendiri. Tak payah "pukul" bola.
+Bawah dulu, baru atas. Bila turutan ni betul, baru impact padu.
 
 **4/**
 Before: 13:06. After: 13:28.
