@@ -2,3 +2,7 @@
 .cam { position: absolute; left: 0; top: 0; width: 960px; height: 1280px; transform-origin: 0 0; }
 .cam > img { position: absolute; left: 0; top: 0; width: 960px; height: 1280px; }
 .rot { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 540px 960px; }
+/* golf-course plate behind the cut-out products; the wrapper carries the parallax drift */
+.bgw { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 540px 960px; }
+.bg { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+.prod { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; filter: drop-shadow(0 26px 34px rgba(0, 0, 0, 0.45)); }

@@ -6,7 +6,8 @@
   </style>
   <div id="root" data-composition-id="grip" data-width="1080" data-height="1920">
     <div id="gp-view">
-      <div id="gp-cam" class="cam"><img src="assets/stills/row.jpg" alt="Golf Pride MCC Plus 4 grips" /></div>
+      <div id="gp-bgw" class="bgw"><video id="gp-bg" class="clip bg" src="assets/footage/course_palms.mp4" data-start="0" data-duration="4.17" muted playsinline></video></div>
+      <div class="prod"><div id="gp-cam" class="cam"><img src="assets/cutouts/row.png" alt="Golf Pride MCC Plus 4 grips" /></div></div>
     </div>
   </div>
   <script>
@@ -19,6 +20,8 @@
     tl.fromTo("#gp-cam", cam(1.75, 330, 549), { ...cam(1.75, 600, 549), duration: 3.6, ease: "power2.inOut" }, 0.3);
     // blur swap out to the whole bench
     tl.to("#gp-view", { opacity: 0, filter: "blur(8px)", duration: 0.17, ease: "power2.in" }, 4.0);
+    // the course drifts against the camera (parallax)
+    tl.fromTo("#gp-bgw", { scale: 1.06, x: 30 }, { scale: 1.06, x: -30, duration: 4.17, ease: "none" }, 0);
     window.__timelines["grip"] = tl;
   </script>
 </template>

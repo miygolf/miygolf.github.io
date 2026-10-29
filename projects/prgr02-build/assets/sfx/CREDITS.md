@@ -1,3 +1,14 @@
+# Media credits
+
+## Golf-course footage (backgrounds)
+Mixkit free stock videos, Mixkit Stock Video Free License (commercial use, no attribution required), cut by
+`tools/prepare_course.sh` to 9:16 windows with no people in them: ids 2029, 2030, 2035, 2036, 2038
+(https://mixkit.co/free-stock-video/golf/).
+
+## Product cut-outs
+`assets/cutouts/*.png`: the four product photos cut out with BiRefNet-general (rembg), masks unioned and
+pens/paper removed by hand-placed regions (see REVIEW.md).
+
 # Sound credits
 
 ## Music (version with music only)

@@ -5,7 +5,8 @@
     #hd-flood { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; background: #d7191f; clip-path: circle(0px at 860px 90px); }
   </style>
   <div id="root" data-composition-id="head" data-width="1080" data-height="1920">
-    <div id="hd-cam" class="cam"><img src="assets/stills/row.jpg" alt="A row of PRGR 02 iron heads" /></div>
+    <div id="hd-bgw" class="bgw"><video id="hd-bg" class="clip bg" src="assets/footage/course_rocks.mp4" data-start="0" data-duration="3.871" muted playsinline></video></div>
+    <div class="prod"><div id="hd-cam" class="cam"><img src="assets/cutouts/row.png" alt="A row of PRGR 02 iron heads" /></div></div>
     <div id="hd-flood"></div>
   </div>
   <script>
@@ -17,6 +18,8 @@
     tl.fromTo("#hd-cam", cam(2.1, 290, 820), { ...cam(1.8, 640, 540), duration: 3.1, ease: "power2.inOut", immediateRender: false }, 0.3);
     // exit: KBS red opens out of the red Golf Pride grip at the top
     tl.fromTo("#hd-flood", { clipPath: "circle(0px at 860px 90px)" }, { clipPath: "circle(2300px at 860px 90px)", duration: 0.4, ease: "power3.in" }, 3.44);
+    // the course drifts against the camera (parallax)
+    tl.fromTo("#hd-bgw", { scale: 1.08, x: 30 }, { scale: 1.08, x: -40, duration: 3.871, ease: "none" }, 0);
     window.__timelines["head"] = tl;
   </script>
 </template>

@@ -4,18 +4,21 @@
     #root { position: absolute; inset: 0; overflow: hidden; background: #111214; }
   </style>
   <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
-    <div id="hk-cam" class="cam"><img id="hk-img" src="assets/stills/closeup.jpg" alt="PRGR 02 iron heads in shrink wrap" /></div>
+    <div id="hk-bgw" class="bgw"><video id="hk-bg" class="clip bg" src="assets/footage/course_flag.mp4" data-start="0" data-duration="2.419" muted playsinline></video></div>
+    <div class="prod"><div id="hk-cam" class="cam"><img id="hk-img" src="assets/cutouts/closeup.png" alt="PRGR 02 iron heads in shrink wrap" /></div></div>
   </div>
   <script>
     // camera: photo point (cx, cy) at frame centre, zoom z (photo is 960 x 1280 css px)
     const cam = (z, cx, cy) => ({ scale: z, x: 540 - cx * z, y: 960 - cy * z });
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo("#hk-cam", cam(1.55, 480, 700), { ...cam(1.6, 470, 690), duration: 1.21, ease: "none" }, 0);
+    tl.fromTo("#hk-cam", cam(1.55, 480, 640), { ...cam(1.6, 470, 640), duration: 1.21, ease: "none" }, 0);
     // punch-in on the PRGR badge on beat 2.5 (hard cut inside the shot)
     tl.set("#hk-cam", cam(2.05, 290, 650), 1.21);
     tl.fromTo("#hk-cam", cam(2.05, 290, 650), { ...cam(2.1, 290, 655), duration: 0.99, ease: "none", immediateRender: false }, 1.21);
     // whip up into the drop
     tl.to("#hk-cam", { y: "-=900", duration: 0.2, ease: "power3.in" }, 2.2);
+    // the course drifts against the camera (parallax)
+    tl.fromTo("#hk-bgw", { scale: 1.06, x: 0 }, { scale: 1.08, x: -20, duration: 2.419, ease: "none" }, 0);
     window.__timelines["hook"] = tl;
   </script>
 </template>

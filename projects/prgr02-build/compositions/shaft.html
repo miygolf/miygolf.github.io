@@ -6,9 +6,10 @@
   </style>
   <div id="root" data-composition-id="shaft" data-width="1080" data-height="1920">
     <div id="sh-view">
-      <div id="sh-rot" class="rot">
-        <div id="sh-cam" class="cam"><img src="assets/stills/shaft.jpg" alt="KBS TGI 60 graphite iron shaft" /></div>
-      </div>
+      <div id="sh-bgw" class="bgw"><video id="sh-bg" class="clip bg" src="assets/footage/course_tree.mp4" data-start="0" data-duration="3.871" muted playsinline></video></div>
+      <div class="prod"><div id="sh-rot" class="rot">
+        <div id="sh-cam" class="cam"><img src="assets/cutouts/shaft.png" alt="KBS TGI 60 graphite iron shaft" /></div>
+      </div></div>
     </div>
   </div>
   <script>
@@ -23,6 +24,8 @@
     tl.fromTo("#sh-cam", cam(2.2, 330, 785), { ...cam(2.2, 640, 742), duration: 3.2, ease: "power2.inOut", immediateRender: false }, 0.35);
     // exit: zoom through the TGI 60 print
     tl.to("#sh-cam", { ...cam(3.4, 720, 742), duration: 0.27, ease: "power3.in" }, 3.6);
+    // the course drifts against the camera (parallax)
+    tl.fromTo("#sh-bgw", { scale: 1.06, x: 40 }, { scale: 1.06, x: -40, duration: 3.871, ease: "none" }, 0);
     window.__timelines["shaft"] = tl;
   </script>
 </template>
