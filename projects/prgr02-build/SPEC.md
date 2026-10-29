@@ -33,8 +33,9 @@ SHOTS:
   S5 12.77–16.94 the measure line wipes on the grips; pan from MCC Plus 4 to Golf Pride.
                Plate "GRIP / MCC PLUS 4 / Golf Pride. Saiz ikut tangan kau." Exit: blur swap.
   S6 16.94–19.84 flat lay pulls back to the whole bench. Recap lands on beats: "KEPALA + SHAFT + GRIP / = SET KAU."
-               Hanko "MIY · DIBINA" slams on beat 39.5. Dip cut.
-  S7 19.84–22.75 logo engraved in on black, CTA plate "CUSTOM BUILD & FITTING / DM untuk tempah set kau." Held 2.1 s.
+               Hanko "DIBINA · CUSTOM / LULUS" slams on beat 39.5. Dip cut.
+  S7 19.84–22.75 close-up of a head badge settles; CTA plate "CUSTOM BUILD & FITTING / DM KAMI." engraved in, held 2.1 s.
+  v2: no logo, no description lines anywhere (owner's call); plates carry only tag + title.
 BANNED:  the spec.md defaults; plus: photos shrunk into cards; a slideshow of dissolves; text over the hero head
          badge; anything in the right rail (x > 960) or under y 1330; every plate entering the same way twice in a
          row without the engrave; generic whoosh on every cut (rotate takes).

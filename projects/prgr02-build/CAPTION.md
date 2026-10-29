@@ -6,7 +6,7 @@ Kepala PRGR 02 + shaft KBS TGI 60 + grip Golf Pride MCC Plus 4. Shaft dipotong i
 
 Nak set yang dibina untuk swing kau? DM kami untuk custom build & fitting.
 
-#MIYGolf #CustomBuild #ClubFitting #PRGR #KBSShafts #GolfPride #GolfMalaysia #IronSet
+#CustomBuild #ClubFitting #PRGR #KBSShafts #GolfPride #GolfMalaysia #IronSet
 
 ---
 Music: Mixkit. SFX: Mixkit; "Tape measure 03.wav" by LG (CC BY 4.0); "thick-stamp-sub.wav" by newagesoup (CC BY 4.0).

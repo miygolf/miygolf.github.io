@@ -6,7 +6,7 @@
 
 ## Mixkit (Mixkit Sound Effects Free License, no attribution required)
 `mk<id>.mp3` = Mixkit sound id: 790 riser, 1474 / 3115 / 166 sweeps, 1490 / 1492 whips, 2299 bass hit,
-2303 label hit, 2908 trailer impact, 3120 tech slide.
+2908 trailer impact, 3120 tech slide.
 
 ## Freesound via Openverse
 CC BY — credit these wherever the video is published:
