@@ -1,0 +1,36 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+/*CARD_CSS*/
+    #wy-card .card-title {
+      color: var(--signal);
+    }
+  </style>
+  <div id="root" data-composition-id="why" data-width="1080" data-height="1920">
+    <div id="wy-card" class="card">
+      <div class="card-h"><span>APA JADI</span><b>3×</b></div>
+      <div class="card-title">Kenapa?</div>
+      <div id="wy-r1" class="row"><span class="num">01</span><span>Tangan compensate</span></div>
+      <div id="wy-r2" class="row"><span class="num">02</span><span>Main wrist</span></div>
+      <div id="wy-r3" class="row"><span class="num">03</span><span>Badan stuck</span></div>
+      <div id="wy-pill" class="pill bad">= BANYAK KEMUNGKINAN</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // local clock: scene starts at 9.95 s in the film
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#wy-card", { opacity: 0, y: 70, rotation: 3, filter: "blur(10px)" }, { opacity: 1, y: 0, rotation: 0, filter: "blur(0px)", duration: 0.55, ease: "expo.out" }, 0.05);
+      [1.13, 3.62, 4.64].forEach((t, i) => {
+        tl.fromTo("#wy-r" + (i + 1), { opacity: 0, filter: "blur(6px)", x: 20 }, { opacity: 1, filter: "blur(0px)", x: 0, duration: 0.3, ease: "expo.out" }, t);
+      });
+      tl.fromTo("#wy-pill", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.6)" }, 5.6);
+      tl.to("#wy-card", { opacity: 0, x: 60, filter: "blur(10px)", duration: 0.22, ease: "power3.in" }, 6.38);
+      window.__timelines["why"] = tl;
+    })();
+  </script>
+</template>

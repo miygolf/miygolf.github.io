@@ -1,0 +1,160 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .card {
+      position: absolute;
+      left: 626px;
+      top: 846px;
+      width: 324px;
+      padding: 24px 24px 26px;
+      border-radius: 28px;
+      background: var(--cream);
+      color: var(--ink);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.38);
+      opacity: 0;
+    }
+    .card-h {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 0.04em;
+      color: rgba(11, 43, 30, 0.62);
+    }
+    .card-h b {
+      color: var(--ink);
+    }
+    .card-title {
+      margin-top: 8px;
+      font-family: "League Gothic", sans-serif;
+      font-size: 76px;
+      line-height: 0.92;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+    }
+    .row {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      margin-top: 16px;
+      font-family: "Outfit", sans-serif;
+      font-weight: 800;
+      font-size: 32px;
+      line-height: 1.04;
+      letter-spacing: -0.01em;
+      opacity: 0;
+    }
+    .ico {
+      flex: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Outfit", sans-serif;
+      font-weight: 900;
+      font-size: 28px;
+      line-height: 1;
+    }
+    .ico.x {
+      background: var(--signal);
+      color: var(--cream);
+    }
+    .ico.ok {
+      background: var(--lime);
+      color: var(--ink);
+    }
+    .num {
+      flex: none;
+      width: 46px;
+      font-family: "League Gothic", sans-serif;
+      font-size: 56px;
+      line-height: 0.9;
+      color: var(--signal);
+    }
+    .pill {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 10px 16px 9px;
+      border-radius: 999px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 0.02em;
+      opacity: 0;
+    }
+    .pill.bad {
+      background: var(--signal);
+      color: var(--cream);
+    }
+    .pill.good {
+      background: var(--ink);
+      color: var(--lime);
+    }
+    #fx-flood {
+      position: absolute;
+      inset: 0;
+      background: var(--lime);
+      transform-origin: 50% 100%;
+      opacity: 0;
+    }
+    #fx-card .card-title span {
+      background: var(--lime);
+      padding: 0 10px;
+      border-radius: 8px;
+    }
+    #fx-sub {
+      margin-top: 10px;
+      font-family: "Outfit", sans-serif;
+      font-weight: 800;
+      font-size: 34px;
+      line-height: 1.05;
+      opacity: 0;
+    }
+    #fx-sub em {
+      font-family: "Playfair Display", serif;
+      font-style: italic;
+      font-weight: 900;
+    }
+    #fx-sep {
+      height: 2px;
+      margin-top: 16px;
+      background: rgba(11, 43, 30, 0.15);
+    }
+  </style>
+  <div id="root" data-composition-id="fix" data-width="1080" data-height="1920">
+    <div id="fx-card" class="card">
+      <div class="card-h"><span>THE FIX</span><b>✓</b></div>
+      <div class="card-title"><span>Takeaway</span></div>
+      <div id="fx-sub">di <em>luar</em> kaki kanan</div>
+      <div id="fx-sep"></div>
+      <div id="fx-r1" class="row"><span class="ico x">✕</span><span>Sini — terlebih</span></div>
+      <div id="fx-r2" class="row"><span class="ico ok">✓</span><span>Sini je</span></div>
+      <div id="fx-pill" class="pill good">NGAM-NGAM KAKI KANAN = OK</div>
+    </div>
+    <div id="fx-flood"></div>
+  </div>
+  <script>
+    (function () {
+      // local clock: scene starts at 16.45 s in the film
+      const tl = gsap.timeline({ paused: true });
+      // colour flood marks the turn from problem to fix
+      tl.fromTo("#fx-flood", { opacity: 0.0, scaleY: 0 }, { opacity: 0.22, scaleY: 1, duration: 0.22, ease: "power2.inOut" }, 0.05);
+      tl.to("#fx-flood", { opacity: 0, duration: 0.3, ease: "power2.out" }, 0.3);
+      tl.fromTo("#fx-card", { opacity: 0, scale: 0.7, filter: "blur(12px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, 0.12);
+      tl.fromTo("#fx-sub", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out" }, 1.68);
+      tl.fromTo("#fx-r1", { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.3, ease: "expo.out" }, 3.5);
+      tl.fromTo("#fx-r2", { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.3, ease: "expo.out" }, 3.93);
+      tl.fromTo("#fx-pill", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.6)" }, 4.75);
+      tl.to("#fx-card", { opacity: 0, filter: "blur(8px)", duration: 0.16, ease: "power2.in" }, 6.58);
+      window.__timelines["fix"] = tl;
+    })();
+  </script>
+</template>

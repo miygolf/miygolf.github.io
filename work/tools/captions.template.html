@@ -1,0 +1,191 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    /* The deck sits over the sky band, where the source carries its old
+       burned-in subtitles (y 187-416 at 1080x1920), and hides them. */
+    #cap-deck {
+      position: absolute;
+      left: 20px;
+      top: 164px;
+      width: 1040px;
+      height: 292px;
+      border-radius: 36px;
+      background: linear-gradient(180deg, rgba(7, 30, 21, 0.93), rgba(9, 38, 26, 0.95));
+      backdrop-filter: blur(22px) saturate(1.15);
+      border: 2px solid rgba(212, 255, 58, 0.22);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+    }
+    #cap-deck-sheen {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(120% 90% at 0% 0%, rgba(212, 255, 58, 0.1), transparent 55%);
+    }
+    .cap-tag {
+      position: absolute;
+      left: 40px;
+      top: 26px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 0.14em;
+      color: var(--lime);
+      white-space: nowrap;
+      opacity: 0;
+    }
+    .cap-tag .dot {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      margin-right: 14px;
+      border-radius: 50%;
+      background: currentColor;
+      vertical-align: 1px;
+    }
+    .cap-tag.warn {
+      color: var(--signal);
+    }
+    .cap-count {
+      position: absolute;
+      right: 40px;
+      top: 26px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 0.1em;
+      color: rgba(245, 240, 225, 0.55);
+      opacity: 0;
+    }
+    #cap-rule {
+      position: absolute;
+      left: 40px;
+      right: 40px;
+      top: 70px;
+      height: 2px;
+      background: rgba(245, 240, 225, 0.12);
+    }
+    #cap-progress {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 6px;
+      background: var(--lime);
+      transform-origin: 0 50%;
+    }
+    .cap-group {
+      position: absolute;
+      left: 0;
+      top: 82px;
+      width: 100%;
+      height: 196px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+    }
+    .cap-line {
+      width: 940px;
+      text-align: center;
+      font-family: "Outfit", sans-serif;
+      font-weight: 800;
+      font-size: 74px;
+      line-height: 1.06;
+      letter-spacing: -0.015em;
+      color: var(--cream);
+      text-wrap: balance;
+    }
+    .cap-w {
+      display: inline-block;
+      opacity: 0.32;
+    }
+    .cap-w.emph {
+      font-family: "Playfair Display", serif;
+      font-style: italic;
+      font-weight: 900;
+      color: var(--lime);
+      letter-spacing: -0.01em;
+    }
+    #cap-cta .cap-line {
+      font-size: 64px;
+    }
+    #cap-g0 .cap-w,
+    #cap-cta .cap-w {
+      opacity: 1;
+    }
+  </style>
+  <div id="root" data-composition-id="captions" data-width="1080" data-height="1920">
+    <div id="cap-deck" data-layout-allow-overlap>
+      <div id="cap-deck-sheen"></div>
+      <div id="cap-tag0" class="cap-tag warn"><span class="dot"></span>KESILAPAN #1 · CHIPPING</div>
+      <div id="cap-tag1" class="cap-tag"><span class="dot"></span>TIP CHIPPING · BACKSWING</div>
+      <div id="cap-tag2" class="cap-tag warn"><span class="dot"></span>KENAPA BAHAYA?</div>
+      <div id="cap-tag3" class="cap-tag"><span class="dot"></span>THE FIX · TAKEAWAY</div>
+      <div id="cap-tag4" class="cap-tag"><span class="dot"></span>KUNCI CHIP</div>
+      <div id="cap-tag5" class="cap-tag"><span class="dot"></span>FOLLOW UNTUK TIP SETERUSNYA</div>
+      <div id="cap-count0" class="cap-count">⚠</div>
+      <div id="cap-count1" class="cap-count">01 / 04</div>
+      <div id="cap-count2" class="cap-count">02 / 04</div>
+      <div id="cap-count3" class="cap-count">03 / 04</div>
+      <div id="cap-count4" class="cap-count">04 / 04</div>
+      <div id="cap-count5" class="cap-count">→</div>
+      <div id="cap-rule"></div>
+      <div id="cap-groups">
+<!--GROUPS-->
+        <div id="cap-cta" class="cap-group"><div class="cap-line"><span class="cap-w emph">Save</span> <span class="cap-w">&amp; cuba masa</span> <span class="cap-w emph">latihan.</span></div></div>
+      </div>
+      <div id="cap-progress"></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const DUR = 27.0;
+      const TIMING = /*TIMING*/[];
+      const tl = gsap.timeline({ paused: true });
+
+      // deck is on screen from frame 0 (the thumbnail); progress runs the whole film
+      tl.fromTo("#cap-progress", { scaleX: 0 }, { scaleX: 1, duration: DUR, ease: "none" }, 0);
+
+      // chapter tags: blur swap on one stage
+      const chapters = [0, 1.5, 8.23, 16.53, 23.17, 25.2, DUR];
+      for (let i = 0; i < 6; i++) {
+        const a = chapters[i], b = chapters[i + 1];
+        ["#cap-tag" + i, "#cap-count" + i].forEach((sel) => {
+          if (i === 0) tl.set(sel, { opacity: 1, filter: "blur(0px)" }, 0);
+          else tl.fromTo(sel, { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power2.out" }, a);
+          if (b < DUR) {
+            tl.to(sel, { opacity: 0, filter: "blur(8px)", duration: 0.12, ease: "power2.in" }, b - 0.12);
+            tl.set(sel, { opacity: 0 }, b);
+          }
+        });
+      }
+
+      // caption groups: line blurs in, words go from dim to full as spoken
+      TIMING.forEach((g, gi) => {
+        const sel = "#" + g.id;
+        if (gi === 0) tl.set(sel, { opacity: 1, filter: "blur(0px)" }, 0);
+        else tl.fromTo(sel, { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.14, ease: "power3.out" }, g.show);
+        if (gi === 0) return hold(g);  // the thumbnail frame reads in full
+        g.w.forEach((w, wi) => {
+          tl.fromTo(sel + "-w" + wi, { opacity: 0.32 }, { opacity: 1, duration: 0.08, ease: "power1.out" }, Math.max(0, w[0] - 0.03));
+        });
+        hold(g);
+      });
+      function hold(g) {
+        tl.to("#" + g.id, { opacity: 0, duration: 0.1, ease: "power2.in" }, g.hide - 0.1);
+        tl.set("#" + g.id, { opacity: 0, visibility: "hidden" }, g.hide);
+      }
+
+      // closing line
+      tl.fromTo("#cap-cta", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power3.out" }, 25.25);
+      tl.fromTo("#cap-cta .cap-w", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, stagger: 0.07, ease: "power2.out" }, 25.25);
+      tl.fromTo("#cap-deck", { borderColor: "rgba(212,255,58,0.22)" }, { borderColor: "rgba(212,255,58,0.9)", duration: 0.4, ease: "power2.inOut" }, 25.2);
+
+      window.__timelines["captions"] = tl;
+    })();
+  </script>
+</template>

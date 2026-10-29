@@ -1,0 +1,148 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .card {
+      position: absolute;
+      left: 626px;
+      top: 846px;
+      width: 324px;
+      padding: 24px 24px 26px;
+      border-radius: 28px;
+      background: var(--cream);
+      color: var(--ink);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.38);
+      opacity: 0;
+    }
+    .card-h {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 0.04em;
+      color: rgba(11, 43, 30, 0.62);
+    }
+    .card-h b {
+      color: var(--ink);
+    }
+    .card-title {
+      margin-top: 8px;
+      font-family: "League Gothic", sans-serif;
+      font-size: 76px;
+      line-height: 0.92;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+    }
+    .row {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      margin-top: 16px;
+      font-family: "Outfit", sans-serif;
+      font-weight: 800;
+      font-size: 32px;
+      line-height: 1.04;
+      letter-spacing: -0.01em;
+      opacity: 0;
+    }
+    .ico {
+      flex: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Outfit", sans-serif;
+      font-weight: 900;
+      font-size: 28px;
+      line-height: 1;
+    }
+    .ico.x {
+      background: var(--signal);
+      color: var(--cream);
+    }
+    .ico.ok {
+      background: var(--lime);
+      color: var(--ink);
+    }
+    .num {
+      flex: none;
+      width: 46px;
+      font-family: "League Gothic", sans-serif;
+      font-size: 56px;
+      line-height: 0.9;
+      color: var(--signal);
+    }
+    .pill {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 10px 16px 9px;
+      border-radius: 999px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 0.02em;
+      opacity: 0;
+    }
+    .pill.bad {
+      background: var(--signal);
+      color: var(--cream);
+    }
+    .pill.good {
+      background: var(--ink);
+      color: var(--lime);
+    }
+    #ky-card {
+      background: var(--ink);
+      color: var(--cream);
+      border: 2px solid rgba(212, 255, 58, 0.5);
+    }
+    #ky-card .card-h {
+      color: rgba(245, 240, 225, 0.6);
+    }
+    #ky-card .card-h b {
+      color: var(--lime);
+    }
+    #ky-card .card-title {
+      color: var(--lime);
+    }
+    #ky-tri {
+      flex: none;
+      width: 46px;
+      height: 42px;
+    }
+    #ky-tri path {
+      fill: none;
+      stroke: var(--lime);
+      stroke-width: 5;
+      stroke-linejoin: round;
+    }
+  </style>
+  <div id="root" data-composition-id="keys" data-width="1080" data-height="1920">
+    <div id="ky-card" class="card">
+      <div class="card-h"><span>SAVE INI</span><b>KUNCI</b></div>
+      <div class="card-title">Chip Check</div>
+            <div id="ky-r1" class="row"><span class="ico ok">✓</span><span>Takeaway luar kaki kanan</span></div>
+      <div id="ky-r2" class="row"><span class="ico ok">✓</span><span>Weight belah kiri</span></div>
+      <div id="ky-r3" class="row"><svg id="ky-tri" viewBox="0 0 74 66"><path id="ky-tri-path" d="M37 6 L69 61 L5 61 Z" pathLength="1" /></svg><span>Maintain triangle</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // local clock: scene starts at 23.05 s in the film
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#ky-card", { opacity: 0, y: 80, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, 0.08);
+      [0.3, 0.6, 1.25].forEach((t, i) => {
+        tl.fromTo("#ky-r" + (i + 1), { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.3, ease: "expo.out" }, t);
+      });
+      tl.fromTo("#ky-tri-path", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.6, ease: "power2.inOut" }, 1.3);
+      window.__timelines["keys"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,7 @@
+node_modules/
+renders/
+.hyperframes/
+.media/
+src/voice16k.wav
+assets/bgm/gen_small.wav
+assets/edit.mp4

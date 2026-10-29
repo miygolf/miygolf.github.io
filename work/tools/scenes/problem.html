@@ -1,0 +1,86 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+/*CARD_CSS*/
+    #pb-meter {
+      display: flex;
+      gap: 6px;
+      margin-top: 18px;
+    }
+    .pb-seg {
+      flex: 1;
+      height: 46px;
+      border-radius: 8px;
+      background: rgba(11, 43, 30, 0.12);
+    }
+    .pb-fill {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      background: var(--signal);
+      transform-origin: 50% 100%;
+    }
+    #pb-scale {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 0.02em;
+      color: rgba(11, 43, 30, 0.5);
+    }
+    #pb-high {
+      margin-top: 6px;
+      font-family: "League Gothic", sans-serif;
+      font-size: 120px;
+      line-height: 0.9;
+      color: var(--signal);
+      transform-origin: 0% 60%;
+      opacity: 0;
+    }
+  </style>
+  <div id="root" data-composition-id="problem" data-width="1080" data-height="1920">
+    <div id="pb-card1" class="card">
+      <div class="card-h"><span>BACKSWING</span><b>JANGAN</b></div>
+      <div id="pb-r1" class="row"><span class="ico x">✕</span><span>Ke dalam</span></div>
+      <div id="pb-r2" class="row"><span class="ico x">✕</span><span>Terlebih ke kaki kanan</span></div>
+    </div>
+    <div id="pb-card2" class="card">
+      <div class="card-h"><span>MARGIN OF ERROR</span></div>
+      <div id="pb-meter">
+        <div class="pb-seg"><div class="pb-fill"></div></div>
+        <div class="pb-seg"><div class="pb-fill"></div></div>
+        <div class="pb-seg"><div class="pb-fill"></div></div>
+        <div class="pb-seg"><div class="pb-fill"></div></div>
+        <div class="pb-seg"><div class="pb-fill"></div></div>
+        <div class="pb-seg"><div class="pb-fill"></div></div>
+        <div class="pb-seg"><div class="pb-fill"></div></div>
+        <div class="pb-seg"><div class="pb-fill"></div></div>
+      </div>
+      <div id="pb-scale"><span>RENDAH</span><span>TINGGI</span></div>
+      <div id="pb-high">SANGAT TINGGI</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // local clock: scene starts at 4.6 s in the film
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#pb-card1", { opacity: 0, x: 90, filter: "blur(10px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, 0.1);
+      tl.fromTo("#pb-r1", { opacity: 0, x: 24 }, { opacity: 1, x: 0, duration: 0.35, ease: "expo.out" }, 0.66);
+      tl.fromTo("#pb-r2", { opacity: 0, x: 24 }, { opacity: 1, x: 0, duration: 0.35, ease: "expo.out" }, 1.68);
+      tl.to("#pb-card1", { opacity: 0, filter: "blur(8px)", duration: 0.16, ease: "power2.in" }, 3.48);
+      // meter card: one stage, new content
+      tl.fromTo("#pb-card2", { opacity: 0, filter: "blur(10px)", scale: 0.94 }, { opacity: 1, filter: "blur(0px)", scale: 1, duration: 0.3, ease: "power3.out" }, 3.62);
+      tl.fromTo("#pb-card2 .pb-fill", { scaleY: 0 }, { scaleY: 1, duration: 0.18, ease: "power2.out", stagger: 0.11 }, 3.8);
+      tl.fromTo("#pb-high", { opacity: 0, scale: 1.4 }, { opacity: 1, scale: 1, duration: 0.3, ease: "expo.out" }, 4.92);
+      tl.fromTo("#pb-card2", { x: -10 }, { x: 0, duration: 0.3, ease: "elastic.out(1, 0.35)" }, 4.94);
+      tl.to("#pb-card2", { opacity: 0, filter: "blur(8px)", duration: 0.16, ease: "power2.in" }, 5.4);
+      window.__timelines["problem"] = tl;
+    })();
+  </script>
+</template>
