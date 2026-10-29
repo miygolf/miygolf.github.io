@@ -1,0 +1,35 @@
+<template>
+  <link rel="stylesheet" href="assets/plate.css" />
+  <style>
+    @font-face { font-family: "Barlow Condensed"; src: url("assets/fonts/BarlowCondensed-800.woff2") format("woff2"); font-weight: 800; }
+    @font-face { font-family: "Barlow Condensed"; src: url("assets/fonts/BarlowCondensed-600.woff2") format("woff2"); font-weight: 600; }
+    @font-face { font-family: "Barlow Condensed"; src: url("assets/fonts/BarlowCondensed-500.woff2") format("woff2"); font-weight: 500; }
+    #root { position: absolute; inset: 0; overflow: hidden; background: #111214; }
+    #hk-big { font-size: 236px; }
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920"
+    data-composition-variables='[{"id":"hkTag","type":"string","label":"Hook tag","default":"MIY Golf · Custom build"},{"id":"hkBig","type":"string","label":"Hook word","default":"Dibina."},{"id":"hkLine","type":"string","label":"Hook line","default":"bukan dibeli siap."}]'>
+    <div id="hk-cam" class="cam"><img id="hk-img" src="assets/stills/closeup.jpg" alt="PRGR 02 iron heads in shrink wrap" /></div>
+    <div id="hk-plate" class="plate-sh">
+      <div class="plate">
+        <div class="p-head"><span class="p-tag" data-var-text="hkTag">MIY Golf · Custom build</span><span class="p-slot"></span></div>
+        <div id="hk-big" class="p-big"><span class="ink" data-var-text="hkBig">Dibina.</span></div>
+        <div id="hk-line" class="p-line"><span id="hk-line-ink" class="ink" data-var-text="hkLine">bukan dibeli siap.</span></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // camera: photo point (cx, cy) at frame centre, zoom z (photo is 960 x 1280 css px)
+    const cam = (z, cx, cy) => ({ scale: z, x: 540 - cx * z, y: 960 - cy * z });
+    const tl = gsap.timeline({ paused: true });
+    // frame 0 is the thumbnail: photo, tag and the hook word already in place
+    tl.fromTo("#hk-cam", cam(1.55, 480, 700), { ...cam(1.6, 470, 690), duration: 1.21, ease: "none" }, 0);
+    // punch-in on the PRGR badge on beat 2.5 (hard cut inside the shot), then hold
+    tl.set("#hk-cam", cam(2.05, 290, 650), 1.21);
+    tl.fromTo("#hk-cam", cam(2.05, 290, 650), { ...cam(2.1, 290, 655), duration: 0.99, ease: "none" }, 1.21);
+    // whip up into the drop
+    tl.to("#hk-cam", { y: "-=900", duration: 0.2, ease: "power3.in" }, 2.2);
+    tl.to("#hk-plate", { y: -420, opacity: 0, duration: 0.18, ease: "power3.in" }, 2.22);
+    window.__timelines["hook"] = tl;
+  </script>
+</template>

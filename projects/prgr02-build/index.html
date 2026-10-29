@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ms" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* "Spec Plate": steel badge plates over the bench photos, KBS red accent (SPEC.md). */
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #111214; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; }
+      #ground { position: absolute; inset: 0; background: #111214; }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="22.75"
+      data-width="1080"
+      data-height="1920"
+      data-motion-blur="on"
+    >
+      <div id="ground"></div>
+
+      <!-- ── Scenes: seams on the 124 BPM beat grid (beats 5, 13, 21, 27, 35, 41) ── -->
+      <div id="hook" data-composition-id="hook" data-composition-src="compositions/hook.html" data-start="0" data-duration="2.419" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 5"></div>
+      <div id="head" data-composition-id="head" data-composition-src="compositions/head.html" data-start="2.419" data-duration="3.871" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 5"></div>
+      <div id="shaft" data-composition-id="shaft" data-composition-src="compositions/shaft.html" data-start="6.29" data-duration="3.871" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 5"></div>
+      <div id="measure" data-composition-id="measure" data-composition-src="compositions/measure.html" data-start="10.161" data-duration="2.904" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 5"></div>
+      <div id="grip" data-composition-id="grip" data-composition-src="compositions/grip.html" data-start="12.765" data-duration="4.17" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 6"></div>
+      <div id="recap" data-composition-id="recap" data-composition-src="compositions/recap.html" data-start="16.935" data-duration="2.904" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 5"></div>
+      <div id="endcard" data-composition-id="endcard" data-composition-src="compositions/endcard.html" data-start="19.839" data-duration="2.911" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 5"></div>
+
+      <!-- ── Music: Mixkit track 623 (free licence), entered so its drop lands on 2.419 s ── -->
+      <audio id="a-bed" class="clip" src="assets/bgm/bed_623.mp3" data-start="0" data-duration="22.75" data-track-index="10" data-volume="0.55" data-fade-out="1.2"></audio>
+
+      <!-- ── SFX: Mixkit (mk*, free licence) and Freesound via Openverse (fs_*, clubs_*, wrap_*; see assets/sfx/CREDITS.md) ── -->
+      <audio id="s-wrap" class="clip" src="assets/sfx/wrap_a.mp3" data-start="0.0" data-duration="1.0" data-track-index="11" data-volume="0.45"></audio>
+      <audio id="s-riser" class="clip" src="assets/sfx/mk790.mp3" data-start="0.0" data-duration="2.45" data-track-index="12" data-volume="0.7" data-media-start="0.085"></audio>
+      <audio id="s-hk-line" class="clip" src="assets/sfx/fs_swordslide.mp3" data-start="0.29" data-duration="1.0" data-track-index="13" data-volume="1.0"></audio>
+      <audio id="s-hk-punch" class="clip" src="assets/sfx/mk3115.mp3" data-start="1.13" data-duration="0.57" data-track-index="14" data-volume="0.45"></audio>
+      <audio id="s-hk-whip" class="clip" src="assets/sfx/mk1490.mp3" data-start="1.6" data-duration="1.76" data-track-index="15" data-volume="0.55"></audio>
+      <audio id="s-drop" class="clip" src="assets/sfx/mk2299.mp3" data-start="2.367" data-duration="1.1" data-track-index="16" data-volume="0.6"></audio>
+      <audio id="s-hd-clank" class="clip" src="assets/sfx/clubs_a.mp3" data-start="2.45" data-duration="1.3" data-track-index="17" data-volume="0.7"></audio>
+      <audio id="s-hd-plate" class="clip" src="assets/sfx/mk3120.mp3" data-start="2.66" data-duration="1.65" data-track-index="18" data-volume="0.7"></audio>
+      <audio id="s-hd-iris" class="clip" src="assets/sfx/mk166.mp3" data-start="5.86" data-duration="0.78" data-track-index="19" data-volume="0.6"></audio>
+      <audio id="s-sh-shing" class="clip" src="assets/sfx/fs_sheath.mp3" data-start="6.13" data-duration="0.63" data-track-index="20" data-volume="0.8"></audio>
+      <audio id="s-sh-plate" class="clip" src="assets/sfx/fs_swordslide.mp3" data-start="6.62" data-duration="1.2" data-track-index="21" data-volume="0.9"></audio>
+      <audio id="s-sh-whip" class="clip" src="assets/sfx/mk1492.mp3" data-start="9.0" data-duration="1.33" data-track-index="22" data-volume="0.5"></audio>
+      <audio id="s-ms-tape" class="clip" src="assets/sfx/fs_tape_open1.mp3" data-start="10.3" data-duration="2.12" data-track-index="23" data-volume="0.8"></audio>
+      <audio id="s-ms-plate" class="clip" src="assets/sfx/mk3120.mp3" data-start="10.32" data-duration="1.65" data-track-index="24" data-volume="0.55"></audio>
+      <audio id="s-ms-cut" class="clip" src="assets/sfx/fs_tape_lg03.mp3" data-start="11.89" data-duration="0.75" data-track-index="25" data-volume="0.8"></audio>
+      <audio id="s-gp-wipe" class="clip" src="assets/sfx/mk3115.mp3" data-start="12.83" data-duration="0.57" data-track-index="26" data-volume="0.6"></audio>
+      <audio id="s-gp-plate" class="clip" src="assets/sfx/mk3120.mp3" data-start="13.22" data-duration="1.65" data-track-index="27" data-volume="0.6"></audio>
+      <audio id="s-gp-out" class="clip" src="assets/sfx/mk1474.mp3" data-start="15.76" data-duration="1.6" data-track-index="28" data-volume="0.4" data-fade-out="0.5"></audio>
+      <audio id="s-rc-l1" class="clip" src="assets/sfx/fs_iron7.mp3" data-start="17.02" data-duration="0.81" data-track-index="29" data-volume="0.6"></audio>
+      <audio id="s-rc-l2" class="clip" src="assets/sfx/fs_sheath.mp3" data-start="17.23" data-duration="0.63" data-track-index="30" data-volume="0.6"></audio>
+      <audio id="s-rc-l3" class="clip" src="assets/sfx/mk3115.mp3" data-start="18.06" data-duration="0.57" data-track-index="31" data-volume="0.45"></audio>
+      <audio id="s-rc-l4" class="clip" src="assets/sfx/mk2299.mp3" data-start="18.58" data-duration="1.1" data-track-index="32" data-volume="0.7"></audio>
+      <audio id="s-rc-stamp-a" class="clip" src="assets/sfx/fs_stamp_k.mp3" data-start="19.06" data-duration="0.58" data-track-index="33" data-volume="0.6"></audio>
+      <audio id="s-rc-stamp-b" class="clip" src="assets/sfx/fs_stamp_thick.mp3" data-start="19.127" data-duration="0.98" data-track-index="34" data-volume="0.9"></audio>
+      <audio id="s-ec-logo" class="clip" src="assets/sfx/mk2908.mp3" data-start="19.52" data-duration="3.2" data-track-index="35" data-volume="0.55" data-fade-out="1"></audio>
+      <audio id="s-ec-cta" class="clip" src="assets/sfx/mk2303.mp3" data-start="20.36" data-duration="1.5" data-track-index="36" data-volume="0.35"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

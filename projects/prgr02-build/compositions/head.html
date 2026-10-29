@@ -1,0 +1,46 @@
+<template>
+  <link rel="stylesheet" href="assets/plate.css" />
+  <style>
+    @font-face { font-family: "Barlow Condensed"; src: url("assets/fonts/BarlowCondensed-800.woff2") format("woff2"); font-weight: 800; }
+    @font-face { font-family: "Barlow Condensed"; src: url("assets/fonts/BarlowCondensed-600.woff2") format("woff2"); font-weight: 600; }
+    @font-face { font-family: "Barlow Condensed"; src: url("assets/fonts/BarlowCondensed-500.woff2") format("woff2"); font-weight: 500; }
+    #root { position: absolute; inset: 0; overflow: hidden; background: #111214; }
+    #hd-flood { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; background: #d7191f; clip-path: circle(0px at 190px 320px); }
+  </style>
+  <div id="root" data-composition-id="head" data-width="1080" data-height="1920"
+    data-composition-variables='[{"id":"hdTag","type":"string","label":"Tag","default":"Kepala"},{"id":"hdBig","type":"string","label":"Name","default":"PRGR 02"},{"id":"hdLine","type":"string","label":"Line","default":"Kepala besi dari Jepun."}]'>
+    <div id="hd-cam" class="cam"><img src="assets/stills/row.jpg" alt="A row of PRGR 02 iron heads" /></div>
+    <div id="hd-plate" class="plate-sh">
+      <div class="plate">
+        <div class="p-head"><span class="p-tag" data-var-text="hdTag">Kepala</span><span class="p-slot"></span></div>
+        <div class="p-big"><span id="hd-ink" class="ink" data-var-text="hdBig">PRGR 02</span><span id="hd-cut" class="cutw"><i class="cutter"></i></span></div>
+        <div class="p-line" data-var-text="hdLine">Kepala besi dari Jepun.</div>
+      </div>
+    </div>
+    <div id="hd-flood"></div>
+  </div>
+  <script>
+    const cam = (z, cx, cy) => ({ scale: z, x: 540 - cx * z, y: 960 - cy * z });
+    // a plate slots in from the left like a part and seats 4 px in two frames
+    const plateIn = (tl, sel, t) => {
+      tl.fromTo(sel, { x: -860 }, { x: 0, duration: 0.45, ease: "expo.out" }, t);
+      tl.fromTo(sel, { y: 0 }, { y: 4, duration: 0.033, ease: "none", immediateRender: false }, t + 0.36);
+      tl.to(sel, { y: 0, duration: 0.033, ease: "none" }, t + 0.393);
+    };
+    // engrave: the word is cut in left to right behind a red cutter line
+    const engrave = (tl, ink, cutw, t, d = 0.3) => {
+      tl.fromTo(ink, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: d, ease: "power2.inOut" }, t);
+      tl.fromTo(cutw, { xPercent: 0, opacity: 1 }, { xPercent: 100, duration: d, ease: "power2.inOut" }, t);
+      tl.to(cutw, { opacity: 0, duration: 0.08 }, t + d);
+    };
+    const tl = gsap.timeline({ paused: true });
+    // lands from below (the hook whipped up), then tracks up the row of heads
+    tl.fromTo("#hd-cam", { ...cam(2.1, 290, 820), y: 960 - 820 * 2.1 + 760 }, { ...cam(2.1, 290, 820), duration: 0.3, ease: "expo.out" }, 0);
+    tl.fromTo("#hd-cam", cam(2.1, 290, 820), { ...cam(1.8, 640, 540), duration: 3.1, ease: "power2.inOut", immediateRender: false }, 0.3);
+    plateIn(tl, "#hd-plate", 0.3);
+    engrave(tl, "#hd-ink", "#hd-cut", 0.55);
+    // exit: the red tag opens into the next world
+    tl.fromTo("#hd-flood", { clipPath: "circle(0px at 190px 320px)" }, { clipPath: "circle(2300px at 190px 320px)", duration: 0.4, ease: "power3.in" }, 3.44);
+    window.__timelines["head"] = tl;
+  </script>
+</template>
