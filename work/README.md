@@ -19,5 +19,6 @@ python3 tools/build_edit.py      # cut raw → assets/edit.mp4
 python3 tools/build_captions.py  # captions deck
 python3 tools/build_scenes.py    # graphics scenes
 python3 tools/build_index.py     # root: punch-ins, music, SFX
-npx hyperframes check && npx hyperframes render -q delivery -o renders/final.mp4
+npx hyperframes check && npx hyperframes render -q delivery -o renders/final-raw.mp4
+# then two-pass ffmpeg loudnorm to -14 LUFS / -1.5 dBTP (video stream copied)
 ```
