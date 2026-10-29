@@ -2199,11 +2199,11 @@
   },
   "renders": {
     "latest": {
-      "id": "98f4b6a7-7af6-401f-af95-a3a66aa35b37",
-      "completedAt": 1793279641028,
-      "output": "/home/user/video-claude/projects/prgr02-build/renders/v4_music_raw.mp4",
+      "id": "e6677805-0d2a-4c2f-a0a4-d5f2eca5ca51",
+      "completedAt": 1793280021488,
+      "output": "/home/user/video-claude/projects/prgr02-build/renders/v4_sfx_raw.mp4",
       "status": "completed",
-      "revision": "c3a70fb9-6952-44ec-b42f-2ae77ff66d8a"
+      "revision": null
     },
     "retainedRevisions": [
       "c3a70fb9-6952-44ec-b42f-2ae77ff66d8a",
