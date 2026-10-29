@@ -1,0 +1,4 @@
+/* Camera rigs for the bench photos: a 960 x 1280 photo moved by scale/x/y from its top-left corner. */
+.cam { position: absolute; left: 0; top: 0; width: 960px; height: 1280px; transform-origin: 0 0; }
+.cam > img { position: absolute; left: 0; top: 0; width: 960px; height: 1280px; }
+.rot { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 540px 960px; }

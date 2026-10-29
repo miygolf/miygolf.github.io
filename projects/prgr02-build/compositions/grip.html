@@ -1,52 +1,24 @@
 <template>
-  <link rel="stylesheet" href="assets/plate.css" />
+  <link rel="stylesheet" href="assets/camera.css" />
   <style>
-    @font-face { font-family: "Barlow Condensed"; src: url("assets/fonts/BarlowCondensed-800.woff2") format("woff2"); font-weight: 800; }
-    @font-face { font-family: "Barlow Condensed"; src: url("assets/fonts/BarlowCondensed-600.woff2") format("woff2"); font-weight: 600; }
-    @font-face { font-family: "Barlow Condensed"; src: url("assets/fonts/BarlowCondensed-500.woff2") format("woff2"); font-weight: 500; }
     #root { position: absolute; inset: 0; overflow: hidden; }
     #gp-view { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; background: #111214; clip-path: inset(0 100% 0 0); }
-    #gp-edge { position: absolute; left: 0; top: 0; width: 8px; height: 1920px; background: #d7191f; }
-    #gp-plate { top: 610px; }
   </style>
-  <div id="root" data-composition-id="grip" data-width="1080" data-height="1920"
-    data-composition-variables='[{"id":"gpTag","type":"string","label":"Tag","default":"Grip"},{"id":"gpBig","type":"string","label":"Name","default":"MCC Plus 4"}]'>
+  <div id="root" data-composition-id="grip" data-width="1080" data-height="1920">
     <div id="gp-view">
       <div id="gp-cam" class="cam"><img src="assets/stills/row.jpg" alt="Golf Pride MCC Plus 4 grips" /></div>
     </div>
-    <div id="gp-edge"></div>
-    <div id="gp-plate" class="plate-sh">
-      <div class="plate">
-        <div class="p-head"><span class="p-tag" data-var-text="gpTag">Grip</span><span class="p-slot"></span></div>
-        <div class="p-big"><span id="gp-ink" class="ink" data-var-text="gpBig">MCC Plus 4</span><span id="gp-cut" class="cutw"><i class="cutter"></i></span></div>
-      </div>
-    </div>
   </div>
   <script>
+    // camera: photo point (cx, cy) at frame centre, zoom z (photo is 960 x 1280 css px)
     const cam = (z, cx, cy) => ({ scale: z, x: 540 - cx * z, y: 960 - cy * z });
-    // a plate slots in from the left like a part and seats 4 px in two frames
-    const plateIn = (tl, sel, t) => {
-      tl.fromTo(sel, { x: -860 }, { x: 0, duration: 0.45, ease: "expo.out" }, t);
-      tl.fromTo(sel, { y: 0 }, { y: 4, duration: 0.033, ease: "none", immediateRender: false }, t + 0.36);
-      tl.to(sel, { y: 0, duration: 0.033, ease: "none" }, t + 0.393);
-    };
-    // engrave: the word is cut in left to right behind a red cutter line
-    const engrave = (tl, ink, cutw, t, d = 0.3) => {
-      tl.fromTo(ink, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: d, ease: "power2.inOut" }, t);
-      tl.fromTo(cutw, { xPercent: 0, opacity: 1 }, { xPercent: 100, duration: d, ease: "power2.inOut" }, t);
-      tl.to(cutw, { opacity: 0, duration: 0.08 }, t + d);
-    };
     const tl = gsap.timeline({ paused: true });
-    // the measure line carries on as a wipe over the grips
+    // wipe on in the bench's direction of travel
     tl.fromTo("#gp-view", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.3, ease: "power2.inOut" }, 0);
-    tl.fromTo("#gp-edge", { x: 0, opacity: 1 }, { x: 1080, duration: 0.3, ease: "power2.inOut" }, 0);
-    tl.to("#gp-edge", { opacity: 0, duration: 0.05 }, 0.3);
     // pan from the MCC Plus 4 labels to the Golf Pride wordmarks
     tl.fromTo("#gp-cam", cam(1.75, 330, 549), { ...cam(1.75, 600, 549), duration: 3.6, ease: "power2.inOut" }, 0.3);
-    plateIn(tl, "#gp-plate", 0.52);
-    engrave(tl, "#gp-ink", "#gp-cut", 0.77, 0.36);
     // blur swap out to the whole bench
-    tl.to(["#gp-view", "#gp-plate"], { opacity: 0, filter: "blur(8px)", duration: 0.17, ease: "power2.in" }, 4.0);
+    tl.to("#gp-view", { opacity: 0, filter: "blur(8px)", duration: 0.17, ease: "power2.in" }, 4.0);
     window.__timelines["grip"] = tl;
   </script>
 </template>

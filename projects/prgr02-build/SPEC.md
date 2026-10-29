@@ -36,6 +36,8 @@ SHOTS:
                Hanko "DIBINA · CUSTOM / LULUS" slams on beat 39.5. Dip cut.
   S7 19.84–22.75 close-up of a head badge settles; CTA plate "CUSTOM BUILD & FITTING / DM KAMI." engraved in, held 2.1 s.
   v2: no logo, no description lines anywhere (owner's call); plates carry only tag + title.
+  v3: NO on-screen text or graphics at all (owner's call): photos, camera moves, transitions, SFX (+ optional music).
+      The LOOK, plate and copy lines above are history; REVIEW.md has the v3 cut.
 BANNED:  the spec.md defaults; plus: photos shrunk into cards; a slideshow of dissolves; text over the hero head
          badge; anything in the right rail (x > 960) or under y 1330; every plate entering the same way twice in a
          row without the engrave; generic whoosh on every cut (rotate takes).

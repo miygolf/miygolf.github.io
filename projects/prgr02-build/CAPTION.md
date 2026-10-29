@@ -9,4 +9,4 @@ Nak set yang dibina untuk swing kau? DM kami untuk custom build & fitting.
 #CustomBuild #ClubFitting #PRGR #KBSShafts #GolfPride #GolfMalaysia #IronSet
 
 ---
-Music: Mixkit. SFX: Mixkit; "Tape measure 03.wav" by LG (CC BY 4.0); "thick-stamp-sub.wav" by newagesoup (CC BY 4.0).
+Music (music version): Mixkit. SFX: Mixkit + Freesound CC0 — no credit required.

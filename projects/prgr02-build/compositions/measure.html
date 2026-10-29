@@ -1,58 +1,17 @@
 <template>
-  <link rel="stylesheet" href="assets/plate.css" />
+  <link rel="stylesheet" href="assets/camera.css" />
   <style>
-    @font-face { font-family: "Barlow Condensed"; src: url("assets/fonts/BarlowCondensed-800.woff2") format("woff2"); font-weight: 800; }
-    @font-face { font-family: "Barlow Condensed"; src: url("assets/fonts/BarlowCondensed-600.woff2") format("woff2"); font-weight: 600; }
-    @font-face { font-family: "Barlow Condensed"; src: url("assets/fonts/BarlowCondensed-500.woff2") format("woff2"); font-weight: 500; }
     #root { position: absolute; inset: 0; overflow: hidden; background: #111214; }
-    /* the length marks on the sleeve run up 4.4 degrees to the right: the rule follows them */
-    #ms-rule { position: absolute; left: 40px; top: 640px; width: 522px; height: 0; transform-origin: 0 0; }
-    #ms-line { position: absolute; left: 0; top: 0; width: 522px; height: 3px; background: #fff; transform-origin: 0 50%;
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35); }
-    #ms-tick { position: absolute; left: 520px; top: -34px; width: 4px; height: 52px; background: #d7191f; transform-origin: 50% 100%; }
-    #ms-cut { position: absolute; left: 456px; top: -62px; padding: 1px 6px 2px; background: #d7191f; color: #fff;
-      font-family: "Barlow Condensed", sans-serif; font-weight: 600; font-size: 20px; letter-spacing: 0.12em; }
   </style>
-  <div id="root" data-composition-id="measure" data-width="1080" data-height="1920"
-    data-composition-variables='[{"id":"msTag","type":"string","label":"Tag","default":"Panjang"},{"id":"msBig","type":"string","label":"Headline","default":"Ikut kau"}]'>
-    <div id="ms-cam" class="cam">
-      <img src="assets/stills/flatlay.jpg" alt="Shafts on the bench over length marks" />
-      <div id="ms-rule">
-        <div id="ms-line"></div>
-        <div id="ms-tick"></div>
-        <div id="ms-cut">CUT</div>
-      </div>
-    </div>
-    <div id="ms-plate" class="plate-sh">
-      <div class="plate">
-        <div class="p-head"><span class="p-tag" data-var-text="msTag">Panjang</span><span class="p-slot"></span></div>
-        <div class="p-big"><span id="ms-ink" class="ink" data-var-text="msBig">Ikut kau</span><span id="ms-cut-w" class="cutw"><i class="cutter"></i></span></div>
-      </div>
-    </div>
+  <div id="root" data-composition-id="measure" data-width="1080" data-height="1920">
+    <div id="ms-cam" class="cam"><img src="assets/stills/flatlay.jpg" alt="Shafts on the bench over length marks" /></div>
   </div>
   <script>
+    // camera: photo point (cx, cy) at frame centre, zoom z (photo is 960 x 1280 css px)
     const cam = (z, cx, cy) => ({ scale: z, x: 540 - cx * z, y: 960 - cy * z });
-    // a plate slots in from the left like a part and seats 4 px in two frames
-    const plateIn = (tl, sel, t) => {
-      tl.fromTo(sel, { x: -860 }, { x: 0, duration: 0.45, ease: "expo.out" }, t);
-      tl.fromTo(sel, { y: 0 }, { y: 4, duration: 0.033, ease: "none", immediateRender: false }, t + 0.36);
-      tl.to(sel, { y: 0, duration: 0.033, ease: "none" }, t + 0.393);
-    };
-    // engrave: the word is cut in left to right behind a red cutter line
-    const engrave = (tl, ink, cutw, t, d = 0.3) => {
-      tl.fromTo(ink, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: d, ease: "power2.inOut" }, t);
-      tl.fromTo(cutw, { xPercent: 0, opacity: 1 }, { xPercent: 100, duration: d, ease: "power2.inOut" }, t);
-      tl.to(cutw, { opacity: 0, duration: 0.08 }, t + d);
-    };
     const tl = gsap.timeline({ paused: true });
-    // keeps the whip's direction: the bench runs right to left, fast first, then settles on the marks
-    tl.set("#ms-rule", { rotation: -4.4 }, 0);
+    // the bench runs right to left along the length marks, fast first, then settles
     tl.fromTo("#ms-cam", cam(2.3, 240, 640), { ...cam(2.3, 560, 612), duration: 2.9, ease: "power2.out" }, 0);
-    tl.fromTo("#ms-line", { scaleX: 0 }, { scaleX: 1, duration: 2.0, ease: "power1.inOut" }, 0.15);
-    tl.fromTo("#ms-tick", { scaleY: 0 }, { scaleY: 1, duration: 0.12, ease: "expo.out" }, 2.12);
-    tl.fromTo("#ms-cut", { opacity: 0 }, { opacity: 1, duration: 0.1 }, 2.16);
-    plateIn(tl, "#ms-plate", 0.22);
-    engrave(tl, "#ms-ink", "#ms-cut-w", 0.47);
     window.__timelines["measure"] = tl;
   </script>
 </template>
