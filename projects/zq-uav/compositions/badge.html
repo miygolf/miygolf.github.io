@@ -1,0 +1,15 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #bd-img { position: absolute; left: 904px; top: 196px; width: 120px; height: 120px; }
+  </style>
+  <div id="root" data-composition-id="badge" data-width="1080" data-height="1920">
+    <img id="bd-img" class="clip" src="assets/brand/zq-logo-white.png" data-start="0" data-duration="15.45" alt="ZQ UAV Solutions" />
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#bd-img", { opacity: 0, scale: 0.7 }, { opacity: 0.92, scale: 1, duration: 0.45, ease: "expo.out" }, 0.1);
+    tl.to("#bd-img", { opacity: 0, duration: 0.15, ease: "power2.in" }, 15.25);
+    window.__timelines["badge"] = tl;
+  </script>
+</template>

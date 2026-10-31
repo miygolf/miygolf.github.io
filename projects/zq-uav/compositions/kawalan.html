@@ -1,0 +1,58 @@
+<template>
+  <style>
+    @font-face { font-family: "Michroma"; src: url("assets/fonts/Michroma-Regular.ttf"); }
+    @font-face { font-family: "Plex Cond"; font-weight: 600; src: url("assets/fonts/IBMPlexSansCondensed-SemiBold.ttf"); }
+    #root { position: absolute; inset: 0; }
+    .kw-chip {
+      position: absolute; padding: 10px 18px 10px 16px; white-space: nowrap;
+      font: 600 30px/1 "Plex Cond", sans-serif; letter-spacing: 0.14em; color: #f4f6f8;
+      background: rgba(11, 12, 16, 0.72); border-left: 6px solid #ff2e88;
+    }
+    .kw-chip b { color: #ff2e88; font-weight: 600; }
+    #kw-chip { left: 72px; top: 236px; }
+    .kw-title { position: absolute; left: 64px; font: 400 88px/1 "Michroma", sans-serif; color: #f4f6f8;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.6); white-space: nowrap; }
+    .kw-ch { display: inline-block; }
+    #kw-l1 { top: 304px; }
+    #kw-l2 { top: 404px; color: #fff; background: #e8137a; padding: 8px 14px 2px; left: 50px; text-shadow: none; }
+    .kw-tag { position: absolute; left: 72px; padding: 12px 20px; white-space: nowrap;
+      font: 600 34px/1 "Plex Cond", sans-serif; letter-spacing: 0.12em; color: #0b0c10; background: #f4f6f8; }
+    .kw-tag b { color: #ff2e88; font-weight: 600; }
+    #kw-t1 { top: 530px; }
+    #kw-t2 { top: 600px; }
+    #kw-frame { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+  </style>
+  <div id="root" data-composition-id="kawalan" data-width="1080" data-height="1920">
+    <div id="kw-chip" class="kw-chip clip" data-start="0" data-duration="4.5"><b>04</b> / KAWALAN</div>
+    <div id="kw-l1" class="kw-title clip" data-start="0" data-duration="4.5"><span class="kw-ch">S</span><span class="kw-ch">E</span><span class="kw-ch">M</span><span class="kw-ch">U</span><span class="kw-ch">A</span></div>
+    <div id="kw-l2" class="kw-title clip" data-start="0" data-duration="4.5"><span class="kw-ch">D</span><span class="kw-ch">I</span><span class="kw-ch">&nbsp;</span><span class="kw-ch">T</span><span class="kw-ch">A</span><span class="kw-ch">N</span><span class="kw-ch">G</span><span class="kw-ch">A</span><span class="kw-ch">N</span><span class="kw-ch">.</span></div>
+    <div id="kw-t1" class="kw-tag clip" data-start="0.9" data-duration="3.6"><b>&#9670;</b> RADIOMASTER AX12</div>
+    <div id="kw-t2" class="kw-tag clip" data-start="1.7" data-duration="2.8"><b>&#9670;</b> PETA LIVE DI SKRIN</div>
+    <!-- corner brackets framing the controller screen -->
+    <svg id="kw-frame" class="clip" data-start="0.6" data-duration="3.9" viewBox="0 0 1080 1920" data-layout-ignore>
+      <g fill="none" stroke="#ff2e88" stroke-width="6">
+        <path id="kw-c1" d="M90 1040 V980 H150" />
+        <path id="kw-c2" d="M990 1040 V980 H930" />
+        <path id="kw-c3" d="M90 1460 V1520 H150" />
+        <path id="kw-c4" d="M990 1460 V1520 H930" />
+      </g>
+    </svg>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#kw-chip", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4, ease: "expo.out" }, 0.04);
+    // per letter for the quiet breakdown: letters arrive a frame apart
+    tl.fromTo("#kw-l1 .kw-ch", { opacity: 0.3, x: (i) => i * 26, filter: "blur(5px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.6, ease: "expo.out", stagger: 0.033 }, 0.08);
+    tl.fromTo("#kw-l2 .kw-ch", { opacity: 0.3, x: (i) => i * 26, filter: "blur(5px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.6, ease: "expo.out", stagger: 0.033 }, 0.22);
+    // brackets close in on the screen
+    tl.fromTo("#kw-c1", { x: -60, y: -60, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.5, ease: "expo.out" }, 0.6);
+    tl.fromTo("#kw-c2", { x: 60, y: -60, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.5, ease: "expo.out" }, 0.64);
+    tl.fromTo("#kw-c3", { x: -60, y: 60, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.5, ease: "expo.out" }, 0.68);
+    tl.fromTo("#kw-c4", { x: 60, y: 60, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.5, ease: "expo.out" }, 0.72);
+    tl.fromTo("#kw-t1", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.35, ease: "power3.out" }, 0.95);
+    tl.fromTo("#kw-t2", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.35, ease: "power3.out" }, 1.75);
+    tl.to(["#kw-l1", "#kw-l2", "#kw-chip", "#kw-t1", "#kw-t2", "#kw-frame"],
+      { opacity: 0, filter: "blur(8px)", duration: 0.15, ease: "power2.in", stagger: 0.012 }, 4.26);
+    window.__timelines["kawalan"] = tl;
+  </script>
+</template>

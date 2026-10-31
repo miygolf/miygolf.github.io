@@ -1,0 +1,76 @@
+<template>
+  <style>
+    @font-face { font-family: "Michroma"; src: url("assets/fonts/Michroma-Regular.ttf"); }
+    @font-face { font-family: "Plex Cond"; font-weight: 600; src: url("assets/fonts/IBMPlexSansCondensed-SemiBold.ttf"); }
+    #root { position: absolute; inset: 0; }
+    .an-chip {
+      position: absolute; padding: 10px 18px 10px 16px; white-space: nowrap;
+      font: 600 30px/1 "Plex Cond", sans-serif; letter-spacing: 0.14em; color: #f4f6f8;
+      background: rgba(11, 12, 16, 0.72); border-left: 6px solid #ff2e88;
+    }
+    .an-chip b { color: #ff2e88; font-weight: 600; }
+    #an-chip { left: 72px; top: 236px; }
+    .an-title { position: absolute; left: 64px; font: 400 80px/1 "Michroma", sans-serif; color: #f4f6f8;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.55); white-space: nowrap; }
+    #an-l1 { top: 304px; }
+    #an-l2 { top: 414px; }
+    #an-l2 .acc { color: #fff; background: #e8137a; padding: 6px 12px 0; text-shadow: none; }
+    #an-wing { left: 72px; top: 530px; }
+    .an-tag { position: absolute; padding: 12px 20px; white-space: nowrap;
+      font: 600 36px/1 "Plex Cond", sans-serif; letter-spacing: 0.12em; color: #0b0c10; background: #f4f6f8; }
+    .an-tag b { color: #ff2e88; font-weight: 600; }
+    #an-tagT { left: 72px; top: 606px; }
+    #an-tagR { left: 676px; top: 676px; }
+    #an-lines { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+  </style>
+  <div id="root" data-composition-id="anatomi" data-width="1080" data-height="1920">
+    <div id="an-chip" class="an-chip clip" data-start="0" data-duration="4"><b>03</b> / ANATOMI</div>
+    <div id="an-l1" class="an-title clip" data-start="0" data-duration="4">DUA SISTEM.</div>
+    <div id="an-l2" class="an-title clip" data-start="0" data-duration="4">SATU <span class="acc">BADAN.</span></div>
+    <div id="an-wing" class="an-chip clip" data-start="0" data-duration="2.0"><b>&#9670;</b> SAYAP FIXED-WING</div>
+    <svg id="an-lines" class="clip" data-start="1.3" data-duration="2.7" viewBox="0 0 1080 1920" data-layout-ignore>
+      <line id="an-lnT" x1="200" y1="664" x2="788" y2="921" stroke="#f4f6f8" stroke-width="3" />
+      <line id="an-lnR" x1="900" y1="734" x2="891" y2="1054" stroke="#f4f6f8" stroke-width="3" />
+      <g id="an-rgT" transform="translate(788 921)">
+        <g id="an-rgTi"><circle r="26" fill="none" stroke="#ff2e88" stroke-width="5" />
+        <circle r="6" fill="#ff2e88" /></g>
+      </g>
+      <g id="an-rgR" transform="translate(891 1054)">
+        <g id="an-rgRi"><circle r="34" fill="none" stroke="#ff2e88" stroke-width="5" />
+        <circle r="6" fill="#ff2e88" /></g>
+      </g>
+    </svg>
+    <div id="an-tagT" class="an-tag clip" data-start="1.3" data-duration="2.7">V-TAIL</div>
+    <div id="an-tagR" class="an-tag clip" data-start="1.5" data-duration="2.5"><b>4&times;</b> ROTOR VTOL</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // tracked anchors (film time - 9 s), from tools/track.py
+    const TAIL = [[1.2, 788, 921], [1.3, 767, 912], [1.4, 743, 904], [1.5, 723, 898], [1.6, 714, 896], [1.7, 703, 900], [1.8, 697, 905], [1.9, 691, 915], [2.0, 690, 922], [2.1, 692, 924], [2.2, 697, 922], [2.3, 699, 921], [2.4, 698, 919], [2.5, 691, 918], [2.6, 684, 917], [2.7, 671, 915], [2.8, 658, 912], [2.9, 641, 909], [3.0, 622, 910], [3.1, 603, 912], [3.2, 580, 912], [3.3, 560, 912], [3.4, 538, 912], [3.5, 526, 910], [3.6, 520, 907], [3.7, 514, 903], [3.8, 509, 901]];
+    const ROTOR = [[1.2, 891, 1054], [1.3, 886, 1029], [1.4, 875, 1018], [1.5, 869, 1010], [1.6, 871, 1004], [1.7, 869, 1018], [1.8, 870, 1029], [1.9, 874, 1040], [2.0, 880, 1046], [2.1, 887, 1047], [2.2, 900, 1042], [2.3, 909, 1036], [2.4, 913, 1030], [2.5, 911, 1025], [2.6, 907, 1020], [2.7, 897, 1013], [2.8, 887, 1005], [2.9, 872, 993], [3.0, 857, 987], [3.1, 837, 987], [3.2, 819, 979], [3.3, 800, 980], [3.4, 781, 974], [3.5, 762, 984], [3.6, 757, 983], [3.7, 757, 971], [3.8, 758, 960]];
+    tl.fromTo("#an-chip", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4, ease: "expo.out" }, 0.04);
+    tl.fromTo("#an-l1", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 0.06);
+    tl.fromTo("#an-l2", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 0.2);
+    tl.fromTo("#an-wing", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4, ease: "expo.out" }, 0.35);
+    tl.to("#an-wing", { opacity: 0, filter: "blur(6px)", duration: 0.14, ease: "power2.in" }, 1.82);
+    // callouts: rings and leader ends ride the tracked points
+    function ride(ring, line, pts) {
+      for (let i = 1; i < pts.length; i++) {
+        const [t0] = pts[i - 1], [t1, x, y] = pts[i];
+        tl.to(ring, { attr: { transform: `translate(${x} ${y})` }, duration: t1 - t0, ease: "none" }, t0);
+        tl.to(line, { attr: { x2: x, y2: y }, duration: t1 - t0, ease: "none" }, t0);
+      }
+    }
+    ride("#an-rgT", "#an-lnT", TAIL);
+    ride("#an-rgR", "#an-lnR", ROTOR);
+    tl.fromTo("#an-rgTi", { scale: 0, transformOrigin: "50% 50%", opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(1.6)" }, 1.32);
+    tl.fromTo("#an-rgRi", { scale: 0, transformOrigin: "50% 50%", opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(1.6)" }, 1.52);
+    tl.fromTo("#an-lnT", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 1.3);
+    tl.fromTo("#an-lnR", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 1.5);
+    tl.fromTo("#an-tagT", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.35, ease: "power3.out" }, 1.32);
+    tl.fromTo("#an-tagR", { clipPath: "inset(0 0 0 100%)" }, { clipPath: "inset(0 0 0 0%)", duration: 0.35, ease: "power3.out" }, 1.52);
+    tl.to(["#an-l1", "#an-l2", "#an-chip", "#an-tagT", "#an-tagR", "#an-lines"],
+      { opacity: 0, filter: "blur(8px)", duration: 0.15, ease: "power2.in", stagger: 0.012 }, 3.78);
+    window.__timelines["anatomi"] = tl;
+  </script>
+</template>

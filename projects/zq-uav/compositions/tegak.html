@@ -1,0 +1,70 @@
+<template>
+  <style>
+    @font-face { font-family: "Michroma"; src: url("assets/fonts/Michroma-Regular.ttf"); }
+    @font-face { font-family: "Plex Cond"; font-weight: 600; src: url("assets/fonts/IBMPlexSansCondensed-SemiBold.ttf"); }
+    @font-face { font-family: "Plex Cond"; font-weight: 500; src: url("assets/fonts/IBMPlexSansCondensed-Medium.ttf"); }
+    #root { position: absolute; inset: 0; }
+    .tg-chip {
+      position: absolute; left: 72px; top: 236px; padding: 10px 18px 10px 16px;
+      font: 600 30px/1 "Plex Cond", sans-serif; letter-spacing: 0.14em; color: #f4f6f8;
+      background: rgba(11, 12, 16, 0.72); border-left: 6px solid #ff2e88;
+    }
+    .tg-chip b { color: #ff2e88; font-weight: 600; }
+    .tg-title { position: absolute; left: 64px; font: 400 104px/1 "Michroma", sans-serif; color: #f4f6f8;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.55); white-space: nowrap; }
+    #tg-l1 { top: 304px; }
+    #tg-l2 { top: 420px; color: #fff; background: #e8137a; padding: 8px 16px 2px; left: 56px; text-shadow: none; }
+    #tg-sub { position: absolute; left: 72px; top: 548px; font: 500 46px/1 "Plex Cond", sans-serif;
+      color: #f4f6f8; letter-spacing: 0.02em; text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7); }
+    /* vertical climb tape, right edge under the badge */
+    #tg-tape { position: absolute; left: 962px; top: 352px; width: 60px; height: 420px; overflow: hidden;
+      border-left: 2px solid rgba(244, 246, 248, 0.85); }
+    #tg-ticks { position: absolute; left: 0; top: -840px; width: 60px; height: 1680px; }
+    #tg-mark { position: absolute; left: 930px; top: 548px; width: 0; height: 0;
+      border-top: 14px solid transparent; border-bottom: 14px solid transparent; border-left: 24px solid #ff2e88; }
+    #tg-vtol { position: absolute; left: 934px; top: 790px; font: 600 28px/1 "Plex Cond", sans-serif;
+      letter-spacing: 0.14em; color: #ff2e88; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7); }
+  </style>
+  <div id="root" data-composition-id="tegak" data-width="1080" data-height="1920">
+    <div id="tg-chip" class="tg-chip clip" data-start="0" data-duration="3"><b>01</b> / LEPAS LANDAS</div>
+    <div id="tg-l1" class="tg-title clip" data-start="0" data-duration="3">NAIK</div>
+    <div id="tg-l2" class="tg-title clip" data-start="0" data-duration="3">TEGAK</div>
+    <div id="tg-sub" class="clip" data-start="0" data-duration="3">macam drone.</div>
+    <div id="tg-tape" class="clip" data-start="0" data-duration="3" data-layout-allow-overflow>
+      <svg id="tg-ticks" viewBox="0 0 60 1680">
+        <g stroke="#f4f6f8" stroke-width="2">
+          <line x1="0" y1="0" x2="34" y2="0" /><line x1="0" y1="35" x2="16" y2="35" /><line x1="0" y1="70" x2="22" y2="70" /><line x1="0" y1="105" x2="16" y2="105" />
+          <line x1="0" y1="140" x2="34" y2="140" /><line x1="0" y1="175" x2="16" y2="175" /><line x1="0" y1="210" x2="22" y2="210" /><line x1="0" y1="245" x2="16" y2="245" />
+          <line x1="0" y1="280" x2="34" y2="280" /><line x1="0" y1="315" x2="16" y2="315" /><line x1="0" y1="350" x2="22" y2="350" /><line x1="0" y1="385" x2="16" y2="385" />
+          <line x1="0" y1="420" x2="34" y2="420" /><line x1="0" y1="455" x2="16" y2="455" /><line x1="0" y1="490" x2="22" y2="490" /><line x1="0" y1="525" x2="16" y2="525" />
+          <line x1="0" y1="560" x2="34" y2="560" /><line x1="0" y1="595" x2="16" y2="595" /><line x1="0" y1="630" x2="22" y2="630" /><line x1="0" y1="665" x2="16" y2="665" />
+          <line x1="0" y1="700" x2="34" y2="700" /><line x1="0" y1="735" x2="16" y2="735" /><line x1="0" y1="770" x2="22" y2="770" /><line x1="0" y1="805" x2="16" y2="805" />
+          <line x1="0" y1="840" x2="34" y2="840" /><line x1="0" y1="875" x2="16" y2="875" /><line x1="0" y1="910" x2="22" y2="910" /><line x1="0" y1="945" x2="16" y2="945" />
+          <line x1="0" y1="980" x2="34" y2="980" /><line x1="0" y1="1015" x2="16" y2="1015" /><line x1="0" y1="1050" x2="22" y2="1050" /><line x1="0" y1="1085" x2="16" y2="1085" />
+          <line x1="0" y1="1120" x2="34" y2="1120" /><line x1="0" y1="1155" x2="16" y2="1155" /><line x1="0" y1="1190" x2="22" y2="1190" /><line x1="0" y1="1225" x2="16" y2="1225" />
+          <line x1="0" y1="1260" x2="34" y2="1260" /><line x1="0" y1="1295" x2="16" y2="1295" /><line x1="0" y1="1330" x2="22" y2="1330" /><line x1="0" y1="1365" x2="16" y2="1365" />
+          <line x1="0" y1="1400" x2="34" y2="1400" /><line x1="0" y1="1435" x2="16" y2="1435" /><line x1="0" y1="1470" x2="22" y2="1470" /><line x1="0" y1="1505" x2="16" y2="1505" />
+          <line x1="0" y1="1540" x2="34" y2="1540" /><line x1="0" y1="1575" x2="16" y2="1575" /><line x1="0" y1="1610" x2="22" y2="1610" /><line x1="0" y1="1645" x2="16" y2="1645" />
+        </g>
+      </svg>
+    </div>
+    <div id="tg-mark" class="clip" data-start="0" data-duration="3"></div>
+    <div id="tg-vtol" class="clip" data-start="0" data-duration="3">VTOL &#9650;</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#tg-chip", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4, ease: "expo.out" }, 0.04);
+    // titles rise from below a hard edge (lift-off), letter by letter
+    tl.fromTo("#tg-l1", { clipPath: "inset(0 0 100% 0)", y: 60 }, { clipPath: "inset(0 0 0% 0)", y: 0, duration: 0.5, ease: "expo.out" }, 0.06);
+    tl.fromTo("#tg-l2", { clipPath: "inset(0 0 100% 0)", y: 60 }, { clipPath: "inset(0 0 0% 0)", y: 0, duration: 0.5, ease: "expo.out" }, 0.16);
+    tl.fromTo("#tg-sub", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 0.45);
+    tl.fromTo("#tg-tape", { opacity: 0 }, { opacity: 1, duration: 0.25 }, 0.1);
+    tl.fromTo("#tg-mark", { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.3, ease: "expo.out" }, 0.25);
+    tl.fromTo("#tg-vtol", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.35);
+    // the tape scrolls down = the aircraft climbing (constant speed is the point)
+    tl.fromTo("#tg-ticks", { y: 0 }, { y: 700, duration: 3, ease: "none" }, 0);
+    tl.to(["#tg-l1", "#tg-l2", "#tg-sub", "#tg-chip", "#tg-tape", "#tg-mark", "#tg-vtol"],
+      { opacity: 0, filter: "blur(8px)", duration: 0.15, ease: "power2.in", stagger: 0.015 }, 2.8);
+    window.__timelines["tegak"] = tl;
+  </script>
+</template>

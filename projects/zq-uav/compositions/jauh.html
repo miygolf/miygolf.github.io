@@ -1,0 +1,62 @@
+<template>
+  <style>
+    @font-face { font-family: "Michroma"; src: url("assets/fonts/Michroma-Regular.ttf"); }
+    @font-face { font-family: "Plex Cond"; font-weight: 600; src: url("assets/fonts/IBMPlexSansCondensed-SemiBold.ttf"); }
+    @font-face { font-family: "Plex Cond"; font-weight: 500; src: url("assets/fonts/IBMPlexSansCondensed-Medium.ttf"); }
+    #root { position: absolute; inset: 0; }
+    .jh-chip {
+      position: absolute; left: 72px; top: 236px; padding: 10px 18px 10px 16px;
+      font: 600 30px/1 "Plex Cond", sans-serif; letter-spacing: 0.14em; color: #f4f6f8;
+      background: rgba(11, 12, 16, 0.72); border-left: 6px solid #ff2e88;
+    }
+    .jh-chip b { color: #ff2e88; font-weight: 600; }
+    .jh-title { position: absolute; left: 64px; font: 400 104px/1 "Michroma", sans-serif; color: #f4f6f8;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.55); white-space: nowrap; }
+    #jh-l1 { top: 304px; }
+    #jh-l2 { top: 420px; color: #fff; background: #e8137a; padding: 8px 16px 2px; left: 56px; text-shadow: none; }
+    #jh-sub { position: absolute; left: 72px; top: 548px; font: 500 46px/1 "Plex Cond", sans-serif;
+      color: #f4f6f8; letter-spacing: 0.02em; text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7); }
+    #jh-path { position: absolute; left: 72px; top: 612px; width: 936px; height: 60px; }
+    #jh-plane { position: absolute; left: 60px; top: 622px; width: 40px; height: 40px; }
+    .jh-wp { position: absolute; top: 674px; font: 600 28px/1 "Plex Cond", sans-serif; letter-spacing: 0.12em;
+      color: #f4f6f8; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8); }
+  </style>
+  <div id="root" data-composition-id="jauh" data-width="1080" data-height="1920">
+    <div id="jh-chip" class="jh-chip clip" data-start="0" data-duration="4"><b>02</b> / JELAJAH</div>
+    <div id="jh-l1" class="jh-title clip" data-start="0" data-duration="4">TERBANG</div>
+    <div id="jh-l2" class="jh-title clip" data-start="0" data-duration="4">JAUH</div>
+    <div id="jh-sub" class="clip" data-start="0" data-duration="4">macam pesawat.</div>
+    <svg id="jh-path" class="clip" data-start="0" data-duration="4" viewBox="0 0 936 60" data-layout-allow-overflow>
+      <line x1="10" y1="30" x2="926" y2="30" stroke="#ff2e88" stroke-width="3" stroke-dasharray="16 10" />
+      <g fill="none" stroke="#f4f6f8" stroke-width="3">
+        <polygon id="jh-wp1" points="10,18 22,40 -2,40" />
+        <polygon id="jh-wp2" points="320,18 332,40 308,40" />
+        <polygon id="jh-wp3" points="630,18 642,40 618,40" />
+        <polygon id="jh-wp4" points="926,18 938,40 914,40" />
+      </g>
+    </svg>
+    <svg id="jh-plane" class="clip" data-start="0" data-duration="4" viewBox="0 0 40 40">
+      <path d="M4 20 L36 20 M22 8 L36 20 L22 32" fill="none" stroke="#ff2e88" stroke-width="5" stroke-linecap="square" />
+    </svg>
+    <div id="jh-wpa" class="jh-wp clip" data-start="0" data-duration="4" style="left: 66px">WP1</div>
+    <div id="jh-wpb" class="jh-wp clip" data-start="0" data-duration="4" style="left: 376px">WP2</div>
+    <div id="jh-wpc" class="jh-wp clip" data-start="0" data-duration="4" style="left: 686px">WP3</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#jh-chip", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4, ease: "expo.out" }, 0.04);
+    // titles slide in sideways (cruise), blur on the move
+    tl.fromTo("#jh-l1", { x: -140, opacity: 0, filter: "blur(12px)" }, { x: 0, opacity: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out" }, 0.06);
+    tl.fromTo("#jh-l2", { x: -140, opacity: 0, filter: "blur(12px)" }, { x: 0, opacity: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out" }, 0.16);
+    tl.fromTo("#jh-sub", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 0.5);
+    tl.fromTo("#jh-path", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 3.0, ease: "none" }, 0.3);
+    tl.fromTo("#jh-plane", { x: 0 }, { x: 916, duration: 3.0, ease: "none" }, 0.3);
+    tl.fromTo("#jh-plane", { opacity: 0 }, { opacity: 1, duration: 0.15 }, 0.3);
+    tl.fromTo("#jh-wpa", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 0.32);
+    tl.fromTo("#jh-wpb", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 1.31);
+    tl.fromTo("#jh-wpc", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 2.3);
+    tl.to(["#jh-l1", "#jh-l2", "#jh-sub", "#jh-chip", "#jh-path", "#jh-plane", "#jh-wpa", "#jh-wpb", "#jh-wpc"],
+      { opacity: 0, filter: "blur(8px)", duration: 0.15, ease: "power2.in", stagger: 0.012 }, 3.78);
+    window.__timelines["jauh"] = tl;
+  </script>
+</template>
