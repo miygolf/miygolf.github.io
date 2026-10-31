@@ -8,7 +8,7 @@ JOBS = {  # name: (seed_t, t0, t1, x, y)
     "rotor": (11.2, 9.0, 13.0, 900, 1042),
     "rotorL": (11.2, 9.0, 13.0, 360, 975),
 }
-cap = cv2.VideoCapture(str(ROOT / "assets/footage/edit.mp4"))
+cap = cv2.VideoCapture(str(ROOT / "assets/footage/edit_clean.mp4"))
 frames = []
 while True:
     ok, f = cap.read()

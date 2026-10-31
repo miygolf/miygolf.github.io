@@ -30,12 +30,22 @@ Dropped: the repeated side pass (src 17–20) and the second orbit back to the n
   drop lands on the logo at 17.5 s; beats at every 0.5 s of film time (120 bpm).
 - SFX: Freesound via Openverse (see `assets/sfx/CREDITS.md`) + HyperFrames bundled click/whoosh.
 
+## Privacy
+The car number plate (film 13.0–17.5 s and 19.2–21.5 s) is tracked with LK optical flow from
+hand-picked seeds (`tools/track_plate.py` → `src/plate_track.json`) and pixelated + blurred with a
+feathered edge (`tools/blur_plate.py`), baked into `assets/footage/edit.mp4`.
+
 ## Build
 ```
-python3 tools/build_edit.py      # cut raw -> assets/footage/edit.mp4
-python3 tools/track.py           # optional: re-track callout anchors
+python3 tools/build_edit.py      # cut raw -> assets/footage/edit_clean.mp4
+python3 tools/track_plate.py     # plate track on the clean cut
+python3 tools/blur_plate.py      # hide the plate -> assets/footage/edit.mp4
+python3 tools/track.py           # optional: re-track callout anchors (reads edit_clean.mp4)
 python3 tools/build_anatomi.py   # anatomi scene from tracks
 npx hyperframes check
 npx hyperframes render -q delivery -o renders/final-raw.mp4
-# then loudnorm to -14 LUFS / -1.5 dBTP (video stream copied)
+# then two-pass loudnorm to -14 LUFS / -1.5 dBTP
+```
+Delivered: `final/ZQ-UAV_FINAL_1080x1920.mp4` (repo root), -14.0 LUFS, -1.3 dBFS peak.
+```
 ```

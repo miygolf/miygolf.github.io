@@ -1,4 +1,4 @@
-"""Cut src/raw.mp4 into assets/footage/edit.mp4 (1080x1920, 30 fps, silent) from src/cuts.json.
+"""Cut src/raw.mp4 into assets/footage/edit_clean.mp4 (then tools/blur_plate.py -> edit.mp4) (1080x1920, 30 fps, silent) from src/cuts.json.
 Each cut: [id, src_in, src_out, speed]. Prints film-time start of every cut."""
 import json, pathlib, subprocess
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -12,5 +12,5 @@ for i, (cid, a, b, sp) in enumerate(cuts):
 fg = ";".join(parts) + ";" + "".join(f"[v{i}]" for i in range(len(cuts))) + f"concat=n={len(cuts)}:v=1:a=0[out]"
 subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(ROOT / "src/raw.mp4"), "-filter_complex", fg, "-map", "[out]",
                 "-c:v", "libx264", "-crf", "16", "-preset", "medium", "-pix_fmt", "yuv420p", "-g", "15", "-movflags", "+faststart",
-                str(ROOT / "assets/footage/edit.mp4")], check=True)
+                str(ROOT / "assets/footage/edit_clean.mp4")], check=True)
 print("total", round(t, 3))
