@@ -1,6 +1,8 @@
 """Build the Tingkat Valley memory video (vertical 1080x1920, 30 fps).
 
-Usage: python3 build.py MEDIA_DIR FONTS_DIR WORK_DIR OUTPUT.mp4
+Usage: python3 build.py MEDIA_DIR FONTS_DIR WORK_DIR OUTPUT.mp4 [--blur-faces]
+Framing follows the Instagram Reels / TikTok safe zone: captions sit between y=260 and y=1300
+so the app UI (top tabs, bottom caption/username, right-side buttons) does not cover them.
 MEDIA_DIR holds the original photos/videos from the Google Drive folder.
 FONTS_DIR holds GreatVibes.ttf and CormorantItalic.ttf (Google Fonts, OFL).
 """
@@ -11,7 +13,9 @@ import sys
 from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageOps
 
 MEDIA, FONTS, WORK, OUT = sys.argv[1:5]
+BLUR_FACES = "--blur-faces" in sys.argv[5:]
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
 os.makedirs(WORK, exist_ok=True)
 W, H, FPS = 1080, 1920, 30
 XF = 0.8  # crossfade seconds
@@ -27,25 +31,25 @@ GRADE = ("eq=contrast=1.04:saturation=1.10:gamma=1.02,"
 # ---------------------------------------------------------------------------
 STORY = [
     dict(kind="photo", file="IMG_20261101_115550.jpg", dur=4.8, fx=0.5, z=(1.10, 1.0),
-         text=("Tingkat Valley", "1 · 11 · 2026", 360, 0.5, 4.2)),
+         text=("Tingkat Valley", "1 · 11 · 2026", 440, 0.5, 4.2)),
     dict(kind="photo", file="IMG_20261101_115614.jpg", dur=3.6, fx=0.45, z=(1.0, 1.08),
-         text=(None, "it all started with a ride…", 1640, 0.4, 3.3)),
+         text=(None, "it all started with a ride…", 1260, 0.4, 3.3)),
     dict(kind="video", file="FILE261101-152820-000799F.mp4", ss=4, to=32, speed=3.5, audio=False,
-         layout="landscape", text=(None, "down winding green roads", 1640, 0.6, 7.2)),
+         layout="landscape", text=(None, "down winding green roads", 1260, 0.6, 7.2)),
     dict(kind="photo", file="IMG_20261101_153105.jpg", dur=3.8, fx=0.42, z=(1.0, 1.08),
-         text=(None, "and then, we arrived", 1640, 0.5, 3.5)),
+         text=(None, "and then, we arrived", 1260, 0.5, 3.5)),
     dict(kind="video", file="VID_20261101_183948.mp4", ss=0.0, to=6.5, speed=0.75, audio=True,
-         layout="portrait", text=("with you", None, 420, 1.0, 8.0)),
+         layout="portrait", text=("with you", None, 460, 1.0, 8.0)),
     dict(kind="photo", file="IMG_20261101_183850.jpg", dur=4.2, fx=0.5, z=(1.08, 1.0)),
     dict(kind="photo", file="IMG_20261101_184035.jpg", dur=4.2, fx=0.5, z=(1.0, 1.06), mode="fit"),
     dict(kind="video", file="VID_20261101_184602.mp4", ss=0.5, to=7.5, speed=0.7, audio=True,
-         layout="portrait", text=(None, "where the lights glow softly", 1640, 1.0, 9.2)),
+         layout="portrait", text=(None, "where the lights glow softly", 1260, 1.0, 9.2)),
     dict(kind="photo", file="IMG_20261101_184433.jpg", dur=4.2, fx=0.54, z=(1.0, 1.08)),
     dict(kind="video", file="VID_20261101_184602.mp4", ss=21.0, to=26.6, speed=0.8, audio=True,
-         layout="portrait", text=(None, "and time slowed down", 1640, 0.8, 6.4)),
+         layout="portrait", text=(None, "and time slowed down", 1260, 0.8, 6.4)),
     dict(kind="photo", file="IMG_20261101_184832.jpg", dur=4.2, fx=0.42, z=(1.08, 1.0)),
     dict(kind="photo", file="IMG_20261101_185209.jpg", dur=6.5, fx=0.45, z=(1.0, 1.10),
-         text=("Sweet Memories", "Tingkat Valley · together", 380, 1.2, 99)),
+         text=("Sweet Memories", "Tingkat Valley · together", 440, 1.2, 99)),
 ]
 
 
@@ -114,6 +118,11 @@ def ease(p):
 
 def prep_photo(seg):
     im = ImageOps.exif_transpose(Image.open(os.path.join(MEDIA, seg["file"]))).convert("RGB")
+    if BLUR_FACES:
+        import faces
+        boxes = [b for b in faces.detect(im) if b[4] >= 0.7]
+        print(f"       blurring {len(boxes)} face(s)")
+        im = faces.blur_faces(im, boxes)
     sw, sh = int(W * 1.3), int(H * 1.3)
     if seg.get("mode") == "fit":
         bg = ImageOps.fit(im, (sw // 4, sh // 4), Image.LANCZOS).filter(ImageFilter.GaussianBlur(14))
@@ -235,7 +244,7 @@ amix.append(f"{''.join(labels)}amix=inputs={len(labels)}:normalize=0:duration=fi
 cmd = (["ffmpeg", "-v", "error", "-y"] + inputs +
        ["-filter_complex", ";".join(fc + amix), "-map", "[vout]", "-map", "[aout]",
         "-c:v", "libx264", "-preset", "slow", "-crf", "22", "-maxrate", "7M", "-bufsize", "14M", "-profile:v", "high", "-pix_fmt", "yuv420p",
-        "-r", str(FPS), "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart",
+        "-r", str(FPS), "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-movflags", "+faststart",
         "-t", f"{total:.3f}", OUT])
 subprocess.run(cmd, check=True)
 print("done ->", OUT)
