@@ -1,7 +1,12 @@
 # Tingkat Valley — Sweet Memories (1 Nov 2026)
 
-`tingkat_valley_memories.mp4` — 60 s vertical (1080×1920, 30 fps) memory video made from the
-photos and clips in the Google Drive folder.
+Two versions, both 60 s vertical 1080×1920 / 30 fps / H.264 + AAC 48 kHz, ready for Instagram Reels and TikTok:
+
+- `tingkat_valley_memories.mp4` — original faces
+- `tingkat_valley_memories_faceblur.mp4` — every face in the photos blurred (OpenCV YuNet detection);
+  the video clips contain no visible faces, so they are unchanged
+
+Captions sit inside the Reels/TikTok safe zone (y≈260–1300) so the app UI doesn't cover them.
 
 Story: the ride (Leaning Tower of Teluk Intan → winding roads, dashcam at 3.5×) → arriving at
 Tingkat Valley → the evening together (walking to the sign in slow motion, couple photos,
@@ -11,5 +16,6 @@ lantern-lit bamboo boardwalk, the stream) → "Sweet Memories" ending.
   mixed with soft natural sound from the evening clips.
 - Fonts: Great Vibes + Cormorant Garamond Italic (Google Fonts, OFL).
 
-Rebuild: `python3 build.py MEDIA_DIR FONTS_DIR WORK_DIR OUT.mp4` (needs ffmpeg, Pillow, numpy, scipy).
+Rebuild: `python3 build.py MEDIA_DIR FONTS_DIR WORK_DIR OUT.mp4 [--blur-faces]` (needs ffmpeg, Pillow, numpy, scipy;
+`--blur-faces` also needs opencv-python-headless and `YUNET_MODEL` pointing at face_detection_yunet_2023mar.onnx).
 Edit the `STORY` list in `build.py` to change clips, timings or captions.
