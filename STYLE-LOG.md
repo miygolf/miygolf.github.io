@@ -12,7 +12,8 @@ Each video gets a look that differs from the ones before it.
 ## Lessons
 - MIY Golf product commercials: the owner wants purely footage + SFX — no logo, no titles, no description lines, no stamps (PRGR 02 build, 2026-10-29).
 - Product shots for MIY Golf: the owner wants a golf-course background behind the products, not the workshop bench (2026-10-29).
-- Golf lesson before/after: the owner wants the coach's own diagnosis on screen (causes → numbered fix steps), titled by lesson length ("60 MIN LESSON"), no clock times, and the final with SFX only — no music (2026-11-05).
+- Golf lesson before/after: the owner wants the coach's own diagnosis on screen (causes → numbered fix steps), titled by lesson length ("60 MIN LESSON"), no clock times, 30–45 s, and the final with SFX only — no music (2026-11-05).
+- Captions: casual Malay ("je", "la", "korang", short lines, 3 numbered steps, "save, try kat range"); see `CLAUDE.md` (2026-11-05).
 
 | Video | Look | Type | Palette | Motion signature |
 | --- | --- | --- | --- | --- |
