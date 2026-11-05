@@ -12,6 +12,7 @@ Each video gets a look that differs from the ones before it.
 ## Lessons
 - MIY Golf product commercials: the owner wants purely footage + SFX — no logo, no titles, no description lines, no stamps (PRGR 02 build, 2026-10-29).
 - Product shots for MIY Golf: the owner wants a golf-course background behind the products, not the workshop bench (2026-10-29).
+- Golf lesson before/after: the owner wants the coach's own diagnosis on screen (causes → numbered fix steps), titled by lesson length ("60 MIN LESSON"), no clock times, and the final with SFX only — no music (2026-11-05).
 
 | Video | Look | Type | Palette | Motion signature |
 | --- | --- | --- | --- | --- |
@@ -20,4 +21,4 @@ Each video gets a look that differs from the ones before it.
 | Video | Look | Type | Palette | Motion signature |
 | --- | --- | --- | --- | --- |
 | Kusyen donut v2 (branch `ccr-5823e76b`) | Blueberry Cloud: cream sticker labels, navy outline | Nunito 800-900 | cream, navy, butter, bubblegum | sticker pops, whips, doodle arrow, iris |
-| **Golf "60 min lesson" before/after — body clearance fix** (`projects/golf-88-minit/`) | **Contact Sheet**: film-lab proof sheet — sprocket strip, edge codes, loupe, grease pencil | Bricolage Grotesque 800 (condensed) + DM Mono 500 + Permanent Marker | film black #0e0c0a, photo paper #f6f2e9, edge-code amber #ff8a1f (#c4500a on paper) | film-advance band whips through each cut, shutter flash + frame border on every freeze, magnifying loupe that tracks the body, grease-pencil loops and "?" marks, prints dropped on a proof sheet — **first golf edit with a music bed** (Mixkit "Hip Hop 02") |
+| **Golf "60 min lesson" before/after — body clearance fix** (`projects/golf-88-minit/`) | **Contact Sheet**: film-lab proof sheet — sprocket strip, edge codes, loupe, grease pencil | Bricolage Grotesque 800 (condensed) + DM Mono 500 + Permanent Marker | film black #0e0c0a, photo paper #f6f2e9, edge-code amber #ff8a1f (#c4500a on paper) | film-advance band whips through each cut, shutter flash + frame border on every freeze, magnifying loupe that tracks the body, grease-pencil loops and "?" marks, prints dropped on a proof sheet — previews had a music bed, final is SFX only |

@@ -55,16 +55,19 @@ y ≈ 410; loupe and loops sit on hips and the trail knee; labels go beside the 
 
 ## Sound
 
-Music: Mixkit "Hip Hop 02" (#738, Mixkit free licence), entered at 0.49 s so a beat lands on the hook freeze;
-bed 0.36–0.46, ducked to 0.24 under each real strike, 1.4 s fade-out.
-Real strike: the DTL clips' own audio, played 0.20–0.24 s early (the phone records audio ~0.2 s late).
+**Final: no music** (owner's call) — SFX and the real strikes only. Previews v1–v5 carried Mixkit "Hip Hop 02"
+(#738); set `MUSIC = True` in `tools/build_index.py` to bring it back (ducked under every strike).
+Real strike: each 1× take's own audio, played ~0.2 s early (the phone records audio ~0.2 s late).
 SFX (Mixkit, ids = file names in `assets/sfx/`): 2121/2126 golf strikes layered under the real ones, 1438/1440
-vintage shutter on each freeze, 2909 bass hit on the hook, 1473/1468 swing whooshes on the slow-mo, 1489/1491
-air whoosh + 1442/1444 projector on the film-advance cuts, 2998 marker line on each grease-pencil mark,
-1530 paper slide on the prints, 2369 scribble on "?" and the CTA, 1143 deep impact on the final strike.
-Peaks placed one frame after the picture (measured with `hyperframes audio`).
+vintage shutter on each freeze, 2909 bass hit on the hook, 1473/1468 swing whooshes into the slow-mo freezes,
+1489/1491 air whoosh + 1442/1444 projector on the film-advance cuts, 2998 marker line on each grease-pencil mark,
+1530 paper slide on the prints, 2369 scribble on the proof-sheet line and the CTA, 1143 deep impact on the final strike.
+Peaks placed one frame after the picture; measured strikes land 0–2 frames after impact.
 
-Preview v5 measured −18.3 LUFS, −2.5 dBTP, no clipping (measured, not listened to). Final: master to −14 LUFS.
+Final: `render -q delivery` → `tools/master.sh` (two-pass loudnorm −14 LUFS / −1.5 dBTP, H.264 High CRF 17 ≤ 16 Mbps)
+→ `output/golf-60min-lesson_FINAL.mp4`: 1080×1920, 30 fps, 32.53 s, 13 Mbps, AAC 256k 48 kHz, 53 MB.
+Measured −14.5 LUFS integrated, −1.0 dBTP, no clipping (measured, not listened to). With no music bed the
+freezes between effects are near-silent, as asked.
 
 ## Fonts
 

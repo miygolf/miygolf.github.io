@@ -43,6 +43,8 @@ COMPARE_AT, COMPARE_DUR = None, 4.25   # compare starts 0.25 s before the last c
 OUTRO_VIDEO = ("v-out", "footage/outro.mp4")
 OUTRO_HOLD = ("s-out", "stills/a_fin.jpg", 1.1633)
 
+MUSIC = False  # owner asked for SFX only (no music bed) on the final
+
 t = 0.0
 rows = []
 at = {}
@@ -113,7 +115,7 @@ for x, v in duck:
 pts.append((TOTAL, 0.46))
 pts.sort()
 
-aud = [f'      <audio id="music" data-timeline-role="music" class="clip" src="assets/music/hiphop02.mp3" data-start="0" data-duration="{TOTAL}" data-media-start="0.49" data-track-index="10" data-volume="1" data-fade-out="1.6"\n        data-automation="{lane(pts)}"></audio>']
+aud = [] if not MUSIC else [f'      <audio id="music" data-timeline-role="music" class="clip" src="assets/music/hiphop02.mp3" data-start="0" data-duration="{TOTAL}" data-media-start="0.49" data-track-index="10" data-volume="1" data-fade-out="1.6"\n        data-automation="{lane(pts)}"></audio>']
 # real strikes from each 1x take, pulled earlier to undo the phone's audio lag
 NAT = [("nat-a2", "footage/a2.mp4", at["v-a2"], 0.22), ("nat-b2", "footage/b2.mp4", at["v-b2"], 0.2),
        ("nat-c1", "footage/c1.mp4", at["v-c1"], 0.17), ("nat-c2", "footage/c2.mp4", at["v-c2"], 0.18)]
