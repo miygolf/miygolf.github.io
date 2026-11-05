@@ -1,4 +1,4 @@
-# "88 minit" — 09:55 vs 11:23 spot-the-difference (HyperFrames)
+# "88 minit" — before (09:55) / after (11:23) (HyperFrames)
 
 Source: Google Drive folder `1kptuZSNf8-Zq_3cTnAplmOHGZtOv1p4J`, four 4K portrait clips (~60 fps, variable frame rate)
 shot 2026-11-05. Rebuild cuts and stills: `tools/prepare_footage.sh <folder with the four VID_*.mp4>`.
@@ -20,19 +20,19 @@ is no voice to protect in the mix; the music is ducked under the real strikes in
 
 ## Story (22.0 s, 1080×1920, 30 fps)
 
-Coaching diagnosis was not given and the frames alone do not settle one (shaft lean at impact is about the same in
-both swings), so the video is a **spot-the-difference**: it shows where to look and asks viewers to comment.
-Every line is a composition variable, so a reveal can replace the question without touching layout.
+v1 was a spot-the-difference; the owner asked for **before and after** (v2): 09:55 = BEFORE, 11:23 = AFTER.
+No coaching diagnosis is written on screen (none was given); the loupe marks where to look (pinggul, lutut).
+Every line is a composition variable.
 
 | Out (s) | Source | Beat |
 | --- | --- | --- |
-| 0.00–2.40 | 11:23 face-on top → impact @0.5×, freeze | Hook "88 MINIT." on frame 0, tape "Swing sama. Cari beza." |
-| 2.40–4.43 | 09:55 face-on 1× → match cut to DTL through impact | Roll A, real strike sound |
-| 4.43–8.60 | 09:55 face-on replay @0.5×, freeze | "Ingat posisi ni." loupe: pinggul → lutut |
-| 8.60–10.23 | 11:23 face-on 1× → DTL through impact | Roll B, real strike sound |
-| 10.23–14.40 | 11:23 face-on replay @0.5×, freeze | "Sekarang, banding." loupe: pinggul → lutut |
-| 14.40–18.00 | both impact stills | Proof sheet "09:55 vs 11:23", grease-pencil loops + "?" |
-| 18.00–22.00 | 11:23 DTL impact → finish @0.5×, hold | CTA "Nampak beza?" / "Komen jawapan kau ↓" / "SAVE · cuba kat range nanti" |
+| 0.00–2.40 | AFTER face-on top → impact @0.5×, freeze | Hook "88 MINIT." on frame 0, tape "Before → After. / Satu sesi." |
+| 2.40–4.43 | BEFORE face-on 1× → match cut to DTL through impact | chip "BEFORE · 09:55", real strike sound |
+| 4.43–8.60 | BEFORE face-on replay @0.5×, freeze | "Before." loupe: pinggul → lutut |
+| 8.60–10.23 | AFTER face-on 1× → DTL through impact | chip "AFTER · 11:23", real strike sound |
+| 10.23–14.40 | AFTER face-on replay @0.5×, freeze | "After." loupe: pinggul → lutut |
+| 14.40–18.00 | both impact stills | Proof sheet "BEFORE vs AFTER", grease-pencil loops, "88 minit. Satu sesi." |
+| 18.00–22.00 | AFTER DTL impact → finish @0.5×, hold | CTA "88 MINIT JE." / "Nak swing macam ni? Komen ↓" / "SAVE · cuba kat range nanti" |
 
 Cut away: 1–2 s of address/waggle before every swing, the walk-off after each finish.
 Slow motion is 0.5× of the 60 fps source = every real frame, no interpolation (no club warping).

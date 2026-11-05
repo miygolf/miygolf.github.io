@@ -26,38 +26,36 @@
     .c-code b { color: #c4500a; font-weight: 500; }
     #c-a { left: 56px; } #c-b { left: 562px; }
     .c-ring { position: absolute; left: 0; top: 0; width: 448px; height: 796px; overflow: visible; }
-    .c-q { position: absolute; font: 400 150px/1 "Permanent Marker", cursive; color: #ff8a1f; text-shadow: 0 4px 0 #14110e; }
-    #c-q1 { left: 300px; top: 380px; } #c-q2 { left: 300px; top: 330px; }
-    #c-line {
+        #c-line {
       position: absolute; left: 60px; top: 1250px; width: 900px; white-space: nowrap;
       font: 800 78px/1 "Bricolage Grotesque", sans-serif; font-stretch: 80%; color: #14110e;
     }
     #c-line b { color: #c4500a; }
   </style>
   <div id="root" data-composition-id="compare" data-width="1080" data-height="1920"
-    data-composition-variables='[{"id":"cmpLine1","type":"string","label":"Bottom line","default":"Satu beza besar."},{"id":"cmpLine2","type":"string","label":"Bottom line accent","default":"Nampak?"}]'>
+    data-composition-variables='[{"id":"cmpLine1","type":"string","label":"Bottom line","default":"88 minit."},{"id":"cmpLine2","type":"string","label":"Bottom line accent","default":"Satu sesi."}]'>
     <div id="c-paper-host" class="clip" data-start="0" data-duration="3.75" data-layout-ignore><div id="c-paper"></div></div>
     <div id="c-head-host" class="clip" data-start="0.2" data-duration="3.55"><div id="c-head">PROOF SHEET · IMPAK</div></div>
-    <div id="c-title-host" class="clip" data-start="0.2" data-duration="3.55"><div id="c-title">09:55<span>vs</span>11:23</div></div>
+    <div id="c-title-host" class="clip" data-start="0.2" data-duration="3.55"><div id="c-title">BEFORE<span>vs</span>AFTER</div></div>
     <div id="c-a-host" class="clip" data-start="0.12" data-duration="3.63">
       <div id="c-a" class="c-print">
         <div class="c-film"><img src="assets/stills/b_imp.jpg" alt="" />
           <svg class="c-ring" viewBox="0 0 448 796"><path id="c-ring1" d="M 150 400 C 120 330, 350 300, 360 420 S 280 640, 170 600 S 110 430, 230 360" fill="none" stroke="#ff8a1f" stroke-width="9" stroke-linecap="round"/></svg>
-          <div id="c-q1" class="c-q">?</div>
+          
         </div>
-        <div class="c-code"><b>▸ 12A</b> · 09:55</div>
+        <div class="c-code"><b>▸ BEFORE</b> · 09:55</div>
       </div>
     </div>
     <div id="c-b-host" class="clip" data-start="0.37" data-duration="3.38">
       <div id="c-b" class="c-print">
         <div class="c-film"><img src="assets/stills/a_imp.jpg" alt="" />
           <svg class="c-ring" viewBox="0 0 448 796"><path id="c-ring2" d="M 140 350 C 110 280, 340 250, 350 370 S 270 590, 160 550 S 100 380, 220 310" fill="none" stroke="#ff8a1f" stroke-width="9" stroke-linecap="round"/></svg>
-          <div id="c-q2" class="c-q">?</div>
+          
         </div>
-        <div class="c-code"><b>▸ 14A</b> · 11:23</div>
+        <div class="c-code"><b>▸ AFTER</b> · 11:23</div>
       </div>
     </div>
-    <div id="c-line-host" class="clip" data-start="2.0" data-duration="1.75"><div id="c-line"><span data-var-text="cmpLine1">Satu beza besar.</span> <b data-var-text="cmpLine2">Nampak?</b></div></div>
+    <div id="c-line-host" class="clip" data-start="2.0" data-duration="1.75"><div id="c-line"><span data-var-text="cmpLine1">88 minit.</span> <b data-var-text="cmpLine2">Satu sesi.</b></div></div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
@@ -70,8 +68,6 @@
     // grease pencil
     tl.fromTo("#c-ring1", { strokeDasharray: 1400, strokeDashoffset: 1400 }, { strokeDashoffset: 0, duration: 0.32, ease: "power1.inOut" }, 1.02);
     tl.fromTo("#c-ring2", { strokeDasharray: 1400, strokeDashoffset: 1400 }, { strokeDashoffset: 0, duration: 0.32, ease: "power1.inOut" }, 1.37);
-    tl.fromTo("#c-q1", { opacity: 0, scale: 0.5, rotation: -20 }, { opacity: 1, scale: 1, rotation: -8, duration: 0.22, ease: "back.out(2.2)" }, 1.8);
-    tl.fromTo("#c-q2", { opacity: 0, scale: 0.5, rotation: 20 }, { opacity: 1, scale: 1, rotation: 10, duration: 0.22, ease: "back.out(2.2)" }, 1.92);
     tl.fromTo("#c-line", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 2.0);
     window.__timelines["compare"] = tl;
   </script>

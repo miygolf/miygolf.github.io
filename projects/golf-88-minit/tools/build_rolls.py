@@ -13,8 +13,8 @@ HERE = Path(__file__).resolve().parent.parent
 
 ROLLS = {
     "rolla": dict(
-        roll="ROLL A", clock="09:55", frame="12A", still="assets/stills/b_imp.jpg",
-        title="Ingat posisi ni.",
+        roll="BEFORE", clock="09:55", frame="12A", still="assets/stills/b_imp.jpg",
+        title="Before.",
         stops=[(615, 955), (505, 1200)],
         labels=[("pinggul", 70, 900, -4), ("lutut", 690, 1160, 3)],
         # local times (scene starts 0.15 s before its cut)
@@ -22,8 +22,8 @@ ROLLS = {
         dur=6.35,
     ),
     "rollb": dict(
-        roll="ROLL B", clock="11:23", frame="14A", still="assets/stills/a_imp.jpg",
-        title="Sekarang, banding.",
+        roll="AFTER", clock="11:23", frame="14A", still="assets/stills/a_imp.jpg",
+        title="After.",
         stops=[(600, 822), (462, 1122)],
         labels=[("pinggul", 70, 770, -4), ("lutut", 650, 1085, 3)],
         T=dict(cut=0.15, replay=1.7833, freeze=2.65, loupe=2.8, l1=3.567, move=3.95, l2=4.367, under=5.167, out=5.7),
