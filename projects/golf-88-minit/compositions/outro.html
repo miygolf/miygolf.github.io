@@ -25,7 +25,7 @@
     <div id="o-band-host" class="clip" data-start="0" data-duration="0.3" data-layout-ignore><div id="o-band"></div></div>
     <div id="o-t1-host" class="clip" data-start="0.5" data-duration="3.5"><div id="o-t1" data-var-text="ctaTitle">Problem sama?</div></div>
     <div id="o-t2-host" class="clip" data-start="1.3" data-duration="2.7"><div id="o-t2" data-var-text="ctaMarker">Save. Cuba kat range ↓</div></div>
-    <div id="o-t3-host" class="clip" data-start="1.8" data-duration="2.2"><div id="o-t3"><b>88 MINIT</b> · <span data-var-text="ctaSave">lower body dulu, turn habis</span></div></div>
+    <div id="o-t3-host" class="clip" data-start="1.6" data-duration="2.53"><div id="o-t3"><b>60 MIN LESSON</b> · <span data-var-text="ctaSave">lower body dulu, turn habis</span></div></div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
@@ -33,7 +33,7 @@
     tl.fromTo("#o-band", { y: 370 }, { y: -1180, duration: 0.26, ease: "power2.in" }, 0);
     tl.fromTo("#o-t1", { yPercent: -60, rotation: 0, opacity: 0 }, { yPercent: 0, rotation: -2, opacity: 1, duration: 0.34, ease: "back.out(1.6)" }, 0.5);
     tl.fromTo("#o-t2", { x: -60, rotation: 0, opacity: 0 }, { x: 0, rotation: 1.5, opacity: 1, duration: 0.3, ease: "back.out(1.8)" }, 1.3);
-    tl.fromTo("#o-t3", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.25, ease: "power2.out" }, 1.8);
+    tl.fromTo("#o-t3", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.25, ease: "power2.out" }, 1.6);
     window.__timelines["outro"] = tl;
   </script>
 </template>

@@ -27,8 +27,6 @@ SEQ = [
     ("s-a1", "s", "stills/b_d78.jpg", 2.2, "1.012"),    # cause 1: hands far from body
     ("v-a4", "v", "footage/a4.mp4", None, ""),
     ("s-a2", "s", "stills/b_imp.jpg", 2.2, "1.012"),    # cause 2: no body clearance
-    ("v-a5", "v", "footage/a5.mp4", None, ""),
-    ("s-a3", "s", "stills/b_d78.jpg", 2.2, "1.012"),    # result: hands drop too shallow
     # AFTER 11:23
     ("v-b1", "v", "footage/b1.mp4", None, "audio"),
     ("v-b2", "v", "footage/b2.mp4", None, ""),

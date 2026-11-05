@@ -15,7 +15,8 @@
       letter-spacing: -0.02em; color: #f6f2e9; text-transform: uppercase;
       text-shadow: 0 6px 0 rgba(14, 12, 10, 0.55), 0 0 40px rgba(14, 12, 10, 0.35);
     }
-    #h-title span { color: #ff8a1f; }
+    #h-title span { display: block; }
+    #h-title em { display: block; font-style: normal; font-size: 104px; line-height: 0.95; color: #ff8a1f; margin-top: 6px; }
     #h-tape {
       position: absolute; left: 60px; top: 1130px; padding: 18px 28px 20px;
       background: #f6f2e9; color: #14110e; border-radius: 3px;
@@ -30,11 +31,11 @@
     #h-flash { position: absolute; inset: 0; background: #fffaf0; opacity: 0; }
   </style>
   <div id="root" data-composition-id="hook" data-width="1080" data-height="1920"
-    data-composition-variables='[{"id":"hookTitle","type":"string","label":"Hook headline","default":"88 minit."},{"id":"hookCode","type":"string","label":"Edge code","default":"09:55 → 11:23"},{"id":"hookTape1","type":"string","label":"Tape line 1","default":"Tangan drop shallow?"},{"id":"hookTape2","type":"string","label":"Tape line 2","default":"Ni fix dia."}]'>
+    data-composition-variables='[{"id":"hookTitle","type":"string","label":"Hook headline","default":"60 min"},{"id":"hookTitle2","type":"string","label":"Hook headline line 2","default":"lesson."},{"id":"hookCode","type":"string","label":"Edge code","default":"BEFORE → AFTER"},{"id":"hookTape1","type":"string","label":"Tape line 1","default":"Before → After."},{"id":"hookTape2","type":"string","label":"Tape line 2","default":"Fix body clearance."}]'>
     <div id="h-frame-host" class="clip" data-start="0.8" data-duration="1.6" data-layout-ignore><div id="h-frame"></div></div>
-    <div id="h-code-host" class="clip" data-start="0" data-duration="2.4"><div id="h-code"><i></i><span data-var-text="hookCode">09:55 → 11:23</span></div></div>
-    <div id="h-title-host" class="clip" data-start="0" data-duration="2.4"><div id="h-title" data-var-text="hookTitle">88 minit.</div></div>
-    <div id="h-tape-host" class="clip" data-start="0.25" data-duration="2.15"><div id="h-tape"><span data-var-text="hookTape1">Tangan drop shallow?</span><b data-var-text="hookTape2">Ni fix dia.</b></div></div>
+    <div id="h-code-host" class="clip" data-start="0" data-duration="2.4"><div id="h-code"><i></i><span data-var-text="hookCode">BEFORE → AFTER</span></div></div>
+    <div id="h-title-host" class="clip" data-start="0" data-duration="2.4"><div id="h-title"><span data-var-text="hookTitle">60 min</span><em data-var-text="hookTitle2">lesson.</em></div></div>
+    <div id="h-tape-host" class="clip" data-start="0.25" data-duration="2.15"><div id="h-tape"><span data-var-text="hookTape1">Before → After.</span><b data-var-text="hookTape2">Fix body clearance.</b></div></div>
     <div id="h-flash-host" class="clip" data-start="0.78" data-duration="0.5" data-layout-ignore><div id="h-flash"></div></div>
   </div>
   <script>

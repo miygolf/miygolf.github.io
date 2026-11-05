@@ -47,7 +47,6 @@ seg a1     "$BFO"   64 137 1   "$GRADE_FO"    # BEFORE takeaway -> downswing
 seg a2     "$BDTL"  66 113 1   "$GRADE_DTL"   # BEFORE DTL through impact (frame 82)
 seg a3     "$BDTL"  59  77 0.5 "$GRADE_DTL"   # BEFORE DTL replay: top -> delivery (cause 1)
 seg a4     "$BFO"  127 152 0.5 "$GRADE_FO"    # BEFORE face-on into impact (cause 2)
-seg a5     "$BDTL"  70  77 0.5 "$GRADE_DTL"   # BEFORE back to delivery (result)
 seg b1     "$AFO"  118 167 1   "$GRADE_FO"    # AFTER takeaway -> downswing
 seg b2     "$ADTL" 172 219 1   "$GRADE_DTL"   # AFTER DTL through impact (frame 188)
 seg b3     "$AFO"  154 169 0.5 "$GRADE_FO"    # AFTER transition (step 1)
