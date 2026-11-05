@@ -1,0 +1,52 @@
+<template>
+  <style>
+    @font-face { font-family: "Bricolage Grotesque"; src: url("assets/fonts/Bricolage-800.woff2") format("woff2"); font-weight: 800; font-stretch: 75% 100%; }
+    @font-face { font-family: "DM Mono"; src: url("assets/fonts/DMMono-500.woff2") format("woff2"); font-weight: 500; }
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #h-code {
+      position: absolute; left: 64px; top: 190px; display: flex; align-items: center; gap: 16px;
+      font: 500 34px/1 "DM Mono", monospace; letter-spacing: 0.08em; color: #ff8a1f;
+      background: rgba(14, 12, 10, 0.78); padding: 14px 20px 14px 16px; border-radius: 6px;
+    }
+    #h-code i { display: block; width: 16px; height: 22px; border-radius: 4px; background: #ff8a1f; }
+    #h-title {
+      position: absolute; left: 56px; top: 248px; width: 860px;
+      font: 800 212px/0.86 "Bricolage Grotesque", sans-serif; font-stretch: 75%;
+      letter-spacing: -0.02em; color: #f6f2e9; text-transform: uppercase;
+      text-shadow: 0 6px 0 rgba(14, 12, 10, 0.55), 0 0 40px rgba(14, 12, 10, 0.35);
+    }
+    #h-title span { color: #ff8a1f; }
+    #h-tape {
+      position: absolute; left: 60px; top: 1130px; padding: 18px 28px 20px;
+      background: #f6f2e9; color: #14110e; border-radius: 3px;
+      font: 800 66px/1.02 "Bricolage Grotesque", sans-serif; font-stretch: 80%; text-transform: uppercase;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+    }
+    #h-tape b { display: block; color: #c4500a; }
+    #h-frame {
+      position: absolute; inset: 0; border-radius: 34px; pointer-events: none;
+      box-shadow: 0 0 0 26px #0e0c0a, inset 0 0 0 3px rgba(255, 138, 31, 0.9);
+    }
+    #h-flash { position: absolute; inset: 0; background: #fffaf0; opacity: 0; }
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920"
+    data-composition-variables='[{"id":"hookTitle","type":"string","label":"Hook headline","default":"88 minit."},{"id":"hookCode","type":"string","label":"Edge code","default":"09:55 → 11:23"},{"id":"hookTape1","type":"string","label":"Tape line 1","default":"Swing sama."},{"id":"hookTape2","type":"string","label":"Tape line 2","default":"Cari beza."}]'>
+    <div id="h-frame-host" class="clip" data-start="0.8" data-duration="1.6" data-layout-ignore><div id="h-frame"></div></div>
+    <div id="h-code-host" class="clip" data-start="0" data-duration="2.4"><div id="h-code"><i></i><span data-var-text="hookCode">09:55 → 11:23</span></div></div>
+    <div id="h-title-host" class="clip" data-start="0" data-duration="2.4"><div id="h-title" data-var-text="hookTitle">88 minit.</div></div>
+    <div id="h-tape-host" class="clip" data-start="0.85" data-duration="1.55"><div id="h-tape"><span data-var-text="hookTape1">Swing sama.</span><b data-var-text="hookTape2">Cari beza.</b></div></div>
+    <div id="h-flash-host" class="clip" data-start="0.78" data-duration="0.5" data-layout-ignore><div id="h-flash"></div></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // Frame 0 already reads: title and code are on screen; they only settle.
+    tl.fromTo("#h-title", { scale: 1.05, transformOrigin: "0% 50%" }, { scale: 1, duration: 0.5, ease: "power3.out" }, 0);
+    tl.fromTo("#h-code", { x: -10 }, { x: 0, duration: 0.4, ease: "power3.out" }, 0);
+    // Shutter: flash, the frame snaps in like a captured negative
+    tl.fromTo("#h-flash", { opacity: 0.92 }, { opacity: 0, duration: 0.32, ease: "power2.out" }, 0.8);
+    tl.fromTo("#h-frame", { scale: 1.08, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, ease: "power4.out" }, 0.8);
+    tl.fromTo("#h-title", { y: 0 }, { y: -8, duration: 0.12, ease: "power2.out", yoyo: true, repeat: 1 }, 0.8);
+    tl.fromTo("#h-tape", { yPercent: 70, rotation: 0, opacity: 0 }, { yPercent: 0, rotation: -2.5, opacity: 1, duration: 0.32, ease: "back.out(1.6)" }, 0.88);
+    window.__timelines["hook"] = tl;
+  </script>
+</template>

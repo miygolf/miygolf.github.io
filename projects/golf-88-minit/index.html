@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ms" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* Look: "Contact Sheet" — film-lab proof sheet. Film black, photo-paper white,
+         edge-code amber; grease-pencil marks; loupe; film-advance cuts. */
+      :root {
+        --ground: #0e0c0a;
+        --paper: #f6f2e9;
+        --amber: #ff8a1f;
+        --ink: #14110e;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: var(--ground);
+      }
+      #root { position: relative; width: 100%; height: 100%; background: var(--ground); }
+      .full {
+        position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover;
+      }
+      .still-wrap { position: absolute; inset: 0; overflow: hidden; }
+      .still-wrap img { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+      #grain {
+        position: absolute; inset: 0; z-index: 90; pointer-events: none; overflow: hidden;
+      }
+      #grain-tex {
+        position: absolute; left: -10%; top: -10%; width: 120%; height: 120%; opacity: 0.07;
+        background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-size: 256px 256px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="22" data-width="1080" data-height="1920">
+      <!-- ============ PICTURE ============ -->
+      <!-- HOOK: 11:23 face-on, top of backswing -> impact at 0.5x, then freeze -->
+      <video id="v-hook" class="clip full" src="assets/footage/hook.mp4" data-start="0" data-duration="0.8" data-track-index="0" muted playsinline style="z-index:1"></video>
+      <div id="s-hook" class="clip still-wrap" data-start="0.8" data-duration="1.6" data-track-index="0" style="z-index:2"><img id="s-hook-img" src="assets/stills/a_imp.jpg" alt="" /></div>
+
+      <!-- ROLL A — 09:55 -->
+      <video id="v-a1" class="clip full" src="assets/footage/a1.mp4" data-start="2.4" data-duration="1.2333" data-track-index="0" data-has-audio="true" data-volume="0.9" playsinline style="z-index:3"></video>
+      <video id="v-a2" class="clip full" src="assets/footage/a2.mp4" data-start="3.6333" data-duration="0.8" data-track-index="0" muted playsinline style="z-index:4"></video>
+      <video id="v-a3" class="clip full" src="assets/footage/a3.mp4" data-start="4.4333" data-duration="0.8667" data-track-index="0" muted playsinline style="z-index:5"></video>
+      <div id="s-a" class="clip still-wrap" data-start="5.3" data-duration="3.3" data-track-index="0" style="z-index:6"><img id="s-a-img" src="assets/stills/b_imp.jpg" alt="" /></div>
+
+      <!-- ROLL B — 11:23 -->
+      <video id="v-b1" class="clip full" src="assets/footage/b1.mp4" data-start="8.6" data-duration="0.8333" data-track-index="0" data-has-audio="true" data-volume="0.9" playsinline style="z-index:7"></video>
+      <video id="v-b2" class="clip full" src="assets/footage/b2.mp4" data-start="9.4333" data-duration="0.8" data-track-index="0" muted playsinline style="z-index:8"></video>
+      <video id="v-b3" class="clip full" src="assets/footage/b3.mp4" data-start="10.2333" data-duration="0.8667" data-track-index="0" muted playsinline style="z-index:9"></video>
+      <div id="s-b" class="clip still-wrap" data-start="11.1" data-duration="3.5" data-track-index="0" style="z-index:10"><img id="s-b-img" src="assets/stills/a_imp.jpg" alt="" /></div>
+
+      <!-- OUTRO: 11:23 down-the-line, impact -> finish at 0.5x, hold -->
+      <video id="v-out" class="clip full" src="assets/footage/outro.mp4" data-start="18" data-duration="2.9667" data-track-index="0" muted playsinline style="z-index:11"></video>
+      <div id="s-out" class="clip still-wrap" data-start="20.9667" data-duration="1.0333" data-track-index="0" style="z-index:12"><img id="s-out-img" src="assets/stills/a_fin.jpg" alt="" /></div>
+
+      <!-- ============ GRAPHICS ============ -->
+      <div id="hook" data-composition-id="hook" data-composition-src="compositions/hook.html" data-start="0" data-duration="2.4" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index:40"></div>
+      <div id="rolla" data-composition-id="rolla" data-composition-src="compositions/rolla.html" data-start="2.25" data-duration="6.35" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index:41"></div>
+      <div id="rollb" data-composition-id="rollb" data-composition-src="compositions/rollb.html" data-start="8.45" data-duration="5.95" data-track-index="3" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index:42"></div>
+      <div id="compare" data-composition-id="compare" data-composition-src="compositions/compare.html" data-start="14.25" data-duration="3.75" data-track-index="4" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index:43"></div>
+      <div id="outro" data-composition-id="outro" data-composition-src="compositions/outro.html" data-start="18" data-duration="4" data-track-index="5" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index:44"></div>
+
+      <div id="grain" class="clip" data-start="0" data-duration="22" data-track-index="6" data-layout-ignore><div id="grain-tex"></div></div>
+
+      <!-- ============ SOUND ============ -->
+      <!-- Music: Mixkit "Hip Hop 02" (97 BPM). Entered so a beat lands on the hook freeze (0.8 s). -->
+      <audio id="music" data-timeline-role="music" class="clip" src="assets/music/hiphop02.mp3" data-start="0" data-duration="22" data-media-start="0.49" data-track-index="10" data-volume="1" data-fade-out="1.4"
+        data-automation="{&quot;version&quot;:1,&quot;lanes&quot;:[{&quot;target&quot;:&quot;volume&quot;,&quot;points&quot;:[{&quot;t&quot;:0,&quot;v&quot;:0.42},{&quot;t&quot;:3.55,&quot;v&quot;:0.42},{&quot;t&quot;:3.7,&quot;v&quot;:0.24},{&quot;t&quot;:4.35,&quot;v&quot;:0.24},{&quot;t&quot;:4.6,&quot;v&quot;:0.36},{&quot;t&quot;:9.35,&quot;v&quot;:0.36},{&quot;t&quot;:9.5,&quot;v&quot;:0.24},{&quot;t&quot;:10.15,&quot;v&quot;:0.24},{&quot;t&quot;:10.4,&quot;v&quot;:0.36},{&quot;t&quot;:14.2,&quot;v&quot;:0.36},{&quot;t&quot;:14.5,&quot;v&quot;:0.46},{&quot;t&quot;:18.1,&quot;v&quot;:0.46},{&quot;t&quot;:18.3,&quot;v&quot;:0.3},{&quot;t&quot;:18.9,&quot;v&quot;:0.3},{&quot;t&quot;:19.3,&quot;v&quot;:0.46},{&quot;t&quot;:22,&quot;v&quot;:0.46}]}]}"></audio>
+
+      <!-- Real strike sound of each DTL take, moved 0.2 s earlier to undo the phone's audio lag -->
+      <audio id="nat-a2" class="clip" src="assets/footage/a2.mp4" data-start="3.6333" data-duration="0.6" data-media-start="0.24" data-track-index="11" data-volume="1.4" data-fade-out="0.15"></audio>
+      <audio id="nat-b2" class="clip" src="assets/footage/b2.mp4" data-start="9.4333" data-duration="0.6" data-media-start="0.2" data-track-index="11" data-volume="1.4" data-fade-out="0.15"></audio>
+
+      <!-- SFX (Mixkit). Each placed so its peak lands one frame after its picture. -->
+      <audio id="sx-hook-swing" class="clip" src="assets/sfx/1473.mp3" data-start="0.42" data-duration="1.009" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="sx-hook-shutter" class="clip" src="assets/sfx/1438.mp3" data-start="0.716" data-duration="1.192" data-track-index="13" data-volume="1"></audio>
+      <audio id="sx-hook-bass" class="clip" src="assets/sfx/2909.mp3" data-start="0.706" data-duration="2.2" data-track-index="14" data-volume="0.55" data-fade-out="0.8"></audio>
+
+      <audio id="sx-adv1-air" class="clip" src="assets/sfx/1489.mp3" data-start="1.72" data-duration="1.3" data-track-index="12" data-volume="0.55"></audio>
+      <audio id="sx-adv1-proj" class="clip" src="assets/sfx/1442.mp3" data-start="2.22" data-duration="0.45" data-media-start="1.0" data-track-index="13" data-volume="0.8" data-fade-in="0.04" data-fade-out="0.12"></audio>
+
+      <audio id="sx-a2-hit" class="clip" src="assets/sfx/2121.mp3" data-start="3.715" data-duration="0.695" data-track-index="14" data-volume="0.45"></audio>
+      <audio id="sx-a3-swing" class="clip" src="assets/sfx/1473.mp3" data-start="4.95" data-duration="1.009" data-track-index="12" data-volume="0.4"></audio>
+      <audio id="sx-a3-shutter" class="clip" src="assets/sfx/1440.mp3" data-start="5.167" data-duration="1.035" data-track-index="13" data-volume="0.7"></audio>
+      <audio id="sx-a-loupe" class="clip" src="assets/sfx/1491.mp3" data-start="5.43" data-duration="1.139" data-track-index="14" data-volume="0.7"></audio>
+      <audio id="sx-a-mark1" class="clip" src="assets/sfx/2998.mp3" data-start="6.15" data-duration="1.27" data-track-index="15" data-volume="0.55"></audio>
+      <audio id="sx-a-mark2" class="clip" src="assets/sfx/2998.mp3" data-start="6.95" data-duration="1.27" data-track-index="16" data-volume="0.5"></audio>
+      <audio id="sx-a-mark3" class="clip" src="assets/sfx/2998.mp3" data-start="7.75" data-duration="1.27" data-track-index="15" data-volume="0.55"></audio>
+
+      <audio id="sx-adv2-air" class="clip" src="assets/sfx/1491.mp3" data-start="8.33" data-duration="1.139" data-track-index="12" data-volume="0.8"></audio>
+      <audio id="sx-adv2-proj" class="clip" src="assets/sfx/1444.mp3" data-start="8.42" data-duration="0.45" data-media-start="0.3" data-track-index="13" data-volume="0.8" data-fade-in="0.04" data-fade-out="0.12"></audio>
+
+      <audio id="sx-b2-hit" class="clip" src="assets/sfx/2126.mp3" data-start="9.525" data-duration="0.669" data-track-index="14" data-volume="0.45"></audio>
+      <audio id="sx-b3-swing" class="clip" src="assets/sfx/1468.mp3" data-start="10.66" data-duration="1.348" data-track-index="12" data-volume="0.4"></audio>
+      <audio id="sx-b3-shutter" class="clip" src="assets/sfx/1438.mp3" data-start="11.016" data-duration="1.192" data-track-index="13" data-volume="1"></audio>
+      <audio id="sx-b-loupe" class="clip" src="assets/sfx/1491.mp3" data-start="11.23" data-duration="1.139" data-track-index="14" data-volume="0.7"></audio>
+      <audio id="sx-b-mark1" class="clip" src="assets/sfx/2998.mp3" data-start="11.95" data-duration="1.27" data-track-index="15" data-volume="0.55"></audio>
+      <audio id="sx-b-mark2" class="clip" src="assets/sfx/2998.mp3" data-start="12.75" data-duration="1.27" data-track-index="16" data-volume="0.5"></audio>
+      <audio id="sx-b-mark3" class="clip" src="assets/sfx/2998.mp3" data-start="13.55" data-duration="1.27" data-track-index="15" data-volume="0.55"></audio>
+
+      <audio id="sx-cmp-air" class="clip" src="assets/sfx/1468.mp3" data-start="14.12" data-duration="1.348" data-track-index="12" data-volume="0.5"></audio>
+      <audio id="sx-cmp-paper1" class="clip" src="assets/sfx/1530.mp3" data-start="14.33" data-duration="1.113" data-track-index="13" data-volume="1"></audio>
+      <audio id="sx-cmp-paper2" class="clip" src="assets/sfx/1530.mp3" data-start="14.58" data-duration="1.113" data-track-index="14" data-volume="0.9"></audio>
+      <audio id="sx-cmp-mark1" class="clip" src="assets/sfx/2998.mp3" data-start="15.27" data-duration="1.27" data-track-index="15" data-volume="0.6"></audio>
+      <audio id="sx-cmp-mark2" class="clip" src="assets/sfx/2998.mp3" data-start="15.62" data-duration="1.27" data-track-index="16" data-volume="0.6"></audio>
+      <audio id="sx-cmp-scribble" class="clip" src="assets/sfx/2369.mp3" data-start="16.05" data-duration="1.218" data-track-index="17" data-volume="0.9"></audio>
+
+      <audio id="sx-out-air" class="clip" src="assets/sfx/1489.mp3" data-start="17.3" data-duration="1.3" data-track-index="12" data-volume="0.5"></audio>
+      <audio id="sx-out-hit" class="clip" src="assets/sfx/2126.mp3" data-start="18.258" data-duration="0.669" data-track-index="13" data-volume="0.6"></audio>
+      <audio id="sx-out-impact" class="clip" src="assets/sfx/1143.mp3" data-start="17.803" data-duration="2.6" data-track-index="14" data-volume="0.55" data-fade-out="0.8"></audio>
+      <audio id="sx-out-mark" class="clip" src="assets/sfx/2369.mp3" data-start="19.25" data-duration="1.218" data-track-index="15" data-volume="0.8"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      // Slow push-in on every freeze (child of the timed wrapper, never the clip itself)
+      tl.fromTo("#s-hook-img", { scale: 1.0 }, { scale: 1.035, duration: 1.6, ease: "sine.out", transformOrigin: "50% 45%" }, 0.8);
+      tl.fromTo("#s-a-img", { scale: 1.0 }, { scale: 1.03, duration: 3.3, ease: "sine.out", transformOrigin: "50% 60%" }, 5.3);
+      tl.fromTo("#s-b-img", { scale: 1.0 }, { scale: 1.03, duration: 3.3, ease: "sine.out", transformOrigin: "50% 55%" }, 11.1);
+      tl.fromTo("#s-out-img", { scale: 1.0 }, { scale: 1.02, duration: 1.0333, ease: "sine.out" }, 20.9667);
+      // Film grain: re-positioned every frame from a fixed table (deterministic)
+      for (let i = 0; i < 22 * 15; i++) {
+        const x = ((i * 37) % 17) - 8, y = ((i * 53) % 19) - 9;
+        tl.set("#grain-tex", { xPercent: x * 0.5, yPercent: y * 0.5 }, i / 15);
+      }
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

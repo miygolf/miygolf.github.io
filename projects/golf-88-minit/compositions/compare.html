@@ -1,0 +1,78 @@
+<template>
+  <style>
+    @font-face { font-family: "Bricolage Grotesque"; src: url("assets/fonts/Bricolage-800.woff2") format("woff2"); font-weight: 800; font-stretch: 75% 100%; }
+    @font-face { font-family: "DM Mono"; src: url("assets/fonts/DMMono-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Permanent Marker"; src: url("assets/fonts/PermanentMarker.woff2") format("woff2"); font-weight: 400; }
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #c-paper {
+      position: absolute; inset: 0; background: #f6f2e9;
+      background-image:
+        radial-gradient(circle at 50% 40%, rgba(255, 255, 255, .6), transparent 60%),
+        repeating-linear-gradient(0deg, rgba(20, 17, 14, .035) 0 2px, transparent 2px 96px);
+    }
+    #c-head {
+      position: absolute; left: 64px; top: 196px; font: 500 30px/1 "DM Mono", monospace;
+      letter-spacing: .16em; color: #b4560a;
+    }
+    #c-title {
+      position: absolute; left: 60px; top: 236px; width: 900px; white-space: nowrap;
+      font: 800 112px/1 "Bricolage Grotesque", sans-serif; font-stretch: 78%; letter-spacing: -.01em; color: #14110e;
+    }
+    #c-title span { color: #c4500a; padding: 0 .12em; }
+    .c-print { position: absolute; top: 380px; width: 448px; }
+    .c-film { position: relative; width: 448px; height: 796px; background: #0e0c0a; padding: 12px; border-radius: 4px; box-shadow: 0 16px 34px rgba(20, 17, 14, .28); }
+    .c-film img { display: block; width: 424px; height: 754px; object-fit: cover; border-radius: 2px; }
+    .c-code { margin-top: 14px; font: 500 30px/1 "DM Mono", monospace; letter-spacing: .1em; color: #14110e; }
+    .c-code b { color: #c4500a; font-weight: 500; }
+    #c-a { left: 56px; } #c-b { left: 562px; }
+    .c-ring { position: absolute; left: 0; top: 0; width: 448px; height: 796px; overflow: visible; }
+    .c-q { position: absolute; font: 400 150px/1 "Permanent Marker", cursive; color: #ff8a1f; text-shadow: 0 4px 0 #14110e; }
+    #c-q1 { left: 300px; top: 380px; } #c-q2 { left: 300px; top: 330px; }
+    #c-line {
+      position: absolute; left: 60px; top: 1250px; width: 900px; white-space: nowrap;
+      font: 800 78px/1 "Bricolage Grotesque", sans-serif; font-stretch: 80%; color: #14110e;
+    }
+    #c-line b { color: #c4500a; }
+  </style>
+  <div id="root" data-composition-id="compare" data-width="1080" data-height="1920"
+    data-composition-variables='[{"id":"cmpLine1","type":"string","label":"Bottom line","default":"Satu beza besar."},{"id":"cmpLine2","type":"string","label":"Bottom line accent","default":"Nampak?"}]'>
+    <div id="c-paper-host" class="clip" data-start="0" data-duration="3.75" data-layout-ignore><div id="c-paper"></div></div>
+    <div id="c-head-host" class="clip" data-start="0.2" data-duration="3.55"><div id="c-head">PROOF SHEET · IMPAK</div></div>
+    <div id="c-title-host" class="clip" data-start="0.2" data-duration="3.55"><div id="c-title">09:55<span>vs</span>11:23</div></div>
+    <div id="c-a-host" class="clip" data-start="0.12" data-duration="3.63">
+      <div id="c-a" class="c-print">
+        <div class="c-film"><img src="assets/stills/b_imp.jpg" alt="" />
+          <svg class="c-ring" viewBox="0 0 448 796"><path id="c-ring1" d="M 150 400 C 120 330, 350 300, 360 420 S 280 640, 170 600 S 110 430, 230 360" fill="none" stroke="#ff8a1f" stroke-width="9" stroke-linecap="round"/></svg>
+          <div id="c-q1" class="c-q">?</div>
+        </div>
+        <div class="c-code"><b>▸ 12A</b> · 09:55</div>
+      </div>
+    </div>
+    <div id="c-b-host" class="clip" data-start="0.37" data-duration="3.38">
+      <div id="c-b" class="c-print">
+        <div class="c-film"><img src="assets/stills/a_imp.jpg" alt="" />
+          <svg class="c-ring" viewBox="0 0 448 796"><path id="c-ring2" d="M 140 350 C 110 280, 340 250, 350 370 S 270 590, 160 550 S 100 380, 220 310" fill="none" stroke="#ff8a1f" stroke-width="9" stroke-linecap="round"/></svg>
+          <div id="c-q2" class="c-q">?</div>
+        </div>
+        <div class="c-code"><b>▸ 14A</b> · 11:23</div>
+      </div>
+    </div>
+    <div id="c-line-host" class="clip" data-start="2.0" data-duration="1.75"><div id="c-line"><span data-var-text="cmpLine1">Satu beza besar.</span> <b data-var-text="cmpLine2">Nampak?</b></div></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#c-paper", { yPercent: 100 }, { yPercent: 0, duration: 0.26, ease: "power3.out" }, 0);
+    tl.fromTo("#c-head", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.2);
+    tl.fromTo("#c-title", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 0.22);
+    // prints dropped on the sheet
+    tl.fromTo("#c-a", { y: 260, rotation: -9, opacity: 0 }, { y: 0, rotation: -1.6, opacity: 1, duration: 0.3, ease: "power3.out" }, 0.12);
+    tl.fromTo("#c-b", { y: 260, rotation: 9, opacity: 0 }, { y: 0, rotation: 1.4, opacity: 1, duration: 0.3, ease: "power3.out" }, 0.37);
+    // grease pencil
+    tl.fromTo("#c-ring1", { strokeDasharray: 1400, strokeDashoffset: 1400 }, { strokeDashoffset: 0, duration: 0.32, ease: "power1.inOut" }, 1.02);
+    tl.fromTo("#c-ring2", { strokeDasharray: 1400, strokeDashoffset: 1400 }, { strokeDashoffset: 0, duration: 0.32, ease: "power1.inOut" }, 1.37);
+    tl.fromTo("#c-q1", { opacity: 0, scale: 0.5, rotation: -20 }, { opacity: 1, scale: 1, rotation: -8, duration: 0.22, ease: "back.out(2.2)" }, 1.8);
+    tl.fromTo("#c-q2", { opacity: 0, scale: 0.5, rotation: 20 }, { opacity: 1, scale: 1, rotation: 10, duration: 0.22, ease: "back.out(2.2)" }, 1.92);
+    tl.fromTo("#c-line", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 2.0);
+    window.__timelines["compare"] = tl;
+  </script>
+</template>
