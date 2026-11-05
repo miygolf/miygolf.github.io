@@ -1,39 +1,29 @@
-# Caption: "60 min lesson" (golf-60min-lesson_FINAL.mp4)
+# Caption: "60 min lesson" (golf-60min-lesson_FINAL.mp4) — casual
 
 ## TikTok
 
-60 minit lesson. Before vs after 👇
+1 jam je lesson, tengok la beza dia 😮‍💨
 
-Student hari ni ada 2 masalah:
-❌ Tangan terlalu jauh dari badan
-❌ Takde body clearance, pinggul tak clear
+Awal-awal tangan jauh gila dari badan, pinggul pulak tak clear langsung 😅
 
-Apa yang kami betulkan:
-1️⃣ Lepas transition, lower body gerak dulu
-2️⃣ Feel club head depan chest
-3️⃣ Turn sampai habis
+Kita ubah 3 benda je:
+1️⃣ lower body gerak dulu
+2️⃣ rasa club head depan chest
+3️⃣ turn sampai habis
 
-Tengok beza tangan dia masa downswing. Before jauh, after dekat dengan badan. 🔥
+Last-last tangan dah rapat dengan badan, swing pun nampak lain terus 🔥
 
-Problem sama? Save video ni, cuba kat range nanti 📌
+Korang ada problem sama tak? Save dulu, try kat range nanti 📌
 
-#golfmalaysia #golftips #golflesson #golfswing #golfcoach #bodyclearance #beforeandafter #golfer #fyp
+#golfmalaysia #golftips #golflesson #golfswing #beforeandafter #fyp
 
 ## Instagram
 
-60 minit lesson. Before → After ⛳
+60 minit je, swing dah lain 👀
 
-Masalah student hari ni:
-• Tangan terlalu jauh dari badan
-• Takde body clearance, pinggul tak clear
+Before: tangan jauh dari badan, pinggul tak clear.
+After: lower body gerak dulu, club head depan chest, turn habis.
 
-Fix dia 3 step:
-1. Lepas transition, lower body gerak dulu
-2. Feel club head depan chest
-3. Turn sampai habis
+Simple tapi ngam 🔥 Save, nanti try kat range 📌
 
-Hujung video ada proof sheet: before tangan jauh, after tangan dekat dengan badan.
-
-Problem sama? Save dulu, cuba masa sesi range nanti 📌
-
-#golfmalaysia #golftips #golflesson #golfswing #golfcoach #golfinstruction #beforeandafter #golfreels
+#golfmalaysia #golftips #golflesson #golfswing #beforeandafter #golfreels
