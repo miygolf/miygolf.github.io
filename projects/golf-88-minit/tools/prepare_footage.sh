@@ -42,14 +42,19 @@ seg () {
 still () { # name src frame grade
   ffmpeg -v error -y -i "$1" -vf "select='eq(n\,$2)',$3,$SCALE" -frames:v 1 -q:v 2 "$ST/$4.jpg"; echo "still $4"; }
 
-seg hook   "$AFO"  160 183 0.5 "$GRADE_FO"    # top of backswing -> impact
-seg a1     "$BFO"   64 137 1   "$GRADE_FO"    # 09:55 takeaway -> downswing
-seg a2     "$BDTL"  66 113 1   "$GRADE_DTL"   # 09:55 DTL through impact (frame 82)
-seg a3     "$BFO"  127 152 0.5 "$GRADE_FO"    # 09:55 replay into impact
-seg b1     "$AFO"  118 167 1   "$GRADE_FO"    # 11:23 takeaway -> downswing
-seg b2     "$ADTL" 172 219 1   "$GRADE_DTL"   # 11:23 DTL through impact (frame 188)
-seg b3     "$AFO"  158 183 0.5 "$GRADE_FO"    # 11:23 replay into impact
-seg outro  "$ADTL" 176 264 0.5 "$GRADE_DTL"   # 11:23 DTL impact -> finish
-still "$BFO"  153 "$GRADE_FO"  b_imp
-still "$AFO"  184 "$GRADE_FO"  a_imp
-still "$ADTL" 264 "$GRADE_DTL" a_fin
+seg hook   "$AFO"  160 183 0.5 "$GRADE_FO"    # AFTER top of backswing -> impact
+seg a1     "$BFO"   64 137 1   "$GRADE_FO"    # BEFORE takeaway -> downswing
+seg a2     "$BDTL"  66 113 1   "$GRADE_DTL"   # BEFORE DTL through impact (frame 82)
+seg a3     "$BDTL"  59  76 0.5 "$GRADE_DTL"   # BEFORE DTL replay: top -> delivery
+seg b1     "$AFO"  118 167 1   "$GRADE_FO"    # AFTER takeaway -> downswing
+seg b2     "$ADTL" 172 219 1   "$GRADE_DTL"   # AFTER DTL through impact (frame 188)
+seg b3     "$AFO"  154 169 0.5 "$GRADE_FO"    # AFTER transition (step 1)
+seg b4     "$ADTL" 175 182 0.5 "$GRADE_DTL"   # AFTER into delivery (step 2)
+seg b5     "$AFO"  184 229 1   "$GRADE_FO"    # AFTER impact -> finish (step 3)
+seg outro  "$ADTL" 176 264 0.5 "$GRADE_DTL"   # AFTER DTL impact -> finish
+still "$AFO"  184 "$GRADE_FO"  a_imp     # hook freeze
+still "$BDTL"  77 "$GRADE_DTL" b_dlv     # BEFORE delivery
+still "$AFO"  170 "$GRADE_FO"  a_tr      # AFTER transition
+still "$ADTL" 183 "$GRADE_DTL" a_dlv     # AFTER delivery
+still "$AFO"  230 "$GRADE_FO"  a_finfo   # AFTER finish, face-on
+still "$ADTL" 264 "$GRADE_DTL" a_fin     # outro hold
