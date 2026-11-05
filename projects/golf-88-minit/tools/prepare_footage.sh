@@ -45,15 +45,20 @@ still () { # name src frame grade
 seg hook   "$AFO"  160 183 0.5 "$GRADE_FO"    # AFTER top of backswing -> impact
 seg a1     "$BFO"   64 137 1   "$GRADE_FO"    # BEFORE takeaway -> downswing
 seg a2     "$BDTL"  66 113 1   "$GRADE_DTL"   # BEFORE DTL through impact (frame 82)
-seg a3     "$BDTL"  59  76 0.5 "$GRADE_DTL"   # BEFORE DTL replay: top -> delivery
+seg a3     "$BDTL"  59  77 0.5 "$GRADE_DTL"   # BEFORE DTL replay: top -> delivery (cause 1)
+seg a4     "$BFO"  127 152 0.5 "$GRADE_FO"    # BEFORE face-on into impact (cause 2)
+seg a5     "$BDTL"  70  77 0.5 "$GRADE_DTL"   # BEFORE back to delivery (result)
 seg b1     "$AFO"  118 167 1   "$GRADE_FO"    # AFTER takeaway -> downswing
 seg b2     "$ADTL" 172 219 1   "$GRADE_DTL"   # AFTER DTL through impact (frame 188)
 seg b3     "$AFO"  154 169 0.5 "$GRADE_FO"    # AFTER transition (step 1)
 seg b4     "$ADTL" 175 182 0.5 "$GRADE_DTL"   # AFTER into delivery (step 2)
 seg b5     "$AFO"  184 229 1   "$GRADE_FO"    # AFTER impact -> finish (step 3)
+seg c1     "$AFO"  118 237 1   "$GRADE_FO"    # AFTER full speed, face-on
+seg c2     "$ADTL" 128 263 1   "$GRADE_DTL"   # AFTER full speed, down the line
 seg outro  "$ADTL" 176 264 0.5 "$GRADE_DTL"   # AFTER DTL impact -> finish
 still "$AFO"  184 "$GRADE_FO"  a_imp     # hook freeze
-still "$BDTL"  77 "$GRADE_DTL" b_dlv     # BEFORE delivery
+still "$BDTL"  78 "$GRADE_DTL" b_d78     # BEFORE delivery: gap + shallow shaft
+still "$BFO"  153 "$GRADE_FO"  b_imp     # BEFORE impact, face-on: no clearance
 still "$AFO"  170 "$GRADE_FO"  a_tr      # AFTER transition
 still "$ADTL" 183 "$GRADE_DTL" a_dlv     # AFTER delivery
 still "$AFO"  230 "$GRADE_FO"  a_finfo   # AFTER finish, face-on

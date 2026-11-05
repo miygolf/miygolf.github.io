@@ -18,24 +18,28 @@ the "Terima kasih kerana menonton!" / "Thanks for watching!" hallucination (no_s
 The clips hold range ambience and the strike. So the edit is cut on picture beats (takeaway, top, impact) and there
 is no voice to protect in the mix; the music is ducked under the real strikes instead.
 
-## Story (25.2 s, 1080×1920, 30 fps)
+## Story (35.0 s, 1080×1920, 30 fps)
 
-v1 spot-the-difference → v2 before/after → **v3 (current): the coach's diagnosis.**
-Student's problem today: no body clearance, so the hands drop too shallow. Fix: after the transition the
-lower body moves first, feel the club head in front of the chest, and turn all the way through.
-Every line is a composition variable.
+v1 spot-the-difference → v2 before/after → v3 coach's diagnosis (25 s) → **v4 (current): 35 s, three causes.**
+Coach: the student had no body clearance and the hands sat too far from the body, so the hands dropped too
+shallow. Fix: after the transition the lower body moves first, feel the club head in front of the chest, turn all
+the way. At delivery the before swing's hands sit ~220 px from the belly vs ~140 px after (1080-wide frame),
+which the proof sheet measures. Timeline is generated: `python3 tools/build_index.py` (edit SEQ / cues there).
 
 | Out (s) | Source | Beat |
 | --- | --- | --- |
 | 0.00–2.40 | AFTER face-on top → impact @0.5×, freeze | Hook "88 MINIT." + tape "Tangan drop shallow? / Ni fix dia." |
 | 2.40–4.43 | BEFORE face-on 1× → DTL through impact | chip "BEFORE · 09:55", real strike |
-| 4.43–8.20 | BEFORE DTL replay top → delivery @0.5×, freeze (frame 77) | "Before." loupe hips → hands; "takde body clearance", "tangan drop too shallow" |
-| 8.20–9.83 | AFTER face-on 1× → DTL through impact | chip "AFTER · 11:23", real strike |
-| 9.83–12.40 | AFTER face-on transition @0.5×, freeze (frame 170) | "1 Lower body gerak dulu." + arrow round the hips |
-| 12.40–14.70 | AFTER DTL into delivery @0.5×, freeze (frame 183) | "2 Club head depan chest." + loop on hands/chest |
-| 14.70–17.80 | AFTER face-on impact → finish 1×, freeze (frame 230) | "3 Turn habis." + arrow round the waist |
-| 17.45–21.20 | DTL delivery stills, before vs after | Proof sheet "BEFORE vs AFTER" + "Lower body dulu. Turn habis." |
-| 21.20–25.20 | AFTER DTL impact → finish @0.5×, hold | CTA "Problem sama?" / "Save. Cuba kat range ↓" / "88 MINIT · lower body dulu, turn habis" |
+| 4.43–7.27 | BEFORE DTL replay → freeze frame 78 | "1 Tangan jauh dari badan." + measured gap "jarak" |
+| 7.27–10.33 | BEFORE face-on replay → freeze impact frame 153 | "2 Takde body clearance." loupe + loop on hips, "pinggul tak clear" |
+| 10.33–12.80 | BEFORE DTL → freeze frame 78 | "= Tangan drop too shallow." dashed shaft line, "shallow" |
+| 12.80–14.43 | AFTER face-on 1× → DTL through impact | chip "AFTER · 11:23", real strike |
+| 14.43–17.17 | AFTER transition → freeze frame 170 | "1 Lower body gerak dulu." arrow round the hips |
+| 17.17–19.63 | AFTER DTL → freeze frame 183 | "2 Club head depan chest." loop + short gap "tangan dekat badan" |
+| 19.63–22.60 | AFTER impact → finish 1× → freeze frame 230 | "3 Turn habis." arrow round the waist |
+| 22.60–26.87 | AFTER full swing 1×, face-on then DTL | "FULL SPEED · 1×" "Semua sekali." both real strikes |
+| 26.62–30.87 | DTL delivery stills | Proof sheet: gap "jauh" vs "dekat", "Tangan dekat badan. / Lower body dulu. Turn habis." |
+| 30.87–35.00 | AFTER DTL impact → finish @0.5×, hold | CTA "Problem sama?" / "Save. Cuba kat range ↓" / "88 MINIT · lower body dulu, turn habis" |
 
 Cut away: 1–2 s of address/waggle before every swing, the walk-off after each finish.
 Slow motion is 0.5× of the 60 fps source = every real frame, no interpolation (no club warping).
@@ -57,7 +61,7 @@ air whoosh + 1442/1444 projector on the film-advance cuts, 2998 marker line on e
 1530 paper slide on the prints, 2369 scribble on "?" and the CTA, 1143 deep impact on the final strike.
 Peaks placed one frame after the picture (measured with `hyperframes audio`).
 
-Preview v3 measured −17.9 LUFS, −2.7 dBTP, no clipping (measured, not listened to). Final: master to −14 LUFS.
+Preview v4 measured −18.3 LUFS, −2.1 dBTP, no clipping (measured, not listened to). Final: master to −14 LUFS.
 
 ## Fonts
 

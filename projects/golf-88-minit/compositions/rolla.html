@@ -22,69 +22,100 @@
     }
     #ra-chip i { display: block; width: 16px; height: 22px; border-radius: 4px; background: #ff8a1f; }
     #ra-chip em { font-style: normal; color: #f6f2e9; }
-    #ra-replay { position: absolute; left: 72px; top: 272px; font: 500 30px/1 "DM Mono", monospace; letter-spacing: .14em; color: #14110e; background: #ff8a1f; padding: 10px 16px; border-radius: 4px; }
-    #ra-title {
+    .ra-replay { position: absolute; left: 72px; top: 272px; font: 500 30px/1 "DM Mono", monospace; letter-spacing: .14em; color: #14110e; background: #ff8a1f; padding: 10px 16px; border-radius: 4px; }
+    .ra-title {
       position: absolute; left: 66px; top: 282px; max-width: 860px; background: rgba(14, 12, 10, .8); padding: 4px 24px 14px; border-radius: 6px;
-      font: 800 108px/0.92 "Bricolage Grotesque", sans-serif; font-stretch: 78%;
-      color: #f6f2e9; text-shadow: 0 5px 0 rgba(14, 12, 10, .55), 0 0 36px rgba(14, 12, 10, .4);
+      font: 800 100px/0.94 "Bricolage Grotesque", sans-serif; font-stretch: 78%; color: #f6f2e9;
     }
-    #ra-frame { position: absolute; inset: 0; border-radius: 34px; box-shadow: 0 0 0 26px #0e0c0a, inset 0 0 0 3px rgba(255, 138, 31, .9); }
-    #ra-flash { position: absolute; inset: 0; background: #fffaf0; opacity: 0; }
+    .ra-title b { color: #ff8a1f; font-weight: 800; margin-right: .18em; }
+    .ra-frame { position: absolute; inset: 0; border-radius: 34px; box-shadow: 0 0 0 26px #0e0c0a, inset 0 0 0 3px rgba(255, 138, 31, .9); }
+    .ra-flash { position: absolute; inset: 0; background: #fffaf0; opacity: 0; }
     #ra-lp {
       position: absolute; left: 0; top: 0; width: 260px; height: 260px; border-radius: 50%; overflow: hidden;
       border: 10px solid #14110e; box-shadow: 0 0 0 4px #ff8a1f, 0 18px 40px rgba(0, 0, 0, .45);
     }
     #ra-lp img { position: absolute; left: 0; top: 0; width: 2160px; height: 3840px; }
     #ra-lp::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle at 32% 26%, rgba(255, 255, 255, .28), transparent 34%), radial-gradient(circle, transparent 62%, rgba(14, 12, 10, .35) 100%); }
-    .ra-lab { position: absolute; font: 400 58px/1.02 "Permanent Marker", cursive; color: #ff8a1f; background: #0e0c0a; padding: 6px 18px 10px; border-radius: 4px; white-space: nowrap; }
+    .ra-lab { position: absolute; font: 400 54px/1.04 "Permanent Marker", cursive; color: #ff8a1f; background: #0e0c0a; padding: 6px 18px 10px; border-radius: 4px; white-space: nowrap; }
     .ra-svg { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
   </style>
   <div id="root" data-composition-id="rolla" data-width="1080" data-height="1920"
-    data-composition-variables='[{"id":"raClock","type":"string","label":"Before time","default":"09:55"},{"id":"raTitle","type":"string","label":"Before freeze title","default":"Before."},{"id":"raLab1","type":"string","label":"Problem 1","default":"takde body clearance"},{"id":"raLab2a","type":"string","label":"Problem 2 line 1","default":"tangan drop"},{"id":"raLab2b","type":"string","label":"Problem 2 line 2","default":"too shallow"}]'>
-    <div id="ra-strip-host" class="clip" data-start="0.15" data-duration="5.95" data-layout-ignore><div id="ra-strip"></div></div>
-    <div id="ra-frame-host" class="clip" data-start="2.7833" data-duration="3.3167" data-layout-ignore><div id="ra-frame"></div></div>
-    <div id="ra-chip-host" class="clip" data-start="0.15" data-duration="5.95"><div id="ra-chip"><i></i><span>BEFORE ·</span><em data-var-text="raClock">09:55</em></div></div>
-    <div id="ra-replay-host" class="clip" data-start="2.1833" data-duration="0.6"><div id="ra-replay">REPLAY · ½×</div></div>
-    <div id="ra-title-host" class="clip" data-start="2.7833" data-duration="3.3167"><div id="ra-title" data-var-text="raTitle">Before.</div></div>
-    <div id="ra-marks-host" class="clip" data-start="3.6" data-duration="2.5" data-layout-ignore>
+    data-composition-variables='[{"id":"raClock","type":"string","label":"Before time","default":"09:55"},{"id":"raCause1","type":"string","label":"Cause 1","default":"Tangan jauh dari badan."},{"id":"raCause2","type":"string","label":"Cause 2","default":"Takde body clearance."},{"id":"raResult","type":"string","label":"Result","default":"Tangan drop too shallow."},{"id":"raLabGap","type":"string","label":"Gap label","default":"jarak"},{"id":"raLabHip","type":"string","label":"Hip label","default":"pinggul tak clear"},{"id":"raLabShaft","type":"string","label":"Shaft label","default":"shallow"}]'>
+    <div id="ra-strip-host" class="clip" data-start="0.15" data-duration="10.55" data-layout-ignore><div id="ra-strip"></div></div>
+    <div id="ra-chip-host" class="clip" data-start="0.15" data-duration="10.55"><div id="ra-chip"><i></i><span>BEFORE ·</span><em data-var-text="raClock">09:55</em></div></div>
+    <div id="ra-rep1-host" class="clip" data-start="2.1833" data-duration="0.6333"><div id="ra-rep1" class="ra-replay">REPLAY · ½×</div></div>
+    <div id="ra-rep2-host" class="clip" data-start="5.0166" data-duration="0.8667"><div id="ra-rep2" class="ra-replay">FACE-ON · ½×</div></div>
+
+    <!-- CAUSE 1: hands far from the body (DTL, frame 78) -->
+    <div id="ra-f1-host" class="clip" data-start="2.8166" data-duration="2.2" data-layout-ignore><div id="ra-f1" class="ra-frame"></div></div>
+    <div id="ra-t1-host" class="clip" data-start="2.8166" data-duration="2.2"><div id="ra-t1" class="ra-title"><b>1</b><span data-var-text="raCause1">Tangan jauh dari badan.</span></div></div>
+    <div id="ra-m1-host" class="clip" data-start="3.3" data-duration="1.7166" data-layout-ignore>
       <svg class="ra-svg" viewBox="0 0 1080 1920">
-        <path id="ra-ring1" d="M 205 905 C 200 815, 400 805, 405 900 S 300 1000, 215 950 S 230 830, 330 815" fill="none" stroke="#ff8a1f" stroke-width="9" stroke-linecap="round"/>
-        <path id="ra-ring2" d="M 370 855 C 360 775, 535 770, 535 850 S 450 935, 378 900 S 390 790, 480 778" fill="none" stroke="#ff8a1f" stroke-width="9" stroke-linecap="round"/>
+        <path id="ra-m1" d="M 252 960 L 470 960" fill="none" stroke="#ff8a1f" stroke-width="10" stroke-linecap="round"/>
+        <path id="ra-m1a" d="M 252 925 L 252 995 M 470 925 L 470 995" fill="none" stroke="#ff8a1f" stroke-width="10" stroke-linecap="round"/>
       </svg>
     </div>
-    <div id="ra-lab1-host" class="clip" data-start="3.65" data-duration="2.45"><div id="ra-lab1" class="ra-lab" style="left:64px;top:1046px" data-var-text="raLab1">takde body clearance</div></div>
-    <div id="ra-lab2-host" class="clip" data-start="4.45" data-duration="1.65"><div id="ra-lab2" class="ra-lab" style="left:590px;top:850px"><span data-var-text="raLab2a">tangan drop</span><br /><span data-var-text="raLab2b">too shallow</span></div></div>
-    <div id="ra-lp-host" class="clip" data-start="2.95" data-duration="2.6" data-layout-ignore><div id="ra-lp"><img id="ra-lp-img" src="assets/stills/b_dlv.jpg" alt="" /></div></div>
-    <div id="ra-flash-host" class="clip" data-start="2.7833" data-duration="0.5" data-layout-ignore><div id="ra-flash"></div></div>
+    <div id="ra-l1-host" class="clip" data-start="3.3" data-duration="1.7166"><div id="ra-l1" class="ra-lab" style="left:280px;top:1010px" data-var-text="raLabGap">jarak</div></div>
+    <div id="ra-x1-host" class="clip" data-start="2.8166" data-duration="0.5" data-layout-ignore><div id="ra-x1" class="ra-flash"></div></div>
+
+    <!-- CAUSE 2: no body clearance (face-on impact, frame 153) -->
+    <div id="ra-f2-host" class="clip" data-start="5.8833" data-duration="2.2" data-layout-ignore><div id="ra-f2" class="ra-frame"></div></div>
+    <div id="ra-t2-host" class="clip" data-start="5.8833" data-duration="2.2"><div id="ra-t2" class="ra-title"><b>2</b><span data-var-text="raCause2">Takde body clearance.</span></div></div>
+    <div id="ra-m2-host" class="clip" data-start="6.38" data-duration="1.7033" data-layout-ignore>
+      <svg class="ra-svg" viewBox="0 0 1080 1920">
+        <path id="ra-m2" d="M 500 960 C 495 860, 735 850, 740 950 S 620 1060, 510 1010 S 530 860, 650 846" fill="none" stroke="#ff8a1f" stroke-width="10" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div id="ra-l2-host" class="clip" data-start="6.72" data-duration="1.3633"><div id="ra-l2" class="ra-lab" style="left:64px;top:1100px" data-var-text="raLabHip">pinggul tak clear</div></div>
+    <div id="ra-lp-host" class="clip" data-start="6.36" data-duration="0.9" data-layout-ignore><div id="ra-lp"><img id="ra-lp-img" src="assets/stills/b_imp.jpg" alt="" /></div></div>
+    <div id="ra-x2-host" class="clip" data-start="5.8833" data-duration="0.5" data-layout-ignore><div id="ra-x2" class="ra-flash"></div></div>
+
+    <!-- RESULT: hands drop too shallow (DTL, frame 78) -->
+    <div id="ra-f3-host" class="clip" data-start="8.35" data-duration="2.35" data-layout-ignore><div id="ra-f3" class="ra-frame"></div></div>
+    <div id="ra-t3-host" class="clip" data-start="8.35" data-duration="2.35"><div id="ra-t3" class="ra-title"><b>=</b><span data-var-text="raResult">Tangan drop too shallow.</span></div></div>
+    <div id="ra-m3-host" class="clip" data-start="8.85" data-duration="1.85" data-layout-ignore>
+      <svg class="ra-svg" viewBox="0 0 1080 1920">
+        <path id="ra-m3" d="M 480 905 L 170 610" fill="none" stroke="#ff8a1f" stroke-width="9" stroke-linecap="round" stroke-dasharray="26 18"/>
+      </svg>
+    </div>
+    <div id="ra-l3-host" class="clip" data-start="9.2" data-duration="1.5"><div id="ra-l3" class="ra-lab" style="left:64px;top:690px" data-var-text="raLabShaft">shallow</div></div>
+    <div id="ra-x3-host" class="clip" data-start="8.35" data-duration="0.5" data-layout-ignore><div id="ra-x3" class="ra-flash"></div></div>
+
     <div id="ra-band-host" class="clip" data-start="0" data-duration="0.36" data-layout-ignore><div id="ra-band"><span style="top:250px">▸ 12A</span><span style="top:900px">▸ 13</span></div></div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
-    // film advance through the cut at 0.15
     tl.fromTo("#ra-band", { y: 1920 }, { y: -1180, duration: 0.34, ease: "power1.inOut" }, 0);
     tl.fromTo("#ra-chip", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 0.2);
     tl.fromTo("#ra-strip", { x: -46 }, { x: 0, duration: 0.25, ease: "power3.out" }, 0.15);
-    tl.fromTo("#ra-replay", { x: -30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.2, ease: "power3.out" }, 2.1833);
-    // freeze at delivery
-    const F = 2.7833;
-    tl.fromTo("#ra-flash", { opacity: 0.9 }, { opacity: 0, duration: 0.3, ease: "power2.out" }, F);
-    tl.fromTo("#ra-frame", { scale: 1.07, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, ease: "power4.out" }, F);
-    tl.fromTo("#ra-title", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.34, ease: "power3.out" }, F + 0.1);
-    // loupe: hips, then hands (lens and its magnified image move together; zoom 2)
-    const R = 130, Z = 2, B = 10, s1 = [300, 905], s2 = [452, 852];
-    const box = (p) => ({ x: p[0] - R, y: p[1] - R });
-    const img = (p) => ({ x: R - B - Z * p[0], y: R - B - Z * p[1] });
-    tl.set("#ra-lp", box(s1), 0);
-    tl.set("#ra-lp-img", img(s1), 0);
-    tl.fromTo("#ra-lp", { scale: 0.2, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(1.5)" }, 2.95);
-    tl.to("#ra-lp", { ...box(s2), duration: 0.35, ease: "power2.inOut" }, 4.05);
-    tl.to("#ra-lp-img", { ...img(s2), duration: 0.35, ease: "power2.inOut" }, 4.05);
-    tl.to("#ra-lp", { scale: 0.2, opacity: 0, duration: 0.22, ease: "power2.in" }, 5.3);
-    // grease pencil
-    tl.fromTo("#ra-ring1", { strokeDasharray: 1200, strokeDashoffset: 1200 }, { strokeDashoffset: 0, duration: 0.3, ease: "power1.inOut" }, 3.6);
-    tl.fromTo("#ra-ring2", { strokeDasharray: 1200, strokeDashoffset: 1200 }, { strokeDashoffset: 0, duration: 0.3, ease: "power1.inOut" }, 4.4);
-    tl.fromTo("#ra-lab1", { opacity: 0, scale: 0.7, rotation: -9 }, { opacity: 1, scale: 1, rotation: -3, duration: 0.22, ease: "back.out(2)" }, 3.65);
-    tl.fromTo("#ra-lab2", { opacity: 0, scale: 0.7, rotation: 9 }, { opacity: 1, scale: 1, rotation: 3, duration: 0.22, ease: "back.out(2)" }, 4.45);
+    tl.fromTo("#ra-rep1", { x: -30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.2, ease: "power3.out" }, 2.1833);
+    tl.fromTo("#ra-rep2", { x: -30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.2, ease: "power3.out" }, 5.0166);
+    const freeze = (n, F) => {
+      tl.fromTo(`#ra-x${n}`, { opacity: 0.9 }, { opacity: 0, duration: 0.3, ease: "power2.out" }, F);
+      tl.fromTo(`#ra-f${n}`, { scale: 1.07, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, ease: "power4.out" }, F);
+      tl.fromTo(`#ra-t${n}`, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.32, ease: "power3.out" }, F + 0.08);
+    };
+    const draw = (sel, at, d, len) => tl.fromTo(sel, { strokeDashoffset: len }, { strokeDashoffset: 0, duration: d, ease: "power1.inOut" }, at);
+    const pop = (sel, at, r) => tl.fromTo(sel, { opacity: 0, scale: 0.7, rotation: r - 6 }, { opacity: 1, scale: 1, rotation: r, duration: 0.22, ease: "back.out(2)" }, at);
+    // cause 1: measured gap
+    freeze(1, 2.8166);
+    tl.set("#ra-m1", { strokeDasharray: 240 }, 0);
+    tl.set("#ra-m1a", { strokeDasharray: 160 }, 0);
+    draw("#ra-m1a", 3.3, 0.12, 160); draw("#ra-m1", 3.38, 0.24, 240); pop("#ra-l1", 3.5, -3);
+    // cause 2: loupe on the hips, then the loop stays
+    freeze(2, 5.8833);
+    const R = 130, Z = 2, B = 10, hip = [618, 945];
+    tl.set("#ra-lp", { x: hip[0] - R, y: hip[1] - R }, 0);
+    tl.set("#ra-lp-img", { x: R - B - Z * hip[0], y: R - B - Z * hip[1] }, 0);
+    tl.fromTo("#ra-lp", { scale: 0.2, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(1.5)" }, 6.36);
+    tl.to("#ra-lp", { scale: 0.2, opacity: 0, duration: 0.2, ease: "power2.in" }, 7.06);
+    tl.set("#ra-m2", { strokeDasharray: 1300 }, 0);
+    draw("#ra-m2", 6.38, 0.32, 1300); pop("#ra-l2", 6.72, -3);
+    // result: shaft dropping flat behind the hands
+    freeze(3, 8.35);
+    tl.set("#ra-m3", { strokeDasharray: "26 18" }, 0);
+    tl.fromTo("#ra-m3-host svg", { clipPath: "inset(0 0 0 100%)" }, { clipPath: "inset(0 0 0 0%)", duration: 0.3, ease: "power1.out" }, 8.85);
+    pop("#ra-l3", 9.2, -4);
     window.__timelines["rolla"] = tl;
   </script>
 </template>

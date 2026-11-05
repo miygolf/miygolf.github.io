@@ -2,6 +2,7 @@
   <style>
     @font-face { font-family: "Bricolage Grotesque"; src: url("assets/fonts/Bricolage-800.woff2") format("woff2"); font-weight: 800; font-stretch: 75% 100%; }
     @font-face { font-family: "DM Mono"; src: url("assets/fonts/DMMono-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Permanent Marker"; src: url("assets/fonts/PermanentMarker.woff2") format("woff2"); font-weight: 400; }
     #root { position: absolute; inset: 0; overflow: hidden; }
     #rb-band {
       position: absolute; left: 0; top: 0; width: 1080px; height: 1180px; background: #0e0c0a;
@@ -28,47 +29,55 @@
       color: #f6f2e9; text-shadow: 0 5px 0 rgba(14, 12, 10, .55), 0 0 36px rgba(14, 12, 10, .4);
     }
     .rb-title b { color: #ff8a1f; font-weight: 800; margin-right: .18em; }
+    .rb-tag { position: absolute; left: 72px; top: 272px; font: 500 30px/1 "DM Mono", monospace; letter-spacing: .14em; color: #14110e; background: #ff8a1f; padding: 10px 16px; border-radius: 4px; }
+    .rb-lab { position: absolute; font: 400 50px/1.04 "Permanent Marker", cursive; color: #ff8a1f; background: #0e0c0a; padding: 6px 16px 10px; border-radius: 4px; white-space: nowrap; }
     .rb-frame { position: absolute; inset: 0; border-radius: 34px; box-shadow: 0 0 0 26px #0e0c0a, inset 0 0 0 3px rgba(255, 138, 31, .9); }
     .rb-flash { position: absolute; inset: 0; background: #fffaf0; opacity: 0; }
     .rb-svg { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
   </style>
   <div id="root" data-composition-id="rollb" data-width="1080" data-height="1920"
-    data-composition-variables='[{"id":"rbClock","type":"string","label":"After time","default":"11:23"},{"id":"rbStep1","type":"string","label":"Step 1","default":"Lower body gerak dulu."},{"id":"rbStep2","type":"string","label":"Step 2","default":"Club head depan chest."},{"id":"rbStep3","type":"string","label":"Step 3","default":"Turn habis."}]'>
-    <div id="rb-strip-host" class="clip" data-start="0.15" data-duration="9.55" data-layout-ignore><div id="rb-strip"></div></div>
-    <div id="rb-chip-host" class="clip" data-start="0.15" data-duration="9.55"><div id="rb-chip"><i></i><span>AFTER ·</span><em data-var-text="rbClock">11:23</em></div></div>
+    data-composition-variables='[{"id":"rbClock","type":"string","label":"After time","default":"11:23"},{"id":"rbStep1","type":"string","label":"Step 1","default":"Lower body gerak dulu."},{"id":"rbStep2","type":"string","label":"Step 2","default":"Club head depan chest."},{"id":"rbStep3","type":"string","label":"Step 3","default":"Turn habis."},{"id":"rbLabClose","type":"string","label":"Step 2 gap label","default":"tangan dekat badan"},{"id":"rbFull","type":"string","label":"Full speed title","default":"Semua sekali."}]'>
+    <div id="rb-strip-host" class="clip" data-start="0.15" data-duration="14.1167" data-layout-ignore><div id="rb-strip"></div></div>
+    <div id="rb-chip-host" class="clip" data-start="0.15" data-duration="14.1167"><div id="rb-chip"><i></i><span>AFTER ·</span><em data-var-text="rbClock">11:23</em></div></div>
     <div id="rb-replay-host" class="clip" data-start="1.7833" data-duration="0.5334"><div id="rb-replay">REPLAY · ½×</div></div>
 
     <!-- STEP 1: transition, face-on -->
-    <div id="rb-f1-host" class="clip" data-start="2.3167" data-duration="2.0333" data-layout-ignore><div id="rb-f1" class="rb-frame"></div></div>
-    <div id="rb-t1-host" class="clip" data-start="2.3167" data-duration="2.0333"><div id="rb-t1" class="rb-title"><b>1</b><span data-var-text="rbStep1">Lower body gerak dulu.</span></div></div>
-    <div id="rb-m1-host" class="clip" data-start="2.72" data-duration="1.63" data-layout-ignore>
+    <div id="rb-f1-host" class="clip" data-start="2.3166" data-duration="2.2" data-layout-ignore><div id="rb-f1" class="rb-frame"></div></div>
+    <div id="rb-t1-host" class="clip" data-start="2.3166" data-duration="2.2"><div id="rb-t1" class="rb-title"><b>1</b><span data-var-text="rbStep1">Lower body gerak dulu.</span></div></div>
+    <div id="rb-m1-host" class="clip" data-start="2.77" data-duration="1.7466" data-layout-ignore>
       <svg class="rb-svg" viewBox="0 0 1080 1920">
         <path id="rb-m1" d="M 372 900 Q 520 1000 668 872" fill="none" stroke="#ff8a1f" stroke-width="12" stroke-linecap="round"/>
         <path id="rb-m1h" d="M 618 868 L 670 870 L 652 920" fill="none" stroke="#ff8a1f" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </div>
-    <div id="rb-x1-host" class="clip" data-start="2.3167" data-duration="0.5" data-layout-ignore><div id="rb-x1" class="rb-flash"></div></div>
+    <div id="rb-x1-host" class="clip" data-start="2.3166" data-duration="0.5" data-layout-ignore><div id="rb-x1" class="rb-flash"></div></div>
 
     <!-- STEP 2: delivery, down the line -->
-    <div id="rb-f2-host" class="clip" data-start="4.6167" data-duration="2.0333" data-layout-ignore><div id="rb-f2" class="rb-frame"></div></div>
-    <div id="rb-t2-host" class="clip" data-start="4.6167" data-duration="2.0333"><div id="rb-t2" class="rb-title"><b>2</b><span data-var-text="rbStep2">Club head depan chest.</span></div></div>
-    <div id="rb-m2-host" class="clip" data-start="5.02" data-duration="1.63" data-layout-ignore>
+    <div id="rb-f2-host" class="clip" data-start="4.7833" data-duration="2.2" data-layout-ignore><div id="rb-f2" class="rb-frame"></div></div>
+    <div id="rb-t2-host" class="clip" data-start="4.7833" data-duration="2.2"><div id="rb-t2" class="rb-title"><b>2</b><span data-var-text="rbStep2">Club head depan chest.</span></div></div>
+    <div id="rb-m2-host" class="clip" data-start="5.24" data-duration="1.7433" data-layout-ignore>
       <svg class="rb-svg" viewBox="0 0 1080 1920">
         <path id="rb-m2" d="M 322 905 C 315 790, 575 780, 580 890 S 450 1010, 330 950 S 350 800, 470 790" fill="none" stroke="#ff8a1f" stroke-width="10" stroke-linecap="round"/>
+        <path id="rb-m2b" d="M 300 1040 L 300 1100 M 300 1070 L 430 1070 M 430 1040 L 430 1100" fill="none" stroke="#ff8a1f" stroke-width="10" stroke-linecap="round"/>
       </svg>
     </div>
-    <div id="rb-x2-host" class="clip" data-start="4.6167" data-duration="0.5" data-layout-ignore><div id="rb-x2" class="rb-flash"></div></div>
+    <div id="rb-l2-host" class="clip" data-start="5.7" data-duration="1.2833"><div id="rb-l2" class="rb-lab" style="left:64px;top:1130px" data-var-text="rbLabClose">tangan dekat badan</div></div>
+    <div id="rb-x2-host" class="clip" data-start="4.7833" data-duration="0.5" data-layout-ignore><div id="rb-x2" class="rb-flash"></div></div>
 
     <!-- STEP 3: finish, face-on -->
-    <div id="rb-f3-host" class="clip" data-start="7.4167" data-duration="2.2833" data-layout-ignore><div id="rb-f3" class="rb-frame"></div></div>
-    <div id="rb-t3-host" class="clip" data-start="7.4167" data-duration="2.2833"><div id="rb-t3" class="rb-title"><b>3</b><span data-var-text="rbStep3">Turn habis.</span></div></div>
-    <div id="rb-m3-host" class="clip" data-start="7.82" data-duration="1.88" data-layout-ignore>
+    <div id="rb-f3-host" class="clip" data-start="7.75" data-duration="2.2" data-layout-ignore><div id="rb-f3" class="rb-frame"></div></div>
+    <div id="rb-t3-host" class="clip" data-start="7.75" data-duration="2.2"><div id="rb-t3" class="rb-title"><b>3</b><span data-var-text="rbStep3">Turn habis.</span></div></div>
+    <div id="rb-m3-host" class="clip" data-start="8.2" data-duration="1.75" data-layout-ignore>
       <svg class="rb-svg" viewBox="0 0 1080 1920">
         <path id="rb-m3" d="M 455 840 Q 600 920 745 770" fill="none" stroke="#ff8a1f" stroke-width="12" stroke-linecap="round"/>
         <path id="rb-m3h" d="M 696 772 L 747 768 L 738 819" fill="none" stroke="#ff8a1f" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </div>
-    <div id="rb-x3-host" class="clip" data-start="7.4167" data-duration="0.5" data-layout-ignore><div id="rb-x3" class="rb-flash"></div></div>
+    <div id="rb-x3-host" class="clip" data-start="7.75" data-duration="0.5" data-layout-ignore><div id="rb-x3" class="rb-flash"></div></div>
+
+    <!-- FULL SPEED -->
+    <div id="rb-fs-host" class="clip" data-start="9.95" data-duration="4.3167"><div id="rb-fs" class="rb-tag" style="left:520px;top:196px">FULL SPEED · 1×</div></div>
+    <div id="rb-fst-host" class="clip" data-start="9.95" data-duration="4.3167"><div id="rb-fst" class="rb-title" data-var-text="rbFull">Semua sekali.</div></div>
 
     <div id="rb-band-host" class="clip" data-start="0" data-duration="0.36" data-layout-ignore><div id="rb-band"><span style="top:250px">▸ 14A</span><span style="top:900px">▸ 15</span></div></div>
   </div>
@@ -84,9 +93,12 @@
       tl.fromTo(`#rb-t${n}`, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.32, ease: "power3.out" }, F + 0.08);
     };
     const draw = (sel, at, d, len) => tl.fromTo(sel, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: d, ease: "power1.inOut" }, at);
-    step(1, 2.3167); draw("#rb-m1", 2.72, 0.3, 500); draw("#rb-m1h", 3.0, 0.1, 150);
-    step(2, 4.6167); draw("#rb-m2", 5.02, 0.32, 1300);
-    step(3, 7.4167); draw("#rb-m3", 7.82, 0.3, 500); draw("#rb-m3h", 8.1, 0.1, 150);
+    step(1, 2.3166); draw("#rb-m1", 2.77, 0.3, 500); draw("#rb-m1h", 3.05, 0.1, 150);
+    step(2, 4.7833); draw("#rb-m2", 5.24, 0.32, 1300); draw("#rb-m2b", 5.6, 0.2, 200); tl.fromTo("#rb-l2", { opacity: 0, scale: 0.7, rotation: 2 }, { opacity: 1, scale: 1, rotation: -3, duration: 0.22, ease: "back.out(2)" }, 5.7);
+    step(3, 7.75); draw("#rb-m3", 8.2, 0.3, 500); draw("#rb-m3h", 8.48, 0.1, 150);
+    // full speed, both angles
+    tl.fromTo("#rb-fs", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.25, ease: "power3.out" }, 9.95);
+    tl.fromTo("#rb-fst", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 10.0);
     window.__timelines["rollb"] = tl;
   </script>
 </template>
