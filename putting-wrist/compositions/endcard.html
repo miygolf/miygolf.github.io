@@ -1,0 +1,36 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; pointer-events: none; }
+    /* the footage lands as a card at x 316-764, y 236-796 (set by the root timeline) */
+    #end-frame { position: absolute; left: 304px; top: 224px; width: 472px; height: 584px; border: 6px solid #0e3b2e; border-radius: 52px; opacity: 0; }
+    .end-stick { position: absolute; height: 16px; border-radius: 8px; background: #ffc21a; transform-origin: 0 50%; }
+    #end-stick-a { left: 250px; top: 842px; width: 580px; }
+    #end-stick-b { left: 290px; top: 868px; width: 580px; }
+    #end-tag { position: absolute; left: 0; width: 1080px; top: 912px; text-align: center; font-family: "Space Mono", monospace; font-weight: 700; font-size: 32px; letter-spacing: 0.12em; color: #0e3b2e; opacity: 0; }
+    .end-line { position: absolute; left: 0; width: 1080px; text-align: center; font-family: "League Gothic", sans-serif; font-size: 132px; line-height: 1; letter-spacing: 0.01em; opacity: 0; }
+    #end-l1 { top: 960px; color: #e5392b; }
+    #end-l2 { top: 1084px; color: #0e3b2e; }
+    #end-cta { position: absolute; left: 140px; width: 800px; top: 1226px; text-align: center; font-family: "Space Mono", monospace; font-weight: 700; font-size: 32px; color: #f4ede0; background: #0e3b2e; border-radius: 40px; padding: 14px 0 12px; opacity: 0; }
+  </style>
+  <div id="root" data-composition-id="endcard" data-width="1080" data-height="1920">
+    <div id="end-frame"></div>
+    <div id="end-stick-a" class="end-stick"></div>
+    <div id="end-stick-b" class="end-stick"></div>
+    <div id="end-tag">PUTTING 101 · GOLFER BARU</div>
+    <div id="end-l1" class="end-line">✕ JANGAN GUNA WRIST</div>
+    <div id="end-l2" class="end-line">✓ BAHU + TANGAN</div>
+    <div id="end-cta">SAVE · CUBA DEKAT GREEN NANTI</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // local clock = film time - 38.2; footage shrink runs 38.55-39.25 on the root
+    tl.fromTo("#end-frame", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power2.out" }, 1.0);
+    tl.fromTo("#end-stick-a", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "expo.out" }, 0.95);
+    tl.fromTo("#end-stick-b", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "expo.out" }, 1.03);
+    tl.fromTo("#end-tag", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power3.out" }, 1.05);
+    tl.fromTo("#end-l1", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out" }, 1.12);
+    tl.fromTo("#end-l2", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out" }, 1.22);
+    tl.fromTo("#end-cta", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(1.6)" }, 1.4);
+    window.__timelines["endcard"] = tl;
+  </script>
+</template>

@@ -1,0 +1,6 @@
+# heavy media: rebuilt from the Drive source with tools/ (see README)
+assets/aroll.mp4
+assets/voice.wav
+renders/
+.hyperframes/
+node_modules/

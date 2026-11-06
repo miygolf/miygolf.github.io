@@ -1,0 +1,80 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; pointer-events: none; }
+    /* wide shot (sky band, y 176-430) then close-up (right column x 712-1040, below the face) */
+    #tip-card {
+      position: absolute; left: 60px; top: 176px; width: 960px; background: #f4ede0; border: 5px solid #0e3b2e;
+      border-radius: 22px; box-shadow: 14px 14px 0 #0e3b2e; padding: 18px 34px 20px; opacity: 0;
+    }
+    #tip-pill {
+      display: inline-flex; align-items: center; gap: 10px; font-family: "Space Mono", monospace; font-weight: 700; font-size: 28px;
+      letter-spacing: 0.08em; color: #0e3b2e; background: #ffc21a; border-radius: 30px; padding: 3px 18px 1px;
+    }
+    .tip-title { font-family: "League Gothic", sans-serif; font-size: 112px; line-height: 0.9; color: #0e3b2e; margin-top: 6px; letter-spacing: 0.01em; }
+    #tip-t2 { position: absolute; left: 34px; top: 66px; opacity: 0; }
+    #tip-dom { position: relative; display: inline-block; padding: 0 10px; }
+    #tip-dom-bg { position: absolute; left: 0; right: 0; top: 10%; bottom: 4%; background: #ffc21a; border-radius: 8px; transform-origin: 0 50%; z-index: 0; }
+    #tip-dom-txt { position: relative; z-index: 1; }
+    .tip-side {
+      position: absolute; left: 712px; width: 330px; border-radius: 22px; padding: 20px 24px 22px; opacity: 0;
+    }
+    #tip-target { top: 440px; left: 740px; width: 300px; background: #0e3b2e; border: 5px solid #ffc21a; }
+    #tip-target-k { font-family: "Space Mono", monospace; font-weight: 700; font-size: 28px; letter-spacing: 0.08em; color: #ffc21a; }
+    #tip-target-v { font-family: "League Gothic", sans-serif; font-size: 104px; line-height: 0.95; color: #f4ede0; }
+    #tip-flag { position: absolute; right: 18px; top: 12px; width: 52px; height: 68px; }
+    #tip-arrow { display: block; width: 280px; height: 44px; margin-top: 6px; }
+    #tip-salah { top: 470px; left: 730px; width: 300px; padding: 4px 18px 0; text-align: center; border: 8px solid #e5392b; background: #f4ede0;
+      font-family: "League Gothic", sans-serif; font-size: 140px; line-height: 1; color: #e5392b; }
+    #tip-kipas { top: 830px; background: #f4ede0; border: 5px solid #0e3b2e; box-shadow: 10px 10px 0 #0e3b2e; display: flex; align-items: center; gap: 16px; padding: 16px 20px; }
+    #tip-fan { width: 76px; height: 76px; flex: none; }
+    #tip-kipas-t { font-family: "Space Mono", monospace; font-weight: 700; font-size: 30px; line-height: 1.15; color: #0e3b2e; }
+  </style>
+  <div id="root" data-composition-id="tip" data-width="1080" data-height="1920">
+    <div id="tip-card">
+      <div id="tip-pill">TIP FAHAD ⛳</div>
+      <div id="tip-t1" class="tip-title">RIGHT HAND <span id="tip-dom"><span id="tip-dom-bg"></span><span id="tip-dom-txt">DOMINAN</span></span></div>
+      <div id="tip-t2" class="tip-title">RASA TAPAK TANGAN</div>
+    </div>
+
+    <div id="tip-target" class="tip-side">
+      <svg id="tip-flag" viewBox="0 0 70 92"><rect x="8" y="4" width="6" height="86" rx="3" fill="#f4ede0" /><path id="tip-pennant" d="M14 6 L64 22 L14 38 Z" fill="#e5392b" /></svg>
+      <div id="tip-target-k">ARAH</div>
+      <div id="tip-target-v">TARGET</div>
+      <svg id="tip-arrow" viewBox="0 0 280 44"><path id="tip-arrow-path" d="M6 22 H250 M228 6 L258 22 L228 38" fill="none" stroke="#ffc21a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    </div>
+
+    <div id="tip-salah" class="tip-side">SALAH ✕</div>
+    <div id="tip-kipas" class="tip-side">
+      <svg id="tip-fan" viewBox="-40 -40 80 80">
+        <g id="tip-fan-blades" fill="#e5392b">
+          <path d="M0 0 C 8 -10, 24 -30, 0 -36 C -12 -30, -6 -12, 0 0 Z" />
+          <path d="M0 0 C 8 -10, 24 -30, 0 -36 C -12 -30, -6 -12, 0 0 Z" transform="rotate(120)" />
+          <path d="M0 0 C 8 -10, 24 -30, 0 -36 C -12 -30, -6 -12, 0 0 Z" transform="rotate(240)" />
+        </g>
+        <circle r="6" fill="#0e3b2e" />
+      </svg>
+      <div id="tip-kipas-t">NAK KIPAS<br />HATI KE?</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // local clock = film time - 23.15
+    tl.fromTo("#tip-card", { opacity: 0, y: -24, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.3, ease: "expo.out" }, 0.05);
+    tl.fromTo("#tip-dom-bg", { scaleX: 0 }, { scaleX: 1, duration: 0.25, ease: "power3.out" }, 0.5);
+    // "rasa position tapak tangan"
+    tl.to("#tip-t1", { opacity: 0, filter: "blur(8px)", duration: 0.14, ease: "power2.in" }, 2.36);
+    tl.fromTo("#tip-t2", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power3.out" }, 2.44);
+    tl.to("#tip-card", { opacity: 0, y: -30, filter: "blur(8px)", duration: 0.16, ease: "power3.in" }, 4.5);
+    // close-up: "...dia bergerak ke arah target"
+    tl.fromTo("#tip-target", { opacity: 0, x: 80 }, { opacity: 1, x: 0, duration: 0.45, ease: "expo.out" }, 4.85);
+    tl.fromTo("#tip-pennant", { scaleX: 0.2, transformOrigin: "14px 22px" }, { scaleX: 1, duration: 0.5, ease: "back.out(2)" }, 5.0);
+    tl.fromTo("#tip-arrow-path", { strokeDasharray: 330, strokeDashoffset: 330 }, { strokeDashoffset: 0, duration: 0.4, ease: "power3.out" }, 6.08);
+    tl.to("#tip-target", { opacity: 0, x: 60, filter: "blur(6px)", duration: 0.16, ease: "power3.in" }, 6.72);
+    // "Ini SALAH, ini nak kipas hati ke?"
+    tl.fromTo("#tip-salah", { opacity: 0, scale: 1.9, rotation: -16 }, { opacity: 1, scale: 1, rotation: -7, duration: 0.22, ease: "power4.out" }, 6.95);
+    tl.fromTo("#tip-kipas", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.35, ease: "back.out(1.6)" }, 7.9);
+    tl.fromTo("#tip-fan", { rotation: 0 }, { rotation: 900, duration: 1.7, ease: "power1.out" }, 7.9);
+    tl.to(["#tip-salah", "#tip-kipas"], { opacity: 0, x: 60, filter: "blur(6px)", duration: 0.16, ease: "power3.in" }, 9.55);
+    window.__timelines["tip"] = tl;
+  </script>
+</template>

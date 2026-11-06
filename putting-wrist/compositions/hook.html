@@ -1,0 +1,62 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; pointer-events: none; }
+    /* sky band only: y 176-500, face starts ~y 600 in this shot */
+    #hook-card {
+      position: absolute; left: 60px; top: 176px; width: 960px;
+      background: #f4ede0; border: 5px solid #0e3b2e; border-radius: 22px;
+      box-shadow: 14px 14px 0 #0e3b2e; padding: 22px 34px 18px;
+    }
+    #hook-tag {
+      display: inline-block; font-family: "Space Mono", monospace; font-weight: 700; font-size: 30px;
+      letter-spacing: 0.06em; color: #f4ede0; background: #0e3b2e; border-radius: 10px; padding: 4px 16px 2px;
+    }
+    #hook-row { display: flex; align-items: flex-end; gap: 26px; margin-top: 8px; }
+    #hook-left { font-family: "League Gothic", sans-serif; color: #0e3b2e; font-size: 112px; line-height: 0.86; letter-spacing: 0.01em; }
+    #hook-wrist-wrap { position: relative; }
+    #hook-wrist { font-family: "League Gothic", sans-serif; color: #e5392b; font-size: 238px; line-height: 0.8; letter-spacing: 0.01em; }
+    #hook-slash {
+      position: absolute; left: -16px; right: -16px; top: 46%; height: 22px; background: #0e3b2e;
+      border-radius: 11px; transform-origin: 0% 50%;
+    }
+    #hook-stamp {
+      position: absolute; right: -10px; top: -26px; font-family: "Space Mono", monospace; font-weight: 700;
+      font-size: 34px; color: #e5392b; border: 5px solid #e5392b; border-radius: 12px; padding: 0 14px;
+      background: #f4ede0; opacity: 0;
+    }
+    .hook-stick { position: absolute; height: 16px; border-radius: 8px; background: #ffc21a; box-shadow: 0 3px 0 rgba(0,0,0,0.2); }
+    #hook-stick-a { left: 120px; top: 520px; width: 520px; transform-origin: 0 50%; }
+    #hook-stick-b { left: 180px; top: 546px; width: 520px; transform-origin: 0 50%; }
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+    <div id="hook-card">
+      <div id="hook-tag">KESILAPAN NO.1 · GOLFER BARU</div>
+      <div id="hook-row">
+        <div id="hook-left">PUTTING<br />GUNA</div>
+        <div id="hook-wrist-wrap" data-layout-allow-overlap>
+          <div id="hook-wrist">WRIST</div>
+          <div id="hook-slash"></div>
+          <div id="hook-stamp">SALAH!</div>
+        </div>
+      </div>
+    </div>
+    <div id="hook-stick-a" class="hook-stick"></div>
+    <div id="hook-stick-b" class="hook-stick"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // frame 0 is the thumbnail: the card is already readable, it only settles
+    tl.fromTo("#hook-card", { scale: 1.04, y: -6 }, { scale: 1, y: 0, duration: 0.45, ease: "expo.out" }, 0);
+    tl.fromTo("#hook-stick-a", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out" }, 0.15);
+    tl.fromTo("#hook-stick-b", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out" }, 0.25);
+    // "...pakai WRIST": strike it out and stamp it
+    tl.fromTo("#hook-slash", { scaleX: 0, rotation: -9 }, { scaleX: 1, rotation: -9, duration: 0.18, ease: "power3.out" }, 2.62);
+    tl.fromTo("#hook-stamp", { opacity: 0, scale: 1.8, rotation: 18 }, { opacity: 1, scale: 1, rotation: 10, duration: 0.24, ease: "back.out(2)" }, 2.7);
+    tl.fromTo("#hook-card", { x: 0 }, { x: -8, duration: 0.05, ease: "none" }, 2.74);
+    tl.to("#hook-card", { x: 6, duration: 0.05, ease: "none" }, 2.79);
+    tl.to("#hook-card", { x: 0, duration: 0.06, ease: "power2.out" }, 2.84);
+    // leave clean
+    tl.to(["#hook-card", "#hook-stick-a", "#hook-stick-b"], { y: -40, opacity: 0, filter: "blur(8px)", duration: 0.16, ease: "power3.in" }, 3.12);
+    window.__timelines["hook"] = tl;
+  </script>
+</template>
