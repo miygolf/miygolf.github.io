@@ -1,0 +1,100 @@
+<template>
+  <style>
+    /* Riso Press: two inks (riso blue + fluoro pink) on pink-white paper, misregistered on purpose. */
+    #hk { position: absolute; inset: 0; pointer-events: none; }
+    .rp-slip { position: absolute; background: #fff4f8; }
+    .rp-ink { position: absolute; left: 0; top: 0; white-space: nowrap; }
+    .rp-ink.pk { color: #ff4fa3; mix-blend-mode: multiply; }
+    .rp-ink.bl { color: #1d3fbb; }
+    .rp-reg { position: absolute; width: 34px; height: 34px; }
+    .rp-reg::before, .rp-reg::after { content: ""; position: absolute; background: #1d3fbb; }
+    .rp-reg::before { left: 16px; top: 0; width: 2px; height: 34px; }
+    .rp-reg::after { top: 16px; left: 0; height: 2px; width: 34px; }
+    .rp-reg i { position: absolute; left: 7px; top: 7px; width: 20px; height: 20px; border: 2px solid #1d3fbb; border-radius: 50%; }
+
+    /* kicker slip, top-left (head is out of frame in this punch-in) */
+    #hk-kick { left: 60px; top: 192px; height: 64px; overflow: hidden; }
+    #hk #hk-kick .rp-ink.bl { padding-right: 96px; }
+    #hk-kick .rp-ink { font: 30px/64px "Instrument Sans", sans-serif; font-weight: 700; letter-spacing: 0.16em; left: 26px; }
+    #hk-kick::after { content: ""; position: absolute; right: 0; top: 0; bottom: 0; width: 64px;
+      background: radial-gradient(circle, #ff4fa3 3.2px, transparent 3.8px) 0 0 / 11px 11px; }
+
+    /* headline: three print lines on separate slips, y 280-640 */
+    .hk-line { left: 60px; height: 108px; overflow: hidden; }
+    .hk-line .rp-ink { font: 92px/108px "Dela Gothic One", sans-serif; left: 24px; letter-spacing: -0.01em; }
+    #hk-l1 { top: 268px; }
+    #hk-l2 { top: 380px; }
+    #hk-l3 { top: 492px; background: #1d3fbb; }
+    #hk-l3 .rp-ink.bl { color: #fff4f8; }
+    #hk-l3 .rp-ink.pk { mix-blend-mode: normal; color: #ff4fa3; }
+    #hk-reg1 { left: 20px; top: 232px; }
+    #hk-reg2 { left: 870px; top: 560px; }
+
+    /* dot burst on the ball at the freeze: ball sits ~ (719, 900) after the 1.45 punch-in, see REVIEW.md */
+    #hk-burst { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+    /* slips size to their text: the blue ink is in flow and carries the padding, pink rides on top */
+    #hk .rp-slip .rp-ink.bl { position: relative; display: block; left: 0; padding: 0 24px; }
+    #hk .rp-slip .rp-ink.pk { left: 24px; }
+  </style>
+  <div id="hk" data-composition-id="hook" data-width="1080" data-height="1920">
+    <svg id="hk-burst" viewBox="0 0 1080 1920"></svg>
+
+    <div id="hk-kick" data-layout-allow-overlap class="rp-slip"><span class="rp-ink pk">CHIP SHOT</span><span class="rp-ink bl">CHIP SHOT</span></div>
+    <div id="hk-l1" data-layout-allow-overlap class="rp-slip hk-line" data-layout-allow-overflow><span class="rp-ink pk">NI RUPA</span><span class="rp-ink bl">NI RUPA</span></div>
+    <div id="hk-l2" data-layout-allow-overlap class="rp-slip hk-line" data-layout-allow-overflow><span class="rp-ink pk">CONTACT</span><span class="rp-ink bl">CONTACT</span></div>
+    <div id="hk-l3" data-layout-allow-overlap class="rp-slip hk-line" data-layout-allow-overflow><span class="rp-ink pk">YANG BERSIH</span><span class="rp-ink bl">YANG BERSIH</span></div>
+    <div id="hk-reg1" class="rp-reg"><i></i></div>
+    <div id="hk-reg2" class="rp-reg"><i></i></div>
+  </div>
+  <script>
+    (function () {
+      const BALL = { x: 719, y: 677 };
+      const svg = document.getElementById("hk-burst");
+      const NS = "http://www.w3.org/2000/svg";
+      // halftone burst: rings of dots that shrink with distance (riso dot gain look)
+      const dots = [];
+      [[96, 14, 15], [142, 20, 11], [190, 26, 7.5], [238, 32, 4.5]].forEach(([r, n, size], ring) => {
+        for (let i = 0; i < n; i++) {
+          const a = (i / n) * Math.PI * 2 + ring * 0.21;
+          const c = document.createElementNS(NS, "circle");
+          c.setAttribute("cx", (BALL.x + Math.cos(a) * r).toFixed(1));
+          c.setAttribute("cy", (BALL.y + Math.sin(a) * r).toFixed(1));
+          c.setAttribute("r", size);
+          c.setAttribute("fill", ring % 2 ? "#1d3fbb" : "#ff4fa3");
+          c.setAttribute("class", "hk-dot");
+          svg.appendChild(c);
+          dots.push(c);
+        }
+      });
+      const ring = document.createElementNS(NS, "circle");
+      ring.setAttribute("cx", BALL.x); ring.setAttribute("cy", BALL.y); ring.setAttribute("r", 62);
+      ring.setAttribute("fill", "none"); ring.setAttribute("stroke", "#ff4fa3"); ring.setAttribute("stroke-width", 10);
+      ring.setAttribute("id", "hk-ring");
+      svg.appendChild(ring);
+
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      // frame 0 is the thumbnail: every slip already printed and in register (pink sits 6/4 px off, on purpose)
+      const ALL = ["#hk-kick", "#hk-l1", "#hk-l2", "#hk-l3"];
+      gsap.set(ALL.map((x) => x + " .pk"), { x: 6, y: 4 });
+      // on the strike (0.433) the whole sheet jolts: inks knocked out of register, then they settle back
+      ALL.forEach((sel, i) => {
+        const t = 0.43 + i * 0.025;
+        tl.fromTo(sel + " .pk", { x: 6, y: 4 }, { keyframes: [{ x: -22 + i * 6, y: 12, duration: 0.05, ease: "power2.out" }, { x: 6, y: 4, duration: 0.34, ease: "expo.out" }] }, t);
+        tl.fromTo(sel + " .bl", { x: 0, y: 0 }, { keyframes: [{ x: 12, y: -6, duration: 0.05, ease: "power2.out" }, { x: 0, y: 0, duration: 0.34, ease: "expo.out" }] }, t);
+        tl.fromTo(sel, { x: 0 }, { keyframes: [{ x: i % 2 ? 10 : -10, duration: 0.05 }, { x: 0, duration: 0.3, ease: "expo.out" }] }, t);
+      });
+      tl.fromTo(["#hk-reg1", "#hk-reg2"], { rotation: -90 }, { rotation: 0, duration: 0.5, ease: "back.out(2)" }, 0.43);
+      // impact 0.433 -> freeze 0.80: ring snaps on, then the halftone burst prints out
+      tl.fromTo("#hk-ring", { opacity: 0, attr: { r: 30 } }, { opacity: 1, attr: { r: 62 }, duration: 0.22, ease: "back.out(2.6)" }, 0.8);
+      tl.fromTo(dots, { opacity: 0, scale: 0, transformOrigin: "50% 50%" },
+        { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2.4)", stagger: { each: 0.006, from: "start" } }, 0.84);
+      tl.to(dots, { scale: 0, opacity: 0, duration: 0.18, ease: "power2.in", stagger: { each: 0.003, from: "end" } }, 1.66);
+      tl.to("#hk-ring", { opacity: 0, attr: { r: 90 }, duration: 0.18, ease: "power2.in" }, 1.7);
+      // out: slips feed back up (printer roll) before the dot wipe at 2.5
+      tl.to(["#hk-l3", "#hk-l2", "#hk-l1", "#hk-kick"], { clipPath: "inset(0 0 100% 0)", duration: 0.2, ease: "power3.in", stagger: 0.04 }, 2.14);
+      tl.to(["#hk-reg1", "#hk-reg2"], { opacity: 0, duration: 0.15 }, 2.2);
+      window.__timelines["hook"] = tl;
+    })();
+  </script>
+</template>

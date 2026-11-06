@@ -1,0 +1,152 @@
+<template>
+  <style>
+    #ky { position: absolute; inset: 0; pointer-events: none; }
+    #ky .rp-slip { position: absolute; background: #fff4f8; overflow: hidden; }
+    #ky .rp-ink { position: absolute; left: 0; top: 0; white-space: nowrap; }
+    #ky .rp-ink.pk { color: #ff4fa3; mix-blend-mode: multiply; }
+    #ky .rp-ink.bl { color: #1d3fbb; }
+    #ky .blue.rp-slip { background: #1d3fbb; }
+    #ky .blue .rp-ink.bl { color: #fff4f8; }
+    #ky .blue .rp-ink.pk { mix-blend-mode: normal; }
+
+    /* one block per key: number disc + title slip + sub slip */
+    .ky-block { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    .ky-num { position: absolute; width: 132px; height: 132px; border-radius: 50%; background: #ff4fa3; }
+    .ky-num b { position: absolute; inset: 0; font: 88px/132px "Dela Gothic One", sans-serif; color: #1b3bb0; text-align: center; }
+    .ky-num::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 5px solid #1d3fbb; transform: translate(7px, 5px); }
+    .ky-title { height: 104px; }
+    .ky-title .rp-ink { font: 74px/104px "Dela Gothic One", sans-serif; left: 22px; }
+    .ky-sub { height: 62px; }
+    .ky-sub .rp-ink { font: 34px/62px "Instrument Sans", sans-serif; font-weight: 700; left: 20px; }
+    .ky-sub .rp-ink.pk { display: none; }
+
+    /* k1 + k2: punched in, the head is above the frame -> block at the top, y 200-520 */
+    #k1 .ky-num, #k2 .ky-num { left: 60px; top: 206px; }
+    #k1 .ky-title, #k2 .ky-title { left: 212px; top: 220px; }
+    #k1 .ky-sub, #k2 .ky-sub { left: 60px; top: 362px; }
+    #k1-t { }
+    #k2-t { }
+    #k1-s { }
+    #k2-s { }
+    /* k3: full frame, the head is at y 300-520 -> block goes low, y 940-1290 */
+    #k3 .ky-num { left: 60px; top: 944px; }
+    #k3 .ky-title { left: 212px; top: 958px; }
+    #k3-t { }
+    #k3 #k3-t2 { left: 60px; top: 1070px; }
+    #k3 .ky-sub { left: 60px; top: 1190px; }
+    #ky svg { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+    /* slips size to their text: the blue ink is in flow and carries the padding, pink rides on top */
+    #ky .rp-slip .rp-ink.bl { position: relative; display: block; left: 0; padding: 0 24px; }
+    #ky .rp-slip .rp-ink.pk { left: 24px; }
+  </style>
+  <div id="ky" data-composition-id="keys" data-width="1080" data-height="1920">
+    <svg viewBox="0 0 1080 1920">
+      <!-- k1: feet stay inside their rings while the club goes back (1.35 punch-in; positions measured on the frames) -->
+      <g id="k1-pins">
+        <g id="k1-pa" transform="translate(372 1398)">
+          <ellipse rx="112" ry="46" fill="none" stroke="#ff4fa3" stroke-width="9" />
+          <ellipse rx="112" ry="46" fill="none" stroke="#1d3fbb" stroke-width="4" transform="translate(6 4)" />
+        </g>
+        <g id="k1-pb" transform="translate(462 1196)">
+          <ellipse rx="96" ry="40" fill="none" stroke="#ff4fa3" stroke-width="9" />
+          <ellipse rx="96" ry="40" fill="none" stroke="#1d3fbb" stroke-width="4" transform="translate(6 4)" />
+        </g>
+        <path id="k1-lineA" d="M484 1398 H930" stroke="#1d3fbb" stroke-width="5" stroke-dasharray="6 14" stroke-linecap="round" />
+        <path id="k1-lineB" d="M558 1196 H930" stroke="#1d3fbb" stroke-width="5" stroke-dasharray="6 14" stroke-linecap="round" />
+      </g>
+      <!-- k2: ball at impact (1.6 punch-in) -->
+      <g id="k2-mark">
+        <circle id="k2-ring" cx="713" cy="1219" r="74" fill="none" stroke="#ff4fa3" stroke-width="10" />
+        <circle id="k2-ring2" cx="719" cy="1223" r="74" fill="none" stroke="#1d3fbb" stroke-width="4" />
+        <g id="k2-burst"></g>
+      </g>
+      <!-- k3: chest turns to the target - arc on the open side of the body, clear of the head -->
+      <g id="k3-arc">
+        <path id="k3-arcp" d="M520 880 C 640 860, 720 760, 700 620" fill="none" stroke="#ff4fa3" stroke-width="14" stroke-linecap="round" />
+        <path id="k3-arcb" d="M526 884 C 646 864, 726 764, 706 624" fill="none" stroke="#1d3fbb" stroke-width="5" stroke-linecap="round" />
+        <path id="k3-head" d="M664 650 L702 596 L744 652" fill="none" stroke="#ff4fa3" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" />
+      </g>
+    </svg>
+
+    <div id="k1" class="ky-block">
+      <div class="ky-num"><b>1</b></div>
+      <div id="k1-t" data-layout-allow-overlap class="rp-slip ky-title"><span class="rp-ink pk">KAKI SENYAP</span><span class="rp-ink bl">KAKI SENYAP</span></div>
+      <div id="k1-s" data-layout-allow-overlap class="rp-slip ky-sub blue"><span class="rp-ink pk">Lower body tak lari</span><span class="rp-ink bl">Lower body tak lari</span></div>
+    </div>
+    <div id="k2" class="ky-block">
+      <div class="ky-num"><b>2</b></div>
+      <div id="k2-t" data-layout-allow-overlap class="rp-slip ky-title"><span class="rp-ink pk">KENA BERSIH</span><span class="rp-ink bl">KENA BERSIH</span></div>
+      <div id="k2-s" data-layout-allow-overlap class="rp-slip ky-sub blue"><span class="rp-ink pk">Coach: “contact is good”</span><span class="rp-ink bl">Coach: “contact is good”</span></div>
+    </div>
+    <div id="k3" class="ky-block">
+      <div class="ky-num"><b>3</b></div>
+      <div id="k3-t" data-layout-allow-overlap class="rp-slip ky-title"><span class="rp-ink pk">DADA PUSING</span><span class="rp-ink bl">DADA PUSING</span></div>
+      <div id="k3-t2" data-layout-allow-overlap class="rp-slip ky-title"><span class="rp-ink pk">KE TARGET</span><span class="rp-ink bl">KE TARGET</span></div>
+      <div id="k3-s" data-layout-allow-overlap class="rp-slip ky-sub blue"><span class="rp-ink pk">Badan ikut sampai habis</span><span class="rp-ink bl">Badan ikut sampai habis</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      const NS = "http://www.w3.org/2000/svg";
+      const burst = document.getElementById("k2-burst");
+      const dots = [];
+      [[112, 16, 13], [158, 22, 9], [204, 28, 5.5]].forEach(([r, n, size], ring) => {
+        for (let i = 0; i < n; i++) {
+          const a = (i / n) * Math.PI * 2 + ring * 0.19;
+          const c = document.createElementNS(NS, "circle");
+          c.setAttribute("cx", (713 + Math.cos(a) * r).toFixed(1));
+          c.setAttribute("cy", (1219 + Math.sin(a) * r).toFixed(1));
+          c.setAttribute("r", size);
+          c.setAttribute("fill", ring % 2 ? "#1d3fbb" : "#ff4fa3");
+          burst.appendChild(c);
+          dots.push(c);
+        }
+      });
+
+      const tl = gsap.timeline({ paused: true });
+      // local times: k1 0-2.567 (freeze 1.3), k2 2.567-5.0 (freeze 3.0-4.3), k3 5.0-7.5 (freeze 6.5)
+      const slipIn = (sels, t) => {
+        // paper feed: each slip comes out of the drum top-down, inks land out of register then settle
+        sels.forEach((s, i) => {
+          const at = t + i * 0.07;
+          tl.fromTo(s, { clipPath: "inset(0 0 100% 0)" }, { clipPath: "inset(0 0 0% 0)", duration: 0.24, ease: "power3.out" }, at);
+          tl.fromTo(s + " .pk", { x: -30, y: 12 }, { x: 6, y: 4, duration: 0.34, ease: "expo.out" }, at);
+          tl.fromTo(s + " .bl", { x: 18, y: -8 }, { x: 0, y: 0, duration: 0.34, ease: "expo.out" }, at);
+        });
+      };
+      const numIn = (sel, t) => tl.fromTo(sel, { scale: 0, rotation: -40 }, { scale: 1, rotation: 0, duration: 0.36, ease: "back.out(2.2)" }, t);
+      const out = (sels, t) => tl.to(sels, { clipPath: "inset(0 0 100% 0)", duration: 0.18, ease: "power3.in", stagger: 0.03 }, t);
+
+      // ---- 1 KAKI SENYAP ----
+      numIn("#k1 .ky-num", 0.12);
+      slipIn(["#k1-t", "#k1-s"], 0.18);
+      tl.fromTo(["#k1-pa", "#k1-pb"], { scale: 1.6, opacity: 0, transformOrigin: "50% 50%" },
+        { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(2)", stagger: 0.08 }, 0.3);
+      // on the freeze: level lines run out from both feet (they did not move)
+      tl.fromTo(["#k1-lineA", "#k1-lineB"], { opacity: 0, scaleX: 0, transformOrigin: "0% 50%" }, { opacity: 1, scaleX: 1, duration: 0.3, ease: "power3.out", stagger: 0.06 }, 1.34);
+      out(["#k1-s", "#k1-t"], 2.36);
+      tl.to(["#k1 .ky-num", "#k1-pins"], { opacity: 0, duration: 0.16 }, 2.4);
+
+      // ---- 2 KENA BERSIH ----
+      numIn("#k2 .ky-num", 2.62);
+      slipIn(["#k2-t", "#k2-s"], 2.68);
+      tl.fromTo(["#k2-ring", "#k2-ring2"], { opacity: 0, attr: { r: 30 } }, { opacity: 1, attr: { r: 74 }, duration: 0.24, ease: "back.out(2.6)" }, 3.0);
+      tl.fromTo(dots, { opacity: 0, scale: 0, transformOrigin: "50% 50%" },
+        { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2.4)", stagger: { each: 0.006 } }, 3.05);
+      tl.to(dots, { opacity: 0, scale: 0, duration: 0.16, ease: "power2.in", stagger: { each: 0.003, from: "end" } }, 4.12);
+      tl.to(["#k2-ring", "#k2-ring2"], { opacity: 0, duration: 0.14 }, 4.3);
+      out(["#k2-s", "#k2-t"], 4.78);
+      tl.to("#k2 .ky-num", { opacity: 0, duration: 0.16 }, 4.82);
+
+      // ---- 3 DADA PUSING KE TARGET ----
+      numIn("#k3 .ky-num", 5.25);
+      slipIn(["#k3-t", "#k3-t2", "#k3-s"], 5.3);
+      tl.fromTo(["#k3-arcp", "#k3-arcb"], { strokeDasharray: 420, strokeDashoffset: 420 }, { strokeDashoffset: 0, duration: 0.5, ease: "power2.out" }, 5.55);
+      tl.fromTo("#k3-head", { opacity: 0, scale: 0.4, transformOrigin: "50% 100%" }, { opacity: 1, scale: 1, duration: 0.2, ease: "back.out(3)" }, 5.98);
+      out(["#k3-s", "#k3-t2", "#k3-t"], 7.26);
+      tl.to(["#k3 .ky-num", "#k3-arc"], { opacity: 0, duration: 0.16 }, 7.3);
+      window.__timelines["keys"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,44 @@
+<template>
+  <style>
+    /* halftone dot wipe: a grid of ink dots swells to cover the cut, then shrinks away (pink first, blue a beat behind) */
+    #dw { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    #dw svg { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+  </style>
+  <div id="dw" data-composition-id="dots" data-width="1080" data-height="1920">
+    <svg viewBox="0 0 1080 1920"><g id="dw-b"></g><g id="dw-p"></g></svg>
+  </div>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      const NS = "http://www.w3.org/2000/svg";
+      const COLS = 9, ROWS = 16, CELL = 120;
+      const make = (gid, fill, dx, dy) => {
+        const g = document.getElementById(gid), out = [];
+        for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
+          const el = document.createElementNS(NS, "circle");
+          el.setAttribute("cx", c * CELL + CELL / 2 + dx);
+          el.setAttribute("cy", r * CELL + CELL / 2 + dy);
+          el.setAttribute("r", 90);
+          el.setAttribute("fill", fill);
+          g.appendChild(el);
+          out.push(el);
+        }
+        return out;
+      };
+      const blue = make("dw-b", "#1d3fbb", 8, 6);
+      const pink = make("dw-p", "#ff4fa3", 0, 0);
+      const tl = gsap.timeline({ paused: true });
+      gsap.set([...pink, ...blue], { scale: 0, transformOrigin: "50% 50%" });
+      // cut points in film time: 2.5 hook->1x, 5.3 1x->keys, 12.8 keys->CTA
+      [[2.5, "end"], [5.3, "start"], [12.8, "center"]].forEach(([t, from]) => {
+        // pink sits on top: both inks are fully down by the cut, pink lifts first and shows the blue, then blue lifts
+        const st = { grid: [ROWS, COLS], from, amount: 0.08 };
+        tl.fromTo(blue, { scale: 0 }, { scale: 1, duration: 0.16, ease: "power2.in", stagger: st }, t - 0.26);
+        tl.fromTo(pink, { scale: 0 }, { scale: 1, duration: 0.16, ease: "power2.in", stagger: st }, t - 0.24);
+        tl.to(pink, { scale: 0, duration: 0.18, ease: "power2.out", stagger: st }, t + 0.02);
+        tl.to(blue, { scale: 0, duration: 0.18, ease: "power2.out", stagger: st }, t + 0.08);
+      });
+      window.__timelines["dots"] = tl;
+    })();
+  </script>
+</template>

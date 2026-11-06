@@ -1,0 +1,67 @@
+<template>
+  <style>
+    #ct { position: absolute; inset: 0; pointer-events: none; }
+    #ct .rp-slip { position: absolute; background: #fff4f8; overflow: hidden; }
+    #ct .rp-ink { position: absolute; left: 0; top: 0; white-space: nowrap; }
+    #ct .rp-ink.pk { color: #ff4fa3; mix-blend-mode: multiply; }
+    #ct .rp-ink.bl { color: #1d3fbb; }
+    #ct .blue.rp-slip { background: #1d3fbb; }
+    #ct .blue .rp-ink.bl { color: #fff4f8; }
+    #ct .blue .rp-ink.pk { mix-blend-mode: normal; }
+    /* head is at y 330-500 here: the whole card sits low, y 760-1316 */
+    #ct-q1 { left: 60px; top: 766px; height: 118px; }
+    #ct-q2 { left: 60px; top: 888px; height: 118px; }
+    #ct-q1 .rp-ink, #ct-q2 .rp-ink { font: 94px/118px "Dela Gothic One", sans-serif; left: 22px; }
+    #ct-save { left: 60px; top: 1024px; height: 84px; }
+    #ct-save .rp-ink { font: 50px/84px "Dela Gothic One", sans-serif; left: 22px; }
+    .ct-r { left: 60px; height: 52px; }
+    .ct-r .rp-ink { font: 30px/52px "Instrument Sans", sans-serif; font-weight: 700; left: 16px; }
+    .ct-r .rp-ink.pk { display: none; }
+    .ct-r em { font-style: normal; color: #ff4fa3; margin-right: 10px; }
+    #ct-r1 { top: 1132px; }
+    #ct-r2 { top: 1192px; }
+    #ct-r3 { top: 1252px; }
+    #ct-arrow { position: absolute; left: 868px; top: 1026px; font: 80px/1 "Dela Gothic One", sans-serif; color: #fff4f8; text-shadow: 6px 4px 0 #ff4fa3; }
+    .rp-reg { position: absolute; width: 34px; height: 34px; }
+    .rp-reg::before, .rp-reg::after { content: ""; position: absolute; background: #1d3fbb; }
+    .rp-reg::before { left: 16px; top: 0; width: 2px; height: 34px; }
+    .rp-reg::after { top: 16px; left: 0; height: 2px; width: 34px; }
+    .rp-reg i { position: absolute; left: 7px; top: 7px; width: 20px; height: 20px; border: 2px solid #1d3fbb; border-radius: 50%; }
+    #ct-reg1 { left: 22px; top: 730px; }
+    #ct-reg2 { left: 640px; top: 1290px; }
+    /* slips size to their text: the blue ink is in flow and carries the padding, pink rides on top */
+    #ct .rp-slip .rp-ink.bl { position: relative; display: block; left: 0; padding: 0 24px; }
+    #ct .rp-slip .rp-ink.pk { left: 24px; }
+  </style>
+  <div id="ct" data-composition-id="cta" data-width="1080" data-height="1920">
+    <div id="ct-q1" data-layout-allow-overlap class="rp-slip"><span class="rp-ink pk">PROBLEM</span><span class="rp-ink bl">PROBLEM</span></div>
+    <div id="ct-q2" data-layout-allow-overlap class="rp-slip"><span class="rp-ink pk">SAMA?</span><span class="rp-ink bl">SAMA?</span></div>
+    <div id="ct-save" data-layout-allow-overlap class="rp-slip blue"><span class="rp-ink pk">SAVE. TRY KAT RANGE</span><span class="rp-ink bl">SAVE. TRY KAT RANGE</span></div>
+    <div id="ct-arrow">↓</div>
+    <div id="ct-r1" data-layout-allow-overlap class="rp-slip ct-r"><span class="rp-ink pk">1 Kaki senyap</span><span class="rp-ink bl"><em>1</em>Kaki senyap</span></div>
+    <div id="ct-r2" data-layout-allow-overlap class="rp-slip ct-r"><span class="rp-ink pk">2 Kena bersih</span><span class="rp-ink bl"><em>2</em>Kena bersih</span></div>
+    <div id="ct-r3" data-layout-allow-overlap class="rp-slip ct-r"><span class="rp-ink pk">3 Dada pusing</span><span class="rp-ink bl"><em>3</em>Dada pusing</span></div>
+    <div id="ct-reg1" class="rp-reg"><i></i></div>
+    <div id="ct-reg2" class="rp-reg"><i></i></div>
+  </div>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      // local 0 = film 12.8 (after the dot wipe); the print freeze lands at local 1.4
+      const slipIn = (sels, t, gap) => sels.forEach((s, i) => {
+        const at = t + i * gap;
+        tl.fromTo(s, { clipPath: "inset(0 0 100% 0)" }, { clipPath: "inset(0 0 0% 0)", duration: 0.24, ease: "power3.out" }, at);
+        tl.fromTo(s + " .pk", { x: -34, y: 12 }, { x: 6, y: 4, duration: 0.36, ease: "expo.out" }, at);
+        tl.fromTo(s + " .bl", { x: 20, y: -8 }, { x: 0, y: 0, duration: 0.36, ease: "expo.out" }, at);
+      });
+      slipIn(["#ct-q1", "#ct-q2"], 0.2, 0.09);
+      slipIn(["#ct-save"], 1.42, 0);
+      tl.fromTo("#ct-arrow", { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.3, ease: "back.out(2.4)" }, 1.6);
+      tl.to("#ct-arrow", { y: 16, duration: 0.32, ease: "sine.inOut", yoyo: true, repeat: 4 }, 1.9);
+      slipIn(["#ct-r1", "#ct-r2", "#ct-r3"], 1.85, 0.16);
+      tl.fromTo(["#ct-reg1", "#ct-reg2"], { rotation: -90, opacity: 0 }, { rotation: 0, opacity: 1, duration: 0.4, ease: "back.out(2)" }, 1.45);
+      window.__timelines["cta"] = tl;
+    })();
+  </script>
+</template>

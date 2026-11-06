@@ -1,0 +1,45 @@
+<template>
+  <style>
+    /* the coach's own words, as spoken (English). Blue ink on a fluoro-pink highlighter band, y 1096-1330 */
+    #cp { position: absolute; inset: 0; pointer-events: none; }
+    .cp-line { position: absolute; left: 60px; width: 870px; top: 1096px; text-align: center; opacity: 0; }
+    .cp-w { display: inline-block; position: relative; margin: 0 6px; font: 58px/88px "Dela Gothic One", sans-serif; color: #1d3fbb; }
+    .cp-w::before { content: ""; position: absolute; left: -10px; right: -10px; top: 16px; bottom: 10px; background: #ff4fa3; z-index: -1;
+      transform: scaleX(var(--hl, 0)); transform-origin: 0 50%; }
+    .cp-band { position: absolute; left: 0; right: 0; top: 4px; height: 92px; background: #fff4f8; }
+    .cp-by { position: relative; margin-top: 6px; text-align: center; font: 26px/40px "Instrument Sans", sans-serif; font-weight: 700;
+      letter-spacing: 0.18em; color: #fff4f8; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45); }
+    .cp-inner { position: relative; display: inline-block; padding: 4px 14px; isolation: isolate; }
+    .cp-inner::before { content: ""; position: absolute; inset: 0; background: #fff4f8; z-index: -2; }
+  </style>
+  <div id="cp" data-composition-id="captions" data-width="1080" data-height="1920">
+    <div id="cp-1" class="cp-line">
+      <span class="cp-inner"><span class="cp-w">Contact</span><span class="cp-w">with</span><span class="cp-w">the</span><span class="cp-w">ball</span><br /><span class="cp-w">is</span><span class="cp-w">good.</span></span>
+      <div class="cp-by">— COACH</div>
+    </div>
+    <div id="cp-2" class="cp-line">
+      <span class="cp-inner"><span class="cp-w">Good.</span></span>
+      <div class="cp-by">— COACH</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      // word times = whisper large-v3 word stamps, shifted into film time (voice line placed at film 0.55)
+      const w1 = [0.59, 0.91, 1.13, 1.23, 1.35, 1.45];
+      const words1 = document.querySelectorAll("#cp-1 .cp-w");
+      tl.fromTo("#cp-1", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.18, ease: "power3.out" }, 0.5);
+      words1.forEach((el, i) => {
+        tl.fromTo(el, { "--hl": 0 }, { "--hl": 1, duration: 0.12, ease: "power2.out" }, w1[i]);
+        tl.fromTo(el, { y: 0 }, { y: -6, duration: 0.08, yoyo: true, repeat: 1, ease: "power2.out" }, w1[i]);
+      });
+      tl.to("#cp-1", { opacity: 0, y: -14, duration: 0.16, ease: "power2.in" }, 2.05);
+      // "Good." after the 1x strike (film ~4.55)
+      tl.fromTo("#cp-2", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.22, ease: "back.out(2.6)" }, 4.5);
+      tl.fromTo("#cp-2 .cp-w", { "--hl": 0 }, { "--hl": 1, duration: 0.14, ease: "power2.out" }, 4.56);
+      tl.to("#cp-2", { opacity: 0, duration: 0.16, ease: "power2.in" }, 5.12);
+      window.__timelines["captions"] = tl;
+    })();
+  </script>
+</template>

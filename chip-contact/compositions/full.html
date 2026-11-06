@@ -1,0 +1,38 @@
+<template>
+  <style>
+    #fs { position: absolute; inset: 0; pointer-events: none; }
+    #fs .rp-slip { position: absolute; background: #fff4f8; overflow: hidden; }
+    #fs .rp-ink { position: absolute; left: 0; top: 0; white-space: nowrap; }
+    #fs .rp-ink.pk { color: #ff4fa3; mix-blend-mode: multiply; }
+    #fs .rp-ink.bl { color: #1d3fbb; }
+    /* top-left, clear of the head (x 460-670, y 310-560 in this full frame) */
+    #fs-tag { left: 60px; top: 196px; height: 72px; }
+    #fs-tag .rp-ink { font: 40px/72px "Dela Gothic One", sans-serif; left: 22px; }
+    #fs-speed { position: absolute; left: 60px; top: 276px; height: 50px; background: #1d3fbb; overflow: hidden; }
+    #fs-speed span { position: relative; display: block; padding: 0 52px 0 18px; left: 0; top: 0; font: 26px/50px "Instrument Sans", sans-serif; font-weight: 700; letter-spacing: 0.14em; color: #fff4f8; white-space: nowrap; }
+    /* play marks: two dots that blink with the swing tempo */
+    #fs-rec { position: absolute; right: 18px; top: 17px; width: 16px; height: 16px; border-radius: 50%; background: #ff4fa3; }
+    /* slips size to their text: the blue ink is in flow and carries the padding, pink rides on top */
+    #fs .rp-slip .rp-ink.bl { position: relative; display: block; left: 0; padding: 0 24px; }
+    #fs .rp-slip .rp-ink.pk { left: 24px; }
+  </style>
+  <div id="fs" data-composition-id="full" data-width="1080" data-height="1920">
+    <div id="fs-tag" data-layout-allow-overlap class="rp-slip"><span class="rp-ink pk">TENGOK BALIK</span><span class="rp-ink bl">TENGOK BALIK</span></div>
+    <div id="fs-speed"><span>1× FULL SPEED</span><div id="fs-rec"></div></div>
+  </div>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      // local 0 = film 2.5 (just after the dot wipe peaks)
+      tl.fromTo("#fs-tag", { clipPath: "inset(0 0 100% 0)" }, { clipPath: "inset(0 0 0% 0)", duration: 0.24, ease: "power3.out" }, 0.08);
+      tl.fromTo("#fs-tag .pk", { x: -30, y: 12 }, { x: 6, y: 4, duration: 0.34, ease: "expo.out" }, 0.08);
+      tl.fromTo("#fs-tag .bl", { x: 18, y: -8 }, { x: 0, y: 0, duration: 0.34, ease: "expo.out" }, 0.08);
+      tl.fromTo("#fs-speed", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.26, ease: "power3.out" }, 0.18);
+      tl.fromTo("#fs-rec", { opacity: 0 }, { opacity: 1, duration: 0.01, repeat: 5, yoyo: true, repeatDelay: 0.32 }, 0.3);
+      tl.to(["#fs-speed", "#fs-tag"], { clipPath: "inset(0 0 100% 0)", duration: 0.18, ease: "power3.in", stagger: 0.04 }, 2.5);
+      tl.to("#fs-rec", { opacity: 0, duration: 0.1 }, 2.5);
+      window.__timelines["full"] = tl;
+    })();
+  </script>
+</template>

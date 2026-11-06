@@ -1,0 +1,4 @@
+IMG_6411.MOV — faster-whisper large-v3 (language ms and auto both returned the same words), word stamps in source seconds
+0.42 contact | 0.72 with | 0.96 the | 1.06 ball | 1.18 is | 1.28 good   (coach, off camera)
+~5.9-6.3 Good.  (coach; whisper places it 5.5-6.24, the loud transient is at 6.20-6.30)
+No other speech.
