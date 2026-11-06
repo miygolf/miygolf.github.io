@@ -12,6 +12,12 @@ Source: `VID_20261106_100913.mp4` (Drive), 4K60 vertical, 1:40. Output: 1080×19
   "macam kita biasa practice / kita pakai kanan", the interviewer's closing questions; every pause ≥ 0.4 s.
 
 ## Colour grade (HyperFrames media-treatment on #aroll)
+**v2 — "ND filter" look (requested: less glare):** warm-daylight 0.6, exposure −0.08, highlights −0.55, whites −0.30,
+shadows +0.14, contrast +0.12, vibrance +0.20, saturation +0.06, master curve rolling the top end to 0.84 (no pure-white
+sky), highlight wheel slightly cool/down (hue 210, level −0.12), turf-green secondary, vignette 0.12.
+A sky-only HSL key was tried and rejected: it posterised the clouds into blocks.
+
+v1 (replaced):
 Overcast footage read flat and grey-green. Compared 3 candidates with `grade-compare` on two frames and kept
 "warm-turf": warm-daylight 0.7, contrast +0.12, highlights −0.25 (keeps cloud detail), shadows +0.08,
 vibrance +0.15, temperature +0.05, HSL secondary on turf greens (sat +0.10, luma −0.04), vignette 0.08.

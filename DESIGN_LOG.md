@@ -30,7 +30,7 @@ contour texture, yellow double-bar motif, footage-shrinks-to-card ending.
   - Captions: Outfit 800 sentence case, white with soft shadow, active word in a lime pill (coral for wrong words)
   - Transitions: blur swaps inside panels, slide-ins from the right, white flash ring on the ball hit
   - End: checklist sheet over the lower half, footage stays full frame
-  - Colour grade: warm-daylight + turf-green secondary (HyperFrames media-treatment)
+  - Colour grade: "ND filter" look — highlights rolled off by curve, sky glare removed, rich turf greens (HyperFrames media-treatment)
 - Music: Sappheiros "Perspective" (lofi, ~143 BPM), high-passed 100 Hz, ducked ≈ −31 LUFS
 - SFX: Pixabay set (whoosh variants, ping on ball hits, click/pop on steps, sparkle, low impact on "wrist")
 
