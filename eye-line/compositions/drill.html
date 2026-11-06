@@ -1,0 +1,75 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; pointer-events: none; }
+    .glass {
+      position: absolute; background: rgba(10, 15, 13, 0.78); border: 2px solid rgba(255, 255, 255, 0.14);
+      border-radius: 30px; backdrop-filter: blur(18px);
+    }
+    /* right column (x 700-1040, y 690-1110): the body and arms stay left of x 660 in this stretch */
+    #drill-card { left: 700px; top: 690px; width: 340px; padding: 24px 24px 26px; opacity: 0; }
+    #drill-k { font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 28px; letter-spacing: 0.12em; color: #d4ff3a; }
+    #drill-t { font-family: "Outfit", sans-serif; font-weight: 900; font-size: 52px; line-height: 1; color: #ffffff; margin: 4px 0 10px; letter-spacing: -0.02em; }
+    .drill-step { display: flex; align-items: flex-start; gap: 14px; margin-top: 14px; opacity: 0.28; }
+    .drill-n { flex: none; width: 46px; height: 46px; border-radius: 23px; border: 3px solid #d4ff3a; display: flex; align-items: center; justify-content: center;
+      font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 28px; color: #d4ff3a; }
+    .drill-s { font-family: "Outfit", sans-serif; font-weight: 700; font-size: 34px; line-height: 1.12; color: #ffffff; }
+    #drill-res { left: 700px; top: 690px; width: 340px; padding: 26px 26px 28px; opacity: 0; border-color: rgba(212, 255, 58, 0.7); }
+    #drill-res-k { font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 28px; letter-spacing: 0.1em; color: #d4ff3a; }
+    #drill-res-t { font-family: "Outfit", sans-serif; font-weight: 900; font-size: 64px; line-height: 0.98; color: #ffffff; margin-top: 8px; letter-spacing: -0.02em; }
+    #drill-res-t em { font-style: normal; color: #d4ff3a; }
+    #drill-ok { display: inline-block; margin-top: 18px; padding: 8px 22px; border-radius: 30px; background: #d4ff3a; color: #0a0f0d;
+      font-family: "Outfit", sans-serif; font-weight: 900; font-size: 44px; opacity: 0; }
+    #drill-svg { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+  </style>
+  <div id="root" data-composition-id="drill" data-width="1080" data-height="1920">
+    <!-- drop overlay: hand at the eye (~535, 780) to the ball on the green (~567, 1523) -->
+    <svg id="drill-svg" viewBox="0 0 1080 1920">
+      <line id="drill-line" x1="538" y1="850" x2="565" y2="1465" stroke="#d4ff3a" stroke-width="6" stroke-linecap="round" stroke-dasharray="4 18" opacity="0" />
+      <g id="drill-reticle" transform="translate(567 1523)" opacity="0">
+        <circle r="62" fill="none" stroke="#d4ff3a" stroke-width="6" />
+        <circle r="10" fill="#d4ff3a" />
+        <path d="M-94 0 H-72 M72 0 H94 M0 -94 V-72 M0 72 V94" stroke="#d4ff3a" stroke-width="6" stroke-linecap="round" />
+      </g>
+      <circle id="drill-flash" cx="567" cy="1523" r="62" fill="none" stroke="#ffffff" stroke-width="8" opacity="0" />
+    </svg>
+
+    <div id="drill-card" class="glass">
+      <div id="drill-k">DRILL</div>
+      <div id="drill-t">Jatuh bola</div>
+      <div id="drill-s1" class="drill-step"><div class="drill-n">1</div><div class="drill-s">Bola tengah-tengah kaki</div></div>
+      <div id="drill-s2" class="drill-step"><div class="drill-n">2</div><div class="drill-s">Mata on top</div></div>
+      <div id="drill-s3" class="drill-step"><div class="drill-n">3</div><div class="drill-s">Bola kedua dekat mata kiri</div></div>
+      <div id="drill-s4" class="drill-step"><div class="drill-n">4</div><div class="drill-s">Jatuhkan</div></div>
+    </div>
+
+    <div id="drill-res" class="glass">
+      <div id="drill-res-k">KALAU KENA</div>
+      <div id="drill-res-t">Posisi mata <em>almost perfect</em></div>
+      <div id="drill-ok">BETUL ✓</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // local clock = film time - 12.7
+    tl.fromTo("#drill-card", { opacity: 0, x: 80 }, { opacity: 1, x: 0, duration: 0.45, ease: "expo.out" }, 0.1);
+    const steps = [["#drill-s1", 1.38], ["#drill-s2", 2.9], ["#drill-s3", 4.88], ["#drill-s4", 6.42]];
+    steps.forEach(([id, t]) => {
+      tl.to(id, { opacity: 1, duration: 0.18, ease: "power2.out" }, t);
+      tl.fromTo(id + " .drill-n", { backgroundColor: "rgba(212,255,58,0)", color: "#d4ff3a" }, { backgroundColor: "#d4ff3a", color: "#0a0f0d", duration: 0.15, ease: "none" }, t);
+      tl.fromTo(id, { x: 0 }, { x: 8, duration: 0.1, ease: "power2.out" }, t);
+      tl.to(id, { x: 0, duration: 0.25, ease: "power3.out" }, t + 0.1);
+    });
+    // the drop: release ~film 19.6, hit ~film 20.05
+    tl.fromTo("#drill-reticle", { opacity: 0, scale: 1.6, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.3, ease: "expo.out" }, 6.45);
+    tl.fromTo("#drill-line", { opacity: 1, attr: { y2: 850 } }, { opacity: 1, attr: { y2: 1465 }, duration: 0.42, ease: "power2.in", immediateRender: false }, 6.92);
+    tl.fromTo("#drill-flash", { opacity: 0.9, attr: { r: 62 } }, { opacity: 0, attr: { r: 150 }, duration: 0.45, ease: "power2.out", immediateRender: false }, 7.36);
+    tl.to(["#drill-line", "#drill-reticle"], { opacity: 0, duration: 0.2, ease: "power2.in" }, 8.4);
+    // "Kalau kena, maksudnya position tu almost perfect"
+    tl.to("#drill-card", { opacity: 0, filter: "blur(8px)", duration: 0.15, ease: "power2.in" }, 7.9);
+    tl.fromTo("#drill-res", { opacity: 0, scale: 0.92, filter: "blur(8px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.3, ease: "expo.out" }, 8.02);
+    // "...position mata kita betul"
+    tl.fromTo("#drill-ok", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2.2)" }, 13.0);
+    tl.to("#drill-res", { opacity: 0, x: 60, filter: "blur(6px)", duration: 0.16, ease: "power3.in" }, 13.72);
+    window.__timelines["drill"] = tl;
+  </script>
+</template>

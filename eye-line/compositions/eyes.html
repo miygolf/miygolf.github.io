@@ -1,0 +1,56 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; pointer-events: none; }
+    .glass {
+      position: absolute; background: rgba(10, 15, 13, 0.78); border: 2px solid rgba(255, 255, 255, 0.14);
+      border-radius: 30px; backdrop-filter: blur(18px);
+    }
+    /* title band y 262-462 (head >= y 500 here); diagram in the left column, clear of the body (x >= 430) */
+    #eyes-panel { left: 44px; top: 256px; width: 992px; height: 178px; padding: 20px 38px; overflow: hidden; opacity: 0; }
+    #eyes-bar { position: absolute; left: 0; top: 0; bottom: 0; width: 10px; background: #d4ff3a; }
+    #eyes-k { font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 30px; letter-spacing: 0.12em; color: #d4ff3a; }
+    #eyes-t { font-family: "Outfit", sans-serif; font-weight: 900; font-size: 88px; line-height: 1; color: #ffffff; letter-spacing: -0.03em; margin-top: 4px; }
+    #eyes-t em { font-style: normal; color: #d4ff3a; }
+    #eyes-diag { left: 44px; top: 700px; width: 340px; height: 420px; opacity: 0; }
+    #eyes-svg { position: absolute; left: 0; top: 0; width: 340px; height: 340px; }
+    #eyes-cap { position: absolute; left: 0; right: 0; bottom: 22px; text-align: center; font-family: "JetBrains Mono", monospace;
+      font-weight: 700; font-size: 28px; line-height: 1.2; color: #ffffff; }
+    #eyes-cap b { color: #d4ff3a; }
+  </style>
+  <div id="root" data-composition-id="eyes" data-width="1080" data-height="1920">
+    <div id="eyes-panel" class="glass">
+      <div id="eyes-bar"></div>
+      <div id="eyes-k">PALING PENTING</div>
+      <div id="eyes-t">Posisi <em>mata</em> kau</div>
+    </div>
+    <div id="eyes-diag" class="glass">
+      <svg id="eyes-svg" viewBox="0 0 340 340">
+        <!-- eye -->
+        <g id="eyes-eye" transform="translate(170 70)">
+          <path d="M-58 0 Q0 -40 58 0 Q0 40 -58 0 Z" fill="none" stroke="#ffffff" stroke-width="6" stroke-linejoin="round" />
+          <circle r="15" fill="#d4ff3a" />
+        </g>
+        <!-- plumb line -->
+        <line id="eyes-line" x1="170" y1="108" x2="170" y2="250" stroke="#d4ff3a" stroke-width="6" stroke-linecap="round" stroke-dasharray="4 16" />
+        <!-- right angle marker + ground -->
+        <path d="M30 286 H310" stroke="rgba(255,255,255,0.45)" stroke-width="4" stroke-linecap="round" />
+        <path id="eyes-angle" d="M170 252 H196 V278" fill="none" stroke="#d4ff3a" stroke-width="4" />
+        <!-- ball -->
+        <circle id="eyes-ball" cx="170" cy="266" r="20" fill="#ffffff" />
+      </svg>
+      <div id="eyes-cap">MATA <b>TEPAT</b><br />ATAS BOLA</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // local clock = film time - 4.9
+    tl.fromTo("#eyes-panel", { opacity: 0, y: -20, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.3, ease: "expo.out" }, 0.05);
+    // "you kena directly atas bola" (film 9.96-12.0)
+    tl.fromTo("#eyes-diag", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.4, ease: "expo.out" }, 4.95);
+    tl.fromTo("#eyes-line", { attr: { y2: 108 } }, { attr: { y2: 250 }, duration: 0.5, ease: "power2.inOut" }, 5.1);
+    tl.fromTo("#eyes-angle", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power2.out" }, 5.6);
+    tl.fromTo("#eyes-ball", { scale: 0.4, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.4, ease: "back.out(2.4)" }, 6.0);
+    tl.to(["#eyes-panel", "#eyes-diag"], { opacity: 0, filter: "blur(8px)", duration: 0.16, ease: "power3.in" }, 7.65);
+    window.__timelines["eyes"] = tl;
+  </script>
+</template>

@@ -1,0 +1,38 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; pointer-events: none; }
+    /* checklist sheet over the lower half (y 820-1310); his head stays at y 430-610 above it */
+    #end-sheet {
+      position: absolute; left: 44px; top: 820px; width: 992px; padding: 30px 40px 34px; border-radius: 34px;
+      background: rgba(10, 15, 13, 0.84); border: 2px solid rgba(212, 255, 58, 0.6); backdrop-filter: blur(20px); opacity: 0;
+    }
+    #end-k { font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 30px; letter-spacing: 0.12em; color: #d4ff3a; }
+    #end-t { font-family: "Outfit", sans-serif; font-weight: 900; font-size: 68px; line-height: 1; color: #ffffff; letter-spacing: -0.02em; margin: 6px 0 12px; }
+    .end-row { display: flex; align-items: center; gap: 18px; margin-top: 14px; opacity: 0; }
+    .end-ck { flex: none; width: 50px; height: 50px; border-radius: 25px; background: #d4ff3a; display: flex; align-items: center; justify-content: center;
+      font-family: "Outfit", sans-serif; font-weight: 900; font-size: 32px; color: #0a0f0d; }
+    .end-s { font-family: "Outfit", sans-serif; font-weight: 700; font-size: 44px; color: #ffffff; }
+    #end-cta { margin-top: 26px; display: inline-block; padding: 12px 30px; border-radius: 40px; border: 3px solid #d4ff3a;
+      font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 30px; color: #d4ff3a; opacity: 0; }
+  </style>
+  <div id="root" data-composition-id="endcard" data-width="1080" data-height="1920">
+    <div id="end-sheet">
+      <div id="end-k">SAVE CHECKLIST NI</div>
+      <div id="end-t">Setup putting</div>
+      <div id="end-r1" class="end-row"><div class="end-ck">✓</div><div class="end-s">Mata tepat atas bola</div></div>
+      <div id="end-r2" class="end-row"><div class="end-ck">✓</div><div class="end-s">Test: jatuh bola dari mata kiri</div></div>
+      <div id="end-r3" class="end-row"><div class="end-ck">✓</div><div class="end-s">Grip selesa, wrist kunci</div></div>
+      <div id="end-cta">FOLLOW · DRILL SETERUSNYA →</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // local clock = film time - 31.95
+    tl.fromTo("#end-sheet", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, 0.05);
+    tl.fromTo("#end-r1", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.3, ease: "expo.out" }, 0.55);
+    tl.fromTo("#end-r2", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.3, ease: "expo.out" }, 0.65);
+    tl.fromTo("#end-r3", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.3, ease: "expo.out" }, 0.75);
+    tl.fromTo("#end-cta", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.8)" }, 0.95);
+    window.__timelines["endcard"] = tl;
+  </script>
+</template>

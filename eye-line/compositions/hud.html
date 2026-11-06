@@ -1,0 +1,40 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; pointer-events: none; }
+    /* chapter chip: top-left, above every head in this clip (heads start at y >= 300) */
+    #hud-chip {
+      position: absolute; left: 44px; top: 178px; height: 64px; padding: 0 26px 0 20px; border-radius: 32px;
+      display: flex; align-items: center; gap: 14px; background: rgba(10, 15, 13, 0.8);
+      border: 2px solid rgba(212, 255, 58, 0.55); backdrop-filter: blur(16px);
+    }
+    #hud-dot { width: 16px; height: 16px; border-radius: 8px; background: #d4ff3a; box-shadow: 0 0 14px #d4ff3a; }
+    #hud-labels { position: relative; height: 40px; min-width: 470px; }
+    .hud-l { position: absolute; left: 0; top: 0; white-space: nowrap; font-family: "JetBrains Mono", monospace; font-weight: 700;
+      font-size: 30px; line-height: 40px; letter-spacing: 0.06em; color: #ffffff; opacity: 0; }
+    .hud-l b { color: #d4ff3a; font-weight: 700; }
+  </style>
+  <div id="root" data-composition-id="hud" data-width="1080" data-height="1920">
+    <div id="hud-chip">
+      <div id="hud-dot"></div>
+      <div id="hud-labels">
+        <div id="hud-l0" class="hud-l"><b>SETUP</b> PUTTING</div>
+        <div id="hud-l1" class="hud-l"><b>01</b> POSISI MATA</div>
+        <div id="hud-l2" class="hud-l"><b>02</b> DRILL JATUH BOLA</div>
+        <div id="hud-l3" class="hud-l"><b>03</b> GRIP &amp; WRIST</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#hud-chip", { opacity: 1, x: 0 }, { opacity: 1, x: 0, duration: 0.01 }, 0);
+    tl.set("#hud-l0", { opacity: 1 }, 0);
+    const swaps = [["#hud-l0", "#hud-l1", 4.93], ["#hud-l1", "#hud-l2", 12.7], ["#hud-l2", "#hud-l3", 26.05]];
+    swaps.forEach(([a, b, t]) => {
+      tl.to(a, { opacity: 0, filter: "blur(6px)", duration: 0.13, ease: "power2.in" }, t - 0.13);
+      tl.fromTo(b, { opacity: 0, filter: "blur(6px)", y: 8 }, { opacity: 1, filter: "blur(0px)", y: 0, duration: 0.2, ease: "power3.out" }, t);
+      tl.fromTo("#hud-dot", { scale: 1.8 }, { scale: 1, duration: 0.3, ease: "power3.out" }, t);
+    });
+    tl.to("#hud-chip", { opacity: 0, x: -40, duration: 0.2, ease: "power3.in" }, 31.85);
+    window.__timelines["hud"] = tl;
+  </script>
+</template>

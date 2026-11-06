@@ -1,0 +1,41 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; pointer-events: none; }
+    .glass {
+      position: absolute; background: rgba(10, 15, 13, 0.78); border: 2px solid rgba(255, 255, 255, 0.14);
+      border-radius: 30px; backdrop-filter: blur(18px);
+    }
+    #grip-card { left: 700px; top: 690px; width: 340px; padding: 24px 24px 26px; opacity: 0; }
+    #grip-k { font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 28px; letter-spacing: 0.12em; color: #d4ff3a; }
+    #grip-t { font-family: "Outfit", sans-serif; font-weight: 900; font-size: 52px; line-height: 1; color: #ffffff; margin: 4px 0 10px; letter-spacing: -0.02em; }
+    .grip-step { display: flex; align-items: flex-start; gap: 14px; margin-top: 14px; opacity: 0.28; }
+    .grip-n { flex: none; width: 46px; height: 46px; border-radius: 23px; border: 3px solid #d4ff3a; display: flex; align-items: center; justify-content: center;
+      font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 28px; color: #d4ff3a; }
+    .grip-s { font-family: "Outfit", sans-serif; font-weight: 700; font-size: 34px; line-height: 1.12; color: #ffffff; }
+    #grip-s3 .grip-n { border-color: #ff6b57; color: #ff6b57; }
+    #grip-s3 .grip-s em { font-style: normal; color: #ff6b57; }
+  </style>
+  <div id="root" data-composition-id="grip" data-width="1080" data-height="1920">
+    <div id="grip-card" class="glass">
+      <div id="grip-k">LEPAS TU</div>
+      <div id="grip-t">Ambil putter</div>
+      <div id="grip-s1" class="grip-step"><div class="grip-n">5</div><div class="grip-s">Letak putter belakang bola</div></div>
+      <div id="grip-s2" class="grip-step"><div class="grip-n">6</div><div class="grip-s">Grip macam biasa, selesa</div></div>
+      <div id="grip-s3" class="grip-step"><div class="grip-n">7</div><div class="grip-s"><em>Wrist</em> jangan bergerak</div></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // local clock = film time - 26.0
+    tl.fromTo("#grip-card", { opacity: 0, x: 80 }, { opacity: 1, x: 0, duration: 0.45, ease: "expo.out" }, 0.65);
+    const steps = [["#grip-s1", 2.6, "#d4ff3a"], ["#grip-s2", 3.4, "#d4ff3a"], ["#grip-s3", 4.6, "#ff6b57"]];
+    steps.forEach(([id, t, c]) => {
+      tl.to(id, { opacity: 1, duration: 0.18, ease: "power2.out" }, t);
+      tl.fromTo(id + " .grip-n", { backgroundColor: "rgba(212,255,58,0)", color: c }, { backgroundColor: c, color: "#0a0f0d", duration: 0.15, ease: "none" }, t);
+      tl.fromTo(id, { x: 0 }, { x: 8, duration: 0.1, ease: "power2.out" }, t);
+      tl.to(id, { x: 0, duration: 0.25, ease: "power3.out" }, t + 0.1);
+    });
+    tl.to("#grip-card", { opacity: 0, x: 60, filter: "blur(6px)", duration: 0.16, ease: "power3.in" }, 5.85);
+    window.__timelines["grip"] = tl;
+  </script>
+</template>

@@ -1,0 +1,65 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; pointer-events: none; }
+    .glass {
+      position: absolute; background: rgba(10, 15, 13, 0.78); border: 2px solid rgba(255, 255, 255, 0.14);
+      border-radius: 30px; backdrop-filter: blur(18px);
+    }
+    /* title: y 262-502, the head starts ~y 550 in this shot */
+    #hook-panel { left: 44px; top: 262px; width: 992px; height: 240px; padding: 26px 38px; overflow: hidden; }
+    #hook-bar { position: absolute; left: 0; top: 0; bottom: 0; width: 10px; background: #d4ff3a; }
+    .hook-ph { position: absolute; left: 38px; right: 38px; top: 26px; }
+    .hook-k { font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 30px; letter-spacing: 0.12em; color: #d4ff3a; }
+    #hook-p2 .hook-k { color: #ff6b57; }
+    .hook-t { font-family: "Outfit", sans-serif; font-weight: 900; font-size: 74px; line-height: 1.02; color: #ffffff; letter-spacing: -0.02em; margin-top: 8px; }
+    .hook-t em { font-style: normal; color: #d4ff3a; }
+    #hook-p2 .hook-t em { color: #ff6b57; }
+    #hook-p2 { opacity: 0; }
+    /* measuring overlay on the drop: hand at the eye (~520, 760) to the ball on the green (~568, 1538) */
+    #hook-svg { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+    #hook-badge {
+      position: absolute; left: 670px; top: 960px; padding: 10px 26px; border-radius: 40px; background: #d4ff3a;
+      font-family: "Outfit", sans-serif; font-weight: 900; font-size: 54px; color: #0a0f0d; opacity: 0;
+    }
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+    <svg id="hook-svg" viewBox="0 0 1080 1920">
+      <line id="hook-line" x1="522" y1="840" x2="566" y2="1478" opacity="0" stroke="#d4ff3a" stroke-width="6" stroke-linecap="round" stroke-dasharray="4 18" />
+      <g id="hook-reticle" transform="translate(568 1538)">
+        <circle r="64" fill="none" stroke="#d4ff3a" stroke-width="6" />
+        <circle r="10" fill="#d4ff3a" />
+        <path d="M-96 0 H-74 M74 0 H96 M0 -96 V-74 M0 74 V96" stroke="#d4ff3a" stroke-width="6" stroke-linecap="round" />
+      </g>
+      <circle id="hook-flash" cx="568" cy="1538" r="64" fill="none" stroke="#ffffff" stroke-width="8" opacity="0" />
+    </svg>
+    <div id="hook-badge">KENA ✓</div>
+    <div id="hook-panel" class="glass">
+      <div id="hook-bar"></div>
+      <div id="hook-p1" class="hook-ph">
+        <div class="hook-k">TEST 5 SAAT</div>
+        <div class="hook-t">Mata kau betul-betul<br /><em>atas bola</em> ke tak?</div>
+      </div>
+      <div id="hook-p2" class="hook-ph">
+        <div class="hook-k">✕ MASALAH</div>
+        <div class="hook-t">Ramai golfer baru<br /><em>salah setup</em> dari awal</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // frame 0 = thumbnail: title already on screen
+    tl.fromTo("#hook-panel", { y: -10 }, { y: 0, duration: 0.4, ease: "expo.out" }, 0);
+    tl.fromTo("#hook-reticle", { opacity: 0, scale: 1.6, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.3, ease: "expo.out" }, 0.05);
+    // the ball falls ~0.45-0.75 s: draw the eye-to-ball line with it
+    tl.fromTo("#hook-line", { opacity: 1, attr: { y2: 840 } }, { opacity: 1, attr: { y2: 1478 }, duration: 0.32, ease: "power2.in", immediateRender: false }, 0.42);
+    tl.fromTo("#hook-flash", { opacity: 0.9, attr: { r: 64 } }, { opacity: 0, attr: { r: 150 }, duration: 0.45, ease: "power2.out", immediateRender: false }, 0.76);
+    tl.fromTo("#hook-badge", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2.2)" }, 0.78);
+    tl.to(["#hook-line", "#hook-reticle", "#hook-badge"], { opacity: 0, duration: 0.18, ease: "power2.in" }, 1.9);
+    // "Kebanyakan orang ada mistake..."
+    tl.to("#hook-p1", { opacity: 0, filter: "blur(8px)", duration: 0.13, ease: "power2.in" }, 2.45);
+    tl.fromTo("#hook-p2", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power3.out" }, 2.55);
+    tl.fromTo("#hook-bar", { backgroundColor: "#d4ff3a" }, { backgroundColor: "#ff6b57", duration: 0.2, ease: "none" }, 2.55);
+    tl.to("#hook-panel", { opacity: 0, y: -20, filter: "blur(8px)", duration: 0.16, ease: "power3.in" }, 4.75);
+    window.__timelines["hook"] = tl;
+  </script>
+</template>
