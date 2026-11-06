@@ -12,6 +12,13 @@
     .hud-l { position: absolute; left: 0; top: 0; white-space: nowrap; font-family: "JetBrains Mono", monospace; font-weight: 700;
       font-size: 30px; line-height: 40px; letter-spacing: 0.06em; color: #ffffff; opacity: 0; }
     .hud-l b { color: #d4ff3a; font-weight: 700; }
+    /* coach name tag: same row as the chapter chip, right side */
+    #hud-name {
+      position: absolute; right: 44px; top: 178px; height: 64px; padding: 0 26px; border-radius: 32px;
+      display: flex; align-items: center; gap: 12px; background: #d4ff3a;
+    }
+    #hud-name-k { font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 28px; letter-spacing: 0.08em; color: rgba(10, 15, 13, 0.7); }
+    #hud-name-v { font-family: "Outfit", sans-serif; font-weight: 900; font-size: 36px; color: #0a0f0d; letter-spacing: -0.01em; }
   </style>
   <div id="root" data-composition-id="hud" data-width="1080" data-height="1920">
     <div id="hud-chip">
@@ -23,6 +30,7 @@
         <div id="hud-l3" class="hud-l"><b>03</b> GRIP &amp; WRIST</div>
       </div>
     </div>
+    <div id="hud-name"><span id="hud-name-k">COACH</span><span id="hud-name-v">Farhan</span></div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
@@ -34,7 +42,9 @@
       tl.fromTo(b, { opacity: 0, filter: "blur(6px)", y: 8 }, { opacity: 1, filter: "blur(0px)", y: 0, duration: 0.2, ease: "power3.out" }, t);
       tl.fromTo("#hud-dot", { scale: 1.8 }, { scale: 1, duration: 0.3, ease: "power3.out" }, t);
     });
+    tl.fromTo("#hud-name", { scale: 1.06 }, { scale: 1, duration: 0.4, ease: "expo.out" }, 0);
     tl.to("#hud-chip", { opacity: 0, x: -40, duration: 0.2, ease: "power3.in" }, 31.85);
+    tl.to("#hud-name", { opacity: 0, x: 40, duration: 0.2, ease: "power3.in" }, 31.85);
     window.__timelines["hud"] = tl;
   </script>
 </template>

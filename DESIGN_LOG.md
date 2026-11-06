@@ -25,7 +25,7 @@ contour texture, yellow double-bar motif, footage-shrinks-to-card ending.
 - Look name: **"Eye-Line Lab"** (HUD / measuring)
   - Palette: near-black glass `rgba(10,15,13,.78)`, electric lime `#D4FF3A`, white, coral `#FF6B57` for wrong
   - Type: Outfit 900/700 (titles, steps), JetBrains Mono (labels, chapter chip)
-  - Shapes: dark frosted-glass panels with a lime edge bar; persistent top-left chapter chip (01/02/03);
+  - Shapes: dark frosted-glass panels with a lime edge bar; persistent top-left chapter chip (01/02/03) + lime "COACH Farhan" name pill top-right;
     numbered step checklists in a right-hand column; reticle + dashed eye-to-ball line drawn on real footage
   - Captions: Outfit 800 sentence case, white with soft shadow, active word in a lime pill (coral for wrong words)
   - Transitions: blur swaps inside panels, slide-ins from the right, white flash ring on the ball hit
