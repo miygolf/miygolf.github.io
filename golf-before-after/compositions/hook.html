@@ -98,7 +98,7 @@
       <div id="hook-ring"></div>
     </div>
     <div id="hook-kicker" class="clip" data-start="0" data-duration="1.75">
-      <span class="dot"></span><span>40 MIN BIOMEKANIK · BEFORE/AFTER</span>
+      <span class="dot"></span><span>ADJUST SWING · BEFORE/AFTER</span>
     </div>
     <div id="hook-line" class="clip" data-start="0" data-duration="1.75">
       <span id="hook-old"><span data-var-text="tBefore">9.1s</span><span id="hook-strike" data-layout-allow-occlusion></span></span>
@@ -118,7 +118,7 @@
     // Strike at 1.04: white flash + ring off the ball
     tl.fromTo("#hook-flash", { opacity: 0 }, { opacity: 0.75, duration: 0.03, ease: "none" }, 1.03);
     tl.to("#hook-flash", { opacity: 0, duration: 0.22, ease: "power2.out" }, 1.06);
-    tl.fromTo("#hook-ring", { scale: 0.15, opacity: 1 }, { scale: 2.6, opacity: 0, duration: 0.55, ease: "expo.out" }, 1.04);
+    tl.fromTo("#hook-ring", { scale: 0.15, opacity: 1 }, { scale: 2.6, opacity: 0, duration: 0.55, ease: "expo.out", immediateRender: false }, 1.04);
     // Rewind out: the line blurs away as the glitch starts
     tl.to("#hook-line", { opacity: 0, filter: "blur(14px)", x: -40, duration: 0.18, ease: "power3.in" }, 1.44);
     tl.to("#hook-kicker", { opacity: 0, duration: 0.15, ease: "power3.in" }, 1.46);

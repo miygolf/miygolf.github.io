@@ -198,8 +198,8 @@
     // Strike at 2.97: flash + double ring off the ball
     tl.fromTo("#af-flash", { opacity: 0 }, { opacity: 0.8, duration: 0.03, ease: "none" }, 2.96);
     tl.to("#af-flash", { opacity: 0, duration: 0.24, ease: "power2.out" }, 2.99);
-    tl.fromTo("#af-ring", { scale: 0.15, opacity: 1 }, { scale: 2.8, opacity: 0, duration: 0.6, ease: "expo.out" }, 2.97);
-    tl.fromTo("#af-ring2", { scale: 0.1, opacity: 0.9 }, { scale: 4.2, opacity: 0, duration: 0.75, ease: "expo.out" }, 3.0);
+    tl.fromTo("#af-ring", { scale: 0.15, opacity: 1 }, { scale: 2.8, opacity: 0, duration: 0.6, ease: "expo.out", immediateRender: false }, 2.97);
+    tl.fromTo("#af-ring2", { scale: 0.1, opacity: 0.9 }, { scale: 4.2, opacity: 0, duration: 0.75, ease: "expo.out", immediateRender: false }, 3.0);
 
     // Clear for the replay
     tl.to(["#af-tag", "#af-watch", "#af-chip"], { opacity: 0, filter: "blur(8px)", duration: 0.16, ease: "power3.in", stagger: 0.03 }, 3.38);

@@ -39,7 +39,7 @@
       left: 56px;
       top: 262px;
       font-family: "League Gothic", sans-serif;
-      font-size: 132px;
+      font-size: 124px;
       line-height: 0.92;
       color: #ffffff;
       text-shadow: 0 6px 28px rgba(0, 0, 0, 0.55);
@@ -47,6 +47,9 @@
     #dr-chapter .w {
       display: inline-block;
       margin-right: 20px;
+    }
+    #dr-chapter .hl {
+      color: #d8ff3e;
     }
     #dr-title {
       position: absolute;
@@ -109,11 +112,11 @@
     <div id="dr-scrim" class="clip" data-start="0" data-duration="6.95" data-layout-ignore></div>
 
     <div id="dr-kicker" class="clip" data-start="0" data-duration="2.85">
-      <svg class="clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="13" r="8.5" /><path d="M12 8.5V13l3 2M9.5 2.5h5" /></svg>
-      <span>LEPAS 40 MINIT</span>
+      <svg class="clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0" /><circle cx="16" cy="6" r="2" /><circle cx="10" cy="12" r="2" /><circle cx="18" cy="18" r="2" /></svg>
+      <span>LEPAS SESI ADJUSTMENT</span>
     </div>
     <div id="dr-chapter" class="clip" data-start="0" data-duration="2.85">
-      <span class="w">SESI</span><span class="w">BIOMEKANIK.</span>
+      <span class="w">PERGERAKAN</span><span class="w">SWING</span><br /><span class="w">YANG</span><span class="w hl">BETUL.</span>
     </div>
 
     <!-- Ball tracer: an illustrated baby draw (starts right, curls back left) leaving the tee -->
@@ -147,19 +150,19 @@
 
     // Chapter card over the address
     tl.fromTo("#dr-scrim", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 0);
-    tl.fromTo("#dr-kicker", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 0.15);
+    tl.fromTo("#dr-kicker", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 0.05);
     tl.fromTo(
       "#dr-chapter .w",
-      { opacity: 0, color: "#8a8a8a" },
-      { opacity: 1, color: "#ffffff", duration: 0.12, ease: "power2.out", stagger: 0.09 },
-      0.3,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.12, ease: "power2.out", stagger: 0.08 },
+      0.2,
     );
-    tl.to(["#dr-kicker", "#dr-chapter"], { opacity: 0, filter: "blur(10px)", duration: 0.16, ease: "power3.in" }, 2.62);
+    tl.to(["#dr-kicker", "#dr-chapter"], { opacity: 0, filter: "blur(10px)", duration: 0.14, ease: "power3.in" }, 2.7);
 
     // Strike at 2.95: flash + ring off the tee
     tl.fromTo("#dr-flash", { opacity: 0 }, { opacity: 0.8, duration: 0.03, ease: "none" }, 2.94);
     tl.to("#dr-flash", { opacity: 0, duration: 0.26, ease: "power2.out" }, 2.97);
-    tl.fromTo("#dr-ring", { scale: 0.15, opacity: 1 }, { scale: 2.8, opacity: 0, duration: 0.6, ease: "expo.out" }, 2.95);
+    tl.fromTo("#dr-ring", { scale: 0.15, opacity: 1 }, { scale: 2.8, opacity: 0, duration: 0.6, ease: "expo.out", immediateRender: false }, 2.95);
 
     // Tracer draws out fast off the face, slows as it curls left and drops
     const path = document.getElementById("dr-path");
