@@ -1,0 +1,63 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    #wp-panel {
+      position: absolute;
+      left: -60px;
+      top: 0;
+      width: 1200px;
+      height: 2500px;
+      background: #d8ff3e;
+      clip-path: polygon(0 12%, 100% 0, 100% 88%, 0 100%);
+    }
+    #wp-word {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #070807;
+    }
+    #wp-small {
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 40px;
+      letter-spacing: 0.3em;
+      margin-bottom: 6px;
+    }
+    #wp-big {
+      font-family: "League Gothic", sans-serif;
+      font-size: 330px;
+      line-height: 0.86;
+    }
+  </style>
+  <div id="root" data-composition-id="wipe" data-width="1080" data-height="1920">
+    <div id="wp-panel-wrap" class="clip" data-start="0" data-duration="0.75" data-layout-allow-overflow data-layout-ignore>
+      <div id="wp-panel"></div>
+    </div>
+    <div id="wp-word-wrap" class="clip" data-start="0" data-duration="0.75" data-layout-allow-overflow>
+      <div id="wp-word">
+        <div id="wp-small">SEKARANG</div>
+        <div id="wp-big">AFTER</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // Lime floods up from the mat, holds one beat over the drop, then clears upward
+    tl.fromTo("#wp-panel", { y: 1950 }, { y: -290, duration: 0.3, ease: "power3.in" }, 0);
+    tl.to("#wp-panel", { y: -2600, duration: 0.28, ease: "power3.in" }, 0.45);
+    tl.fromTo("#wp-word", { y: 700, opacity: 0, filter: "blur(10px)" }, { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.3, ease: "power3.out" }, 0.12);
+    tl.to("#wp-word", { y: -1100, opacity: 0, filter: "blur(12px)", duration: 0.26, ease: "power3.in" }, 0.45);
+    window.__timelines["wipe"] = tl;
+  </script>
+</template>

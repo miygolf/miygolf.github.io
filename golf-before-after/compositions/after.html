@@ -1,0 +1,210 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    #af-scrim {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 600px;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.3) 60%, rgba(0, 0, 0, 0) 100%);
+    }
+    #af-tag {
+      position: absolute;
+      left: 60px;
+      top: 192px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 20px 9px 16px;
+      border-radius: 10px;
+      background: #d8ff3e;
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 0.12em;
+      color: #070807;
+    }
+    #af-tag .rec {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #070807;
+    }
+    #af-head {
+      position: absolute;
+      left: 56px;
+      top: 262px;
+      font-family: "League Gothic", sans-serif;
+      font-size: 150px;
+      line-height: 0.92;
+      color: #ffffff;
+      text-shadow: 0 6px 28px rgba(0, 0, 0, 0.55);
+    }
+    #af-head .w {
+      display: inline-block;
+      margin-right: 22px;
+    }
+    #af-head .hl {
+      color: #d8ff3e;
+    }
+    #af-watch {
+      position: absolute;
+      left: 636px;
+      top: 650px;
+      width: 384px;
+      padding: 20px 26px 22px;
+      border-radius: 26px;
+      background: rgba(8, 10, 8, 0.78);
+      border: 3px solid rgba(255, 255, 255, 0.16);
+    }
+    #af-watch .lbl {
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 0.1em;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    #af-digits {
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 104px;
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      color: #d8ff3e;
+    }
+    #af-chip {
+      position: absolute;
+      left: 636px;
+      top: 912px;
+      width: 384px;
+      padding: 14px 22px 16px;
+      border-radius: 18px;
+      background: #d8ff3e;
+      color: #070807;
+    }
+    #af-chip .was {
+      position: relative;
+      display: inline-block;
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 30px;
+      color: rgba(7, 8, 7, 0.6);
+    }
+    #af-chip .was::after {
+      content: "";
+      position: absolute;
+      left: -3px;
+      right: -3px;
+      top: 52%;
+      height: 4px;
+      background: #ff4438;
+    }
+    #af-chip .big {
+      font-family: "League Gothic", sans-serif;
+      font-size: 74px;
+      line-height: 0.95;
+    }
+    #af-flash {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+      opacity: 0;
+    }
+    #af-ring,
+    #af-ring2 {
+      position: absolute;
+      left: 658px;
+      top: 1435px;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      border: 10px solid #d8ff3e;
+      opacity: 0;
+    }
+    #af-ring2 {
+      border: 4px solid #ffffff;
+    }
+  </style>
+  <div id="root" data-composition-id="after" data-width="1080" data-height="1920">
+    <div id="af-scrim" class="clip" data-start="0" data-duration="3.7" data-layout-ignore></div>
+
+    <div id="af-tag" class="clip" data-start="0" data-duration="3.7"><span class="rec"></span><span>AFTER</span></div>
+
+    <div id="af-head" class="clip" data-start="0" data-duration="3.0">
+      <span class="w" id="af-w1">SET.</span><br />
+      <span class="w" id="af-w2">TERUS</span><span class="w hl" id="af-w3">SWING.</span>
+    </div>
+
+    <div id="af-watch" class="clip" data-start="0" data-duration="3.7">
+      <div class="lbl">MASA ATAS BOLA</div>
+      <div id="af-digits">0.0s</div>
+    </div>
+
+    <div id="af-chip" class="clip" data-start="1.95" data-duration="1.75">
+      <span class="was" data-var-text="tBefore">9.1s</span>
+      <div class="big">5× LAGI CEPAT</div>
+    </div>
+
+    <div id="af-ring-wrap" class="clip" data-start="0" data-duration="3.7" data-layout-ignore>
+      <div id="af-ring"></div>
+      <div id="af-ring2"></div>
+    </div>
+    <div id="af-flash-wrap" class="clip" data-start="0" data-duration="3.7" data-layout-ignore>
+      <div id="af-flash"></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    tl.fromTo("#af-tag", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(1.6)", transformOrigin: "0% 50%" }, 0.12);
+    tl.fromTo("#af-watch", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.4, ease: "expo.out" }, 0.16);
+
+    // Words land on the action: SET at address, TERUS + SWING on the takeaway (1.75)
+    tl.fromTo("#af-w1", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.14, ease: "power4.out" }, 0.3);
+    tl.fromTo("#af-w2", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.14, ease: "power4.out" }, 1.5);
+    tl.fromTo("#af-w3", { opacity: 0, scale: 1.25, filter: "blur(8px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.22, ease: "expo.out", transformOrigin: "0% 80%" }, 1.72);
+
+    // Stopwatch runs in real time and stops on the takeaway
+    const digits = document.getElementById("af-digits");
+    const counter = { t: 0 };
+    tl.fromTo(
+      counter,
+      { t: 0 },
+      {
+        t: 3.7,
+        duration: 3.7,
+        ease: "none",
+        onUpdate: () => {
+          digits.textContent = Math.min(counter.t, 1.75).toFixed(1) + "s";
+        },
+      },
+      0,
+    );
+    tl.to("#af-watch", { borderColor: "rgba(216,255,62,1)", duration: 0.08, ease: "none" }, 1.73);
+    tl.fromTo("#af-digits", { scale: 1 }, { scale: 1.08, duration: 0.08, ease: "power3.out", transformOrigin: "0% 50%" }, 1.73);
+    tl.to("#af-digits", { scale: 1, duration: 0.3, ease: "power2.out" }, 1.81);
+
+    // Comparison chip
+    tl.fromTo("#af-chip", { opacity: 0, y: -16, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.5)", transformOrigin: "50% 0%" }, 1.95);
+
+    // Headline clears just before the strike
+    tl.to("#af-head .w", { opacity: 0, filter: "blur(8px)", duration: 0.14, ease: "power3.in", stagger: 0.03 }, 2.78);
+
+    // Strike at 2.97: flash + double ring off the ball
+    tl.fromTo("#af-flash", { opacity: 0 }, { opacity: 0.8, duration: 0.03, ease: "none" }, 2.96);
+    tl.to("#af-flash", { opacity: 0, duration: 0.24, ease: "power2.out" }, 2.99);
+    tl.fromTo("#af-ring", { scale: 0.15, opacity: 1 }, { scale: 2.8, opacity: 0, duration: 0.6, ease: "expo.out" }, 2.97);
+    tl.fromTo("#af-ring2", { scale: 0.1, opacity: 0.9 }, { scale: 4.2, opacity: 0, duration: 0.75, ease: "expo.out" }, 3.0);
+
+    // Clear for the replay
+    tl.to(["#af-tag", "#af-watch", "#af-chip"], { opacity: 0, filter: "blur(8px)", duration: 0.16, ease: "power3.in", stagger: 0.03 }, 3.38);
+    tl.to("#af-scrim", { opacity: 0, duration: 0.2, ease: "power2.in" }, 3.4);
+
+    window.__timelines["after"] = tl;
+  </script>
+</template>

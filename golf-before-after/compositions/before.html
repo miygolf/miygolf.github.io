@@ -1,0 +1,172 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    #bf-scrim {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 600px;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.3) 60%, rgba(0, 0, 0, 0) 100%);
+    }
+    .bf-tagrow {
+      position: absolute;
+      left: 60px;
+      top: 192px;
+      display: flex;
+      gap: 14px;
+    }
+    .bf-tag {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 20px 9px 16px;
+      border-radius: 10px;
+      background: rgba(8, 10, 8, 0.78);
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 0.12em;
+      color: #ffffff;
+    }
+    .bf-tag .rec {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #ff4438;
+      box-shadow: 0 0 14px rgba(255, 68, 56, 0.8);
+    }
+    #bf-ff {
+      color: #ff4438;
+      border: 2px solid rgba(255, 68, 56, 0.6);
+    }
+    #bf-head {
+      position: absolute;
+      left: 56px;
+      top: 262px;
+      font-family: "League Gothic", sans-serif;
+      font-size: 150px;
+      line-height: 0.92;
+      color: #ffffff;
+      text-shadow: 0 6px 28px rgba(0, 0, 0, 0.55);
+    }
+    #bf-head .w {
+      display: inline-block;
+      margin-right: 22px;
+    }
+    #bf-head .dim {
+      color: rgba(255, 255, 255, 0.55);
+    }
+    #bf-watch {
+      position: absolute;
+      left: 636px;
+      top: 650px;
+      width: 384px;
+      padding: 20px 26px 22px;
+      border-radius: 26px;
+      background: rgba(8, 10, 8, 0.78);
+      border: 3px solid rgba(255, 255, 255, 0.16);
+    }
+    #bf-watch .lbl {
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 0.1em;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    #bf-digits {
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 104px;
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      color: #ff4438;
+    }
+    #bf-note {
+      position: absolute;
+      left: 636px;
+      top: 912px;
+      width: 384px;
+      padding: 14px 22px;
+      border-radius: 18px;
+      background: #ff4438;
+      font-family: "Inter", sans-serif;
+      font-weight: 900;
+      font-size: 38px;
+      line-height: 1.08;
+      color: #ffffff;
+    }
+  </style>
+  <div id="root" data-composition-id="before" data-width="1080" data-height="1920">
+    <div id="bf-scrim" class="clip" data-start="0" data-duration="4.2" data-layout-ignore></div>
+
+    <div id="bf-tags" class="clip bf-tagrow" data-start="0" data-duration="4.2">
+      <div id="bf-tag" class="bf-tag"><span class="rec"></span><span>BEFORE</span></div>
+      <div id="bf-ff" class="bf-tag"><span>▶▶ 3.6×</span></div>
+    </div>
+
+    <div id="bf-head" class="clip" data-start="0" data-duration="2.6">
+      <span class="w">OVERTHINK</span><br />
+      <span class="w dim">ATAS</span><span class="w dim">BOLA…</span>
+    </div>
+
+    <div id="bf-watch" class="clip" data-start="0" data-duration="4.2">
+      <div class="lbl">MASA ATAS BOLA</div>
+      <div id="bf-digits">0.2s</div>
+    </div>
+
+    <div id="bf-note" class="clip" data-start="2.5" data-duration="1.7">baru nak swing…</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // Tags + headline: per-word blur-in
+    tl.fromTo("#bf-tags", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power4.out" }, 0.02);
+    tl.fromTo(
+      "#bf-head .w",
+      { opacity: 0, filter: "blur(8px)" },
+      { opacity: 1, filter: "blur(0px)", duration: 0.14, ease: "power4.out", stagger: 0.09 },
+      0.14,
+    );
+    tl.fromTo("#bf-watch", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.4, ease: "expo.out" }, 0.22);
+
+    // Stopwatch: source seconds over the ball (FF ×3.65 until 2.40, then real time to takeaway at 9.1 s)
+    const digits = document.getElementById("bf-digits");
+    const counter = { t: 0 };
+    tl.fromTo(
+      counter,
+      { t: 0 },
+      {
+        t: 4.2,
+        duration: 4.2,
+        ease: "none",
+        onUpdate: () => {
+          const t = counter.t;
+          let v = t <= 2.4 ? 0.2 + t * 3.65 : 8.96 + (t - 2.4);
+          v = Math.min(v, 9.1);
+          digits.textContent = v.toFixed(1) + "s";
+        },
+      },
+      0,
+    );
+
+    // FF chip leaves when real time resumes
+    tl.to("#bf-ff", { opacity: 0, x: -20, duration: 0.15, ease: "power3.in" }, 2.38);
+
+    // Takeaway (local 2.50): watch stops — border snaps red, note drops in
+    tl.to("#bf-watch", { borderColor: "rgba(255,68,56,1)", duration: 0.08, ease: "none" }, 2.48);
+    tl.fromTo("#bf-digits", { scale: 1 }, { scale: 1.07, duration: 0.08, ease: "power3.out", transformOrigin: "0% 50%" }, 2.48);
+    tl.to("#bf-digits", { scale: 1, duration: 0.3, ease: "power2.out" }, 2.56);
+    tl.fromTo("#bf-note", { opacity: 0, y: -16, filter: "blur(6px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.3, ease: "expo.out" }, 2.52);
+
+    // Headline clears before the head rises into the backswing
+    tl.to("#bf-head .w", { opacity: 0, filter: "blur(8px)", duration: 0.14, ease: "power3.in", stagger: 0.03 }, 2.3);
+    tl.to("#bf-scrim", { opacity: 0.4, duration: 0.3, ease: "power2.out" }, 2.55);
+
+    window.__timelines["before"] = tl;
+  </script>
+</template>

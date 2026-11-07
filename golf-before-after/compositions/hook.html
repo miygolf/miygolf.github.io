@@ -1,0 +1,131 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    #hook-scrim {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 620px;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.62) 0%, rgba(0, 0, 0, 0.35) 55%, rgba(0, 0, 0, 0) 100%);
+    }
+    #hook-kicker {
+      position: absolute;
+      left: 60px;
+      top: 192px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 22px 10px 16px;
+      border-radius: 999px;
+      background: rgba(8, 10, 8, 0.74);
+      border: 2px solid rgba(216, 255, 62, 0.55);
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 29px;
+      letter-spacing: 0.06em;
+      color: #ffffff;
+    }
+    #hook-kicker .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #d8ff3e;
+    }
+    #hook-line {
+      position: absolute;
+      left: 52px;
+      top: 248px;
+      display: flex;
+      align-items: baseline;
+      gap: 26px;
+      font-family: "League Gothic", sans-serif;
+      font-size: 212px;
+      line-height: 0.9;
+      letter-spacing: 0.005em;
+      color: #ffffff;
+      text-shadow: 0 6px 30px rgba(0, 0, 0, 0.55);
+    }
+    #hook-old {
+      position: relative;
+      color: #ff4438;
+    }
+    #hook-strike {
+      position: absolute;
+      left: -6px;
+      right: -6px;
+      top: 50%;
+      height: 14px;
+      margin-top: -7px;
+      background: #ffffff;
+      border-radius: 7px;
+      transform-origin: 0% 50%;
+    }
+    #hook-arrow {
+      font-family: "Space Mono", monospace;
+      font-size: 96px;
+      font-weight: 700;
+      color: #ffffff;
+      transform: translateY(-34px);
+    }
+    #hook-new {
+      color: #d8ff3e;
+    }
+    #hook-flash {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+      opacity: 0;
+    }
+    #hook-ring {
+      position: absolute;
+      left: 658px;
+      top: 1435px;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      border: 10px solid #d8ff3e;
+      opacity: 0;
+    }
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+    <div id="hook-scrim" class="clip" data-start="0" data-duration="1.75" data-layout-ignore></div>
+    <div id="hook-ring-wrap" class="clip" data-start="0" data-duration="1.75" data-layout-ignore>
+      <div id="hook-ring"></div>
+    </div>
+    <div id="hook-kicker" class="clip" data-start="0" data-duration="1.75">
+      <span class="dot"></span><span>MASA ATAS BOLA · BEFORE/AFTER</span>
+    </div>
+    <div id="hook-line" class="clip" data-start="0" data-duration="1.75">
+      <span id="hook-old"><span data-var-text="tBefore">9.1s</span><span id="hook-strike" data-layout-allow-occlusion></span></span>
+      <span id="hook-arrow">→</span>
+      <span id="hook-new" data-var-text="tAfter">1.8s</span>
+    </div>
+    <div id="hook-flash-wrap" class="clip" data-start="0" data-duration="1.75" data-layout-ignore>
+      <div id="hook-flash"></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // Frame 0 already carries the hook (numbers on screen); the strike-through acts it out.
+    tl.fromTo("#hook-strike", { scaleX: 0 }, { scaleX: 1, duration: 0.28, ease: "power3.inOut" }, 0.22);
+    tl.fromTo("#hook-new", { scale: 1 }, { scale: 1.08, duration: 0.14, ease: "power3.out", transformOrigin: "0% 80%" }, 0.5);
+    tl.to("#hook-new", { scale: 1, duration: 0.3, ease: "power2.out" }, 0.64);
+    // Strike at 1.04: white flash + ring off the ball
+    tl.fromTo("#hook-flash", { opacity: 0 }, { opacity: 0.75, duration: 0.03, ease: "none" }, 1.03);
+    tl.to("#hook-flash", { opacity: 0, duration: 0.22, ease: "power2.out" }, 1.06);
+    tl.fromTo("#hook-ring", { scale: 0.15, opacity: 1 }, { scale: 2.6, opacity: 0, duration: 0.55, ease: "expo.out" }, 1.04);
+    // Rewind out: the line blurs away as the glitch starts
+    tl.to("#hook-line", { opacity: 0, filter: "blur(14px)", x: -40, duration: 0.18, ease: "power3.in" }, 1.44);
+    tl.to("#hook-kicker", { opacity: 0, duration: 0.15, ease: "power3.in" }, 1.46);
+    tl.to("#hook-scrim", { opacity: 0, duration: 0.2, ease: "power2.in" }, 1.5);
+    // Glitch flash on the cut to BEFORE (1.60)
+    tl.to("#hook-flash", { opacity: 0.35, duration: 0.04, ease: "none" }, 1.57);
+    tl.to("#hook-flash", { opacity: 0, duration: 0.12, ease: "power2.out" }, 1.61);
+    window.__timelines["hook"] = tl;
+  </script>
+</template>
