@@ -1,0 +1,181 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    #dr-scrim {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 640px;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.25) 60%, rgba(0, 0, 0, 0) 100%);
+    }
+    #dr-kicker {
+      position: absolute;
+      left: 60px;
+      top: 196px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 20px 9px 16px;
+      border-radius: 10px;
+      background: rgba(8, 10, 8, 0.8);
+      border: 2px solid rgba(216, 255, 62, 0.6);
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 30px;
+      letter-spacing: 0.12em;
+      color: #d8ff3e;
+    }
+    #dr-kicker .clock {
+      width: 26px;
+      height: 26px;
+    }
+    #dr-chapter {
+      position: absolute;
+      left: 56px;
+      top: 262px;
+      font-family: "League Gothic", sans-serif;
+      font-size: 132px;
+      line-height: 0.92;
+      color: #ffffff;
+      text-shadow: 0 6px 28px rgba(0, 0, 0, 0.55);
+    }
+    #dr-chapter .w {
+      display: inline-block;
+      margin-right: 20px;
+    }
+    #dr-title {
+      position: absolute;
+      left: 52px;
+      top: 196px;
+      font-family: "League Gothic", sans-serif;
+      font-size: 178px;
+      line-height: 0.9;
+      color: #d8ff3e;
+      text-shadow: 0 8px 34px rgba(0, 0, 0, 0.6);
+      white-space: nowrap;
+    }
+    #dr-badge {
+      position: absolute;
+      left: 60px;
+      top: 372px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 20px 12px 14px;
+      border-radius: 14px;
+      background: #ffffff;
+      font-family: "League Gothic", sans-serif;
+      font-size: 52px;
+      line-height: 1;
+      color: #070807;
+      white-space: nowrap;
+    }
+    #dr-badge svg {
+      width: 40px;
+      height: 40px;
+      flex: none;
+    }
+    #dr-tracer {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: visible;
+    }
+    #dr-flash {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+      opacity: 0;
+    }
+    #dr-ring {
+      position: absolute;
+      left: 690px;
+      top: 1257px;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      border: 10px solid #d8ff3e;
+      opacity: 0;
+    }
+  </style>
+  <div id="root" data-composition-id="draw" data-width="1080" data-height="1920">
+    <div id="dr-scrim" class="clip" data-start="0" data-duration="6.95" data-layout-ignore></div>
+
+    <div id="dr-kicker" class="clip" data-start="0" data-duration="2.85">
+      <svg class="clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="13" r="8.5" /><path d="M12 8.5V13l3 2M9.5 2.5h5" /></svg>
+      <span>LEPAS 40 MINIT</span>
+    </div>
+    <div id="dr-chapter" class="clip" data-start="0" data-duration="2.85">
+      <span class="w">SESI</span><span class="w">BIOMEKANIK.</span>
+    </div>
+
+    <!-- Ball tracer: an illustrated baby draw (starts right, curls back left) leaving the tee -->
+    <div id="dr-tracer-wrap" class="clip" data-start="2.9" data-duration="4.05" data-layout-ignore data-layout-allow-overflow>
+      <svg id="dr-tracer" viewBox="0 0 1080 1920">
+        <defs>
+          <filter id="dr-glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="9" />
+          </filter>
+        </defs>
+        <path id="dr-path-glow" d="M810 1377 C 826 1080, 872 760, 846 600 C 822 470, 700 520, 592 792" fill="none" stroke="#d8ff3e" stroke-width="22" stroke-linecap="round" opacity="0.55" filter="url(#dr-glow)" />
+        <path id="dr-path" d="M810 1377 C 826 1080, 872 760, 846 600 C 822 470, 700 520, 592 792" fill="none" stroke="#f6ffd0" stroke-width="7" stroke-linecap="round" />
+      </svg>
+    </div>
+
+    <div id="dr-title" class="clip" data-start="3.3" data-duration="1.1">BABY DRAW.</div>
+    <div id="dr-badge" class="clip" data-start="3.5" data-duration="0.9">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#3f8f00" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5L19.5 7" /></svg>
+      <span>DRIVER · BERJAYA</span>
+    </div>
+
+    <div id="dr-ring-wrap" class="clip" data-start="0" data-duration="6.95" data-layout-ignore>
+      <div id="dr-ring"></div>
+    </div>
+    <div id="dr-flash-wrap" class="clip" data-start="0" data-duration="6.95" data-layout-ignore>
+      <div id="dr-flash"></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // Chapter card over the address
+    tl.fromTo("#dr-scrim", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 0);
+    tl.fromTo("#dr-kicker", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 0.15);
+    tl.fromTo(
+      "#dr-chapter .w",
+      { opacity: 0, color: "#8a8a8a" },
+      { opacity: 1, color: "#ffffff", duration: 0.12, ease: "power2.out", stagger: 0.09 },
+      0.3,
+    );
+    tl.to(["#dr-kicker", "#dr-chapter"], { opacity: 0, filter: "blur(10px)", duration: 0.16, ease: "power3.in" }, 2.62);
+
+    // Strike at 2.95: flash + ring off the tee
+    tl.fromTo("#dr-flash", { opacity: 0 }, { opacity: 0.8, duration: 0.03, ease: "none" }, 2.94);
+    tl.to("#dr-flash", { opacity: 0, duration: 0.26, ease: "power2.out" }, 2.97);
+    tl.fromTo("#dr-ring", { scale: 0.15, opacity: 1 }, { scale: 2.8, opacity: 0, duration: 0.6, ease: "expo.out" }, 2.95);
+
+    // Tracer draws out fast off the face, slows as it curls left and drops
+    const path = document.getElementById("dr-path");
+    const glow = document.getElementById("dr-path-glow");
+    const len = path.getTotalLength();
+    [path, glow].forEach((el) => {
+      el.style.strokeDasharray = len + " " + len;
+    });
+    tl.fromTo([path, glow], { strokeDashoffset: len }, { strokeDashoffset: 0, duration: 1.75, ease: "power2.out" }, 2.97);
+    tl.to("#dr-tracer-wrap", { opacity: 0.4, duration: 0.5, ease: "power2.out" }, 4.4);
+
+    // BABY DRAW lands, badge follows
+    tl.fromTo("#dr-title", { opacity: 0, scale: 1.35, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.32, ease: "expo.out", transformOrigin: "0% 70%" }, 3.32);
+    tl.fromTo("#dr-badge", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.35, ease: "back.out(1.5)" }, 3.52);
+    tl.to(["#dr-title", "#dr-badge"], { opacity: 0, filter: "blur(10px)", duration: 0.14, ease: "power3.in" }, 4.24);
+
+    window.__timelines["draw"] = tl;
+  </script>
+</template>
