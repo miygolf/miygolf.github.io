@@ -24,7 +24,7 @@ Nak tips green reading? Komen "GREEN" 👇
 ## Versi santai (alternatif)
 
 ### TikTok — santai A
-Pagi-pagi dah dapat birdie, siapa tak happy 😆⛳
+Dapat birdie kat hole pertama, siapa tak happy 😆⛳
 
 Tasik Nine, KRTU Subang. Hole 1 je ni.
 Second shot 117 meter, tinggal 10–12 kaki… putt, masuk 🐦
@@ -34,9 +34,9 @@ Korang nak aku buat video green reading pulak? Komen "GREEN" 👇
 #golfmalaysia #golftips #golfswing #krtusubang #birdie #fyp
 
 ### TikTok — santai B
-Hole pertama terus birdie, rezeki pagi ni 🤭🐦
+Hole pertama terus birdie, rezeki betul 🤭🐦
 
-Tee off ✔️ 117 meter ke green ✔️ putt 10 kaki masuk ✔️
+Tee off ✔️ 117 meter ke green ✔️ putt 10–12 kaki masuk ✔️
 Tasik Nine, KRTU Subang ⛳
 
 Ada yang main kat sini jugak? Komen la 👇
@@ -44,7 +44,7 @@ Ada yang main kat sini jugak? Komen la 👇
 #golfmalaysia #golftips #golflesson #krtusubang #playahole #fyp
 
 ### Instagram — santai
-Hole 1, terus birdie 🐦 rezeki pagi ni 😆
+Hole 1, terus birdie 🐦 rezeki betul 😆
 Tasik Nine, KRTU Subang ⛳
 
 #golfmalaysia #golftips #golfswing #krtusubang #birdie #playahole
