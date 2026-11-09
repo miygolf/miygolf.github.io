@@ -48,3 +48,19 @@ Hole 1, terus birdie 🐦 rezeki betul 😆
 Tasik Nine, KRTU Subang ⛳
 
 #golfmalaysia #golftips #golfswing #krtusubang #birdie #playahole
+
+## Versi simple, hook direct
+
+### TikTok
+Putt 10 kaki untuk birdie. Masuk ke tak? 👀
+
+Hole 1, Tasik Nine KRTU Subang ⛳
+Nak tips green reading? Komen "GREEN" 👇
+
+#golfmalaysia #golftips #golfswing #krtusubang #birdie #fyp
+
+### Instagram
+Putt untuk birdie… masuk ke tak? 👀
+Tasik Nine, KRTU Subang ⛳
+
+#golfmalaysia #golftips #golfswing #krtusubang #birdie #playahole
