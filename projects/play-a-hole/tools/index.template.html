@@ -47,12 +47,17 @@
       #hud-score .fill { padding: 8px 18px 6px; font-size: 30px; white-space: nowrap; }
 
       /* hook */
-      #title { left: 60px; top: 236px; width: 870px; text-align: center; opacity: 1; }
+      #title { left: 60px; top: 184px; width: 870px; text-align: center; opacity: 1; }
       #title-chip { display: inline-block; }
       #title-chip .fill { padding: 8px 20px 6px; font-size: 32px; color: var(--white); }
       #title-chip .tri { display: inline-block; width: 16px; height: 16px; background: var(--sun); margin-right: 14px; vertical-align: 2px; }
-      #title-main { margin-top: 26px; font-size: 118px; letter-spacing: 0.01em; }
+      #title-main { margin-top: 28px; font-size: 118px; letter-spacing: 0.01em; }
       #title-sub { margin-top: 18px; font-size: 76px; }
+      .loc { display: inline-block; }
+      .loc .fill { padding: 8px 20px 6px; font-size: 30px; display: flex; align-items: center; gap: 12px; white-space: nowrap; }
+      .loc .pin { display: block; width: 14px; height: 20px; background: var(--ink); box-shadow: 0 -4px 0 -2px var(--ink); }
+      #title-loc { margin-top: 22px; }
+      #card-loc { margin-bottom: 18px; }
       .tl-l { display: inline-block; }
       #pause { left: 60px; top: 330px; width: 870px; text-align: center; }
       #pause-chip { display: inline-block; }
@@ -168,6 +173,7 @@
         <div id="title-chip" class="rim"><div class="fill px"><i class="tri"></i>PLAYER 1 · COACH IQBAL</div></div>
         <div id="title-main" class="arc out"><span class="tl-l">PLAY</span> <span class="tl-l">A</span> <span class="tl-l">HOLE</span></div>
         <div id="title-sub" class="arc out sunc"><span class="tl-l">WITH</span> <span class="tl-l">ME</span></div>
+        <div id="title-loc" class="loc rim"><div class="fill sun px"><i class="pin"></i>TASIK NINE · KRTU SUBANG</div></div>
       </div>
       <div id="pause" class="ov">
         <div id="pause-chip" class="rim"><div class="fill sun px"><span class="bars"><i></i><i></i></span>PAUSED</div></div>
@@ -178,6 +184,7 @@
 
       <!-- tee -->
       <div id="card" class="ov">
+        <div id="card-loc" class="loc rim"><div class="fill px" style="color:#fff">TASIK NINE · KRTU SUBANG</div></div>
         <div id="card-hole" class="arc out">HOLE 1</div>
         <div id="card-par" class="rim"><div class="fill sun px">PAR 4 · TEE OFF</div></div>
       </div>
