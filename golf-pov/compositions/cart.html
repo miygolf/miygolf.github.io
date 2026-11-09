@@ -1,0 +1,48 @@
+<template>
+  <style>
+
+      #root { position: absolute; inset: 0; overflow: visible; }
+      .fd { font-family: "Archivo Black", sans-serif; }
+      .fm { font-family: "JetBrains Mono", monospace; font-weight: 700; }
+      .fi { font-family: "Inter", sans-serif; }
+      .panel { background: rgba(6, 18, 12, 0.80); border: 2px solid rgba(200, 255, 46, 0.55); border-radius: 22px; }
+      .chip { display: inline-flex; align-items: center; gap: 12px; padding: 12px 22px; border-radius: 999px;
+              background: rgba(6, 18, 12, 0.82); color: #fff; font-family: "JetBrains Mono", monospace; font-weight: 700;
+              font-size: 30px; letter-spacing: 0.04em; border: 2px solid rgba(200,255,46,0.6); }
+      .lime { color: #c8ff2e; }
+      .red { color: #ff3b30; }
+      .shadow { text-shadow: 0 4px 0 rgba(0,0,0,0.35), 0 0 24px rgba(0,0,0,0.35); }
+
+
+      #ct-chip { position: absolute; left: 60px; top: 330px; }
+      #ct-lines { position: absolute; inset: 0; overflow: hidden; }
+      .ln { position: absolute; height: 6px; border-radius: 3px; background: rgba(255,255,255,0.55); }
+
+  </style>
+  <div id="root" data-composition-id="cart" data-width="1080" data-height="1920" data-duration="2.4">
+    <div id="ct-lines" class="clip" data-start="0" data-duration="2.4">
+      <div class="ln" id="ct-l0" style="top:260px;left:0px;width:260px"></div>
+      <div class="ln" id="ct-l1" style="top:410px;left:197px;width:343px"></div>
+      <div class="ln" id="ct-l2" style="top:560px;left:394px;width:426px"></div>
+      <div class="ln" id="ct-l3" style="top:710px;left:591px;width:269px"></div>
+      <div class="ln" id="ct-l4" style="top:860px;left:88px;width:352px"></div>
+      <div class="ln" id="ct-l5" style="top:1010px;left:285px;width:435px"></div>
+      <div class="ln" id="ct-l6" style="top:1160px;left:482px;width:278px"></div>
+      <div class="ln" id="ct-l7" style="top:1310px;left:679px;width:361px"></div>
+    </div>
+    <div id="ct-chip" class="clip" data-start="0.1" data-duration="2.3"><span class="chip"><span class="lime">&#9654;&#9654;</span> x2.5 · NEXT SHOT</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#ct-l0", { x: 900, opacity: 0.0 }, { x: -1400, opacity: 0.9, duration: 0.5, ease: "none" }, 0.05);
+    tl.fromTo("#ct-l1", { x: 900, opacity: 0.0 }, { x: -1400, opacity: 0.9, duration: 0.62, ease: "none" }, 0.32);
+    tl.fromTo("#ct-l2", { x: 900, opacity: 0.0 }, { x: -1400, opacity: 0.9, duration: 0.74, ease: "none" }, 0.59);
+    tl.fromTo("#ct-l3", { x: 900, opacity: 0.0 }, { x: -1400, opacity: 0.9, duration: 0.5, ease: "none" }, 0.86);
+    tl.fromTo("#ct-l4", { x: 900, opacity: 0.0 }, { x: -1400, opacity: 0.9, duration: 0.62, ease: "none" }, 1.13);
+    tl.fromTo("#ct-l5", { x: 900, opacity: 0.0 }, { x: -1400, opacity: 0.9, duration: 0.74, ease: "none" }, 1.4);
+    tl.fromTo("#ct-l6", { x: 900, opacity: 0.0 }, { x: -1400, opacity: 0.9, duration: 0.5, ease: "none" }, 0.07);
+    tl.fromTo("#ct-l7", { x: 900, opacity: 0.0 }, { x: -1400, opacity: 0.9, duration: 0.62, ease: "none" }, 0.34);
+    tl.fromTo("#ct-chip", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.25, ease: "expo.out" }, 0.1);
+    window.__timelines["cart"] = tl;
+  </script>
+</template>

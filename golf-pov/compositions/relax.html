@@ -1,0 +1,38 @@
+<template>
+  <style>
+
+      #root { position: absolute; inset: 0; overflow: visible; }
+      .fd { font-family: "Archivo Black", sans-serif; }
+      .fm { font-family: "JetBrains Mono", monospace; font-weight: 700; }
+      .fi { font-family: "Inter", sans-serif; }
+      .panel { background: rgba(6, 18, 12, 0.80); border: 2px solid rgba(200, 255, 46, 0.55); border-radius: 22px; }
+      .chip { display: inline-flex; align-items: center; gap: 12px; padding: 12px 22px; border-radius: 999px;
+              background: rgba(6, 18, 12, 0.82); color: #fff; font-family: "JetBrains Mono", monospace; font-weight: 700;
+              font-size: 30px; letter-spacing: 0.04em; border: 2px solid rgba(200,255,46,0.6); }
+      .lime { color: #c8ff2e; }
+      .red { color: #ff3b30; }
+      .shadow { text-shadow: 0 4px 0 rgba(0,0,0,0.35), 0 0 24px rgba(0,0,0,0.35); }
+
+
+      #rx-card { position: absolute; left: 60px; top: 320px; width: 640px; padding: 28px 32px; }
+      #rx-k { display: inline-block; background: #c8ff2e; color: #06120c; font-size: 28px; padding: 8px 14px; border-radius: 8px; }
+      #rx-t { margin-top: 18px; color: #fff; font-size: 70px; line-height: 1.0; }
+      #rx-s { margin-top: 14px; color: rgba(255,255,255,0.85); font-size: 30px; }
+
+  </style>
+  <div id="root" data-composition-id="relax" data-width="1080" data-height="1920" data-duration="5.3">
+    <div id="rx-card" class="clip panel" data-start="0.3" data-duration="5.0">
+      <div id="rx-k" class="fm">TIP #1 · MENTAL</div>
+      <div id="rx-t" class="fd">RELAX.<br/><span class="lime">JANGAN FORCE.</span></div>
+      <div id="rx-s" class="fi">First few holes — redeem dulu.</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    tl.fromTo("#rx-card", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out" }, 0.3);
+    tl.fromTo("#rx-s", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 2.15);
+    tl.to("#rx-card", { opacity: 0, y: -20, duration: 0.22, ease: "power3.in" }, 5.05);
+    window.__timelines["relax"] = tl;
+  </script>
+</template>

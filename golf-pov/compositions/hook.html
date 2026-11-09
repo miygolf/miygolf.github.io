@@ -1,0 +1,48 @@
+<template>
+  <style>
+
+      #root { position: absolute; inset: 0; overflow: visible; }
+      .fd { font-family: "Archivo Black", sans-serif; }
+      .fm { font-family: "JetBrains Mono", monospace; font-weight: 700; }
+      .fi { font-family: "Inter", sans-serif; }
+      .panel { background: rgba(6, 18, 12, 0.80); border: 2px solid rgba(200, 255, 46, 0.55); border-radius: 22px; }
+      .chip { display: inline-flex; align-items: center; gap: 12px; padding: 12px 22px; border-radius: 999px;
+              background: rgba(6, 18, 12, 0.82); color: #fff; font-family: "JetBrains Mono", monospace; font-weight: 700;
+              font-size: 30px; letter-spacing: 0.04em; border: 2px solid rgba(200,255,46,0.6); }
+      .lime { color: #c8ff2e; }
+      .red { color: #ff3b30; }
+      .shadow { text-shadow: 0 4px 0 rgba(0,0,0,0.35), 0 0 24px rgba(0,0,0,0.35); }
+
+
+      #hk-top { position: absolute; left: 0; right: 0; top: 250px; text-align: center; }
+      #hk-pov { display: inline-block; padding: 14px 26px; border-radius: 14px; background: #c8ff2e; color: #06120c;
+                font-size: 40px; letter-spacing: 0.02em; }
+      #hk-title { margin-top: 22px; color: #fff; font-size: 92px; line-height: 0.98; letter-spacing: -0.01em; }
+      #hk-q { position: absolute; left: 0; right: 0; top: 420px; text-align: center; }
+      #hk-q .l1 { font-size: 150px; line-height: 0.92; color: #fff; }
+      #hk-q .l2 { font-size: 150px; line-height: 0.92; color: #c8ff2e; }
+      #hk-ring { position: absolute; left: 430px; top: 1150px; width: 200px; height: 200px; border-radius: 50%;
+                 border: 8px solid #c8ff2e; box-shadow: 0 0 30px rgba(200,255,46,0.7); }
+
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920" data-duration="5.09">
+    <div id="hk-top" class="clip" data-start="0" data-duration="4.14">
+      <div id="hk-pov" class="fm">POV · KAU DALAM BUNKER</div>
+      <div id="hk-title" class="fd shadow">SATU SWING.<br/>SATU PELUANG.</div>
+    </div>
+    <div id="hk-q" class="clip fd shadow" data-start="4.14" data-duration="0.95">
+      <div class="l1" id="hk-q1">KELUAR</div><div class="l2" id="hk-q2">KE TAK?</div>
+    </div>
+    <div id="hk-ring" class="clip" data-start="4.14" data-duration="0.95"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    tl.fromTo("#hk-title", { scale: 1.06 }, { scale: 1, duration: 0.5, ease: "expo.out" }, 0);
+    tl.to("#hk-top", { opacity: 0, duration: 0.12, ease: "power2.in" }, 4.02);
+    tl.fromTo("#hk-q1", { scale: 1.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.18, ease: "expo.out" }, 4.14);
+    tl.fromTo("#hk-q2", { scale: 1.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.18, ease: "expo.out" }, 4.26);
+    tl.fromTo("#hk-ring", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(1.6)" }, 4.18);
+    window.__timelines["hook"] = tl;
+  </script>
+</template>

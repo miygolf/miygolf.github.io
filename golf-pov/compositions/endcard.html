@@ -1,0 +1,50 @@
+<template>
+  <style>
+
+      #root { position: absolute; inset: 0; overflow: visible; }
+      .fd { font-family: "Archivo Black", sans-serif; }
+      .fm { font-family: "JetBrains Mono", monospace; font-weight: 700; }
+      .fi { font-family: "Inter", sans-serif; }
+      .panel { background: rgba(6, 18, 12, 0.80); border: 2px solid rgba(200, 255, 46, 0.55); border-radius: 22px; }
+      .chip { display: inline-flex; align-items: center; gap: 12px; padding: 12px 22px; border-radius: 999px;
+              background: rgba(6, 18, 12, 0.82); color: #fff; font-family: "JetBrains Mono", monospace; font-weight: 700;
+              font-size: 30px; letter-spacing: 0.04em; border: 2px solid rgba(200,255,46,0.6); }
+      .lime { color: #c8ff2e; }
+      .red { color: #ff3b30; }
+      .shadow { text-shadow: 0 4px 0 rgba(0,0,0,0.35), 0 0 24px rgba(0,0,0,0.35); }
+
+
+      #ec-k { position: absolute; left: 60px; top: 300px; display: inline-block; background: #c8ff2e; color: #06120c; font-size: 30px; padding: 10px 16px; border-radius: 10px; }
+      #ec-t { position: absolute; left: 60px; top: 380px; color: #fff; font-size: 110px; line-height: 0.95; }
+      #ec-card { position: absolute; left: 60px; top: 640px; width: 820px; padding: 18px 30px; }
+      .rr { display: flex; align-items: baseline; gap: 22px; padding: 18px 0; border-bottom: 2px solid rgba(255,255,255,0.15); color: #fff; }
+      .rr:last-child { border-bottom: none; }
+      .rr .l { font-size: 36px; width: 330px; }
+      .rr .n { font-size: 54px; color: #c8ff2e; width: 60px; }
+      .rr .c { font-size: 32px; color: rgba(255,255,255,0.8); font-style: italic; }
+      #ec-cta { position: absolute; left: 60px; top: 1040px; color: #fff; font-size: 44px; }
+
+  </style>
+  <div id="root" data-composition-id="endcard" data-width="1080" data-height="1920" data-duration="4.96">
+    <div id="ec-k" class="clip fm" data-start="0.25" data-duration="4.71">ROUND RECAP</div>
+    <div id="ec-t" class="clip fd shadow" data-start="0.3" data-duration="4.66">MAIN<br/><span class="lime">LAGI?</span></div>
+    <div id="ec-card" class="clip panel" data-start="0.45" data-duration="4.51">
+      <div class="rr" id="ec-r0"><span class="fm l">BUNKER</span><span class="fm n">1</span><span class="fi c">tak keluar</span></div>
+      <div class="rr" id="ec-r1"><span class="fm l">DOUBLE BOGEY</span><span class="fm n">1</span><span class="fi c">easy man</span></div>
+      <div class="rr" id="ec-r2"><span class="fm l">BIRDIE</span><span class="fm n">1</span><span class="fi c">bukan aku</span></div>
+    </div>
+    <div id="ec-cta" class="clip fd shadow" data-start="1.5" data-duration="3.46">FOLLOW <span class="lime">&#8594;</span> HOLE SETERUSNYA</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    tl.fromTo("#ec-k", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.3, ease: "expo.out" }, 0.25);
+    tl.fromTo("#ec-t", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 0.3);
+    tl.fromTo("#ec-card", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.35, ease: "expo.out" }, 0.45);
+    tl.fromTo("#ec-r0", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.25, ease: "expo.out" }, 0.55);
+    tl.fromTo("#ec-r1", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.25, ease: "expo.out" }, 0.8);
+    tl.fromTo("#ec-r2", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.25, ease: "expo.out" }, 1.05);
+    tl.fromTo("#ec-cta", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3, ease: "expo.out" }, 1.5);
+    window.__timelines["endcard"] = tl;
+  </script>
+</template>

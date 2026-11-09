@@ -1,0 +1,36 @@
+<template>
+  <style>
+
+      #root { position: absolute; inset: 0; overflow: visible; }
+      .fd { font-family: "Archivo Black", sans-serif; }
+      .fm { font-family: "JetBrains Mono", monospace; font-weight: 700; }
+      .fi { font-family: "Inter", sans-serif; }
+      .panel { background: rgba(6, 18, 12, 0.80); border: 2px solid rgba(200, 255, 46, 0.55); border-radius: 22px; }
+      .chip { display: inline-flex; align-items: center; gap: 12px; padding: 12px 22px; border-radius: 999px;
+              background: rgba(6, 18, 12, 0.82); color: #fff; font-family: "JetBrains Mono", monospace; font-weight: 700;
+              font-size: 30px; letter-spacing: 0.04em; border: 2px solid rgba(200,255,46,0.6); }
+      .lime { color: #c8ff2e; }
+      .red { color: #ff3b30; }
+      .shadow { text-shadow: 0 4px 0 rgba(0,0,0,0.35), 0 0 24px rgba(0,0,0,0.35); }
+
+
+      #ds-box { position: absolute; left: 60px; top: 320px; padding: 26px 34px 26px 30px; display: flex; gap: 22px; align-items: center; }
+      #ds-num { font-size: 120px; color: #fff; line-height: 0.9; }
+      #ds-unit { font-size: 34px; color: #c8ff2e; }
+      #ds-sub { font-size: 28px; color: rgba(255,255,255,0.8); margin-top: 8px; letter-spacing: 0.08em; }
+
+  </style>
+  <div id="root" data-composition-id="distance" data-width="1080" data-height="1920" data-duration="5.35">
+    <div id="ds-box" class="clip panel" data-start="2.73" data-duration="2.62">
+      <svg viewBox="0 0 40 56" width="40" height="56"><line x1="6" y1="2" x2="6" y2="54" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M8 4 L36 12 L8 22 Z" fill="#ff3b30"/></svg>
+      <div><div><span id="ds-num" class="fm">~100</span><span id="ds-unit" class="fm"> M</span></div><div id="ds-sub" class="fm">KE GREEN · LEBIH KURANG</div></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    tl.fromTo("#ds-box", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.35, ease: "expo.out" }, 2.73);
+    tl.to("#ds-box", { opacity: 0, x: -40, duration: 0.2, ease: "power3.in" }, 5.13);
+    window.__timelines["distance"] = tl;
+  </script>
+</template>

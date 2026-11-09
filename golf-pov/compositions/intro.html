@@ -1,0 +1,51 @@
+<template>
+  <style>
+
+      #root { position: absolute; inset: 0; overflow: visible; }
+      .fd { font-family: "Archivo Black", sans-serif; }
+      .fm { font-family: "JetBrains Mono", monospace; font-weight: 700; }
+      .fi { font-family: "Inter", sans-serif; }
+      .panel { background: rgba(6, 18, 12, 0.80); border: 2px solid rgba(200, 255, 46, 0.55); border-radius: 22px; }
+      .chip { display: inline-flex; align-items: center; gap: 12px; padding: 12px 22px; border-radius: 999px;
+              background: rgba(6, 18, 12, 0.82); color: #fff; font-family: "JetBrains Mono", monospace; font-weight: 700;
+              font-size: 30px; letter-spacing: 0.04em; border: 2px solid rgba(200,255,46,0.6); }
+      .lime { color: #c8ff2e; }
+      .red { color: #ff3b30; }
+      .shadow { text-shadow: 0 4px 0 rgba(0,0,0,0.35), 0 0 24px rgba(0,0,0,0.35); }
+
+
+      #in-tag { position: absolute; left: 60px; top: 300px; }
+      #in-tag .k { display: inline-block; background: #c8ff2e; color: #06120c; font-size: 30px; padding: 10px 18px; border-radius: 10px; }
+      #in-tag .t { margin-top: 16px; color: #fff; font-size: 78px; line-height: 1.0; }
+      #in-meter { position: absolute; left: 60px; top: 640px; width: 64px; height: 420px; border-radius: 32px; overflow: hidden;
+                  background: rgba(6,18,12,0.72); border: 3px solid rgba(255,255,255,0.85); }
+      #in-fill { position: absolute; left: 0; right: 0; bottom: 0; height: 100%; transform-origin: 50% 100%;
+                 background: linear-gradient(0deg, #c8ff2e 0%, #c8ff2e 62%, #ffcf3a 80%, #ff3b30 100%); }
+      #in-mlabel { position: absolute; left: 140px; top: 1000px; color: #fff; font-size: 30px; }
+      #in-pow { position: absolute; left: 0; right: 0; top: 520px; text-align: center; font-size: 140px; color: #c8ff2e; }
+
+  </style>
+  <div id="root" data-composition-id="intro" data-width="1080" data-height="1920" data-duration="7.1">
+    <div id="in-tag" class="clip" data-start="0.35" data-duration="3.25">
+      <div class="k fm">ROUND PAGI · GENG GOLF</div>
+      <div class="t fd shadow">POV: KAU<br/>JADI AKU.</div>
+    </div>
+    <div id="in-meter" class="clip" data-start="2.15" data-duration="4.85"><div id="in-fill"></div></div>
+    <div id="in-mlabel" class="clip fm shadow" data-start="2.15" data-duration="4.85">POWER</div>
+    <div id="in-pow" class="clip fd shadow" data-start="4.6" data-duration="2.45">TEE OFF!</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    tl.fromTo("#in-tag .k", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.3, ease: "expo.out" }, 0.35);
+    tl.fromTo("#in-tag .t", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 0.5);
+    tl.to("#in-tag", { opacity: 0, x: -40, duration: 0.2, ease: "power3.in" }, 3.05);
+    tl.fromTo("#in-meter", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.3, ease: "expo.out" }, 2.15);
+    tl.fromTo("#in-fill", { scaleY: 0.04 }, { scaleY: 0.92, duration: 2.2, ease: "power2.in" }, 2.25);
+    tl.to("#in-fill", { scaleY: 1.0, duration: 0.08, ease: "power2.out" }, 4.47);
+    tl.fromTo("#in-pow", { scale: 1.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, ease: "expo.out" }, 4.6);
+    tl.to("#in-pow", { opacity: 0, y: -30, duration: 0.2, ease: "power2.in" }, 6.8);
+    tl.to(["#in-meter", "#in-mlabel"], { opacity: 0, duration: 0.2 }, 6.8);
+    window.__timelines["intro"] = tl;
+  </script>
+</template>

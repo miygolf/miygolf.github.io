@@ -1,0 +1,118 @@
+<template>
+  <style>
+
+      #root { position: absolute; inset: 0; overflow: visible; }
+      .fd { font-family: "Archivo Black", sans-serif; }
+      .fm { font-family: "JetBrains Mono", monospace; font-weight: 700; }
+      .fi { font-family: "Inter", sans-serif; }
+      .panel { background: rgba(6, 18, 12, 0.80); border: 2px solid rgba(200, 255, 46, 0.55); border-radius: 22px; }
+      .chip { display: inline-flex; align-items: center; gap: 12px; padding: 12px 22px; border-radius: 999px;
+              background: rgba(6, 18, 12, 0.82); color: #fff; font-family: "JetBrains Mono", monospace; font-weight: 700;
+              font-size: 30px; letter-spacing: 0.04em; border: 2px solid rgba(200,255,46,0.6); }
+      .lime { color: #c8ff2e; }
+      .red { color: #ff3b30; }
+      .shadow { text-shadow: 0 4px 0 rgba(0,0,0,0.35), 0 0 24px rgba(0,0,0,0.35); }
+
+
+      #bd-wrap { position: absolute; left: 0; right: 0; top: 300px; text-align: center; }
+      #bd-word { display: inline-block; font-size: 170px; line-height: 0.9; color: #06120c; background: #c8ff2e; padding: 18px 36px 8px; border-radius: 26px; transform: rotate(-3deg); }
+      #bd-sub { margin-top: 26px; font-size: 40px; color: #fff; letter-spacing: 0.08em; }
+      #bd-conf { position: absolute; inset: 0; }
+      .cf { position: absolute; border-radius: 4px; opacity: 0; }
+
+  </style>
+  <div id="root" data-composition-id="birdie" data-width="1080" data-height="1920" data-duration="10.25">
+    <div id="bd-conf" class="clip" data-start="4.26" data-duration="2.4">
+      <div class="cf" id="bd-c0" style="left:411px;top:337px;width:22px;height:23px;background:#ff3b30"></div>
+      <div class="cf" id="bd-c1" style="left:139px;top:519px;width:12px;height:24px;background:#ffffff"></div>
+      <div class="cf" id="bd-c2" style="left:514px;top:290px;width:15px;height:23px;background:#c8ff2e"></div>
+      <div class="cf" id="bd-c3" style="left:127px;top:545px;width:16px;height:35px;background:#ffffff"></div>
+      <div class="cf" id="bd-c4" style="left:915px;top:352px;width:21px;height:28px;background:#c8ff2e"></div>
+      <div class="cf" id="bd-c5" style="left:141px;top:365px;width:22px;height:35px;background:#ff3b30"></div>
+      <div class="cf" id="bd-c6" style="left:450px;top:413px;width:14px;height:29px;background:#ffffff"></div>
+      <div class="cf" id="bd-c7" style="left:431px;top:489px;width:21px;height:24px;background:#ffcf3a"></div>
+      <div class="cf" id="bd-c8" style="left:235px;top:510px;width:12px;height:24px;background:#ff3b30"></div>
+      <div class="cf" id="bd-c9" style="left:401px;top:434px;width:21px;height:37px;background:#ffcf3a"></div>
+      <div class="cf" id="bd-c10" style="left:356px;top:502px;width:12px;height:31px;background:#c8ff2e"></div>
+      <div class="cf" id="bd-c11" style="left:371px;top:457px;width:12px;height:36px;background:#ffcf3a"></div>
+      <div class="cf" id="bd-c12" style="left:303px;top:407px;width:15px;height:34px;background:#ffffff"></div>
+      <div class="cf" id="bd-c13" style="left:539px;top:465px;width:14px;height:35px;background:#ffcf3a"></div>
+      <div class="cf" id="bd-c14" style="left:447px;top:454px;width:14px;height:24px;background:#ffffff"></div>
+      <div class="cf" id="bd-c15" style="left:576px;top:353px;width:16px;height:22px;background:#ffcf3a"></div>
+      <div class="cf" id="bd-c16" style="left:406px;top:324px;width:19px;height:34px;background:#c8ff2e"></div>
+      <div class="cf" id="bd-c17" style="left:490px;top:291px;width:13px;height:28px;background:#ffffff"></div>
+      <div class="cf" id="bd-c18" style="left:184px;top:260px;width:20px;height:25px;background:#ffffff"></div>
+      <div class="cf" id="bd-c19" style="left:292px;top:452px;width:22px;height:30px;background:#ffffff"></div>
+      <div class="cf" id="bd-c20" style="left:198px;top:509px;width:19px;height:37px;background:#ff3b30"></div>
+      <div class="cf" id="bd-c21" style="left:838px;top:395px;width:14px;height:38px;background:#ff3b30"></div>
+      <div class="cf" id="bd-c22" style="left:230px;top:538px;width:20px;height:31px;background:#c8ff2e"></div>
+      <div class="cf" id="bd-c23" style="left:347px;top:525px;width:14px;height:33px;background:#ffcf3a"></div>
+      <div class="cf" id="bd-c24" style="left:417px;top:374px;width:15px;height:34px;background:#ffffff"></div>
+      <div class="cf" id="bd-c25" style="left:444px;top:274px;width:16px;height:37px;background:#c8ff2e"></div>
+    </div>
+    <div id="bd-wrap" class="clip" data-start="4.26" data-duration="4.29">
+      <div id="bd-word" class="fd">BIRDIE</div>
+      <div id="bd-sub" class="fm shadow">-1 · BUKAN AKU YANG PUKUL</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    tl.fromTo("#bd-word", { scale: 2.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, ease: "expo.out" }, 4.26);
+    tl.fromTo("#bd-sub", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3, ease: "expo.out" }, 4.86);
+    tl.to("#bd-wrap", { opacity: 0, y: -30, duration: 0.22, ease: "power3.in" }, 8.3);
+    tl.fromTo("#bd-c0", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: -222, y: 677, rotation: -145, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c0", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c1", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: -35, y: 454, rotation: -442, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c1", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c2", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: 40, y: 610, rotation: 514, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c2", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c3", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: -185, y: 477, rotation: -207, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c3", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c4", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: -66, y: 683, rotation: -472, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c4", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c5", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: 144, y: 643, rotation: 457, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c5", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c6", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: -217, y: 564, rotation: -5, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c6", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c7", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: -199, y: 621, rotation: 278, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c7", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c8", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: 138, y: 695, rotation: 406, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c8", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c9", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: 42, y: 639, rotation: 367, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c9", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c10", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: 77, y: 897, rotation: 348, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c10", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c11", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: -75, y: 713, rotation: -7, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c11", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c12", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: -57, y: 838, rotation: -453, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c12", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c13", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: 189, y: 554, rotation: -91, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c13", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c14", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: -168, y: 531, rotation: -288, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c14", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c15", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: -184, y: 677, rotation: 119, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c15", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c16", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: -53, y: 609, rotation: -20, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c16", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c17", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: -31, y: 473, rotation: 109, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c17", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c18", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: 233, y: 715, rotation: -464, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c18", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c19", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: 237, y: 709, rotation: -28, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c19", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c20", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: -98, y: 489, rotation: 270, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c20", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c21", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: -248, y: 876, rotation: 31, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c21", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c22", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: 249, y: 834, rotation: 212, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c22", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c23", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: 141, y: 676, rotation: 301, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c23", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c24", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: 125, y: 529, rotation: 19, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c24", { opacity: 0, duration: 0.5 }, 5.86);
+    tl.fromTo("#bd-c25", { opacity: 1, x: 0, y: -120, rotation: 0, scale: 0.4 }, { x: -125, y: 752, rotation: 493, scale: 1, duration: 2.0, ease: "power2.out" }, 4.31);
+    tl.to("#bd-c25", { opacity: 0, duration: 0.5 }, 5.86);
+    window.__timelines["birdie"] = tl;
+  </script>
+</template>

@@ -1,0 +1,247 @@
+<template>
+  <style>
+
+      #root { position: absolute; inset: 0; overflow: visible; }
+      .fd { font-family: "Archivo Black", sans-serif; }
+      .fm { font-family: "JetBrains Mono", monospace; font-weight: 700; }
+      .fi { font-family: "Inter", sans-serif; }
+      .panel { background: rgba(6, 18, 12, 0.80); border: 2px solid rgba(200, 255, 46, 0.55); border-radius: 22px; }
+      .chip { display: inline-flex; align-items: center; gap: 12px; padding: 12px 22px; border-radius: 999px;
+              background: rgba(6, 18, 12, 0.82); color: #fff; font-family: "JetBrains Mono", monospace; font-weight: 700;
+              font-size: 30px; letter-spacing: 0.04em; border: 2px solid rgba(200,255,46,0.6); }
+      .lime { color: #c8ff2e; }
+      .red { color: #ff3b30; }
+      .shadow { text-shadow: 0 4px 0 rgba(0,0,0,0.35), 0 0 24px rgba(0,0,0,0.35); }
+
+
+      .grp { position: absolute; left: 50px; width: 880px; top: 1090px; text-align: center; }
+      .line { display: inline; font-weight: 900; font-size: 64px; line-height: 1.12; color: #fff; letter-spacing: -0.01em;
+              -webkit-text-stroke: 10px rgba(6,18,12,0.92); paint-order: stroke fill; text-shadow: 0 6px 14px rgba(0,0,0,0.35); }
+      .w { display: inline-block; }
+      .hi { color: #c8ff2e; }
+
+  </style>
+  <div id="root" data-composition-id="captions" data-width="1080" data-height="1920" data-duration="90.0">
+    <div class="grp clip" id="cp0" data-start="0.12" data-duration="0.88"><div class="line fi"><span class="w" id="cp0-0">Bunker</span> <span class="w" id="cp0-1">ni</span> <span class="w" id="cp0-2">memang</span></div></div>
+    <div class="grp clip" id="cp1" data-start="1.02" data-duration="0.5"><div class="line fi"><span class="w" id="cp1-0">most</span> <span class="w" id="cp1-1">of</span> <span class="w" id="cp1-2">the</span> <span class="w" id="cp1-3">time</span></div></div>
+    <div class="grp clip" id="cp2" data-start="1.54" data-duration="1.65"><div class="line fi"><span class="w" id="cp2-0">you</span> <span class="w" id="cp2-1">akan</span> <span class="w hi" id="cp2-2">hit</span> <span class="w hi" id="cp2-3">short.</span></div></div>
+    <div class="grp clip" id="cp3" data-start="6.07" data-duration="1.22"><div class="line fi"><span class="w" id="cp3-0">Aku</span> <span class="w" id="cp3-1">jalan,</span> <span class="w" id="cp3-2">ya.</span></div></div>
+    <div class="grp clip" id="cp4" data-start="15.05" data-duration="1.45"><div class="line fi"><span class="w" id="cp4-0">First</span> <span class="w" id="cp4-1">time</span> <span class="w" id="cp4-2">kau</span> <span class="w" id="cp4-3">pakai</span> <span class="w hi" id="cp4-4">driver</span> <span class="w" id="cp4-5">ni?</span></div></div>
+    <div class="grp clip" id="cp5" data-start="16.52" data-duration="0.63"><div class="line fi"><span class="w" id="cp5-0">Lain.</span></div></div>
+    <div class="grp clip" id="cp6" data-start="17.17" data-duration="1.12"><div class="line fi"><span class="w hi" id="cp6-0">Berat</span> <span class="w" id="cp6-1">sikit.</span></div></div>
+    <div class="grp clip" id="cp7" data-start="20.57" data-duration="1.47"><div class="line fi"><span class="w" id="cp7-0">First</span> <span class="w" id="cp7-1">ball</span> <span class="w" id="cp7-2">ni</span> <span class="w" id="cp7-3">nampak</span> <span class="w" id="cp7-4">bagaimana?</span></div></div>
+    <div class="grp clip" id="cp8" data-start="22.13" data-duration="0.72"><div class="line fi"><span class="w hi" id="cp8-0">Lepas.</span></div></div>
+    <div class="grp clip" id="cp9" data-start="22.87" data-duration="1.08"><div class="line fi"><span class="w" id="cp9-0">Oh,</span> <span class="w" id="cp9-1">lepas</span> <span class="w" id="cp9-2">lah.</span></div></div>
+    <div class="grp clip" id="cp10" data-start="23.97" data-duration="0.82"><div class="line fi"><span class="w" id="cp10-0">Bola</span> <span class="w" id="cp10-1">kau</span> <span class="w" id="cp10-2">okey.</span></div></div>
+    <div class="grp clip" id="cp11" data-start="24.81" data-duration="1.8"><div class="line fi"><span class="w" id="cp11-0">Bola</span> <span class="w" id="cp11-1">kau</span> <span class="w" id="cp11-2">middle</span> <span class="w hi" id="cp11-3">fairway</span> <span class="w" id="cp11-4">tu.</span></div></div>
+    <div class="grp clip" id="cp12" data-start="26.63" data-duration="1.08"><div class="line fi"><span class="w" id="cp12-0">Lepas</span> <span class="w hi" id="cp12-1">100.</span></div></div>
+    <div class="grp clip" id="cp13" data-start="27.73" data-duration="1.08"><div class="line fi"><span class="w" id="cp13-0">100</span> <span class="w" id="cp13-1">lagi</span> <span class="w" id="cp13-2">ke</span> <span class="w" id="cp13-3">green,</span></div></div>
+    <div class="grp clip" id="cp14" data-start="28.83" data-duration="0.58"><div class="line fi"><span class="w" id="cp14-0">lebih</span> <span class="w" id="cp14-1">kurang.</span></div></div>
+    <div class="grp clip" id="cp15" data-start="29.43" data-duration="1.04"><div class="line fi"><span class="w hi" id="cp15-0">Relax</span> <span class="w" id="cp15-1">lah.</span> <span class="w" id="cp15-2">Kau</span> <span class="w hi" id="cp15-3">forcing.</span></div></div>
+    <div class="grp clip" id="cp16" data-start="30.49" data-duration="0.84"><div class="line fi"><span class="w" id="cp16-0">Relax</span> <span class="w" id="cp16-1">dulu.</span></div></div>
+    <div class="grp clip" id="cp17" data-start="31.35" data-duration="1.9"><div class="line fi"><span class="w" id="cp17-0">First</span> <span class="w" id="cp17-1">few</span> <span class="w" id="cp17-2">holes</span> <span class="w" id="cp17-3">ni.</span></div></div>
+    <div class="grp clip" id="cp18" data-start="33.27" data-duration="1.52"><div class="line fi"><span class="w" id="cp18-0">Dapat</span> <span class="w hi" id="cp18-1">redeem</span> <span class="w" id="cp18-2">dulu.</span></div></div>
+    <div class="grp clip" id="cp19" data-start="44.98" data-duration="1.3"><div class="line fi"><span class="w" id="cp19-0">Ambil</span> <span class="w" id="cp19-1">lah</span> <span class="w" id="cp19-2">first</span> <span class="w" id="cp19-3">ball</span> <span class="w" id="cp19-4">tadi,</span></div></div>
+    <div class="grp clip" id="cp20" data-start="46.3" data-duration="0.66"><div class="line fi"><span class="w" id="cp20-0">yang</span> <span class="w" id="cp20-1">masuk</span> <span class="w hi" id="cp20-2">bunker.</span></div></div>
+    <div class="grp clip" id="cp21" data-start="46.98" data-duration="1.21"><div class="line fi"><span class="w" id="cp21-0">So</span> <span class="w" id="cp21-1">kita</span> <span class="w" id="cp21-2">try</span> <span class="w" id="cp21-3">to</span> <span class="w" id="cp21-4">do</span></div></div>
+    <div class="grp clip" id="cp22" data-start="48.5" data-duration="0.76"><div class="line fi"><span class="w hi" id="cp22-0">normal</span> <span class="w hi" id="cp22-1">pitch,</span></div></div>
+    <div class="grp clip" id="cp23" data-start="49.28" data-duration="2.24"><div class="line fi"><span class="w" id="cp23-0">but</span> <span class="w" id="cp23-1">then</span> <span class="w" id="cp23-2">you</span> <span class="w" id="cp23-3">kena</span> <span class="w" id="cp23-4">make</span> <span class="w" id="cp23-5">sure</span></div></div>
+    <div class="grp clip" id="cp24" data-start="51.54" data-duration="0.83"><div class="line fi"><span class="w" id="cp24-0">you</span> <span class="w hi" id="cp24-1">accelerate.</span></div></div>
+    <div class="grp clip" id="cp25" data-start="52.39" data-duration="0.5"><div class="line fi"><span class="w" id="cp25-0">Kita</span> <span class="w hi" id="cp25-1">visualize</span></div></div>
+    <div class="grp clip" id="cp26" data-start="52.91" data-duration="2.18"><div class="line fi"><span class="w" id="cp26-0">mana</span> <span class="w" id="cp26-1">nak</span> <span class="w" id="cp26-2">hantar</span> <span class="w" id="cp26-3">bola</span> <span class="w" id="cp26-4">tu.</span></div></div>
+    <div class="grp clip" id="cp27" data-start="55.11" data-duration="0.84"><div class="line fi"><span class="w" id="cp27-0">We</span> <span class="w" id="cp27-1">do</span> <span class="w" id="cp27-2">normal.</span></div></div>
+    <div class="grp clip" id="cp28" data-start="55.97" data-duration="0.55"><div class="line fi"><span class="w" id="cp28-0">Normal...</span></div></div>
+    <div class="grp clip" id="cp29" data-start="56.54" data-duration="0.75"><div class="line fi"><span class="w hi" id="cp29-0">pitch.</span></div></div>
+    <div class="grp clip" id="cp30" data-start="59.58" data-duration="1.31"><div class="line fi"><span class="w" id="cp30-0">Tak</span> <span class="w hi" id="cp30-1">keluar</span> <span class="w" id="cp30-2">pula.</span></div></div>
+    <div class="grp clip" id="cp31" data-start="65.48" data-duration="1.82"><div class="line fi"><span class="w" id="cp31-0">Tak</span> <span class="w" id="cp31-1">pusing.</span> <span class="w" id="cp31-2">Kiri.</span></div></div>
+    <div class="grp clip" id="cp32" data-start="67.32" data-duration="1.07"><div class="line fi"><span class="w" id="cp32-0">Kau</span> <span class="w" id="cp32-1">habis</span> <span class="w" id="cp32-2">pukul</span> <span class="w" id="cp32-3">macam</span> <span class="w" id="cp32-4">ni.</span></div></div>
+    <div class="grp clip" id="cp33" data-start="68.41" data-duration="1.08"><div class="line fi"><span class="w hi" id="cp33-0">Double</span> <span class="w hi" id="cp33-1">bogey,</span></div></div>
+    <div class="grp clip" id="cp34" data-start="69.51" data-duration="1.18"><div class="line fi"><span class="w" id="cp34-0">easy</span> <span class="w" id="cp34-1">man.</span></div></div>
+    <div class="grp clip" id="cp35" data-start="74.77" data-duration="0.75"><div class="line fi"><span class="w hi" id="cp35-0">Dahsyatnya!</span></div></div>
+    <div class="grp clip" id="cp36" data-start="75.54" data-duration="1.22"><div class="line fi"><span class="w" id="cp36-0">Such</span> <span class="w" id="cp36-1">a</span> <span class="w hi" id="cp36-2">good</span> <span class="w hi" id="cp36-3">player.</span></div></div>
+    <div class="grp clip" id="cp37" data-start="76.78" data-duration="0.72"><div class="line fi"><span class="w" id="cp37-0">So,</span> <span class="w" id="cp37-1">any</span> <span class="w" id="cp37-2">tips</span> <span class="w" id="cp37-3">for</span></div></div>
+    <div class="grp clip" id="cp38" data-start="77.52" data-duration="1.61"><div class="line fi"><span class="w hi" id="cp38-0">green</span> <span class="w hi" id="cp38-1">reading,</span> <span class="w" id="cp38-2">Iqbal?</span></div></div>
+    <div class="grp clip" id="cp39" data-start="79.15" data-duration="1.63"><div class="line fi"><span class="w" id="cp39-0">Lepas</span> <span class="w hi" id="cp39-1">birdie</span> <span class="w" id="cp39-2">terus</span> <span class="w hi" id="cp39-3">tergamam.</span></div></div>
+    <div class="grp clip" id="cp40" data-start="80.8" data-duration="1.39"><div class="line fi"><span class="w" id="cp40-0">Tengok</span> <span class="w hi" id="cp40-1">slope.</span></div></div>
+    <div class="grp clip" id="cp41" data-start="82.56" data-duration="0.46"><div class="line fi"><span class="w hi" id="cp41-0">Uphill.</span></div></div>
+    <div class="grp clip" id="cp42" data-start="83.04" data-duration="0.85"><div class="line fi"><span class="w hi" id="cp42-0">Downhill.</span></div></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#cp0-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 0.1);
+    tl.fromTo("#cp0-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 0.56);
+    tl.fromTo("#cp0-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 0.78);
+    tl.to("#cp0 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 0.9);
+    tl.fromTo("#cp1-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 1.04);
+    tl.fromTo("#cp1-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 1.36);
+    tl.fromTo("#cp1-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 1.5);
+    tl.fromTo("#cp1-3", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 1.56);
+    tl.to("#cp1 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 1.42);
+    tl.fromTo("#cp2-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 1.56);
+    tl.fromTo("#cp2-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 1.76);
+    tl.fromTo("#cp2-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 2.0);
+    tl.fromTo("#cp2-3", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 2.62);
+    tl.to("#cp2 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 3.09);
+    tl.fromTo("#cp3-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 6.09);
+    tl.fromTo("#cp3-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 6.53);
+    tl.fromTo("#cp3-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 6.81);
+    tl.to("#cp3 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 7.19);
+    tl.fromTo("#cp4-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 15.07);
+    tl.fromTo("#cp4-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 15.47);
+    tl.fromTo("#cp4-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 15.71);
+    tl.fromTo("#cp4-3", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 15.77);
+    tl.fromTo("#cp4-4", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 15.97);
+    tl.fromTo("#cp4-5", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 16.11);
+    tl.to("#cp4 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 16.4);
+    tl.fromTo("#cp5-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 16.54);
+    tl.to("#cp5 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 17.05);
+    tl.fromTo("#cp6-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 17.19);
+    tl.fromTo("#cp6-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 17.59);
+    tl.to("#cp6 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 18.19);
+    tl.fromTo("#cp7-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 20.59);
+    tl.fromTo("#cp7-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 20.99);
+    tl.fromTo("#cp7-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 21.13);
+    tl.fromTo("#cp7-3", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 21.21);
+    tl.fromTo("#cp7-4", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 21.37);
+    tl.to("#cp7 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 21.94);
+    tl.fromTo("#cp8-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 22.15);
+    tl.to("#cp8 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 22.75);
+    tl.fromTo("#cp9-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 22.89);
+    tl.fromTo("#cp9-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 23.37);
+    tl.fromTo("#cp9-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 23.59);
+    tl.to("#cp9 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 23.85);
+    tl.fromTo("#cp10-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 23.99);
+    tl.fromTo("#cp10-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 24.27);
+    tl.fromTo("#cp10-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 24.61);
+    tl.to("#cp10 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 24.69);
+    tl.fromTo("#cp11-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 24.83);
+    tl.fromTo("#cp11-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 24.91);
+    tl.fromTo("#cp11-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 25.45);
+    tl.fromTo("#cp11-3", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 25.45);
+    tl.fromTo("#cp11-4", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 26.03);
+    tl.to("#cp11 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 26.51);
+    tl.fromTo("#cp12-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 26.65);
+    tl.fromTo("#cp12-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 26.77);
+    tl.to("#cp12 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 27.61);
+    tl.fromTo("#cp13-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 27.75);
+    tl.fromTo("#cp13-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 28.15);
+    tl.fromTo("#cp13-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 28.57);
+    tl.fromTo("#cp13-3", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 28.59);
+    tl.to("#cp13 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 28.71);
+    tl.fromTo("#cp14-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 28.85);
+    tl.fromTo("#cp14-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 28.91);
+    tl.to("#cp14 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 29.31);
+    tl.fromTo("#cp15-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 29.45);
+    tl.fromTo("#cp15-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 29.45);
+    tl.fromTo("#cp15-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 29.57);
+    tl.fromTo("#cp15-3", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 29.69);
+    tl.to("#cp15 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 30.37);
+    tl.fromTo("#cp16-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 30.51);
+    tl.fromTo("#cp16-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 30.73);
+    tl.to("#cp16 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 31.23);
+    tl.fromTo("#cp17-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 31.37);
+    tl.fromTo("#cp17-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 31.95);
+    tl.fromTo("#cp17-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 32.23);
+    tl.fromTo("#cp17-3", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 32.53);
+    tl.to("#cp17 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 33.15);
+    tl.fromTo("#cp18-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 33.29);
+    tl.fromTo("#cp18-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 33.85);
+    tl.fromTo("#cp18-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 34.17);
+    tl.to("#cp18 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 34.69);
+    tl.fromTo("#cp19-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 45.0);
+    tl.fromTo("#cp19-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 45.48);
+    tl.fromTo("#cp19-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 45.82);
+    tl.fromTo("#cp19-3", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 45.88);
+    tl.fromTo("#cp19-4", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 46.04);
+    tl.to("#cp19 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 46.18);
+    tl.fromTo("#cp20-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 46.32);
+    tl.fromTo("#cp20-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 46.38);
+    tl.fromTo("#cp20-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 46.5);
+    tl.to("#cp20 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 46.86);
+    tl.fromTo("#cp21-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 47.0);
+    tl.fromTo("#cp21-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 47.16);
+    tl.fromTo("#cp21-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 47.26);
+    tl.fromTo("#cp21-3", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 47.48);
+    tl.fromTo("#cp21-4", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 47.7);
+    tl.to("#cp21 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 48.09);
+    tl.fromTo("#cp22-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 48.52);
+    tl.fromTo("#cp22-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 48.86);
+    tl.to("#cp22 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 49.16);
+    tl.fromTo("#cp23-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 49.3);
+    tl.fromTo("#cp23-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 50.14);
+    tl.fromTo("#cp23-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 50.32);
+    tl.fromTo("#cp23-3", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 50.46);
+    tl.fromTo("#cp23-4", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 50.6);
+    tl.fromTo("#cp23-5", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 50.86);
+    tl.to("#cp23 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 51.42);
+    tl.fromTo("#cp24-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 51.56);
+    tl.fromTo("#cp24-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 51.76);
+    tl.to("#cp24 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 52.27);
+    tl.fromTo("#cp25-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 52.41);
+    tl.fromTo("#cp25-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 52.53);
+    tl.to("#cp25 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 52.79);
+    tl.fromTo("#cp26-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 52.93);
+    tl.fromTo("#cp26-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 53.35);
+    tl.fromTo("#cp26-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 54.27);
+    tl.fromTo("#cp26-3", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 54.53);
+    tl.fromTo("#cp26-4", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 54.73);
+    tl.to("#cp26 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 54.99);
+    tl.fromTo("#cp27-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 55.13);
+    tl.fromTo("#cp27-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 55.27);
+    tl.fromTo("#cp27-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 55.35);
+    tl.to("#cp27 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 55.85);
+    tl.fromTo("#cp28-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 55.99);
+    tl.to("#cp28 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 56.42);
+    tl.fromTo("#cp29-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 56.56);
+    tl.to("#cp29 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 57.19);
+    tl.fromTo("#cp30-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 59.6);
+    tl.fromTo("#cp30-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 59.82);
+    tl.fromTo("#cp30-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 60.16);
+    tl.to("#cp30 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 60.79);
+    tl.fromTo("#cp31-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 65.5);
+    tl.fromTo("#cp31-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 66.14);
+    tl.fromTo("#cp31-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 66.98);
+    tl.to("#cp31 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 67.2);
+    tl.fromTo("#cp32-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 67.34);
+    tl.fromTo("#cp32-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 67.38);
+    tl.fromTo("#cp32-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 67.6);
+    tl.fromTo("#cp32-3", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 67.86);
+    tl.fromTo("#cp32-4", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 67.98);
+    tl.to("#cp32 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 68.29);
+    tl.fromTo("#cp33-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 68.43);
+    tl.fromTo("#cp33-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 69.07);
+    tl.to("#cp33 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 69.39);
+    tl.fromTo("#cp34-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 69.53);
+    tl.fromTo("#cp34-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 69.87);
+    tl.to("#cp34 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 70.59);
+    tl.fromTo("#cp35-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 74.79);
+    tl.to("#cp35 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 75.42);
+    tl.fromTo("#cp36-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 75.56);
+    tl.fromTo("#cp36-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 75.96);
+    tl.fromTo("#cp36-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 76.04);
+    tl.fromTo("#cp36-3", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 76.18);
+    tl.to("#cp36 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 76.66);
+    tl.fromTo("#cp37-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 76.8);
+    tl.fromTo("#cp37-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 76.96);
+    tl.fromTo("#cp37-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 77.1);
+    tl.fromTo("#cp37-3", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 77.34);
+    tl.to("#cp37 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 77.4);
+    tl.fromTo("#cp38-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 77.54);
+    tl.fromTo("#cp38-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 77.86);
+    tl.fromTo("#cp38-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 78.68);
+    tl.to("#cp38 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 79.03);
+    tl.fromTo("#cp39-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 79.17);
+    tl.fromTo("#cp39-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 79.53);
+    tl.fromTo("#cp39-2", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 79.89);
+    tl.fromTo("#cp39-3", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 80.05);
+    tl.to("#cp39 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 80.68);
+    tl.fromTo("#cp40-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 80.82);
+    tl.fromTo("#cp40-1", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 81.46);
+    tl.to("#cp40 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 82.09);
+    tl.fromTo("#cp41-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 82.58);
+    tl.to("#cp41 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 82.92);
+    tl.fromTo("#cp42-0", { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2)" }, 83.06);
+    tl.to("#cp42 .line", { opacity: 0, duration: 0.1, ease: "power2.in" }, 83.79);
+    window.__timelines["captions"] = tl;
+  </script>
+</template>
