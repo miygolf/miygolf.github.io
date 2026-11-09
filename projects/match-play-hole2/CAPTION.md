@@ -9,7 +9,9 @@ Farhan pulak chip dia kena belakang… "Astagfirullah" 😅
 
 Last-last aku par, Farhan bogey. Hole 2 aku punya 🔥
 
-Hole 3 rasa Farhan boleh balas tak? Komen tekaan korang 👇
+Farhan lagi dekat ke pin (150 m vs 154 m)… tapi pukul jauh tak semestinya boleh menang 😏
+
+Setuju tak? Komen 👇 Hole 3 next!
 
 #golfmalaysia #golftips #golflesson #golfswing #matchplay #fyp
 
@@ -17,7 +19,7 @@ Hole 3 rasa Farhan boleh balas tak? Komen tekaan korang 👇
 
 Match play 1 lawan 1 — hole 2, KRTU 🥊⛳
 Par vs bogey… hole ni aku ambil 🔥
-Hole 3 Farhan balas tak? Komen 👇
+Pukul jauh tak semestinya boleh menang 😏 Setuju? 👇
 
 #golfmalaysia #golftips #golflesson #golfswing #matchplay #krtu
 

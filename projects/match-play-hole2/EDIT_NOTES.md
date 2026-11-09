@@ -1,6 +1,8 @@
 # Match play 1 lawan 1 — hole 2, KRTU (Iqbal vs Farhan) — edit notes
 
-HyperFrames 0.9.18 · 1080×1920 · 30 fps · 64.3 s · status: **draft preview** (`previews/match-play-hole2_preview_draft.mp4`, 720p copy of the draft render; −14.3 LUFS before mastering). Final not rendered yet. After the preview the VS-card drop was tamed (music 0.40→0.34, bell 0.55→0.45, slam 0.75→0.6) for the final.
+HyperFrames 0.9.18 · 1080×1920 · 30 fps · 75.4 s · status: **draft preview v2** (`previews/match-play-hole2_preview_draft_v2.mp4`, 720p copy of the draft render). Final not rendered yet.
+
+v2 (owner feedback): darker grade (was too bright), longer cut (64 → 75 s), outro message "PUKUL JAUH TAK SEMESTINYA BOLEH MENANG", long SFX trimmed so every spoken line stays ≥ 8 dB above the bed (only the 0.3 s KO punch sits on the ball drop).
 
 ## Look: "Title Fight" (new, not in the style log)
 - Hole 2 as a fight-night match-play broadcast: red corner IQBAL, blue corner FARHAN, gold for the result.
@@ -11,7 +13,17 @@ HyperFrames 0.9.18 · 1080×1920 · 30 fps · 64.3 s · status: **draft preview*
   punch + flash on every strike, diagonal VS card with a ring bell, letterbox on the deciding putt, KO-style result slam with a gold burst,
   the HUD fight bar turns gold with a W for the winner.
 
+## Grade (v2)
+`eq=contrast=1.10:saturation=1.06:gamma=0.86`, curves pulling mids and highlights down (sky tamed), colour balance a little cool in the
+shadows and warm in the highlights. Applied in `tools/build_aroll.py` (GRADE) to every segment and the VS stills.
+
 ## Story (transcribed with faster-whisper large-v3, Malay + English; `edit/transcript.txt`)
+v2 timings shift from the table below (v1): added "154." + "kita ada branch kat depan tu" + "supaya elak" to Iqbal's plan, "kita control sikit"
+to Farhan's, "Kenapa jadi begitu?" before his why, "Hole 2, Iqbal." before the birdie read, and a 7.5 s outro: result card →
+"FARHAN 150 M KE PIN · IQBAL 154 M" → PUKUL JAUH / TAK SEMESTINYA / BOLEH MENANG. → "SETUJU? KOMEN ↓ · HOLE 3 NEXT".
+Music: quiet build under the VS card and tee shots, first drop on the cut into Iqbal's approach (11.77 s), break under the par putt,
+second drop on the ball going in (64.73 s).
+
 | film | source | what |
 | --- | --- | --- |
 | 0–3.5 | clip4 16.2–18.95 + freeze | HOOK: Farhan's chip comes out fat → "Astagfirullah." → freeze, "TAPI… SIAPA MENANG?" (text on frame 0: IQBAL · 1 LAWAN 1 · FARHAN / HOLE 2) |

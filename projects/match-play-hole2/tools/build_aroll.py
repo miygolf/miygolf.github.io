@@ -22,8 +22,10 @@ FPS = 30
 SR = 48000
 SW, SH = 2160, 3840  # upright source
 
-# one grade for every clip: a touch more contrast and colour, rolled-off highlights (bright sky), richer turf
-GRADE = "eq=contrast=1.07:saturation=1.14:gamma=0.97,curves=all='0/0 0.22/0.19 0.6/0.62 0.88/0.86 1/0.95'"
+# one grade for every clip (v2, owner: "terang sangat"): darker mids, highlights pulled down to tame the bright sky,
+# deeper shadows, a little cool in the shadows and warm in the highlights so skin stays natural
+GRADE = ("eq=contrast=1.10:saturation=1.06:gamma=0.86,curves=all='0/0 0.25/0.17 0.5/0.40 0.75/0.66 1/0.88',"
+         "colorbalance=bs=0.05:gs=0.01:rh=0.04:bh=-0.04")
 
 # EDL in film order.  kind: None (play), "freeze" (hold src a for dur), "black" (dur)
 # zoom = [(t_in_segment, zoom, cx, cy)] in source pixels (2160x3840), smoothstep between keys
@@ -38,14 +40,15 @@ EDL = [
     dict(name="tee_far", clip=1, a=3.55, b=6.25, speed=1.0),
     dict(name="tee_iqb", clip=1, a=37.85, b=40.75, speed=1.0),
     # IQBAL SHOT 2: the plan over his POV (static), the swing, the verdict
-    dict(name="iqb_plan", clip=2, a=12.40, b=17.40, speed=1.0, zoom=[(0, 1.0, 1080, 1920), (5.0, 1.08, 1000, 1850)]),
+    dict(name="iqb_plan", clip=2, a=9.60, b=18.30, speed=1.0, zoom=[(0, 1.0, 1080, 1920), (8.7, 1.1, 1000, 1850)]),
     dict(name="iqb_swing", clip=2, a=38.30, b=41.50, speed=1.0, zoom=[(0, 1.55, 560, 2250), (3.2, 1.62, 560, 2230)]),
     dict(name="iqb_react", clip=2, a=49.30, b=51.45, speed=1.0),
     # FARHAN SHOT 2
-    dict(name="far_plan", clip=3, a=18.40, b=21.80, speed=1.0),
+    dict(name="far_plan", clip=3, a=17.90, b=23.40, speed=1.0),
     dict(name="far_swing", clip=3, a=29.95, b=33.40, speed=1.0, zoom=[(0, 1.18, 760, 2050), (3.45, 1.24, 760, 2000)]),
     # FARHAN CHIP: slow replay of contact, then his own diagnosis (jump cut hidden by a punch-in)
     dict(name="chip_replay", clip=4, a=16.95, b=17.95, speed=0.5, zoom=[(0, 1.3, 980, 1950), (2.0, 1.55, 900, 2000)]),
+    dict(name="chip_kenapa", clip=4, a=21.75, b=22.85, speed=1.0),
     dict(name="chip_why_a", clip=4, a=28.85, b=30.05, speed=1.0),
     dict(name="chip_why_b", clip=4, a=31.10, b=32.95, speed=1.0, zoom=[(0, 1.15, 1000, 1700), (1.85, 1.18, 1000, 1700)]),
     # FARHAN PUTT -> bogey
@@ -53,18 +56,18 @@ EDL = [
     dict(name="far_putt", clip=5, a=29.00, b=33.70, speed=1.0, zoom=[(0, 1.0, 1080, 1920), (4.7, 1.1, 1000, 2000)]),
     dict(name="far_bogey", clip=5, a=35.85, b=36.99, speed=1.0),
     # IQBAL BIRDIE PUTT: 4K push-in on the far address, pull back with the ball rolling to the cup
-    dict(name="iqb_read", clip=6, a=21.95, b=27.25, speed=1.0,
-         zoom=[(0, 2.9, 1226, 1600), (5.3, 3.2, 1226, 1600)]),
+    dict(name="iqb_read", clip=6, a=20.45, b=27.25, speed=1.0,
+         zoom=[(0, 2.7, 1226, 1600), (6.65, 3.2, 1226, 1600)]),
     dict(name="iqb_roll", clip=6, a=27.25, b=31.70, speed=1.0,
          zoom=[(0, 3.2, 1226, 1600), (0.5, 3.2, 1226, 1600), (3.4, 1.15, 1150, 2000), (4.45, 1.1, 1130, 2050)]),
     dict(name="iqb_ok", clip=6, a=34.00, b=35.35, speed=1.0),
     # IQBAL PAR PUTT: real time to the stroke, slow on the roll, real time from the drop
-    dict(name="par_setup", clip=6, a=72.35, b=74.45, speed=1.0, zoom=[(0, 1.2, 760, 2150), (2.1, 1.3, 900, 2200)]),
+    dict(name="par_setup", clip=6, a=72.467, b=74.45, speed=1.0, zoom=[(0, 1.2, 760, 2150), (2.1, 1.3, 900, 2200)]),
     dict(name="par_roll", clip=6, a=74.45, b=75.30, speed=0.4, zoom=[(0, 1.3, 900, 2200), (2.1, 1.45, 1100, 2250)]),
     dict(name="par_drop", clip=6, a=75.30, b=76.60, speed=1.0, zoom=[(0, 1.45, 1100, 2250), (1.3, 1.2, 1000, 2150)]),
     # WINNER walks up: "Next hole." -> end freeze
     dict(name="next", clip=6, a=79.20, b=81.10, speed=1.0),
-    dict(name="end_freeze", clip=6, a=81.10, kind="freeze", dur=4.60, zoom=[(0, 1.0, 1080, 1920), (4.6, 1.06, 1060, 1500)]),
+    dict(name="end_freeze", clip=6, a=81.10, kind="freeze", dur=7.50, zoom=[(0, 1.0, 1080, 1920), (7.5, 1.08, 1060, 1500)]),
 ]
 
 def _lerp_expr(keys):
@@ -189,25 +192,27 @@ def build_audio(tl):
     # tee shots (natural, strikes in sync)
     sync("tee_far", 1, -1); sync("tee_iqb", 1, -1)
     # Iqbal's plan, pauses removed: "So, saya akan buat draw ... Kita aim kat bunker. Bagi dia curve masuk."
-    chain(2, [(12.58, 14.62), (19.90, 21.10), (22.10, 23.32)], T("iqb_plan") + 0.08, +3)
+    # "1-5-4. ... kita ada branch kat depan tu. So, saya akan buat draw ... Supaya elak. Kita aim kat bunker. Bagi dia curve masuk."
+    chain(2, [(0.20, 1.22), (7.00, 8.85), (12.58, 14.62), (18.24, 19.20), (19.90, 21.10), (22.10, 23.32)], T("iqb_plan") + 0.06, +3, gap=0.06)
     sync("iqb_swing", 2, 0)
     # verdict over the walk-up: "Buat a good shot. ... Tapi over sikit."
     chain(2, [(48.18, 49.20), (50.95, 52.10)], T("iqb_react") - 0.35, +3, gap=0.05)
     # Farhan's plan: "...middle, 150. ... pakai P, dengan bola kat belakang."
-    chain(3, [(14.36, 16.20), (19.02, 21.25)], T("far_plan") - 0.10, +3, gap=0.05)
+    chain(3, [(14.36, 16.20), (19.02, 21.25), (21.78, 23.15)], T("far_plan") - 0.05, +3, gap=0.06)
     sync("far_swing", 3, -1)
     # chip replay stays dry (music + sfx); diagnosis natural
+    sync("chip_kenapa", 4, +3)       # "Kenapa jadi begitu?"
     sync("chip_why_a", 4, +3); sync("chip_why_b", 4, +3)
     sync("far_disaster", 5, +3)
     sync("far_putt", 5, +2)
     sync("far_bogey", 5, +3)
     # Iqbal's read over the push-in: "I think for birdie." "Fast, downhill putt. Left to right." "Back to back birdie."
-    chain(6, [(3.50, 4.70), (17.40, 20.50), (22.58, 23.48)], T("iqb_read") + 0.05, +2)
+    chain(6, [(0.84, 2.15), (3.50, 4.70), (17.40, 20.50), (22.58, 23.48)], T("iqb_read") + 0.05, +2)
     sync("iqb_roll", 6, +1)          # "Need to slow down, need to slow down" while it rolls
     sync("iqb_ok", 6, +2)            # "Okay, not too bad."
     sync("par_setup", 6, 0)
-    place(piece(6, 75.30, 76.60, 0.03), T("par_drop"), +2, (6, 75.30, 76.60))   # "...save lah" right on the drop
-    sync("next", 6, +2)              # "Next hole."
+    place(piece(6, 75.30, 76.60, 0.03), T("par_drop"), +5, (6, 75.30, 76.60))   # "...save lah" right on the drop
+    sync("next", 6, +6)              # "Next hole." (said walking up, quieter)
     tl["_voice"] = placed
     json.dump(tl, open(os.path.join(ROOT, "edit", "timeline.json"), "w"), indent=1)
     out = os.path.join(ROOT, "edit", "voice_raw.wav")

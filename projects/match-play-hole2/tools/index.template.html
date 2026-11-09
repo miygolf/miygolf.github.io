@@ -151,9 +151,14 @@
       #er-iq .p { background: var(--red); } #er-fa .p { background: var(--blue); }
       #er-iq .s { background: var(--gold); color: var(--ink); }
       #er-iq .wb { margin-left: 14px; padding: 4px 10px 2px; font-size: 32px; color: var(--ink); background: var(--gold); }
-      #cta { margin-top: 26px; text-align: center; }
-      #cta .q { font-size: 76px; color: #fff; -webkit-text-stroke: 10px var(--ink); paint-order: stroke fill; text-shadow: 0 8px 0 var(--blue), 0 10px 0 var(--ink); }
-      #cta .a { display: inline-block; margin-top: 16px; padding: 10px 24px 8px; font-size: 30px; color: var(--ink); background: var(--gold); transform: skewX(-12deg); box-shadow: 8px 8px 0 var(--ink); }
+      #moral { left: 60px; top: 860px; width: 870px; text-align: center; z-index: 7; }
+      #moral .chip { display: inline-block; padding: 9px 20px 7px; font-size: 28px; color: #fff; background: var(--ink); transform: skewX(-12deg); box-shadow: inset 0 0 0 3px var(--gold); }
+      #moral .ml { font-size: 112px; color: #fff; margin-top: 4px; -webkit-text-stroke: 12px var(--ink); paint-order: stroke fill;
+                   text-shadow: 0 10px 0 var(--red), 0 12px 0 var(--ink); transform: skewX(-8deg); }
+      #moral #ml1 { margin-top: 16px; }
+      #moral .ml.gold { color: var(--gold); text-shadow: 0 10px 0 var(--ink); }
+      #cta { margin-top: 14px; text-align: center; }
+      #cta .a { display: inline-block; margin-top: 0; padding: 10px 24px 8px; font-size: 30px; color: var(--ink); background: var(--gold); transform: skewX(-12deg); box-shadow: 8px 8px 0 var(--ink); }
 
       /* ---------- captions ---------- */
       #caps { position: absolute; left: 60px; top: 1110px; width: 870px; height: 210px; z-index: 7; pointer-events: none; }
@@ -240,7 +245,14 @@
         <div class="hd"><span class="a bs">KEPUTUSAN HOLE 2</span><span class="b ox">MATCH PLAY · KRTU</span></div>
         <div class="er" id="er-iq"><span class="p bs">IQBAL<span class="wb ox">W</span></span><span class="r bs">PAR</span><span class="s bs">4</span></div>
         <div class="er" id="er-fa"><span class="p bs">FARHAN</span><span class="r bs">BOGEY</span><span class="s bs">5</span></div>
-        <div id="cta"><div class="q bs">HOLE 3, FARHAN BALAS?</div><span class="a ox">FOLLOW · KOMEN TEKAAN KORANG ↓</span></div>
+      </div>
+      <!-- outro message (owner's line), after the result -->
+      <div id="moral" class="ov">
+        <span class="chip ox">FARHAN 150 M KE PIN · IQBAL 154 M</span>
+        <div class="ml bs" id="ml1">PUKUL JAUH</div>
+        <div class="ml bs" id="ml2">TAK SEMESTINYA</div>
+        <div class="ml bs gold" id="ml3">BOLEH MENANG.</div>
+        <div id="cta"><span class="a ox">SETUJU? KOMEN ↓ · HOLE 3 NEXT</span></div>
       </div>
 
       <div id="caps"></div>
@@ -404,7 +416,7 @@
         tl.fromTo("#ko-k .w", { opacity: 0, scale: 3.2 }, { opacity: 1, scale: 1, duration: 0.2, ease: "power4.in" }, D + 0.08);
         tl.fromTo("#ko-k", { x: 0 }, { x: 14, duration: 0.035, yoyo: true, repeat: 5, ease: "none", immediateRender: false }, D + 0.28);
         tl.fromTo("#ko-k .m", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.2, ease: "back.out(2)" }, D + 0.4);
-        tl.to("#ko", { opacity: 0, scale: 0.92, duration: 0.2, ease: "power2.in" }, T.next.start + 0.6);
+        tl.to("#ko", { opacity: 0, scale: 0.92, duration: 0.2, ease: "power2.in" }, T.next.start + 1.05);
         tl.set("#ko", { scale: 1 }, 0);
 
         // ---------- END ----------
@@ -413,9 +425,17 @@
         tl.fromTo("#end .hd", { opacity: 0, x: 120 }, { opacity: 1, x: 0, duration: 0.22, ease: "back.out(2)" }, E + 0.05);
         tl.fromTo("#er-iq", { opacity: 0, x: -140 }, { opacity: 1, x: 0, duration: 0.22, ease: "back.out(2)" }, E + 0.3);
         tl.fromTo("#er-fa", { opacity: 0, x: -140 }, { opacity: 1, x: 0, duration: 0.22, ease: "back.out(2)" }, E + 0.5);
-        tl.fromTo("#cta .q", { opacity: 0, scale: 1.3 }, { opacity: 1, scale: 1, duration: 0.2, ease: "back.out(2)" }, E + 1.1);
-        tl.fromTo("#cta .a", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.2 }, E + 1.4);
-        tl.fromTo("#cta .a", { scale: 1 }, { scale: 1.05, duration: 0.3, yoyo: true, repeat: 5, ease: "sine.inOut", immediateRender: false }, E + 1.7);
+        // result out, the message in
+        tl.to("#end", { opacity: 0, x: -160, duration: 0.2, ease: "power2.in" }, E + 2.4);
+        tl.set("#end", { x: 0 }, 0);
+        tl.set("#moral", { opacity: 1 }, E + 2.5);
+        tl.fromTo("#moral .chip", { opacity: 0, x: 120 }, { opacity: 1, x: 0, duration: 0.2, ease: "back.out(2)" }, E + 2.5);
+        tl.fromTo("#ml1", { opacity: 0, scale: 2.2 }, { opacity: 1, scale: 1, duration: 0.16, ease: "power4.in" }, E + 2.8);
+        tl.fromTo("#ml2", { opacity: 0, scale: 2.2 }, { opacity: 1, scale: 1, duration: 0.16, ease: "power4.in" }, E + 3.15);
+        tl.fromTo("#ml3", { opacity: 0, scale: 2.6 }, { opacity: 1, scale: 1, duration: 0.18, ease: "power4.in" }, E + 3.5);
+        tl.fromTo("#moral", { x: 0 }, { x: 12, duration: 0.035, yoyo: true, repeat: 5, ease: "none", immediateRender: false }, E + 3.68);
+        tl.fromTo("#cta .a", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.2 }, E + 5.2);
+        tl.fromTo("#cta .a", { scale: 1 }, { scale: 1.05, duration: 0.3, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, E + 5.5);
 
         // ---------- CAPTIONS: the spoken words, word times from faster-whisper mapped onto the film ----------
         const capsEl = $("#caps");
