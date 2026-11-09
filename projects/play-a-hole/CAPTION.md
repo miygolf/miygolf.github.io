@@ -4,7 +4,7 @@
 
 Jom main 1 hole dengan aku ⛳
 
-Tee off, second shot 117 yards, tinggal dalam 10–12 kaki je…
+Tee off, second shot 117 meter, tinggal dalam 10–12 kaki je…
 Putt untuk birdie — masuk ke tak? 👀
 
 Last-last masuk jugak, BIRDIE kat hole pertama 🔥🐦
@@ -16,7 +16,7 @@ Nak aku share tips green reading? Komen "GREEN" kat bawah 👇
 ## Instagram
 
 Play a hole with me ⛳
-117 yards → 10 kaki → BIRDIE 🐦🔥
+117 meter → 10 kaki → BIRDIE 🐦🔥
 Nak tips green reading? Komen "GREEN" 👇
 
 #golfmalaysia #golftips #golflesson #golfswing #birdie #playahole
