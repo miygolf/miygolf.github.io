@@ -1,6 +1,8 @@
 # Match play 1 lawan 1 — hole 2, KRTU (Iqbal vs Farhan) — edit notes
 
-HyperFrames 0.9.18 · 1080×1920 · 30 fps · 75.4 s · status: **draft preview v2** (`previews/match-play-hole2_preview_draft_v2.mp4`, 720p copy of the draft render). Final not rendered yet.
+HyperFrames 0.9.18 · 1080×1920 · 30 fps · 75.4 s · status: **final delivered** (`final/match-play-hole2_iqbal-vs-farhan_1080x1920.mp4`, not in git: 154 MB > GitHub's 100 MB limit; rebuild with the steps below). 1080×1920, 30 fps, H.264 High ~16 Mbps, AAC 256k, −14.1 LUFS, peak −1.2 dBFS.
+
+Final: **no colour grade** and no vignette (owner's call after v2); length kept at 75 s.
 
 v2 (owner feedback): darker grade (was too bright), longer cut (64 → 75 s), outro message "PUKUL JAUH TAK SEMESTINYA BOLEH MENANG", long SFX trimmed so every spoken line stays ≥ 8 dB above the bed (only the 0.3 s KO punch sits on the ball drop).
 
@@ -13,7 +15,8 @@ v2 (owner feedback): darker grade (was too bright), longer cut (64 → 75 s), ou
   punch + flash on every strike, diagonal VS card with a ring bell, letterbox on the deciding putt, KO-style result slam with a gold burst,
   the HUD fight bar turns gold with a W for the winner.
 
-## Grade (v2)
+## Grade
+Final: none (`GRADE = "null"`). Tried and dropped — v2:
 `eq=contrast=1.10:saturation=1.06:gamma=0.86`, curves pulling mids and highlights down (sky tamed), colour balance a little cool in the
 shadows and warm in the highlights. Applied in `tools/build_aroll.py` (GRADE) to every segment and the VS stills.
 
@@ -62,4 +65,6 @@ python3 tools/build_aroll.py    # A-roll, VS stills, voice, edit/timeline.json
 python3 tools/build_index.py    # index.html (graphics, captions, music, SFX)
 npx hyperframes@0.9.18 check
 npx hyperframes@0.9.18 render -q draft -o renders/preview_draft.mp4
+npx hyperframes@0.9.18 render -q delivery -o renders/final_raw.mp4
+tools/master.sh renders/final_raw.mp4 final/match-play-hole2_iqbal-vs-farhan_1080x1920.mp4
 ```

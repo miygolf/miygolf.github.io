@@ -22,10 +22,10 @@ FPS = 30
 SR = 48000
 SW, SH = 2160, 3840  # upright source
 
-# one grade for every clip (v2, owner: "terang sangat"): darker mids, highlights pulled down to tame the bright sky,
-# deeper shadows, a little cool in the shadows and warm in the highlights so skin stays natural
-GRADE = ("eq=contrast=1.10:saturation=1.06:gamma=0.86,curves=all='0/0 0.25/0.17 0.5/0.40 0.75/0.66 1/0.88',"
-         "colorbalance=bs=0.05:gs=0.01:rh=0.04:bh=-0.04")
+# no colour grade (owner, final): the footage keeps the iPhone's own colour. ("null" = pass-through filter.)
+# Earlier tries, kept for reference: v1 "eq=contrast=1.07:saturation=1.14:gamma=0.97,curves=..." (too bright for the owner),
+# v2 "eq=contrast=1.10:saturation=1.06:gamma=0.86,curves=all='0/0 0.25/0.17 0.5/0.40 0.75/0.66 1/0.88',colorbalance=..." (dropped).
+GRADE = "null"
 
 # EDL in film order.  kind: None (play), "freeze" (hold src a for dur), "black" (dur)
 # zoom = [(t_in_segment, zoom, cx, cy)] in source pixels (2160x3840), smoothstep between keys

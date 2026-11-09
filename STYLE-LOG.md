@@ -34,3 +34,4 @@ Each video gets a look that differs from the ones before it.
 
 - Match play hole 2 (2026-11-09, preview): owner asked for a music bed again, voice kept clear (ducked ≈ 16 dB under speech). Only the hole shown is scored on screen — no overall match status unless the owner gives it.
 - Match play hole 2 v2 (2026-11-09): owner said the grade was too bright → darker grade (gamma 0.86, highlights pulled to 0.88). Wanted ≥ 60 s, a bit longer (now 75 s), and an outro message ("pukul jauh tak semestinya boleh menang"). Keep long SFX (rumbles, cheers, bells) off spoken lines.
+- Match play hole 2 final (2026-11-09): owner then asked to **remove the colour grade entirely** (no grade, no vignette) — delivered on the iPhone's own colour. Default to ungraded footage next time unless asked.
