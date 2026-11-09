@@ -1,0 +1,91 @@
+clip1 [   0.34-   0.66] Okay.
+clip1 [   6.67-   7.31] Bapak lah.
+clip1 [   9.40-  10.80] Ajar sikit macam mana pukul begitu.
+clip1 [  11.95-  14.23] Make sure you ada target.
+clip1 [  15.53-  16.45] Jangan main-main.
+clip1 [  31.60-  32.76] Aku tahu par dulu.
+clip1 [  39.83-  40.35] Swing.
+clip1 [  40.43-  41.53] Apalagi tujuh lah.
+clip1 [  45.74-  46.26] Swing.
+clip1 [  46.54-  47.06] Alright.
+clip1 [  49.28-  50.44] Eh, mana korang pergi?
+clip1 [  50.92-  51.64] Buruk lah.
+clip1 [  52.08-  53.56] Ini sahabat kita, Sadiq.
+clip1 [  54.26-  56.60] Pro Bukit Raja, Kelang.
+clip1 [  57.89-  59.33] Aduh, stres lah main sini.
+clip1 [  66.77-  67.93] Habiskan, habiskan swing tu.
+clip1 [  68.05-  68.13] Yap.
+clip1 [  70.32-  70.54] Yap.
+clip1 [  72.12-  73.26] Betik sikit pinggang ni.
+clip1 [  73.34-  73.98] Betik swing.
+clip1 [  77.82-  78.26] Buk!
+clip1 [  79.34-  80.12] Ini sebab apa?
+clip1 [  80.18-  80.46] Sebab?
+clip1 [  80.86-  82.97] Nak berang.
+clip1 [  89.50-  90.52] Jangan nembur sangat.
+clip1 [  92.76-  93.20] Okay.
+clip1 [  93.30-  93.66] Letak.
+clip1 [  94.86-  95.30] Betik.
+clip1 [  96.10-  96.62] Okay lah.
+clip1 [  97.58-  98.28] Tolak betik swing.
+clip1 [  99.09-  99.77] Ni pusing.
+clip1 [ 100.93- 102.44] Kalau kan tak pusing,
+clip1 [ 103.66- 104.46] badan ni tak angkat.
+clip1 [ 105.66- 106.10] Okay.
+clip1 [ 106.44- 108.58] So kalau nak maintain posture macam ni,
+clip1 [ 108.62- 109.50] pinggang ni nak pusing.
+clip1 [ 118.40- 118.84] Ha.
+clip1 [ 121.68- 122.12] Yap.
+clip1 [ 129.33- 130.51] Cuma salah aiming je lah.
+clip2 [   0.24-   1.20] 1-5-4.
+clip2 [   4.28-   8.76] Ok, disebabkan ke pin, kita ada branch kat depan tu.
+clip2 [   9.41-  11.13] Ada sikit je pokok kat depan tu.
+clip2 [  12.64-  17.18] So, saya akan buat draw sikit.
+clip2 [  18.28-  19.32] Supaya elak.
+clip2 [  19.95-  21.09] Kita aim kat bunker.
+clip2 [  22.15-  23.25] Bagi dia curve masuk.
+clip2 [  48.23-  49.31] Buat a good shot.
+clip2 [  51.00-  52.06] Tapi over sikit.
+clip3 [   0.82-   2.16] Okay, Farhan.
+clip3 [   2.80-   8.87] Okay, F101, reflect, uphill sikit.
+clip3 [  13.44-  16.64] Fairway, sorry, dia pergi dekat middle, 150.
+clip3 [  17.78-  21.28] Mungkin over club sikit, pakai P, dengan bola kat belakang.
+clip3 [  21.82-  23.28] Kita control sikit.
+clip3 [  23.92-  24.64] Try ni.
+clip3 [  24.98-  25.50] Wow.
+clip3 [  36.78-  37.30] Eh.
+clip3 [  37.88-  38.54] Bangka eh.
+clip3 [  38.68-  39.58] Pro pun dah apa?
+clip4 [   0.34-   3.80] Otak-otak selepas daft.
+clip4 [   6.02-   7.12] Begorang 20 meter.
+clip4 [   9.00-   9.52] 60.
+clip4 [  10.79-  12.45] Jangan nak fly over sikit lagi.
+clip4 [  13.11-  14.07] Lepas hum tu.
+clip4 [  14.78-  15.56] Left side.
+clip4 [  18.28-  18.80] Astagfirullah.
+clip4 [  21.86-  22.72] Kenapa jadi begitu?
+clip4 [  24.66-  30.48] Most of the time, problem dia bila sampai dekat bola tu, you try to scoop.
+clip4 [  31.18-  32.90] And the weight tertinggal belakang.
+clip4 [  33.51-  34.73] Sama juga yang terjadi tadi.
+clip4 [  35.93-  38.89] I tak accelerate then, contact tu kena belakang.
+clip4 [  39.39-  39.41] Terima kasih kerana menonton!
+clip5 [   0.78-   7.66] Hole 2, disaster, part 4, part 4 par, part left to right.
+clip5 [   7.80-  16.59] Most important part bila dah longer-longer part ni kita kena bagi sampai.
+clip5 [  18.39-  25.79] Main factor make sure speed, kena make sure speed tu at the pace yang bagi sampai.
+clip5 [  26.84-  30.48] Sebab line betul tak sampai pun no point to try.
+clip5 [  36.14-  36.66] Bogey.
+clip6 [   0.88-   4.59] Hole 2, Iqbal. I think for birdie.
+clip6 [   6.68-   7.80] Plus mana, yes? Ada?
+clip6 [   9.85-  12.89] Kalau boleh nampak. Mungkin dalam kamera tak nampak sangat.
+clip6 [  17.46-  20.40] Fast, downhill part. Left to right.
+clip6 [  21.34-  22.16] Kita tengok apa jadi.
+clip6 [  22.62-  29.80] Back to back birdie. Need to slow down, need to slow down.
+clip6 [  34.14-  35.30] Okay, not too bad.
+clip6 [  36.51-  37.37] Pada atas.
+clip6 [  37.53-  42.50] Tak suka betul eh, long part.
+clip6 [  43.86-  58.09] Saya baru.
+clip6 [  58.81-  60.98] Kau masih hair record?
+clip6 [  61.34-  61.78] Masih.
+clip6 [  66.21-  75.89] Good save lah.
+clip6 [  76.64-  77.28] One down.
+clip6 [  80.48-  81.18] Next hole.

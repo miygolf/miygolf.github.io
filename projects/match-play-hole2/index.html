@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Title Fight": hole 2 played as a fight-night match-play broadcast.
+         Red corner = IQBAL (#ff2a3d), blue corner = FARHAN (#2b6cff), gold (#ffc23a) for the result, ink #0b0b10, white.
+         Type: Big Shoulders Display 900/800 (titles, captions) + Oxanium 700/600 (labels, numbers).
+         Shapes: plates cut on a 12-degree slash, hard offset shadows in the corner colour, gold rules.
+         Motion: slash wipes in the incoming player's colour on every cut, plates slam in from the slash direction,
+         shockwave ring + punch on every strike, ring-bell VS card, KO-style result slam.
+         Safe band: x 60-930, y 168-1330. Faces checked per shot (they sit at y 340-880, x 120-580) -> labels top-right,
+         captions in the y 1120-1300 band, end card below the face on the final freeze. */
+      @font-face { font-family: "BigShoulders"; font-weight: 800; src: url("assets/fonts/BigShouldersDisplay-800.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "BigShoulders"; font-weight: 900; src: url("assets/fonts/BigShouldersDisplay-900.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Oxanium"; font-weight: 600; src: url("assets/fonts/Oxanium-600.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Oxanium"; font-weight: 700; src: url("assets/fonts/Oxanium-700.ttf") format("truetype"); font-display: block; }
+      :root { --ink: #0b0b10; --red: #ff2a3d; --blue: #2b6cff; --gold: #ffc23a; --white: #ffffff; --redd: #a80f1d; --blued: #1238a6; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #0b0b10; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #0b0b10; }
+      #cam { position: absolute; inset: 0; z-index: 1; transform-origin: 540px 960px; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+      #vig { position: absolute; inset: 0; z-index: 2; pointer-events: none;
+             background: radial-gradient(ellipse 80% 62% at 50% 46%, rgba(0,0,0,0) 55%, rgba(5,5,10,0.42) 100%); }
+      #lbox-t, #lbox-b { position: absolute; left: 0; width: 1080px; height: 150px; background: #050507; z-index: 3; transform: scaleY(0); }
+      #lbox-t { top: 0; transform-origin: 50% 0; } #lbox-b { bottom: 0; transform-origin: 50% 100%; }
+      .ov { position: absolute; z-index: 6; opacity: 0; pointer-events: none; }
+      .bs { font-family: "BigShoulders", sans-serif; font-weight: 900; line-height: 0.88; text-transform: uppercase; }
+      .ox { font-family: "Oxanium", monospace; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+
+      /* ---------- HUD: fight bar ---------- */
+      #hud { left: 60px; top: 178px; width: 870px; height: 78px; z-index: 7; }
+      .hp { position: absolute; top: 0; height: 66px; width: 330px; transform: skewX(-12deg); overflow: hidden; }
+      .hp .in { position: absolute; inset: 0; display: flex; align-items: center; transform: skewX(12deg); }
+      #hp-iq { left: 8px; background: var(--red); box-shadow: -8px 8px 0 var(--ink); }
+      #hp-fa { right: 8px; background: var(--blue); box-shadow: 8px 8px 0 var(--ink); }
+      #hp-iq .in { justify-content: flex-start; padding-left: 30px; } #hp-fa .in { justify-content: flex-end; padding-right: 30px; }
+      .hp .nm { font-size: 54px; color: #fff; letter-spacing: 0.02em; }
+      .hp .cn { font-size: 15px; color: rgba(255,255,255,0.85); margin: 0 14px; }
+      #hp-mid { position: absolute; left: 335px; top: 4px; width: 200px; height: 58px; background: var(--ink); transform: skewX(-12deg);
+                box-shadow: inset 0 0 0 3px var(--gold); }
+      #hp-mid .in { position: absolute; inset: 0; transform: skewX(12deg); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      #hp-mid .a { font-size: 32px; color: var(--gold); letter-spacing: 0.03em; white-space: nowrap; }
+      #hp-mid .b { font-size: 13px; color: #fff; margin-top: 1px; }
+      .turn { position: absolute; top: 70px; width: 0; height: 0; border-left: 14px solid transparent; border-right: 14px solid transparent;
+              border-top: 14px solid var(--gold); opacity: 0; }
+      #turn-iq { left: 150px; } #turn-fa { right: 150px; }
+      #hp-iq .gold { position: absolute; inset: 0; background: var(--gold); transform: scaleX(0); transform-origin: 0 50%; }
+      #hp-iq .win { position: absolute; right: 22px; top: 10px; transform: skewX(12deg); font-size: 40px; color: var(--ink); opacity: 0; }
+
+      /* ---------- hook ---------- */
+      #hook { left: 60px; top: 196px; width: 870px; text-align: center; opacity: 1; }
+      #hook-chip { display: inline-flex; gap: 0; transform: skewX(-12deg); box-shadow: 8px 8px 0 var(--ink); }
+      #hook-chip span { display: block; padding: 10px 22px 8px; font-size: 30px; color: #fff; }
+      #hook-chip .r { background: var(--red); } #hook-chip .k { background: var(--ink); color: var(--gold); } #hook-chip .b { background: var(--blue); }
+      #hook-big { margin-top: 18px; font-size: 230px; color: #fff; letter-spacing: 0.01em;
+                  -webkit-text-stroke: 14px var(--ink); paint-order: stroke fill; text-shadow: 0 12px 0 var(--gold), 0 14px 0 var(--ink); }
+      #hook-big .h { display: inline-block; }
+      #ask { left: 60px; top: 990px; width: 870px; text-align: center; }
+      #ask .l1 { font-size: 64px; color: #fff; -webkit-text-stroke: 10px var(--ink); paint-order: stroke fill; }
+      #ask .l2 { font-size: 150px; margin-top: 4px; -webkit-text-stroke: 14px var(--ink); paint-order: stroke fill; }
+      #ask .l2 .a { color: var(--red); } #ask .l2 .b { color: var(--blue); }
+
+      /* ---------- VS card ---------- */
+      #vs { left: 0; top: 0; width: 1080px; height: 1920px; z-index: 8; opacity: 0; }
+      .vsp { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      #vsp-iq { clip-path: polygon(0 0, 1080px 0, 1080px 820px, 0 1060px); }
+      #vsp-fa { clip-path: polygon(0 1060px, 1080px 820px, 1080px 1920px, 0 1920px); }
+      .vsp img { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 0 0; }
+      .vsp .tint { position: absolute; inset: 0; mix-blend-mode: multiply; }
+      #vsp-iq .tint { background: linear-gradient(180deg, rgba(255,42,61,0.05) 30%, rgba(255,42,61,0.55) 100%); }
+      #vsp-fa .tint { background: linear-gradient(0deg, rgba(43,108,255,0.08) 30%, rgba(43,108,255,0.6) 100%); }
+      #vs-seam { position: absolute; left: -60px; top: 932px; width: 1200px; height: 18px; background: var(--gold); transform: rotate(-12.53deg); transform-origin: 50% 50%;
+                 box-shadow: 0 0 0 6px var(--ink); }
+      #vs-badge { position: absolute; left: 400px; top: 800px; width: 280px; height: 280px; display: flex; align-items: center; justify-content: center; }
+      #vs-badge .d { position: absolute; inset: 30px; background: var(--ink); transform: rotate(45deg); box-shadow: inset 0 0 0 8px var(--gold), 0 0 0 8px var(--ink); }
+      #vs-badge .t { position: relative; font-size: 170px; color: var(--gold); transform: skewX(-10deg); letter-spacing: -0.02em; }
+      .vs-name { position: absolute; }
+      .vs-name .tag { display: inline-block; padding: 8px 16px 6px; font-size: 28px; color: #fff; background: var(--ink); transform: skewX(-12deg); }
+      .vs-name .nm { font-size: 150px; color: #fff; -webkit-text-stroke: 12px var(--ink); paint-order: stroke fill; margin-top: 6px; }
+      #vsn-iq { left: 560px; top: 560px; text-align: right; width: 370px; } #vsn-iq .nm { text-shadow: 0 12px 0 var(--red), 0 14px 0 var(--ink); }
+      #vsn-fa { left: 70px; top: 1040px; text-align: left; width: 480px; } #vsn-fa .nm { text-shadow: 0 12px 0 var(--blue), 0 14px 0 var(--ink); }
+      #vs-top { position: absolute; left: 60px; top: 190px; width: 870px; text-align: center; }
+      #vs-top .k { display: inline-block; padding: 10px 24px 8px; font-size: 28px; color: var(--ink); background: var(--gold); transform: skewX(-12deg); box-shadow: 8px 8px 0 var(--ink); }
+      #vs-bot { position: absolute; left: 60px; top: 1258px; width: 870px; text-align: center; }
+      #vs-bot .k { display: inline-block; padding: 10px 24px 8px; font-size: 30px; color: #fff; background: var(--ink); transform: skewX(-12deg); box-shadow: inset 0 0 0 3px var(--gold); }
+
+      /* ---------- shot plates (top right, under the HUD) ---------- */
+      .plate { position: absolute; right: 150px; top: 286px; display: flex; flex-direction: column; align-items: flex-end; z-index: 6; opacity: 0; }
+      .plate .row { display: flex; align-items: stretch; transform: skewX(-12deg); box-shadow: 8px 8px 0 var(--ink); }
+      .plate .who { padding: 10px 16px 8px; font-size: 28px; color: #fff; }
+      .plate .what { padding: 6px 20px 2px; font-size: 52px; color: var(--ink); background: #fff; }
+      .plate.iq .who { background: var(--red); } .plate.fa .who { background: var(--blue); }
+      .plate .sub { margin-top: 12px; padding: 7px 16px 5px; font-size: 28px; color: var(--gold); background: var(--ink); transform: skewX(-12deg); }
+      .plate .sub:empty { display: none; }
+
+      /* ---------- draw plan (Iqbal's approach) ---------- */
+      #plan { left: 0; top: 0; width: 1080px; height: 1920px; z-index: 5; }
+      #plan svg { position: absolute; left: 0; top: 0; }
+      .pl { position: absolute; transform: translate(-50%, -100%); white-space: nowrap; }
+      .pl .k { display: inline-block; padding: 8px 14px 6px; font-size: 30px; transform: skewX(-12deg); box-shadow: 6px 6px 0 var(--ink); }
+      #pl-aim .k { background: var(--gold); color: var(--ink); } #pl-pin .k { background: #fff; color: var(--ink); } #pl-tree .k { background: var(--red); color: #fff; }
+
+      /* ---------- callouts / stamps ---------- */
+      #why { right: 150px; top: 286px; width: 480px; }
+      #why .hd { display: inline-block; padding: 8px 18px 6px; font-size: 28px; color: #fff; background: var(--blue); transform: skewX(-12deg); box-shadow: 8px 8px 0 var(--ink); }
+      .wr { display: flex; align-items: center; gap: 14px; margin-top: 14px; padding: 10px 18px 8px; background: rgba(11,11,16,0.9); transform: skewX(-12deg);
+            border-left: 8px solid var(--blue); }
+      .wr .n { font-size: 30px; color: var(--gold); } .wr .t { font-size: 44px; color: #fff; }
+      .stamp { left: 0; top: 0; z-index: 7; }
+      .stamp .s { display: inline-block; padding: 12px 34px 4px; font-size: 150px; color: #fff; transform: rotate(-8deg) skewX(-10deg);
+                  -webkit-text-stroke: 10px var(--ink); paint-order: stroke fill; }
+      #st-fat { left: 560px; top: 760px; } #st-fat .s { font-size: 130px; background: var(--blue); box-shadow: 12px 12px 0 var(--ink); }
+      #st-bogey { left: 140px; top: 860px; } #st-bogey .s { background: var(--blue); box-shadow: 14px 14px 0 var(--ink); }
+      #st-bogey .x { display: block; margin: 16px 0 0 70px; font-size: 28px; color: #fff; background: var(--ink); padding: 8px 16px 6px; width: max-content; transform: rotate(-8deg) skewX(-10deg); }
+      #replay { right: 150px; top: 456px; }
+      #replay .k { display: inline-flex; align-items: center; gap: 12px; padding: 8px 16px 6px; font-size: 28px; color: #fff; background: var(--ink); transform: skewX(-12deg); box-shadow: inset 0 0 0 3px #fff; }
+      #replay .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--red); }
+      #stakes { right: 150px; top: 420px; text-align: right; }
+      #stakes .k { display: inline-block; padding: 10px 26px 6px; font-size: 58px; color: var(--ink); background: var(--gold); transform: skewX(-12deg); box-shadow: 10px 10px 0 var(--ink); }
+
+      /* ---------- impact FX ---------- */
+      #flash { position: absolute; inset: 0; background: #fff; opacity: 0; z-index: 9; pointer-events: none; }
+      #gflash { position: absolute; inset: 0; background: var(--gold); opacity: 0; z-index: 9; pointer-events: none; mix-blend-mode: screen; }
+      .ring { position: absolute; width: 240px; height: 240px; margin: -120px 0 0 -120px; border-radius: 50%; border: 10px solid #fff; opacity: 0; z-index: 6; }
+      /* slash wipe */
+      #wipe { position: absolute; inset: 0; z-index: 10; pointer-events: none; overflow: hidden; }
+      #wipe i { position: absolute; top: -300px; height: 2520px; transform: skewX(-12deg) translateX(-1600px); }
+
+      /* ---------- KO result ---------- */
+      #ko { left: 0; top: 0; width: 1080px; height: 1920px; z-index: 8; }
+      #ko .burst { position: absolute; left: 540px; top: 950px; width: 0; height: 0; }
+      #ko .burst i { position: absolute; left: -6px; top: -560px; width: 12px; height: 380px; background: var(--gold); transform-origin: 6px 560px; }
+      #ko-k { position: absolute; left: 60px; top: 760px; width: 870px; text-align: center; }
+      #ko-k .h { display: inline-block; padding: 10px 26px 6px; font-size: 34px; color: var(--ink); background: var(--gold); transform: skewX(-12deg); box-shadow: 8px 8px 0 var(--ink); }
+      #ko-k .w { font-size: 250px; color: #fff; margin-top: 10px; -webkit-text-stroke: 16px var(--ink); paint-order: stroke fill;
+                 text-shadow: 0 14px 0 var(--red), 0 18px 0 var(--ink); }
+      #ko-k .m { font-size: 92px; color: var(--gold); margin-top: 6px; -webkit-text-stroke: 12px var(--ink); paint-order: stroke fill; }
+
+      /* ---------- end card (on the final freeze, below the face) ---------- */
+      #end { left: 60px; top: 860px; width: 870px; z-index: 7; }
+      #end .hd { display: flex; justify-content: space-between; align-items: center; padding: 12px 22px 8px; background: var(--ink); transform: skewX(-12deg); box-shadow: inset 0 0 0 3px var(--gold); }
+      #end .hd .a { font-size: 34px; color: var(--gold); } #end .hd .b { font-size: 28px; color: #fff; }
+      .er { display: flex; align-items: center; margin-top: 12px; height: 108px; transform: skewX(-12deg); box-shadow: 10px 10px 0 var(--ink); }
+      .er .p { width: 360px; height: 100%; display: flex; align-items: center; padding-left: 26px; font-size: 76px; color: #fff; }
+      .er .r { flex: 1; height: 100%; display: flex; align-items: center; padding-left: 24px; font-size: 64px; color: var(--ink); background: #fff; }
+      .er .s { width: 120px; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 84px; color: #fff; background: var(--ink); }
+      #er-iq .p { background: var(--red); } #er-fa .p { background: var(--blue); }
+      #er-iq .s { background: var(--gold); color: var(--ink); }
+      #er-iq .wb { margin-left: 14px; padding: 4px 10px 2px; font-size: 32px; color: var(--ink); background: var(--gold); }
+      #cta { margin-top: 26px; text-align: center; }
+      #cta .q { font-size: 76px; color: #fff; -webkit-text-stroke: 10px var(--ink); paint-order: stroke fill; text-shadow: 0 8px 0 var(--blue), 0 10px 0 var(--ink); }
+      #cta .a { display: inline-block; margin-top: 16px; padding: 10px 24px 8px; font-size: 30px; color: var(--ink); background: var(--gold); transform: skewX(-12deg); box-shadow: 8px 8px 0 var(--ink); }
+
+      /* ---------- captions ---------- */
+      #caps { position: absolute; left: 60px; top: 1110px; width: 870px; height: 210px; z-index: 7; pointer-events: none; }
+      .cap { position: absolute; left: 0; bottom: 0; width: 870px; text-align: center; opacity: 0; }
+      .cap-in { display: inline-block; font-size: 82px; color: #fff; transform: skewX(-8deg); -webkit-text-stroke: 11px var(--ink); paint-order: stroke fill; }
+      .cap.iq .cap-in { text-shadow: 0 9px 0 var(--red), 0 11px 0 var(--ink); } .cap.fa .cap-in { text-shadow: 0 9px 0 var(--blue), 0 11px 0 var(--ink); }
+      .cap .w { display: inline-block; margin: 0 0.12em; opacity: 0; }
+      .cap .w.key { color: var(--gold); }
+      .cap.big .cap-in { font-size: 120px; }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="64.2667" data-width="1080" data-height="1920" data-fps="30">
+      <!-- A-roll: cut, slowed, frozen and pushed in from the 4K source by tools/build_aroll.py -->
+      <div data-hf-id="hf-cam" id="cam">
+        <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="64.2667" data-track-index="1" muted playsinline></video>
+      </div>
+      <div id="vig"></div>
+      <div id="lbox-t"></div><div id="lbox-b"></div>
+
+      <!-- HUD fight bar (tee -> result) -->
+      <div id="hud" class="ov">
+        <div id="hp-iq" class="hp"><div class="gold"></div><div class="in"><span class="nm bs">IQBAL</span></div><span class="win bs">W</span></div>
+        <div id="hp-mid"><div class="in"><span class="a bs" id="hud-a">HOLE 2 · PAR 4</span></div></div>
+        <div id="hp-fa" class="hp"><div class="in"><span class="nm bs">FARHAN</span></div></div>
+        <i class="turn" id="turn-iq"></i><i class="turn" id="turn-fa"></i>
+      </div>
+
+      <!-- hook (text on frame 0) -->
+      <div id="hook" class="ov">
+        <div id="hook-chip" class="ox"><span class="r">IQBAL</span><span class="k">1 LAWAN 1</span><span class="b">FARHAN</span></div>
+        <div id="hook-big" class="bs"><span class="h">HOLE</span> <span class="h">2</span></div>
+      </div>
+      <div id="ask" class="ov bs"><div class="l1">TAPI…</div><div class="l2"><span class="a">SIAPA</span> <span class="b">MENANG?</span></div></div>
+
+      <!-- VS card -->
+      <div id="vs" class="ov">
+        <div class="vsp" id="vsp-iq"><img id="vs-img-iq" src="assets/img/vs-iqbal.jpg" alt=""><div class="tint"></div></div>
+        <div class="vsp" id="vsp-fa"><img id="vs-img-fa" src="assets/img/vs-farhan.jpg" alt=""><div class="tint"></div></div>
+        <div id="vs-seam"></div>
+        <div id="vsn-iq" class="vs-name"><span class="tag ox">RED CORNER</span><div class="nm bs">IQBAL</div></div>
+        <div id="vsn-fa" class="vs-name"><span class="tag ox">BLUE CORNER</span><div class="nm bs">FARHAN</div></div>
+        <div id="vs-badge"><div class="d"></div><div class="t bs">VS</div></div>
+        <div id="vs-top"><span class="k ox">MATCH PLAY · 1 LAWAN 1</span></div>
+        <div id="vs-bot"><span class="k ox">HOLE 2 · PAR 4 · KRTU SUBANG</span></div>
+      </div>
+
+      <!-- shot plates are built from PLATES below -->
+      <div id="plates"></div>
+
+      <!-- Iqbal's plan: draw around the branch, aim at the bunker -->
+      <div id="plan" class="ov">
+        <svg width="1080" height="1920" viewBox="0 0 1080 1920">
+          <path id="pl-path-sh" d="M 396 1372 C 520 1120, 930 1010, 760 905" fill="none" stroke="#0b0b10" stroke-width="20" stroke-linecap="round"/>
+          <path id="pl-path" d="M 396 1372 C 520 1120, 930 1010, 760 905" fill="none" stroke="#ffc23a" stroke-width="10" stroke-linecap="round"/>
+          <line id="pl-aimline" x1="396" y1="1372" x2="890" y2="905" stroke="#ffffff" stroke-width="5" stroke-dasharray="14 14" opacity="0.85"/>
+          <g id="pl-x" transform="translate(330 560)"><path d="M -34 -34 L 34 34 M 34 -34 L -34 34" stroke="#0b0b10" stroke-width="22" stroke-linecap="round"/>
+            <path d="M -34 -34 L 34 34 M 34 -34 L -34 34" stroke="#ff2a3d" stroke-width="12" stroke-linecap="round"/></g>
+          <circle id="pl-tgt" cx="890" cy="905" r="26" fill="none" stroke="#ffffff" stroke-width="6"/>
+          <circle id="pl-pinc" cx="760" cy="905" r="14" fill="#ffc23a" stroke="#0b0b10" stroke-width="5"/>
+        </svg>
+        <div class="pl ox" id="pl-tree" style="left:330px; top:510px"><span class="k">DAHAN</span></div>
+        <div class="pl ox" id="pl-aim" style="left:845px; top:862px"><span class="k">AIM: BUNKER</span></div>
+        <div class="pl ox" id="pl-pin" style="left:700px; top:862px"><span class="k">PIN</span></div>
+      </div>
+
+      <div id="replay" class="ov"><span class="k ox"><i class="dot"></i>REPLAY · 0.5×</span></div>
+      <div id="st-fat" class="ov stamp"><span class="s bs">FAT!</span></div>
+      <div id="why" class="ov">
+        <span class="hd ox">KENAPA? — KATA FARHAN</span>
+        <div class="wr" id="wr1"><span class="n ox">01</span><span class="t bs">TRY TO SCOOP</span></div>
+        <div class="wr" id="wr2"><span class="n ox">02</span><span class="t bs">BERAT KAT BELAKANG</span></div>
+      </div>
+      <div id="st-bogey" class="ov stamp"><span class="s bs">BOGEY</span></div>
+      <div id="stakes" class="ov"><span class="k bs">MASUK = MENANG HOLE</span></div>
+
+      <div id="rings" data-layout-ignore></div>
+      <div id="ko" class="ov">
+        <div class="burst" id="burst" data-layout-ignore></div>
+        <div id="ko-k"><span class="h ox">PAR 4 vs BOGEY 5</span><div class="w bs">IQBAL</div><div class="m bs">MENANG HOLE 2!</div></div>
+      </div>
+
+      <div id="end" class="ov">
+        <div class="hd"><span class="a bs">KEPUTUSAN HOLE 2</span><span class="b ox">MATCH PLAY · KRTU</span></div>
+        <div class="er" id="er-iq"><span class="p bs">IQBAL<span class="wb ox">W</span></span><span class="r bs">PAR</span><span class="s bs">4</span></div>
+        <div class="er" id="er-fa"><span class="p bs">FARHAN</span><span class="r bs">BOGEY</span><span class="s bs">5</span></div>
+        <div id="cta"><div class="q bs">HOLE 3, FARHAN BALAS?</div><span class="a ox">FOLLOW · KOMEN TEKAAN KORANG ↓</span></div>
+      </div>
+
+      <div id="caps"></div>
+      <div id="flash"></div>
+      <div id="gflash"></div>
+      <div id="wipe" data-layout-ignore></div>
+      <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="64.2667" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>
+      <!-- music bed: Mixkit track #400, entered so its first drop lands on the VS slam and the second on the par putt dropping -->
+      <audio data-hf-id="hf-bgm" id="bgm" class="clip" src="assets/music/mixkit-400.mp3" data-start="3.417" data-duration="60.850" data-media-start="13.158" data-track-index="11" data-volume="1" data-timeline-role="music" data-audio-group="music" data-fx-chain="{&quot;version&quot;:1,&quot;nodes&quot;:[{&quot;type&quot;:&quot;highpass&quot;,&quot;id&quot;:&quot;hp&quot;,&quot;label&quot;:&quot;Clear the low end for the voice&quot;,&quot;params&quot;:{&quot;frequency&quot;:100}},{&quot;type&quot;:&quot;peaking&quot;,&quot;id&quot;:&quot;carve&quot;,&quot;label&quot;:&quot;Pocket for the voice&quot;,&quot;params&quot;:{&quot;frequency&quot;:2400,&quot;gain&quot;:-6,&quot;q&quot;:0.8}}]}" data-automation="{&quot;version&quot;:1,&quot;lanes&quot;:[{&quot;target&quot;:&quot;volume&quot;,&quot;points&quot;:[{&quot;t&quot;:0.0,&quot;v&quot;:0.0},{&quot;t&quot;:3.417,&quot;v&quot;:0.0},{&quot;t&quot;:3.477,&quot;v&quot;:0.3},{&quot;t&quot;:3.487,&quot;v&quot;:0.34},{&quot;t&quot;:4.367,&quot;v&quot;:0.34},{&quot;t&quot;:4.567,&quot;v&quot;:0.3},{&quot;t&quot;:11.607,&quot;v&quot;:0.3},{&quot;t&quot;:11.787,&quot;v&quot;:0.08},{&quot;t&quot;:16.727,&quot;v&quot;:0.08},{&quot;t&quot;:16.907,&quot;v&quot;:0.3},{&quot;t&quot;:19.367,&quot;v&quot;:0.3},{&quot;t&quot;:19.547,&quot;v&quot;:0.08},{&quot;t&quot;:26.503,&quot;v&quot;:0.08},{&quot;t&quot;:26.683,&quot;v&quot;:0.3},{&quot;t&quot;:30.957,&quot;v&quot;:0.3},{&quot;t&quot;:31.137,&quot;v&quot;:0.08},{&quot;t&quot;:37.13,&quot;v&quot;:0.08},{&quot;t&quot;:37.31,&quot;v&quot;:0.3},{&quot;t&quot;:40.933,&quot;v&quot;:0.3},{&quot;t&quot;:41.113,&quot;v&quot;:0.08},{&quot;t&quot;:46.873,&quot;v&quot;:0.08},{&quot;t&quot;:47.053,&quot;v&quot;:0.3},{&quot;t&quot;:47.343,&quot;v&quot;:0.3},{&quot;t&quot;:47.523,&quot;v&quot;:0.08},{&quot;t&quot;:48.753,&quot;v&quot;:0.08},{&quot;t&quot;:48.933,&quot;v&quot;:0.3},{&quot;t&quot;:50.707,&quot;v&quot;:0.3},{&quot;t&quot;:50.887,&quot;v&quot;:0.08},{&quot;t&quot;:52.517,&quot;v&quot;:0.08},{&quot;t&quot;:52.697,&quot;v&quot;:0.3},{&quot;t&quot;:56.227,&quot;v&quot;:0.3},{&quot;t&quot;:56.407,&quot;v&quot;:0.08},{&quot;t&quot;:56.417,&quot;v&quot;:0.08},{&quot;t&quot;:56.487,&quot;v&quot;:0.08},{&quot;t&quot;:57.437,&quot;v&quot;:0.08},{&quot;t&quot;:57.567,&quot;v&quot;:0.44},{&quot;t&quot;:57.617,&quot;v&quot;:0.3},{&quot;t&quot;:57.767,&quot;v&quot;:0.3},{&quot;t&quot;:58.747,&quot;v&quot;:0.3},{&quot;t&quot;:58.927,&quot;v&quot;:0.08},{&quot;t&quot;:60.017,&quot;v&quot;:0.08},{&quot;t&quot;:60.197,&quot;v&quot;:0.3},{&quot;t&quot;:63.067,&quot;v&quot;:0.3},{&quot;t&quot;:64.267,&quot;v&quot;:0.0}]}]}"></audio>
+      <!-- sound design: Mixkit ids, HyperFrames bundle (hf-*), synthesised ring bell. start = picture beat - file peak -->
+      <audio data-hf-id="hf-s00" id="sfx-00" class="clip" src="assets/sfx/3115.mp3" data-start="0.000" data-duration="0.50" data-track-index="12" data-volume="0.45" data-audio-group="sfx"></audio> <!-- hook title slams in -->
+      <audio data-hf-id="hf-s01" id="sfx-01" class="clip" src="assets/sfx/2364.mp3" data-start="0.170" data-duration="0.30" data-track-index="13" data-volume="0.35" data-audio-group="sfx"></audio> <!-- HOLE 2 lands -->
+      <audio data-hf-id="hf-s02" id="sfx-02" class="clip" src="assets/sfx/772.mp3" data-start="2.323" data-duration="1.00" data-track-index="12" data-volume="0.55" data-audio-group="sfx"></audio> <!-- freeze punch + SIAPA MENANG? -->
+      <audio data-hf-id="hf-s03" id="sfx-03" class="clip" src="assets/sfx/hf-riser.mp3" data-start="0.000" data-duration="3.69" data-media-start="0.513" data-track-index="14" data-volume="0.3" data-audio-group="sfx"></audio> <!-- riser under the hook into the VS card -->
+      <audio data-hf-id="hf-s04" id="sfx-04" class="clip" src="assets/sfx/1489.mp3" data-start="2.777" data-duration="1.40" data-track-index="13" data-volume="0.45" data-audio-group="sfx"></audio> <!-- VS panels slide in -->
+      <audio data-hf-id="hf-s05" id="sfx-05" class="clip" src="assets/sfx/bell-3.wav" data-start="3.517" data-duration="3.40" data-track-index="12" data-volume="0.45" data-audio-group="sfx"></audio> <!-- ring bell: ding ding ding -->
+      <audio data-hf-id="hf-s06" id="sfx-06" class="clip" src="assets/sfx/hf-impact-bass-1.mp3" data-start="3.837" data-duration="2.00" data-track-index="14" data-volume="0.6" data-audio-group="sfx"></audio> <!-- VS badge slams -->
+      <audio data-hf-id="hf-s07" id="sfx-07" class="clip" src="assets/sfx/2364.mp3" data-start="3.967" data-duration="0.30" data-track-index="15" data-volume="0.45" data-audio-group="sfx"></audio> <!-- IQBAL name -->
+      <audio data-hf-id="hf-s08" id="sfx-08" class="clip" src="assets/sfx/2364.mp3" data-start="4.107" data-duration="0.30" data-track-index="16" data-volume="0.45" data-audio-group="sfx"></audio> <!-- FARHAN name -->
+      <audio data-hf-id="hf-s09" id="sfx-09" class="clip" src="assets/sfx/3115.mp3" data-start="6.057" data-duration="0.50" data-track-index="13" data-volume="0.38" data-audio-group="sfx"></audio> <!-- slash wipe (fa) -->
+      <audio data-hf-id="hf-s10" id="sfx-10" class="clip" src="assets/sfx/1464.mp3" data-start="6.207" data-duration="0.40" data-track-index="14" data-volume="0.3" data-audio-group="sfx"></audio> <!-- plate TEE SHOT -->
+      <audio data-hf-id="hf-s11" id="sfx-11" class="clip" src="assets/sfx/2126.mp3" data-start="7.187" data-duration="0.60" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- Farhan tee strike (layered on the real one) -->
+      <audio data-hf-id="hf-s12" id="sfx-12" class="clip" src="assets/sfx/166.mp3" data-start="8.577" data-duration="0.70" data-track-index="12" data-volume="0.38" data-audio-group="sfx"></audio> <!-- slash wipe (iq) -->
+      <audio data-hf-id="hf-s13" id="sfx-13" class="clip" src="assets/sfx/1464.mp3" data-start="8.907" data-duration="0.40" data-track-index="13" data-volume="0.3" data-audio-group="sfx"></audio> <!-- plate TEE SHOT -->
+      <audio data-hf-id="hf-s14" id="sfx-14" class="clip" src="assets/sfx/2126.mp3" data-start="10.107" data-duration="0.60" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- Iqbal tee strike (layered) -->
+      <audio data-hf-id="hf-s15" id="sfx-15" class="clip" src="assets/sfx/175.mp3" data-start="11.307" data-duration="0.60" data-track-index="12" data-volume="0.38" data-audio-group="sfx"></audio> <!-- slash wipe (iq) -->
+      <audio data-hf-id="hf-s16" id="sfx-16" class="clip" src="assets/sfx/1464.mp3" data-start="11.777" data-duration="0.40" data-track-index="13" data-volume="0.3" data-audio-group="sfx"></audio> <!-- plate APPROACH -->
+      <audio data-hf-id="hf-s17" id="sfx-17" class="clip" src="assets/sfx/1489.mp3" data-start="12.877" data-duration="1.40" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- draw curve draws itself -->
+      <audio data-hf-id="hf-s18" id="sfx-18" class="clip" src="assets/sfx/2364.mp3" data-start="14.527" data-duration="0.30" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- AIM: BUNKER target -->
+      <audio data-hf-id="hf-s19" id="sfx-19" class="clip" src="assets/sfx/2364.mp3" data-start="15.917" data-duration="0.30" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- PIN marker -->
+      <audio data-hf-id="hf-s20" id="sfx-20" class="clip" src="assets/sfx/2120.mp3" data-start="18.137" data-duration="0.60" data-track-index="12" data-volume="0.42" data-audio-group="sfx"></audio> <!-- Iqbal approach strike (layered) -->
+      <audio data-hf-id="hf-s21" id="sfx-21" class="clip" src="assets/sfx/3115.mp3" data-start="22.023" data-duration="0.50" data-track-index="12" data-volume="0.38" data-audio-group="sfx"></audio> <!-- slash wipe (fa) -->
+      <audio data-hf-id="hf-s22" id="sfx-22" class="clip" src="assets/sfx/1464.mp3" data-start="22.143" data-duration="0.40" data-track-index="13" data-volume="0.3" data-audio-group="sfx"></audio> <!-- plate APPROACH -->
+      <audio data-hf-id="hf-s23" id="sfx-23" class="clip" src="assets/sfx/2120.mp3" data-start="26.913" data-duration="0.60" data-track-index="12" data-volume="0.42" data-audio-group="sfx"></audio> <!-- Farhan approach strike (layered) -->
+      <audio data-hf-id="hf-s24" id="sfx-24" class="clip" src="assets/sfx/166.mp3" data-start="28.677" data-duration="0.70" data-track-index="12" data-volume="0.38" data-audio-group="sfx"></audio> <!-- slash wipe (fa) -->
+      <audio data-hf-id="hf-s25" id="sfx-25" class="clip" src="assets/sfx/hf-whoosh-short.mp3" data-start="28.857" data-duration="0.30" data-track-index="13" data-volume="0.45" data-audio-group="sfx"></audio> <!-- REPLAY tag -->
+      <audio data-hf-id="hf-s26" id="sfx-26" class="clip" src="assets/sfx/1464.mp3" data-start="28.917" data-duration="0.40" data-track-index="14" data-volume="0.3" data-audio-group="sfx"></audio> <!-- plate CHIP -->
+      <audio data-hf-id="hf-s27" id="sfx-27" class="clip" src="assets/sfx/hf-impact-bass-2.mp3" data-start="29.987" data-duration="2.50" data-track-index="12" data-volume="0.55" data-audio-group="sfx"></audio> <!-- FAT! stamp -->
+      <audio data-hf-id="hf-s28" id="sfx-28" class="clip" src="assets/sfx/2364.mp3" data-start="31.717" data-duration="0.30" data-track-index="13" data-volume="0.45" data-audio-group="sfx"></audio> <!-- why row 1 -->
+      <audio data-hf-id="hf-s29" id="sfx-29" class="clip" src="assets/sfx/2364.mp3" data-start="32.787" data-duration="0.30" data-track-index="12" data-volume="0.45" data-audio-group="sfx"></audio> <!-- why row 2 -->
+      <audio data-hf-id="hf-s30" id="sfx-30" class="clip" src="assets/sfx/175.mp3" data-start="33.573" data-duration="0.60" data-track-index="12" data-volume="0.38" data-audio-group="sfx"></audio> <!-- slash wipe (fa) -->
+      <audio data-hf-id="hf-s31" id="sfx-31" class="clip" src="assets/sfx/1464.mp3" data-start="35.310" data-duration="0.40" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- plate PUTT -->
+      <audio data-hf-id="hf-s32" id="sfx-32" class="clip" src="assets/sfx/hf-impact-bass-1.mp3" data-start="40.220" data-duration="2.00" data-track-index="12" data-volume="0.6" data-audio-group="sfx"></audio> <!-- BOGEY stamp -->
+      <audio data-hf-id="hf-s33" id="sfx-33" class="clip" src="assets/sfx/3115.mp3" data-start="41.023" data-duration="0.50" data-track-index="13" data-volume="0.38" data-audio-group="sfx"></audio> <!-- slash wipe (iq) -->
+      <audio data-hf-id="hf-s34" id="sfx-34" class="clip" src="assets/sfx/1464.mp3" data-start="41.143" data-duration="0.40" data-track-index="14" data-volume="0.3" data-audio-group="sfx"></audio> <!-- plate BIRDIE PUTT -->
+      <audio data-hf-id="hf-s35" id="sfx-35" class="clip" src="assets/sfx/hf-whoosh-cinematic.mp3" data-start="38.933" data-duration="4.00" data-track-index="15" data-volume="0.22" data-audio-group="sfx"></audio> <!-- 4K push-in on the far address -->
+      <audio data-hf-id="hf-s36" id="sfx-36" class="clip" src="assets/sfx/166.mp3" data-start="51.943" data-duration="0.70" data-track-index="12" data-volume="0.38" data-audio-group="sfx"></audio> <!-- slash wipe (iq) -->
+      <audio data-hf-id="hf-s37" id="sfx-37" class="clip" src="assets/sfx/1464.mp3" data-start="52.243" data-duration="0.40" data-track-index="13" data-volume="0.3" data-audio-group="sfx"></audio> <!-- plate PAR PUTT -->
+      <audio data-hf-id="hf-s38" id="sfx-38" class="clip" src="assets/sfx/772.mp3" data-start="52.273" data-duration="1.00" data-track-index="14" data-volume="0.35" data-audio-group="sfx"></audio> <!-- MASUK = MENANG HOLE -->
+      <audio data-hf-id="hf-s39" id="sfx-39" class="clip" src="assets/sfx/hf-impact-bass-1.mp3" data-start="56.397" data-duration="2.00" data-track-index="12" data-volume="0.8" data-audio-group="sfx"></audio> <!-- KO: ball drops -->
+      <audio data-hf-id="hf-s40" id="sfx-40" class="clip" src="assets/sfx/hf-riser.mp3" data-start="52.487" data-duration="4.20" data-track-index="15" data-volume="0.32" data-audio-group="sfx"></audio> <!-- riser through the music break into the drop -->
+      <audio data-hf-id="hf-s41" id="sfx-41" class="clip" src="assets/sfx/bell-3.wav" data-start="56.487" data-duration="3.40" data-track-index="13" data-volume="0.75" data-audio-group="sfx"></audio> <!-- ring bell on the win -->
+      <audio data-hf-id="hf-s42" id="sfx-42" class="clip" src="assets/sfx/772.mp3" data-start="56.137" data-duration="1.00" data-track-index="14" data-volume="0.6" data-audio-group="sfx"></audio> <!-- IQBAL slams -->
+      <audio data-hf-id="hf-s43" id="sfx-43" class="clip" src="assets/sfx/518.mp3" data-start="51.237" data-duration="10.50" data-track-index="16" data-volume="0.3" data-audio-group="sfx"></audio> <!-- cheer and applause -->
+      <audio data-hf-id="hf-s44" id="sfx-44" class="clip" src="assets/sfx/2364.mp3" data-start="57.167" data-duration="0.30" data-track-index="14" data-volume="0.45" data-audio-group="sfx"></audio> <!-- HUD: W for Iqbal -->
+      <audio data-hf-id="hf-s45" id="sfx-45" class="clip" src="assets/sfx/1490.mp3" data-start="59.007" data-duration="0.90" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- result card -->
+      <audio data-hf-id="hf-s46" id="sfx-46" class="clip" src="assets/sfx/2364.mp3" data-start="59.967" data-duration="0.30" data-track-index="12" data-volume="0.45" data-audio-group="sfx"></audio> <!-- row Iqbal -->
+      <audio data-hf-id="hf-s47" id="sfx-47" class="clip" src="assets/sfx/2364.mp3" data-start="60.167" data-duration="0.30" data-track-index="13" data-volume="0.45" data-audio-group="sfx"></audio> <!-- row Farhan -->
+      <audio data-hf-id="hf-s48" id="sfx-48" class="clip" src="assets/sfx/3005.mp3" data-start="60.737" data-duration="0.20" data-track-index="12" data-volume="0.5" data-audio-group="sfx"></audio> <!-- CTA -->
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {"T": {"hook_chip": {"start": 0.0, "end": 2.7333}, "hook_freeze": {"start": 2.7333, "end": 3.4667}, "vs": {"start": 3.4667, "end": 6.1667}, "tee_far": {"start": 6.1667, "end": 8.8667}, "tee_iqb": {"start": 8.8667, "end": 11.7667}, "iqb_plan": {"start": 11.7667, "end": 16.7667}, "iqb_swing": {"start": 16.7667, "end": 19.9667}, "iqb_react": {"start": 19.9667, "end": 22.1333}, "far_plan": {"start": 22.1333, "end": 25.5333}, "far_swing": {"start": 25.5333, "end": 28.9667}, "chip_replay": {"start": 28.9667, "end": 30.9667}, "chip_why_a": {"start": 30.9667, "end": 32.1667}, "chip_why_b": {"start": 32.1667, "end": 34.0333}, "far_disaster": {"start": 34.0333, "end": 35.3}, "far_putt": {"start": 35.3, "end": 40.0}, "far_bogey": {"start": 40.0, "end": 41.1333}, "iqb_read": {"start": 41.1333, "end": 46.4333}, "iqb_roll": {"start": 46.4333, "end": 50.8667}, "iqb_ok": {"start": 50.8667, "end": 52.2333}, "par_setup": {"start": 52.2333, "end": 54.3333}, "par_roll": {"start": 54.3333, "end": 56.4667}, "par_drop": {"start": 56.4667, "end": 57.7667}, "next": {"start": 57.7667, "end": 59.6667}, "end_freeze": {"start": 59.6667, "end": 64.2667}}, "B": {"hook_impact": 1.38, "hook_astag": 2.08, "far_tee_impact": 7.367, "iqb_tee_impact": 10.287, "iqb_app_impact": 18.287, "far_app_impact": 27.063, "chip_impact": 30.227, "far_putt_stroke": 38.16, "iqb_stroke": 46.433, "par_stroke": 54.233, "par_drop": 56.467, "plan_draw": 13.587, "plan_aim": 14.527, "plan_curve": 15.917, "why_scoop": 31.717, "why_weight": 32.787, "bogey": 40.29}, "TOTAL": 64.2667, "CUTS": [[6.1667, "fa"], [8.8667, "iq"], [11.7667, "iq"], [22.1333, "fa"], [28.9667, "fa"], [34.0333, "fa"], [41.1333, "iq"], [52.2333, "iq"]], "TURNS": [[6.1667, "fa"], [8.8667, "iq"], [11.7667, "iq"], [22.1333, "fa"], [28.9667, "fa"], [35.3, "fa"], [41.1333, "iq"]], "HUD_HIDE": [[34.0333, 35.3]], "RINGS": [[7.367, 720, 1320, "fa"], [10.287, 510, 1385, "iq"], [18.287, 320, 1420, "iq"], [27.063, 345, 1470, "fa"], [30.227, 384, 1250, "fa"]], "PLATES": [[6.3167, 8.7467, "fa", "TEE SHOT", ""], [9.0167, 11.646700000000001, "iq", "TEE SHOT", ""], [11.8867, 19.8467, "iq", "APPROACH", "PLAN: DRAW SIKIT"], [22.2533, 28.8467, "fa", "APPROACH", "150 M · PAKAI P"], [29.026699999999998, 30.9167, "fa", "CHIP", "20 M KE PIN"], [35.419999999999995, 39.88, "fa", "PUTT", ""], [41.253299999999996, 47.633300000000006, "iq", "BIRDIE PUTT", "DOWNHILL · LEFT → RIGHT"], [52.3533, 54.183, "iq", "PAR PUTT", ""]], "CAPS": [[2.06, 2.85, "fa", true, [["ASTAGFIRULLAH.", 2.08, true]]], [11.887, 13.957, "iq", false, [["SO,", 11.907, false], ["SAYA", 12.547, false], ["AKAN", 12.827, false], ["BUAT", 13.167, false], ["DRAW", 13.587, true]]], [13.987, 15.227, "iq", false, [["KITA", 14.007, false], ["AIM", 14.527, false], ["KAT", 14.767, false], ["BUNKER.", 14.887, true]]], [15.257, 16.627, "iq", false, [["BAGI", 15.277, false], ["DIA", 15.797, false], ["CURVE", 15.917, true], ["MASUK.", 16.177, false]]], [19.647, 20.687, "iq", false, [["BUAT", 19.667, false], ["A", 20.187, false], ["GOOD", 20.287, true], ["SHOT.", 20.447, false]]], [20.717, 22.047, "iq", false, [["TAPI", 20.737, false], ["OVER", 21.257, true], ["SIKIT.", 21.477, false]]], [22.653, 23.913, "fa", false, [["MIDDLE,", 22.673, false], ["150.", 23.593, true]]], [23.943, 26.403, "fa", false, [["PAKAI", 23.963, false], ["P,", 24.303, true], ["DENGAN", 24.763, false], ["BOLA", 25.443, false], ["KAT", 25.663, false], ["BELAKANG.", 25.823, false]]], [31.237, 32.197, "fa", false, [["YOU", 31.257, false], ["TRY", 31.317, false], ["TO", 31.497, false], ["SCOOP.", 31.717, true]]], [32.227, 34.143, "fa", false, [["AND", 32.247, false], ["THE", 32.527, false], ["WEIGHT", 32.787, true], ["TERTINGGAL", 33.087, false], ["BELAKANG.", 33.587, false]]], [34.173, 35.29, "fa", false, [["HOLE", 34.193, false], ["2,", 34.653, false], ["DISASTER,", 34.973, true]]], [35.32, 37.03, "fa", false, [["NO", 35.34, false], ["POINT", 35.6, true], ["TO", 35.82, false], ["TRY.", 36.56, false]]], [41.213, 42.463, "iq", false, [["I", 41.233, false], ["THINK", 41.673, false], ["FOR", 41.853, false], ["BIRDIE.", 41.973, true]]], [42.493, 44.303, "iq", false, [["FAST,", 42.513, false], ["DOWNHILL", 43.373, true], ["PUTT.", 43.813, false]]], [44.633, 45.613, "iq", false, [["LEFT", 44.653, true], ["TO", 45.093, false], ["RIGHT.", 45.273, true]]], [45.643, 46.773, "iq", false, [["BACK", 45.663, false], ["TO", 46.103, false], ["BACK", 46.203, false], ["BIRDIE.", 46.363, true]]], [47.623, 48.653, "iq", false, [["NEED", 47.643, false], ["TO", 47.683, false], ["SLOW", 47.743, true], ["DOWN!", 48.003, false]]], [50.987, 52.417, "iq", false, [["OKAY,", 51.007, false], ["NOT", 51.507, false], ["TOO", 51.887, false], ["BAD.", 52.027, true]]], [56.507, 57.337, "iq", false, [["GOOD", 56.527, false], ["SAVE!", 56.687, true]]], [59.027, 59.917, "iq", true, [["NEXT", 59.047, true], ["HOLE.", 59.507, false]]]]};
+        const T = K.T, B = K.B;
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        const RED = "#ff2a3d", BLUE = "#2b6cff", GOLD = "#ffc23a", INK = "#0b0b10";
+        // deterministic pseudo-random (no Math.random: every render must match)
+        let seed = 11;
+        const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+        // slam in from the slash direction (x from the right, slight overshoot)
+        const slam = (sel, t, dx) => tl.fromTo(sel, { opacity: 0, x: dx === undefined ? 90 : dx, skewX: -6 },
+                                               { opacity: 1, x: 0, skewX: 0, duration: 0.22, ease: "back.out(2.2)" }, t);
+        const out = (sel, t, dx) => tl.to(sel, { opacity: 0, x: dx === undefined ? -60 : dx, duration: 0.16, ease: "power2.in" }, t);
+
+        // ---------- camera: punch on every strike ----------
+        const punch = (t, s) => tl.fromTo("#cam", { scale: 1 }, { scale: s || 1.045, duration: 0.07, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, t);
+        tl.set("#cam", { scale: 1 }, 0);
+        [B.hook_impact, B.far_tee_impact, B.iqb_tee_impact, B.iqb_app_impact, B.far_app_impact].forEach((t) => punch(t - 0.01));
+        punch(B.chip_impact, 1.06);
+        // flash on the strikes
+        const flash = (t, o) => tl.fromTo("#flash", { opacity: o || 0.55 }, { opacity: 0, duration: 0.16, ease: "power1.out", immediateRender: false }, t);
+        tl.set("#flash", { opacity: 0 }, 0);
+        [B.far_tee_impact, B.iqb_tee_impact, B.iqb_app_impact, B.far_app_impact].forEach((t) => flash(t, 0.4));
+        // shockwave rings at the ball, in the player's colour
+        const rings = $("#rings");
+        const ring = (t, x, y, col) => {
+          const r = document.createElement("i"); r.className = "ring"; r.style.left = x + "px"; r.style.top = y + "px"; r.style.borderColor = col; rings.appendChild(r);
+          tl.fromTo(r, { opacity: 0.95, scale: 0.2 }, { opacity: 0, scale: 1.9, duration: 0.45, ease: "power2.out", immediateRender: false }, t);
+          tl.set(r, { opacity: 0 }, 0);
+        };
+        K.RINGS.forEach(([t, x, y, c]) => ring(t, x, y, c === "iq" ? RED : BLUE));
+
+        // ---------- slash wipes on the cuts (incoming player's colour) ----------
+        const wipe = $("#wipe");
+        K.CUTS.forEach(([cut, who]) => {
+          const cols = who === "iq" ? [INK, RED, "#fff"] : who === "fa" ? [INK, BLUE, "#fff"] : [INK, GOLD, "#fff"];
+          const widths = [520, 300, 60];
+          cols.forEach((c, k) => {
+            const b = document.createElement("i"); b.style.background = c; b.style.width = widths[k] + "px"; b.style.left = "0px"; wipe.appendChild(b);
+            tl.set(b, { x: -1700 }, 0);
+            tl.fromTo(b, { x: -1700 + k * -120 }, { x: 1900, duration: 0.42, ease: "power3.inOut", immediateRender: false }, cut - 0.21 - k * 0.025);
+          });
+        });
+
+        // ---------- HOOK ----------
+        tl.set("#hook", { opacity: 1 }, 0);
+        tl.from("#hook-chip", { x: 120, opacity: 0, duration: 0.2, ease: "back.out(2)" }, 0.0);
+        document.querySelectorAll("#hook-big .h").forEach((el, i) => tl.from(el, { y: -90, scale: 1.4, duration: 0.18, ease: "power3.out" }, 0.04 + i * 0.09));
+        tl.fromTo("#hook-big", { x: 0 }, { x: 10, duration: 0.04, yoyo: true, repeat: 3, ease: "none" }, B.hook_impact);
+        tl.to("#hook", { opacity: 0, y: -40, duration: 0.18, ease: "power2.in" }, B.hook_astag - 0.15);
+        tl.fromTo("#ask", { opacity: 0, scale: 1.25 }, { opacity: 1, scale: 1, duration: 0.18, ease: "back.out(2)" }, T.hook_freeze.start);
+        tl.to("#ask", { opacity: 0, duration: 0.1 }, T.vs.start - 0.12);
+
+        // ---------- VS card ----------
+        const V = T.vs.start, VE = T.vs.end;
+        tl.set("#vs", { opacity: 1 }, V);
+        // place each still so the face lands where the layout wants it (faces: Iqbal 520,590 ; Farhan 350,505 in the 1080x1920 still)
+        tl.set("#vs-img-iq", { scale: 1.3, x: 380 - 520 * 1.3, y: 470 - 590 * 1.3 }, 0);
+        tl.set("#vs-img-fa", { scale: 1.7, x: 595 - 350 * 1.7, y: 1450 - 505 * 1.7 }, 0);
+        tl.fromTo("#vsp-iq", { x: -1100 }, { x: 0, duration: 0.3, ease: "power4.out" }, V);
+        tl.fromTo("#vsp-fa", { x: 1100 }, { x: 0, duration: 0.3, ease: "power4.out" }, V);
+        tl.to("#vs-img-iq", { scale: 1.36, x: 380 - 520 * 1.36, y: 470 - 590 * 1.36, duration: VE - V, ease: "none" }, V);
+        tl.to("#vs-img-fa", { scale: 1.76, x: 595 - 350 * 1.76, y: 1450 - 505 * 1.76, duration: VE - V, ease: "none" }, V);
+        tl.fromTo("#vs-seam", { scaleX: 0 }, { scaleX: 1, duration: 0.25, ease: "power3.out" }, V + 0.18);
+        tl.fromTo("#vs-badge", { scale: 3, opacity: 0, rotation: -20 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.22, ease: "power4.in" }, V + 0.22);
+        tl.fromTo("#vs", { x: 0 }, { x: 12, duration: 0.035, yoyo: true, repeat: 5, ease: "none", immediateRender: false }, V + 0.44);
+        tl.fromTo("#vsn-iq", { opacity: 0, x: 160 }, { opacity: 1, x: 0, duration: 0.24, ease: "back.out(2)" }, V + 0.5);
+        tl.fromTo("#vsn-fa", { opacity: 0, x: -160 }, { opacity: 1, x: 0, duration: 0.24, ease: "back.out(2)" }, V + 0.64);
+        tl.fromTo("#vs-top", { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 0.2, ease: "power2.out" }, V + 0.8);
+        tl.fromTo("#vs-bot", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.2, ease: "power2.out" }, V + 0.9);
+        tl.to("#vs", { opacity: 0, duration: 0.01 }, VE);
+
+        // ---------- HUD ----------
+        const H0 = T.tee_far.start, H1 = K.TOTAL;
+        tl.fromTo("#hud", { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.25, ease: "back.out(2)" }, H0 + 0.05);
+        K.HUD_HIDE.forEach(([a, b]) => { tl.to("#hud", { opacity: 0, duration: 0.08 }, a); tl.to("#hud", { opacity: 1, duration: 0.12 }, b); });
+        tl.to("#hud", { opacity: 0, y: -30, duration: 0.2 }, T.end_freeze.start);
+        // whose shot it is
+        K.TURNS.forEach(([t, who]) => {
+          tl.set("#turn-iq", { opacity: who === "iq" ? 1 : 0 }, t);
+          tl.set("#turn-fa", { opacity: who === "fa" ? 1 : 0 }, t);
+          tl.fromTo(who === "iq" ? "#hp-iq" : "#hp-fa", { scale: 1 }, { scale: 1.07, duration: 0.08, yoyo: true, repeat: 1, ease: "power1.out", immediateRender: false }, t);
+        });
+        tl.set(["#turn-iq", "#turn-fa"], { opacity: 0 }, 0);
+        tl.set(["#turn-iq", "#turn-fa"], { opacity: 0 }, B.par_drop);
+        // the hole goes to Iqbal
+        tl.to("#hp-iq .gold", { scaleX: 1, duration: 0.3, ease: "power3.out" }, B.par_drop + 0.5);
+        tl.set("#hp-iq .nm", { color: INK }, B.par_drop + 0.65); tl.set("#hp-iq .nm", { color: "#fff" }, 0);
+                tl.fromTo("#hp-iq .win", { opacity: 0, scale: 2 }, { opacity: 1, scale: 1, duration: 0.18, ease: "back.out(3)" }, B.par_drop + 0.7);
+        tl.set("#hud-a", { textContent: "HOLE 2 · PAR 4" }, 0);
+        tl.set("#hud-a", { textContent: "H2 → IQBAL" }, B.par_drop + 0.7);
+
+        // ---------- shot plates ----------
+        const plates = $("#plates");
+        K.PLATES.forEach(([t0, t1, who, what, sub], i) => {
+          const p = document.createElement("div"); p.className = "plate " + who; p.id = "plate" + i;
+          p.innerHTML = '<div class="row"><span class="who ox">' + (who === "iq" ? "IQBAL" : "FARHAN") + '</span><span class="what bs">' + what + '</span></div><div class="sub ox">' + (sub || "") + "</div>";
+          plates.appendChild(p);
+          slam(p, t0); out(p, t1);
+        });
+
+        // ---------- Iqbal's plan ----------
+        const P0 = T.iqb_plan.start;
+        const len = document.getElementById("pl-path").getTotalLength();
+        tl.set("#plan", { opacity: 1 }, P0 + 0.25);
+        tl.fromTo("#pl-x", { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.18, ease: "back.out(3)" }, P0 + 0.25);
+        tl.fromTo("#pl-tree", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.16 }, P0 + 0.3);
+        // "draw": the curve draws itself
+        ["#pl-path", "#pl-path-sh"].forEach((s) => { const el = $(s); el.setAttribute("stroke-dasharray", len + " " + len); });
+        tl.fromTo(["#pl-path", "#pl-path-sh"], { attr: { "stroke-dashoffset": len } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.9, ease: "power2.inOut" }, B.plan_draw);
+        tl.fromTo("#pl-aimline", { opacity: 0 }, { opacity: 0.85, duration: 0.2 }, B.plan_aim - 0.1);
+        tl.fromTo("#pl-tgt", { scale: 2.5, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.2, ease: "back.out(2)" }, B.plan_aim);
+        tl.fromTo("#pl-aim", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.18, ease: "back.out(2)" }, B.plan_aim + 0.05);
+        tl.fromTo("#pl-pinc", { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.18, ease: "back.out(3)" }, B.plan_curve);
+        tl.fromTo("#pl-pin", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.18, ease: "back.out(2)" }, B.plan_curve + 0.05);
+        tl.to("#plan", { opacity: 0, duration: 0.12 }, T.iqb_plan.end - 0.12);
+
+        // ---------- chip: replay + FAT, then Farhan's own why ----------
+        slam("#replay", T.chip_replay.start + 0.05); out("#replay", T.chip_replay.end - 0.1);
+        tl.fromTo("#st-fat", { opacity: 0, scale: 2.4 }, { opacity: 1, scale: 1, duration: 0.14, ease: "power4.in" }, B.chip_impact + 0.12);
+        tl.to("#st-fat", { opacity: 0, duration: 0.12 }, T.chip_replay.end - 0.08);
+        slam("#why", T.chip_why_a.start + 0.05);
+        tl.fromTo("#wr1", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.18, ease: "back.out(2)" }, B.why_scoop);
+        tl.fromTo("#wr2", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.18, ease: "back.out(2)" }, B.why_weight);
+        out("#why", T.chip_why_b.end - 0.15);
+
+        // ---------- Farhan: bogey stamp ----------
+        tl.fromTo("#st-bogey", { opacity: 0, scale: 2.6 }, { opacity: 1, scale: 1, duration: 0.15, ease: "power4.in" }, B.bogey - 0.2);
+        tl.fromTo("#st-bogey", { x: 0 }, { x: 10, duration: 0.035, yoyo: true, repeat: 3, ease: "none", immediateRender: false }, B.bogey - 0.05);
+        tl.to("#st-bogey", { opacity: 0, duration: 0.12 }, T.far_bogey.end - 0.1);
+
+        // ---------- Iqbal par putt: letterbox tension, stakes ----------
+        tl.to(["#lbox-t", "#lbox-b"], { scaleY: 1, duration: 0.35, ease: "power2.out" }, T.par_setup.start + 0.1);
+        tl.to(["#lbox-t", "#lbox-b"], { scaleY: 0, duration: 0.25, ease: "power2.in" }, B.par_drop + 0.05);
+        tl.fromTo("#stakes", { opacity: 0, scale: 1.3 }, { opacity: 1, scale: 1, duration: 0.18, ease: "back.out(2)" }, T.par_setup.start + 0.45);
+        tl.to("#stakes", { opacity: 0, duration: 0.12 }, B.par_stroke - 0.05);
+
+        // ---------- KO: the drop ----------
+        const D = B.par_drop;
+        tl.set("#gflash", { opacity: 0 }, 0);
+        tl.fromTo("#gflash", { opacity: 0.85 }, { opacity: 0, duration: 0.35, ease: "power1.out", immediateRender: false }, D);
+        tl.set("#ko", { opacity: 1 }, D);
+        const burst = $("#burst");
+        for (let i = 0; i < 18; i++) {
+          const r = document.createElement("i"); r.style.transform = "rotate(" + (i * 20 + rnd() * 8) + "deg)"; burst.appendChild(r);
+          tl.fromTo(r, { scaleY: 0, opacity: 1 }, { scaleY: 1, duration: 0.25, ease: "power3.out", immediateRender: false }, D + 0.02);
+          tl.to(r, { opacity: 0, duration: 0.3 }, D + 0.45);
+          tl.set(r, { opacity: 0 }, 0);
+        }
+        tl.fromTo("#ko-k .h", { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.18, ease: "back.out(2)" }, D + 0.05);
+        tl.fromTo("#ko-k .w", { opacity: 0, scale: 3.2 }, { opacity: 1, scale: 1, duration: 0.2, ease: "power4.in" }, D + 0.08);
+        tl.fromTo("#ko-k", { x: 0 }, { x: 14, duration: 0.035, yoyo: true, repeat: 5, ease: "none", immediateRender: false }, D + 0.28);
+        tl.fromTo("#ko-k .m", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.2, ease: "back.out(2)" }, D + 0.4);
+        tl.to("#ko", { opacity: 0, scale: 0.92, duration: 0.2, ease: "power2.in" }, T.next.start + 0.6);
+        tl.set("#ko", { scale: 1 }, 0);
+
+        // ---------- END ----------
+        const E = T.end_freeze.start;
+        tl.set("#end", { opacity: 1 }, E);
+        tl.fromTo("#end .hd", { opacity: 0, x: 120 }, { opacity: 1, x: 0, duration: 0.22, ease: "back.out(2)" }, E + 0.05);
+        tl.fromTo("#er-iq", { opacity: 0, x: -140 }, { opacity: 1, x: 0, duration: 0.22, ease: "back.out(2)" }, E + 0.3);
+        tl.fromTo("#er-fa", { opacity: 0, x: -140 }, { opacity: 1, x: 0, duration: 0.22, ease: "back.out(2)" }, E + 0.5);
+        tl.fromTo("#cta .q", { opacity: 0, scale: 1.3 }, { opacity: 1, scale: 1, duration: 0.2, ease: "back.out(2)" }, E + 1.1);
+        tl.fromTo("#cta .a", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.2 }, E + 1.4);
+        tl.fromTo("#cta .a", { scale: 1 }, { scale: 1.05, duration: 0.3, yoyo: true, repeat: 5, ease: "sine.inOut", immediateRender: false }, E + 1.7);
+
+        // ---------- CAPTIONS: the spoken words, word times from faster-whisper mapped onto the film ----------
+        const capsEl = $("#caps");
+        K.CAPS.forEach(([t0, t1, who, big, words]) => {
+          const line = document.createElement("div"); line.className = "cap " + who + (big ? " big" : "");
+          const inner = document.createElement("span"); inner.className = "cap-in bs"; line.appendChild(inner);
+          capsEl.appendChild(line);
+          tl.set(line, { opacity: 1 }, t0); tl.set(line, { opacity: 0 }, 0);
+          words.forEach(([w, t, key]) => {
+            const s = document.createElement("span"); s.className = "w" + (key ? " key" : ""); s.textContent = w; inner.appendChild(s);
+            tl.fromTo(s, { opacity: 0, y: 26, scale: 1.25 }, { opacity: 1, y: 0, scale: 1, duration: 0.1, ease: "back.out(3)", immediateRender: false }, t);
+            tl.set(s, { opacity: 0 }, 0);
+          });
+          tl.to(line, { opacity: 0, y: -10, duration: 0.08 }, t1);
+          tl.set(line, { y: 0 }, 0);
+        });
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>

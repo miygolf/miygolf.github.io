@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Title Fight": hole 2 played as a fight-night match-play broadcast.
+         Red corner = IQBAL (#ff2a3d), blue corner = FARHAN (#2b6cff), gold (#ffc23a) for the result, ink #0b0b10, white.
+         Type: Big Shoulders Display 900/800 (titles, captions) + Oxanium 700/600 (labels, numbers).
+         Shapes: plates cut on a 12-degree slash, hard offset shadows in the corner colour, gold rules.
+         Motion: slash wipes in the incoming player's colour on every cut, plates slam in from the slash direction,
+         shockwave ring + punch on every strike, ring-bell VS card, KO-style result slam.
+         Safe band: x 60-930, y 168-1330. Faces checked per shot (they sit at y 340-880, x 120-580) -> labels top-right,
+         captions in the y 1120-1300 band, end card below the face on the final freeze. */
+      @font-face { font-family: "BigShoulders"; font-weight: 800; src: url("assets/fonts/BigShouldersDisplay-800.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "BigShoulders"; font-weight: 900; src: url("assets/fonts/BigShouldersDisplay-900.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Oxanium"; font-weight: 600; src: url("assets/fonts/Oxanium-600.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Oxanium"; font-weight: 700; src: url("assets/fonts/Oxanium-700.ttf") format("truetype"); font-display: block; }
+      :root { --ink: #0b0b10; --red: #ff2a3d; --blue: #2b6cff; --gold: #ffc23a; --white: #ffffff; --redd: #a80f1d; --blued: #1238a6; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #0b0b10; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #0b0b10; }
+      #cam { position: absolute; inset: 0; z-index: 1; transform-origin: 540px 960px; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+      #vig { position: absolute; inset: 0; z-index: 2; pointer-events: none;
+             background: radial-gradient(ellipse 80% 62% at 50% 46%, rgba(0,0,0,0) 55%, rgba(5,5,10,0.42) 100%); }
+      #lbox-t, #lbox-b { position: absolute; left: 0; width: 1080px; height: 150px; background: #050507; z-index: 3; transform: scaleY(0); }
+      #lbox-t { top: 0; transform-origin: 50% 0; } #lbox-b { bottom: 0; transform-origin: 50% 100%; }
+      .ov { position: absolute; z-index: 6; opacity: 0; pointer-events: none; }
+      .bs { font-family: "BigShoulders", sans-serif; font-weight: 900; line-height: 0.88; text-transform: uppercase; }
+      .ox { font-family: "Oxanium", monospace; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+
+      /* ---------- HUD: fight bar ---------- */
+      #hud { left: 60px; top: 178px; width: 870px; height: 78px; z-index: 7; }
+      .hp { position: absolute; top: 0; height: 66px; width: 330px; transform: skewX(-12deg); overflow: hidden; }
+      .hp .in { position: absolute; inset: 0; display: flex; align-items: center; transform: skewX(12deg); }
+      #hp-iq { left: 8px; background: var(--red); box-shadow: -8px 8px 0 var(--ink); }
+      #hp-fa { right: 8px; background: var(--blue); box-shadow: 8px 8px 0 var(--ink); }
+      #hp-iq .in { justify-content: flex-start; padding-left: 30px; } #hp-fa .in { justify-content: flex-end; padding-right: 30px; }
+      .hp .nm { font-size: 54px; color: #fff; letter-spacing: 0.02em; }
+      .hp .cn { font-size: 15px; color: rgba(255,255,255,0.85); margin: 0 14px; }
+      #hp-mid { position: absolute; left: 335px; top: 4px; width: 200px; height: 58px; background: var(--ink); transform: skewX(-12deg);
+                box-shadow: inset 0 0 0 3px var(--gold); }
+      #hp-mid .in { position: absolute; inset: 0; transform: skewX(12deg); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      #hp-mid .a { font-size: 32px; color: var(--gold); letter-spacing: 0.03em; white-space: nowrap; }
+      #hp-mid .b { font-size: 13px; color: #fff; margin-top: 1px; }
+      .turn { position: absolute; top: 70px; width: 0; height: 0; border-left: 14px solid transparent; border-right: 14px solid transparent;
+              border-top: 14px solid var(--gold); opacity: 0; }
+      #turn-iq { left: 150px; } #turn-fa { right: 150px; }
+      #hp-iq .gold { position: absolute; inset: 0; background: var(--gold); transform: scaleX(0); transform-origin: 0 50%; }
+      #hp-iq .win { position: absolute; right: 22px; top: 10px; transform: skewX(12deg); font-size: 40px; color: var(--ink); opacity: 0; }
+
+      /* ---------- hook ---------- */
+      #hook { left: 60px; top: 196px; width: 870px; text-align: center; opacity: 1; }
+      #hook-chip { display: inline-flex; gap: 0; transform: skewX(-12deg); box-shadow: 8px 8px 0 var(--ink); }
+      #hook-chip span { display: block; padding: 10px 22px 8px; font-size: 30px; color: #fff; }
+      #hook-chip .r { background: var(--red); } #hook-chip .k { background: var(--ink); color: var(--gold); } #hook-chip .b { background: var(--blue); }
+      #hook-big { margin-top: 18px; font-size: 230px; color: #fff; letter-spacing: 0.01em;
+                  -webkit-text-stroke: 14px var(--ink); paint-order: stroke fill; text-shadow: 0 12px 0 var(--gold), 0 14px 0 var(--ink); }
+      #hook-big .h { display: inline-block; }
+      #ask { left: 60px; top: 990px; width: 870px; text-align: center; }
+      #ask .l1 { font-size: 64px; color: #fff; -webkit-text-stroke: 10px var(--ink); paint-order: stroke fill; }
+      #ask .l2 { font-size: 150px; margin-top: 4px; -webkit-text-stroke: 14px var(--ink); paint-order: stroke fill; }
+      #ask .l2 .a { color: var(--red); } #ask .l2 .b { color: var(--blue); }
+
+      /* ---------- VS card ---------- */
+      #vs { left: 0; top: 0; width: 1080px; height: 1920px; z-index: 8; opacity: 0; }
+      .vsp { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      #vsp-iq { clip-path: polygon(0 0, 1080px 0, 1080px 820px, 0 1060px); }
+      #vsp-fa { clip-path: polygon(0 1060px, 1080px 820px, 1080px 1920px, 0 1920px); }
+      .vsp img { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 0 0; }
+      .vsp .tint { position: absolute; inset: 0; mix-blend-mode: multiply; }
+      #vsp-iq .tint { background: linear-gradient(180deg, rgba(255,42,61,0.05) 30%, rgba(255,42,61,0.55) 100%); }
+      #vsp-fa .tint { background: linear-gradient(0deg, rgba(43,108,255,0.08) 30%, rgba(43,108,255,0.6) 100%); }
+      #vs-seam { position: absolute; left: -60px; top: 932px; width: 1200px; height: 18px; background: var(--gold); transform: rotate(-12.53deg); transform-origin: 50% 50%;
+                 box-shadow: 0 0 0 6px var(--ink); }
+      #vs-badge { position: absolute; left: 400px; top: 800px; width: 280px; height: 280px; display: flex; align-items: center; justify-content: center; }
+      #vs-badge .d { position: absolute; inset: 30px; background: var(--ink); transform: rotate(45deg); box-shadow: inset 0 0 0 8px var(--gold), 0 0 0 8px var(--ink); }
+      #vs-badge .t { position: relative; font-size: 170px; color: var(--gold); transform: skewX(-10deg); letter-spacing: -0.02em; }
+      .vs-name { position: absolute; }
+      .vs-name .tag { display: inline-block; padding: 8px 16px 6px; font-size: 28px; color: #fff; background: var(--ink); transform: skewX(-12deg); }
+      .vs-name .nm { font-size: 150px; color: #fff; -webkit-text-stroke: 12px var(--ink); paint-order: stroke fill; margin-top: 6px; }
+      #vsn-iq { left: 560px; top: 560px; text-align: right; width: 370px; } #vsn-iq .nm { text-shadow: 0 12px 0 var(--red), 0 14px 0 var(--ink); }
+      #vsn-fa { left: 70px; top: 1040px; text-align: left; width: 480px; } #vsn-fa .nm { text-shadow: 0 12px 0 var(--blue), 0 14px 0 var(--ink); }
+      #vs-top { position: absolute; left: 60px; top: 190px; width: 870px; text-align: center; }
+      #vs-top .k { display: inline-block; padding: 10px 24px 8px; font-size: 28px; color: var(--ink); background: var(--gold); transform: skewX(-12deg); box-shadow: 8px 8px 0 var(--ink); }
+      #vs-bot { position: absolute; left: 60px; top: 1258px; width: 870px; text-align: center; }
+      #vs-bot .k { display: inline-block; padding: 10px 24px 8px; font-size: 30px; color: #fff; background: var(--ink); transform: skewX(-12deg); box-shadow: inset 0 0 0 3px var(--gold); }
+
+      /* ---------- shot plates (top right, under the HUD) ---------- */
+      .plate { position: absolute; right: 150px; top: 286px; display: flex; flex-direction: column; align-items: flex-end; z-index: 6; opacity: 0; }
+      .plate .row { display: flex; align-items: stretch; transform: skewX(-12deg); box-shadow: 8px 8px 0 var(--ink); }
+      .plate .who { padding: 10px 16px 8px; font-size: 28px; color: #fff; }
+      .plate .what { padding: 6px 20px 2px; font-size: 52px; color: var(--ink); background: #fff; }
+      .plate.iq .who { background: var(--red); } .plate.fa .who { background: var(--blue); }
+      .plate .sub { margin-top: 12px; padding: 7px 16px 5px; font-size: 28px; color: var(--gold); background: var(--ink); transform: skewX(-12deg); }
+      .plate .sub:empty { display: none; }
+
+      /* ---------- draw plan (Iqbal's approach) ---------- */
+      #plan { left: 0; top: 0; width: 1080px; height: 1920px; z-index: 5; }
+      #plan svg { position: absolute; left: 0; top: 0; }
+      .pl { position: absolute; transform: translate(-50%, -100%); white-space: nowrap; }
+      .pl .k { display: inline-block; padding: 8px 14px 6px; font-size: 30px; transform: skewX(-12deg); box-shadow: 6px 6px 0 var(--ink); }
+      #pl-aim .k { background: var(--gold); color: var(--ink); } #pl-pin .k { background: #fff; color: var(--ink); } #pl-tree .k { background: var(--red); color: #fff; }
+
+      /* ---------- callouts / stamps ---------- */
+      #why { right: 150px; top: 286px; width: 480px; }
+      #why .hd { display: inline-block; padding: 8px 18px 6px; font-size: 28px; color: #fff; background: var(--blue); transform: skewX(-12deg); box-shadow: 8px 8px 0 var(--ink); }
+      .wr { display: flex; align-items: center; gap: 14px; margin-top: 14px; padding: 10px 18px 8px; background: rgba(11,11,16,0.9); transform: skewX(-12deg);
+            border-left: 8px solid var(--blue); }
+      .wr .n { font-size: 30px; color: var(--gold); } .wr .t { font-size: 44px; color: #fff; }
+      .stamp { left: 0; top: 0; z-index: 7; }
+      .stamp .s { display: inline-block; padding: 12px 34px 4px; font-size: 150px; color: #fff; transform: rotate(-8deg) skewX(-10deg);
+                  -webkit-text-stroke: 10px var(--ink); paint-order: stroke fill; }
+      #st-fat { left: 560px; top: 760px; } #st-fat .s { font-size: 130px; background: var(--blue); box-shadow: 12px 12px 0 var(--ink); }
+      #st-bogey { left: 140px; top: 860px; } #st-bogey .s { background: var(--blue); box-shadow: 14px 14px 0 var(--ink); }
+      #st-bogey .x { display: block; margin: 16px 0 0 70px; font-size: 28px; color: #fff; background: var(--ink); padding: 8px 16px 6px; width: max-content; transform: rotate(-8deg) skewX(-10deg); }
+      #replay { right: 150px; top: 456px; }
+      #replay .k { display: inline-flex; align-items: center; gap: 12px; padding: 8px 16px 6px; font-size: 28px; color: #fff; background: var(--ink); transform: skewX(-12deg); box-shadow: inset 0 0 0 3px #fff; }
+      #replay .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--red); }
+      #stakes { right: 150px; top: 420px; text-align: right; }
+      #stakes .k { display: inline-block; padding: 10px 26px 6px; font-size: 58px; color: var(--ink); background: var(--gold); transform: skewX(-12deg); box-shadow: 10px 10px 0 var(--ink); }
+
+      /* ---------- impact FX ---------- */
+      #flash { position: absolute; inset: 0; background: #fff; opacity: 0; z-index: 9; pointer-events: none; }
+      #gflash { position: absolute; inset: 0; background: var(--gold); opacity: 0; z-index: 9; pointer-events: none; mix-blend-mode: screen; }
+      .ring { position: absolute; width: 240px; height: 240px; margin: -120px 0 0 -120px; border-radius: 50%; border: 10px solid #fff; opacity: 0; z-index: 6; }
+      /* slash wipe */
+      #wipe { position: absolute; inset: 0; z-index: 10; pointer-events: none; overflow: hidden; }
+      #wipe i { position: absolute; top: -300px; height: 2520px; transform: skewX(-12deg) translateX(-1600px); }
+
+      /* ---------- KO result ---------- */
+      #ko { left: 0; top: 0; width: 1080px; height: 1920px; z-index: 8; }
+      #ko .burst { position: absolute; left: 540px; top: 950px; width: 0; height: 0; }
+      #ko .burst i { position: absolute; left: -6px; top: -560px; width: 12px; height: 380px; background: var(--gold); transform-origin: 6px 560px; }
+      #ko-k { position: absolute; left: 60px; top: 760px; width: 870px; text-align: center; }
+      #ko-k .h { display: inline-block; padding: 10px 26px 6px; font-size: 34px; color: var(--ink); background: var(--gold); transform: skewX(-12deg); box-shadow: 8px 8px 0 var(--ink); }
+      #ko-k .w { font-size: 250px; color: #fff; margin-top: 10px; -webkit-text-stroke: 16px var(--ink); paint-order: stroke fill;
+                 text-shadow: 0 14px 0 var(--red), 0 18px 0 var(--ink); }
+      #ko-k .m { font-size: 92px; color: var(--gold); margin-top: 6px; -webkit-text-stroke: 12px var(--ink); paint-order: stroke fill; }
+
+      /* ---------- end card (on the final freeze, below the face) ---------- */
+      #end { left: 60px; top: 860px; width: 870px; z-index: 7; }
+      #end .hd { display: flex; justify-content: space-between; align-items: center; padding: 12px 22px 8px; background: var(--ink); transform: skewX(-12deg); box-shadow: inset 0 0 0 3px var(--gold); }
+      #end .hd .a { font-size: 34px; color: var(--gold); } #end .hd .b { font-size: 28px; color: #fff; }
+      .er { display: flex; align-items: center; margin-top: 12px; height: 108px; transform: skewX(-12deg); box-shadow: 10px 10px 0 var(--ink); }
+      .er .p { width: 360px; height: 100%; display: flex; align-items: center; padding-left: 26px; font-size: 76px; color: #fff; }
+      .er .r { flex: 1; height: 100%; display: flex; align-items: center; padding-left: 24px; font-size: 64px; color: var(--ink); background: #fff; }
+      .er .s { width: 120px; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 84px; color: #fff; background: var(--ink); }
+      #er-iq .p { background: var(--red); } #er-fa .p { background: var(--blue); }
+      #er-iq .s { background: var(--gold); color: var(--ink); }
+      #er-iq .wb { margin-left: 14px; padding: 4px 10px 2px; font-size: 32px; color: var(--ink); background: var(--gold); }
+      #cta { margin-top: 26px; text-align: center; }
+      #cta .q { font-size: 76px; color: #fff; -webkit-text-stroke: 10px var(--ink); paint-order: stroke fill; text-shadow: 0 8px 0 var(--blue), 0 10px 0 var(--ink); }
+      #cta .a { display: inline-block; margin-top: 16px; padding: 10px 24px 8px; font-size: 30px; color: var(--ink); background: var(--gold); transform: skewX(-12deg); box-shadow: 8px 8px 0 var(--ink); }
+
+      /* ---------- captions ---------- */
+      #caps { position: absolute; left: 60px; top: 1110px; width: 870px; height: 210px; z-index: 7; pointer-events: none; }
+      .cap { position: absolute; left: 0; bottom: 0; width: 870px; text-align: center; opacity: 0; }
+      .cap-in { display: inline-block; font-size: 82px; color: #fff; transform: skewX(-8deg); -webkit-text-stroke: 11px var(--ink); paint-order: stroke fill; }
+      .cap.iq .cap-in { text-shadow: 0 9px 0 var(--red), 0 11px 0 var(--ink); } .cap.fa .cap-in { text-shadow: 0 9px 0 var(--blue), 0 11px 0 var(--ink); }
+      .cap .w { display: inline-block; margin: 0 0.12em; opacity: 0; }
+      .cap .w.key { color: var(--gold); }
+      .cap.big .cap-in { font-size: 120px; }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="{{TOTAL}}" data-width="1080" data-height="1920" data-fps="30">
+      <!-- A-roll: cut, slowed, frozen and pushed in from the 4K source by tools/build_aroll.py -->
+      <div data-hf-id="hf-cam" id="cam">
+        <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="{{TOTAL}}" data-track-index="1" muted playsinline></video>
+      </div>
+      <div id="vig"></div>
+      <div id="lbox-t"></div><div id="lbox-b"></div>
+
+      <!-- HUD fight bar (tee -> result) -->
+      <div id="hud" class="ov">
+        <div id="hp-iq" class="hp"><div class="gold"></div><div class="in"><span class="nm bs">IQBAL</span></div><span class="win bs">W</span></div>
+        <div id="hp-mid"><div class="in"><span class="a bs" id="hud-a">HOLE 2 · PAR 4</span></div></div>
+        <div id="hp-fa" class="hp"><div class="in"><span class="nm bs">FARHAN</span></div></div>
+        <i class="turn" id="turn-iq"></i><i class="turn" id="turn-fa"></i>
+      </div>
+
+      <!-- hook (text on frame 0) -->
+      <div id="hook" class="ov">
+        <div id="hook-chip" class="ox"><span class="r">IQBAL</span><span class="k">1 LAWAN 1</span><span class="b">FARHAN</span></div>
+        <div id="hook-big" class="bs"><span class="h">HOLE</span> <span class="h">2</span></div>
+      </div>
+      <div id="ask" class="ov bs"><div class="l1">TAPI…</div><div class="l2"><span class="a">SIAPA</span> <span class="b">MENANG?</span></div></div>
+
+      <!-- VS card -->
+      <div id="vs" class="ov">
+        <div class="vsp" id="vsp-iq"><img id="vs-img-iq" src="assets/img/vs-iqbal.jpg" alt=""><div class="tint"></div></div>
+        <div class="vsp" id="vsp-fa"><img id="vs-img-fa" src="assets/img/vs-farhan.jpg" alt=""><div class="tint"></div></div>
+        <div id="vs-seam"></div>
+        <div id="vsn-iq" class="vs-name"><span class="tag ox">RED CORNER</span><div class="nm bs">IQBAL</div></div>
+        <div id="vsn-fa" class="vs-name"><span class="tag ox">BLUE CORNER</span><div class="nm bs">FARHAN</div></div>
+        <div id="vs-badge"><div class="d"></div><div class="t bs">VS</div></div>
+        <div id="vs-top"><span class="k ox">MATCH PLAY · 1 LAWAN 1</span></div>
+        <div id="vs-bot"><span class="k ox">HOLE 2 · PAR 4 · KRTU SUBANG</span></div>
+      </div>
+
+      <!-- shot plates are built from PLATES below -->
+      <div id="plates"></div>
+
+      <!-- Iqbal's plan: draw around the branch, aim at the bunker -->
+      <div id="plan" class="ov">
+        <svg width="1080" height="1920" viewBox="0 0 1080 1920">
+          <path id="pl-path-sh" d="M 396 1372 C 520 1120, 930 1010, 760 905" fill="none" stroke="#0b0b10" stroke-width="20" stroke-linecap="round"/>
+          <path id="pl-path" d="M 396 1372 C 520 1120, 930 1010, 760 905" fill="none" stroke="#ffc23a" stroke-width="10" stroke-linecap="round"/>
+          <line id="pl-aimline" x1="396" y1="1372" x2="890" y2="905" stroke="#ffffff" stroke-width="5" stroke-dasharray="14 14" opacity="0.85"/>
+          <g id="pl-x" transform="translate(330 560)"><path d="M -34 -34 L 34 34 M 34 -34 L -34 34" stroke="#0b0b10" stroke-width="22" stroke-linecap="round"/>
+            <path d="M -34 -34 L 34 34 M 34 -34 L -34 34" stroke="#ff2a3d" stroke-width="12" stroke-linecap="round"/></g>
+          <circle id="pl-tgt" cx="890" cy="905" r="26" fill="none" stroke="#ffffff" stroke-width="6"/>
+          <circle id="pl-pinc" cx="760" cy="905" r="14" fill="#ffc23a" stroke="#0b0b10" stroke-width="5"/>
+        </svg>
+        <div class="pl ox" id="pl-tree" style="left:330px; top:510px"><span class="k">DAHAN</span></div>
+        <div class="pl ox" id="pl-aim" style="left:845px; top:862px"><span class="k">AIM: BUNKER</span></div>
+        <div class="pl ox" id="pl-pin" style="left:700px; top:862px"><span class="k">PIN</span></div>
+      </div>
+
+      <div id="replay" class="ov"><span class="k ox"><i class="dot"></i>REPLAY · 0.5×</span></div>
+      <div id="st-fat" class="ov stamp"><span class="s bs">FAT!</span></div>
+      <div id="why" class="ov">
+        <span class="hd ox">KENAPA? — KATA FARHAN</span>
+        <div class="wr" id="wr1"><span class="n ox">01</span><span class="t bs">TRY TO SCOOP</span></div>
+        <div class="wr" id="wr2"><span class="n ox">02</span><span class="t bs">BERAT KAT BELAKANG</span></div>
+      </div>
+      <div id="st-bogey" class="ov stamp"><span class="s bs">BOGEY</span></div>
+      <div id="stakes" class="ov"><span class="k bs">MASUK = MENANG HOLE</span></div>
+
+      <div id="rings" data-layout-ignore></div>
+      <div id="ko" class="ov">
+        <div class="burst" id="burst" data-layout-ignore></div>
+        <div id="ko-k"><span class="h ox">PAR 4 vs BOGEY 5</span><div class="w bs">IQBAL</div><div class="m bs">MENANG HOLE 2!</div></div>
+      </div>
+
+      <div id="end" class="ov">
+        <div class="hd"><span class="a bs">KEPUTUSAN HOLE 2</span><span class="b ox">MATCH PLAY · KRTU</span></div>
+        <div class="er" id="er-iq"><span class="p bs">IQBAL<span class="wb ox">W</span></span><span class="r bs">PAR</span><span class="s bs">4</span></div>
+        <div class="er" id="er-fa"><span class="p bs">FARHAN</span><span class="r bs">BOGEY</span><span class="s bs">5</span></div>
+        <div id="cta"><div class="q bs">HOLE 3, FARHAN BALAS?</div><span class="a ox">FOLLOW · KOMEN TEKAAN KORANG ↓</span></div>
+      </div>
+
+      <div id="caps"></div>
+      <div id="flash"></div>
+      <div id="gflash"></div>
+      <div id="wipe" data-layout-ignore></div>
+{{AUDIO}}
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {{CONSTS}};
+        const T = K.T, B = K.B;
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        const RED = "#ff2a3d", BLUE = "#2b6cff", GOLD = "#ffc23a", INK = "#0b0b10";
+        // deterministic pseudo-random (no Math.random: every render must match)
+        let seed = 11;
+        const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+        // slam in from the slash direction (x from the right, slight overshoot)
+        const slam = (sel, t, dx) => tl.fromTo(sel, { opacity: 0, x: dx === undefined ? 90 : dx, skewX: -6 },
+                                               { opacity: 1, x: 0, skewX: 0, duration: 0.22, ease: "back.out(2.2)" }, t);
+        const out = (sel, t, dx) => tl.to(sel, { opacity: 0, x: dx === undefined ? -60 : dx, duration: 0.16, ease: "power2.in" }, t);
+
+        // ---------- camera: punch on every strike ----------
+        const punch = (t, s) => tl.fromTo("#cam", { scale: 1 }, { scale: s || 1.045, duration: 0.07, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, t);
+        tl.set("#cam", { scale: 1 }, 0);
+        [B.hook_impact, B.far_tee_impact, B.iqb_tee_impact, B.iqb_app_impact, B.far_app_impact].forEach((t) => punch(t - 0.01));
+        punch(B.chip_impact, 1.06);
+        // flash on the strikes
+        const flash = (t, o) => tl.fromTo("#flash", { opacity: o || 0.55 }, { opacity: 0, duration: 0.16, ease: "power1.out", immediateRender: false }, t);
+        tl.set("#flash", { opacity: 0 }, 0);
+        [B.far_tee_impact, B.iqb_tee_impact, B.iqb_app_impact, B.far_app_impact].forEach((t) => flash(t, 0.4));
+        // shockwave rings at the ball, in the player's colour
+        const rings = $("#rings");
+        const ring = (t, x, y, col) => {
+          const r = document.createElement("i"); r.className = "ring"; r.style.left = x + "px"; r.style.top = y + "px"; r.style.borderColor = col; rings.appendChild(r);
+          tl.fromTo(r, { opacity: 0.95, scale: 0.2 }, { opacity: 0, scale: 1.9, duration: 0.45, ease: "power2.out", immediateRender: false }, t);
+          tl.set(r, { opacity: 0 }, 0);
+        };
+        K.RINGS.forEach(([t, x, y, c]) => ring(t, x, y, c === "iq" ? RED : BLUE));
+
+        // ---------- slash wipes on the cuts (incoming player's colour) ----------
+        const wipe = $("#wipe");
+        K.CUTS.forEach(([cut, who]) => {
+          const cols = who === "iq" ? [INK, RED, "#fff"] : who === "fa" ? [INK, BLUE, "#fff"] : [INK, GOLD, "#fff"];
+          const widths = [520, 300, 60];
+          cols.forEach((c, k) => {
+            const b = document.createElement("i"); b.style.background = c; b.style.width = widths[k] + "px"; b.style.left = "0px"; wipe.appendChild(b);
+            tl.set(b, { x: -1700 }, 0);
+            tl.fromTo(b, { x: -1700 + k * -120 }, { x: 1900, duration: 0.42, ease: "power3.inOut", immediateRender: false }, cut - 0.21 - k * 0.025);
+          });
+        });
+
+        // ---------- HOOK ----------
+        tl.set("#hook", { opacity: 1 }, 0);
+        tl.from("#hook-chip", { x: 120, opacity: 0, duration: 0.2, ease: "back.out(2)" }, 0.0);
+        document.querySelectorAll("#hook-big .h").forEach((el, i) => tl.from(el, { y: -90, scale: 1.4, duration: 0.18, ease: "power3.out" }, 0.04 + i * 0.09));
+        tl.fromTo("#hook-big", { x: 0 }, { x: 10, duration: 0.04, yoyo: true, repeat: 3, ease: "none" }, B.hook_impact);
+        tl.to("#hook", { opacity: 0, y: -40, duration: 0.18, ease: "power2.in" }, B.hook_astag - 0.15);
+        tl.fromTo("#ask", { opacity: 0, scale: 1.25 }, { opacity: 1, scale: 1, duration: 0.18, ease: "back.out(2)" }, T.hook_freeze.start);
+        tl.to("#ask", { opacity: 0, duration: 0.1 }, T.vs.start - 0.12);
+
+        // ---------- VS card ----------
+        const V = T.vs.start, VE = T.vs.end;
+        tl.set("#vs", { opacity: 1 }, V);
+        // place each still so the face lands where the layout wants it (faces: Iqbal 520,590 ; Farhan 350,505 in the 1080x1920 still)
+        tl.set("#vs-img-iq", { scale: 1.3, x: 380 - 520 * 1.3, y: 470 - 590 * 1.3 }, 0);
+        tl.set("#vs-img-fa", { scale: 1.7, x: 595 - 350 * 1.7, y: 1450 - 505 * 1.7 }, 0);
+        tl.fromTo("#vsp-iq", { x: -1100 }, { x: 0, duration: 0.3, ease: "power4.out" }, V);
+        tl.fromTo("#vsp-fa", { x: 1100 }, { x: 0, duration: 0.3, ease: "power4.out" }, V);
+        tl.to("#vs-img-iq", { scale: 1.36, x: 380 - 520 * 1.36, y: 470 - 590 * 1.36, duration: VE - V, ease: "none" }, V);
+        tl.to("#vs-img-fa", { scale: 1.76, x: 595 - 350 * 1.76, y: 1450 - 505 * 1.76, duration: VE - V, ease: "none" }, V);
+        tl.fromTo("#vs-seam", { scaleX: 0 }, { scaleX: 1, duration: 0.25, ease: "power3.out" }, V + 0.18);
+        tl.fromTo("#vs-badge", { scale: 3, opacity: 0, rotation: -20 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.22, ease: "power4.in" }, V + 0.22);
+        tl.fromTo("#vs", { x: 0 }, { x: 12, duration: 0.035, yoyo: true, repeat: 5, ease: "none", immediateRender: false }, V + 0.44);
+        tl.fromTo("#vsn-iq", { opacity: 0, x: 160 }, { opacity: 1, x: 0, duration: 0.24, ease: "back.out(2)" }, V + 0.5);
+        tl.fromTo("#vsn-fa", { opacity: 0, x: -160 }, { opacity: 1, x: 0, duration: 0.24, ease: "back.out(2)" }, V + 0.64);
+        tl.fromTo("#vs-top", { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 0.2, ease: "power2.out" }, V + 0.8);
+        tl.fromTo("#vs-bot", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.2, ease: "power2.out" }, V + 0.9);
+        tl.to("#vs", { opacity: 0, duration: 0.01 }, VE);
+
+        // ---------- HUD ----------
+        const H0 = T.tee_far.start, H1 = K.TOTAL;
+        tl.fromTo("#hud", { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.25, ease: "back.out(2)" }, H0 + 0.05);
+        K.HUD_HIDE.forEach(([a, b]) => { tl.to("#hud", { opacity: 0, duration: 0.08 }, a); tl.to("#hud", { opacity: 1, duration: 0.12 }, b); });
+        tl.to("#hud", { opacity: 0, y: -30, duration: 0.2 }, T.end_freeze.start);
+        // whose shot it is
+        K.TURNS.forEach(([t, who]) => {
+          tl.set("#turn-iq", { opacity: who === "iq" ? 1 : 0 }, t);
+          tl.set("#turn-fa", { opacity: who === "fa" ? 1 : 0 }, t);
+          tl.fromTo(who === "iq" ? "#hp-iq" : "#hp-fa", { scale: 1 }, { scale: 1.07, duration: 0.08, yoyo: true, repeat: 1, ease: "power1.out", immediateRender: false }, t);
+        });
+        tl.set(["#turn-iq", "#turn-fa"], { opacity: 0 }, 0);
+        tl.set(["#turn-iq", "#turn-fa"], { opacity: 0 }, B.par_drop);
+        // the hole goes to Iqbal
+        tl.to("#hp-iq .gold", { scaleX: 1, duration: 0.3, ease: "power3.out" }, B.par_drop + 0.5);
+        tl.set("#hp-iq .nm", { color: INK }, B.par_drop + 0.65); tl.set("#hp-iq .nm", { color: "#fff" }, 0);
+                tl.fromTo("#hp-iq .win", { opacity: 0, scale: 2 }, { opacity: 1, scale: 1, duration: 0.18, ease: "back.out(3)" }, B.par_drop + 0.7);
+        tl.set("#hud-a", { textContent: "HOLE 2 · PAR 4" }, 0);
+        tl.set("#hud-a", { textContent: "H2 → IQBAL" }, B.par_drop + 0.7);
+
+        // ---------- shot plates ----------
+        const plates = $("#plates");
+        K.PLATES.forEach(([t0, t1, who, what, sub], i) => {
+          const p = document.createElement("div"); p.className = "plate " + who; p.id = "plate" + i;
+          p.innerHTML = '<div class="row"><span class="who ox">' + (who === "iq" ? "IQBAL" : "FARHAN") + '</span><span class="what bs">' + what + '</span></div><div class="sub ox">' + (sub || "") + "</div>";
+          plates.appendChild(p);
+          slam(p, t0); out(p, t1);
+        });
+
+        // ---------- Iqbal's plan ----------
+        const P0 = T.iqb_plan.start;
+        const len = document.getElementById("pl-path").getTotalLength();
+        tl.set("#plan", { opacity: 1 }, P0 + 0.25);
+        tl.fromTo("#pl-x", { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.18, ease: "back.out(3)" }, P0 + 0.25);
+        tl.fromTo("#pl-tree", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.16 }, P0 + 0.3);
+        // "draw": the curve draws itself
+        ["#pl-path", "#pl-path-sh"].forEach((s) => { const el = $(s); el.setAttribute("stroke-dasharray", len + " " + len); });
+        tl.fromTo(["#pl-path", "#pl-path-sh"], { attr: { "stroke-dashoffset": len } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.9, ease: "power2.inOut" }, B.plan_draw);
+        tl.fromTo("#pl-aimline", { opacity: 0 }, { opacity: 0.85, duration: 0.2 }, B.plan_aim - 0.1);
+        tl.fromTo("#pl-tgt", { scale: 2.5, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.2, ease: "back.out(2)" }, B.plan_aim);
+        tl.fromTo("#pl-aim", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.18, ease: "back.out(2)" }, B.plan_aim + 0.05);
+        tl.fromTo("#pl-pinc", { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.18, ease: "back.out(3)" }, B.plan_curve);
+        tl.fromTo("#pl-pin", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.18, ease: "back.out(2)" }, B.plan_curve + 0.05);
+        tl.to("#plan", { opacity: 0, duration: 0.12 }, T.iqb_plan.end - 0.12);
+
+        // ---------- chip: replay + FAT, then Farhan's own why ----------
+        slam("#replay", T.chip_replay.start + 0.05); out("#replay", T.chip_replay.end - 0.1);
+        tl.fromTo("#st-fat", { opacity: 0, scale: 2.4 }, { opacity: 1, scale: 1, duration: 0.14, ease: "power4.in" }, B.chip_impact + 0.12);
+        tl.to("#st-fat", { opacity: 0, duration: 0.12 }, T.chip_replay.end - 0.08);
+        slam("#why", T.chip_why_a.start + 0.05);
+        tl.fromTo("#wr1", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.18, ease: "back.out(2)" }, B.why_scoop);
+        tl.fromTo("#wr2", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.18, ease: "back.out(2)" }, B.why_weight);
+        out("#why", T.chip_why_b.end - 0.15);
+
+        // ---------- Farhan: bogey stamp ----------
+        tl.fromTo("#st-bogey", { opacity: 0, scale: 2.6 }, { opacity: 1, scale: 1, duration: 0.15, ease: "power4.in" }, B.bogey - 0.2);
+        tl.fromTo("#st-bogey", { x: 0 }, { x: 10, duration: 0.035, yoyo: true, repeat: 3, ease: "none", immediateRender: false }, B.bogey - 0.05);
+        tl.to("#st-bogey", { opacity: 0, duration: 0.12 }, T.far_bogey.end - 0.1);
+
+        // ---------- Iqbal par putt: letterbox tension, stakes ----------
+        tl.to(["#lbox-t", "#lbox-b"], { scaleY: 1, duration: 0.35, ease: "power2.out" }, T.par_setup.start + 0.1);
+        tl.to(["#lbox-t", "#lbox-b"], { scaleY: 0, duration: 0.25, ease: "power2.in" }, B.par_drop + 0.05);
+        tl.fromTo("#stakes", { opacity: 0, scale: 1.3 }, { opacity: 1, scale: 1, duration: 0.18, ease: "back.out(2)" }, T.par_setup.start + 0.45);
+        tl.to("#stakes", { opacity: 0, duration: 0.12 }, B.par_stroke - 0.05);
+
+        // ---------- KO: the drop ----------
+        const D = B.par_drop;
+        tl.set("#gflash", { opacity: 0 }, 0);
+        tl.fromTo("#gflash", { opacity: 0.85 }, { opacity: 0, duration: 0.35, ease: "power1.out", immediateRender: false }, D);
+        tl.set("#ko", { opacity: 1 }, D);
+        const burst = $("#burst");
+        for (let i = 0; i < 18; i++) {
+          const r = document.createElement("i"); r.style.transform = "rotate(" + (i * 20 + rnd() * 8) + "deg)"; burst.appendChild(r);
+          tl.fromTo(r, { scaleY: 0, opacity: 1 }, { scaleY: 1, duration: 0.25, ease: "power3.out", immediateRender: false }, D + 0.02);
+          tl.to(r, { opacity: 0, duration: 0.3 }, D + 0.45);
+          tl.set(r, { opacity: 0 }, 0);
+        }
+        tl.fromTo("#ko-k .h", { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.18, ease: "back.out(2)" }, D + 0.05);
+        tl.fromTo("#ko-k .w", { opacity: 0, scale: 3.2 }, { opacity: 1, scale: 1, duration: 0.2, ease: "power4.in" }, D + 0.08);
+        tl.fromTo("#ko-k", { x: 0 }, { x: 14, duration: 0.035, yoyo: true, repeat: 5, ease: "none", immediateRender: false }, D + 0.28);
+        tl.fromTo("#ko-k .m", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.2, ease: "back.out(2)" }, D + 0.4);
+        tl.to("#ko", { opacity: 0, scale: 0.92, duration: 0.2, ease: "power2.in" }, T.next.start + 0.6);
+        tl.set("#ko", { scale: 1 }, 0);
+
+        // ---------- END ----------
+        const E = T.end_freeze.start;
+        tl.set("#end", { opacity: 1 }, E);
+        tl.fromTo("#end .hd", { opacity: 0, x: 120 }, { opacity: 1, x: 0, duration: 0.22, ease: "back.out(2)" }, E + 0.05);
+        tl.fromTo("#er-iq", { opacity: 0, x: -140 }, { opacity: 1, x: 0, duration: 0.22, ease: "back.out(2)" }, E + 0.3);
+        tl.fromTo("#er-fa", { opacity: 0, x: -140 }, { opacity: 1, x: 0, duration: 0.22, ease: "back.out(2)" }, E + 0.5);
+        tl.fromTo("#cta .q", { opacity: 0, scale: 1.3 }, { opacity: 1, scale: 1, duration: 0.2, ease: "back.out(2)" }, E + 1.1);
+        tl.fromTo("#cta .a", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.2 }, E + 1.4);
+        tl.fromTo("#cta .a", { scale: 1 }, { scale: 1.05, duration: 0.3, yoyo: true, repeat: 5, ease: "sine.inOut", immediateRender: false }, E + 1.7);
+
+        // ---------- CAPTIONS: the spoken words, word times from faster-whisper mapped onto the film ----------
+        const capsEl = $("#caps");
+        K.CAPS.forEach(([t0, t1, who, big, words]) => {
+          const line = document.createElement("div"); line.className = "cap " + who + (big ? " big" : "");
+          const inner = document.createElement("span"); inner.className = "cap-in bs"; line.appendChild(inner);
+          capsEl.appendChild(line);
+          tl.set(line, { opacity: 1 }, t0); tl.set(line, { opacity: 0 }, 0);
+          words.forEach(([w, t, key]) => {
+            const s = document.createElement("span"); s.className = "w" + (key ? " key" : ""); s.textContent = w; inner.appendChild(s);
+            tl.fromTo(s, { opacity: 0, y: 26, scale: 1.25 }, { opacity: 1, y: 0, scale: 1, duration: 0.1, ease: "back.out(3)", immediateRender: false }, t);
+            tl.set(s, { opacity: 0 }, 0);
+          });
+          tl.to(line, { opacity: 0, y: -10, duration: 0.08 }, t1);
+          tl.set(line, { y: 0 }, 0);
+        });
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
