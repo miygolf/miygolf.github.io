@@ -1,6 +1,6 @@
 # Play a hole with me (Tasik Nine, KRTU Subang) — edit notes
 
-HyperFrames 0.9.18 · 1080×1920 · 30 fps · 42.1 s · status: **draft preview, waiting for "render"**
+HyperFrames 0.9.18 · 1080×1920 · 30 fps · 42.1 s · status: **final delivered** (`final/play-a-hole_tasik-nine-krtu_1080x1920.mp4`: 1080×1920, 30 fps, H.264 ~15.6 Mbps, −14.1 LUFS, peak −1.4 dBFS)
 
 ## Look: "Arcade Round" (new, not in the style log)
 - The hole played like a retro golf game: pixel HUD (HOLE 1 · PAR 4, SHOT pips → BIRDIE −1), POWER meter that fills on each
@@ -33,7 +33,7 @@ approach (head ~x 270, y 860, tracer stays right of it), putt (head top-left), e
 - Music: Mixkit "A Game" (#777), ducked to 0.085 under speech (≈ 17 dB below the voice), 0.32 elsewhere; its breakdown
   sits under the putt and the drop lands on the birdie.
 - 22 Mixkit SFX ids, 34 cues, each tied to something on screen (list in `assets/sfx/CREDITS.md`).
-- Draft mix measured: −17.3 LUFS integrated. Final: master to −14 LUFS / −1 dBTP (house rule).
+- Final: rendered `-q delivery`, then `tools/master.sh` (two-pass loudnorm −14 LUFS / −1.5 dBTP, H.264 CRF 17 ≤ 16 Mbps).
 
 ## Rebuild
 ```
