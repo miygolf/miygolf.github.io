@@ -1,0 +1,67 @@
+{
+ "hook_putt": {
+  "start": 0.0,
+  "end": 2.7333
+ },
+ "hook_freeze": {
+  "start": 2.7333,
+  "end": 3.6333
+ },
+ "hook_rewind": {
+  "start": 3.6333,
+  "end": 4.1
+ },
+ "tee": {
+  "start": 4.1,
+  "end": 7.8
+ },
+ "app_1x": {
+  "start": 7.8,
+  "end": 10.3667
+ },
+ "app_slow": {
+  "start": 10.3667,
+  "end": 11.9333
+ },
+ "app_finish": {
+  "start": 11.9333,
+  "end": 14.1333
+ },
+ "green": {
+  "start": 14.1333,
+  "end": 21.8333
+ },
+ "putt_1x": {
+  "start": 21.8333,
+  "end": 25.6333
+ },
+ "putt_slow": {
+  "start": 25.6333,
+  "end": 27.5333
+ },
+ "putt_react": {
+  "start": 27.5333,
+  "end": 29.2667
+ },
+ "after": {
+  "start": 29.2667,
+  "end": 36.7667
+ },
+ "end_freeze": {
+  "start": 36.7667,
+  "end": 42.0667
+ },
+ "_total": 42.0667,
+ "_beats": {
+  "hook_stroke": 0.2,
+  "tee_top": 5.23,
+  "tee_impact": 5.45,
+  "app_takeaway": 9.7,
+  "app_top": 10.51,
+  "app_impact": 11.052,
+  "putt_stroke": 23.683,
+  "putt_drop": 26.933,
+  "q_start": 30.647,
+  "q_end": 33.707
+ }
+}

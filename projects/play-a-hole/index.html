@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Arcade Round": the hole played like a retro golf game. Pixel HUD (Silkscreen) + chunky arcade titles (Bungee),
+         violet #6a2cff / sun #ffd21f / ink #140b2e / white,ed pixel panels, stepped (sprite-rate) motion,
+         power meter on each swing, pixel-block wipes on every cut, BIRDIE! burst on the drop.
+         Safe band: x 60-930, y 168-1330. Nothing sits on a face (positions checked per shot). */
+      @font-face { font-family: "Bungee"; src: url("assets/fonts/Bungee.woff2") format("woff2"); font-display: block; }
+      @font-face { font-family: "Silkscreen"; font-weight: 400; src: url("assets/fonts/Silkscreen-400.woff2") format("woff2"); font-display: block; }
+      @font-face { font-family: "Silkscreen"; font-weight: 700; src: url("assets/fonts/Silkscreen-700.woff2") format("woff2"); font-display: block; }
+      :root { --ink: #140b2e; --violet: #6a2cff; --sun: #ffd21f; --white: #ffffff; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #140b2e; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; }
+      #cam { position: absolute; inset: 0; z-index: 1; transform-origin: 540px 960px; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+      .ov { position: absolute; z-index: 5; opacity: 0; pointer-events: none; }
+      .px { font-family: "Silkscreen", monospace; font-weight: 700; letter-spacing: 0.04em; }
+      .arc { font-family: "Bungee", sans-serif; line-height: 1; }
+      /*ed pixel panel: ink rim + inner fill, both with stepped corners */
+      /* pixel rim: four single-axis ink shadows leave the corners open, so every panel gets stepped 8-bit corners */
+      .rim { padding: 6px; }
+      .fill { background: var(--violet); box-shadow: 0 -6px 0 var(--ink), 0 6px 0 var(--ink), -6px 0 0 var(--ink), 6px 0 0 var(--ink),
+              inset 0 6px 0 rgba(255, 255, 255, 0.22), inset 0 -6px 0 rgba(0, 0, 0, 0.25); }
+      .fill.sun { background: var(--sun); color: var(--ink); }
+      .fill.ink { background: rgba(20, 11, 46, 0.92); box-shadow: 0 -6px 0 var(--ink), 0 6px 0 var(--ink), -6px 0 0 var(--ink), 6px 0 0 var(--ink),
+              inset 0 6px 0 rgba(255, 255, 255, 0.08); }
+      /* arcade title text: crisp 4 px ink outline + violet extrusion, no blur */
+      .out { color: var(--white); text-shadow: 4px 0 var(--ink), -4px 0 var(--ink), 0 4px var(--ink), 0 -4px var(--ink), 4px 4px var(--ink),
+             -4px 4px var(--ink), 4px -4px var(--ink), -4px -4px var(--ink), 0 10px var(--violet), 4px 10px var(--violet), -4px 10px var(--violet), 0 14px var(--ink); }
+      .out.sunc { color: var(--sun); }
+
+      /* HUD */
+      #hud { left: 60px; top: 180px; width: 870px; height: 64px; }
+      #hud-hole { position: absolute; left: 0; top: 0; }
+      #hud-hole .fill { padding: 8px 18px 6px; font-size: 30px; color: var(--white); white-space: nowrap; }
+      #hud-hole b { color: var(--sun); font-weight: 700; }
+      #hud-shot { position: absolute; right: 0; top: 0; }
+      #hud-shot .fill { display: flex; align-items: center; gap: 12px; padding: 8px 18px 6px; font-size: 30px; color: var(--white); white-space: nowrap; }
+      .pip { width: 22px; height: 22px; background: rgba(255, 255, 255, 0.18); box-shadow: 0 0 0 3px var(--ink); }
+      .pip.on { background: var(--sun); }
+      #hud-score { position: absolute; right: 0; top: 0; opacity: 0; }
+      #hud-score .fill { padding: 8px 18px 6px; font-size: 30px; white-space: nowrap; }
+
+      /* hook */
+      #title { left: 60px; top: 236px; width: 870px; text-align: center; opacity: 1; }
+      #title-chip { display: inline-block; }
+      #title-chip .fill { padding: 8px 20px 6px; font-size: 32px; color: var(--white); }
+      #title-chip .tri { display: inline-block; width: 16px; height: 16px; background: var(--sun); margin-right: 14px; vertical-align: 2px; }
+      #title-main { margin-top: 26px; font-size: 118px; letter-spacing: 0.01em; }
+      #title-sub { margin-top: 18px; font-size: 76px; }
+      .tl-l { display: inline-block; }
+      #pause { left: 60px; top: 330px; width: 870px; text-align: center; }
+      #pause-chip { display: inline-block; }
+      #pause-chip .fill { padding: 8px 20px 6px; font-size: 34px; display: flex; align-items: center; gap: 14px; }
+      .bars { display: inline-flex; gap: 6px; } .bars i { display: block; width: 9px; height: 26px; background: var(--ink); }
+      #ask { margin-top: 30px; font-size: 104px; }
+      #rew { left: 60px; top: 300px; width: 870px; text-align: center; z-index: 7; }
+      #rew .fill { display: inline-block; padding: 8px 22px 6px; font-size: 40px; color: var(--white); }
+      #scan { position: absolute; inset: 0; z-index: 6; opacity: 0; pointer-events: none;
+              background: repeating-linear-gradient(0deg, rgba(20, 11, 46, 0.38) 0 4px, rgba(0, 0, 0, 0) 4px 10px); }
+      .brk { position: absolute; z-index: 5; width: 150px; height: 150px; opacity: 0; pointer-events: none; }
+      .brk i { position: absolute; width: 38px; height: 38px; border: 0 solid var(--sun); filter: drop-shadow(0 0 0 var(--ink)); }
+      .brk i:nth-child(1) { left: 0; top: 0; border-left-width: 9px; border-top-width: 9px; }
+      .brk i:nth-child(2) { right: 0; top: 0; border-right-width: 9px; border-top-width: 9px; }
+      .brk i:nth-child(3) { left: 0; bottom: 0; border-left-width: 9px; border-bottom-width: 9px; }
+      .brk i:nth-child(4) { right: 0; bottom: 0; border-right-width: 9px; border-bottom-width: 9px; }
+
+      /* hole card (tee) */
+      #card { left: 60px; top: 300px; width: 870px; text-align: center; }
+      #card-hole { font-size: 150px; }
+      #card-par { display: inline-block; margin-top: 22px; }
+      #card-par .fill { padding: 10px 26px 8px; font-size: 44px; }
+
+      /* power meter */
+      #meter { left: 540px; top: 1170px; width: 390px; }
+      #meter-lab { font-size: 30px; color: var(--white); margin-bottom: 8px; text-shadow: 3px 3px 0 var(--ink); }
+      #meter .fill.ink { display: flex; gap: 6px; padding: 10px; }
+      .cell { width: 24px; height: 34px; background: rgba(255, 255, 255, 0.14); }
+      .cell.hot { background: var(--sun); }
+      #pop-tee { left: 440px; top: 520px; width: 490px; text-align: center; font-size: 96px; transform-origin: 50% 70%; }
+
+      /* approach */
+      #yds { left: 600px; top: 330px; width: 330px; }
+      #yds .fill { padding: 12px 18px 12px; text-align: center; }
+      #yds-lab { font-size: 28px; color: var(--sun); }
+      #yds-num { font-size: 70px; color: var(--white); margin-top: 6px; }
+      #yds-num small { font-size: 34px; }
+      #slow { right: 150px; top: 262px; }
+      #slow .fill { padding: 6px 14px 4px; font-size: 28px; }
+      .dot { position: absolute; z-index: 5; width: 16px; height: 16px; background: var(--sun); box-shadow: 0 0 0 4px var(--ink); opacity: 0; }
+      #ongreen { left: 60px; top: 390px; width: 870px; text-align: center; }
+      #ongreen .rim { display: inline-block; }
+      #ongreen .fill { padding: 12px 26px 10px; font-size: 52px; display: flex; align-items: center; gap: 18px; }
+      .tick { width: 22px; height: 22px; background: var(--ink); }
+
+      /* green read */
+      #dist { left: 150px; top: 330px; width: 700px; }
+      #dist .fill { padding: 18px 26px 16px; }
+      .drow { display: flex; justify-content: space-between; align-items: baseline; opacity: 0; }
+      .drow + .drow { margin-top: 12px; padding-top: 12px; border-top: 4px dashed rgba(255, 255, 255, 0.3); }
+      .dlab { font-size: 28px; color: var(--sun); }
+      .dval { font-size: 56px; color: var(--white); }
+      .dval small { font-size: 30px; }
+
+      /* putt */
+      #banner { right: 150px; top: 300px; text-align: right; }
+      #banner .fill { padding: 12px 22px 10px; }
+      #banner-k { font-size: 28px; color: var(--sun); }
+      #banner-t { font-size: 50px; color: var(--white); margin-top: 6px; }
+      #birdie { left: 60px; top: 440px; width: 870px; text-align: center; font-size: 128px; transform-origin: 50% 80%; z-index: 8; }
+      #birdie-sub { display: inline-block; margin-top: 30px; }
+      #birdie-sub .fill { padding: 8px 20px 6px; font-size: 36px; }
+      #coin { left: 0; top: 0; width: 96px; height: 96px; z-index: 8; }
+      #coin .fill { width: 84px; height: 84px; display: flex; align-items: center; justify-content: center; font-size: 34px; }
+      .conf { position: absolute; z-index: 7; opacity: 0; box-shadow: 0 0 0 4px var(--ink); }
+      #flash { position: absolute; inset: 0; z-index: 9; background: #fff; opacity: 0; pointer-events: none; }
+
+      /* captions: the spoken words, ink box with violet pixel rim; the active word turns sun */
+      .cap { position: absolute; z-index: 6; left: 60px; width: 870px; bottom: 596px; text-align: center; opacity: 0; pointer-events: none; }
+      .cap-in { display: inline-block; padding: 14px 22px 8px; background: rgba(20, 11, 46, 0.86); box-shadow: 0 0 0 6px var(--violet), 0 0 0 10px var(--ink); }
+      .w { display: inline-block; margin: 0 7px; font: 50px/66px "Bungee", sans-serif; color: var(--white); }
+      .w.k { color: var(--white); }
+
+      /* results + CTA */
+      #res { left: 60px; top: 950px; width: 870px; z-index: 8; }
+      #res .fill { padding: 0 0 20px; }
+      #res-head { background: var(--sun); padding: 14px 24px 10px; text-align: center; box-shadow: inset 0 -6px 0 rgba(0, 0, 0, 0.18); }
+      #res-title { font-size: 60px; color: var(--ink); }
+      .rrow { display: flex; justify-content: space-between; align-items: baseline; padding: 14px 30px 0; opacity: 0; }
+      .rlab { font-size: 30px; color: rgba(255, 255, 255, 0.72); }
+      .rval { font-size: 34px; color: var(--white); text-align: right; }
+      .rrow.score .rval { color: var(--sun); font-size: 40px; }
+      #cta { position: absolute; left: 6px; right: 6px; top: 96px; bottom: 6px; opacity: 0; text-align: center; padding-top: 26px; }
+      #cta-q { font-size: 60px; color: var(--white); line-height: 1.08; }
+      #cta-a { display: inline-flex; align-items: center; gap: 16px; margin-top: 26px; }
+      #cta-a .fill { padding: 10px 22px 8px; font-size: 36px; }
+      .down { display: flex; flex-direction: column; align-items: center; }
+      .down i { display: block; height: 10px; background: var(--sun); box-shadow: 0 0 0 3px var(--ink); }
+      .down i:nth-child(1) { width: 12px; height: 18px; } .down i:nth-child(2) { width: 40px; } .down i:nth-child(3) { width: 26px; } .down i:nth-child(4) { width: 12px; }
+
+      /* pixel-block wipe */
+      #wipe { position: absolute; inset: 0; z-index: 10; pointer-events: none; }
+      #wipe i { position: absolute; width: 120px; height: 120px; background: var(--violet); transform: scale(0); box-shadow: inset 0 0 0 6px var(--ink); }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="42.0667" data-width="1080" data-height="1920" data-fps="30">
+      <!-- A-roll: cut, slowed, frozen and pushed in (from the 4K source) by tools/build_aroll.py -->
+      <div data-hf-id="hf-cam" id="cam">
+        <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="42.0667" data-track-index="1" muted playsinline></video>
+      </div>
+      <div id="scan"></div>
+
+      <!-- HUD (tee -> end) -->
+      <div id="hud" class="ov">
+        <div id="hud-hole" class="rim"><div class="fill px">HOLE 1 <b>·</b> PAR 4</div></div>
+        <div id="hud-shot" class="rim"><div class="fill px"><span id="hud-shot-n">SHOT 1</span><i class="pip" id="pip1"></i><i class="pip" id="pip2"></i><i class="pip" id="pip3"></i></div></div>
+        <div id="hud-score" class="rim"><div class="fill sun px">BIRDIE −1</div></div>
+      </div>
+
+      <!-- hook -->
+      <div id="title" class="ov">
+        <div id="title-chip" class="rim"><div class="fill px"><i class="tri"></i>PLAYER 1 · COACH IQBAL</div></div>
+        <div id="title-main" class="arc out"><span class="tl-l">PLAY</span> <span class="tl-l">A</span> <span class="tl-l">HOLE</span></div>
+        <div id="title-sub" class="arc out sunc"><span class="tl-l">WITH</span> <span class="tl-l">ME</span></div>
+      </div>
+      <div id="pause" class="ov">
+        <div id="pause-chip" class="rim"><div class="fill sun px"><span class="bars"><i></i><i></i></span>PAUSED</div></div>
+        <div id="ask" class="arc out">MASUK KE TAK?</div>
+      </div>
+      <div id="brk-hook" class="brk"><i></i><i></i><i></i><i></i></div>
+      <div id="rew" class="ov"><div class="rim" style="display:inline-block"><div class="fill px">◀◀ REWIND</div></div></div>
+
+      <!-- tee -->
+      <div id="card" class="ov">
+        <div id="card-hole" class="arc out">HOLE 1</div>
+        <div id="card-par" class="rim"><div class="fill sun px">PAR 4 · TEE OFF</div></div>
+      </div>
+      <div id="meter" class="ov">
+        <div id="meter-lab" class="px">POWER</div>
+        <div class="rim"><div class="fill ink" id="cells"></div></div>
+      </div>
+      <div id="pop-tee" class="ov arc out sunc">TEE OFF!</div>
+
+      <!-- approach -->
+      <div id="yds" class="ov"><div class="rim"><div class="fill">
+        <div id="yds-lab" class="px">JARAK</div>
+        <div id="yds-num" class="arc"><span id="yds-n">0</span> <small>YDS</small></div>
+      </div></div></div>
+      <div id="slow" class="ov rim"><div class="fill sun px">SLOW-MO</div></div>
+      <div id="dots"></div>
+      <div id="ongreen" class="ov"><div class="rim"><div class="fill sun arc"><i class="tick"></i>ON THE GREEN</div></div></div>
+
+      <!-- green read -->
+      <div id="dist" class="ov"><div class="rim"><div class="fill">
+        <div class="drow" id="drow1"><span class="dlab px">SHOT 2</span><span class="dval arc">117 <small>YDS</small></span></div>
+        <div class="drow" id="drow2"><span class="dlab px">KE PIN</span><span class="dval arc"><span id="dist-n">12</span> <small>KAKI</small></span></div>
+      </div></div></div>
+
+      <!-- putt -->
+      <div id="banner" class="ov"><div class="rim"><div class="fill">
+        <div id="banner-k" class="px">SHOT 3 · 10–12 KAKI</div>
+        <div id="banner-t" class="arc">PUTT UTK BIRDIE</div>
+      </div></div></div>
+      <div id="brk-putt" class="brk"><i></i><i></i><i></i><i></i></div>
+      <div id="conf"></div>
+      <div id="birdie" class="ov">
+        <div class="arc out sunc">BIRDIE!</div>
+        <div id="birdie-sub" class="rim"><div class="fill px" style="color:#fff">1 PUTT · MASUK!</div></div>
+      </div>
+      <div id="coin" class="ov rim"><div class="fill sun arc">−1</div></div>
+
+      <!-- results + CTA (on the freeze; the face stays clear above y 900) -->
+      <div id="res" class="ov"><div class="rim"><div class="fill" style="position:relative">
+        <div id="res-head"><div id="res-title" class="arc">HOLE 1 CLEAR!</div></div>
+        <div id="res-rows">
+          <div class="rrow" id="rr1"><span class="rlab px">SHOT 1</span><span class="rval px">TEE OFF</span></div>
+          <div class="rrow" id="rr2"><span class="rlab px">SHOT 2</span><span class="rval px">117 YDS → 10–12 KAKI</span></div>
+          <div class="rrow" id="rr3"><span class="rlab px">SHOT 3</span><span class="rval px">1 PUTT, MASUK!</span></div>
+          <div class="rrow score" id="rr4"><span class="rlab px">SCORE</span><span class="rval arc">3 · BIRDIE −1</span></div>
+        </div>
+        <div id="cta">
+          <div id="cta-q" class="arc">NAK TIPS<br>GREEN READING?</div>
+          <div id="cta-a"><div class="rim"><div class="fill sun px">KOMEN "GREEN" KAT BAWAH</div></div><span class="down"><i></i><i></i><i></i><i></i></span></div>
+        </div>
+      </div></div></div>
+
+      <div id="caps"></div>
+      <div id="flash"></div>
+      <div id="wipe"></div>
+
+      <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="42.0667" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>
+      <!-- music bed: Mixkit "A Game" (#777), from 55.767 s so the drop at 82.5 s lands on the birdie -->
+      <audio data-hf-id="hf-bgm" id="bgm" class="clip" src="assets/music/a-game-777.mp3" data-start="0" data-duration="42.0667" data-media-start="55.567" data-track-index="11" data-volume="1" data-timeline-role="music" data-audio-group="music" data-fx-chain="{&quot;version&quot;:1,&quot;nodes&quot;:[{&quot;type&quot;:&quot;highpass&quot;,&quot;id&quot;:&quot;hp&quot;,&quot;label&quot;:&quot;Clear the low end for the voice&quot;,&quot;params&quot;:{&quot;frequency&quot;:110}},{&quot;type&quot;:&quot;peaking&quot;,&quot;id&quot;:&quot;carve&quot;,&quot;label&quot;:&quot;Pocket for the voice&quot;,&quot;params&quot;:{&quot;frequency&quot;:2400,&quot;gain&quot;:-6,&quot;q&quot;:0.8}}]}" data-automation="{&quot;version&quot;:1,&quot;lanes&quot;:[{&quot;target&quot;:&quot;volume&quot;,&quot;points&quot;:[{&quot;t&quot;:0.0,&quot;v&quot;:0.085},{&quot;t&quot;:0.07,&quot;v&quot;:0.085},{&quot;t&quot;:0.25,&quot;v&quot;:0.085},{&quot;t&quot;:2.05,&quot;v&quot;:0.085},{&quot;t&quot;:2.23,&quot;v&quot;:0.32},{&quot;t&quot;:7.9,&quot;v&quot;:0.32},{&quot;t&quot;:8.08,&quot;v&quot;:0.085},{&quot;t&quot;:8.95,&quot;v&quot;:0.085},{&quot;t&quot;:9.13,&quot;v&quot;:0.32},{&quot;t&quot;:13.953,&quot;v&quot;:0.32},{&quot;t&quot;:14.133,&quot;v&quot;:0.085},{&quot;t&quot;:21.783,&quot;v&quot;:0.085},{&quot;t&quot;:21.963,&quot;v&quot;:0.32},{&quot;t&quot;:26.883,&quot;v&quot;:0.32},{&quot;t&quot;:26.953,&quot;v&quot;:0.42},{&quot;t&quot;:27.203,&quot;v&quot;:0.32},{&quot;t&quot;:27.333,&quot;v&quot;:0.42},{&quot;t&quot;:27.383,&quot;v&quot;:0.085},{&quot;t&quot;:29.117,&quot;v&quot;:0.085},{&quot;t&quot;:29.137,&quot;v&quot;:0.32},{&quot;t&quot;:29.297,&quot;v&quot;:0.32},{&quot;t&quot;:29.317,&quot;v&quot;:0.085},{&quot;t&quot;:35.117,&quot;v&quot;:0.085},{&quot;t&quot;:35.297,&quot;v&quot;:0.32},{&quot;t&quot;:41.167,&quot;v&quot;:0.32},{&quot;t&quot;:42.067,&quot;v&quot;:0.0}]}]}"></audio>
+      <!-- sound design (Mixkit, file name = Mixkit id): start = picture beat - file peak -->
+      <audio data-hf-id="hf-s00" id="sfx-00" class="clip" src="assets/sfx/2185.mp3" data-start="0.010" data-duration="0.50" data-track-index="12" data-volume="0.45" data-audio-group="sfx"></audio> <!-- title blocks snap on -->
+      <audio data-hf-id="hf-s01" id="sfx-01" class="clip" src="assets/sfx/2073.mp3" data-start="0.220" data-duration="0.29" data-track-index="13" data-volume="0.5" data-audio-group="sfx"></audio> <!-- putter tap -->
+      <audio data-hf-id="hf-s02" id="sfx-02" class="clip" src="assets/sfx/212.mp3" data-start="2.533" data-duration="0.60" data-track-index="14" data-volume="0.9" data-audio-group="sfx"></audio> <!-- PAUSE -->
+      <audio data-hf-id="hf-s03" id="sfx-03" class="clip" src="assets/sfx/2887.mp3" data-start="2.623" data-duration="0.40" data-track-index="15" data-volume="0.55" data-audio-group="sfx"></audio> <!-- MASUK KE TAK? pops -->
+      <audio data-hf-id="hf-s04" id="sfx-04" class="clip" src="assets/sfx/1092.mp3" data-start="2.553" data-duration="1.90" data-track-index="12" data-volume="0.55" data-audio-group="sfx"></audio> <!-- tape rewind back to the tee -->
+      <audio data-hf-id="hf-s05" id="sfx-05" class="clip" src="assets/sfx/2185.mp3" data-start="4.090" data-duration="0.50" data-track-index="13" data-volume="0.4" data-audio-group="sfx"></audio> <!-- pixel wipe lands -->
+      <audio data-hf-id="hf-s06" id="sfx-06" class="clip" src="assets/sfx/217.mp3" data-start="3.970" data-duration="1.00" data-track-index="14" data-volume="0.4" data-audio-group="sfx"></audio> <!-- HOLE 1 / PAR 4 card -->
+      <audio data-hf-id="hf-s07" id="sfx-07" class="clip" src="assets/sfx/2837.mp3" data-start="4.620" data-duration="1.00" data-track-index="15" data-volume="0.35" data-audio-group="sfx"></audio> <!-- power meter charges -->
+      <audio data-hf-id="hf-s08" id="sfx-08" class="clip" src="assets/sfx/2126.mp3" data-start="5.290" data-duration="0.55" data-track-index="12" data-volume="0.55" data-audio-group="sfx"></audio> <!-- tee strike (layered on the real one) -->
+      <audio data-hf-id="hf-s09" id="sfx-09" class="clip" src="assets/sfx/3200.mp3" data-start="5.250" data-duration="0.90" data-track-index="13" data-volume="0.3" data-audio-group="sfx"></audio> <!-- TEE OFF! pops -->
+      <audio data-hf-id="hf-s10" id="sfx-10" class="clip" src="assets/sfx/1489.mp3" data-start="7.090" data-duration="1.70" data-track-index="14" data-volume="0.4" data-audio-group="sfx"></audio> <!-- pixel wipe whoosh -->
+      <audio data-hf-id="hf-s11" id="sfx-11" class="clip" src="assets/sfx/2837.mp3" data-start="9.840" data-duration="1.00" data-track-index="15" data-volume="0.32" data-audio-group="sfx"></audio> <!-- power meter charges -->
+      <audio data-hf-id="hf-s12" id="sfx-12" class="clip" src="assets/sfx/2120.mp3" data-start="10.902" data-duration="0.60" data-track-index="12" data-volume="0.5" data-audio-group="sfx"></audio> <!-- approach strike (layered) -->
+      <audio data-hf-id="hf-s13" id="sfx-13" class="clip" src="assets/sfx/2342.mp3" data-start="11.142" data-duration="2.00" data-track-index="13" data-volume="0.25" data-audio-group="sfx"></audio> <!-- pixel tracer sparkle -->
+      <audio data-hf-id="hf-s14" id="sfx-14" class="clip" src="assets/sfx/2069.mp3" data-start="12.743" data-duration="0.60" data-track-index="14" data-volume="0.45" data-audio-group="sfx"></audio> <!-- ON THE GREEN coin -->
+      <audio data-hf-id="hf-s15" id="sfx-15" class="clip" src="assets/sfx/1489.mp3" data-start="13.423" data-duration="1.70" data-track-index="15" data-volume="0.35" data-audio-group="sfx"></audio> <!-- pixel wipe whoosh -->
+      <audio data-hf-id="hf-s16" id="sfx-16" class="clip" src="assets/sfx/237.mp3" data-start="16.193" data-duration="0.18" data-track-index="12" data-volume="0.5" data-audio-group="sfx"></audio> <!-- 117 YDS row -->
+      <audio data-hf-id="hf-s17" id="sfx-17" class="clip" src="assets/sfx/237.mp3" data-start="18.993" data-duration="0.18" data-track-index="13" data-volume="0.5" data-audio-group="sfx"></audio> <!-- KE PIN row -->
+      <audio data-hf-id="hf-s18" id="sfx-18" class="clip" src="assets/sfx/2887.mp3" data-start="20.583" data-duration="0.40" data-track-index="14" data-volume="0.4" data-audio-group="sfx"></audio> <!-- 10-12 KAKI settles -->
+      <audio data-hf-id="hf-s19" id="sfx-19" class="clip" src="assets/sfx/1490.mp3" data-start="21.123" data-duration="0.80" data-track-index="15" data-volume="0.4" data-audio-group="sfx"></audio> <!-- pixel wipe whoosh -->
+      <audio data-hf-id="hf-s20" id="sfx-20" class="clip" src="assets/sfx/206.mp3" data-start="21.743" data-duration="0.60" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- SHOT 3 banner -->
+      <audio data-hf-id="hf-s21" id="sfx-21" class="clip" src="assets/sfx/2073.mp3" data-start="23.683" data-duration="0.29" data-track-index="13" data-volume="0.45" data-audio-group="sfx"></audio> <!-- putter tap -->
+      <audio data-hf-id="hf-s22" id="sfx-22" class="clip" src="assets/sfx/2837.mp3" data-start="25.623" data-duration="1.00" data-track-index="14" data-volume="0.22" data-audio-group="sfx"></audio> <!-- target brackets lock -->
+      <audio data-hf-id="hf-s23" id="sfx-23" class="clip" src="assets/sfx/3217.mp3" data-start="26.743" data-duration="0.45" data-track-index="15" data-volume="0.6" data-audio-group="sfx"></audio> <!-- ball drops in the cup -->
+      <audio data-hf-id="hf-s24" id="sfx-24" class="clip" src="assets/sfx/2059.mp3" data-start="26.953" data-duration="3.20" data-track-index="12" data-volume="0.45" data-audio-group="sfx"></audio> <!-- BIRDIE! fanfare -->
+      <audio data-hf-id="hf-s25" id="sfx-25" class="clip" src="assets/sfx/2069.mp3" data-start="27.293" data-duration="0.60" data-track-index="13" data-volume="0.4" data-audio-group="sfx"></audio> <!-- -1 coin -->
+      <audio data-hf-id="hf-s26" id="sfx-26" class="clip" src="assets/sfx/518.mp3" data-start="27.083" data-duration="6.00" data-track-index="14" data-volume="0.22" data-audio-group="sfx"></audio> <!-- small crowd cheer -->
+      <audio data-hf-id="hf-s27" id="sfx-27" class="clip" src="assets/sfx/1489.mp3" data-start="28.557" data-duration="1.70" data-track-index="15" data-volume="0.3" data-audio-group="sfx"></audio> <!-- pixel wipe whoosh -->
+      <audio data-hf-id="hf-s28" id="sfx-28" class="clip" src="assets/sfx/2185.mp3" data-start="36.757" data-duration="0.50" data-track-index="12" data-volume="0.45" data-audio-group="sfx"></audio> <!-- freeze + results panel -->
+      <audio data-hf-id="hf-s29" id="sfx-29" class="clip" src="assets/sfx/216.mp3" data-start="37.077" data-duration="0.12" data-track-index="13" data-volume="0.5" data-audio-group="sfx"></audio> <!-- row 1 -->
+      <audio data-hf-id="hf-s30" id="sfx-30" class="clip" src="assets/sfx/216.mp3" data-start="37.327" data-duration="0.12" data-track-index="14" data-volume="0.5" data-audio-group="sfx"></audio> <!-- row 2 -->
+      <audio data-hf-id="hf-s31" id="sfx-31" class="clip" src="assets/sfx/216.mp3" data-start="37.577" data-duration="0.12" data-track-index="15" data-volume="0.5" data-audio-group="sfx"></audio> <!-- row 3 -->
+      <audio data-hf-id="hf-s32" id="sfx-32" class="clip" src="assets/sfx/2058.mp3" data-start="37.727" data-duration="1.20" data-track-index="12" data-volume="0.45" data-audio-group="sfx"></audio> <!-- SCORE row -->
+      <audio data-hf-id="hf-s33" id="sfx-33" class="clip" src="assets/sfx/205.mp3" data-start="39.107" data-duration="1.10" data-track-index="13" data-volume="0.45" data-audio-group="sfx"></audio> <!-- CTA -->
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {"T": {"hook_putt": {"start": 0.0, "end": 2.7333}, "hook_freeze": {"start": 2.7333, "end": 3.6333}, "hook_rewind": {"start": 3.6333, "end": 4.1}, "tee": {"start": 4.1, "end": 7.8}, "app_1x": {"start": 7.8, "end": 10.3667}, "app_slow": {"start": 10.3667, "end": 11.9333}, "app_finish": {"start": 11.9333, "end": 14.1333}, "green": {"start": 14.1333, "end": 21.8333}, "putt_1x": {"start": 21.8333, "end": 25.6333}, "putt_slow": {"start": 25.6333, "end": 27.5333}, "putt_react": {"start": 27.5333, "end": 29.2667}, "after": {"start": 29.2667, "end": 36.7667}, "end_freeze": {"start": 36.7667, "end": 42.0667}}, "B": {"hook_stroke": 0.2, "tee_top": 5.23, "tee_impact": 5.45, "app_takeaway": 9.7, "app_top": 10.51, "app_impact": 11.052, "putt_stroke": 23.683, "putt_drop": 26.933, "q_start": 30.647, "q_end": 33.707}, "TOTAL": 42.0667, "CUTS": [4.1, 7.8, 14.1333, 21.8333, 29.2667]};
+        const T = K.T, B = K.B;
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        const st = (n) => "steps(" + n + ")";
+        // deterministic pseudo-random (no Math.random: every render must match)
+        let seed = 7;
+        const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+        const show = (sel, t, dur, from) => tl.fromTo(sel, Object.assign({ opacity: 0 }, from || {}), { opacity: 1, x: 0, y: 0, scale: 1, duration: dur || 0.2, ease: st(4) }, t);
+        const hide = (sel, t, dur) => tl.to(sel, { opacity: 0, duration: dur || 0.16, ease: st(3) }, t);
+
+        // ---------- camera moves on the A-roll ----------
+        const cam = "#cam";
+        tl.set(cam, { scale: 1, x: 0, transformOrigin: "540px 960px" }, 0);
+        // rewind: horizontal jitter + scanlines
+        tl.set("#scan", { opacity: 1 }, T.hook_rewind.start);
+        [0, 0.07, 0.14, 0.21, 0.28, 0.35].forEach((d, i) => tl.set(cam, { x: i % 2 ? -14 : 12 }, T.hook_rewind.start + d));
+        tl.set(cam, { x: 0 }, T.tee.start); tl.set("#scan", { opacity: 0 }, T.tee.start);
+        // tee: wide action cam, push in on the player
+        tl.set(cam, { transformOrigin: "230px 1100px", scale: 1.3 }, T.tee.start);
+        tl.to(cam, { scale: 1.36, duration: T.tee.end - T.tee.start, ease: "none" }, T.tee.start);
+        tl.to(cam, { y: 10, duration: 0.05, yoyo: true, repeat: 3, ease: "none" }, B.tee_impact);
+        // approach: slow push, punch on contact
+        tl.set(cam, { transformOrigin: "300px 1300px", scale: 1.0, y: 0 }, T.app_1x.start);
+        tl.to(cam, { scale: 1.06, duration: B.app_impact - T.app_1x.start - 0.05, ease: "none" }, T.app_1x.start);
+        tl.to(cam, { scale: 1.11, duration: 0.09, ease: "power2.out", yoyo: true, repeat: 1 }, B.app_impact - 0.02);
+        // green, putt, after: picture already framed; gentle drift only
+        tl.set(cam, { transformOrigin: "540px 960px", scale: 1.0 }, T.green.start);
+        tl.to(cam, { scale: 1.04, duration: T.green.end - T.green.start, ease: "none" }, T.green.start);
+        tl.set(cam, { scale: 1.0 }, T.putt_1x.start);
+        tl.to(cam, { y: 8, duration: 0.05, yoyo: true, repeat: 3, ease: "none" }, B.putt_drop);
+        tl.set(cam, { transformOrigin: "430px 680px", scale: 1.0, y: 0 }, T.after.start);
+        tl.to(cam, { scale: 1.05, duration: K.TOTAL - T.end_freeze.start, ease: "none" }, T.end_freeze.start);
+
+        // ---------- pixel-block wipes on the cuts ----------
+        const wipe = $("#wipe"), tiles = [];
+        for (let r = 0; r < 16; r++) for (let c = 0; c < 9; c++) {
+          const i = document.createElement("i"); i.style.left = c * 120 + "px"; i.style.top = r * 120 + "px"; wipe.appendChild(i); tiles.push(i);
+        }
+        K.CUTS.forEach((cut) => {
+          const order = tiles.map((el) => [rnd(), el]).sort((a, b) => a[0] - b[0]);
+          order.forEach(([, el], k) => {
+            const d = (k / tiles.length) * 0.14;
+            tl.fromTo(el, { scale: 0 }, { scale: 1, duration: 0.06, ease: st(2) }, cut - 0.2 + d);
+            tl.to(el, { scale: 0, duration: 0.06, ease: st(2) }, cut + 0.02 + d);
+          });
+        });
+
+        // ---------- HOOK ----------
+        // frame 0 already shows the title (text on frame 0); the words drop in sprite-style right after
+        tl.set("#title", { opacity: 1 }, 0);
+        document.querySelectorAll("#title .tl-l").forEach((el, i) => tl.from(el, { y: -40, duration: 0.16, ease: st(3) }, 0.04 * i));
+        tl.to("#title", { opacity: 0, duration: 0.2, ease: st(4) }, 2.2);
+        // freeze: PAUSED + the question, brackets on the ball and the cup
+        show("#pause-chip", T.hook_freeze.start, 0.1); tl.set("#pause", { opacity: 1 }, T.hook_freeze.start);
+        tl.fromTo("#pause-chip", { scale: 0.6 }, { scale: 1, duration: 0.12, ease: st(3) }, T.hook_freeze.start);
+        tl.fromTo("#ask", { opacity: 0, scale: 1.3 }, { opacity: 1, scale: 1, duration: 0.16, ease: st(4) }, T.hook_freeze.start + 0.1);
+        tl.set("#brk-hook", { left: 530 - 75, top: 955 - 75 }, 0);
+        tl.fromTo("#brk-hook", { opacity: 0, scale: 1.8 }, { opacity: 1, scale: 1, duration: 0.2, ease: st(4) }, T.hook_freeze.start + 0.05);
+        hide("#pause-chip", T.hook_rewind.start, 0.08); hide("#brk-hook", T.hook_rewind.start, 0.08); hide("#pause", T.tee.start - 0.12, 0.08);
+        tl.set("#rew", { opacity: 1 }, T.hook_rewind.start);
+        tl.set("#rew", { opacity: 0 }, T.tee.start - 0.1);
+
+        // ---------- TEE ----------
+        show("#card", T.tee.start + 0.05, 0.2, { scale: 1.25 });
+        tl.to("#card", { opacity: 0, y: -60, duration: 0.15, ease: st(3) }, T.tee.start + 0.95);
+        show("#hud", T.tee.start + 1.1, 0.2, { y: -24 });
+        tl.set("#pip1", { className: "pip on" }, T.tee.start + 1.1);
+        // power meter fills on the backswing, snaps full on contact
+        const cells = $("#cells");
+        for (let i = 0; i < 12; i++) { const c = document.createElement("i"); c.className = "cell"; cells.appendChild(c); }
+        const cellEls = cells.querySelectorAll(".cell");
+        const meter = (t0, tTop, tImp, tOff) => {
+          show("#meter", t0, 0.16, { x: 40 });
+          cellEls.forEach((c, i) => {
+            const t = i < 10 ? tTop - 0.55 + (i / 10) * 0.55 : tImp;
+            tl.set(c, { className: "cell hot" }, t);
+            tl.set(c, { className: "cell" }, tOff + 0.2);
+          });
+          tl.fromTo("#meter", { scale: 1 }, { scale: 1.08, duration: 0.06, yoyo: true, repeat: 1, ease: "none" }, tImp);
+          hide("#meter", tOff, 0.16);
+        };
+        meter(B.tee_top - 1.0, B.tee_top, B.tee_impact, B.tee_impact + 0.9);
+        tl.fromTo("#pop-tee", { opacity: 0, scale: 0.4, rotation: -6 }, { opacity: 1, scale: 1, rotation: -6, duration: 0.14, ease: st(3) }, B.tee_impact + 0.04);
+        tl.to("#pop-tee", { y: -30, duration: 0.6, ease: st(6) }, B.tee_impact + 0.2);
+        hide("#pop-tee", B.tee_impact + 1.0);
+
+        // ---------- APPROACH ----------
+        tl.set("#pip2", { className: "pip on" }, T.app_1x.start); tl.set("#hud-shot-n", { textContent: "SHOT 2" }, T.app_1x.start);
+        show("#yds", T.app_1x.start + 0.15, 0.18, { x: 50 });
+        const yds = { v: 0 };
+        tl.to(yds, { v: 117, duration: 0.5, ease: st(10), onUpdate: () => { $("#yds-n").textContent = Math.round(yds.v); } }, T.app_1x.start + 0.5);
+        tl.set("#yds-n", { textContent: "0" }, T.app_1x.start); // seek-safe reset before the count
+        hide("#yds", B.app_takeaway - 0.3);
+        meter(B.app_takeaway - 0.2, B.app_top, B.app_impact, B.app_impact + 0.25);
+        show("#slow", T.app_slow.start, 0.12); hide("#slow", T.app_slow.end - 0.05, 0.1);
+        // pixel shot tracer: quadratic arc from the ball out to the green
+        const P0 = [475, 1385], P1 = [560, 200], P2 = [585, 790], dots = $("#dots");
+        for (let i = 0; i < 22; i++) {
+          const u = 0.04 + (i / 21) * 0.96, a = (1 - u) * (1 - u), b = 2 * u * (1 - u), c = u * u;
+          const d = document.createElement("i"); d.className = "dot";
+          d.style.left = (a * P0[0] + b * P1[0] + c * P2[0] - 8) + "px"; d.style.top = (a * P0[1] + b * P1[1] + c * P2[1] - 8) + "px";
+          const s = 1 - u * 0.55; d.style.transform = "scale(" + s + ")";
+          dots.appendChild(d);
+          tl.set(d, { opacity: 1 }, B.app_impact + 0.08 + i * 0.045);
+          tl.set(d, { opacity: 0 }, T.app_finish.end - 0.6 + i * 0.012);
+        }
+        tl.fromTo("#ongreen", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.18, ease: st(4) }, T.app_finish.start + 0.85);
+        hide("#ongreen", T.app_finish.end - 0.3);
+
+        // ---------- GREEN READ ----------
+        show("#dist", T.green.start + 2.1, 0.16, { y: -30 });
+        tl.fromTo("#drow1", { opacity: 0 }, { opacity: 1, duration: 0.1, ease: st(2) }, T.green.start + 2.2);
+        tl.fromTo("#drow2", { opacity: 0 }, { opacity: 1, duration: 0.1, ease: st(2) }, T.green.start + 5.0);
+        tl.set("#dist-n", { textContent: "12" }, T.green.start);
+        tl.set("#dist-n", { textContent: "10–12" }, T.green.start + 6.7);
+        tl.fromTo("#drow2 .dval", { scale: 1 }, { scale: 1.12, duration: 0.08, yoyo: true, repeat: 1, ease: "none" }, T.green.start + 6.7);
+        hide("#dist", T.green.end - 0.3);
+
+        // ---------- PUTT ----------
+        tl.set("#pip3", { className: "pip on" }, T.putt_1x.start); tl.set("#hud-shot-n", { textContent: "SHOT 3" }, T.putt_1x.start);
+        show("#banner", T.putt_1x.start + 0.1, 0.18, { x: 50 });
+        hide("#banner", B.putt_stroke - 0.05);
+        // brackets lock onto the cup through the slow-mo (cup drifts from 547,934 to 540,954 as the frame pushes in)
+        tl.set("#brk-putt", { left: 0, top: 0, x: 547 - 75, y: 934 - 75 }, 0);
+        tl.fromTo("#brk-putt", { opacity: 0, scale: 1.8 }, { opacity: 1, scale: 1, duration: 0.2, ease: st(4) }, T.putt_slow.start);
+        tl.to("#brk-putt", { x: 540 - 75, y: 954 - 75, duration: T.putt_slow.end - T.putt_slow.start, ease: "power1.inOut" }, T.putt_slow.start);
+        tl.set("#brk-putt", { opacity: 0 }, B.putt_drop);
+        show("#slow", T.putt_slow.start, 0.12); hide("#slow", B.putt_drop, 0.08);
+        // the drop: flash, BIRDIE!, pixel confetti out of the cup, -1 coin, HUD score
+        tl.set("#flash", { opacity: 0 }, 0);
+        tl.fromTo("#flash", { opacity: 0.75 }, { opacity: 0, duration: 0.2, ease: st(3), immediateRender: false }, B.putt_drop);
+        tl.fromTo("#birdie", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.18, ease: st(4) }, B.putt_drop + 0.02);
+        tl.to("#birdie", { scale: 1.06, duration: 0.12, yoyo: true, repeat: 3, ease: "none" }, B.putt_drop + 0.3);
+        tl.to("#birdie", { opacity: 0, y: -40, duration: 0.2, ease: st(4) }, T.putt_react.end - 0.35);
+        const conf = $("#conf"), cols = ["#ffd21f", "#6a2cff", "#ffffff", "#ffd21f"];
+        for (let i = 0; i < 30; i++) {
+          const el = document.createElement("i"); el.className = "conf";
+          const sz = 14 + Math.round(rnd() * 14); el.style.width = sz + "px"; el.style.height = sz + "px";
+          el.style.background = cols[i % 4]; el.style.left = 540 - sz / 2 + "px"; el.style.top = 950 - sz / 2 + "px"; conf.appendChild(el);
+          const ang = -Math.PI * (0.08 + rnd() * 0.84), sp = 260 + rnd() * 420;
+          const dx = Math.cos(ang) * sp, dy = Math.sin(ang) * sp;
+          tl.set(el, { opacity: 1, x: 0, y: 0 }, B.putt_drop);
+          tl.to(el, { x: dx, duration: 1.1, ease: st(14) }, B.putt_drop);
+          tl.to(el, { y: dy, duration: 0.45, ease: "power2.out" }, B.putt_drop);
+          tl.to(el, { y: dy + 520, duration: 0.65, ease: "power2.in" }, B.putt_drop + 0.45);
+          tl.set(el, { opacity: 0 }, B.putt_drop + 1.1);
+        }
+        tl.fromTo("#coin", { opacity: 0, x: 492, y: 880 }, { opacity: 1, x: 690, y: 760, duration: 0.5, ease: st(8) }, B.putt_drop + 0.35);
+        hide("#coin", B.putt_drop + 1.5);
+        tl.to("#hud-shot", { opacity: 0, duration: 0.1, ease: st(2) }, B.putt_drop + 0.5);
+        tl.fromTo("#hud-score", { opacity: 0, scale: 1.4 }, { opacity: 1, scale: 1, duration: 0.14, ease: st(3) }, B.putt_drop + 0.55);
+
+        // ---------- END: freeze, results, CTA ----------
+        hide("#hud", T.end_freeze.start, 0.12);
+        tl.fromTo("#flash", { opacity: 0.6 }, { opacity: 0, duration: 0.18, ease: st(3), immediateRender: false }, T.end_freeze.start);
+        tl.fromTo("#res", { opacity: 0, y: 80 }, { opacity: 1, y: 0, duration: 0.2, ease: st(4) }, T.end_freeze.start + 0.1);
+        ["#rr1", "#rr2", "#rr3", "#rr4"].forEach((r, i) => tl.fromTo(r, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.1, ease: st(2) }, T.end_freeze.start + 0.35 + i * 0.25));
+        tl.fromTo("#rr4 .rval", { scale: 1 }, { scale: 1.15, duration: 0.08, yoyo: true, repeat: 1, ease: "none" }, T.end_freeze.start + 1.1);
+        tl.to("#res-rows", { opacity: 0, duration: 0.12, ease: st(3) }, T.end_freeze.start + 2.7);
+        tl.set("#res-title", { textContent: "BIRDIE · HOLE 1" }, T.end_freeze.start + 2.7);
+        tl.set("#res-title", { textContent: "HOLE 1 CLEAR!" }, T.end_freeze.start); // seek-safe
+        tl.fromTo("#cta", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.18, ease: st(4) }, T.end_freeze.start + 2.8);
+        tl.to(".down", { y: 10, duration: 0.25, yoyo: true, repeat: 5, ease: st(2) }, T.end_freeze.start + 3.05);
+
+        // ---------- CAPTIONS (the spoken words, word times from faster-whisper + the voice-energy map) ----------
+        const G = T.green.start, A = T.after.start;
+        const CAPS = [
+          [0.3, 2.2, [["OK,", 0.40], ["KITA", 0.55], ["TENGOK", 0.70], ["BOLEH", 0.92], ["BUAT", 1.10], ["BIRDIE", 1.30], ["TAK?", 1.65]], "BIRDIE"],
+          [T.green.start + 0.05, T.green.start + 3.55, [["ALRIGHT,", G + 0.097], ["TADI", G + 0.647], ["SECOND", G + 1.347], ["SHOT", G + 1.817], ["117", G + 2.147], ["YARDS", G + 3.047]], "117"],
+          [T.green.start + 3.62, T.green.start + 6.4, [["SO", G + 3.697], ["ADA", G + 3.967], ["DALAM", G + 4.497], ["12", G + 4.917], ["KAKI", G + 5.447], ["KOT,", G + 6.017]], "12"],
+          [T.green.start + 6.45, T.green.end - 0.02, [["10", G + 6.647], ["KAKI", G + 6.917], ["MACAM", G + 7.167], ["TU", G + 7.347], ["LAH.", G + 7.487]], "10"],
+          [B.putt_drop + 1.2, T.putt_react.end - 0.05, [["DAHSYATNYA!", B.putt_drop + 1.22]], "DAHSYATNYA!"],
+          [T.after.start + 0.08, T.after.start + 1.3, [["SUCH", A + 0.123], ["A", A + 0.603], ["GOOD", A + 0.763], ["PLAYER.", A + 0.903]], "PLAYER."],
+          [T.after.start + 1.33, T.after.start + 2.88, [["SO,", A + 1.383], ["ANY", A + 1.663], ["TIPS", A + 1.803], ["FOR", A + 2.043], ["GREEN", A + 2.223], ["READING,", A + 2.543]], "GREEN"],
+          [T.after.start + 2.93, T.after.start + 4.55, [["COACH", A + 3.043], ["IQBAL,", A + 3.283], ["AFTER", A + 3.643], ["THE", A + 3.863], ["FIRST", A + 4.043], ["BIRDIE?", A + 4.203]], "BIRDIE?"],
+          [T.after.start + 4.58, T.after.start + 5.75, [["GREEN", A + 4.603], ["READING.", A + 5.063]], "READING."],
+        ];
+        const capsEl = $("#caps");
+        CAPS.forEach(([t0, t1, words, key], li) => {
+          const line = document.createElement("div"); line.className = "cap";
+          const inner = document.createElement("span"); inner.className = "cap-in"; line.appendChild(inner);
+          const spans = words.map(([w]) => { const s = document.createElement("span"); s.className = "w"; s.textContent = w; inner.appendChild(s); return s; });
+          capsEl.appendChild(line);
+          tl.fromTo(line, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.12, ease: st(3) }, t0);
+          words.forEach(([w, t], i) => {
+            const hot = w === key ? "#ffd21f" : "#ffd21f";
+            tl.fromTo(spans[i], { color: "#ffffff", y: 0 }, { color: hot, y: -5, duration: 0.06, ease: st(1) }, t);
+            if (w !== key) tl.to(spans[i], { color: "#ffffff", y: 0, duration: 0.06, ease: st(1) }, (i + 1 < words.length ? words[i + 1][1] : t1 - 0.1));
+          });
+          tl.to(line, { opacity: 0, duration: 0.08, ease: st(2) }, t1);
+        });
+
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
