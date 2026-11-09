@@ -16,7 +16,7 @@ Nak aku share tips green reading? Komen "GREEN" kat bawah 👇
 ## Instagram
 
 Play a hole with me — Tasik Nine, KRTU Subang ⛳
-117 meter → 10 kaki → BIRDIE 🐦🔥
+117 meter → 10–12 kaki → BIRDIE 🐦🔥
 Nak tips green reading? Komen "GREEN" 👇
 
 #golfmalaysia #golftips #golflesson #golfswing #birdie #playahole
