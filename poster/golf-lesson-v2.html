@@ -155,15 +155,15 @@
   /* ---------- FOOTER ---------- */
   .footer{
     position:absolute;left:0;right:0;bottom:0;background:var(--cream);color:var(--ink);
-    padding:14px 40px 10px 44px;display:grid;grid-template-columns:1fr auto 112px;gap:10px 20px;
+    padding:14px 48px 10px 48px;display:grid;grid-template-columns:1fr auto;gap:10px 24px;
   }
   .row{display:flex;align-items:center;gap:12px;font-weight:700;font-size:17px}
   .row svg{width:22px;height:22px;flex:none;color:var(--green-700)}
   .pay{display:flex;gap:6px;flex-wrap:nowrap}
-  .chip{font-weight:700;font-size:12.5px;padding:5px 9px;border-radius:20px;background:var(--green-800);color:var(--cream)}
-  .note{font-size:12px;font-weight:500;color:var(--muted);line-height:1.4;white-space:nowrap}
+  .chip{font-weight:700;font-size:13.5px;padding:5px 11px;border-radius:20px;background:var(--green-800);color:var(--cream)}
+  .note{font-size:13px;font-weight:500;color:var(--muted);line-height:1.4;white-space:nowrap}
   .closing{
-    grid-column:1/3;text-align:center;font-family:'Kaushan Script',cursive;font-size:24px;color:var(--green-700);
+    grid-column:1/-1;text-align:center;font-family:'Kaushan Script',cursive;font-size:24px;color:var(--green-700);
     border-top:1.5px dashed #d8ccb0;padding-top:6px;
   }
   .phone{font-family:'Anton',sans-serif;font-weight:400;font-size:30px;letter-spacing:1px;color:var(--green-800)}
@@ -172,10 +172,13 @@
   .wa .ic svg{width:20px;height:20px;color:#fff}
   .wa small{display:block;font-family:'Montserrat',sans-serif;font-weight:800;font-size:11px;letter-spacing:2px;color:#25a35a;line-height:1;margin-bottom:2px}
   .wa .phone{line-height:1}
-  .qr{grid-column:3;grid-row:1/3;align-self:center;display:flex;flex-direction:column;align-items:center;gap:5px;text-decoration:none}
-  .qr .box{background:#fff;padding:8px;border-radius:12px;border:2px solid #25a35a}
-  .qr img{display:block;width:90px;height:90px}
-  .qr span{font-weight:800;font-size:11px;letter-spacing:1.5px;color:var(--green-800);white-space:nowrap}
+  .qr{position:absolute;right:48px;top:150px;width:158px;display:flex;flex-direction:column;align-items:center;
+    background:#fff;border-radius:18px;padding:10px 10px 0;text-decoration:none;overflow:hidden;
+    box-shadow:0 0 0 3px var(--gold),0 14px 30px rgba(0,0,0,.4);transform:rotate(3deg)}
+  .qr img{display:block;width:138px;height:138px}
+  .qr span{display:flex;align-items:center;justify-content:center;gap:6px;align-self:stretch;margin:8px -10px 0;padding:7px 0;
+    background:#25a35a;color:#fff;font-weight:800;font-size:13px;letter-spacing:.5px;white-space:nowrap}
+  .qr span svg{width:15px;height:15px}
 </style>
 </head>
 <body>
@@ -189,6 +192,7 @@
       <div class="badge"><i><svg viewBox="0 0 24 24" fill="none" stroke="#0b2f23" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></i>Better Impact</div>
       <div class="badge"><i><svg viewBox="0 0 24 24" fill="none" stroke="#0b2f23" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></i>Better Game</div>
     </div>
+    <a class="qr" href="https://wa.me/60198728829?text=Hi%20Coach%2C%20saya%20nak%20tanya%20pasal%20golf%20lesson"><img src="assets/whatsapp-qr.svg" alt="WhatsApp QR"><span>SCAN &amp; WHATSAPP</span></a>
     <div class="titles">
       <div class="brand">MIY GOLF PERFORMANCE</div>
       <h1>GOLF <span>LESSON</span></h1>
@@ -278,7 +282,6 @@
       <a class="wa" href="https://wa.me/60198728829?text=Hi%20Coach%2C%20saya%20nak%20tanya%20pasal%20golf%20lesson"><span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2a9.8 9.8 0 0 0-8.4 14.8L2.3 21.7l4.8-1.3A9.8 9.8 0 1 0 12 2.2zm4.9 13.6c-.2.6-1.2 1.2-1.7 1.2-.4.1-1 .1-1.6-.1-2.6-.9-4.6-3.1-5.4-4.4-.6-1-.9-2.1-.2-3.1.3-.4.6-.6.9-.6h.6c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .6l-.4.6c-.1.2-.3.3-.1.6.6 1 1.4 1.8 2.5 2.4.3.1.4.1.6-.1l.7-.9c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.2.4.3.1.1.1.6-.1 1.3z"/></svg></span><span><small>WHATSAPP</small><span class="phone">019-872 8829</span></span></a>
       <div class="pay"><span class="chip">myDebit</span><span class="chip">Tap2Pay (Visa/Master)</span><span class="chip">E-Wallet</span><span class="chip">Cash</span></div>
     </div>
-    <a class="qr" href="https://wa.me/60198728829?text=Hi%20Coach%2C%20saya%20nak%20tanya%20pasal%20golf%20lesson"><span class="box"><img src="assets/whatsapp-qr.svg" alt="WhatsApp QR"></span><span>SCAN UTK WHATSAPP</span></a>
     <div class="closing">Latihan yang betul hari ini, keputusan yang lebih baik esok!</div>
   </footer>
 </div>
