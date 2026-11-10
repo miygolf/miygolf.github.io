@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<title>MIY Golf Sporty</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,800;1,900&family=Barlow:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#0b1626;--navy-2:#13233a;--navy-3:#1c3252;--lime:#c8f04a;--white:#f4f7fb;--muted:#9fb0c6}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#222}
+  .poster{width:1080px;height:1440px;position:relative;overflow:hidden;color:var(--white);
+    font-family:'Barlow',sans-serif;background:var(--navy)}
+  .slash{position:absolute;top:-120px;right:-260px;width:760px;height:760px;transform:rotate(28deg);
+    background:repeating-linear-gradient(90deg,var(--navy-2) 0 70px,transparent 70px 110px)}
+  .slash2{position:absolute;top:470px;right:-80px;width:520px;height:14px;background:var(--lime);transform:rotate(-14deg)}
+  .wrap{position:relative;padding:40px 52px 0}
+
+  /* header */
+  .top{display:flex;justify-content:space-between;align-items:center}
+  .logo{width:112px;height:112px;border-radius:50%;background:#f3ede2;border:4px solid var(--lime);display:grid;place-items:center;overflow:hidden}
+  .logo img{width:86%;height:86%;object-fit:contain}
+  .chips{display:flex;gap:10px}
+  .chips span{font-family:'Barlow Condensed';font-weight:700;font-size:20px;letter-spacing:1.5px;text-transform:uppercase;
+    padding:7px 14px;border:2px solid var(--lime);color:var(--lime);border-radius:4px;transform:skewX(-10deg)}
+  .brand{font-family:'Barlow Condensed';font-weight:800;font-size:28px;letter-spacing:8px;color:var(--lime);margin-top:26px}
+  h1{font-family:'Barlow Condensed';font-style:italic;font-weight:900;font-size:168px;line-height:.9;letter-spacing:-1px;
+    text-transform:uppercase;margin-top:6px}
+  h1 .o{margin-left:22px;color:transparent;-webkit-text-stroke:3px var(--white)}
+  .motto{display:inline-block;margin-top:18px;background:var(--lime);color:var(--navy);font-family:'Barlow Condensed';
+    font-style:italic;font-weight:900;font-size:36px;letter-spacing:2px;text-transform:uppercase;padding:4px 22px;transform:skewX(-10deg)}
+  .tag{font-size:21px;font-weight:500;line-height:1.4;color:var(--muted);margin-top:14px;max-width:640px}
+  .tag b{color:var(--white)}
+
+  /* section head */
+  .sh{display:flex;align-items:baseline;gap:14px;font-family:'Barlow Condensed';font-weight:800;font-size:30px;
+    letter-spacing:2px;text-transform:uppercase;margin-top:24px}
+  .sh i{font-style:normal;color:var(--lime)}
+  .sh:after{content:"";flex:1;height:2px;background:var(--navy-3);align-self:center}
+
+  /* session bar */
+  .bar{display:flex;height:58px;margin-top:14px;border-radius:6px;overflow:hidden;gap:3px}
+  .bar div{display:flex;align-items:center;justify-content:center;font-family:'Anton';font-size:26px;color:var(--navy)}
+  .legend{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:12px}
+  .legend div{border-left:4px solid;padding-left:10px}
+  .legend b{display:block;font-family:'Barlow Condensed';font-weight:800;font-size:22px;line-height:1.05;text-transform:uppercase}
+  .legend span{font-size:15px;color:var(--muted);font-weight:600}
+
+  /* packages as rows */
+  .rows{display:flex;flex-direction:column;gap:12px;margin-top:14px}
+  .row{display:grid;grid-template-columns:150px 1fr 250px;align-items:center;background:var(--navy-2);
+    border-radius:10px;overflow:hidden;height:106px;border:2px solid transparent;position:relative}
+  .row.hot{background:var(--lime);color:var(--navy);overflow:visible}
+  .row.hot .num{border-radius:8px 0 0 8px}
+  .num{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--navy-3)}
+  .row.hot .num{background:var(--navy);color:var(--lime)}
+  .num b{font-family:'Anton';font-size:58px;line-height:1}
+  .num span{font-family:'Barlow Condensed';font-weight:800;font-size:18px;letter-spacing:3px}
+  .info{padding:0 24px}
+  .info .name{font-family:'Barlow Condensed';font-weight:800;font-size:28px;line-height:1;text-transform:uppercase}
+  .info .name em{font-style:normal;color:var(--lime);margin-left:8px}
+  .row.hot .info .name em{color:var(--navy);background:rgba(11,22,38,.12);padding:0 8px;border-radius:3px}
+  .info p{font-size:15.5px;font-weight:500;line-height:1.35;color:var(--muted);margin-top:6px}
+  .row.hot .info p{color:#24324a}
+  .pr{text-align:right;padding-right:28px}
+  .pr b{font-family:'Anton';font-size:62px;line-height:1;font-weight:400}
+  .pr b sup{font-size:24px;vertical-align:top;position:relative;top:8px;margin-right:4px}
+  .pr span{display:block;font-family:'Barlow Condensed';font-weight:700;font-size:18px;letter-spacing:1px;color:var(--lime);text-transform:uppercase}
+  .row.hot .pr span{color:var(--navy)}
+  .flag{position:absolute;right:24px;top:-15px;background:var(--navy);color:var(--lime);border:2px solid var(--lime);
+    font-family:'Barlow Condensed';font-weight:800;font-size:16px;letter-spacing:2px;padding:3px 12px;border-radius:3px;z-index:2}
+
+  /* tips */
+  .tips{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:14px}
+  .tip b{display:block;font-family:'Barlow Condensed';font-weight:800;font-size:21px;line-height:1.05;text-transform:uppercase}
+  .tip b i{font-style:normal;color:var(--lime);margin-right:6px}
+  .tip p{font-size:14.5px;line-height:1.38;color:var(--muted);margin-top:5px}
+
+  /* footer */
+  .foot{position:absolute;left:0;right:0;bottom:0;background:var(--lime);color:var(--navy);padding:16px 52px 14px;
+    display:grid;grid-template-columns:1fr auto;gap:4px 24px;align-items:center}
+  .loc{font-weight:700;font-size:18px}
+  .note{font-size:13.5px;font-weight:600;opacity:.75;line-height:1.3}
+  .phone{font-family:'Anton';font-size:40px;line-height:1;text-align:right}
+  .pay{font-family:'Barlow Condensed';font-weight:700;font-size:17px;letter-spacing:1px;text-transform:uppercase;text-align:right}
+  .close{grid-column:1/-1;font-family:'Barlow Condensed';font-style:italic;font-weight:800;font-size:22px;text-transform:uppercase;
+    letter-spacing:1px;border-top:2px solid rgba(11,22,38,.2);padding-top:8px;margin-top:6px;text-align:center}
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="slash"></div><div class="slash2"></div>
+  <div class="wrap">
+    <div class="top">
+      <div class="logo"><img src="assets/logo-crop.png" alt="MIY Golf"></div>
+      <div class="chips"><span>Better Swing</span><span>Better Impact</span><span>Better Game</span></div>
+    </div>
+    <div class="brand">MIY GOLF PERFORMANCE</div>
+    <h1>Golf<span class="o">Lesson</span></h1>
+    <div class="motto">Feel The Motion</div>
+    <p class="tag">Daripada asas swing yang betul, kepada <b>impact yang padu</b> dan kawalan permainan yang lebih baik.</p>
+
+    <div class="sh"><i>01</i>Setiap Sesi · 60 Minit</div>
+    <div class="bar">
+      <div style="flex:10;background:#7fa3d6">10'</div>
+      <div style="flex:10;background:#a9c3e8">10'</div>
+      <div style="flex:20;background:var(--lime)">20'</div>
+      <div style="flex:15;background:#e9f7bf">15'</div>
+      <div style="flex:5;background:#ffffff">5'</div>
+    </div>
+    <div class="legend">
+      <div style="border-color:#7fa3d6"><b>Warm-up &amp; Review</b><span>10 min</span></div>
+      <div style="border-color:#a9c3e8"><b>Teknikal &amp; Demonstrasi</b><span>10 min</span></div>
+      <div style="border-color:var(--lime)"><b>Main Drill &amp; Skill</b><span>20 min</span></div>
+      <div style="border-color:#e9f7bf"><b>Ball Striking Practice</b><span>15 min</span></div>
+      <div style="border-color:#fff"><b>Assessment &amp; Feedback</b><span>5 min</span></div>
+    </div>
+
+    <div class="sh"><i>02</i>Pakej Kami</div>
+    <div class="rows">
+      <div class="row">
+        <div class="num"><b>1</b><span>SESI</span></div>
+        <div class="info"><div class="name">Single Lesson<em>Quick Fix &amp; Focus</em></div><p>Untuk latihan yang pantas, analisis awal atau fokus spesifik.</p></div>
+        <div class="pr"><b><sup>RM</sup>330</b><span>Bayar ikut sesi</span></div>
+      </div>
+      <div class="row">
+        <div class="num"><b>5</b><span>SESI</span></div>
+        <div class="info"><div class="name">Package A<em>Fundamentals</em></div><p>Build your swing. Build your foundation. Untuk beginner &amp; pemain yang mahu membina semula asas swing.</p></div>
+        <div class="pr"><b><sup>RM</sup>1,500</b><span>RM300/sesi · Jimat RM150</span></div>
+      </div>
+      <div class="row hot">
+        <div class="flag">★ PALING BERBALOI</div>
+        <div class="num"><b>10</b><span>SESI</span></div>
+        <div class="info"><div class="name">Package B<em>Impact &amp; Control</em></div><p>Own your impact. Control your game. Untuk pemain yang mahu tingkatkan strike, kawal arah &amp; konsistensi.</p></div>
+        <div class="pr"><b><sup>RM</sup>2,500</b><span>RM250/sesi · Jimat RM800</span></div>
+      </div>
+    </div>
+
+    <div class="sh"><i>03</i>Tip Coach Iqbal</div>
+    <div class="tips">
+      <div class="tip"><b><i>/</i>Setiap pemain ada baseline</b><p>Rekod contact, arah &amp; jarak sebelum mula, supaya kemajuan boleh diukur.</p></div>
+      <div class="tip"><b><i>/</i>Jangan ubah terlalu banyak</b><p>Fokus pada 1–2 perkara setiap kali. Betulkan punca, bukan simptom.</p></div>
+      <div class="tip"><b><i>/</i>Review, practice, repeat</b><p>Ulang drill, buat latihan sendiri &amp; review pada sesi seterusnya.</p></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div><div class="loc">📍 Spork PJ South / Kwasa / Puncak Alam</div>
+      <div class="note">Lain-lain lokasi disediakan (ada caj pengangkutan tambahan) · Other locations available (additional transport service applies)</div></div>
+    <div><div class="phone">019-872 8829</div><div class="pay">myDebit · Visa/Mastercard · E-Wallet · Cash</div></div>
+    <div class="close">Latihan yang betul hari ini, keputusan yang lebih baik esok!</div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<title>MIY Golf Scorecard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#faf6ec;--paper-2:#f1ead8;--navy:#1d2b4f;--red:#b8402f;--green:#2d6a4f;--line:#d9cfb8;--muted:#6b6a63}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#222}
+  .poster{width:1080px;height:1440px;position:relative;overflow:hidden;background:var(--paper);color:var(--navy);
+    font-family:'Inter',sans-serif;padding:34px}
+  .frame{border:3px solid var(--navy);height:100%;position:relative;padding:28px 34px 0;
+    box-shadow:inset 0 0 0 6px var(--paper),inset 0 0 0 7.5px var(--navy)}
+
+  .head{display:grid;grid-template-columns:120px 1fr 190px;align-items:center;gap:20px;padding-bottom:18px;border-bottom:2px solid var(--navy)}
+  .logo{width:120px;height:120px;border-radius:50%;border:2px solid var(--navy);display:grid;place-items:center;background:#f3ede2;overflow:hidden}
+  .logo img{width:88%;height:88%;object-fit:contain}
+  .title{text-align:center}
+  .brand{font-weight:800;font-size:15px;letter-spacing:6px}
+  h1{font-family:'DM Serif Display';font-weight:400;font-size:96px;line-height:.95;margin-top:4px}
+  h1 em{color:var(--green)}
+  .motto{font-family:'DM Serif Display';font-style:italic;font-size:30px;color:var(--red);margin-top:2px}
+  .stamp{border:2px solid var(--red);color:var(--red);border-radius:50%;width:170px;height:170px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;transform:rotate(-10deg);text-align:center}
+  .stamp b{font-weight:800;font-size:16px;letter-spacing:2px;line-height:1.5}
+  .stamp b + b{border-top:1.5px solid var(--red)}
+  .tag{text-align:center;font-size:19px;font-weight:500;color:var(--muted);padding:14px 0;border-bottom:1px solid var(--line)}
+  .tag em{color:var(--navy);font-weight:700}
+
+  .sec{display:flex;justify-content:space-between;align-items:baseline;margin-top:28px}
+  .sec h2{font-family:'DM Serif Display';font-weight:400;font-size:34px}
+  .sec span{font-family:'JetBrains Mono';font-weight:700;font-size:14px;letter-spacing:2px;color:var(--red)}
+
+  table{width:100%;border-collapse:collapse;margin-top:10px;font-size:17px}
+  th{background:var(--navy);color:var(--paper);font-family:'JetBrains Mono';font-weight:700;font-size:13px;letter-spacing:2px;padding:8px 12px;text-align:left}
+  td{border:1px solid var(--line);padding:11px 12px;font-weight:600;font-size:18px}
+  td.h{font-family:'JetBrains Mono';font-weight:700;color:var(--red);width:80px;text-align:center}
+  td.m{font-family:'JetBrains Mono';font-weight:700;width:100px;text-align:center}
+  td.v{width:320px}
+  .meter{height:12px;background:var(--paper-2);border-radius:6px;overflow:hidden}
+  .meter i{display:block;height:100%;background:var(--green)}
+  tr.tot td{background:var(--paper-2);font-weight:800}
+
+  .tickets{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
+  .t{position:relative;border:2px solid var(--navy);background:#fff;padding:24px 18px 22px;text-align:center}
+  .t:before,.t:after{content:"";position:absolute;top:126px;width:22px;height:22px;border-radius:50%;background:var(--paper);border:2px solid var(--navy)}
+  .t:before{left:-13px;clip-path:inset(0 0 0 50%)} .t:after{right:-13px;clip-path:inset(0 50% 0 0)}
+  .t.best{background:var(--navy);color:var(--paper)}
+  .t.best:before,.t.best:after{border-color:var(--navy)}
+  .t .k{font-family:'JetBrains Mono';font-weight:700;font-size:13px;letter-spacing:2px;color:var(--red)}
+  .t.best .k{color:#f0c27a}
+  .t .c{font-family:'DM Serif Display';font-size:56px;line-height:1;margin-top:6px}
+  .t .c small{font-family:'Inter';font-weight:800;font-size:16px;letter-spacing:3px;margin-left:6px}
+  .t .p{border-top:2px dashed var(--line);margin-top:14px;padding-top:12px;font-family:'DM Serif Display';font-size:48px;line-height:1}
+  .t.best .p{border-color:rgba(250,246,236,.3)}
+  .t .p sup{font-family:'Inter';font-weight:800;font-size:18px;vertical-align:top;position:relative;top:6px;margin-right:4px}
+  .t .s{font-family:'JetBrains Mono';font-weight:700;font-size:12.5px;color:var(--green);margin-top:6px}
+  .t.best .s{color:#9fd8b4}
+  .t .f{font-weight:800;font-size:16px;letter-spacing:1px;text-transform:uppercase;margin-top:12px}
+  .t .d{font-size:13.5px;line-height:1.38;color:var(--muted);margin-top:4px}
+  .t.best .d{color:#c9cfdc}
+  .t .rib{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--red);color:#fff;font-weight:800;font-size:12.5px;
+    letter-spacing:2px;padding:5px 12px;white-space:nowrap}
+
+  .tips{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:10px;border-top:2px solid var(--navy);border-bottom:2px solid var(--navy)}
+  .tip{padding:16px 16px 16px 0}
+  .tip + .tip{padding-left:16px;border-left:1px solid var(--line)}
+  .tip b{display:block;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.5px}
+  .tip b i{font-style:normal;font-family:'JetBrains Mono';color:var(--red);margin-right:6px}
+  .tip p{font-size:13.5px;line-height:1.38;color:var(--muted);margin-top:4px}
+
+  .foot{position:absolute;left:34px;right:34px;bottom:18px;display:grid;grid-template-columns:1fr auto;gap:6px 20px;align-items:end}
+  .loc{font-weight:700;font-size:16px}
+  .note{font-size:12.5px;color:var(--muted);line-height:1.35;margin-top:3px}
+  .phone{font-family:'DM Serif Display';font-size:36px;line-height:1;text-align:right}
+  .pay{font-family:'JetBrains Mono';font-weight:700;font-size:12px;letter-spacing:1px;text-align:right;margin-top:4px}
+  .close{grid-column:1/-1;text-align:center;font-family:'DM Serif Display';font-style:italic;font-size:22px;color:var(--green);
+    border-top:1px solid var(--line);padding-top:8px;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="poster"><div class="frame">
+  <div class="head">
+    <div class="logo"><img src="assets/logo-crop.png" alt="MIY Golf"></div>
+    <div class="title">
+      <div class="brand">MIY GOLF PERFORMANCE</div>
+      <h1>Golf <em>Lesson</em></h1>
+      <div class="motto">~ Feel The Motion ~</div>
+    </div>
+    <div class="stamp"><b>BETTER SWING</b><b>BETTER IMPACT</b><b>BETTER GAME</b></div>
+  </div>
+  <p class="tag">Daripada asas swing yang betul, kepada <em>impact</em> yang padu dan kawalan permainan yang lebih baik.</p>
+
+  <div class="sec"><h2>Kad Skor Setiap Sesi</h2><span>60 MINIT</span></div>
+  <table>
+    <tr><th>BAHAGIAN</th><th>MINIT</th><th>AKTIVITI</th><th>MASA</th></tr>
+    <tr><td class="h">01</td><td class="m">10</td><td>Warm-up &amp; Review</td><td class="v"><div class="meter"><i style="width:16.7%"></i></div></td></tr>
+    <tr><td class="h">02</td><td class="m">10</td><td>Teknikal &amp; Demonstrasi</td><td class="v"><div class="meter"><i style="width:16.7%;margin-left:16.7%"></i></div></td></tr>
+    <tr><td class="h">03</td><td class="m">20</td><td>Main Drill &amp; Skill</td><td class="v"><div class="meter"><i style="width:33.3%;margin-left:33.3%"></i></div></td></tr>
+    <tr><td class="h">04</td><td class="m">15</td><td>Ball Striking Practice</td><td class="v"><div class="meter"><i style="width:25%;margin-left:66.7%"></i></div></td></tr>
+    <tr><td class="h">05</td><td class="m">5</td><td>Assessment &amp; Feedback</td><td class="v"><div class="meter"><i style="width:8.3%;margin-left:91.7%"></i></div></td></tr>
+  </table>
+
+  <div class="sec"><h2>Pakej Kami</h2><span>PILIH TIKET ANDA</span></div>
+  <div class="tickets">
+    <div class="t">
+      <div class="k">SINGLE LESSON</div>
+      <div class="c">1<small>SESI</small></div>
+      <div class="p"><sup>RM</sup>330</div>
+      <div class="s">BAYAR IKUT SESI</div>
+      <div class="f">Quick Fix &amp; Focus</div>
+      <p class="d">Untuk latihan yang pantas, analisis awal atau fokus spesifik.</p>
+    </div>
+    <div class="t">
+      <div class="k">PACKAGE A</div>
+      <div class="c">5<small>SESI</small></div>
+      <div class="p"><sup>RM</sup>1,500</div>
+      <div class="s">RM300/SESI · JIMAT RM150</div>
+      <div class="f">Fundamentals</div>
+      <p class="d">Build your swing. Build your foundation. Untuk beginner &amp; pemain yang mahu membina semula asas swing.</p>
+    </div>
+    <div class="t best">
+      <div class="rib">★ PALING BERBALOI</div>
+      <div class="k">PACKAGE B</div>
+      <div class="c">10<small>SESI</small></div>
+      <div class="p"><sup>RM</sup>2,500</div>
+      <div class="s">RM250/SESI · JIMAT RM800</div>
+      <div class="f">Impact &amp; Control</div>
+      <p class="d">Own your impact. Control your game. Untuk pemain yang mahu tingkatkan strike, kawal arah &amp; konsistensi.</p>
+    </div>
+  </div>
+
+  <div class="sec"><h2>Tip Coach Iqbal</h2><span>NOTA PEMAIN</span></div>
+  <div class="tips">
+    <div class="tip"><b><i>01</i>Setiap pemain ada baseline</b><p>Rekod contact, arah &amp; jarak sebelum mula, supaya kemajuan boleh diukur.</p></div>
+    <div class="tip"><b><i>02</i>Jangan ubah terlalu banyak</b><p>Fokus pada 1–2 perkara setiap kali. Betulkan punca, bukan simptom.</p></div>
+    <div class="tip"><b><i>03</i>Review, practice, repeat</b><p>Ulang drill, buat latihan sendiri &amp; review pada sesi seterusnya.</p></div>
+  </div>
+
+  <div class="foot">
+    <div><div class="loc">Spork PJ South / Kwasa / Puncak Alam</div>
+      <div class="note">Lain-lain lokasi disediakan (ada caj pengangkutan tambahan)<br>Other locations available (additional transport service applies)</div></div>
+    <div><div class="phone">019-872 8829</div><div class="pay">MYDEBIT · VISA/MASTERCARD · E-WALLET · CASH</div></div>
+    <div class="close">Latihan yang betul hari ini, keputusan yang lebih baik esok!</div>
+  </div>
+</div></div>
+</body>
+</html>
