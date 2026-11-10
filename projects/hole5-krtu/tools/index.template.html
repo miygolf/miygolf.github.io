@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Departure Board": the hole is played like a flight. A split-flap departures board carries the hole info, every shot gets
+         a boarding pass, and the outcome of each shot is an ink passport stamp.
+         Palette: flap black #121315 with warm white #f3efe4 characters, departure yellow #ffd23f, stamp ultramarine #2443d8,
+         ticket paper #f6f1e4, ticket ink #1b1c1f. Type: Archivo (wdth 62-125, wght 500-900) + Martian Mono (flaps, ticket fields).
+         Motion: split-flap characters that riffle through letters before they land, flap-slat wipes on the section cuts,
+         boarding passes that slide in and tear at the perforation, stamps that thump down (overshoot + ink ring),
+         a dashed break line drawn over the green, captions as flap tiles. No colour grade.
+         Safe band: x 60-930, y 168-1330. Faces (film px): intro left edge x 30-120 / y 700-830; tee shots x 540-640 / y 480-600
+         (slow replays y 280-420); green shots checked per shot in snapshots. Cards sit top-left, stamps beside the subject. */
+      @font-face { font-family: "Archivo"; font-weight: 100 900; font-stretch: 62% 125%; src: url("assets/fonts/Archivo-var.woff2") format("woff2"); font-display: block; }
+      @font-face { font-family: "Martian"; font-weight: 100 800; font-stretch: 75% 112.5%; src: url("assets/fonts/MartianMono-var.woff2") format("woff2"); font-display: block; }
+      :root { --flap: #121315; --flap2: #1e2023; --chr: #f3efe4; --yel: #ffd23f; --blue: #2443d8; --paper: #f6f1e4; --ink: #1b1c1f; --mute: #5a564e; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #121315; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #121315; }
+      #cam { position: absolute; inset: 0; z-index: 1; transform-origin: 540px 960px; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+      .ov { position: absolute; z-index: 6; opacity: 0; pointer-events: none; }
+      .ar { font-family: "Archivo", sans-serif; font-weight: 850; font-stretch: 112%; letter-spacing: -0.01em; text-transform: uppercase; }
+      .mm { font-family: "Martian", monospace; font-weight: 600; font-stretch: 100%; letter-spacing: 0.02em; text-transform: uppercase; }
+
+      /* ---------- split-flap cells ---------- */
+      .flaps { display: inline-flex; gap: 6px; }
+      .fc { position: relative; width: 52px; height: 74px; border-radius: 7px; background: linear-gradient(180deg, #232528 0 49%, #18191b 51% 100%);
+            box-shadow: 0 3px 0 #050506, inset 0 1px 0 rgba(255,255,255,0.06); color: var(--chr); display: flex; align-items: center; justify-content: center;
+            font-family: "Martian", monospace; font-weight: 700; font-size: 44px; overflow: hidden; }
+      .fc::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px; background: #050506; }
+      .fc.y { color: var(--yel); }
+      .fc.sp { background: transparent; box-shadow: none; width: 22px; }
+      .fc.sp::after { display: none; }
+      .fc i { font-style: normal; display: block; transform-origin: 50% 50%; }
+
+      /* top HUD: the board strip (left), stays through the film */
+      #hud { left: 60px; top: 180px; z-index: 8; }
+      #hud .lab { display: inline-block; margin-bottom: 8px; padding: 6px 12px 5px; border-radius: 8px; background: rgba(12,13,15,0.9); font-size: 26px; color: var(--yel); }
+      #hud .fc { width: 40px; height: 56px; font-size: 32px; }
+      #hud .fc.sp { width: 14px; }
+
+      /* hook / intro / outro board (big) */
+      .board { left: 60px; top: 220px; width: 870px; padding: 26px 28px 30px; border-radius: 26px; background: rgba(12, 13, 15, 0.92);
+               box-shadow: 0 24px 60px rgba(0,0,0,0.45); z-index: 8; }
+      .board .hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+      .board .hd .t { font-size: 26px; color: var(--yel); }
+      .board .hd .d { width: 18px; height: 18px; border-radius: 50%; background: var(--yel); }
+      .board .row { margin-top: 12px; }
+      .board .k { display: block; font-size: 26px; color: #d4cfc2; margin: 16px 0 8px; }
+
+      /* ---------- boarding pass ---------- */
+      .bp { left: 60px; top: 300px; width: 440px; z-index: 7; }
+      .bp .tk { position: relative; display: flex; background: var(--paper); border-radius: 22px; box-shadow: 0 18px 40px rgba(0,0,0,0.35); overflow: hidden; }
+      .bp .main { flex: 1; padding: 20px 22px 18px; }
+      .bp .stub { width: 92px; padding: 20px 0 18px; border-left: 4px dashed #c9c1ad; display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
+      .bp .stub .bar { width: 64px; height: 92px; background: repeating-linear-gradient(90deg, var(--ink) 0 3px, transparent 3px 6px, var(--ink) 6px 8px, transparent 8px 12px); }
+      .bp .stub .n { font-size: 30px; color: var(--ink); }
+      .bp .air { font-size: 26px; color: var(--blue); }
+      .bp .ttl { margin-top: 6px; font-size: 56px; line-height: 0.95; color: var(--ink); font-stretch: 100%; }
+      .bp .grid { display: flex; gap: 22px; margin-top: 14px; }
+      .bp .f .l { display: block; font-size: 24px; color: var(--mute); }
+      .bp .f .v { display: block; margin-top: 4px; font-size: 30px; color: var(--ink); }
+      .bp .tear { position: absolute; right: 0; top: 0; width: 104px; height: 100%; }
+
+      /* ---------- passport stamps ---------- */
+      .stamp { z-index: 7; }
+      .stamp .s { position: relative; display: inline-block; padding: 16px 28px 14px; border: 7px solid var(--blue); border-radius: 18px; color: var(--blue);
+                  font-family: "Archivo", sans-serif; font-weight: 900; font-stretch: 100%; font-size: 64px; letter-spacing: 0.01em; text-transform: uppercase;
+                  background: rgba(246, 241, 228, 0.82); box-shadow: inset 0 0 0 4px rgba(246,241,228,0.82), inset 0 0 0 7px var(--blue); white-space: nowrap; }
+      .stamp .s small { display: block; font-family: "Martian", monospace; font-weight: 600; font-size: 24px; letter-spacing: 0.08em; margin-bottom: 4px; }
+      .stamp.y .s { border-color: var(--ink); color: var(--ink); background: var(--yel); box-shadow: inset 0 0 0 4px var(--yel), inset 0 0 0 7px var(--ink); }
+      .stamp.big .s { font-size: 104px; padding: 18px 36px 16px; }
+      .inkring { position: absolute; left: 50%; top: 50%; width: 120px; height: 120px; margin: -60px 0 0 -60px; border-radius: 50%; border: 6px solid var(--blue); opacity: 0; }
+
+      /* ---------- flap-slat wipe ---------- */
+      #slats { position: absolute; inset: 0; z-index: 10; pointer-events: none; }
+      #slats i { position: absolute; left: 0; width: 1080px; height: 160px; background: linear-gradient(180deg, #232528 0 49%, #18191b 51% 100%);
+                 transform-origin: 50% 0%; transform: scaleY(0); box-shadow: 0 2px 0 #050506; }
+      #wipe-txt { position: absolute; left: 0; top: 880px; width: 1080px; text-align: center; z-index: 11; opacity: 0; }
+
+      /* ---------- the break on green 1 ---------- */
+      #brk { left: 0; top: 0; width: 1080px; height: 1920px; z-index: 5; }
+      #brk svg { position: absolute; left: 0; top: 0; }
+      #brk .tag { position: absolute; transform: translate(-50%, -100%); }
+      #brk .tag span { display: inline-block; padding: 10px 16px 8px; border-radius: 10px; background: var(--flap); color: var(--yel); font-size: 28px; }
+
+      /* ---------- slow replay tag ---------- */
+      .rp { left: 60px; top: 1080px; z-index: 7; }
+      .rp span { display: inline-flex; align-items: center; gap: 12px; padding: 10px 18px 9px; border-radius: 10px; background: rgba(18,19,21,0.85); color: var(--chr); font-size: 28px; }
+      .rp b { width: 14px; height: 14px; border-radius: 50%; background: var(--yel); }
+
+      /* ---------- outro ---------- */
+      #cta { left: 60px; top: 1090px; width: 870px; text-align: center; z-index: 8; }
+      #cta .q { display: inline-block; padding: 18px 28px 16px; border-radius: 16px; background: var(--paper); color: var(--ink); font-size: 46px; box-shadow: 0 16px 36px rgba(0,0,0,0.35); }
+      #cta .q b { color: var(--blue); }
+      #cta .go { display: inline-block; margin-top: 18px; padding: 14px 24px 12px; border-radius: 12px; background: var(--yel); color: var(--ink); font-size: 30px; }
+
+      /* ---------- captions: flap tiles ---------- */
+      #caps { position: absolute; left: 60px; top: 1150px; width: 870px; height: 180px; z-index: 8; pointer-events: none; }
+      .cap { position: absolute; left: 0; bottom: 0; width: 870px; text-align: center; opacity: 0; line-height: 1.38; }
+      .cap .w { position: relative; display: inline-block; margin: 0 3px 6px; padding: 6px 13px 7px; border-radius: 9px; font-size: 52px; color: var(--chr);
+                background: linear-gradient(180deg, #232528 0 49%, #18191b 51% 100%); box-shadow: 0 3px 0 #050506; opacity: 0; }
+      .cap .w::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px; background: rgba(5,5,6,0.9); }
+      .cap .w.key { color: var(--yel); }
+      .cap.big .w { font-size: 66px; }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="{{TOTAL}}" data-width="1080" data-height="1920" data-fps="30">
+      <div data-hf-id="hf-cam" id="cam">
+        <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="{{TOTAL}}" data-track-index="1" muted playsinline></video>
+      </div>
+
+      <!-- hook board: on frame 0 -->
+      <div id="b-hook" class="ov board">
+        <div class="hd"><span class="t mm">DEPARTURES · KRTU</span><i class="d"></i></div>
+        <div class="row" data-flap="HOLE 05  PAR 3"></div>
+        <span class="k mm">STATUS</span>
+        <div class="row" id="hook-status" data-flap="BIRDIE PUTT" data-y="1"></div>
+      </div>
+      <!-- intro board -->
+      <div id="b-intro" class="ov board">
+        <div class="hd"><span class="t mm">COME PLAY WITH US</span><i class="d"></i></div>
+        <span class="k mm">GATE</span>
+        <div class="row" data-flap="KRTU HOLE 05"></div>
+        <span class="k mm">PAR · JARAK</span>
+        <div class="row" data-flap="PAR 3  180 M" data-y="1"></div>
+      </div>
+      <div id="hud" class="ov"><span class="lab mm">KRTU · HOLE 05</span><div class="row" data-flap="PAR3 180M"></div></div>
+
+      <!-- boarding passes: built from PASSES -->
+      <div id="passes"></div>
+      <!-- stamps: built from STAMPS -->
+      <div id="stamps"></div>
+      <div id="rp1" class="ov rp"><span class="mm"><b></b>REPLAY 0.4×</span></div>
+      <div id="rp2" class="ov rp"><span class="mm"><b></b>REPLAY 0.4×</span></div>
+      <div id="rp3" class="ov rp"><span class="mm"><b></b>SLOW 0.5×</span></div>
+
+      <div id="brk" class="ov">
+        <svg width="1080" height="1920" viewBox="0 0 1080 1920">
+          <path id="brk-sh" d="{{BRK}}" fill="none" stroke="#121315" stroke-width="16" stroke-linecap="round" stroke-dasharray="2 26"/>
+          <path id="brk-p" d="{{BRK}}" fill="none" stroke="#ffd23f" stroke-width="9" stroke-linecap="round" stroke-dasharray="2 26"/>
+          <path id="brk-head" d="" fill="#ffd23f" stroke="#121315" stroke-width="4"/>
+        </svg>
+        <div class="tag mm" id="brk-tag" style="left:830px; top:900px"><span>BREAK · KANAN → KIRI</span></div>
+      </div>
+
+      <!-- outro -->
+      <div id="b-out" class="ov board">
+        <div class="hd"><span class="t mm">HOLE 05 · ARRIVALS</span><i class="d"></i></div>
+        <div class="row" data-flap="HOLE 05  DONE"></div>
+        <span class="k mm">NEXT</span>
+        <div class="row" data-flap="HOLE 06  SOON" data-y="1"></div>
+      </div>
+      <div id="cta" class="ov">
+        <div class="q ar">Pernah <b>sikit lagi</b><br>macam ni?</div><br>
+        <div class="go mm">KOMEN ↓ · FOLLOW UNTUK HOLE 6</div>
+      </div>
+
+      <div id="caps"></div>
+      <div id="slats" data-layout-ignore></div>
+      <div id="wipe-txt" class="mm" data-layout-ignore></div>
+{{AUDIO}}
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {{CONSTS}};
+        const T = K.T, B = K.B;
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        let seed = 7;
+        const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+        const ABC = "ABCDEFGHIJKLMNOPRSTUVWY0123456789";
+
+        // ---------- split-flap rows: build cells, riffle them at t ----------
+        const flapRows = {};
+        document.querySelectorAll("[data-flap]").forEach((row, ri) => {
+          const txt = row.getAttribute("data-flap"); const y = row.getAttribute("data-y");
+          const wrap = document.createElement("div"); wrap.className = "flaps"; row.appendChild(wrap);
+          const cells = [];
+          [...txt].forEach((ch) => {
+            const c = document.createElement("div"); c.className = "fc" + (ch === " " ? " sp" : "") + (y ? " y" : "");
+            const i = document.createElement("i"); i.textContent = ch === " " ? "" : ch; c.appendChild(i); wrap.appendChild(c);
+            cells.push([i, ch]);
+          });
+          row.id = row.id || "fr" + ri;
+          flapRows[row.id] = cells;
+        });
+        const riffle = (rowEl, t, text) => {
+          const cells = flapRows[rowEl.id];
+          cells.forEach(([i, ch], k) => {
+            const target = text ? (text[k] || " ") : ch;
+            if (target === " " && ch === " ") return;
+            const steps = 3 + Math.floor(rnd() * 5);
+            for (let s = 0; s < steps; s++) {
+              const at = t + k * 0.025 + s * 0.045;
+              tl.set(i, { textContent: ABC[Math.floor(rnd() * ABC.length)] }, at);
+              tl.fromTo(i, { scaleY: 0.15 }, { scaleY: 1, duration: 0.04, ease: "none", immediateRender: false }, at);
+            }
+            tl.set(i, { textContent: target === " " ? "" : target }, t + k * 0.025 + steps * 0.045);
+          });
+        };
+        const resetRow = (rowEl) => flapRows[rowEl.id].forEach(([i, ch]) => tl.set(i, { textContent: ch === " " ? "" : ch }, 0));
+        const boardIn = (sel, t) => {
+          tl.fromTo(sel, { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 0.25, ease: "power3.out" }, t);
+          document.querySelectorAll(sel + " [data-flap]").forEach((r, j) => riffle(r, t + 0.12 + j * 0.18));
+        };
+        const boardOut = (sel, t) => tl.to(sel, { opacity: 0, y: -24, duration: 0.2, ease: "power2.in" }, t);
+
+        // ---------- flap-slat wipe ----------
+        const slatsEl = $("#slats");
+        const slats = [];
+        for (let k = 0; k < 12; k++) { const s = document.createElement("i"); s.style.top = (k * 160) + "px"; slatsEl.appendChild(s); slats.push(s); }
+        tl.set(slats, { scaleY: 0 }, 0);
+        const slatWipe = (cut, label) => {
+          slats.forEach((s, k) => {
+            tl.fromTo(s, { scaleY: 0, transformOrigin: "50% 0%" }, { scaleY: 1, duration: 0.14, ease: "power2.in", immediateRender: false }, cut - 0.28 + k * 0.012);
+            tl.to(s, { scaleY: 0, transformOrigin: "50% 100%", duration: 0.16, ease: "power2.out" }, cut + 0.04 + k * 0.012);
+          });
+          if (label) {
+            tl.set("#wipe-txt", { innerHTML: '<div class="flaps" style="justify-content:center">' + [...label].map((c) => '<div class="fc y' + (c === " " ? " sp" : "") + '"><i>' + (c === " " ? "" : c) + "</i></div>").join("") + "</div>" }, cut - 0.25);
+            tl.fromTo("#wipe-txt", { opacity: 0 }, { opacity: 1, duration: 0.05, immediateRender: false }, cut - 0.2);
+            tl.to("#wipe-txt", { opacity: 0, duration: 0.06 }, cut + 0.2);
+          }
+        };
+        tl.set("#wipe-txt", { opacity: 0 }, 0);
+        K.WIPES.forEach(([t, l]) => slatWipe(t, l));
+
+        // ---------- HOOK ----------
+        tl.set("#b-hook", { opacity: 1 }, 0);
+        document.querySelectorAll("#b-hook [data-flap]").forEach((r, j) => { resetRow(r); });
+        riffle($("#hook-status"), 0.05);
+        // after the stop: status flips to SIKIT JE!
+        riffle($("#hook-status"), B.hook_stop + 0.15, "SIKIT JE!  ");
+        boardOut("#b-hook", T.intro.start - 0.3);
+
+        // ---------- INTRO ----------
+        boardIn("#b-intro", T.intro.start + 0.1);
+        boardOut("#b-intro", T.sign.start - 0.15);
+        // HUD strip through the holes' shots
+        K.HUD.forEach(([a, b]) => {
+          tl.fromTo("#hud", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.22, ease: "power3.out", immediateRender: false }, a);
+          riffle($("#hud [data-flap]"), a + 0.05);
+          tl.to("#hud", { opacity: 0, x: -30, duration: 0.18 }, b);
+        });
+        tl.set("#hud", { opacity: 0 }, 0);
+
+        // ---------- boarding passes ----------
+        const passesEl = $("#passes");
+        K.PASSES.forEach(([t0, t1, num, ttl, f1l, f1v, f2l, f2v, top, left], i) => {
+          const p = document.createElement("div"); p.className = "ov bp"; p.id = "bp" + i; p.style.top = top + "px"; if (left) p.style.left = left + "px";
+          p.innerHTML = '<div class="tk"><div class="main"><span class="air mm">SHOT ' + num + '</span><div class="ttl ar">' + ttl +
+            '</div><div class="grid"><div class="f"><span class="l mm">' + f1l + '</span><span class="v mm">' + f1v + '</span></div><div class="f"><span class="l mm">' + f2l +
+            '</span><span class="v mm">' + f2v + '</span></div></div></div><div class="stub"><span class="n mm">' + num + '</span><span class="bar"></span></div></div>';
+          passesEl.appendChild(p);
+          tl.fromTo(p, { opacity: 0, x: -260, rotation: -4 }, { opacity: 1, x: 0, rotation: -1.5, duration: 0.38, ease: "back.out(1.6)" }, t0);
+          // tear: stub drops off, then the pass slides out
+          tl.to(p.querySelector(".stub"), { y: 60, rotation: 14, opacity: 0, duration: 0.3, ease: "power2.in" }, t1 - 0.35);
+          tl.to(p, { opacity: 0, x: -200, duration: 0.25, ease: "power2.in" }, t1 - 0.05);
+        });
+
+        // ---------- stamps ----------
+        const stampsEl = $("#stamps");
+        K.STAMPS.forEach(([t0, t1, sub, txt, x, y, rot, cls], i) => {
+          const s = document.createElement("div"); s.className = "ov stamp " + (cls || ""); s.id = "st" + i; s.style.left = x + "px"; s.style.top = y + "px";
+          s.innerHTML = '<span class="s">' + (sub ? "<small>" + sub + "</small>" : "") + txt + '<i class="inkring"></i></span>';
+          stampsEl.appendChild(s);
+          tl.fromTo(s, { opacity: 0, scale: 1.9, rotation: rot - 10 }, { opacity: 1, scale: 1, rotation: rot, duration: 0.16, ease: "power4.in" }, t0);
+          tl.fromTo(s, { scale: 1 }, { scale: 1.04, duration: 0.06, yoyo: true, repeat: 1, ease: "power1.out", immediateRender: false }, t0 + 0.16);
+          tl.fromTo(s.querySelector(".inkring"), { opacity: 0.8, scale: 0.6 }, { opacity: 0, scale: 3.2, duration: 0.45, ease: "power2.out" }, t0 + 0.15);
+          tl.to(s, { opacity: 0, duration: 0.18 }, t1);
+        });
+
+        // ---------- slow replay tags ----------
+        [["#rp1", T.tee1_slo], ["#rp2", T.tee2_slo], ["#rp3", T.g2_roll]].forEach(([sel, seg]) => {
+          tl.fromTo(sel, { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.18 }, seg.start + 0.05);
+          tl.to(sel, { opacity: 0, duration: 0.12 }, seg.end - 0.1);
+        });
+        // punch on the strikes
+        const punch = (t, s) => tl.fromTo("#cam", { scale: s || 1.04 }, { scale: 1, duration: 0.3, ease: "power3.out", immediateRender: false }, t);
+        tl.set("#cam", { scale: 1 }, 0);
+        [B.tee1_impact, B.tee2_impact].forEach((t) => punch(t + 0.01, 1.035));
+        [B.tee1_slo_impact, B.tee2_slo_impact].forEach((t) => punch(t + 0.01, 1.05));
+        punch(B.hook_stop, 1.03); punch(B.g2_stop, 1.04);
+
+        // ---------- the break on green 1 ----------
+        const BK = K.BRK_T;
+        const bp = document.getElementById("brk-p"), bs = document.getElementById("brk-sh");
+        const L = bp.getTotalLength();
+        const head = (u) => { const p = bp.getPointAtLength(u * L), q = bp.getPointAtLength(Math.max(0, u * L - 4)); const a = Math.atan2(p.y - q.y, p.x - q.x);
+          const s = 26, pts = [[p.x + Math.cos(a) * s, p.y + Math.sin(a) * s], [p.x + Math.cos(a + 2.4) * s, p.y + Math.sin(a + 2.4) * s], [p.x + Math.cos(a - 2.4) * s, p.y + Math.sin(a - 2.4) * s]];
+          return "M" + pts.map((p) => p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" L") + " Z"; };
+        tl.set("#brk", { opacity: 1 }, BK[0]); tl.set("#brk", { opacity: 0 }, 0);
+        // draw the dashed line out from the ball: the dash pattern is rebuilt for the drawn length (a function of tween progress)
+        const dashTo = (len) => { const out = []; let d = 0; while (d + 28 <= len) { out.push(2, 26); d += 28; } out.push(Math.max(0, Math.min(2, len - d)), L + 100); return out.join(" "); };
+        const draw = { u: 0 };
+        const paint = () => { const len = draw.u * L; bp.setAttribute("stroke-dasharray", dashTo(len)); bs.setAttribute("stroke-dasharray", dashTo(len));
+          document.getElementById("brk-head").setAttribute("d", draw.u > 0.02 ? head(draw.u) : ""); };
+        tl.fromTo(draw, { u: 0 }, { u: 1, duration: 0.9, ease: "power2.inOut", onUpdate: paint, onComplete: paint, onReverseComplete: paint }, BK[0] + 0.05);
+        tl.fromTo("#brk-tag", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.2, ease: "back.out(2)" }, BK[0] + 0.5);
+        tl.to("#brk", { opacity: 0, duration: 0.2 }, BK[1]);
+
+        // ---------- OUTRO ----------
+        const O = T.outro.start;
+        boardIn("#b-out", O + 0.15);
+        tl.fromTo("#cta", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3, ease: "back.out(1.8)" }, O + 1.4);
+        tl.fromTo("#cta .go", { scale: 1 }, { scale: 1.05, duration: 0.3, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, O + 2.2);
+
+        // ---------- CAPTIONS ----------
+        const capsEl = $("#caps");
+        K.CAPS.forEach(([t0, t1, big, words]) => {
+          const line = document.createElement("div"); line.className = "cap" + (big ? " big" : "");
+          capsEl.appendChild(line);
+          tl.set(line, { opacity: 1 }, t0); tl.set(line, { opacity: 0 }, 0);
+          words.forEach(([w, t, key, br]) => {
+            const s = document.createElement("span"); s.className = "w ar" + (key ? " key" : ""); s.textContent = w; line.appendChild(s);
+            if (br) line.appendChild(document.createElement("br"));
+            tl.fromTo(s, { opacity: 0, scaleY: 0.1 }, { opacity: 1, scaleY: 1, duration: 0.09, ease: "power2.out", immediateRender: false }, t);
+            tl.set(s, { opacity: 0 }, 0);
+          });
+          tl.to(line, { opacity: 0, duration: 0.1 }, t1);
+        });
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>

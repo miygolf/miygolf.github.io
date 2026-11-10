@@ -1,0 +1,65 @@
+clip1 ms [  0.00-  1.94] Par tiga, hole five.  | Par@0.00 tiga,@0.90 hole@1.34 five.@1.60
+clip1 ms [  3.22-  3.52] Berapa distance?  | Berapa@2.98 distance?@3.32
+clip1 ms [  3.90-  4.58] 180.  | 180.@3.90
+clip1 ms [  5.34-  5.86] 180.  | 180.@5.34
+clip1 en [  0.00-  1.92] par 3, hole 5  | par@0.00 3,@0.90 hole@1.32 5@1.58
+clip1 en [  1.92-  3.64] how much is the distance?  | how@1.92 much@2.78 is@3.34 the@3.46 distance?@3.52
+clip1 en [  4.04-  4.60] 180  | 180@4.04
+clip2 ms [  0.00-  1.72] Okay, come play with us.  | Okay,@0.00 come@0.18 play@0.82 with@1.10 us.@1.34
+clip2 ms [  2.32-  6.94] Lubang lima, par tiga, KRTU, 180 meter.  | Lubang@2.32 lima,@3.02 par@3.44 tiga,@3.64 KRTU,@4.16 180@5.46 meter.@6.26
+clip2 ms [  9.32-  9.46] Betul.  | Betul.@9.11
+clip2 ms [ 10.80- 11.22] Air berapa tu?  | Air@10.55 berapa@10.90 tu?@11.08
+clip2 ms [ 11.38- 11.84] Enam.  | Enam.@11.38
+clip2 ms [ 18.82- 19.78] Good line.  | Good@18.82 line.@19.52
+clip2 ms [ 24.58- 25.56] Pendek sikit.  | Pendek@24.58 sikit.@25.28
+clip2 ms [ 26.30- 27.00] Sampai.  | Sampai.@26.30
+clip2 ms [ 27.48- 28.40] Pendek sikit.  | Pendek@27.48 sikit.@28.18
+clip2 ms [ 31.42- 45.52] Terima kasih kerana menonton!  | Terima@31.42 kasih@32.82 kerana@33.04 menonton!@45.52
+clip2 ms [ 60.00- 61.14] Pada tengah-tengah.  | Pada@60.00 tengah@60.28 -tengah.@60.46
+clip2 ms [ 62.52- 63.48] Berita apa tadi?  | Berita@62.52 apa@63.04 tadi?@63.30
+clip2 ms [ 63.70- 64.60] Oh, dalam poket.  | Oh,@63.70 dalam@64.08 poket.@64.30
+clip2 en [  0.00-  1.66] ok, come play with us  | ok,@0.00 come@0.20 play@0.80 with@1.10 us@1.34
+clip2 en [  1.66-  3.78] 5th hole, battery  | 5th@1.66 hole,@3.08 battery@3.44
+clip2 en [  4.60-  5.40] KRTU  | KRTU@4.60
+clip2 en [  6.00-  6.94] 180m  | 180m@6.00
+clip2 en [  8.00-  8.40] 180m  | 180m@8.00
+clip2 en [  8.40- 11.20] how much is the water?  | how@8.40 much@9.36 is@11.06 the@11.20 water?@11.20
+clip2 en [ 11.30- 11.76] 6  | 6@11.30
+clip2 en [ 18.24- 19.84] good line  | good@18.24 line@19.04
+clip2 en [ 19.84- 25.34] a bit sharp  | a@19.84 bit@20.48 sharp@25.12
+clip2 en [ 26.00- 27.00] how much?  | how@26.00 much?@26.80
+clip2 en [ 27.00- 28.24] It's a little short.  | It's@27.00 a@27.92 little@27.98 short.@28.08
+clip2 en [ 31.62- 35.04] 5.43.180  | 5@31.62 .43@32.78 .180@33.92
+clip2 en [ 36.00- 37.06] Back pin.  | Back@35.46 pin.@36.04
+clip2 en [ 41.26- 44.66] I'm going to try Pekaiun 5.  | I'm@41.26 going@42.42 to@43.58 try@43.64 Pekaiun@43.86 5.@44.44
+clip2 en [ 45.34- 53.62] Good swing.  | Good@45.34 swing.@46.50
+clip2 en [ 58.98- 60.20] Hold on. Center.  | Hold@58.98 on.@59.38 Center.@59.80
+clip2 en [ 62.62- 63.18] Where's the tea?  | Where's@62.62 the@63.02 tea?@63.02
+clip2 en [ 63.60- 64.52] Oh, in the pocket.  | Oh,@63.60 in@64.08 the@64.26 pocket.@64.30
+clip3 ms [  0.00-  2.02] Okey, hole lima.  | Okey,@0.00 hole@0.26 lima.@0.52
+clip3 ms [  2.30-  3.12] Par tiga.  | Par@2.30 tiga.@2.82
+clip3 ms [  4.26-  5.26] Par for birdie.  | Par@4.26 for@4.78 birdie.@4.94
+clip3 ms [  6.62-  7.52] Nampak dia may slope.  | Nampak@6.62 dia@7.14 may@7.24 slope.@7.32
+clip3 ms [  8.06-  8.58] Banyak.  | Banyak.@8.06
+clip3 ms [  9.24- 10.10] Right to left.  | Right@9.24 to@9.76 left.@9.90
+clip3 ms [ 11.52- 13.40] Sejujurnya, ruksia bola sampai.  | Sejujurnya,@11.52 ruksia@12.10 bola@12.34 sampai.@12.56
+clip3 ms [ 14.82- 15.66] Lebih sampai.  | Lebih@14.82 sampai.@15.34
+clip3 ms [ 15.90- 16.70] Lebih sampai je.  | Lebih@15.90 sampai@16.10 je.@16.44
+clip3 ms [ 16.88- 17.22] Bagi.  | Bagi.@16.88
+clip3 ms [ 17.68- 18.20] Pakit.  | Pakit.@17.68
+clip3 ms [ 18.32- 18.84] Masuk.  | Masuk.@18.32
+clip3 ms [ 18.86- 19.16] Bonus.  | Bonus.@18.86
+clip3 en [  0.00-  3.12] Okay, hole 5, part 3.  | Okay,@0.00 hole@0.24 5,@0.52 part@1.98 3.@2.86
+clip3 en [  4.34-  5.16] Part 4 body.  | Part@4.34 4@4.78 body.@4.94
+clip3 en [  6.38-  8.50] You can see he's been sloping a lot.  | You@6.38 can@6.82 see@6.98 he's@7.12 been@7.30 sloping@7.38 a@7.68 lot.@7.94
+clip3 en [  9.30- 10.10] Right to left.  | Right@9.30 to@9.74 left.@9.88
+clip3 en [ 11.28- 13.60] As usual, the ball is still there.  | As@11.28 usual,@11.72 the@12.02 ball@12.06 is@12.28 still@12.72 there.@13.22
+clip3 en [ 14.84- 15.78] It's still there.  | It's@14.84 still@15.28 there.@15.30
+clip3 en [ 15.92- 16.60] It's still there.  | It's@15.92 still@16.10 there.@16.14
+clip3 en [ 16.84- 17.32] It's still there.  | It's@16.84 still@17.28 there.@17.28
+clip3 en [ 17.40- 18.18] It's still there.  | It's@17.40 still@17.84 there.@18.04
+clip3 en [ 18.18- 18.24] It's still there.  | It's@18.18 still@18.24 there.@18.24
+clip3 en [ 18.28- 18.64] It's still there.  | It's@18.28 still@18.52 there.@18.64
+clip3 en [ 18.64- 18.84] It's still there.  | It's@18.64 still@18.64 there.@18.76
+clip4 ms [ 17.82- 19.22] Sikit.  | Sikit.@17.82
+clip4 en [ 18.50- 19.34] Thanks for watching!  | Thanks@18.50 for@19.06 watching!@19.06
