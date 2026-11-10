@@ -1,0 +1,71 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    #hook-wrap {
+      position: absolute;
+      left: 0;
+      top: 214px;
+      width: 1080px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #hook-chip {
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 30px;
+      letter-spacing: 0.08em;
+      color: #f6eedd;
+      background: #0e1e33;
+      padding: 10px 22px 8px;
+      border-radius: 4px;
+    }
+    .hook-line {
+      font-family: "League Gothic", sans-serif;
+      text-transform: uppercase;
+      line-height: 0.9;
+      padding: 6px 30px 0;
+      margin-top: 14px;
+    }
+    #hook-l1 {
+      font-size: 190px;
+      color: #0e1e33;
+      background: #f6eedd;
+      transform-origin: 50% 50%;
+    }
+    #hook-l2 {
+      font-size: 190px;
+      color: #0e1e33;
+      background: #ff5b24;
+    }
+    #hook-dot {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #ff5b24;
+      margin-right: 12px;
+      vertical-align: 2px;
+    }
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+    <div id="hook-wrap" class="clip" data-start="0" data-duration="1.75">
+      <div id="hook-chip"><span id="hook-dot"></span><span data-var-text="series">GOLF LESSON — BERSAMA FAIZ</span></div>
+      <div id="hook-l1" class="hook-line">Pusing</div>
+      <div id="hook-l2" class="hook-line">Tak habis?</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#hook-chip", { opacity: 0.0, y: -8 }, { opacity: 1, y: 0, duration: 0.18, ease: "power3.out" }, 0);
+    tl.fromTo("#hook-l1", { scale: 1.35, opacity: 0, filter: "blur(10px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "expo.out" }, 0.04);
+    tl.fromTo("#hook-l2", { scale: 1.35, opacity: 0, rotation: -3, filter: "blur(10px)" }, { scale: 1, opacity: 1, rotation: -2, filter: "blur(0px)", duration: 0.22, ease: "expo.out" }, 0.16);
+    // exit: whip upward into the next beat
+    tl.to("#hook-wrap > *", { y: -160, opacity: 0, filter: "blur(8px)", duration: 0.2, stagger: 0.03, ease: "power3.in" }, 1.48);
+    window.__timelines["hook"] = tl;
+  </script>
+</template>

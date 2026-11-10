@@ -1,0 +1,306 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .flash {
+      position: absolute;
+      inset: 0;
+      background: #fffaf0;
+      opacity: 0;
+    }
+
+    /* Weight-shift meter (yardage-marker style) */
+    .meter {
+      position: absolute;
+      left: 170px;
+      top: 478px;
+      width: 740px;
+      height: 112px;
+    }
+    .meter-panel {
+      position: absolute;
+      inset: 0;
+      background: rgba(14, 30, 51, 0.86);
+      border-radius: 6px;
+    }
+    .meter-head {
+      position: absolute;
+      left: 24px;
+      top: 12px;
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 0.08em;
+      color: #ff5b24;
+    }
+    .meter-lbl {
+      position: absolute;
+      top: 56px;
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+      color: #f6eedd;
+    }
+    .meter-lbl.l {
+      left: 24px;
+    }
+    .meter-lbl.r {
+      right: 24px;
+    }
+    .meter-track {
+      position: absolute;
+      left: 170px;
+      top: 72px;
+      width: 400px;
+      height: 6px;
+      background: rgba(246, 238, 221, 0.28);
+      border-radius: 3px;
+    }
+    .meter-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 400px;
+      height: 6px;
+      background: #ff5b24;
+      border-radius: 3px;
+      transform-origin: 0% 50%;
+    }
+    .meter-tick {
+      position: absolute;
+      top: -8px;
+      width: 2px;
+      height: 22px;
+      background: rgba(246, 238, 221, 0.5);
+    }
+    .meter-ball {
+      position: absolute;
+      left: -17px;
+      top: -14px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #ffffff 0%, #f1f1ec 55%, #c9c7bd 100%);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.45);
+    }
+
+    /* Hands-on stamp */
+    #stamp {
+      position: absolute;
+      left: 0;
+      top: 300px;
+      width: 1080px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #stamp-box {
+      font-family: "League Gothic", sans-serif;
+      font-size: 124px;
+      line-height: 1;
+      color: #c2360a;
+      border: 7px solid #c2360a;
+      padding: 10px 28px 0;
+      background: rgba(246, 238, 221, 0.92);
+      border-radius: 8px;
+    }
+    #stamp-sub {
+      margin-top: 16px;
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 0.06em;
+      color: #f6eedd;
+      background: #0e1e33;
+      padding: 8px 18px 6px;
+    }
+
+    /* Swing rep labels */
+    .rep {
+      position: absolute;
+      left: 0;
+      top: 290px;
+      width: 1080px;
+      text-align: center;
+    }
+    .rep-big {
+      font-family: "League Gothic", sans-serif;
+      font-size: 170px;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 4px #0e1e33;
+      letter-spacing: 0.02em;
+    }
+    .rep-big b {
+      font-weight: 400;
+      color: #0e1e33;
+      -webkit-text-stroke: 0;
+    }
+    .rep-sub {
+      display: inline-block;
+      margin-top: 6px;
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 0.08em;
+      color: #f6eedd;
+      background: #0e1e33;
+      padding: 8px 18px 6px;
+    }
+
+    /* Low-point arc */
+    #arc {
+      position: absolute;
+      left: 190px;
+      top: 462px;
+      width: 700px;
+      height: 150px;
+    }
+    #arc svg {
+      position: absolute;
+      inset: 0;
+      overflow: visible;
+    }
+    #arc-label {
+      position: absolute;
+      left: 0;
+      top: 40px;
+      width: 700px;
+      text-align: center;
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 0.1em;
+      color: #0e1e33;
+    }
+    #arc-label span {
+      background: #f6eedd;
+      padding: 4px 12px 2px;
+    }
+  </style>
+  <div id="root" data-composition-id="fx" data-width="1080" data-height="1920">
+    <div id="flash-1" class="flash clip" data-start="0.6" data-duration="0.4" data-layout-ignore></div>
+
+    <div id="meter-1" class="meter clip" data-start="7.4" data-duration="2.45">
+      <div class="meter-panel"></div>
+      <div class="meter-head">SHIFT BERAT ▸</div>
+      <div class="meter-lbl l">KANAN</div>
+      <div class="meter-lbl r">KIRI</div>
+      <div class="meter-track">
+        <div class="meter-fill"></div>
+        <div class="meter-tick" style="left: 0px"></div>
+        <div class="meter-tick" style="left: 100px"></div>
+        <div class="meter-tick" style="left: 199px"></div>
+        <div class="meter-tick" style="left: 299px"></div>
+        <div class="meter-tick" style="left: 398px"></div>
+        <div class="meter-ball"></div>
+      </div>
+    </div>
+
+    <div id="stamp" class="clip" data-start="9.84" data-duration="3.32">
+      <div id="stamp-box">HANDS-ON</div>
+      <div id="stamp-sub">COACH ADJUST · RASA SHIFT</div>
+    </div>
+
+    <div id="rep-1" class="rep clip" data-start="16.98" data-duration="2.55">
+      <div class="rep-big">SWING <b>01</b></div>
+      <div class="rep-sub">SAME FEEL ▸ SHIFT</div>
+    </div>
+    <div id="flash-2" class="flash clip" data-start="17.75" data-duration="0.4" data-layout-ignore></div>
+
+    <div id="meter-2" class="meter clip" data-start="21.6" data-duration="1.52">
+      <div class="meter-panel"></div>
+      <div class="meter-head">SHIFT BERAT ▸</div>
+      <div class="meter-lbl l">KANAN</div>
+      <div class="meter-lbl r">KIRI</div>
+      <div class="meter-track">
+        <div class="meter-fill"></div>
+        <div class="meter-tick" style="left: 0px"></div>
+        <div class="meter-tick" style="left: 100px"></div>
+        <div class="meter-tick" style="left: 199px"></div>
+        <div class="meter-tick" style="left: 299px"></div>
+        <div class="meter-tick" style="left: 398px"></div>
+        <div class="meter-ball"></div>
+      </div>
+    </div>
+
+    <div id="rep-2" class="rep clip" data-start="24.2" data-duration="2.5">
+      <div class="rep-big">SWING <b>02</b></div>
+      <div class="rep-sub">HIT DOWN ▸ LAMA KAT BAWAH</div>
+    </div>
+    <div id="flash-3" class="flash clip" data-start="25.53" data-duration="0.4" data-layout-ignore></div>
+
+    <div id="arc" class="clip" data-start="27.55" data-duration="1.7">
+      <svg viewBox="0 0 700 150" width="700" height="150">
+        <path id="arc-base" d="M 20 12 Q 350 270 680 12" fill="none" stroke="#f6eedd" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 14"></path>
+        <path id="arc-hot" d="M 20 12 Q 350 270 680 12" fill="none" stroke="#ff5b24" stroke-width="12" stroke-linecap="round"></path>
+        <circle id="arc-ball" cx="20" cy="12" r="14" fill="#ffffff" stroke="#0e1e33" stroke-width="3"></circle>
+      </svg>
+      <div id="arc-label"><span>ZON BAWAH</span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // impact flashes
+    ["#flash-1", "#flash-2", "#flash-3"].forEach((sel) => {
+      const s = parseFloat(document.querySelector(sel).dataset.start);
+      tl.fromTo(sel, { opacity: 0 }, { opacity: 0.4, duration: 0.05, ease: "none" }, s + 0.08);
+      tl.to(sel, { opacity: 0, duration: 0.22, ease: "power2.out" }, s + 0.13);
+    });
+
+    // shift meters: ball travels KANAN -> KIRI, landing on the word "kiri"
+    const meter = (sel, s, land, e) => {
+      tl.fromTo(sel + " .meter-panel", { scaleY: 0, opacity: 0 }, { scaleY: 1, opacity: 1, duration: 0.22, ease: "expo.out" }, s);
+      tl.fromTo(sel + " .meter-head, " + sel + " .meter-lbl, " + sel + " .meter-track", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.18, stagger: 0.04, ease: "power3.out" }, s + 0.08);
+      tl.fromTo(sel + " .meter-ball", { x: 0 }, { x: 400, duration: land - s - 0.3, ease: "power3.inOut" }, s + 0.3);
+      tl.fromTo(sel + " .meter-fill", { scaleX: 0 }, { scaleX: 1, duration: land - s - 0.3, ease: "power3.inOut" }, s + 0.3);
+      tl.fromTo(sel + " .meter-lbl.r", { color: "#f6eedd", scale: 1 }, { color: "#ff5b24", scale: 1.15, duration: 0.16, ease: "back.out(2)" }, land);
+      tl.to(sel + " > *", { opacity: 0, y: -10, duration: 0.14, ease: "power2.in" }, e - 0.15);
+    };
+    meter("#meter-1", 7.4, 9.36, 9.85);
+    meter("#meter-2", 21.6, 22.56, 23.1);
+
+    // hands-on stamp
+    tl.fromTo("#stamp-box", { scale: 1.7, rotation: -14, opacity: 0 }, { scale: 1, rotation: -5, opacity: 1, duration: 0.18, ease: "expo.out" }, 9.86);
+    tl.fromTo("#stamp-box", { x: 0 }, { x: 6, duration: 0.04, yoyo: true, repeat: 3, ease: "none" }, 10.04);
+    tl.fromTo("#stamp-sub", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.3, ease: "expo.out" }, 10.1);
+    tl.to("#stamp > *", { opacity: 0, y: -16, filter: "blur(6px)", duration: 0.16, stagger: 0.03, ease: "power2.in" }, 12.95);
+
+    // swing rep labels
+    const rep = (sel, s, e) => {
+      tl.fromTo(sel + " .rep-big", { opacity: 0, scaleX: 1.35, filter: "blur(8px)" }, { opacity: 1, scaleX: 1, filter: "blur(0px)", duration: 0.35, ease: "expo.out" }, s);
+      tl.fromTo(sel + " .rep-sub", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.2, ease: "power3.out" }, s + 0.18);
+      tl.to(sel + " > *", { opacity: 0, y: -12, filter: "blur(6px)", duration: 0.15, stagger: 0.03, ease: "power2.in" }, e - 0.2);
+    };
+    rep("#rep-1", 16.98, 19.53);
+    rep("#rep-2", 24.2, 26.7);
+
+    // low-point arc: draw, then the ball lingers through the bottom
+    const hot = document.querySelector("#arc-hot");
+    const base = document.querySelector("#arc-base");
+    const L = hot.getTotalLength();
+    const seg = L * 0.3;
+    hot.setAttribute("stroke-dasharray", seg + " " + L);
+    tl.fromTo(base, { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power2.out" }, 27.56);
+    tl.fromTo(hot, { strokeDashoffset: seg }, { strokeDashoffset: -L * 0.35, duration: 0.45, ease: "power3.out" }, 27.62);
+    const ball = document.querySelector("#arc-ball");
+    const p = { v: 0 };
+    const place = () => {
+      const pt = hot.getPointAtLength(p.v * L);
+      ball.setAttribute("cx", pt.x);
+      ball.setAttribute("cy", pt.y);
+    };
+    tl.fromTo(p, { v: 0 }, { v: 0.36, duration: 0.3, ease: "power1.in", onUpdate: place, immediateRender: false }, 27.62);
+    tl.to(p, { v: 0.64, duration: 0.95, ease: "none", onUpdate: place }, 27.92);
+    tl.to(p, { v: 1, duration: 0.28, ease: "power2.in", onUpdate: place }, 28.87);
+    tl.fromTo("#arc-label", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.2, ease: "power3.out" }, 27.8);
+    tl.to("#arc > *", { opacity: 0, duration: 0.15, ease: "power2.in" }, 29.08);
+    place();
+
+    window.__timelines["fx"] = tl;
+  </script>
+</template>

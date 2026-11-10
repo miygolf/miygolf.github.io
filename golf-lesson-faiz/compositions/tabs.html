@@ -1,0 +1,65 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .tab {
+      position: absolute;
+      left: 56px;
+      top: 200px;
+      height: 62px;
+      display: flex;
+      align-items: stretch;
+    }
+    .tab-no {
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+      color: #0e1e33;
+      background: #ff5b24;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+    }
+    .tab-name {
+      font-family: "League Gothic", sans-serif;
+      font-size: 46px;
+      letter-spacing: 0.04em;
+      color: #0e1e33;
+      background: #f6eedd;
+      padding: 6px 20px 0;
+      display: flex;
+      align-items: center;
+    }
+  </style>
+  <div id="root" data-composition-id="tabs" data-width="1080" data-height="1920">
+    <div id="tab-1" class="tab clip" data-start="0" data-duration="3.69">
+      <div class="tab-no">01</div>
+      <div class="tab-name">MASALAH</div>
+    </div>
+    <div id="tab-2" class="tab clip" data-start="3.69" data-duration="7.9">
+      <div class="tab-no">02</div>
+      <div class="tab-name">FIX: SHIFT</div>
+    </div>
+    <div id="tab-3" class="tab clip" data-start="11.59" data-duration="16.0">
+      <div class="tab-no">03</div>
+      <div class="tab-name">DRILL</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const tabs = [
+      ["#tab-1", 0.02, 3.69],
+      ["#tab-2", 3.69, 11.59],
+      ["#tab-3", 11.59, 27.59],
+    ];
+    tabs.forEach(([sel, s, e]) => {
+      tl.fromTo(sel + " .tab-no", { xPercent: -120, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.28, ease: "expo.out" }, s);
+      tl.fromTo(sel + " .tab-name", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.34, ease: "expo.out" }, s + 0.08);
+      tl.to(sel + " > *", { opacity: 0, x: -24, duration: 0.14, ease: "power2.in" }, e - 0.16);
+    });
+    window.__timelines["tabs"] = tl;
+  </script>
+</template>

@@ -1,0 +1,115 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    #end-shade {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(14, 30, 51, 0.72) 0%, rgba(14, 30, 51, 0.25) 38%, rgba(14, 30, 51, 0.25) 56%, rgba(14, 30, 51, 0.8) 100%);
+    }
+    #end-tag {
+      position: absolute;
+      left: 56px;
+      top: 200px;
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 0.12em;
+      color: #0e1e33;
+      background: #ff5b24;
+      padding: 12px 18px 10px;
+    }
+    #end-list {
+      position: absolute;
+      left: 56px;
+      top: 290px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .end-item {
+      display: flex;
+      align-items: stretch;
+      margin-bottom: 14px;
+    }
+    .end-no {
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 30px;
+      color: #ff5b24;
+      background: #0e1e33;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+    }
+    .end-txt {
+      font-family: "League Gothic", sans-serif;
+      font-size: 84px;
+      line-height: 1;
+      text-transform: uppercase;
+      color: #0e1e33;
+      background: #f6eedd;
+      padding: 8px 22px 0;
+    }
+    #end-foot {
+      position: absolute;
+      left: 0;
+      top: 1130px;
+      width: 1080px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #end-title {
+      font-family: "League Gothic", sans-serif;
+      font-size: 96px;
+      line-height: 1;
+      color: #f6eedd;
+      letter-spacing: 0.02em;
+    }
+    #end-title b {
+      font-weight: 400;
+      color: #ff5b24;
+    }
+    #end-cta {
+      margin-top: 14px;
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 0.06em;
+      color: #0e1e33;
+      background: #f6eedd;
+      padding: 10px 20px 8px;
+      border-radius: 4px;
+    }
+  </style>
+  <div id="root" data-composition-id="endcard" data-width="1080" data-height="1920">
+    <div id="end-shade" class="clip" data-start="0" data-duration="2.8" data-layout-ignore></div>
+    <div id="end-tag" class="clip" data-start="0" data-duration="2.8">RECAP</div>
+    <div id="end-list" class="clip" data-start="0" data-duration="2.8">
+      <div class="end-item"><div class="end-no">01</div><div class="end-txt">Shift ke kiri</div></div>
+      <div class="end-item"><div class="end-no">02</div><div class="end-txt">Hit down</div></div>
+      <div class="end-item"><div class="end-no">03</div><div class="end-txt">Rasa lama kat bawah</div></div>
+    </div>
+    <div id="end-foot" class="clip" data-start="0" data-duration="2.8">
+      <div id="end-title">GOLF LESSON <b>×</b> FAIZ</div>
+      <div id="end-cta">FOLLOW UNTUK LESSON SETERUSNYA</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#end-shade", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power2.inOut" }, 0);
+    tl.fromTo("#end-tag", { xPercent: -120, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.28, ease: "expo.out" }, 0.08);
+    gsap.utils.toArray("#end-list .end-item").forEach((it, i) => {
+      const s = 0.2 + i * 0.14;
+      tl.fromTo(it.querySelector(".end-no"), { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.18, ease: "back.out(2)" }, s);
+      tl.fromTo(it.querySelector(".end-txt"), { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.3, ease: "expo.out" }, s + 0.04);
+    });
+    tl.fromTo("#end-title", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power3.out" }, 0.5);
+    tl.fromTo("#end-cta", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.22, ease: "power3.out" }, 0.6);
+    window.__timelines["endcard"] = tl;
+  </script>
+</template>
