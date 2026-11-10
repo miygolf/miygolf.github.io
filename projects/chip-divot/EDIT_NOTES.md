@@ -1,7 +1,7 @@
 # Chip atas green — "Ada divot ke tak?" — edit notes
 
-HyperFrames 0.9.18 · 1080×1920 · 30 fps · 20.3 s · status: **draft preview v1** (`previews/chip-divot_preview_draft_v1.mp4`), waiting for
-the owner's OK before the delivery render.
+HyperFrames 0.9.18 · 1080×1920 · 30 fps · 20.3 s · status: **final delivered** (`final/chip-divot_1080x1920.mp4`, approved from draft v1
+without changes): H.264 High ~15.8 Mbps, AAC 256k 48 kHz, −14.2 LUFS integrated, peak −1.4 dBFS.
 
 ## Look: "Poll Sticker" (new, not in the style log)
 - The edit plays like a story poll that the footage answers: "Boleh ke chip atas green?" → BOLEH ✓ → "TAK ADA DIVOT."
