@@ -97,11 +97,11 @@
   .card{
     position:relative;border-radius:24px;padding:20px 16px 16px;text-align:center;
     background:linear-gradient(180deg,#1b5640,#134231);border:2px solid rgba(240,211,140,.25);
-    height:312px;display:flex;flex-direction:column;
+    height:326px;display:flex;flex-direction:column;
   }
   .card.best{
     background:linear-gradient(180deg,var(--gold-light),var(--gold));color:var(--ink);
-    border:0;height:334px;padding-top:30px;box-shadow:0 20px 40px rgba(0,0,0,.35);
+    border:0;height:344px;padding-top:30px;box-shadow:0 20px 40px rgba(0,0,0,.35);
   }
   .ribbon{
     position:absolute;top:-17px;left:50%;transform:translateX(-50%);white-space:nowrap;
@@ -110,20 +110,22 @@
   }
   .pkg{font-weight:800;font-size:17px;letter-spacing:3px;color:var(--gold-light);text-transform:uppercase}
   .card.best .pkg{color:var(--green-800)}
-  .count{font-family:'Anton',sans-serif;font-size:54px;line-height:1;margin-top:8px}
+  .count{font-family:'Anton',sans-serif;font-size:50px;line-height:1;margin-top:6px}
   .count small{font-size:26px;letter-spacing:2px;margin-left:6px}
   .price{
     margin:10px auto 0;padding:8px 0;border-top:2px solid rgba(240,211,140,.35);border-bottom:2px solid rgba(240,211,140,.35);
     width:100%;font-family:'Anton',sans-serif;font-size:50px;line-height:1;color:var(--gold-light);
   }
   .price sup{font-size:24px;vertical-align:top;position:relative;top:6px;margin-right:4px;letter-spacing:1px}
+  .per{display:block;font-family:'Montserrat',sans-serif;font-weight:700;font-size:13.5px;letter-spacing:.5px;color:#cfdcd3;margin-top:6px}
+  .card.best .per{color:var(--green-800)}
   .card.best .price{color:var(--green-900);border-color:rgba(15,61,46,.3)}
-  .focus{font-weight:800;font-size:18px;margin-top:12px;text-transform:uppercase;letter-spacing:1px}
+  .focus{font-weight:800;font-size:18px;margin-top:10px;text-transform:uppercase;letter-spacing:1px}
   .desc{font-size:14px;font-weight:500;line-height:1.38;margin-top:5px;color:#cfdcd3}
   .card.best .desc{color:#2b3a32}
 
   /* ---------- TIPS ---------- */
-  .tips{margin:18px 48px 0;padding:16px 30px 16px;border-radius:24px;background:rgba(0,0,0,.22);border:1.5px solid rgba(240,211,140,.25)}
+  .tips{margin:14px 48px 0;padding:16px 30px 16px;border-radius:24px;background:rgba(0,0,0,.22);border:1.5px solid rgba(240,211,140,.25)}
   .tips .label{color:var(--gold-light)}
   .tip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:12px}
   .tip{display:grid;grid-template-columns:auto 1fr;gap:12px}
@@ -198,14 +200,14 @@
       <div class="card">
         <div class="pkg">Single Lesson</div>
         <div class="count">1<small>SESI</small></div>
-        <div class="price"><sup>RM</sup>280</div>
+        <div class="price"><sup>RM</sup>330<span class="per">bayar ikut sesi</span></div>
         <div class="focus">Quick Fix &amp; Focus</div>
         <p class="desc">Untuk latihan yang pantas, analisis awal atau fokus spesifik.</p>
       </div>
       <div class="card">
         <div class="pkg">Package A</div>
         <div class="count">5<small>SESI</small></div>
-        <div class="price"><sup>RM</sup>1,500</div>
+        <div class="price"><sup>RM</sup>1,500<span class="per">RM300 / sesi · Jimat RM150</span></div>
         <div class="focus">Fundamentals</div>
         <p class="desc"><i>Build your swing. Build your foundation.</i><br>Untuk beginner &amp; pemain yang mahu membina semula asas swing.</p>
       </div>
@@ -213,7 +215,7 @@
         <div class="ribbon">★ PALING BERBALOI</div>
         <div class="pkg">Package B</div>
         <div class="count">10<small>SESI</small></div>
-        <div class="price"><sup>RM</sup>2,500</div>
+        <div class="price"><sup>RM</sup>2,500<span class="per">RM250 / sesi · Jimat RM800</span></div>
         <div class="focus">Impact &amp; Control</div>
         <p class="desc"><i>Own your impact. Control your game.</i><br>Untuk pemain yang mahu tingkatkan strike, kawal arah &amp; konsistensi.</p>
       </div>
