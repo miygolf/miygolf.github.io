@@ -1,6 +1,6 @@
 # Hole 5 KRTU — par 3, 180 m — edit notes
 
-HyperFrames 0.9.18 · 1080×1920 · 30 fps · 61.5 s · status: **draft preview v1** (`previews/hole5-krtu_preview_draft_v1.mp4`),
+HyperFrames 0.9.18 · 1080×1920 · 30 fps · 61.5 s · status: **draft preview v2** (`previews/hole5-krtu_preview_draft_v2.mp4`; v2 = CTA changed to "Follow for more video"),
 waiting for the owner's OK before the delivery render.
 
 ## Look: "Departure Board" (new, not in the style log)
@@ -27,7 +27,7 @@ full-clip passes and is captioned; the boarding pass says IRON 5 from it.
 | 18.0–30.6 | clip2 34.2–37.15, 43.05–45.2, 50.6–54.1, 51.95–52.5 @0.4×, 58.4–61.0 | grey: "180, pin belakang." / "Aku try pakai iron 5." (pass 02), strike, "Good swing." stamp, slow replay, "Center." → CENTER GREEN stamp |
 | 30.6–44.5 | clip3 4.15–16.85 (pauses cut), 21.95–25.1, 25.8–28.55 | GREEN slat wipe → teal: "Putt for birdie." "Nampak dia, slope banyak." "Right to left." (break line drawn) "Sejujurnya, make sure bola sampai." "Lebih sampai je." → putt → ball stops by the pin, DEKAT PIN stamp |
 | 44.5–55.5 | clip4 8.6–13.7, 13.7–15.95 @1.5×, 15.95–17.35 @0.5×, freeze | grey's birdie putt (pass 04 FINAL CALL), slow roll (every 60 fps frame), stop by the hole, "Sikit.", SIKIT LAGI! stamp, music groove returns |
-| 55.5–61.5 | freeze | ARRIVALS board + CTA "Pernah sikit lagi macam ni? / KOMEN ↓ · FOLLOW UNTUK HOLE 6" |
+| 55.5–61.5 | freeze | ARRIVALS board + CTA "Follow for more video" + "PERNAH SIKIT LAGI? KOMEN ↓" (v2, owner) |
 
 Cut out: walking, waiting, practice swings and practice strokes, "hole five" said three times (kept once with the sign), the second
 "pendek sikit", the pause before "Sejujurnya", the close walk-by at the end of clip2.

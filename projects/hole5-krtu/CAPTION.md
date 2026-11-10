@@ -12,7 +12,7 @@ Putt for birdie dua-dua:
 
 Sikit je weh, sikit je!
 
-Korang pernah sikit lagi macam ni? Komen bawah, follow untuk hole 6 ⛳
+Korang pernah sikit lagi macam ni? Komen bawah, follow for more video ⛳
 
 #golfmalaysia #golftips #golflesson #golfswing #krtu #fyp
 ```
@@ -22,7 +22,7 @@ Korang pernah sikit lagi macam ni? Komen bawah, follow untuk hole 6 ⛳
 ```
 Hole 5 KRTU · par 3 · 180 m ⛳
 Dua-dua putt for birdie… satu berhenti tepi lubang 🥲
-Pernah sikit lagi macam ni? Komen ↓ follow untuk hole 6
+Pernah sikit lagi macam ni? Komen ↓ follow for more video
 
 #golfmalaysia #golftips #golflesson #golfswing #krtu #golflife
 ```
