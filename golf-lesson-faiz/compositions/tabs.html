@@ -35,15 +35,15 @@
     }
   </style>
   <div id="root" data-composition-id="tabs" data-width="1080" data-height="1920">
-    <div id="tab-1" class="tab clip" data-start="0" data-duration="3.69">
+    <div id="tab-1" class="tab clip" data-start="0" data-duration="7.54">
       <div class="tab-no">01</div>
       <div class="tab-name">MASALAH</div>
     </div>
-    <div id="tab-2" class="tab clip" data-start="3.69" data-duration="7.9">
+    <div id="tab-2" class="tab clip" data-start="7.54" data-duration="15.2">
       <div class="tab-no">02</div>
       <div class="tab-name">FIX: SHIFT</div>
     </div>
-    <div id="tab-3" class="tab clip" data-start="11.59" data-duration="16.0">
+    <div id="tab-3" class="tab clip" data-start="22.74" data-duration="16.88">
       <div class="tab-no">03</div>
       <div class="tab-name">DRILL</div>
     </div>
@@ -51,9 +51,9 @@
   <script>
     const tl = gsap.timeline({ paused: true });
     const tabs = [
-      ["#tab-1", 0.02, 3.69],
-      ["#tab-2", 3.69, 11.59],
-      ["#tab-3", 11.59, 27.59],
+      ["#tab-1", 0.02, 7.54],
+      ["#tab-2", 7.54, 22.74],
+      ["#tab-3", 22.74, 39.62],
     ];
     tabs.forEach(([sel, s, e]) => {
       tl.fromTo(sel + " .tab-no", { xPercent: -120, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.28, ease: "expo.out" }, s);
