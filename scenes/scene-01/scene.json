@@ -1,0 +1,61 @@
+{
+  "task": "image_to_video_scene",
+  "scene_number": "1 of 2",
+  "is_continuation_clip": false,
+  "time_range": "0:00 - 0:10",
+  "duration_seconds": 10,
+  "aspect_ratio": "9:16",
+  "output_framing": "Single continuous full-screen shot (NO collage grids)",
+  "reference_images": [
+    "reference/product-ref-side.jpg",
+    "reference/product-ref-front-pouch.jpg"
+  ],
+  "visual_action_shot": "Close-up wajah pelakon yang sedang marah dan curiga sambil menunjuk ke arah beg. Pencahayaan malap dan dramatik untuk suasana tegang.",
+  "visual_action_shot_expanded_en": "Handheld close-up on the actor's face: narrowed eyes, furrowed brow, tight jaw, angry and suspicious. The actor points firmly at the black Ulanzi messenger bag. The camera starts tight on the face, then drifts slightly down and sideways so the bulging bag and its 'Ulanzi' front patch come into soft focus in the lower frame, led by the pointing hand. The actor leans in on the final line.",
+  "camera_and_motion": "Full cinematic animation following visual shot and realistic handheld camera movement",
+  "lighting_override": "Dim, moody, low-key dramatic lighting: one warm-neutral side key light, deep soft shadows, subtle rim light separating actor and bag from a dark background. Takes priority over realism rule 3 for this scene; accurate shadows still required.",
+  "prompt_must_follow_realism_rules": [
+    "1. Natural physical object movement and realistic material weight.",
+    "2. High-fidelity product surface reflections, textures, and details.",
+    "3. Natural studio or ambient lighting with accurate shadows. (Scene 1: superseded by lighting_override — dim dramatic light, accurate shadows kept.)",
+    "4. Realistic handheld camera movement with subtle natural shake.",
+    "5. Preserve accurate physical proportions and scale."
+  ],
+  "character_baseline_from_reference": {
+    "note": "Reference photos are cropped at chest level, so no face is visible. The model will create the face; lock it from this clip's output for Scene 2.",
+    "headwear": "Light grey hijab/tudung draping over the shoulders and chest",
+    "top": "Sage/olive-grey ribbed oversized outer top with sleeves ending at the forearm",
+    "under_layer": "Heather-grey long-sleeve inner shirt showing at the wrists",
+    "bottom": "Dark indigo denim jeans",
+    "skin_tone": "Light-to-medium warm Southeast Asian skin tone, matching the hands in the reference"
+  },
+  "product_lock": {
+    "brand": "Ulanzi",
+    "bag": "Black crinkled matte nylon messenger/hobo bag, soft slouchy body, rounded bottom corners, top zip closure with black zipper tape",
+    "strap": "Wide black webbing strap tapering into the bag on one side, round black adjuster/buckle, black plastic hardware",
+    "logo_patch": "Small black rectangular rubber patch at the bottom centre of the front face, white 'Ulanzi' wordmark",
+    "accessory": "Detachable small black zip pouch with a white circular 'Ulanzi' logo, clipped to the strap with black carabiners",
+    "scale": "Worn on the shoulder at hip height, about 35-40 cm wide",
+    "scene_state": "Bag looks slightly overstuffed and bulging (supports the script)"
+  },
+  "continuity_and_sync_lock": {
+    "sync_with_previous_scene": "Establish baseline look, lighting, and voice identity for Scene 2 onwards",
+    "character_lock": true,
+    "product_and_logo_lock": true,
+    "visual_continuity": "100% consistent across all scenes",
+    "vocal_sync_lock": "Keep identical voice timbre, pitch, and speaking speed as previous scene"
+  },
+  "reference_sheet_integration": {
+    "mode": "Adaptive (Works with Product Sheet ONLY, Character Sheet ONLY, or BOTH if attached)",
+    "if_product_sheet_attached": "Lock 100% bag shape, strap and hardware detail, logo patch placement, and 'Ulanzi' typography from product specification sheet",
+    "if_character_sheet_attached": "Lock 100% facial structure, skin tone, and hijab/outfit from character sheet",
+    "ignore_sheet_ui": "STRICTLY IGNORE grid dividers, color palette boxes, and 'FRONT/BACK VIEW' labels from any attached sheet"
+  },
+  "screen_overlay_rule": "STRICTLY NO OVERLAY TEXT OR SUBTITLES ON SCREEN",
+  "audio_voiceover": {
+    "language_style": "BM Santai / Gaya TikTok (Natural). Script uses Saya/Awak; keep it exactly as written.",
+    "delivery_instruction": "Speak on camera, lip-synced, in casual Malaysian TikTok Malay (BM Santai). Playful-dramatic suspicion like a 'kantoi' couple skit: accusing but relatable and natural, not aggressive. Light room tone only, no music.",
+    "dialogue_script": "Saya dah agak awak sorok sesuatu kan? Kenapa beg ni nampak penuh sangat? Bagitahu saya sekarang apa rahsia awak sebenarnya, jangan nak tipu!"
+  },
+  "hybrid_prompt_en_ms": "[SCENE 1 BASELINE LOCK]: Lock the lighting, character identity, product appearance, and vocal tone in this opening clip as the baseline for subsequent scenes. Use the attached images to generate a 10-second vertical 9:16 video in a SINGLE CONTINUOUS FULL-SCREEN SHOT with no cuts. Animate fully following this camera shot and action: Close-up wajah pelakon yang sedang marah dan curiga sambil menunjuk ke arah beg. Pencahayaan malap dan dramatik untuk suasana tegang. The actor wears a light grey hijab, a sage-olive ribbed outer top over a heather-grey long-sleeve inner shirt, and dark indigo jeans. They have narrowed eyes, a furrowed brow, and point firmly at the bag. The handheld camera starts tight on the face, then drifts slightly down so the bulging black Ulanzi messenger bag and its small rectangular 'Ulanzi' patch at the bottom centre come into soft focus. The mini black pouch with the circular Ulanzi logo stays clipped to the strap with black carabiners. LIGHTING: dim low-key dramatic light, warm-neutral side key, deep soft shadows, subtle rim light, dark background. Prompt Must Follow: 1. Natural physical object movement and realistic material weight (crinkled nylon sags and creases naturally). 2. High-fidelity product surface reflections, textures, and details. 3. Accurate physically correct shadows. 4. Realistic handheld camera movement with subtle natural shake. 5. Preserve accurate physical proportions and scale. REFERENCE SHEET LOCK (IF ATTACHED): If a Product Sheet OR Character Sheet is attached (either one or both), extract and lock 100% of the details from the attached sheet (360-degree product design & brand logo from Product Sheet; or facial anatomy, skin tone & hijab/outfit from Character Sheet) for 100% consistency. DO NOT display any collage grid lines, color swatches, or sheet text labels ('FRONT VIEW', etc.) in the video. IMPORTANT: STRICTLY NO OVERLAY TEXT ON SCREEN. Do not generate any floating text, subtitles, or captions in the video. AUDIO / VOICEOVER (VO): The actor speaks on camera, lip-synced, in casual Malaysian TikTok Malay (BM Santai) with playful-dramatic suspicion, like a relatable 'kantoi' skit: accusing but natural, not aggressive. Light room tone only, no music. Deliver this exact script: \"Saya dah agak awak sorok sesuatu kan? Kenapa beg ni nampak penuh sangat? Bagitahu saya sekarang apa rahsia awak sebenarnya, jangan nak tipu!\""
+}
