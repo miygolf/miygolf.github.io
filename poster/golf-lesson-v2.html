@@ -30,7 +30,7 @@
   }
 
   /* ---------- HEADER ---------- */
-  .header{position:relative;padding:30px 56px 16px 56px}
+  .header{position:relative;padding:28px 56px 10px 56px}
   .logo{
     position:absolute;left:48px;top:30px;width:124px;height:124px;border-radius:50%;
     background:var(--cream);border:4px solid var(--gold);overflow:hidden;
@@ -91,7 +91,7 @@
   .step-name small{display:block;font-weight:500;font-size:15px;color:var(--muted);margin-top:2px}
 
   /* ---------- PACKAGES ---------- */
-  .packages{padding:18px 48px 0}
+  .packages{padding:14px 48px 0}
   .packages .label{color:var(--cream)}
   .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:14px;align-items:end}
   .card{
@@ -126,17 +126,25 @@
 
 
   /* ---------- TRYOUT ---------- */
-  .tryout{margin:12px 48px 0;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:20px;
-    padding:7px 14px 7px 7px;border-radius:18px;border:2px dashed var(--gold);background:rgba(217,172,79,.10)}
-  .tryout .tag{background:var(--gold);color:var(--green-900);font-weight:800;font-size:17px;letter-spacing:2px;
-    padding:9px 16px;border-radius:12px;text-transform:uppercase}
-  .tryout p{font-size:16px;font-weight:600;color:#e3ece6}
-  .tryout p b{color:var(--gold-light)}
-  .tryout .tp{font-family:'Anton',sans-serif;font-size:38px;line-height:1;color:var(--gold-light);padding-right:8px}
-  .tryout .tp sup{font-size:18px;vertical-align:top;position:relative;top:4px;margin-right:3px}
+  .tryout{margin:14px 48px 0;position:relative;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:22px;
+    height:70px;border-radius:18px;overflow:hidden;color:var(--green-900);
+    background:linear-gradient(90deg,#f7dd97,#e8bd5c 55%,#f3d184);
+    box-shadow:0 0 0 3px rgba(240,211,140,.35),0 0 34px rgba(240,211,140,.45),0 12px 26px rgba(0,0,0,.35)}
+  .tryout:after{content:"";position:absolute;top:0;bottom:0;left:-30%;width:22%;transform:skewX(-20deg);
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent)}
+  .tryout .tag{height:100%;display:flex;flex-direction:column;justify-content:center;padding:0 22px 0 24px;
+    background:var(--green-900);color:var(--gold-light);clip-path:polygon(0 0,100% 0,88% 100%,0 100%)}
+  .tryout .tag b{font-family:'Anton',sans-serif;font-weight:400;font-size:30px;line-height:1;letter-spacing:1.5px}
+  .tryout .tag span{font-weight:800;font-size:12px;letter-spacing:4px;margin-top:3px}
+  .tryout p{font-weight:800;font-size:19px;letter-spacing:.5px;text-transform:uppercase;line-height:1.15}
+  .tryout p span{display:block;font-weight:600;font-size:15px;letter-spacing:0;text-transform:none;color:#3a3418}
+  .tryout .tp{display:flex;align-items:center;gap:12px;padding-right:22px;position:relative;z-index:1}
+  .tryout .old{font-family:'Anton',sans-serif;font-size:22px;color:rgba(11,47,35,.55);text-decoration:line-through;text-decoration-thickness:2.5px}
+  .tryout .new{font-family:'Anton',sans-serif;font-size:50px;line-height:1}
+  .tryout .new sup{font-size:20px;vertical-align:top;position:relative;top:6px;margin-right:3px}
 
   /* ---------- TIPS ---------- */
-  .tips{margin:12px 48px 0;padding:12px 30px 13px;border-radius:24px;background:rgba(0,0,0,.22);border:1.5px solid rgba(240,211,140,.25)}
+  .tips{margin:13px 48px 0;padding:10px 30px 11px;border-radius:24px;background:rgba(0,0,0,.22);border:1.5px solid rgba(240,211,140,.25)}
   .tips .label{color:var(--gold-light)}
   .tip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:8px}
   .tip{display:grid;grid-template-columns:auto 1fr;gap:12px}
@@ -236,9 +244,9 @@
 
   <!-- TRYOUT -->
   <div class="tryout">
-    <span class="tag">★ Tryout Session</span>
-    <p>Sesi percubaan 60 minit · <b>Cuba dulu sebelum pilih pakej</b></p>
-    <span class="tp"><sup>RM</sup>280</span>
+    <div class="tag"><b>★ TRYOUT</b><span>SESSION</span></div>
+    <p>Sesi Percubaan 60 Minit<span>Cuba dulu sebelum pilih pakej</span></p>
+    <div class="tp"><span class="old">RM330</span><span class="new"><sup>RM</sup>280</span></div>
   </div>
 
   <!-- TIPS -->
