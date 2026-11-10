@@ -1,11 +1,11 @@
 # Captions — Match play 1 lawan 1, hole 2 KRTU (Iqbal vs Farhan)
 
-## TikTok
+## TikTok (final)
 
-1 lawan 1 dengan Farhan, match play hole 2 kat KRTU 🥊⛳
+Match Play Hole 2, Iqbal vs Farhan 🥊⛳
 
-Second shot aku buat draw sikit sebab ada dahan depan, aim kat bunker bagi dia curve masuk.
-Farhan pulak chip dia kena belakang… "Astagfirullah" 😅
+1 lawan 1 kat KRTU. Second shot aku buat draw sikit sebab ada dahan depan, aim kat bunker bagi dia curve masuk 🎯
+Farhan pulak chip kena belakang… "Astagfirullah" 😅
 
 Last-last aku par, Farhan bogey. Hole 2 aku punya 🔥
 
@@ -15,9 +15,9 @@ Setuju tak? Komen 👇 Hole 3 next!
 
 #golfmalaysia #golftips #golflesson #golfswing #matchplay #fyp
 
-## Instagram
+## Instagram (final)
 
-Match play 1 lawan 1 — hole 2, KRTU 🥊⛳
+Match Play Hole 2, Iqbal vs Farhan 🥊⛳
 Par vs bogey… hole ni aku ambil 🔥
 Pukul jauh tak semestinya boleh menang 😏 Setuju? 👇
 
