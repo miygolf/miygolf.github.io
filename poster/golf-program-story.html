@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<title>MIY Fundamentals Program</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@500;600;700;800&family=Kaushan+Script&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-900:#0b2f23;--green-800:#0f3d2e;--green-700:#16513d;
+    --gold:#d9ac4f;--gold-light:#f0d38c;--cream:#f7f1e3;--ink:#13261e;--muted:#5b6b62;--wa:#25a35a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#222}
+  .poster{
+    width:1080px;height:1920px;position:relative;overflow:hidden;font-family:'Montserrat',sans-serif;color:var(--cream);
+    background:
+      repeating-linear-gradient(115deg, rgba(255,255,255,.025) 0 60px, rgba(0,0,0,.035) 60px 120px),
+      radial-gradient(1100px 800px at 90% 20%, #1f6a4c 0%, transparent 60%),
+      linear-gradient(180deg,var(--green-800),var(--green-900));
+  }
+
+  /* header */
+  .head{position:absolute;top:214px;left:48px;right:48px;text-align:center}
+  .brandrow{display:flex;align-items:center;justify-content:center;gap:18px}
+  .logo{width:96px;height:96px;border-radius:50%;background:var(--cream);border:3px solid var(--gold);display:grid;place-items:center;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.35)}
+  .logo img{width:86%;height:86%;object-fit:contain}
+  .brand{font-weight:800;font-size:22px;letter-spacing:7px;color:var(--gold-light);text-align:left;line-height:1.4}
+  .brand small{display:block;font-weight:700;font-size:14px;letter-spacing:4px;color:#b9cbbf}
+  h1{font-family:'Anton',sans-serif;font-weight:400;font-size:112px;line-height:1;letter-spacing:2px;margin-top:22px;text-shadow:0 6px 0 rgba(0,0,0,.25)}
+  h1 span{color:var(--gold)}
+  .script{font-family:'Kaushan Script',cursive;font-size:58px;color:var(--gold-light);display:inline-block;position:relative;margin-top:2px}
+  .script:before,.script:after{content:"";position:absolute;top:56%;width:120px;height:2px;background:var(--gold)}
+  .script:before{right:calc(100% + 24px)} .script:after{left:calc(100% + 24px)}
+  .sub{font-size:20px;font-weight:500;color:#d9e4dc;margin-top:6px}
+  .sub b{color:var(--gold-light)}
+
+  /* body */
+  .body{position:absolute;top:610px;left:48px;right:48px;display:grid;grid-template-columns:1fr 300px;gap:22px}
+  .label{display:inline-flex;align-items:center;gap:12px;font-weight:800;font-size:24px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-light);margin-bottom:12px}
+  .label:before{content:"";width:34px;height:4px;background:var(--gold);border-radius:2px}
+  .topics{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .topics li{display:grid;grid-template-columns:70px 1fr;height:66px;border-radius:14px;overflow:hidden;
+    background:rgba(0,0,0,.25);border:1.5px solid rgba(240,211,140,.3)}
+  .topics .n{background:linear-gradient(180deg,var(--gold-light),var(--gold));color:var(--green-900);
+    font-family:'Anton',sans-serif;font-size:34px;display:grid;place-items:center}
+  .topics .t{padding:0 16px;display:flex;flex-direction:column;justify-content:center}
+  .topics .t b{font-weight:800;font-size:21px;line-height:1.1}
+  .topics .t span{font-weight:500;font-size:14px;color:#c4d4ca;margin-top:3px}
+
+  .side{display:flex;flex-direction:column;gap:16px;padding-top:48px}
+  .sessions{background:linear-gradient(180deg,var(--gold-light),var(--gold));color:var(--green-900);border-radius:22px;
+    text-align:center;padding:18px 12px 16px;box-shadow:0 0 30px rgba(240,211,140,.35),0 14px 30px rgba(0,0,0,.35)}
+  .sessions .k{font-weight:800;font-size:14px;letter-spacing:3px}
+  .sessions b{display:block;font-family:'Anton',sans-serif;font-weight:400;font-size:110px;line-height:1;margin-top:2px}
+  .sessions .u{font-family:'Anton',sans-serif;font-size:34px;letter-spacing:3px;line-height:1}
+  .sessions p{font-weight:700;font-size:14px;margin-top:8px;line-height:1.3}
+  .tech{background:var(--cream);color:var(--ink);border-radius:20px;padding:16px 16px 14px}
+  .tech .k{font-weight:800;font-size:11.5px;letter-spacing:3px;color:var(--gold)}
+  .tech .dev{font-family:'Anton',sans-serif;font-size:32px;line-height:1;color:var(--green-800);margin-top:4px}
+  .tech .dev i{font-style:normal;color:var(--gold)}
+  .tech .d{font-weight:600;font-size:13px;color:var(--muted);margin-top:3px}
+  .tech ul{list-style:none;margin-top:10px;display:flex;flex-direction:column;gap:5px}
+  .tech li{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14.5px;padding:5px 0;border-bottom:1.5px dashed #d8ccb0}
+  .tech li:last-child{border-bottom:0}
+  .tech li:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green-700);flex:none}
+  .qr{background:#fff;border-radius:20px;padding:12px 12px 0;display:flex;flex-direction:column;align-items:center;overflow:hidden;
+    box-shadow:0 0 0 3px var(--gold),0 14px 30px rgba(0,0,0,.35);text-decoration:none}
+  .qr img{width:170px;height:170px;display:block}
+  .qr span{align-self:stretch;margin:10px -12px 0;background:var(--wa);color:#fff;text-align:center;font-weight:800;font-size:15px;letter-spacing:1px;padding:9px 0}
+
+  /* cta + footer */
+  .cta{position:absolute;left:48px;right:48px;top:1420px;height:96px;border-radius:22px;display:flex;align-items:center;justify-content:space-between;
+    padding:0 30px 0 36px;color:var(--green-900);text-decoration:none;
+    background:linear-gradient(90deg,#f7dd97,#e8bd5c 55%,#f3d184);
+    box-shadow:0 0 0 3px rgba(240,211,140,.35),0 0 40px rgba(240,211,140,.45),0 14px 30px rgba(0,0,0,.35)}
+  .cta b{font-family:'Anton',sans-serif;font-weight:400;font-size:46px;letter-spacing:1px;line-height:1}
+  .cta span{display:flex;align-items:center;gap:10px;background:var(--green-900);color:var(--gold-light);font-weight:800;font-size:17px;
+    padding:12px 18px;border-radius:14px;white-space:nowrap}
+  .footer{position:absolute;left:48px;right:48px;top:1540px;background:var(--cream);color:var(--ink);border-radius:22px;
+    padding:16px 28px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 16px 36px rgba(0,0,0,.35)}
+  .loc b{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px}
+  .loc b svg{width:22px;height:22px;color:var(--green-700)}
+  .loc p{font-size:13px;color:var(--muted);margin:4px 0 0 32px;line-height:1.35}
+  .wa{display:flex;align-items:center;gap:12px;text-decoration:none}
+  .wa .ic{width:44px;height:44px;border-radius:50%;background:var(--wa);display:grid;place-items:center}
+  .wa .ic svg{width:26px;height:26px;color:#fff}
+  .wa small{display:block;font-weight:800;font-size:12px;letter-spacing:2px;color:var(--wa)}
+  .wa .ph{font-family:'Anton',sans-serif;font-size:40px;line-height:1;color:var(--green-800)}
+  .tagline{position:absolute;left:0;right:0;top:1690px;text-align:center;font-family:'Kaushan Script',cursive;font-size:28px;color:var(--gold-light);opacity:.85}
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <div class="head">
+    <div class="brandrow">
+      <div class="logo"><img src="assets/logo-crop.png" alt="MIY Golf"></div>
+      <div class="brand">MIY GOLF PERFORMANCE<small>BETTER SWING · BETTER IMPACT · BETTER GAME</small></div>
+    </div>
+    <h1>GOLF <span>FUNDAMENTALS</span></h1>
+    <div class="script">Program</div>
+    <p class="sub">Bina swing dari asas hingga <b>impact yang padu</b> &amp; kelajuan yang terkawal.</p>
+  </div>
+
+  <div class="body">
+    <div>
+      <div class="label">10 Topik Latihan</div>
+      <ol class="topics">
+        <li><span class="n">1</span><div class="t"><b>Fundamental Foundation</b><span>Grip, stance &amp; postur yang betul</span></div></li>
+        <li><span class="n">2</span><div class="t"><b>Backswing Structure</b><span>Posisi &amp; rotasi backswing yang konsisten</span></div></li>
+        <li><span class="n">3</span><div class="t"><b>Weight Transfer</b><span>Pindahan berat badan yang betul</span></div></li>
+        <li><span class="n">4</span><div class="t"><b>Ground Forces</b><span>Guna tekanan tanah untuk jana kuasa</span></div></li>
+        <li><span class="n">5</span><div class="t"><b>Kinematic Sequence</b><span>Urutan pergerakan badan yang efisien</span></div></li>
+        <li><span class="n">6</span><div class="t"><b>Release Patterns</b><span>Release kayu pada masa yang tepat</span></div></li>
+        <li><span class="n">7</span><div class="t"><b>Impact Factors</b><span>Apa yang menentukan impact yang padu</span></div></li>
+        <li><span class="n">8</span><div class="t"><b>Follow Through Extension</b><span>Extension &amp; finish yang seimbang</span></div></li>
+        <li><span class="n">9</span><div class="t"><b>Ball Flight</b><span>Faham &amp; kawal arah bola</span></div></li>
+        <li><span class="n">10</span><div class="t"><b>Speed Acceleration</b><span>Tambah kelajuan swing dengan kawalan</span></div></li>
+      </ol>
+    </div>
+
+    <div class="side">
+      <div class="sessions">
+        <div class="k">PROGRAM</div>
+        <b>10</b>
+        <div class="u">SESI</div>
+        <p>1 topik fokus<br>setiap sesi · 60 minit</p>
+      </div>
+      <div class="tech">
+        <div class="k">DIUKUR DENGAN</div>
+        <div class="dev">SC4 PRO <i>/</i> LiPar</div>
+        <div class="d">Launch monitor · data setiap pukulan</div>
+        <ul><li>Club Speed</li><li>Ball Speed</li><li>Swing Path</li><li>Launch Angle</li></ul>
+      </div>
+      <a class="qr" href="https://wa.me/60198728829?text=Hi%20Coach%2C%20saya%20nak%20tanya%20pasal%20Golf%20Fundamentals%20Program"><img src="assets/whatsapp-qr-program.svg" alt="WhatsApp QR"><span>SCAN &amp; WHATSAPP</span></a>
+    </div>
+  </div>
+
+  <a class="cta" href="https://wa.me/60198728829?text=Hi%20Coach%2C%20saya%20nak%20tempah%20Golf%20Fundamentals%20Program"><b>TEMPAH PROGRAM ANDA</b><span>WhatsApp sekarang →</span></a>
+
+  <div class="footer">
+    <div class="loc"><b><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>Lokasi: PJ Area</b>
+      <p>Luar kawasan PJ: ada caj pengangkutan tambahan<br>Outside PJ area: additional transportation charges apply</p></div>
+    <a class="wa" href="https://wa.me/60198728829"><span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2a9.8 9.8 0 0 0-8.4 14.8L2.3 21.7l4.8-1.3A9.8 9.8 0 1 0 12 2.2zm4.9 13.6c-.2.6-1.2 1.2-1.7 1.2-.4.1-1 .1-1.6-.1-2.6-.9-4.6-3.1-5.4-4.4-.6-1-.9-2.1-.2-3.1.3-.4.6-.6.9-.6h.6c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .6l-.4.6c-.1.2-.3.3-.1.6.6 1 1.4 1.8 2.5 2.4.3.1.4.1.6-.1l.7-.9c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.2.4.3.1.1.1.6-.1 1.3z"/></svg></span><span><small>WHATSAPP</small><span class="ph">019-872 8829</span></span></a>
+  </div>
+
+  <div class="tagline">Feel The Motion</div>
+</div>
+</body>
+</html>
