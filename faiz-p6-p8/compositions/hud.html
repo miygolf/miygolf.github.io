@@ -1,0 +1,215 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .band {
+      position: absolute;
+      left: 0;
+      top: 184px;
+      width: 1080px;
+      height: 134px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .h1 {
+      font-family: "Archivo Black", sans-serif;
+      font-size: 88px;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      color: #f2f2f2;
+      white-space: nowrap;
+    }
+    .h1 .b {
+      color: #ff4d5e;
+    }
+    .h1 .a {
+      color: #b6ff3b;
+    }
+    .h1 .vs {
+      font-size: 48px;
+      color: #8a94a6;
+      vertical-align: 16px;
+      margin: 0 14px;
+    }
+    .sub {
+      margin-top: 12px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 0.06em;
+      color: #8a94a6;
+      white-space: nowrap;
+    }
+    .pbig {
+      font-family: "Archivo Black", sans-serif;
+      font-size: 104px;
+      line-height: 1;
+      color: #f2f2f2;
+      white-space: nowrap;
+    }
+    .pbig em {
+      font-style: normal;
+      color: #0a0c0f;
+      background: #f2f2f2;
+      padding: 0 16px;
+      margin-right: 18px;
+    }
+    .chip {
+      position: absolute;
+      top: 346px;
+      height: 54px;
+      display: flex;
+      align-items: stretch;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+    }
+    .chip .k {
+      font-family: "Archivo Black", sans-serif;
+      font-size: 30px;
+      color: #0a0c0f;
+      padding: 0 14px;
+      display: flex;
+      align-items: center;
+    }
+    .chip .v {
+      color: #f2f2f2;
+      background: rgba(10, 12, 15, 0.82);
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+    }
+    #chip-b {
+      left: 16px;
+    }
+    #chip-b .k {
+      background: #ff4d5e;
+    }
+    #chip-a {
+      left: 559px;
+    }
+    #chip-a .k {
+      background: #b6ff3b;
+    }
+    .mode {
+      position: absolute;
+      left: 40px;
+      top: 1294px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+      color: #f2f2f2;
+      letter-spacing: 0.04em;
+    }
+    .mode i {
+      font-style: normal;
+      color: #b6ff3b;
+      margin-right: 12px;
+    }
+    #psteps {
+      position: absolute;
+      right: 40px;
+      top: 1294px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      font-size: 28px;
+    }
+    .ps {
+      color: #8a94a6;
+      border: 2px solid #3a414d;
+      padding: 0 10px;
+      line-height: 32px;
+    }
+  </style>
+  <div id="root" data-composition-id="hud" data-width="1080" data-height="1920">
+    <div id="t-title" class="band clip" data-start="0" data-duration="3.12">
+      <div class="h1"><span class="b">BEFORE</span><span class="vs">vs</span><span class="a">AFTER</span></div>
+      <div class="sub">P6 → P8 · GOLF LESSON × FAIZ</div>
+    </div>
+    <div id="t-down" class="band clip" data-start="3.17" data-duration="1.88">
+      <div class="h1">DOWNSWING</div>
+      <div class="sub">SLOW-MO KE P6 ▸</div>
+    </div>
+    <div id="t-p6" class="band clip" data-start="5.06" data-duration="1.66">
+      <div class="pbig"><em>P6</em>SHAFT ∥</div>
+      <div class="sub">SHAFT SELARI TANAH · SEBELUM IMPACT</div>
+    </div>
+    <div id="t-p7" class="band clip" data-start="6.76" data-duration="1.86">
+      <div class="pbig"><em>P7</em>IMPACT</div>
+      <div class="sub">BOLA KENA · HIT DOWN</div>
+    </div>
+    <div id="t-p8" class="band clip" data-start="8.79" data-duration="1.66">
+      <div class="pbig"><em>P8</em>SHAFT ∥</div>
+      <div class="sub">SHAFT SELARI TANAH · LEPAS IMPACT</div>
+    </div>
+    <div id="t-follow" class="band clip" data-start="10.45" data-duration="2.6">
+      <div class="h1">FOLLOW <span class="a">THROUGH</span></div>
+      <div class="sub">AWAL LESSON ▸ 60 MIN KEMUDIAN</div>
+    </div>
+
+    <div id="chip-b" class="chip clip" data-start="0" data-duration="13.07"><div class="k">BEFORE</div><div class="v">AWAL</div></div>
+    <div id="chip-a" class="chip clip" data-start="0" data-duration="13.07"><div class="k">AFTER</div><div class="v">+60 MIN</div></div>
+
+    <div id="m-rt" class="mode clip" data-start="0" data-duration="2.63"><i>▶</i>1× REAL TIME</div>
+    <div id="m-rw" class="mode clip" data-start="2.63" data-duration="0.54"><i>◀◀</i>REWIND</div>
+    <div id="m-sm" class="mode clip" data-start="3.17" data-duration="1.9"><i>◉</i>SLOW-MO 0.25×</div>
+    <div id="m-hold" class="mode clip" data-start="5.07" data-duration="5.33"><i>❚❚</i>FRAME HOLD</div>
+    <div id="m-sm2" class="mode clip" data-start="10.4" data-duration="1.47"><i>◉</i>SLOW-MO 0.25×</div>
+    <div id="m-rt2" class="mode clip" data-start="11.87" data-duration="1.2"><i>▶</i>1× REAL TIME</div>
+
+    <div id="psteps" class="clip" data-start="0" data-duration="13.07">
+      <div id="ps-6" class="ps">P6</div><div id="ps-7" class="ps">P7</div><div id="ps-8" class="ps">P8</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // title band beats: each enters with a horizontal type-in wipe, leaves fast
+    const bands = [
+      ["#t-title", 0.0, 3.12],
+      ["#t-down", 3.17, 5.05],
+      ["#t-p6", 5.06, 6.72],
+      ["#t-p7", 6.76, 8.62],
+      ["#t-p8", 8.79, 10.45],
+      ["#t-follow", 10.45, 13.05],
+    ];
+    bands.forEach(([sel, s, e], i) => {
+      const first = sel + " > :first-child";
+      const second = sel + " > :last-child";
+      if (i === 0) {
+                tl.fromTo(sel + " .b", { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.3, ease: "expo.out" }, 0.04);
+        tl.fromTo(sel + " .a", { x: 60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.3, ease: "expo.out" }, 0.1);
+        tl.fromTo(sel + " .vs", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.2, ease: "back.out(2)" }, 0.22);
+      } else {
+        tl.fromTo(first, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.22, ease: "expo.out" }, s);
+      }
+      tl.fromTo(second, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.18, ease: "power3.out" }, s + 0.1);
+      tl.to(sel + " > *", { opacity: 0, duration: 0.08, ease: "power2.in" }, e - 0.09);
+    });
+    // panel chips
+    tl.fromTo("#chip-b", { xPercent: -110, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.3, ease: "expo.out" }, 0.12);
+    tl.fromTo("#chip-a", { xPercent: -40, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.3, ease: "expo.out" }, 0.2);
+    // mode readouts
+    ["#m-rt", "#m-rw", "#m-sm", "#m-hold", "#m-sm2", "#m-rt2"].forEach((sel) => {
+      const s = parseFloat(document.querySelector(sel).dataset.start);
+      tl.fromTo(sel, { opacity: 0 }, { opacity: 1, duration: 0.08, ease: "none" }, s);
+    });
+    // P stepper lights up on each hold
+    [["#ps-6", 5.067, 6.7], ["#ps-7", 6.767, 8.6], ["#ps-8", 8.8, 10.4]].forEach(([sel, s, e]) => {
+      tl.fromTo(sel, { color: "#8a94a6", backgroundColor: "rgba(0,0,0,0)", borderColor: "#3a414d" }, { color: "#0a0c0f", backgroundColor: "#f2f2f2", borderColor: "#f2f2f2", duration: 0.08, ease: "none" }, s);
+      tl.to(sel, { color: "#b6ff3b", backgroundColor: "rgba(0,0,0,0)", borderColor: "#b6ff3b", duration: 0.2, ease: "power2.out" }, e);
+    });
+    window.__timelines["hud"] = tl;
+  </script>
+</template>
