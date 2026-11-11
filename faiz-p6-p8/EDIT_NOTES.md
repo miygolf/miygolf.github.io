@@ -20,4 +20,4 @@ Archivo Black + JetBrains Mono.
 | 13.07–16.27 | outro: 60 MINIT · P6 → P8 · SHIFT KE KIRI / HIT DOWN |
 
 Build script for the panel footage: frame-indexed pieces (real, reverse, interpolated, holds) concatenated per clip, then `hstack`.
-No speech in this edit; music + SFX only.
+No speech and no music in this edit (music removed on request); SFX only.
