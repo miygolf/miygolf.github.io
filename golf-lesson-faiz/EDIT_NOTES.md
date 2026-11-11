@@ -28,6 +28,23 @@ Transcribed with faster-whisper large-v3 (Malay) on denoised audio, cross-checke
 | 17 | 39.87 | 2.40 | A | 55.35 → 57.75 |  | So kita rasa lama kat bawah |
 | 18 | 42.27 | 5.73 | C | 4.20 → 9.30 | 0.6 s at 44.00 (src 5.933) | RESULT 60 min later |
 
+### v5 result chapter (replaces row 18; clip C)
+
+| At | Len | Piece |
+|---|---|---|
+| 42.27 | 0.70 | C 4.70 → 5.40, real time (address/takeaway) |
+| 42.97 | 1.87 | C 5.40 → 5.867, slow-mo 0.25× (MCI interpolation) |
+| 44.83 | 0.70 | **P6** freeze (C 5.867) |
+| 45.53 | 0.27 | slow-mo to impact |
+| 45.80 | 0.90 | **P7 impact** freeze (C 5.933) |
+| 46.70 | 0.27 | slow-mo |
+| 46.97 | 0.70 | **P8** freeze (C 6.000) |
+| 47.67 | 1.60 | C 6.00 → 6.40, slow-mo follow-through |
+| 49.27 | 1.60 | C 6.40 → 8.00, real time finish + RESULT stamp |
+| 50.87 | 2.80 | end-card freeze → 53.67 s total |
+
+Music is low-passed (800 Hz) through the slow-mo and dips at P7.
+
 v4: chapter 04 RESULT (clip C, 60 min later) before the recap: "60 MIN KEMUDIAN" title, riser into an impact freeze, RESULT stamp over the held finish.
 
 v3: 0.6 s freeze-frame at each impact (hook, swing asal, swing 01, swing 02) with an IMPACT ring on the clubhead/ball, a bass hit and a music dip. Hands-on clips and the end card were shortened to keep 45 s. Timings now come from measured frame counts per piece.
