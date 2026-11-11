@@ -1,10 +1,10 @@
 # Edit notes — Golf lesson bersama Faiz
 
-Sources: clip A = `1794274026226.mov` (61 s), clip B = `1794273769635.mov` (5 min 18 s). Both 1080×1920, 30 fps.
+Sources: clip C = `1794276442263.mov` (10 s, result after 60 min); clip A = `1794274026226.mov` (61 s), clip B = `1794273769635.mov` (5 min 18 s). Both 1080×1920, 30 fps.
 
 Transcribed with faster-whisper large-v3 (Malay) on denoised audio, cross-checked with a second model. Lines that the two passes did not agree on are kept as picture only (no caption).
 
-## Cut list (a-roll `assets/video/main.mp4`, 42.27 s + 2.73 s end-card freeze = 45.0 s)
+## Cut list (a-roll `assets/video/main.mp4`, 48.0 s + 2.8 s end-card freeze = 50.8 s)
 
 | # | At | Len | Source | In → Out | Freeze (pause at impact) | Content |
 |---|---|---|---|---|---|---|
@@ -26,6 +26,9 @@ Transcribed with faster-whisper large-v3 (Malay) on denoised audio, cross-checke
 | 15 | 35.87 | 1.03 | A | 36.75 → 37.78 |  | Betul |
 | 16 | 36.90 | 2.97 | A | 49.75 → 52.10 | 0.6 s at 38.33 (src 51.183) | swing 2 |
 | 17 | 39.87 | 2.40 | A | 55.35 → 57.75 |  | So kita rasa lama kat bawah |
+| 18 | 42.27 | 5.73 | C | 4.20 → 9.30 | 0.6 s at 44.00 (src 5.933) | RESULT 60 min later |
+
+v4: chapter 04 RESULT (clip C, 60 min later) before the recap: "60 MIN KEMUDIAN" title, riser into an impact freeze, RESULT stamp over the held finish.
 
 v3: 0.6 s freeze-frame at each impact (hook, swing asal, swing 01, swing 02) with an IMPACT ring on the clubhead/ball, a bass hit and a music dip. Hands-on clips and the end card were shortened to keep 45 s. Timings now come from measured frame counts per piece.
 

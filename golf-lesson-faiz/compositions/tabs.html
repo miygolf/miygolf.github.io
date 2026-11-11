@@ -43,6 +43,10 @@
       <div class="tab-no">02</div>
       <div class="tab-name">FIX: SHIFT</div>
     </div>
+    <div id="tab-4" class="tab clip" data-start="40.57" data-duration="5.73">
+      <div class="tab-no">04</div>
+      <div class="tab-name">RESULT · 60 MIN</div>
+    </div>
     <div id="tab-3" class="tab clip" data-start="22.87" data-duration="17.70">
       <div class="tab-no">03</div>
       <div class="tab-name">DRILL</div>
@@ -54,6 +58,7 @@
       ["#tab-1", 0.65, 8.83],
       ["#tab-2", 8.83, 22.87],
       ["#tab-3", 22.87, 40.57],
+      ["#tab-4", 40.57, 46.3],
     ];
     tabs.forEach(([sel, s, e]) => {
       tl.fromTo(sel + " .tab-no", { xPercent: -120, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.28, ease: "expo.out" }, s);
