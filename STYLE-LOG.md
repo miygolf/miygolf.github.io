@@ -40,5 +40,5 @@ Each video gets a look that differs from the ones before it.
 | --- | --- | --- | --- | --- |
 | **Farhan chip + putt "MASUK"** (branch `ccr-57d78901-egq2p0`, `projects/farhan-masuk/`) | **Group Chat**: the hole told like the friends' chat thread — casual, low animation | Plus Jakarta Sans 800 + Bagel Fat One + Noto Color Emoji | tangerine #e2530b (sent bubbles), white, ink #17181c, ink pills rgba(23,24,28,.74) | words light up in the bubble as they're spoken, centre "date" pills per shot, typing indicator → sticker on the hook freeze, MASUK!! sticker on the drop; hard cuts, no wipes, no grade, no music |
 
-- Farhan MASUK (2026-11-11, preview): owner asked for **casual style, less animation** — one bubble/pill/sticker at a time, hard cuts, SFX kept soft and off the voice.
+- Farhan MASUK (2026-11-11, delivered from preview v1 unchanged): owner asked for **casual style, less animation** — one bubble/pill/sticker at a time, hard cuts, SFX kept soft and off the voice.
   The narrator films and talks quietly behind the phone: lift his pieces (+9 dB) before mastering so he sits on top of the course noise.

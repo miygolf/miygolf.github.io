@@ -1,7 +1,7 @@
 # Farhan — chip, putt, MASUK — edit notes
 
-HyperFrames 0.9.32 · 1080×1920 · 30 fps · 21.9 s · status: **draft preview v1** (`previews/farhan-masuk_preview_draft_v1.mp4`).
-Not rendered for delivery yet: render only when the owner says "render".
+HyperFrames 0.9.32 · 1080×1920 · 30 fps · 22.0 s · status: **final delivered** (`final/farhan-masuk_1080x1920.mp4`, 45 MB):
+H.264 High ~16 Mbps, AAC 256k 48 kHz, −14.1 LUFS, peak −1.5 dBFS. Owner approved draft preview v1 unchanged ("render", 2026-11-11).
 
 Request (2026-11-11): HyperFrames, transcribe first, motion graphics and SFX where they belong, premium SFX, never over the face,
 TikTok/IG safe zone, voice must stay on top, cut repeats and awkward pauses, strongest hook, new design, **casual style with less animation**.
