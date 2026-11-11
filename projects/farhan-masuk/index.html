@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Group Chat": the hole told like the friends' WhatsApp-style thread it ends up in. Casual, low animation.
+         The narrator's lines = tangerine "sent" bubbles (right), shot labels = small ink "date" pills (centre),
+         one sticker word per beat (Bagel Fat One), a typing indicator for the suspense.
+         Type: Plus Jakarta Sans 600/800 (bubbles, pills) + Bagel Fat One (stickers). Emoji: Noto Color Emoji.
+         Palette: tangerine #e2530b, bubble white #ffffff, ink #17181c, pill ink rgba(23,24,28,0.74), muted #8b9098.
+         Motion: bubbles grow out of their tail corner, pills fade up, stickers pop with a slight tilt. Hard cuts between shots.
+         Safe band: x 60-930, y 168-1330. Faces checked per shot (see EDIT_NOTES.md); nothing sits on a face. */
+      @font-face { font-family: "Jakarta"; font-weight: 200 800; src: url("assets/fonts/PlusJakartaSans-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Noto Color Emoji"; font-weight: 400; src: url("assets/fonts/NotoColorEmoji.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Bagel"; font-weight: 400; src: url("assets/fonts/BagelFatOne-Regular.ttf") format("truetype"); font-display: block; }
+      :root { --tan: #e2530b; --tand: #b8420a; --ink: #17181c; --white: #ffffff; --muted: #8b9098; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
+      .ov { position: absolute; z-index: 6; opacity: 0; pointer-events: none; }
+      .emo { font-family: "Noto Color Emoji", sans-serif; font-weight: 400; }
+
+      /* sent bubble (the narrator) */
+      .bub { right: 150px; max-width: 560px; padding: 20px 30px 22px; background: var(--tan); color: #fff;
+             border-radius: 40px 40px 10px 40px; font-family: "Jakarta", sans-serif; font-weight: 800; font-size: 46px; line-height: 1.16;
+             letter-spacing: -0.01em; box-shadow: 0 10px 28px rgba(0,0,0,0.22); transform-origin: 100% 100%; }
+      .bub .w { opacity: 0.5; }
+      .bub .w.on { opacity: 1; }
+      .bub .meta { display: block; margin-top: 6px; text-align: right; font-weight: 600; font-size: 22px; letter-spacing: 0.02em; color: rgba(255,255,255,0.78); }
+      /* incoming bubble (typing indicator) */
+      .inb { left: 60px; padding: 26px 30px; background: var(--white); border-radius: 40px 40px 40px 10px; box-shadow: 0 10px 28px rgba(0,0,0,0.22);
+             transform-origin: 0 100%; display: flex; gap: 12px; }
+      .inb i { display: block; width: 18px; height: 18px; border-radius: 50%; background: var(--muted); }
+      /* date-style pill */
+      .pill { left: 540px; top: 196px; transform: translateX(-50%); padding: 12px 26px 13px; border-radius: 999px; white-space: nowrap;
+              background: rgba(23,24,28,0.74); color: #fff; font-family: "Jakarta", sans-serif; font-weight: 800; font-size: 30px; letter-spacing: 0.08em; }
+      .pill .emo { letter-spacing: 0; }
+      /* sticker word */
+      .stk { left: 60px; width: 870px; text-align: center; font-family: "Bagel", sans-serif; color: #fff; line-height: 0.95;
+             -webkit-text-stroke: 12px var(--ink); paint-order: stroke fill; text-shadow: 0 10px 0 var(--tan), 0 12px 0 var(--ink); }
+      .stk .emo { -webkit-text-stroke: 0; text-shadow: none; font-size: 0.8em; }
+
+      #m1 { top: 228px; } #m2 { top: 404px; }
+      #typing { top: 1100px; }
+      #ask { top: 1108px; font-size: 118px; }
+      #masuk { top: 236px; font-size: 136px; white-space: nowrap; }
+      #nasib { top: 440px; right: 150px; }
+      #recap { top: 1086px; }
+      #cta { top: 1172px; right: 150px; }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="21.8667" data-width="1080" data-height="1920" data-fps="30">
+      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="21.8667" data-track-index="1" muted playsinline></video>
+
+      <!-- HOOK: the narrator's line, word by word -->
+      <div id="m1" class="ov bub"></div>
+      <div id="m2" class="ov bub"></div>
+      <div id="typing" class="ov inb"><i></i><i></i><i></i></div>
+      <div id="ask" class="ov stk">MASUK<br>KE TAK? <span class="emo">👀</span></div>
+
+      <!-- shot pills -->
+      <div id="p-tee" class="ov pill">FARHAN · TEE SHOT</div>
+      <div id="p-chip" class="ov pill">CHIP <span class="emo">🤞</span></div>
+      <div id="p-putt" class="ov pill">PUTT <span class="emo">⛳</span></div>
+
+      <!-- the drop -->
+      <div id="masuk" class="ov stk">MASUK!! <span class="emo">🔥</span></div>
+      <div id="nasib" class="ov bub"></div>
+
+      <!-- end card -->
+      <div id="recap" class="ov pill">CHIP → PUTT → MASUK <span class="emo">✅</span></div>
+      <div id="cta" class="ov bub">Skill ke nasib? <span class="emo">😂</span><br>Komen <span class="emo">👇</span></div>
+
+      <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="21.8667" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>
+      <!-- sound design: Mixkit ids (assets/sfx/CREDITS.md). start = picture beat - file peak. No music. -->
+      <audio data-hf-id="hf-s00" id="sfx-00" class="clip" src="assets/sfx/2357.mp3" data-start="0.000" data-duration="0.14" data-media-start="0.240" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- first bubble (on frame 0) -->
+      <audio data-hf-id="hf-s01" id="sfx-01" class="clip" src="assets/sfx/2357.mp3" data-start="1.730" data-duration="0.38" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- second bubble (in the gap before 'bogey') -->
+      <audio data-hf-id="hf-s02" id="sfx-02" class="clip" src="assets/sfx/1464.mp3" data-start="2.857" data-duration="0.60" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- freeze, soft accent (under 'kita tengok', low) -->
+      <audio data-hf-id="hf-s03" id="sfx-03" class="clip" src="assets/sfx/2357.mp3" data-start="3.027" data-duration="0.38" data-track-index="13" data-volume="0.3" data-audio-group="sfx"></audio> <!-- typing bubble -->
+      <audio data-hf-id="hf-s04" id="sfx-04" class="clip" src="assets/sfx/3005.mp3" data-start="3.337" data-duration="0.18" data-track-index="14" data-volume="0.55" data-audio-group="sfx"></audio> <!-- MASUK KE TAK? sticker -->
+      <audio data-hf-id="hf-s05" id="sfx-05" class="clip" src="assets/sfx/2364.mp3" data-start="3.377" data-duration="0.50" data-track-index="15" data-volume="0.35" data-audio-group="sfx"></audio> <!-- sticker lands -->
+      <audio data-hf-id="hf-s06" id="sfx-06" class="clip" src="assets/sfx/166.mp3" data-start="4.533" data-duration="0.70" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- cut from the hook back to the tee -->
+      <audio data-hf-id="hf-s07" id="sfx-07" class="clip" src="assets/sfx/2357.mp3" data-start="4.713" data-duration="0.38" data-track-index="13" data-volume="0.16" data-audio-group="sfx"></audio> <!-- TEE SHOT pill (quiet: 'Farhan' is spoken here) -->
+      <audio data-hf-id="hf-s08" id="sfx-08" class="clip" src="assets/sfx/2126.mp3" data-start="6.660" data-duration="0.64" data-track-index="12" data-volume="0.38" data-audio-group="sfx"></audio> <!-- tee strike, layered on the real one -->
+      <audio data-hf-id="hf-s09" id="sfx-09" class="clip" src="assets/sfx/2357.mp3" data-start="8.513" data-duration="0.38" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- CHIP pill -->
+      <audio data-hf-id="hf-s10" id="sfx-10" class="clip" src="assets/sfx/2127.mp3" data-start="9.583" data-duration="0.72" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- chip contact, layered -->
+      <audio data-hf-id="hf-s11" id="sfx-11" class="clip" src="assets/sfx/2357.mp3" data-start="12.313" data-duration="0.38" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- PUTT pill -->
+      <audio data-hf-id="hf-s12" id="sfx-12" class="clip" src="assets/sfx/1146.mp3" data-start="13.693" data-duration="2.05" data-track-index="12" data-volume="0.2" data-audio-group="sfx"></audio> <!-- soft build under the roll, peaks on the drop -->
+      <audio data-hf-id="hf-s13" id="sfx-13" class="clip" src="assets/sfx/3005.mp3" data-start="15.483" data-duration="0.18" data-track-index="13" data-volume="0.6" data-audio-group="sfx"></audio> <!-- MASUK!! sticker -->
+      <audio data-hf-id="hf-s14" id="sfx-14" class="clip" src="assets/sfx/2364.mp3" data-start="15.523" data-duration="0.50" data-track-index="14" data-volume="0.45" data-audio-group="sfx"></audio> <!-- sticker lands -->
+      <audio data-hf-id="hf-s15" id="sfx-15" class="clip" src="assets/sfx/518.mp3" data-start="18.667" data-duration="3.20" data-media-start="4.600" data-track-index="12" data-volume="0.16" data-audio-group="sfx"></audio> <!-- light applause under the end card (no speech here) -->
+      <audio data-hf-id="hf-s16" id="sfx-16" class="clip" src="assets/sfx/1464.mp3" data-start="18.607" data-duration="0.60" data-track-index="13" data-volume="0.3" data-audio-group="sfx"></audio> <!-- end card: recap pill -->
+      <audio data-hf-id="hf-s17" id="sfx-17" class="clip" src="assets/sfx/2357.mp3" data-start="19.077" data-duration="0.38" data-track-index="14" data-volume="0.3" data-audio-group="sfx"></audio> <!-- CTA bubble -->
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {"T": {"hook_roll": {"start": 0.0, "end": 2.1667}, "hook_slow": {"start": 2.1667, "end": 2.9667}, "hook_freeze": {"start": 2.9667, "end": 4.8333}, "tee_intro": {"start": 4.8333, "end": 5.7}, "tee_swing": {"start": 5.7, "end": 8.6333}, "chip": {"start": 8.6333, "end": 12.4333}, "putt": {"start": 12.4333, "end": 17.2}, "pick": {"start": 17.2, "end": 18.5667}, "end_freeze": {"start": 18.5667, "end": 21.8667}}, "B": {"hook_stroke": 1.25, "tee_impact": 6.83, "chip_contact": 9.733, "putt_stroke": 14.083, "putt_drop": 15.483, "tu_nasib": 16.253, "freeze": 2.967, "ask": 3.367}, "TOTAL": 21.8667, "CAP": {"m1": [[["Tengok", 0.0], ["dia", 0.29], ["boleh", 0.45]], [["convert", 0.67], ["birdie", 0.91], ["ke…", 1.47]]], "m2": [[["…bogey", 2.03], ["😂", 2.33]], [["kita", 2.55], ["tengok.", 2.81]]], "nasib": [[["Tu", 16.253], ["nasib", 16.553], ["😂", 16.933]]]}};
+        const T = K.T, B = K.B;
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+
+        // a sent bubble: words dim until spoken; lines = [[ [word, t], ... ], ...]
+        function bubble(sel, lines, meta) {
+          const el = $(sel);
+          lines.forEach((line, li) => {
+            line.forEach(([w, t], wi) => {
+              const s = document.createElement("span");
+              s.className = /\p{Extended_Pictographic}/u.test(w) ? "w emo" : "w";
+              s.textContent = w; el.appendChild(s);
+              if (wi < line.length - 1) el.appendChild(document.createTextNode(" "));
+              tl.set(s, { className: s.className + " on" }, Math.max(t, 0));
+            });
+            if (li < lines.length - 1) el.appendChild(document.createElement("br"));
+          });
+          if (meta) { const m = document.createElement("span"); m.className = "meta"; m.textContent = meta; el.appendChild(m); }
+          return el;
+        }
+        function popIn(el, t, from) {
+          tl.fromTo(el, { opacity: 0, scale: 0.55, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.26, ease: "back.out(1.9)", immediateRender: false }, t);
+          tl.set(el, { opacity: 0 }, 0);
+        }
+        function out(el, t) { tl.to(el, { opacity: 0, y: -14, duration: 0.18, ease: "power2.in" }, t); }
+        function pill(sel, t0, t1) {
+          const el = $(sel);
+          tl.fromTo(el, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.24, ease: "power2.out", immediateRender: false }, t0);
+          tl.set(el, { opacity: 0 }, 0);
+          tl.to(el, { opacity: 0, duration: 0.14 }, t1);
+        }
+        function sticker(sel, t, rot) {
+          const el = $(sel);
+          tl.fromTo(el, { opacity: 0, scale: 0.2, rotation: rot - 10 }, { opacity: 1, scale: 1, rotation: rot, duration: 0.34, ease: "back.out(2.2)", immediateRender: false }, t);
+          tl.set(el, { opacity: 0 }, 0);
+          return el;
+        }
+
+        // ---------- HOOK ----------
+        const m1 = bubble("#m1", K.CAP.m1);
+        tl.set(m1, { opacity: 1, scale: 1 }, 0);       // text on frame 0
+        const m2 = bubble("#m2", K.CAP.m2);
+        popIn(m2, K.CAP.m2[0][0][1] - 0.06);
+        // freeze: typing... then the question
+        const typ = $("#typing");
+        popIn(typ, B.freeze + 0.18);
+        typ.querySelectorAll("i").forEach((d, i) => {
+          tl.fromTo(d, { y: 0 }, { y: -12, duration: 0.16, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, B.freeze + 0.25 + i * 0.08);
+        });
+        tl.to(typ, { opacity: 0, scale: 0.7, duration: 0.12 }, B.ask - 0.04);
+        sticker("#ask", B.ask, -3);
+        [m1, m2, $("#ask")].forEach((el) => tl.set(el, { opacity: 0 }, T.tee_intro.start));
+
+        // ---------- shots ----------
+        pill("#p-tee", T.tee_intro.start + 0.08, T.chip.start - 0.02);
+        pill("#p-chip", T.chip.start + 0.08, T.putt.start - 0.02);
+        pill("#p-putt", T.putt.start + 0.08, B.putt_drop - 0.05);
+
+        // ---------- the drop ----------
+        const mk = sticker("#masuk", B.putt_drop + 0.03, -4);
+        tl.fromTo(mk, { scale: 1 }, { scale: 1.06, duration: 0.14, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false }, B.putt_drop + 0.4);
+        const ns = bubble("#nasib", K.CAP.nasib);
+        popIn(ns, K.CAP.nasib[0][0][1] - 0.08);
+        out(mk, T.pick.start); out(ns, T.pick.start);
+
+        // ---------- end card ----------
+        const E = T.end_freeze.start;
+        pill("#recap", E + 0.15, K.TOTAL + 1);
+        popIn($("#cta"), E + 0.75);
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
