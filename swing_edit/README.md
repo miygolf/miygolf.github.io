@@ -16,3 +16,15 @@ Each swing has a config in `configs/` (timings, key frames, card text, scores):
 
 Text in configs can use `{addr_angle}`, `{imp_angle}`, `{angle_loss}`, `{rknee_addr}`, `{rknee_top}`, `{bs}`, `{ds}`, `{ratio}`,
 which are computed from the pose data.
+
+## Side-by-side comparison
+
+`configs/compare.json` pairs two swing configs (labels, colours, panel crops, card text, scorecard).
+
+    python3 compare.py configs/compare.json <workdir_left> <workdir_right> <outdir>
+    python3 compare_audio.py <outdir> <workdir_left> <workdir_right>
+    ffmpeg -i <outdir>/video.mp4 -i <outdir>/audio.wav -c:v copy -c:a aac -b:a 192k -shortest out.mp4
+
+The slow-mo section is phase-synced: each clip is time-warped so both reach takeaway, top and impact
+on the same frame. Body-movement stats are normalised by torso length so different camera distances compare fairly.
+Shared helpers live in `common.py` (drawing/pose) and `sfx.py` (audio).

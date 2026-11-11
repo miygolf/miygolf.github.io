@@ -1,0 +1,27 @@
+{
+ "left":  {"config": "configs/swing1.json", "label": "ADIK", "color": "amber", "crop": {"cx": 390, "cy": 1060, "w": 620}},
+ "right": {"config": "configs/swing2.json", "label": "SAYA", "color": "lime",  "crop": {"cx": 410, "cy": 1240, "w": 715}},
+ "intro_sub": "swing siapa lagi cantik?",
+ "cards": [
+  {"type": "setup", "label": "SETUP", "title": "SIAPA SETUP CANTIK?", "winner": "right",
+   "stats": [["Spine tilt masa address", "spine_addr", "°", 0]],
+   "lines": ["Adik terlalu tegak.", "Saya hinge dari pinggul - atletik."]},
+  {"type": "top", "label": "TOP", "title": "SIAPA KEPALA STATIK?", "winner": "right",
+   "stats": [["Kepala bergerak ke top (% panjang torso)", "head_move", "%", 0]],
+   "lines": ["Adik: arc lebih lebar & panjang.", "Saya: kepala hampir tak bergerak."]},
+  {"type": "impact", "label": "IMPACT", "title": "SIAPA KEKAL POSTUR?", "winner": "right",
+   "stats": [["Spine angle hilang masa impact", "spine_loss", "°", 0], ["Pinggul tertolak ke bola (% torso)", "hip_push", "%", 0]],
+   "lines": ["Dua-dua angkat badan masa impact,", "tapi pinggul adik tertolak ~2x lebih."]},
+  {"type": "finish", "label": "FINISH", "title": "SIAPA FINISH CANTIK?", "winner": "tie",
+   "rows_text": [["Finish & balance", "Seimbang", "Seimbang"]],
+   "lines": ["Dua-dua seimbang & hold finish.", "Yang ni memang dalam darah!"]}
+ ],
+ "tempo": {"winner": "left", "lines": ["Adik lebih santai. Saya terlalu laju -", "pro biasanya ~3 : 1."]},
+ "scorecard": {
+  "rows": [["Setup", 6.0, 8.0], ["Backswing", 7.0, 7.5], ["Impact", 5.0, 6.5], ["Tempo", 7.0, 6.0], ["Finish", 8.5, 8.5]],
+  "overall": [6.5, 7.3], "sub": "...tapi tempo adik lagi cantik!"},
+ "learn": {
+  "left_title": "ADIK, tiru SAYA:", "left_lines": ["Postur - hinge dari pinggul,", "punggung ke belakang, lutut flex."],
+  "right_title": "SAYA, tiru ADIK:", "right_lines": ["Tempo - backswing lebih santai,", "biar badan habis pusing."],
+  "both_title": "DUA-DUA:", "both_lines": ["Kekalkan postur sampai impact.", "Drill: punggung sentuh dinding."]}
+}

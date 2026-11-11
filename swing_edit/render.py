@@ -7,10 +7,11 @@ Usage: python3 render.py <config.json> <workdir> [frame numbers to dump as previ
     work/pose.json    MediaPipe pose landmarks keyed by 0-based frame index
 Writes work/video.mp4 (silent) and work/timeline.json (read by audio.py).
 """
-import glob, json, math, subprocess, sys
-from PIL import Image, ImageDraw, ImageFont, ImageFilter
+import glob, json, math, os, subprocess, sys
+from PIL import Image, ImageDraw, ImageFilter
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from common import *
 
-W, H, FPS = 1080, 1920, 30
 C = json.load(open(sys.argv[1]))
 D = sys.argv[2]
 SRC_FPS = C["src_fps"]
@@ -20,41 +21,11 @@ SLOW_T0, SLOW_FPS = C["slow"]["t0"], C["slow"]["fps"]
 VIEW_CX, VIEW_CY = C["view"]["cx"], C["view"]["cy"]
 BALL = tuple(C["ball"])
 
-# ---------- look ----------
-F = "/usr/share/fonts/opentype/inter/"
-def font(name, size): return ImageFont.truetype(F + name, size)
-LIME = (198, 255, 61); WHITE = (255, 255, 255); RED = (255, 77, 77)
-CYAN = (61, 214, 255); AMBER = (255, 176, 32); INK = (8, 12, 10)
-COLORS = {"lime": LIME, "red": RED, "amber": AMBER, "cyan": CYAN, "white": WHITE}
-fBlack = lambda s: font("InterDisplay-Black.otf", s)
-fBold = lambda s: font("InterDisplay-Bold.otf", s)
-fSemi = lambda s: font("Inter-SemiBold.otf", s)
 
 # ---------- pose ----------
-RAW = {int(k): v for k, v in json.load(open(f"{D}/work/pose.json")).items()}
-N = max(RAW) + 1
-def smooth():
-    out = {}
-    for i in range(N):
-        pts = []
-        for j in range(33):
-            acc = [0, 0]; wsum = 0
-            for o, w in ((-1, 1), (0, 2), (1, 1)):
-                k = min(max(i + o, 0), N - 1)
-                acc[0] += RAW[k][j][0] * w; acc[1] += RAW[k][j][1] * w; wsum += w
-            pts.append((acc[0] / wsum * W, acc[1] / wsum * H))
-        out[i] = pts
-    return out
-POSE = smooth()
-def pose_at(fi):
-    fi = min(max(fi, 0), N - 1)
-    a = int(math.floor(fi)); b = min(a + 1, N - 1); u = fi - a
-    return [(pa[0] + (pb[0] - pa[0]) * u, pa[1] + (pb[1] - pa[1]) * u) for pa, pb in zip(POSE[a], POSE[b])]
-def mid(p, a, b): return ((p[a][0] + p[b][0]) / 2, (p[a][1] + p[b][1]) / 2)
-def angle_from_vertical(hip, sh): return math.degrees(math.atan2(sh[0] - hip[0], hip[1] - sh[1]))
-def joint_angle(p, a, b, c):
-    v1 = (p[a][0] - p[b][0], p[a][1] - p[b][1]); v2 = (p[c][0] - p[b][0], p[c][1] - p[b][1])
-    return math.degrees(math.acos((v1[0] * v2[0] + v1[1] * v2[1]) / math.hypot(*v1) / math.hypot(*v2)))
+POSE = load_pose(f"{D}/work/pose.json")
+N = len(POSE)
+def pose_at(fi): return interp_pose(POSE, fi)
 def spine(i): p = POSE[i]; return angle_from_vertical(mid(p, 23, 24), mid(p, 11, 12))
 
 # numbers available to config text as {name}
@@ -65,18 +36,6 @@ VALS = {"addr_angle": round(spine(I_ADDR)), "imp_angle": round(spine(I_IMP)),
         "bs": f"{BS:.2f}", "ds": f"{DS:.2f}", "ratio": f"{BS / DS:.1f}"}
 def fmt(s): return s.format(**VALS)
 
-# ---------- helpers ----------
-def ease(u): u = min(max(u, 0), 1); return 1 - (1 - u) ** 3
-def lerp(a, b, u): return a + (b - a) * u
-
-class View:
-    def __init__(self, z, cx, cy):
-        self.z = z; w, h = W / z, H / z
-        self.x0 = min(max(cx - w / 2, 0), W - w); self.y0 = min(max(cy - h / 2, 0), H - h)
-        self.w, self.h = w, h
-    def img(self, im):
-        return im.resize((W, H), Image.LANCZOS, box=(self.x0, self.y0, self.x0 + self.w, self.y0 + self.h))
-    def pt(self, p): return ((p[0] - self.x0) * self.z, (p[1] - self.y0) * self.z)
 
 _cache = {}
 def frame(i):
@@ -88,45 +47,6 @@ def frame(i):
 def slow(k): return Image.open(f"{D}/slow/s{k:04d}.jpg").convert("RGB")
 N_SLOW = C["slow"].get("n") or len(glob.glob(f"{D}/slow/s*.jpg"))
 
-def text(d, xy, s, f, fill=WHITE, anchor="la", shadow=True, alpha=255):
-    if shadow:
-        d.text((xy[0] + 3, xy[1] + 4), s, font=f, fill=(0, 0, 0, int(150 * alpha / 255)), anchor=anchor)
-    d.text(xy, s, font=f, fill=fill[:3] + (alpha,), anchor=anchor)
-
-def panel(d, box, r=28, fill=(8, 12, 10, 200), outline=None, width=3):
-    d.rounded_rectangle(box, r, fill=fill, outline=outline, width=width)
-
-def chip(d, xy, s, f, bg=LIME, fg=INK, alpha=255, pad=(22, 12)):
-    l, t, r, b = d.textbbox(xy, s, font=f)
-    d.rounded_rectangle((l - pad[0], t - pad[1], r + pad[0], b + pad[1]), (b - t) // 2 + pad[1], fill=bg[:3] + (alpha,))
-    d.text(xy, s, font=f, fill=fg[:3] + (alpha,))
-    return r + pad[0]
-
-def dashed(d, a, b, fill, width=5, dash=22, gap=14):
-    L = math.dist(a, b)
-    if L < 1: return
-    n = int(L // (dash + gap)) + 1
-    ux, uy = (b[0] - a[0]) / L, (b[1] - a[1]) / L
-    for k in range(n):
-        s = k * (dash + gap); e = min(s + dash, L)
-        d.line([(a[0] + ux * s, a[1] + uy * s), (a[0] + ux * e, a[1] + uy * e)], fill=fill, width=width)
-
-def dashed_circle(d, c, r, fill, width=5, n=18):
-    for k in range(n):
-        a0 = 360 / n * k; d.arc((c[0] - r, c[1] - r, c[0] + r, c[1] + r), a0, a0 + 360 / n * .6, fill=fill, width=width)
-
-def arrow(d, a, b, fill, width=8, head=26):
-    d.line([a, b], fill=fill, width=width)
-    ang = math.atan2(b[1] - a[1], b[0] - a[0])
-    for s in (2.6, -2.6):
-        d.line([b, (b[0] + head * math.cos(ang + s), b[1] + head * math.sin(ang + s))], fill=fill, width=width)
-
-def partial_line(d, a, b, u, **kw):
-    if u <= 0: return
-    d.line([a, (lerp(a[0], b[0], u), lerp(a[1], b[1], u))], **kw)
-
-BONES = [(11, 12), (11, 13), (13, 15), (12, 14), (14, 16), (11, 23), (12, 24), (23, 24),
-         (23, 25), (25, 27), (24, 26), (26, 28), (27, 31), (28, 32)]
 def skeleton(d, p, view, alpha=230):
     q = [view.pt(x) for x in p]
     for a, b in BONES: d.line([q[a], q[b]], fill=(255, 255, 255, int(alpha * .75)), width=5)
@@ -151,11 +71,6 @@ def hand_trail(d, t_now, view, alpha=255):
         x, y = pts[-1][1]; c = CYAN if t_now <= T_TOP + 0.04 else AMBER
         d.ellipse((x - 14, y - 14, x + 14, y + 14), fill=c + (alpha,), outline=WHITE + (alpha,), width=3)
 
-def vignette():
-    v = Image.new("L", (W, H), 0); dv = ImageDraw.Draw(v)
-    dv.rectangle((0, 0, W, 520), fill=150); dv.rectangle((0, H - 640, W, H), fill=170)
-    v = v.filter(ImageFilter.GaussianBlur(160))
-    out = Image.new("RGBA", (W, H), (0, 0, 0, 0)); out.putalpha(v); return out
 VIG = vignette()
 
 def brand(d, alpha=200):
