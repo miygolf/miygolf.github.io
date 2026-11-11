@@ -1,7 +1,7 @@
 # Tip: bola dalam bunker, plenty of green — Coach Farhan — edit notes
 
-HyperFrames 0.9.32 · 1080×1920 · 30 fps · 25.4 s · status: **draft preview v1** (`previews/shot-tip_preview_draft_v1.mp4`, 720p for review),
-waiting for the owner's OK ("render") before the delivery render.
+HyperFrames 0.9.32 · 1080×1920 · 30 fps · 25.4 s · status: **final delivered** (`final/shot-tip_1080x1920.mp4`, 52 MB):
+H.264 High ~16 Mbps, AAC 256k 48 kHz, −14.2 LUFS, peak −1.5 dBFS. Owner approved draft preview v1 unchanged ("cun", 2026-11-11).
 
 Request (2026-11-11): HyperFrames, transcribe first, motion graphics and SFX where they belong, premium SFX, never over the face,
 TikTok/IG safe zone, cut repeats and awkward pauses, strongest hook, preview before render, a design not used before, "tip how to play this shot",
