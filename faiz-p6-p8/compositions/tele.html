@@ -43,7 +43,7 @@
       document.querySelectorAll(sel + " .shaft").forEach((ln) => {
         const len = Math.hypot(ln.x2.baseVal.value - ln.x1.baseVal.value, ln.y2.baseVal.value - ln.y1.baseVal.value);
         ln.setAttribute("stroke-dasharray", len + " " + len);
-        tl.fromTo(ln, { strokeDashoffset: len }, { strokeDashoffset: 0, duration: 0.22, ease: "power3.out" }, t + 0.04);
+        tl.fromTo(ln, { strokeDashoffset: len, opacity: 0 }, { strokeDashoffset: 0, opacity: 1, duration: 0.22, ease: "power3.out" }, t + 0.04);
       });
       tl.fromTo(sel + " .hand", { opacity: 0, scale: 0.3, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.14, ease: "back.out(2)" }, t);
       tl.fromTo(sel + " .ref", { opacity: 0 }, { opacity: 0.85, duration: 0.18, ease: "power2.out" }, t + 0.12);

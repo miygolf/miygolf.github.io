@@ -1,6 +1,6 @@
 # Edit notes — Before vs After, P6–P8 (Faiz)
 
-Separate short (16.27 s, 1080×1920) in a "lab / telestrator" style: graphite grid, red = before, lime = after,
+Separate short (17.87 s, 1080×1920) in a "lab / telestrator" style: graphite grid, red = before, lime = after,
 Archivo Black + JetBrains Mono.
 
 - **Before**: clip B (`1794273769635.mov`), first full swing of the lesson, impact at frame 1224 (≈40.80 s).
@@ -10,6 +10,8 @@ Archivo Black + JetBrains Mono.
 
 | At (s) | Beat |
 |---|---|
+| 0.00–1.60 | hook: both panels frozen on P7 impact, NAMPAK BEZA?, shaft lines + ball rings |
+| | (all beats below are +1.60 s in the final film) |
 | 0.00–2.63 | real-time swing, BEFORE vs AFTER title |
 | 2.63–3.17 | rewind 3× |
 | 3.17–5.07 | slow-mo 0.25× (MCI interpolation) to P6 |

@@ -1,0 +1,123 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    #hk-band {
+      position: absolute;
+      left: 0;
+      top: 176px;
+      width: 1080px;
+      height: 150px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    #hk-q {
+      font-family: "Archivo Black", sans-serif;
+      font-size: 100px;
+      line-height: 1;
+      color: #f2f2f2;
+      white-space: nowrap;
+    }
+    #hk-q span {
+      color: #b6ff3b;
+    }
+    #hk-sub {
+      margin-top: 10px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      font-size: 30px;
+      letter-spacing: 0.06em;
+      color: #8a94a6;
+      white-space: nowrap;
+    }
+    #hk-sub b {
+      color: #ff4d5e;
+    }
+    #hk-sub i {
+      font-style: normal;
+      color: #b6ff3b;
+    }
+    .hk-chip {
+      position: absolute;
+      top: 346px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      font-family: "Archivo Black", sans-serif;
+      font-size: 30px;
+      color: #0a0c0f;
+      padding: 0 14px;
+    }
+    #hk-cb {
+      left: 16px;
+      background: #ff4d5e;
+    }
+    #hk-ca {
+      left: 559px;
+      background: #b6ff3b;
+    }
+    #hk-lines {
+      position: absolute;
+      inset: 0;
+    }
+    #hk-lines svg {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    #hk-flash {
+      position: absolute;
+      inset: 0;
+      background: #f2f2f2;
+      opacity: 0;
+    }
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+    <div id="hk-lines" class="clip" data-start="0" data-duration="1.62" data-layout-ignore>
+      <svg width="1080" height="1920" viewBox="0 0 1080 1920">
+        <defs>
+          <clipPath id="hk-clip-b"><rect x="3" y="333" width="531" height="954"></rect></clipPath>
+          <clipPath id="hk-clip-a"><rect x="546" y="333" width="531" height="954"></rect></clipPath>
+        </defs>
+        <g clip-path="url(#hk-clip-b)">
+          <circle class="hk-ring" cx="521.5" cy="1090.6" r="30" fill="none" stroke="#ff4d5e" stroke-width="5"></circle>
+          <line class="hk-shaft" x1="286.1" y1="690.6" x2="432.4" y2="1205.9" stroke="#ff4d5e" stroke-width="7" stroke-linecap="round"></line>
+        </g>
+        <g clip-path="url(#hk-clip-a)">
+          <circle class="hk-ring" cx="1026.0" cy="1062.9" r="30" fill="none" stroke="#b6ff3b" stroke-width="5"></circle>
+          <line class="hk-shaft" x1="815.0" y1="720.3" x2="963.3" y2="1111.5" stroke="#b6ff3b" stroke-width="7" stroke-linecap="round"></line>
+        </g>
+      </svg>
+    </div>
+    <div id="hk-band" class="clip" data-start="0" data-duration="1.62">
+      <div id="hk-q">NAMPAK <span>BEZA?</span></div>
+      <div id="hk-sub"><b>AWAL</b> vs <i>60 MIN</i></div>
+    </div>
+    <div id="hk-cb" class="hk-chip clip" data-start="0" data-duration="1.62">BEFORE</div>
+    <div id="hk-ca" class="hk-chip clip" data-start="0" data-duration="1.62">AFTER</div>
+    <div id="hk-flash" class="clip" data-start="0" data-duration="1.62" data-layout-ignore></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // frame 0 already carries the question (thumbnail), then it slams home
+    tl.fromTo("#hk-q", { scale: 1.06 }, { scale: 1, duration: 0.16, ease: "expo.out" }, 0);
+    tl.fromTo("#hk-sub", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.18, ease: "power3.out" }, 0.06);
+    tl.fromTo(".hk-chip", { opacity: 0 }, { opacity: 1, duration: 0.1, ease: "none" }, 0.08);
+    document.querySelectorAll("#hk-lines .hk-shaft").forEach((ln) => {
+      const len = Math.hypot(ln.x2.baseVal.value - ln.x1.baseVal.value, ln.y2.baseVal.value - ln.y1.baseVal.value);
+      ln.setAttribute("stroke-dasharray", len + " " + len);
+      tl.fromTo(ln, { strokeDashoffset: len, opacity: 0 }, { strokeDashoffset: 0, opacity: 1, duration: 0.24, ease: "power3.out" }, 0.2);
+    });
+    tl.fromTo(".hk-ring", { opacity: 0, scale: 1.8, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.18, ease: "expo.out" }, 0.3);
+    // exit: white flash cut into the real-time swing
+    tl.to("#hk-band > *, .hk-chip, #hk-lines svg", { opacity: 0, duration: 0.08, ease: "power2.in" }, 1.46);
+    tl.fromTo("#hk-flash", { opacity: 0 }, { opacity: 0.7, duration: 0.05, ease: "none" }, 1.5);
+    tl.to("#hk-flash", { opacity: 0, duration: 0.06, ease: "power2.out" }, 1.55);
+    window.__timelines["hook"] = tl;
+  </script>
+</template>
