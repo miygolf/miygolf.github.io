@@ -1,0 +1,27 @@
+{
+ "src_fps": 30,
+ "times": {"takeaway": 5.43, "top": 6.00, "impact": 6.233},
+ "frames": {"addr": 156, "top": 180, "imp": 187, "fin": 210},
+ "slow": {"t0": 5.2, "fps": 120, "n": 205},
+ "view": {"cx": 400, "cy": 1090},
+ "ball": [640, 1395],
+ "phases": [[5.43, "ADDRESS"], [5.95, "BACKSWING"], [6.07, "TOP"], [6.215, "DOWNSWING"], [6.33, "IMPACT"], [6.62, "FOLLOW-THRU"], [99, "FINISH"]],
+ "hook": {"t0": 5.0, "t1": 7.4, "title": "RATE SWING NI", "sub": "berapa markah?", "zoom": 1.18, "cx": 440, "cy": 1080},
+ "cards": [
+  {"type": "setup", "label": "SETUP", "title": "POSTUR AGAK TEGAK", "score": "6/10",
+   "lines": ["Spine tilt ~{addr_angle}° - kurang hinge pinggul.", "Tolak punggung ke belakang,", "lutut flex sikit, dada atas bola."]},
+  {"type": "top", "label": "TOP", "title": "LEBAR & TINGGI", "score": "7/10", "extra": "across",
+   "club_hands": [280, 756], "club_head": [430, 840],
+   "lines": ["Arc lebar, kepala & pinggul stabil.", "Tapi kayu sikit 'across the line' -", "shaft tunjuk kanan target."]},
+  {"type": "impact", "label": "IMPACT", "title": "EARLY EXTENSION", "score": "5/10", "color": "red",
+   "butt_line": [930, 1330, 1150], "extra_frames": 15,
+   "lines": ["Pinggul tertolak ke arah bola,", "badan 'berdiri' masa impact.", "Spine angle hilang ~{angle_loss}°."]},
+  {"type": "finish", "label": "FINISH", "title": "FINISH SEIMBANG", "score": "8.5/10",
+   "lines": ["Berat penuh ke kaki kiri,", "tali pinggang hadap target.", "Hold finish macam pro. Mantap!"]}
+ ],
+ "tempo": {"lines": ["Pro biasanya ~3 : 1.", "Backswing laju sikit - slow down,", "biar badan habis pusing dulu."]},
+ "rating": {"overall": 6.5, "tag": "SOLID BASE - BOLEH NAIK LAGI",
+  "scores": [["Setup", 6.0, "lime"], ["Backswing", 7.0, "lime"], ["Impact", 5.0, "red"], ["Tempo", 7.0, "lime"], ["Finish", 8.5, "lime"]],
+  "fix_title": "Early extension",
+  "fix_lines": ["Drill: address dengan punggung", "sentuh dinding / kerusi. Kekalkan", "sentuhan sampai lepas impact."]}
+}

@@ -1,0 +1,26 @@
+{
+ "src_fps": 59.94,
+ "times": {"takeaway": 1.68, "top": 2.19, "impact": 2.469},
+ "frames": {"addr": 90, "top": 131, "imp": 148, "fin": 200},
+ "slow": {"t0": 1.55, "fps": 120},
+ "view": {"cx": 390, "cy": 1180},
+ "ball": [697, 1667],
+ "phases": [[1.68, "ADDRESS"], [2.16, "BACKSWING"], [2.25, "TOP"], [2.455, "DOWNSWING"], [2.55, "IMPACT"], [2.85, "FOLLOW-THRU"], [99, "FINISH"]],
+ "hook": {"t0": 1.3, "t1": 3.7, "title": "RATE MY SWING", "sub": "berapa markah?", "zoom": 1.15, "cx": 420, "cy": 1180},
+ "cards": [
+  {"type": "setup", "label": "SETUP", "title": "POSTUR ATLETIK", "score": "8/10",
+   "lines": ["Spine tilt ~{addr_angle}° - hinge pinggul cantik.", "Lutut flex, lengan jatuh natural.", "Base yang solid untuk swing."]},
+  {"type": "top", "label": "TOP", "title": "KEPALA STATIK", "score": "7.5/10", "extra": "knee", "head_ghost": true,
+   "lines": ["Kepala hampir tak gerak, depth", "pinggul terjaga. Tapi lutut kanan", "makin lurus ({rknee_addr}° → {rknee_top}°)."]},
+  {"type": "impact", "label": "IMPACT", "title": "DADA TERANGKAT", "score": "6.5/10", "color": "amber",
+   "butt_line": [1080, 1450, 1250], "extra_frames": 15,
+   "lines": ["Masuk dari dalam & pinggul kekal", "depth - bagus! Tapi dada naik,", "spine angle hilang ~{angle_loss}° di impact."]},
+  {"type": "finish", "label": "FINISH", "title": "FINISH PENUH", "score": "8.5/10",
+   "lines": ["Badan pusing habis, tangan tinggi.", "Seimbang & hold lebih 1 saat.", "Ini finish yang betul!"]}
+ ],
+ "tempo": {"lines": ["Pro biasanya ~3 : 1.", "Backswing anda laju ({bs}s) -", "perlahankan, biar badan habis pusing."]},
+ "rating": {"overall": 7.3, "tag": "SWING YANG SOLID!", "fix_color": "amber",
+  "scores": [["Setup", 8.0, "lime"], ["Backswing", 7.5, "lime"], ["Impact", 6.5, "amber"], ["Tempo", 6.0, "amber"], ["Finish", 8.5, "lime"]],
+  "fix_title": "Tempo backswing",
+  "fix_lines": ["Drill: kira 'satu-dua-tiga' naik,", "'empat' masa impact. Atau guna", "metronome - target nisbah 3 : 1."]}
+}

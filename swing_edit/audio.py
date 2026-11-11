@@ -1,7 +1,7 @@
 """Build the soundtrack for the swing edit: original swing audio (real-time + pitched-down slow-mo),
 a synthesized lo-fi bed, and whooshes/pops/dings synced to the render timeline.
 
-Usage: python3 audio.py <workdir>   (needs work/orig.wav and work/timeline.json; writes work/audio.wav)
+Usage: python3 audio.py <workdir>   (needs work/orig.wav and work/timeline.json from render.py; writes work/audio.wav)
 """
 import json, sys, wave
 import numpy as np
@@ -36,21 +36,26 @@ voice = np.zeros(n_total)   # swing sounds
 sfx = np.zeros(n_total)
 music = np.zeros(n_total)
 
-# --- S1: real-time 5.0..7.4s
-t_s1 = TL["s1"] / FPS
-seg = orig[int(5.0 * SR): int(5.0 * SR) + int(t_s1 * SR)].copy()
+M = TL["marks"]
+def at(name): return M[name] / FPS
+
+# --- S1: real-time hook
+HK = TL["hook"]
+t_s1 = at("slow")
+seg = orig[int(HK["t0"] * SR): int(HK["t0"] * SR) + int(t_s1 * SR)].copy()
 seg *= env_adsr(len(seg), 0.05, 0.25)
 place(voice, seg, 0, 1.0)
 
-# --- S2: slow-mo 0.25x, pitched down (tape-style), with a hold at impact
-src = orig[int(5.2 * SR): int(6.9 * SR)]
-slow = np.interp(np.arange(len(src) * 4) / 4, np.arange(len(src)), src)
+# --- S2: slow-mo, pitched down (tape-style) to match the playback speed, with a hold at impact
+stretch = TL["slow_fps"] / FPS
+s0 = TL["slow_t0"]; s1 = s0 + TL["n_slow"] / TL["slow_fps"]
+src = orig[int(s0 * SR): int(s1 * SR)]
+slow = np.interp(np.arange(int(len(src) * stretch)) / stretch, np.arange(len(src)), src)
 slow = lfilter(*butter(2, 2500 / (SR / 2)), slow)
 cut = int((TL["k_imp"] - 1) / FPS * SR)
 hold = TL["hold"] / FPS
 s2_start = t_s1
-part1 = slow[:cut] * env_adsr(cut, 0.3, 0.0)
-place(voice, part1 * 2.2, s2_start)
+place(voice, slow[:cut] * env_adsr(cut, 0.3, 0.0) * 2.2, s2_start)
 place(voice, slow[cut:] * 2.2 * env_adsr(len(slow) - cut, 0.0, 1.5), s2_start + cut / SR + hold)
 
 def boom(dur=1.6):
@@ -86,15 +91,14 @@ def thud():
     return np.sin(2 * np.pi * (70 + 60 * np.exp(-t * 25)) * t) * np.exp(-t * 9)
 
 place(sfx, whoosh(0.5), t_s1 - 0.3, 0.35)
-s2_len = TL["s2"] / FPS
-cards = [0, 105, 210, 330, 435, 540]   # frame offsets after S2: c1..c6 starts (c3 is 120 frames)
-c0 = t_s1 + s2_len
-for j, off in enumerate(cards):
-    t = c0 + off / FPS
+cards = sorted(k for k in M if k.startswith("card"))
+c0 = at(cards[0])
+for name in cards + ["tempo", "rating"]:
+    t = at(name)
     place(sfx, whoosh(0.45), t - 0.25, 0.3)
-    if j < 4: place(sfx, pop(880 if j != 2 else 520), t + 8 / FPS, 0.35)
-    if j == 2: place(sfx, thud(), t + 30 / FPS, 0.6)
-t_rating = c0 + cards[5] / FPS
+    if name.startswith("card"): place(sfx, pop(880), t + 8 / FPS, 0.35)
+    if name == "card3": place(sfx, thud(), t + 30 / FPS, 0.6)
+t_rating = at("rating")
 place(sfx, ding(), t_rating + 34 / FPS, 0.32)
 place(sfx, thud(), t_rating + 60 / FPS, 0.55)
 
