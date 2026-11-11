@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<title>MIY Golf Lesson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@500;600;700;800&family=Kaushan+Script&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-900:#0b2f23;
+    --green-800:#0f3d2e;
+    --green-700:#16513d;
+    --green-500:#2f7a57;
+    --gold:#d9ac4f;
+    --gold-light:#f0d38c;
+    --cream:#f7f1e3;
+    --cream-2:#efe6d0;
+    --ink:#13261e;
+    --muted:#5b6b62;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#222}
+  .poster{
+    width:1080px;height:1440px;position:relative;overflow:hidden;
+    font-family:'Montserrat',sans-serif;color:var(--cream);
+    background:
+      repeating-linear-gradient(115deg, rgba(255,255,255,.025) 0 60px, rgba(0,0,0,.035) 60px 120px),
+      radial-gradient(1200px 700px at 85% -10%, #1f6a4c 0%, transparent 60%),
+      linear-gradient(180deg,var(--green-800),var(--green-900));
+  }
+
+  /* ---------- HEADER ---------- */
+  .header{position:relative;padding:28px 56px 10px 56px}
+  .logo{
+    position:absolute;left:48px;top:30px;width:124px;height:124px;border-radius:50%;
+    background:var(--cream);border:4px solid var(--gold);overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .logo img{width:86%;height:86%;object-fit:contain}
+  .badges{position:absolute;right:52px;top:36px;display:flex;flex-direction:column;gap:10px}
+  .badge{
+    display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;letter-spacing:.5px;
+    color:var(--cream);
+  }
+  .badge i{width:26px;height:26px;border-radius:50%;background:var(--gold);display:grid;place-items:center}
+  .badge svg{width:15px;height:15px}
+  .titles{text-align:center;padding-top:6px}
+  .brand{font-weight:800;letter-spacing:7px;font-size:22px;color:var(--gold-light);margin-top:4px}
+  h1{
+    font-family:'Anton',sans-serif;font-weight:400;font-size:120px;line-height:1;letter-spacing:3px;
+    margin-top:34px;color:var(--cream);text-shadow:0 6px 0 rgba(0,0,0,.25);
+  }
+  h1 span{color:var(--gold)}
+  .motto{
+    font-family:'Kaushan Script',cursive;font-size:42px;color:var(--gold-light);margin-top:4px;
+    display:inline-block;position:relative;
+  }
+  .motto:before,.motto:after{content:"";position:absolute;top:56%;width:90px;height:2px;background:var(--gold)}
+  .motto:before{right:calc(100% + 22px)} .motto:after{left:calc(100% + 22px)}
+  .tagline{font-size:20px;font-weight:500;line-height:1.45;color:#d9e4dc;margin-top:6px}
+  .tagline em{color:var(--gold-light);font-weight:700}
+
+  /* ---------- SECTION LABEL ---------- */
+  .label{
+    display:inline-flex;align-items:center;gap:12px;
+    font-weight:800;font-size:22px;letter-spacing:3px;text-transform:uppercase;
+  }
+  .label:before{content:"";width:34px;height:4px;background:var(--gold);border-radius:2px}
+
+  /* ---------- SESSION STRUCTURE ---------- */
+  .session{
+    margin:0 48px;background:var(--cream);color:var(--ink);border-radius:26px;
+    padding:18px 40px 14px 40px;display:grid;grid-template-columns:210px 1fr;gap:16px 44px;align-items:center;
+    box-shadow:0 18px 40px rgba(0,0,0,.3);
+  }
+  .session .label{color:var(--green-800);grid-column:1/-1;margin-bottom:0}
+  .donut{position:relative;width:184px;height:184px}
+  .donut svg{width:100%;height:100%;transform:rotate(-90deg)}
+  .donut .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .donut .center b{font-family:'Anton',sans-serif;font-weight:400;font-size:64px;line-height:1;color:var(--green-800)}
+  .donut .center span{font-weight:800;font-size:17px;letter-spacing:4px;color:var(--muted)}
+  .steps{list-style:none;display:flex;flex-direction:column;gap:0}
+  .steps li{display:grid;grid-template-columns:20px 96px 1fr;align-items:center;gap:14px;
+    padding:4px 0;border-bottom:1.5px dashed #d8ccb0}
+  .steps li:last-child{border-bottom:0}
+  .dot{width:20px;height:20px;border-radius:6px}
+  .mins{font-family:'Anton',sans-serif;font-size:30px;line-height:1;color:var(--green-800)}
+  .mins small{font-family:'Montserrat';font-weight:700;font-size:16px;margin-left:3px;color:var(--muted)}
+  .step-name{font-weight:700;font-size:20px}
+  .step-name small{display:block;font-weight:500;font-size:15px;color:var(--muted);margin-top:2px}
+
+  /* ---------- PACKAGES ---------- */
+  .packages{padding:14px 48px 0}
+  .packages .label{color:var(--cream)}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:14px;align-items:end}
+  .card{
+    position:relative;border-radius:24px;padding:20px 16px 16px;text-align:center;
+    background:linear-gradient(180deg,#1b5640,#134231);border:2px solid rgba(240,211,140,.25);
+    height:314px;display:flex;flex-direction:column;
+  }
+  .card.best{
+    background:linear-gradient(180deg,var(--gold-light),var(--gold));color:var(--ink);
+    border:0;height:332px;padding-top:28px;box-shadow:0 20px 40px rgba(0,0,0,.35);
+  }
+  .ribbon{
+    position:absolute;top:-17px;left:50%;transform:translateX(-50%);white-space:nowrap;
+    background:var(--green-900);color:var(--gold-light);font-weight:800;font-size:15px;letter-spacing:2px;
+    padding:8px 18px;border-radius:30px;border:2px solid var(--gold);
+  }
+  .pkg{font-weight:800;font-size:17px;letter-spacing:3px;color:var(--gold-light);text-transform:uppercase}
+  .card.best .pkg{color:var(--green-800)}
+  .count{font-family:'Anton',sans-serif;font-size:50px;line-height:1;margin-top:6px}
+  .count small{font-size:26px;letter-spacing:2px;margin-left:6px}
+  .price{
+    margin:10px auto 0;padding:8px 0;border-top:2px solid rgba(240,211,140,.35);border-bottom:2px solid rgba(240,211,140,.35);
+    width:100%;font-family:'Anton',sans-serif;font-size:50px;line-height:1;color:var(--gold-light);
+  }
+  .price sup{font-size:24px;vertical-align:top;position:relative;top:6px;margin-right:4px;letter-spacing:1px}
+  .per{display:block;font-family:'Montserrat',sans-serif;font-weight:700;font-size:13.5px;letter-spacing:.5px;color:#cfdcd3;margin-top:6px}
+  .card.best .per{color:var(--green-800)}
+  .card.best .price{color:var(--green-900);border-color:rgba(15,61,46,.3)}
+  .focus{font-weight:800;font-size:18px;margin-top:10px;text-transform:uppercase;letter-spacing:1px}
+  .desc{font-size:14px;font-weight:500;line-height:1.38;margin-top:5px;color:#cfdcd3}
+  .card.best .desc{color:#2b3a32}
+
+
+  /* ---------- TRYOUT ---------- */
+  .tryout{margin:14px 48px 0;position:relative;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:22px;
+    height:70px;border-radius:18px;overflow:hidden;color:var(--green-900);
+    background:linear-gradient(90deg,#f7dd97,#e8bd5c 55%,#f3d184);
+    box-shadow:0 0 0 3px rgba(240,211,140,.35),0 0 34px rgba(240,211,140,.45),0 12px 26px rgba(0,0,0,.35)}
+  .tryout:after{content:"";position:absolute;top:0;bottom:0;left:-30%;width:22%;transform:skewX(-20deg);
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent)}
+  .tryout .tag{height:100%;display:flex;flex-direction:column;justify-content:center;padding:0 22px 0 24px;
+    background:var(--green-900);color:var(--gold-light);clip-path:polygon(0 0,100% 0,88% 100%,0 100%)}
+  .tryout .tag b{font-family:'Anton',sans-serif;font-weight:400;font-size:30px;line-height:1;letter-spacing:1.5px}
+  .tryout .tag span{font-weight:800;font-size:12px;letter-spacing:4px;margin-top:3px}
+  .tryout p{font-weight:800;font-size:19px;letter-spacing:.5px;text-transform:uppercase;line-height:1.15}
+  .tryout p span{display:block;font-weight:600;font-size:15px;letter-spacing:0;text-transform:none;color:#3a3418}
+  .tryout .tp{display:flex;align-items:center;gap:12px;padding-right:22px;position:relative;z-index:1}
+  .tryout .old{font-family:'Anton',sans-serif;font-size:22px;color:rgba(11,47,35,.55);text-decoration:line-through;text-decoration-thickness:2.5px}
+  .tryout .new{font-family:'Anton',sans-serif;font-size:50px;line-height:1}
+  .tryout .new sup{font-size:20px;vertical-align:top;position:relative;top:6px;margin-right:3px}
+
+  /* ---------- TIPS ---------- */
+  .tips{margin:13px 48px 0;padding:10px 30px 11px;border-radius:24px;background:rgba(0,0,0,.22);border:1.5px solid rgba(240,211,140,.25)}
+  .tips .label{color:var(--gold-light)}
+  .tip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:8px}
+  .tip{display:grid;grid-template-columns:auto 1fr;gap:12px}
+  .tip .n{font-family:'Anton',sans-serif;font-size:44px;line-height:.9;color:var(--gold)}
+  .tip b{display:block;font-weight:800;font-size:16px;line-height:1.2;text-transform:uppercase}
+  .tip p{font-size:14px;line-height:1.38;color:#cfdcd3;margin-top:5px}
+
+  /* ---------- FOOTER ---------- */
+  .footer{
+    position:absolute;left:0;right:0;bottom:0;background:var(--cream);color:var(--ink);
+    padding:14px 48px 10px 48px;display:grid;grid-template-columns:1fr auto;gap:10px 24px;
+  }
+  .row{display:flex;align-items:center;gap:12px;font-weight:700;font-size:17px}
+  .row svg{width:22px;height:22px;flex:none;color:var(--green-700)}
+  .pay{display:flex;gap:6px;flex-wrap:nowrap}
+  .chip{font-weight:700;font-size:13.5px;padding:5px 11px;border-radius:20px;background:var(--green-800);color:var(--cream)}
+  .note{font-size:13px;font-weight:500;color:var(--muted);line-height:1.4;white-space:nowrap}
+  .closing{
+    grid-column:1/-1;text-align:center;font-family:'Kaushan Script',cursive;font-size:24px;color:var(--green-700);
+    border-top:1.5px dashed #d8ccb0;padding-top:6px;
+  }
+  .phone{font-family:'Anton',sans-serif;font-weight:400;font-size:30px;letter-spacing:1px;color:var(--green-800)}
+  .wa{display:flex;align-items:center;gap:10px;text-decoration:none}
+  .wa .ic{width:34px;height:34px;border-radius:50%;background:#25a35a;display:grid;place-items:center;flex:none}
+  .wa .ic svg{width:20px;height:20px;color:#fff}
+  .wa small{display:block;font-family:'Montserrat',sans-serif;font-weight:800;font-size:11px;letter-spacing:2px;color:#25a35a;line-height:1;margin-bottom:2px}
+  .wa .phone{line-height:1}
+  .qr{position:absolute;right:48px;top:150px;width:158px;display:flex;flex-direction:column;align-items:center;
+    background:#fff;border-radius:18px;padding:10px 10px 0;text-decoration:none;overflow:hidden;
+    box-shadow:0 0 0 3px var(--gold),0 14px 30px rgba(0,0,0,.4);transform:rotate(3deg)}
+  .qr img{display:block;width:138px;height:138px}
+  .qr span{display:flex;align-items:center;justify-content:center;gap:6px;align-self:stretch;margin:8px -10px 0;padding:7px 0;
+    background:#25a35a;color:#fff;font-weight:800;font-size:13px;letter-spacing:.5px;white-space:nowrap}
+  .qr span svg{width:15px;height:15px}
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo"><img src="assets/logo-crop.png" alt="MIY Golf"></div>
+    <div class="badges">
+      <div class="badge"><i><svg viewBox="0 0 24 24" fill="none" stroke="#0b2f23" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></i>Better Swing</div>
+      <div class="badge"><i><svg viewBox="0 0 24 24" fill="none" stroke="#0b2f23" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></i>Better Impact</div>
+      <div class="badge"><i><svg viewBox="0 0 24 24" fill="none" stroke="#0b2f23" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></i>Better Game</div>
+    </div>
+    <a class="qr" href="https://wa.me/60198728829?text=Hi%20Coach%2C%20saya%20nak%20tanya%20pasal%20golf%20lesson"><img src="assets/whatsapp-qr.svg" alt="WhatsApp QR"><span>SCAN &amp; WHATSAPP</span></a>
+    <div class="titles">
+      <div class="brand">MIY GOLF PERFORMANCE</div>
+      <h1>GOLF <span>LESSON</span></h1>
+      <div class="motto">Feel The Motion</div>
+      <p class="tagline">Daripada asas swing yang betul, kepada <em>impact</em> yang padu<br>dan kawalan permainan yang lebih baik.</p>
+    </div>
+  </header>
+
+  <!-- SESSION STRUCTURE -->
+  <section class="session">
+    <div class="label">Struktur Setiap Sesi</div>
+    <div class="donut">
+      <!-- r=15.915 -> circumference 100; segments = minutes/60*100 -->
+      <svg viewBox="0 0 42 42">
+        <circle cx="21" cy="21" r="15.915" fill="none" stroke="#e6dcc4" stroke-width="7"/>
+        <circle cx="21" cy="21" r="15.915" fill="none" stroke="#2f7a57" stroke-width="7" stroke-dasharray="16.17 83.83" stroke-dashoffset="-0.25"/>
+        <circle cx="21" cy="21" r="15.915" fill="none" stroke="#16513d" stroke-width="7" stroke-dasharray="16.17 83.83" stroke-dashoffset="-16.92"/>
+        <circle cx="21" cy="21" r="15.915" fill="none" stroke="#d9ac4f" stroke-width="7" stroke-dasharray="32.83 67.17" stroke-dashoffset="-33.58"/>
+        <circle cx="21" cy="21" r="15.915" fill="none" stroke="#0b2f23" stroke-width="7" stroke-dasharray="24.5 75.5" stroke-dashoffset="-66.92"/>
+        <circle cx="21" cy="21" r="15.915" fill="none" stroke="#a9874a" stroke-width="7" stroke-dasharray="7.83 92.17" stroke-dashoffset="-91.92"/>
+      </svg>
+      <div class="center"><b>60</b><span>MINIT</span></div>
+    </div>
+    <ul class="steps">
+      <li><span class="dot" style="background:#2f7a57"></span><span class="mins">10<small>min</small></span><span class="step-name">Warm-up &amp; Review</span></li>
+      <li><span class="dot" style="background:#16513d"></span><span class="mins">10<small>min</small></span><span class="step-name">Teknikal &amp; Demonstrasi</span></li>
+      <li><span class="dot" style="background:#d9ac4f"></span><span class="mins">20<small>min</small></span><span class="step-name">Main Drill &amp; Skill</span></li>
+      <li><span class="dot" style="background:#0b2f23"></span><span class="mins">15<small>min</small></span><span class="step-name">Ball Striking Practice</span></li>
+      <li><span class="dot" style="background:#a9874a"></span><span class="mins">5<small>min</small></span><span class="step-name">Assessment &amp; Feedback</span></li>
+    </ul>
+  </section>
+
+  <!-- PACKAGES -->
+  <section class="packages">
+    <div class="label">Pakej Kami</div>
+    <div class="cards">
+      <div class="card">
+        <div class="pkg">Single Lesson</div>
+        <div class="count">1<small>SESI</small></div>
+        <div class="price"><sup>RM</sup>270<span class="per">bayar ikut sesi</span></div>
+        <div class="focus">Quick Fix &amp; Focus</div>
+        <p class="desc">Untuk latihan yang pantas, analisis awal atau fokus spesifik.</p>
+      </div>
+      <div class="card">
+        <div class="pkg">Package A</div>
+        <div class="count">5<small>SESI</small></div>
+        <div class="price"><sup>RM</sup>1,350<span class="per">RM270 / sesi</span></div>
+        <div class="focus">Fundamentals</div>
+        <p class="desc"><i>Build your swing. Build your foundation.</i><br>Untuk beginner &amp; pemain yang mahu membina semula asas swing.</p>
+      </div>
+      <div class="card best">
+        <div class="ribbon">★ PALING BERBALOI</div>
+        <div class="pkg">Package B</div>
+        <div class="count">10<small>SESI</small></div>
+        <div class="price"><sup>RM</sup>2,500<span class="per">RM250 / sesi · Jimat RM200</span></div>
+        <div class="focus">Impact &amp; Control</div>
+        <p class="desc"><i>Own your impact. Control your game.</i><br>Untuk pemain yang mahu tingkatkan strike, kawal arah &amp; konsistensi.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- TRYOUT -->
+  <div class="tryout">
+    <div class="tag"><b>★ TRYOUT</b><span>SESSION</span></div>
+    <p>Sesi Percubaan 60 Minit<span>Cuba dulu sebelum pilih pakej</span></p>
+    <div class="tp"><span class="new"><sup>RM</sup>265</span></div>
+  </div>
+
+  <!-- TIPS -->
+  <section class="tips">
+    <div class="label">Tip Coach Iqbal</div>
+    <div class="tip-grid">
+      <div class="tip"><span class="n">01</span><div><b>Setiap pemain ada baseline</b><p>Rekod contact, arah &amp; jarak sebelum mula, supaya kemajuan boleh diukur.</p></div></div>
+      <div class="tip"><span class="n">02</span><div><b>Jangan ubah terlalu banyak</b><p>Fokus pada 1–2 perkara setiap kali. Betulkan punca, bukan simptom.</p></div></div>
+      <div class="tip"><span class="n">03</span><div><b>Review, practice, repeat</b><p>Ulang drill, buat latihan sendiri &amp; review pada sesi seterusnya.</p></div></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div>
+      <div class="row"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>Spork PJ South / Kwasa / Puncak Alam</div>
+      <p class="note" style="margin:6px 0 0 34px">Lain-lain lokasi disediakan (ada caj pengangkutan tambahan)<br>Other locations available (additional transport service applies)</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
+      <a class="wa" href="https://wa.me/60198728829?text=Hi%20Coach%2C%20saya%20nak%20tanya%20pasal%20golf%20lesson"><span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2a9.8 9.8 0 0 0-8.4 14.8L2.3 21.7l4.8-1.3A9.8 9.8 0 1 0 12 2.2zm4.9 13.6c-.2.6-1.2 1.2-1.7 1.2-.4.1-1 .1-1.6-.1-2.6-.9-4.6-3.1-5.4-4.4-.6-1-.9-2.1-.2-3.1.3-.4.6-.6.9-.6h.6c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .6l-.4.6c-.1.2-.3.3-.1.6.6 1 1.4 1.8 2.5 2.4.3.1.4.1.6-.1l.7-.9c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.2.4.3.1.1.1.6-.1 1.3z"/></svg></span><span><small>WHATSAPP</small><span class="phone">019-872 8829</span></span></a>
+      <div class="pay"><span class="chip">myDebit</span><span class="chip">Tap2Pay (Visa/Master)</span><span class="chip">E-Wallet</span><span class="chip">Cash</span></div>
+    </div>
+    <div class="closing">Latihan yang betul hari ini, keputusan yang lebih baik esok!</div>
+  </footer>
+</div>
+</body>
+</html>
