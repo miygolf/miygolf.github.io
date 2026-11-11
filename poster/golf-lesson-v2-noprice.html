@@ -109,7 +109,13 @@
   /* ---------- PACKAGES ---------- */
   .packages{padding:10px 48px 0}
   .packages .label{color:var(--cream)}
-  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:14px;align-items:end}
+  .pk-head{display:flex;align-items:center;gap:18px}
+  .ask{display:inline-flex;align-items:center;gap:8px;background:#25a35a;color:#fff;text-decoration:none;
+    font-weight:800;font-size:15px;letter-spacing:.5px;padding:5px 14px 5px 6px;border-radius:30px;
+    box-shadow:0 0 0 3px rgba(37,163,90,.3)}
+  .ask i{width:24px;height:24px;border-radius:50%;background:#fff;display:grid;place-items:center}
+  .ask i svg{width:15px;height:15px;color:#25a35a}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:6px;align-items:end}
   .card{
     position:relative;border-radius:24px;padding:20px 16px 16px;text-align:center;
     background:linear-gradient(180deg,#1b5640,#134231);border:2px solid rgba(240,211,140,.25);
@@ -274,7 +280,7 @@
 
   <!-- PACKAGES -->
   <section class="packages">
-    <div class="label">Pakej Kami</div>
+    <div class="pk-head"><div class="label">Pakej Kami</div><a class="ask" href="https://wa.me/60198728829?text=Hi%20Coach%2C%20saya%20nak%20tahu%20harga%20golf%20lesson"><i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2a9.8 9.8 0 0 0-8.4 14.8L2.3 21.7l4.8-1.3A9.8 9.8 0 1 0 12 2.2z"/></svg></i>WhatsApp untuk harga</a></div>
     <div class="cards">
       <div class="card">
         <div class="pkg">Single Lesson</div>
@@ -306,7 +312,7 @@
   <div class="tryout">
     <div class="tag"><b>★ TRYOUT</b><span>SESSION</span></div>
     <p>Sesi Percubaan 60 Minit<span>Cuba dulu sebelum pilih pakej</span></p>
-    <a class="cta" href="https://wa.me/60198728829?text=Hi%20Coach%2C%20saya%20nak%20tanya%20pasal%20golf%20lesson">WhatsApp untuk tempah →</a>
+    <a class="cta" href="https://wa.me/60198728829?text=Hi%20Coach%2C%20saya%20nak%20tahu%20harga%20golf%20lesson">WhatsApp untuk harga →</a>
   </div>
 
   <!-- PAYMENT -->
