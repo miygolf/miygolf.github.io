@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Shot Manual": the coach's tip told as a fold-out instruction leaflet.
+         Each step is a paper panel that unfolds from its crease (numbered ink disc, condensed headline, mono spec line),
+         section changes are an accordion-fold wipe (three leaflet panels fold across the frame and away),
+         the line he asks you to picture is drawn as a dashed flight line with a landing ring,
+         captions are paper strips with the spoken word underlined in signal cyan.
+         Type: Anybody (variable width; 800 at wdth 62 for headlines, 700 at wdth 88 for captions) + Azeret Mono 600 (labels).
+         Palette: paper #fbfbf6, ink #111316, signal cyan #10bfff (fills / lines only, never cyan text on paper), ink 60% #5d6168.
+         Safe band: x 60-930, y 168-1330. Faces checked per shot (EDIT_NOTES.md): the top band stays above the cap, nothing sits on a face. */
+      @font-face { font-family: "Anybody"; font-weight: 100 900; font-stretch: 50% 150%; src: url("assets/fonts/Anybody-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Azeret"; font-weight: 100 900; src: url("assets/fonts/AzeretMono-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Noto Color Emoji"; font-weight: 400; src: url("assets/fonts/NotoColorEmoji.ttf") format("truetype"); font-display: block; }
+      :root { --paper: #fbfbf6; --ink: #111316; --cyan: #10bfff; --cyand: #0a8fc2; --mute: #5d6168; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; perspective: 1400px; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; transform-origin: 50% 60%; }
+      .ov { position: absolute; z-index: 6; opacity: 0; pointer-events: none; }
+      .emo { font-family: "Noto Color Emoji", sans-serif; font-weight: 400; font-variation-settings: normal; }
+      .mono { font-family: "Azeret", monospace; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+
+      /* ---- leaflet panel (step card) ---- */
+      .card { left: 60px; top: 192px; width: 870px; background: var(--paper); color: var(--ink); border: 5px solid var(--ink);
+              border-radius: 6px; box-shadow: 10px 12px 0 rgba(17,19,22,0.85); transform-origin: 50% 0%; display: flex; align-items: stretch; }
+      .card .num { flex: 0 0 150px; display: flex; align-items: center; justify-content: center; border-right: 5px solid var(--ink); }
+      .card .disc { width: 104px; height: 104px; border-radius: 50%; background: var(--ink); color: var(--cyan); display: flex; align-items: center;
+                    justify-content: center; font-family: "Anybody"; font-weight: 900; font-variation-settings: "wdth" 70; font-size: 66px; line-height: 1; }
+      .card .body { flex: 1; padding: 18px 26px 20px; position: relative; }
+      .card .lab { font-size: 28px; color: var(--mute); display: flex; align-items: center; gap: 12px; }
+      .card .lab::before { content: ""; width: 16px; height: 16px; background: var(--cyan); border: 3px solid var(--ink); }
+      .card .hd { font-family: "Anybody"; font-weight: 850; font-variation-settings: "wdth" 62; font-size: 104px; line-height: 0.92;
+                  letter-spacing: -0.005em; text-transform: uppercase; margin-top: 8px; white-space: nowrap; }
+      .card .sub { margin-top: 10px; font-size: 29px; color: var(--ink); }
+      .card .crease { position: absolute; left: 0; right: 0; top: 50%; height: 0; border-top: 2px dashed rgba(17,19,22,0.18); }
+      .card .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(17,19,22,0.0), rgba(17,19,22,0.55)); opacity: 0; }
+      .card.hook .hd { font-size: 86px; }
+      .card.hook .body { padding-left: 30px; }
+      .card .warn { position: absolute; right: 26px; top: 50%; width: 92px; height: 82px; margin-top: -41px; }
+
+      /* ---- side chips (situational facts) ---- */
+      .chip { padding: 14px 22px 15px; background: var(--ink); color: var(--paper); border-radius: 6px; font-size: 30px; white-space: nowrap;
+              box-shadow: 6px 7px 0 var(--cyan); display: flex; align-items: center; gap: 14px; }
+      .chip b { font-family: "Anybody"; font-weight: 850; font-variation-settings: "wdth" 70; font-size: 50px; letter-spacing: 0; line-height: 1; text-transform: none; }
+      .chip .arr { width: 46px; height: 30px; }
+
+      /* ---- tag stamped on the hook freeze ---- */
+      .tag { padding: 12px 22px 13px; background: var(--cyan); color: var(--ink); border: 5px solid var(--ink); border-radius: 6px; font-size: 30px;
+             box-shadow: 6px 7px 0 var(--ink); white-space: nowrap; }
+
+      /* ---- caption strip ---- */
+      .cap { left: 540px; top: 1188px; transform: translateX(-50%); max-width: 870px; padding: 14px 26px 18px; background: var(--paper); color: var(--ink);
+             border: 4px solid var(--ink); border-radius: 6px; font-family: "Anybody"; font-weight: 700; font-variation-settings: "wdth" 88; font-size: 50px;
+             line-height: 1.12; text-align: center; white-space: nowrap; box-shadow: 0 8px 22px rgba(0,0,0,0.25); isolation: isolate; }
+      .cap .w { position: relative; display: inline-block; opacity: 0.32; }
+      .cap .w.on { opacity: 1; }
+      .cap .w.hot::after { content: ""; position: absolute; left: -2px; right: -2px; bottom: -4px; height: 9px; background: var(--cyan); z-index: -1; }
+      .cap .emo { opacity: 1; }
+
+      /* ---- checklist pips (before the swing) ---- */
+      #checks { left: 60px; top: 196px; display: flex; gap: 16px; }
+      #checks .pip { display: flex; align-items: center; gap: 12px; padding: 10px 18px 10px 10px; background: var(--paper); border: 4px solid var(--ink);
+                     border-radius: 999px; font-size: 28px; color: var(--ink); box-shadow: 5px 6px 0 rgba(17,19,22,0.85); }
+      #checks .pip i { width: 46px; height: 46px; border-radius: 50%; background: var(--ink); color: var(--cyan); display: flex; align-items: center; justify-content: center;
+                       font-style: normal; font-family: "Anybody"; font-weight: 900; font-size: 28px; }
+      #checks .pip.ok i { background: var(--cyan); color: var(--ink); }
+
+      /* ---- flight line ---- */
+      #fly { left: 0; top: 0; width: 1080px; height: 1920px; opacity: 1; }
+      #fly g path { fill: none; stroke: var(--cyan); stroke-width: 9; stroke-linecap: round; }
+      #fly g .halo { stroke: var(--ink); stroke-width: 17; opacity: 0.55; }
+      #fly circle { fill: none; stroke: var(--cyan); stroke-width: 7; }
+      #landlab { left: 762px; top: 940px; }
+
+      /* ---- accordion-fold wipe ---- */
+      #fold { position: absolute; inset: 0; z-index: 9; display: flex; pointer-events: none; perspective: 1600px; }
+      #fold .pn { flex: 1; height: 100%; background: var(--paper); border-right: 5px solid var(--ink); transform-origin: 0% 50%; transform: rotateY(-92deg);
+                  backface-visibility: hidden; position: relative; opacity: 0; }
+      #fold .pn:nth-child(2) { background: #eef0ea; }
+      #fold .pn:nth-child(3) { background: var(--cyan); border-right: 0; }
+      #fold .pn::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(17,19,22,0.18), rgba(17,19,22,0)); }
+      #flash { position: absolute; inset: 0; z-index: 8; background: #fff; opacity: 0; pointer-events: none; }
+
+      /* replay */
+      #rep { left: 650px; top: 196px; padding: 10px 18px 11px; background: var(--ink); color: var(--paper); border-radius: 6px; font-size: 28px; display: flex; gap: 12px; align-items: center; }
+      #rep::before { content: ""; width: 14px; height: 14px; border-radius: 50%; background: #ff3b3b; }
+      #stamp { left: 600px; top: 1000px; transform-origin: 50% 50%; }
+      #stamp .st { padding: 14px 22px 16px; border: 6px solid var(--ink); background: var(--cyan); color: var(--ink); border-radius: 8px; box-shadow: 8px 9px 0 var(--ink);
+                   font-family: "Anybody"; font-weight: 900; font-variation-settings: "wdth" 66; font-size: 66px; line-height: 0.95; text-transform: uppercase; text-align: center; }
+      #stamp .st small { display: block; font-family: "Azeret"; font-weight: 600; font-size: 28px; letter-spacing: 0.08em; margin-bottom: 6px; font-variation-settings: normal; }
+
+      /* end card */
+      #endc { left: 60px; top: 192px; width: 870px; background: var(--paper); border: 5px solid var(--ink); border-radius: 6px; box-shadow: 10px 12px 0 rgba(17,19,22,0.85);
+              transform-origin: 50% 0%; color: var(--ink); overflow: hidden; }
+      #endc .eh { padding: 16px 26px 14px; border-bottom: 5px solid var(--ink); display: flex; justify-content: space-between; align-items: center; font-size: 28px; }
+      #endc .eh span:last-child { color: var(--mute); }
+      #endc .row { display: flex; align-items: center; gap: 22px; padding: 12px 26px; border-bottom: 2px dashed rgba(17,19,22,0.25); }
+      #endc .row:last-child { border-bottom: 0; }
+      #endc .row i { flex: 0 0 64px; height: 64px; border-radius: 50%; background: var(--ink); color: var(--cyan); display: flex; align-items: center; justify-content: center;
+                     font-style: normal; font-family: "Anybody"; font-weight: 900; font-size: 38px; font-variation-settings: "wdth" 70; }
+      #endc .row b { font-family: "Anybody"; font-weight: 850; font-variation-settings: "wdth" 62; font-size: 64px; line-height: 1; text-transform: uppercase; }
+      #endc .row span { margin-left: auto; font-size: 28px; color: var(--mute); }
+      #cta { left: 60px; top: 618px; }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="25.3667" data-width="1080" data-height="1920" data-fps="30">
+      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="25.3667" data-track-index="1" muted playsinline></video>
+
+      <!-- HOOK title panel (frame 0) -->
+      <div id="c-hook" class="ov card hook"><div class="body"><div class="lab mono">Tip Coach Farhan · Bunker</div>
+        <div class="hd">Shot ni main<br>macam mana?</div><div class="crease"></div><div class="shade"></div></div></div>
+      <div id="t-steps" class="ov tag mono" style="left:680px; top:372px;">3 step je ↓</div>
+
+      <!-- situation -->
+      <div id="c-sit" class="ov card"><div class="num"><div class="disc">00</div></div><div class="body"><div class="lab mono">Situasi</div>
+        <div class="hd">Plenty of green</div><div class="sub mono">bola dalam bunker, dekat lip</div><div class="crease"></div><div class="shade"></div></div></div>
+      <div id="ch-green" class="ov chip mono" style="left:628px; top:600px;">Green
+        <svg class="arr" viewBox="0 0 46 30"><path d="M2 15 H38 M28 4 L41 15 L28 26" fill="none" stroke="#10bfff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div id="ch-club" class="ov chip mono" style="left:620px; top:560px;">Kayu <b>60°</b> <span class="emo" style="font-size:40px">😅</span></div>
+
+      <!-- steps -->
+      <div id="c-s1" class="ov card"><div class="num"><div class="disc">01</div></div><div class="body"><div class="lab mono">Step 1</div>
+        <div class="hd">Normal pitch</div><div class="sub mono">guna 60° tu je</div><div class="crease"></div><div class="shade"></div></div></div>
+      <div id="c-s2" class="ov card"><div class="num"><div class="disc">02</div></div><div class="body"><div class="lab mono">Step 2 · wajib</div>
+        <div class="hd">Accelerate</div><div class="sub mono">make sure, jangan slow</div>
+        <svg class="warn" viewBox="0 0 92 82"><path d="M46 5 L88 77 H4 Z" fill="#10bfff" stroke="#111316" stroke-width="6" stroke-linejoin="round"/>
+          <path d="M46 28 V52" stroke="#111316" stroke-width="8" stroke-linecap="round"/><circle cx="46" cy="64" r="5" fill="#111316"/></svg>
+        <div class="crease"></div><div class="shade"></div></div></div>
+      <div id="c-s3" class="ov card"><div class="num"><div class="disc">03</div></div><div class="body"><div class="lab mono">Step 3</div>
+        <div class="hd">Visualize</div><div class="sub mono">mana nak hantar bola</div><div class="crease"></div><div class="shade"></div></div></div>
+      <svg id="fly" class="ov" viewBox="0 0 1080 1920"><defs><mask id="flym" maskUnits="userSpaceOnUse" x="0" y="0" width="1080" height="1920">
+          <path id="fly-m" d="M 622 1398 Q 752 1010 900 1050" fill="none" stroke="#fff" stroke-width="40" stroke-linecap="round"/></mask></defs>
+        <g mask="url(#flym)"><path class="halo" d="M 622 1398 Q 752 1010 900 1050" stroke-dasharray="2 22"/><path d="M 622 1398 Q 752 1010 900 1050" stroke-dasharray="2 22"/></g>
+        <circle id="land1" cx="900" cy="1050" r="34"/><circle id="land2" cx="900" cy="1050" r="34"/></svg>
+      <div id="landlab" class="ov chip mono" style="font-size:28px; padding:10px 16px; box-shadow: 5px 6px 0 #10bfff;">Target</div>
+
+      <!-- before the swing: checklist -->
+      <div id="checks" class="ov mono"><div class="pip" id="pk1"><i>1</i>Pitch</div><div class="pip" id="pk2"><i>2</i>Accel</div><div class="pip" id="pk3"><i>3</i>Target</div></div>
+
+      <!-- replay -->
+      <div id="rep" class="ov mono">Replay 0.5×</div>
+      <div id="stamp" class="ov"><div class="st"><small>Step 2 ✓</small>Accelerate</div></div>
+
+      <!-- end card -->
+      <div id="endc" class="ov"><div class="eh mono"><span>Bunker · plenty of green</span><span>Coach Farhan</span></div>
+        <div class="row"><i>1</i><b>Normal pitch</b><span class="mono">60°</span></div>
+        <div class="row"><i>2</i><b>Accelerate</b><span class="mono">wajib</span></div>
+        <div class="row"><i>3</i><b>Visualize</b><span class="mono">target</span></div></div>
+      <div id="cta" class="ov tag mono">Save dulu, try next round <span class="emo">📌</span></div>
+
+      <!-- captions -->
+      <div id="cap0" class="ov cap"><span class="w" data-t="0.040">Coach</span> <span class="w" data-t="0.200">Farhan,</span> <span class="w" data-t="0.680">ni</span> <span class="w" data-t="1.020">nak</span><br><span class="w" data-t="1.180">buat</span> <span class="w hot" data-t="1.300">macam</span> <span class="w hot" data-t="1.420">mana</span> <span class="w" data-t="1.580">ni?</span> <span class="emo">🤔</span></div>
+      <div id="cap1" class="ov cap"><span class="w" data-t="1.940">Ada</span> <span class="w hot" data-t="2.380">tip</span> <span class="w" data-t="2.720">tak?</span></div>
+      <div id="cap2" class="ov cap"><span class="w" data-t="3.213">Kita</span> <span class="w" data-t="3.653">ada</span> <span class="w hot" data-t="3.833">plenty</span><br><span class="w hot" data-t="4.053">of</span> <span class="w hot" data-t="4.433">green</span> <span class="w" data-t="4.733">to</span> <span class="w" data-t="4.953">play.</span></div>
+      <div id="cap3" class="ov cap"><span class="w" data-t="6.373">Silap</span> <span class="w" data-t="6.633">bawa</span> <span class="w" data-t="6.773">kayu,</span> <span class="w" data-t="7.053">bawa</span> <span class="w hot" data-t="7.113">60</span> <span class="emo">😅</span></div>
+      <div id="cap4" class="ov cap"><span class="w" data-t="7.440">So</span> <span class="w" data-t="7.600">kita</span> <span class="w" data-t="7.680">try</span> <span class="w" data-t="7.960">to</span> <span class="w" data-t="8.160">do</span><br><span class="w hot" data-t="8.960">normal</span> <span class="w hot" data-t="9.280">pitch,</span></div>
+      <div id="cap5" class="ov cap"><span class="w" data-t="9.727">But</span> <span class="w" data-t="10.167">then</span> <span class="w" data-t="10.367">you</span> <span class="w" data-t="10.487">kena</span> <span class="w" data-t="10.647">make</span> <span class="w" data-t="10.787">sure</span><br><span class="w" data-t="11.007">you</span> <span class="w hot" data-t="11.207">accelerate</span></div>
+      <div id="cap6" class="ov cap" style="left:60px; transform:none;"><span class="w" data-t="12.227">Kita</span> <span class="w hot" data-t="12.407">visualize</span> <span class="w" data-t="12.847">mana</span> <span class="w" data-t="13.107">you</span></div>
+      <div id="cap7" class="ov cap" style="left:60px; transform:none;"><span class="w" data-t="13.307">nak</span> <span class="w" data-t="13.387">hantar</span> <span class="w" data-t="14.507">bola</span> <span class="w" data-t="14.647">tu.</span></div>
+      <div id="cap8" class="ov cap"><span class="w" data-t="15.013">Normal</span> <span class="w" data-t="15.173">pitch.</span></div>
+      <div id="cap9" class="ov cap"><span class="w" data-t="21.580">Let&#x27;s</span> <span class="w" data-t="22.220">go!</span> <span class="emo">⛳</span></div>
+
+      <div id="flash"></div>
+      <div id="fold"><div class="pn"></div><div class="pn"></div><div class="pn"></div></div>
+
+      <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="25.3667" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>
+      <!-- sound design: Mixkit ids (assets/sfx/CREDITS.md). start = picture beat - file peak. No music. -->
+      <audio data-hf-id="hf-s00" id="sfx-00" class="clip" src="assets/sfx/1530.mp3" data-start="0.000" data-duration="0.16" data-media-start="0.340" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- title panel on frame 0 (low: the question starts at once) -->
+      <audio data-hf-id="hf-s01" id="sfx-01" class="clip" src="assets/sfx/2121.mp3" data-start="1.377" data-duration="0.40" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- strike, layered on the real one (0.5x) -->
+      <audio data-hf-id="hf-s02" id="sfx-02" class="clip" src="assets/sfx/772.mp3" data-start="1.157" data-duration="0.75" data-track-index="13" data-volume="0.24" data-audio-group="sfx"></audio> <!-- freeze weight under the flash -->
+      <audio data-hf-id="hf-s03" id="sfx-03" class="clip" src="assets/sfx/2364.mp3" data-start="1.910" data-duration="0.14" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- 3 STEP JE tag snaps on -->
+      <audio data-hf-id="hf-s04" id="sfx-04" class="clip" src="assets/sfx/166.mp3" data-start="2.713" data-duration="0.68" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- accordion-fold wipe in -->
+      <audio data-hf-id="hf-s05" id="sfx-05" class="clip" src="assets/sfx/2380.mp3" data-start="2.733" data-duration="0.80" data-track-index="13" data-volume="0.3" data-audio-group="sfx"></audio> <!-- panels fold away -->
+      <audio data-hf-id="hf-s06" id="sfx-06" class="clip" src="assets/sfx/1530.mp3" data-start="3.073" data-duration="0.50" data-track-index="14" data-volume="0.24" data-audio-group="sfx"></audio> <!-- SITUASI panel unfolds -->
+      <audio data-hf-id="hf-s07" id="sfx-07" class="clip" src="assets/sfx/2357.mp3" data-start="4.353" data-duration="0.32" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- GREEN chip -->
+      <audio data-hf-id="hf-s08" id="sfx-08" class="clip" src="assets/sfx/3005.mp3" data-start="7.343" data-duration="0.17" data-track-index="12" data-volume="0.2" data-audio-group="sfx"></audio> <!-- KAYU 60 chip (after the word) -->
+      <audio data-hf-id="hf-s09" id="sfx-09" class="clip" src="assets/sfx/2380.mp3" data-start="8.680" data-duration="0.80" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- step 1 panel unfolds -->
+      <audio data-hf-id="hf-s10" id="sfx-10" class="clip" src="assets/sfx/2364.mp3" data-start="9.130" data-duration="0.14" data-track-index="13" data-volume="0.22" data-audio-group="sfx"></audio> <!-- step 1 disc -->
+      <audio data-hf-id="hf-s11" id="sfx-11" class="clip" src="assets/sfx/2380.mp3" data-start="10.927" data-duration="0.80" data-track-index="12" data-volume="0.14" data-audio-group="sfx"></audio> <!-- step 2 panel unfolds (quiet: 'accelerate' is soft) -->
+      <audio data-hf-id="hf-s12" id="sfx-12" class="clip" src="assets/sfx/1364.mp3" data-start="11.887" data-duration="0.20" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- warning triangle lands, after the word -->
+      <audio data-hf-id="hf-s13" id="sfx-13" class="clip" src="assets/sfx/2380.mp3" data-start="12.127" data-duration="0.80" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- step 3 panel unfolds -->
+      <audio data-hf-id="hf-s14" id="sfx-14" class="clip" src="assets/sfx/1489.mp3" data-start="12.397" data-duration="1.40" data-track-index="13" data-volume="0.2" data-audio-group="sfx"></audio> <!-- flight line draws out -->
+      <audio data-hf-id="hf-s15" id="sfx-15" class="clip" src="assets/sfx/2357.mp3" data-start="13.077" data-duration="0.32" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- landing ring -->
+      <audio data-hf-id="hf-s16" id="sfx-16" class="clip" src="assets/sfx/2364.mp3" data-start="15.673" data-duration="0.14" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- checklist tick 1 -->
+      <audio data-hf-id="hf-s17" id="sfx-17" class="clip" src="assets/sfx/2364.mp3" data-start="16.073" data-duration="0.14" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- checklist tick 2 -->
+      <audio data-hf-id="hf-s18" id="sfx-18" class="clip" src="assets/sfx/2364.mp3" data-start="16.473" data-duration="0.14" data-track-index="12" data-volume="0.24" data-audio-group="sfx"></audio> <!-- checklist tick 3 -->
+      <audio data-hf-id="hf-s19" id="sfx-19" class="clip" src="assets/sfx/1146.mp3" data-start="16.663" data-duration="2.10" data-track-index="12" data-volume="0.16" data-audio-group="sfx"></audio> <!-- soft build through the backswing, peaks on the strike -->
+      <audio data-hf-id="hf-s20" id="sfx-20" class="clip" src="assets/sfx/2121.mp3" data-start="18.283" data-duration="0.40" data-track-index="13" data-volume="0.4" data-audio-group="sfx"></audio> <!-- strike, layered on the real one -->
+      <audio data-hf-id="hf-s21" id="sfx-21" class="clip" src="assets/sfx/3115.mp3" data-start="19.260" data-duration="0.30" data-track-index="12" data-volume="0.42" data-audio-group="sfx"></audio> <!-- fold wipe into the replay -->
+      <audio data-hf-id="hf-s22" id="sfx-22" class="clip" src="assets/sfx/2384.mp3" data-start="19.440" data-duration="0.34" data-track-index="13" data-volume="0.34" data-audio-group="sfx"></audio> <!-- panels fold away -->
+      <audio data-hf-id="hf-s23" id="sfx-23" class="clip" src="assets/sfx/2121.mp3" data-start="19.910" data-duration="0.40" data-track-index="12" data-volume="0.34" data-audio-group="sfx"></audio> <!-- replay strike layer -->
+      <audio data-hf-id="hf-s24" id="sfx-24" class="clip" src="assets/sfx/1364.mp3" data-start="20.240" data-duration="0.20" data-track-index="13" data-volume="0.3" data-audio-group="sfx"></audio> <!-- ACCELERATE stamp lands -->
+      <audio data-hf-id="hf-s25" id="sfx-25" class="clip" src="assets/sfx/1530.mp3" data-start="21.350" data-duration="0.50" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- end leaflet unfolds -->
+      <audio data-hf-id="hf-s26" id="sfx-26" class="clip" src="assets/sfx/2364.mp3" data-start="21.700" data-duration="0.14" data-track-index="13" data-volume="0.2" data-audio-group="sfx"></audio> <!-- row 1 -->
+      <audio data-hf-id="hf-s27" id="sfx-27" class="clip" src="assets/sfx/2364.mp3" data-start="21.900" data-duration="0.14" data-track-index="12" data-volume="0.2" data-audio-group="sfx"></audio> <!-- row 2 -->
+      <audio data-hf-id="hf-s28" id="sfx-28" class="clip" src="assets/sfx/2364.mp3" data-start="22.100" data-duration="0.14" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- row 3 -->
+      <audio data-hf-id="hf-s29" id="sfx-29" class="clip" src="assets/sfx/3005.mp3" data-start="22.480" data-duration="0.17" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- SAVE tag -->
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {"T": {"hook_a": {"start": 0.0, "end": 0.9667}, "hook_slow": {"start": 0.9667, "end": 1.6}, "hook_freeze": {"start": 1.6, "end": 3.1333}, "sit": {"start": 3.1333, "end": 6.1333}, "club": {"start": 6.1333, "end": 7.4}, "pitch1": {"start": 7.4, "end": 9.6667}, "pitch2": {"start": 9.6667, "end": 12.1667}, "vis": {"start": 12.1667, "end": 14.9333}, "shot": {"start": 14.9333, "end": 19.5}, "replay": {"start": 19.5, "end": 21.1}, "letsgo": {"start": 21.1, "end": 24.0667}, "end_freeze": {"start": 24.0667, "end": 25.3667}}, "B": {"hook_impact": 1.547, "shot_backswing": 17.833, "shot_impact": 18.453, "replay_impact": 20.08, "green_point": 4.533}, "TOTAL": 25.3667, "CAP": [{"t0": -0.06, "t1": 1.82}, {"t0": 1.84, "t1": 3.02}, {"t0": 3.113, "t1": 5.653}, {"t0": 6.173, "t1": 7.32}, {"t0": 7.34, "t1": 9.607}, {"t0": 9.627, "t1": 12.107}, {"t0": 12.127, "t1": 13.187}, {"t0": 13.207, "t1": 14.893}, {"t0": 14.913, "t1": 15.733}, {"t0": 21.48, "t1": 22.72}], "W": {"normal": 8.96, "accel": 11.207, "visual": 12.407, "sixty": 7.153}, "TICK": [15.683, 16.083, 16.483], "END": 21.35};
+        const T = K.T, B = K.B;
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        const hide0 = (el) => tl.set(el, { opacity: 0 }, 0);
+
+        // leaflet panel unfolds from its top edge (crease shading fades as it opens) and folds back up to leave
+        function unfold(sel, t0, t1) {
+          const el = $(sel), sh = el.querySelector(".shade");
+          hide0(el);
+          tl.fromTo(el, { opacity: 1, rotationX: -96, y: -6 }, { rotationX: 0, y: 0, duration: 0.42, ease: "back.out(1.25)", immediateRender: false }, t0);
+          if (sh) tl.fromTo(sh, { opacity: 1 }, { opacity: 0, duration: 0.42, ease: "power2.out", immediateRender: false }, t0);
+          if (t1 != null) {
+            tl.to(el, { rotationX: 92, duration: 0.24, ease: "power2.in" }, t1);
+            if (sh) tl.to(sh, { opacity: 1, duration: 0.24 }, t1);
+            tl.set(el, { opacity: 0 }, t1 + 0.24);
+          }
+          return el;
+        }
+        function chip(sel, t0, t1, dx) {
+          const el = $(sel); hide0(el);
+          tl.fromTo(el, { opacity: 0, x: dx || 40, scale: 0.92 }, { opacity: 1, x: 0, scale: 1, duration: 0.3, ease: "back.out(1.8)", immediateRender: false }, t0);
+          if (t1 != null) tl.to(el, { opacity: 0, x: (dx || 40) * 0.6, duration: 0.18, ease: "power2.in" }, t1);
+          return el;
+        }
+        function fold(tc) {   // accordion wipe: panels fold in (cover at tc) and fold away
+          const pns = document.querySelectorAll("#fold .pn");
+          pns.forEach((p, i) => {
+            tl.set(p, { opacity: 0 }, 0);
+            tl.set(p, { opacity: 1 }, tc - 0.22 + i * 0.03);
+            tl.fromTo(p, { rotationY: -92 }, { rotationY: 0, duration: 0.2, ease: "power2.in", immediateRender: false }, tc - 0.22 + i * 0.03);
+            tl.to(p, { rotationY: 92, transformOrigin: "100% 50%", duration: 0.22, ease: "power2.out" }, tc + 0.04 + i * 0.03);
+            tl.set(p, { rotationY: -92, transformOrigin: "0% 50%", opacity: 0 }, tc + 0.4);
+          });
+        }
+        function flash(t, a) { tl.fromTo("#flash", { opacity: a || 0.7 }, { opacity: 0, duration: 0.22, ease: "power2.out", immediateRender: false }, t); }
+        function punch(t, s) { tl.fromTo("#aroll", { scale: s || 1.035 }, { scale: 1, duration: 0.3, ease: "power3.out", immediateRender: false }, t); }
+
+        // ---------- captions: strips; each word lights as spoken, the key word gets the cyan underline ----------
+        K.CAP.forEach((c, i) => {
+          const el = $("#cap" + i);
+          hide0(el);
+          tl.fromTo(el, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.16, ease: "power2.out", immediateRender: false }, Math.max(c.t0, 0));
+          tl.to(el, { opacity: 0, duration: 0.12 }, c.t1);
+          el.querySelectorAll(".w").forEach((w) => tl.set(w, { className: w.className + " on" }, Math.max(parseFloat(w.dataset.t), 0)));
+        });
+
+        // ---------- HOOK ----------
+        const hook = $("#c-hook");
+        tl.set(hook, { opacity: 1 }, 0);                                  // text on frame 0
+        tl.from(hook.querySelector(".hd"), { y: 10, duration: 0.3, ease: "power2.out" }, 0);
+        flash(B.hook_impact, 0.55); punch(B.hook_impact, 1.04);
+        chip("#t-steps", T.hook_freeze.start + 0.32, null, 0);
+        tl.fromTo("#t-steps", { rotation: -8 }, { rotation: -3, duration: 0.3, ease: "back.out(3)", immediateRender: false }, T.hook_freeze.start + 0.32);
+        tl.set(["#c-hook", "#t-steps"], { opacity: 0 }, T.sit.start);
+        fold(T.sit.start);
+
+        // ---------- SITUATION ----------
+        unfold("#c-sit", T.sit.start + 0.18, K.W.normal - 0.32);
+        chip("#ch-green", B.green_point - 0.1, T.club.start - 0.05);
+        tl.fromTo("#ch-green .arr", { x: -6 }, { x: 6, duration: 0.35, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, B.green_point + 0.2);
+        chip("#ch-club", K.W.sixty - 0.05, T.pitch1.start + 0.1);
+
+        // ---------- STEPS ----------
+        unfold("#c-s1", K.W.normal - 0.08, K.W.accel - 0.3);
+        unfold("#c-s2", K.W.accel - 0.06, K.W.visual - 0.3);
+        tl.fromTo("#c-s2 .warn", { scale: 0, rotation: -30 }, { scale: 1, rotation: 0, duration: 0.3, ease: "back.out(2.6)", immediateRender: false }, K.W.accel + 0.68);
+        unfold("#c-s3", K.W.visual - 0.06, T.shot.start + 0.05);
+        // flight line: dashes draw from the ball out to the landing spot, ring pulses
+        const fm = $("#fly-m"), L = fm.getTotalLength();
+        tl.set(fm, { attr: { "stroke-dasharray": `${L} ${L}`, "stroke-dashoffset": L } }, 0);
+        tl.set("#fly", { opacity: 0 }, 0);
+        tl.set("#fly", { opacity: 1 }, K.W.visual + 0.1);
+        tl.to(fm, { attr: { "stroke-dashoffset": 0 }, duration: 0.7, ease: "power2.inOut" }, K.W.visual + 0.1);
+        ["#land1", "#land2"].forEach((r, i) => {
+          tl.fromTo(r, { attr: { r: 6 }, opacity: 1 }, { attr: { r: 34 }, duration: 0.3, ease: "back.out(2)", immediateRender: false }, K.W.visual + 0.75);
+          if (i) tl.fromTo(r, { attr: { r: 34 }, opacity: 0.9 }, { attr: { r: 70 }, opacity: 0, duration: 0.6, repeat: 1, ease: "power2.out", immediateRender: false }, K.W.visual + 1.0);
+        });
+        chip("#landlab", K.W.visual + 0.85, T.shot.start + 0.05, 0);
+        tl.to("#fly", { opacity: 0, duration: 0.15 }, T.shot.start + 0.05);
+
+        // ---------- THE SHOT ----------
+        const ck = $("#checks"); hide0(ck);
+        tl.fromTo(ck, { opacity: 0, y: -16 }, { opacity: 1, y: 0, duration: 0.25, ease: "power2.out", immediateRender: false }, T.shot.start + 0.25);
+        ["#pk1", "#pk2", "#pk3"].forEach((p, i) => {
+          tl.set(p, { className: "pip ok" }, K.TICK[i]);
+          tl.fromTo(p, { scale: 1.12 }, { scale: 1, duration: 0.2, ease: "back.out(3)", immediateRender: false }, K.TICK[i]);
+        });
+        tl.to(ck, { opacity: 0, y: -12, duration: 0.2 }, B.shot_backswing - 0.25);
+        flash(B.shot_impact, 0.45); punch(B.shot_impact, 1.03);
+
+        // ---------- REPLAY ----------
+        fold(T.replay.start);
+        chip("#rep", T.replay.start + 0.12, T.letsgo.start - 0.05, 0);
+        const st = $("#stamp"); hide0(st);
+        tl.fromTo(st, { opacity: 0, scale: 1.8, rotation: -14 }, { opacity: 1, scale: 1, rotation: -5, duration: 0.2, ease: "power4.in", immediateRender: false }, B.replay_impact + 0.02);
+        tl.fromTo(st, { x: 0 }, { x: 6, duration: 0.05, yoyo: true, repeat: 3, immediateRender: false }, B.replay_impact + 0.22);
+        tl.to(st, { opacity: 0, scale: 0.9, duration: 0.18 }, K.END + 0.55);
+        punch(B.replay_impact, 1.04);
+
+        // ---------- END CARD ----------
+        unfold("#endc", K.END, null);
+        document.querySelectorAll("#endc .row").forEach((r, i) => {
+          tl.fromTo(r, { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.24, ease: "power2.out", immediateRender: false }, K.END + 0.35 + i * 0.2);
+          tl.set(r, { opacity: 0 }, 0);
+        });
+        chip("#cta", K.END + 1.15, null, 0);
+        tl.fromTo("#cta", { rotation: -6 }, { rotation: -2, duration: 0.3, ease: "back.out(3)", immediateRender: false }, K.END + 1.15);
+
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
