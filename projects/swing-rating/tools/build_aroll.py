@@ -74,8 +74,13 @@ def run(cmd):
         print(" ".join(cmd)); print(r.stderr[-3000:]); sys.exit(1)
 
 
-def src(clip):
+def src(clip):            # original take (audio)
     return os.path.join(SRC, f"clip{clip}.mov")
+
+
+def vsrc(clip):           # picture: the Xpark PJ South composite (tools/bgswap.py) when it exists
+    p = os.path.join(SRC, "comp", f"clip{clip}.mov")
+    return p if os.path.exists(p) and "--orig-bg" not in sys.argv else src(clip)
 
 
 ENC = ["-an", "-c:v", "libx264", "-preset", "medium", "-crf", "14", "-pix_fmt", "yuv420p",
@@ -91,10 +96,10 @@ def build_segment(i, s):
         for j, side in enumerate(("L", "R")):
             c, a = s[side][0], s[side][1]
             if k == "split":
-                ins += ["-ss", f"{a:.4f}", "-t", f"{s[side][2] - a + 0.3:.4f}", "-i", src(c)]
+                ins += ["-ss", f"{a:.4f}", "-t", f"{s[side][2] - a + 0.3:.4f}", "-i", vsrc(c)]
                 fc.append(f"[{j}:v]setpts=PTS/{s['speed']},fps={FPS},scale=1080:1920:flags=lanczos,crop=540:1920:{CROP[c]}:0,setsar=1[v{j}]")
             else:
-                ins += ["-ss", f"{a:.4f}", "-i", src(c)]
+                ins += ["-ss", f"{a:.4f}", "-i", vsrc(c)]
                 fc.append(f"[{j}:v]trim=end_frame=1,setpts=PTS-STARTPTS,fps={FPS},tpad=stop_mode=clone:stop_duration={s['dur'] + 1},"
                           f"scale=1080:1920:flags=lanczos,crop=540:1920:{CROP[c]}:0,setsar=1[v{j}]")
         fc.append("[v0][v1]hstack=inputs=2[v]")
@@ -103,11 +108,11 @@ def build_segment(i, s):
     sc = "scale=1080:1920:flags=lanczos,setsar=1"
     if k == "freeze":
         vf = f"trim=end_frame=1,setpts=PTS-STARTPTS,fps={FPS},tpad=stop_mode=clone:stop_duration={s['dur'] + 1},{sc}"
-        cmd = ["ffmpeg", "-v", "error", "-y", "-ss", f"{s['a']:.4f}", "-i", src(s["clip"]), "-vf", vf]
+        cmd = ["ffmpeg", "-v", "error", "-y", "-ss", f"{s['a']:.4f}", "-i", vsrc(s["clip"]), "-vf", vf]
     else:
         # 0.5x of 59.94 fps = every source frame once at 30 fps (no interpolation)
         vf = f"setpts=PTS/{s['speed']},fps={FPS},{sc}"
-        cmd = ["ffmpeg", "-v", "error", "-y", "-ss", f"{s['a']:.4f}", "-t", f"{s['b'] - s['a'] + 0.3:.4f}", "-i", src(s["clip"]), "-vf", vf]
+        cmd = ["ffmpeg", "-v", "error", "-y", "-ss", f"{s['a']:.4f}", "-t", f"{s['b'] - s['a'] + 0.3:.4f}", "-i", vsrc(s["clip"]), "-vf", vf]
     run(cmd + ["-frames:v", str(n)] + ENC + [out])
     return out, n
 

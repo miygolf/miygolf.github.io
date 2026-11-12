@@ -7,6 +7,17 @@ Request (2026-11-12): HyperFrames, transcribe first, motion graphics + premium S
 voice not buried, cut repeats and awkward pauses, strongest hook, preview before render, a design not used before, and
 **"rate his swing before and after adjustment"**.
 
+## v2: background on Xpark PJ South (2026-11-12, owner request after the v1 final)
+Owner asked to change the background to Xpark PJ South and supplied a photo of the range (`.src/xpark/xpark_pj_south.jpg`, from a Google share link; 2000×1125).
+A first test with the owner's TikTok clip of the range failed (another golfer in frame, baked-in text, 576×1024, and the person model drops the shaft).
+`tools/bgswap.py` composites every source frame before the cut (→ `.src/comp/clip<n>.mov`; `build_aroll.py` uses them, `--orig-bg` for v1):
+- person: MediaPipe selfie-multiclass on a square crop round the pose box, guided-filter edges;
+- club: difference from a clean plate of the clip's own background (per-pixel median where the person isn't), only within ~2 torso lengths of the hands,
+  threshold raised on busy plate edges; the face-on phone drifts 10–16 px (DTL up to 28 px), so each frame's shift is estimated with ECC on the background;
+- ground: rows below the mat line kept from the footage (mat, feet, ball, real shadow; the bay-7 "Play / 7" board stays on face-on);
+- background: DTL = right of the photo (net, range, buildings), face-on = left (covered bays, 100PLUS boards); upscaled, blur σ 2.2, tone matched halfway.
+Measurements, overlays, timing and sound are unchanged from v1. Preview: `previews/swing-rating_preview_draft_v2_xpark.mp4`.
+
 ## Footage (4 clips, iPhone 4K HEVC HLG 59.94 fps, tripod, upright)
 Ordered by recording time: before = earlier, after = later.
 
