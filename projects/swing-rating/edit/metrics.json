@@ -1,0 +1,98 @@
+{
+ "keys": {
+  "clip3": {
+   "view": "dtl",
+   "phase": "before",
+   "address": 134,
+   "takeaway": 137,
+   "top": 168,
+   "impact": 183,
+   "finish": 230
+  },
+  "clip1": {
+   "view": "dtl",
+   "phase": "after",
+   "address": 48,
+   "takeaway": 51,
+   "top": 84,
+   "impact": 100,
+   "finish": 170
+  },
+  "clip2": {
+   "view": "face",
+   "phase": "before",
+   "address": 8,
+   "takeaway": 10,
+   "top": 54,
+   "impact": 69,
+   "finish": 110
+  },
+  "clip4": {
+   "view": "face",
+   "phase": "after",
+   "address": 33,
+   "takeaway": 36,
+   "top": 84,
+   "impact": 105,
+   "finish": 150
+  }
+ },
+ "metrics": {
+  "clip3": {
+   "view": "dtl",
+   "phase": "before",
+   "backswing_s": 0.517,
+   "downswing_s": 0.25,
+   "tempo": 2.07,
+   "spine_address": 30.0,
+   "spine_top": 23.2,
+   "spine_impact": 12.0,
+   "spine_loss": 18.0,
+   "hip_to_ball_pct": 16.3,
+   "head_drop_impact_pct": 12.3,
+   "head_rise_top_pct": 8.2
+  },
+  "clip1": {
+   "view": "dtl",
+   "phase": "after",
+   "backswing_s": 0.551,
+   "downswing_s": 0.267,
+   "tempo": 2.06,
+   "spine_address": 28.1,
+   "spine_top": 22.5,
+   "spine_impact": 21.1,
+   "spine_loss": 7.0,
+   "hip_to_ball_pct": 9.3,
+   "head_drop_impact_pct": 19.8,
+   "head_rise_top_pct": 1.1
+  },
+  "clip2": {
+   "view": "face",
+   "phase": "before",
+   "backswing_s": 0.734,
+   "downswing_s": 0.25,
+   "tempo": 2.93,
+   "head_sway_top_pct": -12.8,
+   "head_move_impact_pct": 12.6,
+   "hip_sway_top_pct": -5.1,
+   "hip_slide_impact_pct": 57.2,
+   "shoulder_width_top_ratio": 0.42,
+   "hip_width_impact_ratio": 0.93,
+   "spine_tilt_impact": 22.1
+  },
+  "clip4": {
+   "view": "face",
+   "phase": "after",
+   "backswing_s": 0.801,
+   "downswing_s": 0.35,
+   "tempo": 2.29,
+   "head_sway_top_pct": 4.5,
+   "head_move_impact_pct": 20.2,
+   "hip_sway_top_pct": -1.6,
+   "hip_slide_impact_pct": 65.5,
+   "shoulder_width_top_ratio": 0.56,
+   "hip_width_impact_ratio": 0.95,
+   "spine_tilt_impact": 21.6
+  }
+ }
+}

@@ -1,0 +1,16 @@
+[clip1_ms] lang=ms p=1.00
+   0.00- 3.12 (no_speech 0.33)  Terima kasih kerana menonton!
+[clip1_auto] lang=jw p=0.20
+   0.00- 2.20 (no_speech 0.33)  Thank you for watching, see you in the next video.
+[clip2_ms] lang=ms p=1.00
+   0.00- 2.42 (no_speech 0.45)  Terima kasih kerana menonton!
+[clip2_auto] lang=nn p=0.20
+   0.00- 2.20 (no_speech 0.45)  I'm going to show you how to do it.
+[clip3_ms] lang=ms p=1.00
+   0.00- 2.00 (no_speech 0.25)  Terima kasih kerana menonton!
+[clip3_auto] lang=jw p=0.39
+   0.00- 2.18 (no_speech 0.25)  Thank you for watching and see you in the next video.
+[clip4_ms] lang=ms p=1.00
+   0.00- 1.52 (no_speech 0.37)  Terima kasih kerana menonton!
+[clip4_auto] lang=en p=0.19
+   0.00- 2.92 (no_speech 0.37)  Thank you for watching.

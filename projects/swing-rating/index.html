@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Card Grade": the swing is graded like a collectible card.
+         Label plates cut like a grading-slab label (white stock, colour strip on the left, mono cert line); every freeze snaps a rounded
+         card edge round the frame with a foil glint running along it; the grade sections shrink the frame into a clear acrylic slab
+         (card art left, stat rows right, grade on the label); BEFORE is a common card (rust strip), AFTER a holo foil card (iridescent strip,
+         foil shimmer, UPGRADE stamp, sparkles). Section changes are a diagonal foil sweep. Measurement lines come from pose tracking.
+         Type: Rubik Mono One (grades, plates) + Schibsted Grotesk 800/600 (labels) + Chivo Mono 600 (cert lines, numbers).
+         Palette: ink #101014, label stock #f6f5f0, rust #ff5b24 (before), holo #7cf3ff -> #b18cff -> #ff8fd0 -> #ffe27a (after).
+         Safe band x 60-930, y 168-1330; faces kept clear (head boxes printed by tools/build_index.py). */
+      @font-face { font-family: "RubikMono"; font-weight: 400; src: url("assets/fonts/RubikMonoOne-Regular.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Schibsted"; font-weight: 400 900; src: url("assets/fonts/SchibstedGrotesk-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "ChivoMono"; font-weight: 100 900; src: url("assets/fonts/ChivoMono-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Noto Color Emoji"; font-weight: 400; src: url("assets/fonts/NotoColorEmoji.ttf") format("truetype"); font-display: block; }
+      :root { --ink: #101014; --stock: #f6f5f0; --rust: #ff5b24; --mute: #4c4c55;
+              --holo: linear-gradient(115deg, #7cf3ff 0%, #b18cff 28%, #ff8fd0 52%, #ffe27a 76%, #7cf3ff 100%);
+              --holo-deep: linear-gradient(115deg, #0093b8 0%, #5b2cff 30%, #d42682 55%, #c27a00 78%, #0093b8 100%); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: var(--ink); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden;
+              background: radial-gradient(120% 70% at 50% 40%, #1c1c24 0%, #101014 70%); }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 0 0; z-index: 1; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+      #draw { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+      .ov { position: absolute; z-index: 6; opacity: 0; pointer-events: none; }
+      .emo { font-family: "Noto Color Emoji", sans-serif; font-weight: 400; }
+      .mono { font-family: "ChivoMono", monospace; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; }
+      .rm { font-family: "RubikMono", sans-serif; font-weight: 400; letter-spacing: -0.08em; }
+      .holo-bg { background: var(--holo); background-size: 220% 100%; }
+      .holo-tx { background: var(--holo-deep); background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+      /* slab label plate (title + section plates) */
+      .plate { left: 60px; top: 196px; display: flex; align-items: stretch; background: var(--stock); color: var(--ink); border-radius: 14px;
+               box-shadow: 0 0 0 3px rgba(255,255,255,0.35), 0 18px 40px rgba(0,0,0,0.38); overflow: hidden; transform-origin: 0 50%; }
+      .plate .strip { flex: 0 0 18px; }
+      .plate .strip.rust { background: var(--rust); }
+      .plate .pb { padding: 16px 26px 18px 22px; }
+      .plate .cert { font-size: 28px; color: var(--mute); display: flex; gap: 18px; }
+      .plate .hd { font-family: "Schibsted"; font-weight: 800; font-size: 54px; line-height: 1.0; letter-spacing: -0.02em; margin-top: 4px; white-space: nowrap; }
+      .plate .num { font-family: "RubikMono"; font-size: 56px; line-height: 1; align-self: center; padding: 0 22px 0 14px; letter-spacing: -0.1em; }
+      #title { width: 870px; }
+      #title .big { font-family: "RubikMono"; font-size: 92px; line-height: 0.95; letter-spacing: -0.03em; margin-top: 6px; }
+      #title .sub { font-family: "Schibsted"; font-weight: 800; font-size: 46px; line-height: 1.05; margin-top: 10px; white-space: nowrap; }
+
+      /* small tags (panel labels, mini grade boxes) */
+      .tag { padding: 10px 20px 11px; border-radius: 10px; font-family: "RubikMono"; font-size: 34px; line-height: 1; color: var(--ink);
+             box-shadow: 0 10px 26px rgba(0,0,0,0.35); white-space: nowrap; }
+      .tag.rust { background: var(--rust); color: #fff; }
+      .qbox { width: 200px; padding: 10px 0 12px; border-radius: 14px; background: var(--stock); color: var(--ink); text-align: center;
+              box-shadow: 0 0 0 3px rgba(255,255,255,0.4), 0 12px 30px rgba(0,0,0,0.35); }
+      .qbox .mono { font-size: 28px; color: var(--mute); display: block; }
+      .qbox b { font-family: "RubikMono"; font-weight: 400; font-size: 64px; line-height: 1.05; display: block; }
+
+      /* callouts on the freezes */
+      .call { background: var(--stock); color: var(--ink); border-radius: 18px; padding: 18px 26px 20px; box-shadow: 0 0 0 3px rgba(255,255,255,0.35), 0 18px 40px rgba(0,0,0,0.4);
+              overflow: hidden; }
+      .call .big { font-family: "RubikMono"; font-size: 96px; line-height: 0.95; letter-spacing: -0.12em; }
+      .call .big.rust { color: var(--rust); }
+      .call .hd { font-family: "Schibsted"; font-weight: 800; font-size: 44px; line-height: 1.0; letter-spacing: -0.02em; margin-top: 8px; white-space: nowrap; }
+      .call .ln { font-size: 28px; color: var(--mute); margin-top: 8px; white-space: nowrap; }
+      .call::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 14px; }
+      .call.rust::before { background: var(--rust); }
+      .call.holo::before { background: var(--holo); }
+      .call .pad { padding-left: 6px; }
+      .note { padding: 12px 20px 13px; border-radius: 12px; background: rgba(16,16,20,0.82); color: #fff; font-family: "Schibsted"; font-weight: 700;
+              font-size: 36px; white-space: nowrap; box-shadow: 0 10px 26px rgba(0,0,0,0.3); }
+
+      /* grading slab (b_card / a_card) */
+      .slab { left: 46px; top: 178px; width: 898px; height: 1144px; border-radius: 36px; z-index: 5;
+              border: 3px solid rgba(255,255,255,0.55);
+              box-shadow: inset 0 0 0 10px rgba(255,255,255,0.06), inset 0 2px 0 rgba(255,255,255,0.5), 0 30px 80px rgba(0,0,0,0.55);
+              background: linear-gradient(160deg, rgba(255,255,255,0.10), rgba(255,255,255,0.02) 40%, rgba(255,255,255,0.08)); }
+      .slab .lab { position: absolute; left: 22px; top: 20px; right: 22px; height: 196px; border-radius: 16px; background: var(--stock); color: var(--ink);
+                   display: flex; overflow: hidden; }
+      .slab .lab .strip { flex: 0 0 22px; }
+      .slab .lab .strip.rust { background: var(--rust); }
+      .slab .lab .l { flex: 1; padding: 20px 10px 0 24px; }
+      .slab .lab .l .mono { font-size: 28px; color: var(--mute); }
+      .slab .lab .l .hd { font-family: "Schibsted"; font-weight: 800; font-size: 54px; line-height: 1; letter-spacing: -0.02em; margin-top: 10px; white-space: nowrap; }
+      .slab .lab .l .wd { font-family: "Schibsted"; font-weight: 800; font-size: 32px; margin-top: 12px; white-space: nowrap; }
+      .slab .lab .r { flex: 0 0 250px; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; padding-right: 26px; }
+      .slab .lab .r .g { font-family: "RubikMono"; font-size: 120px; line-height: 0.9; letter-spacing: -0.14em; }
+      .slab .lab .r .mono { font-size: 28px; color: var(--mute); margin-top: 6px; }
+      .slab .art { position: absolute; left: 22px; top: 240px; width: 489px; height: 870px; border-radius: 18px;
+                   box-shadow: 0 0 0 3px rgba(255,255,255,0.85), 0 14px 34px rgba(0,0,0,0.45); }
+      .slab .stats { position: absolute; left: 536px; top: 240px; width: 340px; height: 870px; display: flex; flex-direction: column; justify-content: space-between; }
+      .srow { background: rgba(246,245,240,0.96); color: var(--ink); border-radius: 16px; padding: 16px 18px 16px; display: grid;
+              grid-template-columns: 1fr auto; grid-template-rows: auto auto; row-gap: 12px; box-shadow: 0 10px 26px rgba(0,0,0,0.3); }
+      .srow .sn b { display: block; font-family: "Schibsted"; font-weight: 800; font-size: 38px; line-height: 1; letter-spacing: -0.01em; }
+      .srow .sn small { display: block; font-family: "ChivoMono"; font-weight: 600; font-size: 28px; color: var(--mute); text-transform: uppercase; margin-top: 6px; white-space: nowrap; }
+      .srow .sv { font-family: "RubikMono"; font-size: 50px; line-height: 1; align-self: center; letter-spacing: -0.14em; padding-right: 6px; }
+      .srow .sbar { grid-column: 1 / 3; height: 12px; border-radius: 6px; background: rgba(16,16,20,0.12); overflow: hidden; }
+      .srow .sbar i { display: block; height: 100%; border-radius: 6px; transform-origin: 0 50%; }
+      #slabB .srow .sbar i { background: var(--rust); }
+      #slabA .srow .sbar i { background: var(--holo); }
+      #up { left: 100px; top: 1150px; z-index: 7; padding: 14px 24px 15px; border-radius: 14px; font-family: "RubikMono"; font-size: 44px; color: var(--ink);
+            box-shadow: 0 0 0 4px #fff, 0 16px 40px rgba(0,0,0,0.45); transform: rotate(-7deg); white-space: nowrap; }
+      #spark { left: 0; top: 0; width: 1080px; height: 1920px; z-index: 8; overflow: visible; }
+
+      /* end */
+      .mini { width: 400px; height: 236px; border-radius: 22px; padding: 14px; border: 3px solid rgba(255,255,255,0.6);
+              background: rgba(255,255,255,0.08); box-shadow: 0 18px 44px rgba(0,0,0,0.4); }
+      .mini .in { height: 100%; border-radius: 12px; background: var(--stock); color: var(--ink); display: flex; overflow: hidden; }
+      .mini .in .strip { flex: 0 0 18px; }
+      .mini .in .strip.rust { background: var(--rust); }
+      .mini .in .c { flex: 1; padding: 16px 18px 0 18px; }
+      .mini .in .c .mono { font-size: 28px; color: var(--mute); }
+      .mini .in .c .g { font-family: "RubikMono"; font-size: 104px; line-height: 1; letter-spacing: -0.14em; margin-top: 10px; }
+      .mini .in .c .g small { font-family: "ChivoMono"; font-size: 28px; color: var(--mute); -webkit-text-fill-color: var(--mute); letter-spacing: 0; }
+      #mB { left: 60px; top: 196px; } #mA { left: 530px; top: 196px; }
+      #arw { left: 470px; top: 268px; width: 50px; z-index: 7; }
+      .row { left: 60px; width: 870px; display: flex; align-items: center; gap: 20px; }
+      .row i { flex: 0 0 68px; height: 68px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-style: normal;
+               font-family: "RubikMono"; font-size: 34px; color: var(--ink); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+      .row b { font-family: "Schibsted"; font-weight: 800; font-size: 46px; color: #fff; letter-spacing: -0.01em; white-space: nowrap;
+               text-shadow: 0 2px 0 rgba(0,0,0,0.35), 0 6px 22px rgba(0,0,0,0.55); }
+      #r1 { top: 316px; } #r2 { top: 404px; } #r3 { top: 492px; }
+      #next { left: 60px; top: 458px; padding: 12px 20px 13px; border-radius: 12px; background: rgba(16,16,20,0.84); color: #fff;
+              font-family: "Schibsted"; font-weight: 700; font-size: 34px; white-space: nowrap; display: flex; gap: 14px; align-items: center; }
+      #next .k { font-family: "RubikMono"; font-size: 28px; padding: 6px 10px; border-radius: 8px; color: var(--ink); }
+      #cta { left: 470px; top: 1080px; width: 460px; padding: 22px 26px 24px; border-radius: 20px; background: var(--stock); color: var(--ink);
+             box-shadow: 0 0 0 3px rgba(255,255,255,0.4), 0 20px 46px rgba(0,0,0,0.45); overflow: hidden; }
+      #cta .hd { font-family: "Schibsted"; font-weight: 800; font-size: 44px; line-height: 1.05; letter-spacing: -0.02em; }
+      #cta .hd .rm { font-size: 40px; }
+      #cta .ln { font-family: "Schibsted"; font-weight: 700; font-size: 32px; color: var(--mute); margin-top: 12px; }
+      #cta::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 14px; background: var(--holo); }
+
+      /* card edge on freezes + foil sweep */
+      #edge { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 4; opacity: 0; pointer-events: none; overflow: visible; }
+      #foil { position: absolute; top: -200px; left: 0; width: 760px; height: 2320px; z-index: 9; opacity: 0; transform: translateX(-1100px) skewX(-16deg);
+              background: linear-gradient(90deg, rgba(124,243,255,0) 0%, rgba(124,243,255,0.55) 16%, rgba(177,140,255,0.85) 34%, rgba(255,143,208,0.9) 52%,
+                          rgba(255,226,122,0.85) 70%, rgba(255,255,255,0.95) 80%, rgba(255,255,255,0) 100%); mix-blend-mode: screen; }
+      #flash { position: absolute; inset: 0; z-index: 8; background: #fff; opacity: 0; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="43.3" data-width="1080" data-height="1920" data-fps="30">
+      <div id="stage">
+        <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="43.3" data-track-index="1" muted playsinline></video>
+        <svg id="draw" viewBox="0 0 1080 1920">
+          <defs>
+            <linearGradient id="hg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#7cf3ff"/><stop offset="0.35" stop-color="#b18cff"/><stop offset="0.65" stop-color="#ff8fd0"/><stop offset="1" stop-color="#ffe27a"/></linearGradient>
+            <marker id="ah" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="4.2" markerHeight="4.2" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#fff"/></marker>
+            <marker id="ahr" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="4.2" markerHeight="4.2" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#ff5b24"/></marker>
+          </defs>
+          <!-- spine lines: one group per freeze; ghost = address (dashed), now = impact (solid); arc = angle from vertical at the hip -->
+          <g id="g-sb" opacity="0"></g>
+          <g id="g-sa" opacity="0"></g>
+          <g id="g-split" opacity="0"></g>
+          <!-- face-on head markers (stage coords, above the cap) -->
+          <g id="g-hb" opacity="0"></g>
+          <g id="g-ha" opacity="0"></g>
+        </svg>
+      </div>
+
+      <svg id="edge" viewBox="0 0 1080 1920">
+        <defs><linearGradient id="eg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#7cf3ff"/><stop offset="0.35" stop-color="#b18cff"/><stop offset="0.65" stop-color="#ff8fd0"/><stop offset="1" stop-color="#ffe27a"/></linearGradient></defs>
+        <rect x="22" y="22" width="1036" height="1876" rx="44" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="5"/>
+        <rect id="glint" x="22" y="22" width="1036" height="1876" rx="44" fill="none" stroke="url(#eg)" stroke-width="9" stroke-linecap="round"/>
+      </svg>
+
+      <!-- HOOK -->
+      <div id="title" class="ov plate"><div class="strip holo-bg"></div><div class="pb">
+        <div class="cert mono"><span>Swing grade</span><span>· sebelum vs selepas</span></div>
+        <div class="big">RATE SWING</div>
+        <div class="sub">sebelum vs selepas adjust <span class="emo">👀</span></div></div></div>
+      <div id="tl" class="ov tag rust" style="left:60px; top:440px;">SEBELUM</div>
+      <div id="tr" class="ov tag holo-bg" style="left:600px; top:440px;">SELEPAS</div>
+      <div id="qL" class="ov qbox" style="left:60px; top:520px;"><span class="mono">grade</span><b>?.?</b></div>
+      <div id="qR" class="ov qbox" style="left:600px; top:520px;"><span class="mono">grade</span><b>?.?</b></div>
+      <div id="qq" class="ov note" style="left:540px; top:1180px; transform:translateX(-50%);">mana satu lagi power? <span class="emo">🤔</span></div>
+
+      <!-- section plates -->
+      <div id="p1" class="ov plate"><div class="strip rust"></div><div class="num">01</div><div class="pb"><div class="cert mono"><span>common · before</span></div><div class="hd">SEBELUM ADJUST</div></div></div>
+      <div id="p2" class="ov plate"><div class="strip holo-bg"></div><div class="num">02</div><div class="pb"><div class="cert mono"><span>holo · after</span></div><div class="hd">SELEPAS ADJUST</div></div></div>
+      <div id="p3" class="ov plate"><div class="strip holo-bg"></div><div class="pb"><div class="cert mono"><span>full speed · sync impact</span></div><div class="hd">SIDE BY SIDE</div></div></div>
+      <div id="p4" class="ov plate"><div class="strip holo-bg"></div><div class="pb"><div class="cert mono"><span>apa yang berubah</span></div><div class="hd">3 BENDA JE</div></div></div>
+      <div id="spd1" class="ov note mono" style="left:700px; top:196px; font-size:28px;">0.5× replay</div>
+      <div id="spd2" class="ov note mono" style="left:700px; top:196px; font-size:28px;">0.5× replay</div>
+
+      <!-- BEFORE callouts -->
+      <div id="cb" class="ov call rust" style="left:500px; top:330px; width:430px;"><div class="pad">
+        <div class="big rust">-18°</div><div class="hd">POSTUR HILANG</div><div class="ln mono">30° → 13° masa impact</div></div></div>
+      <div id="hipb" class="ov note" style="left:60px; top:1190px;">pinggul tolak ke bola <span style="color:#ff5b24">→</span> badan bangun</div>
+      <div id="hb" class="ov call rust" style="left:60px; top:1050px; width:560px;"><div class="pad">
+        <div class="hd" style="margin-top:0">KEPALA LARI SIKIT</div><div class="ln mono">ke kanan masa backswing</div></div></div>
+
+      <!-- BEFORE slab -->
+      <div id="slabB" class="ov slab">
+        <div class="lab"><div class="strip rust"></div>
+          <div class="l"><div class="mono">cert 001 · common</div><div class="hd">SEBELUM ADJUST</div><div class="wd">“boleh tahan, tapi bangun awal”</div></div>
+          <div class="r"><div class="g" id="gB">6.5</div><div class="mono">/ 10</div></div></div>
+        <div class="art"></div>
+        <div class="stats">
+            <div class="srow"><div class="sn"><b>SETUP</b><small>postur 30°</small></div><div class="sv">7.0</div><div class="sbar"><i style="width:70%"></i></div></div>
+            <div class="srow"><div class="sn"><b>KEPALA</b><small>lari sikit</small></div><div class="sv">6.5</div><div class="sbar"><i style="width:65%"></i></div></div>
+            <div class="srow"><div class="sn"><b>IMPACT</b><small>hilang 18°</small></div><div class="sv">4.5</div><div class="sbar"><i style="width:45%"></i></div></div>
+            <div class="srow"><div class="sn"><b>FINISH</b><small>balance</small></div><div class="sv">8.0</div><div class="sbar"><i style="width:80%"></i></div></div>
+        </div>
+      </div>
+
+      <!-- AFTER callouts -->
+      <div id="ca" class="ov call holo" style="left:500px; top:330px; width:430px;"><div class="pad">
+        <div class="big holo-tx">-7°</div><div class="hd">POSTUR STAY</div><div class="ln mono">28° → 21° masa impact</div></div></div>
+      <div id="hipa" class="ov note" style="left:60px; top:1250px;">pinggul stay, dada kekal tunduk <span class="emo">🔥</span></div>
+      <div id="ha" class="ov call holo" style="left:60px; top:1050px; width:560px;"><div class="pad">
+        <div class="hd" style="margin-top:0">KEPALA STAY</div><div class="ln mono">tengah, tak lari masa backswing</div></div></div>
+
+      <!-- AFTER slab -->
+      <div id="slabA" class="ov slab">
+        <div class="lab"><div class="strip holo-bg"></div>
+          <div class="l"><div class="mono">cert 002 · holo</div><div class="hd">SELEPAS ADJUST</div><div class="wd">“mantap, postur dah stay”</div></div>
+          <div class="r"><div class="g holo-tx" id="gA">7.5</div><div class="mono">/ 10</div></div></div>
+        <div class="art"></div>
+        <div class="stats">
+            <div class="srow"><div class="sn"><b>SETUP</b><small>postur 28°</small></div><div class="sv">7.0</div><div class="sbar"><i style="width:70%"></i></div></div>
+            <div class="srow"><div class="sn"><b>KEPALA</b><small>stay tengah</small></div><div class="sv">7.5</div><div class="sbar"><i style="width:75%"></i></div></div>
+            <div class="srow"><div class="sn"><b>IMPACT</b><small>hilang 7° je</small></div><div class="sv">7.5</div><div class="sbar"><i style="width:75%"></i></div></div>
+            <div class="srow"><div class="sn"><b>FINISH</b><small>balance</small></div><div class="sv">8.0</div><div class="sbar"><i style="width:80%"></i></div></div>
+        </div>
+      </div>
+      <div id="up" class="ov holo-bg">UPGRADE +1.0</div>
+      <svg id="spark" class="ov" viewBox="0 0 1080 1920"></svg>
+
+      <!-- PROOF -->
+      <div id="pl" class="ov tag rust" style="left:60px; top:330px;">SEBELUM</div>
+      <div id="pr" class="ov tag holo-bg" style="left:600px; top:330px;">SELEPAS</div>
+      <div id="nL" class="ov call rust" style="left:60px; top:420px; width:330px;"><div class="pad"><div class="big rust" style="font-size:84px">-18°</div><div class="ln mono">postur hilang</div></div></div>
+      <div id="nR" class="ov call holo" style="left:600px; top:420px; width:330px;"><div class="pad"><div class="big holo-tx" style="font-size:84px">-7°</div><div class="ln mono">postur hilang</div></div></div>
+
+      <!-- END -->
+      <div id="r1" class="ov row"><i class="holo-bg">1</i><b>Pinggul stay belakang</b></div>
+      <div id="r2" class="ov row"><i class="holo-bg">2</i><b>Dada tunduk sampai impact</b></div>
+      <div id="r3" class="ov row"><i class="holo-bg">3</i><b>Kepala lebih stay</b></div>
+      <div id="mB" class="ov mini"><div class="in"><div class="strip rust"></div><div class="c"><div class="mono">sebelum</div><div class="g">6.5<small> /10</small></div></div></div></div>
+      <div id="mA" class="ov mini"><div class="in"><div class="strip holo-bg"></div><div class="c"><div class="mono">selepas</div><div class="g holo-tx">7.5<small> /10</small></div></div></div></div>
+      <svg id="arw" class="ov" viewBox="0 0 50 60"><path d="M6 10 L34 30 L6 50" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div id="next" class="ov"><span class="k holo-bg">NEXT</span>kepala jangan dip masa impact</div>
+      <div id="cta" class="ov"><div class="hd">Nak aku rate swing korang? <span class="emo">⛳</span></div><div class="ln">Comment “RATE” ↓ · save dulu <span class="emo">📌</span></div></div>
+
+      <div id="flash"></div>
+      <div id="foil"></div>
+      <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="43.3" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>
+      <!-- sound design: Mixkit ids (assets/sfx/CREDITS.md). start = picture beat - file peak. No music. -->
+      <audio data-hf-id="hf-s00" id="sfx-00" class="clip" src="assets/sfx/2925.mp3" data-start="0.000" data-duration="0.14" data-media-start="0.160" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- title plate on frame 0 -->
+      <audio data-hf-id="hf-s01" id="sfx-01" class="clip" src="assets/sfx/2002.mp3" data-start="0.100" data-duration="0.40" data-track-index="13" data-volume="0.3" data-audio-group="sfx"></audio> <!-- SEBELUM tag -->
+      <audio data-hf-id="hf-s02" id="sfx-02" class="clip" src="assets/sfx/2002.mp3" data-start="0.250" data-duration="0.40" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- SELEPAS tag -->
+      <audio data-hf-id="hf-s03" id="sfx-03" class="clip" src="assets/sfx/772.mp3" data-start="0.523" data-duration="1.22" data-track-index="13" data-volume="0.3" data-audio-group="sfx"></audio> <!-- freeze on both impacts -->
+      <audio data-hf-id="hf-s04" id="sfx-04" class="clip" src="assets/sfx/1133.mp3" data-start="0.753" data-duration="0.35" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- card edge snaps round the freeze -->
+      <audio data-hf-id="hf-s05" id="sfx-05" class="clip" src="assets/sfx/1489.mp3" data-start="0.713" data-duration="1.41" data-track-index="14" data-volume="0.12" data-audio-group="sfx"></audio> <!-- spine lines draw -->
+      <audio data-hf-id="hf-s06" id="sfx-06" class="clip" src="assets/sfx/1119.mp3" data-start="1.583" data-duration="0.33" data-track-index="12" data-volume="0.24" data-audio-group="sfx"></audio> <!-- lines land -->
+      <audio data-hf-id="hf-s07" id="sfx-07" class="clip" src="assets/sfx/2357.mp3" data-start="1.803" data-duration="0.38" data-track-index="13" data-volume="0.22" data-audio-group="sfx"></audio> <!-- '?' question -->
+      <audio data-hf-id="hf-s08" id="sfx-08" class="clip" src="assets/sfx/3115.mp3" data-start="3.393" data-duration="0.57" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- foil sweep -->
+      <audio data-hf-id="hf-s09" id="sfx-09" class="clip" src="assets/sfx/2002.mp3" data-start="3.483" data-duration="0.40" data-track-index="13" data-volume="0.3" data-audio-group="sfx"></audio> <!-- 01 SEBELUM plate -->
+      <audio data-hf-id="hf-s10" id="sfx-10" class="clip" src="assets/sfx/2126.mp3" data-start="4.356" data-duration="0.64" data-track-index="12" data-volume="0.16" data-audio-group="sfx"></audio> <!-- quiet layer on the real strike -->
+      <audio data-hf-id="hf-s11" id="sfx-11" class="clip" src="assets/sfx/166.mp3" data-start="5.183" data-duration="0.78" data-track-index="12" data-volume="0.16" data-audio-group="sfx"></audio> <!-- into the 0.5x replay -->
+      <audio data-hf-id="hf-s12" id="sfx-12" class="clip" src="assets/sfx/2126.mp3" data-start="5.953" data-duration="0.64" data-track-index="13" data-volume="0.22" data-audio-group="sfx"></audio> <!-- slowed strike -->
+      <audio data-hf-id="hf-s13" id="sfx-13" class="clip" src="assets/sfx/1133.mp3" data-start="5.953" data-duration="0.35" data-track-index="14" data-volume="0.28" data-audio-group="sfx"></audio> <!-- freeze, card edge -->
+      <audio data-hf-id="hf-s14" id="sfx-14" class="clip" src="assets/sfx/1489.mp3" data-start="5.813" data-duration="1.41" data-track-index="15" data-volume="0.12" data-audio-group="sfx"></audio> <!-- address line (ghost) draws -->
+      <audio data-hf-id="hf-s15" id="sfx-15" class="clip" src="assets/sfx/1119.mp3" data-start="6.883" data-duration="0.33" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- impact line snaps -->
+      <audio data-hf-id="hf-s16" id="sfx-16" class="clip" src="assets/sfx/1994.mp3" data-start="7.113" data-duration="0.69" data-track-index="13" data-volume="0.3" data-audio-group="sfx"></audio> <!-- -18° callout lands -->
+      <audio data-hf-id="hf-s17" id="sfx-17" class="clip" src="assets/sfx/2357.mp3" data-start="7.353" data-duration="0.38" data-track-index="12" data-volume="0.2" data-audio-group="sfx"></audio> <!-- hip arrow -->
+      <audio data-hf-id="hf-s18" id="sfx-18" class="clip" src="assets/sfx/166.mp3" data-start="9.153" data-duration="0.78" data-track-index="12" data-volume="0.18" data-audio-group="sfx"></audio> <!-- cut to face-on -->
+      <audio data-hf-id="hf-s19" id="sfx-19" class="clip" src="assets/sfx/1133.mp3" data-start="10.153" data-duration="0.35" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- freeze at the top -->
+      <audio data-hf-id="hf-s20" id="sfx-20" class="clip" src="assets/sfx/2357.mp3" data-start="10.453" data-duration="0.38" data-track-index="13" data-volume="0.18" data-audio-group="sfx"></audio> <!-- address head marker -->
+      <audio data-hf-id="hf-s21" id="sfx-21" class="clip" src="assets/sfx/1491.mp3" data-start="10.633" data-duration="0.60" data-track-index="12" data-volume="0.2" data-audio-group="sfx"></audio> <!-- head arrow swipes -->
+      <audio data-hf-id="hf-s22" id="sfx-22" class="clip" src="assets/sfx/1994.mp3" data-start="11.063" data-duration="0.69" data-track-index="13" data-volume="0.28" data-audio-group="sfx"></audio> <!-- KEPALA LARI callout -->
+      <audio data-hf-id="hf-s23" id="sfx-23" class="clip" src="assets/sfx/2126.mp3" data-start="13.104" data-duration="0.64" data-track-index="12" data-volume="0.16" data-audio-group="sfx"></audio> <!-- quiet layer on the strike -->
+      <audio data-hf-id="hf-s24" id="sfx-24" class="clip" src="assets/sfx/166.mp3" data-start="14.253" data-duration="0.78" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- frame shrinks into the slab -->
+      <audio data-hf-id="hf-s25" id="sfx-25" class="clip" src="assets/sfx/1994.mp3" data-start="14.913" data-duration="0.69" data-track-index="13" data-volume="0.34" data-audio-group="sfx"></audio> <!-- slab label lands -->
+      <audio data-hf-id="hf-s26" id="sfx-26" class="clip" src="assets/sfx/2364.mp3" data-start="15.373" data-duration="0.12" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- stat 1 -->
+      <audio data-hf-id="hf-s27" id="sfx-27" class="clip" src="assets/sfx/2364.mp3" data-start="15.573" data-duration="0.12" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- stat 2 -->
+      <audio data-hf-id="hf-s28" id="sfx-28" class="clip" src="assets/sfx/2364.mp3" data-start="15.773" data-duration="0.12" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- stat 3 -->
+      <audio data-hf-id="hf-s29" id="sfx-29" class="clip" src="assets/sfx/2364.mp3" data-start="15.973" data-duration="0.12" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- stat 4 -->
+      <audio data-hf-id="hf-s30" id="sfx-30" class="clip" src="assets/sfx/772.mp3" data-start="15.973" data-duration="1.22" data-track-index="13" data-volume="0.22" data-audio-group="sfx"></audio> <!-- grade 6.5 slams -->
+      <audio data-hf-id="hf-s31" id="sfx-31" class="clip" src="assets/sfx/3115.mp3" data-start="17.193" data-duration="0.57" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- foil sweep -->
+      <audio data-hf-id="hf-s32" id="sfx-32" class="clip" src="assets/sfx/2350.mp3" data-start="16.923" data-duration="1.70" data-track-index="14" data-volume="0.12" data-audio-group="sfx"></audio> <!-- foil sparkle (after section) -->
+      <audio data-hf-id="hf-s33" id="sfx-33" class="clip" src="assets/sfx/2002.mp3" data-start="17.283" data-duration="0.40" data-track-index="13" data-volume="0.3" data-audio-group="sfx"></audio> <!-- 02 SELEPAS plate -->
+      <audio data-hf-id="hf-s34" id="sfx-34" class="clip" src="assets/sfx/2126.mp3" data-start="18.162" data-duration="0.64" data-track-index="12" data-volume="0.16" data-audio-group="sfx"></audio> <!-- quiet layer on the real strike -->
+      <audio data-hf-id="hf-s35" id="sfx-35" class="clip" src="assets/sfx/166.mp3" data-start="19.317" data-duration="0.78" data-track-index="12" data-volume="0.16" data-audio-group="sfx"></audio> <!-- into the 0.5x replay -->
+      <audio data-hf-id="hf-s36" id="sfx-36" class="clip" src="assets/sfx/2126.mp3" data-start="20.053" data-duration="0.64" data-track-index="13" data-volume="0.22" data-audio-group="sfx"></audio> <!-- slowed strike -->
+      <audio data-hf-id="hf-s37" id="sfx-37" class="clip" src="assets/sfx/1133.mp3" data-start="20.053" data-duration="0.35" data-track-index="14" data-volume="0.28" data-audio-group="sfx"></audio> <!-- freeze, card edge -->
+      <audio data-hf-id="hf-s38" id="sfx-38" class="clip" src="assets/sfx/1489.mp3" data-start="19.913" data-duration="1.41" data-track-index="15" data-volume="0.12" data-audio-group="sfx"></audio> <!-- address line (ghost) draws -->
+      <audio data-hf-id="hf-s39" id="sfx-39" class="clip" src="assets/sfx/1119.mp3" data-start="20.983" data-duration="0.33" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- impact line snaps -->
+      <audio data-hf-id="hf-s40" id="sfx-40" class="clip" src="assets/sfx/1994.mp3" data-start="21.213" data-duration="0.69" data-track-index="13" data-volume="0.3" data-audio-group="sfx"></audio> <!-- -7° callout lands -->
+      <audio data-hf-id="hf-s41" id="sfx-41" class="clip" src="assets/sfx/166.mp3" data-start="23.253" data-duration="0.78" data-track-index="12" data-volume="0.18" data-audio-group="sfx"></audio> <!-- cut to face-on -->
+      <audio data-hf-id="hf-s42" id="sfx-42" class="clip" src="assets/sfx/1133.mp3" data-start="24.320" data-duration="0.35" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- freeze at the top -->
+      <audio data-hf-id="hf-s43" id="sfx-43" class="clip" src="assets/sfx/2357.mp3" data-start="24.620" data-duration="0.38" data-track-index="13" data-volume="0.18" data-audio-group="sfx"></audio> <!-- address head marker -->
+      <audio data-hf-id="hf-s44" id="sfx-44" class="clip" src="assets/sfx/1994.mp3" data-start="25.230" data-duration="0.69" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- KEPALA STAY callout -->
+      <audio data-hf-id="hf-s45" id="sfx-45" class="clip" src="assets/sfx/2126.mp3" data-start="27.270" data-duration="0.64" data-track-index="12" data-volume="0.16" data-audio-group="sfx"></audio> <!-- quiet layer on the strike -->
+      <audio data-hf-id="hf-s46" id="sfx-46" class="clip" src="assets/sfx/166.mp3" data-start="28.253" data-duration="0.78" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- frame shrinks into the slab -->
+      <audio data-hf-id="hf-s47" id="sfx-47" class="clip" src="assets/sfx/1994.mp3" data-start="28.913" data-duration="0.69" data-track-index="13" data-volume="0.34" data-audio-group="sfx"></audio> <!-- slab label lands -->
+      <audio data-hf-id="hf-s48" id="sfx-48" class="clip" src="assets/sfx/2364.mp3" data-start="29.373" data-duration="0.12" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- stat 1 -->
+      <audio data-hf-id="hf-s49" id="sfx-49" class="clip" src="assets/sfx/2364.mp3" data-start="29.573" data-duration="0.12" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- stat 2 -->
+      <audio data-hf-id="hf-s50" id="sfx-50" class="clip" src="assets/sfx/2364.mp3" data-start="29.773" data-duration="0.12" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- stat 3 -->
+      <audio data-hf-id="hf-s51" id="sfx-51" class="clip" src="assets/sfx/2364.mp3" data-start="29.973" data-duration="0.12" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- stat 4 -->
+      <audio data-hf-id="hf-s52" id="sfx-52" class="clip" src="assets/sfx/772.mp3" data-start="29.973" data-duration="1.22" data-track-index="13" data-volume="0.24" data-audio-group="sfx"></audio> <!-- grade 7.6 slams -->
+      <audio data-hf-id="hf-s53" id="sfx-53" class="clip" src="assets/sfx/871.mp3" data-start="30.033" data-duration="1.30" data-track-index="14" data-volume="0.24" data-audio-group="sfx"></audio> <!-- UPGRADE foil burst -->
+      <audio data-hf-id="hf-s54" id="sfx-54" class="clip" src="assets/sfx/2586.mp3" data-start="28.893" data-duration="3.00" data-track-index="15" data-volume="0.12" data-audio-group="sfx"></audio> <!-- sparkles round the slab -->
+      <audio data-hf-id="hf-s55" id="sfx-55" class="clip" src="assets/sfx/3115.mp3" data-start="31.793" data-duration="0.57" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- foil sweep -->
+      <audio data-hf-id="hf-s56" id="sfx-56" class="clip" src="assets/sfx/2002.mp3" data-start="31.883" data-duration="0.40" data-track-index="13" data-volume="0.28" data-audio-group="sfx"></audio> <!-- SIDE BY SIDE plate -->
+      <audio data-hf-id="hf-s57" id="sfx-57" class="clip" src="assets/sfx/2126.mp3" data-start="32.603" data-duration="0.64" data-track-index="12" data-volume="0.14" data-audio-group="sfx"></audio> <!-- quiet layer on the strikes -->
+      <audio data-hf-id="hf-s58" id="sfx-58" class="clip" src="assets/sfx/1133.mp3" data-start="33.420" data-duration="0.35" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- freeze on impact, card edge -->
+      <audio data-hf-id="hf-s59" id="sfx-59" class="clip" src="assets/sfx/1119.mp3" data-start="33.950" data-duration="0.33" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- lines left -->
+      <audio data-hf-id="hf-s60" id="sfx-60" class="clip" src="assets/sfx/1119.mp3" data-start="34.150" data-duration="0.33" data-track-index="13" data-volume="0.22" data-audio-group="sfx"></audio> <!-- lines right -->
+      <audio data-hf-id="hf-s61" id="sfx-61" class="clip" src="assets/sfx/2364.mp3" data-start="34.640" data-duration="0.12" data-track-index="12" data-volume="0.24" data-audio-group="sfx"></audio> <!-- -18° -->
+      <audio data-hf-id="hf-s62" id="sfx-62" class="clip" src="assets/sfx/2364.mp3" data-start="34.840" data-duration="0.12" data-track-index="12" data-volume="0.24" data-audio-group="sfx"></audio> <!-- -7° -->
+      <audio data-hf-id="hf-s63" id="sfx-63" class="clip" src="assets/sfx/3115.mp3" data-start="36.060" data-duration="0.57" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- foil sweep -->
+      <audio data-hf-id="hf-s64" id="sfx-64" class="clip" src="assets/sfx/2350.mp3" data-start="35.790" data-duration="1.70" data-track-index="13" data-volume="0.12" data-audio-group="sfx"></audio> <!-- foil sparkle (after section) -->
+      <audio data-hf-id="hf-s65" id="sfx-65" class="clip" src="assets/sfx/2002.mp3" data-start="36.300" data-duration="0.40" data-track-index="14" data-volume="0.28" data-audio-group="sfx"></audio> <!-- APA BERUBAH plate -->
+      <audio data-hf-id="hf-s66" id="sfx-66" class="clip" src="assets/sfx/2364.mp3" data-start="36.790" data-duration="0.12" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- row 1 -->
+      <audio data-hf-id="hf-s67" id="sfx-67" class="clip" src="assets/sfx/2364.mp3" data-start="37.040" data-duration="0.12" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- row 2 -->
+      <audio data-hf-id="hf-s68" id="sfx-68" class="clip" src="assets/sfx/2126.mp3" data-start="37.028" data-duration="0.64" data-track-index="14" data-volume="0.14" data-audio-group="sfx"></audio> <!-- quiet layer on the strike -->
+      <audio data-hf-id="hf-s69" id="sfx-69" class="clip" src="assets/sfx/2364.mp3" data-start="37.290" data-duration="0.12" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- row 3 -->
+      <audio data-hf-id="hf-s70" id="sfx-70" class="clip" src="assets/sfx/1994.mp3" data-start="38.980" data-duration="0.69" data-track-index="12" data-volume="0.32" data-audio-group="sfx"></audio> <!-- end scorecard -->
+      <audio data-hf-id="hf-s71" id="sfx-71" class="clip" src="assets/sfx/2364.mp3" data-start="39.440" data-duration="0.12" data-track-index="13" data-volume="0.22" data-audio-group="sfx"></audio> <!-- 6.5 -->
+      <audio data-hf-id="hf-s72" id="sfx-72" class="clip" src="assets/sfx/772.mp3" data-start="39.340" data-duration="1.22" data-track-index="14" data-volume="0.2" data-audio-group="sfx"></audio> <!-- 7.6 -->
+      <audio data-hf-id="hf-s73" id="sfx-73" class="clip" src="assets/sfx/2357.mp3" data-start="39.970" data-duration="0.38" data-track-index="12" data-volume="0.2" data-audio-group="sfx"></audio> <!-- NEXT chip -->
+      <audio data-hf-id="hf-s74" id="sfx-74" class="clip" src="assets/sfx/2925.mp3" data-start="40.310" data-duration="0.30" data-track-index="13" data-volume="0.28" data-audio-group="sfx"></audio> <!-- CTA -->
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {"T": {"hook": {"start": 0.0, "end": 0.9333}, "hook_frz": {"start": 0.9333, "end": 3.5333}, "b_dtl": {"start": 3.5333, "end": 5.4333}, "b_slow": {"start": 5.4333, "end": 6.1333}, "b_frz": {"start": 6.1333, "end": 9.4333}, "b_fo1": {"start": 9.4333, "end": 10.3333}, "b_fo_top": {"start": 10.3333, "end": 13.0333}, "b_fo2": {"start": 13.0333, "end": 14.5333}, "b_card": {"start": 14.5333, "end": 17.3333}, "a_dtl": {"start": 17.3333, "end": 19.5667}, "a_slow": {"start": 19.5667, "end": 20.2333}, "a_frz": {"start": 20.2333, "end": 23.5333}, "a_fo1": {"start": 23.5333, "end": 24.5}, "a_fo_top": {"start": 24.5, "end": 27.1}, "a_fo2": {"start": 27.1, "end": 28.5333}, "a_card": {"start": 28.5333, "end": 31.9333}, "proof": {"start": 31.9333, "end": 33.6}, "proof_frz": {"start": 33.6, "end": 36.2}, "end_play": {"start": 36.2, "end": 38.9}, "end_frz": {"start": 38.9, "end": 43.3}}, "B": {"hook_impact": 0.933, "b_impact": 4.536, "b_slow_impact": 6.133, "b_fo_impact": 13.284, "a_impact": 18.342, "a_slow_impact": 20.233, "a_fo_impact": 27.45, "proof_impact": 32.783, "end_impact": 37.208, "b_takeaway": 3.769, "a_takeaway": 17.524}, "TOTAL": 43.3, "W": {"hook_lines": 1.1833, "b_lines": 6.2833000000000006, "a_lines": 20.3833, "b_head": 10.4833, "a_head": 24.65, "proof_lines": 33.75}, "GEO": {"b_dtl": {"ghost": {"hip": [272.9, 1082.2], "sh": [405.9, 852.8], "ang": 30}, "now": {"hip": [314.8, 1085.5], "sh": [365.0, 859.6], "ang": 13}}, "a_dtl": {"ghost": {"hip": [225.2, 1159.6], "sh": [359.6, 908.0], "ang": 28}, "now": {"hip": [252.8, 1130.3], "sh": [336.9, 914.8], "ang": 21}}, "b_fo": {"addr": {"x": 501.2, "nose_y": 810.4, "top": 722.7, "bottom": 856.3, "half_w": 62.6, "torso": 208.6}, "top": {"x": 483.3, "nose_y": 772.0, "top": 664.4, "bottom": 828.4, "half_w": 76.9, "torso": 256.3}}, "a_fo": {"addr": {"x": 493.8, "nose_y": 608.7, "top": 512.8, "bottom": 659.0, "half_w": 68.5, "torso": 228.5}, "top": {"x": 494.1, "nose_y": 542.0, "top": 417.9, "bottom": 606.9, "half_w": 88.6, "torso": 295.4}}, "split": {"L": {"ghost": {"hip": [122.9, 1082.2], "sh": [255.9, 852.8], "ang": 30}, "now": {"hip": [164.8, 1085.5], "sh": [215.0, 859.6], "ang": 13}}, "R": {"ghost": {"hip": [675.2, 1159.6], "sh": [809.6, 908.0], "ang": 28}, "now": {"hip": [702.8, 1130.3], "sh": [786.9, 914.8], "ang": 21}}}}, "R": {"before": 6.5, "after": 7.5}};
+        const T = K.T, B = K.B, W = K.W, G = K.GEO;
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        const NS = "http://www.w3.org/2000/svg";
+        const hide0 = (el) => tl.set(el, { opacity: 0 }, 0);
+        const mk = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+
+        // ---------- helpers ----------
+        function plateIn(sel, t0, t1) {   // slab label flicks in like a card
+          const el = $(sel); hide0(el);
+          tl.fromTo(el, { opacity: 0, x: -60, rotationY: -55, transformPerspective: 900 },
+                        { opacity: 1, x: 0, rotationY: 0, duration: 0.38, ease: "back.out(1.6)", immediateRender: false }, t0);
+          if (t1 != null) tl.to(el, { opacity: 0, x: 40, duration: 0.18, ease: "power2.in" }, t1);
+          return el;
+        }
+        function popIn(sel, t0, t1, from) {
+          const el = $(sel); hide0(el);
+          tl.fromTo(el, Object.assign({ opacity: 0, scale: 0.7, y: 16 }, from || {}), { opacity: 1, scale: 1, y: 0, duration: 0.3, ease: "back.out(2.2)", immediateRender: false }, t0);
+          if (t1 != null) tl.to(el, { opacity: 0, scale: 0.92, duration: 0.16, ease: "power2.in" }, t1);
+          return el;
+        }
+        function dropIn(sel, t0, t1) {   // callout lands like a card placed on the table
+          const el = $(sel); hide0(el);
+          tl.fromTo(el, { opacity: 0, y: -40, rotation: -4, scale: 1.08 }, { opacity: 1, y: 0, rotation: 0, scale: 1, duration: 0.32, ease: "power3.out", immediateRender: false }, t0);
+          if (t1 != null) tl.to(el, { opacity: 0, y: -16, duration: 0.18, ease: "power2.in" }, t1);
+          return el;
+        }
+        function foil(tc) {               // diagonal foil sweep across the cut + a soft flash on the cut
+          tl.set("#foil", { opacity: 1, x: -1100 }, tc - 0.3);
+          tl.fromTo("#foil", { x: -1100 }, { x: 1500, duration: 0.6, ease: "power2.inOut", immediateRender: false }, tc - 0.3);
+          tl.set("#foil", { opacity: 0 }, tc + 0.31);
+          tl.fromTo("#flash", { opacity: 0.35 }, { opacity: 0, duration: 0.22, ease: "power2.out", immediateRender: false }, tc);
+        }
+        const GL = 2 * (1036 + 1876) - (8 - 2 * Math.PI) * 44;   // rounded-rect perimeter
+        function edge(t0, t1) {           // freeze: card edge snaps round the frame, a foil glint runs along it, then rests faint
+          tl.fromTo("#edge", { opacity: 0, scale: 1.03, transformOrigin: "540px 960px" }, { opacity: 1, scale: 1, duration: 0.14, ease: "power2.out", immediateRender: false }, t0);
+          tl.fromTo("#glint", { attr: { "stroke-dasharray": `260 ${GL}`, "stroke-dashoffset": 0 } },
+                              { attr: { "stroke-dashoffset": -GL }, duration: 0.9, ease: "power1.inOut", immediateRender: false }, t0);
+          tl.to("#edge", { opacity: 0.45, duration: 0.3 }, t0 + 0.9);
+          if (t1 != null) tl.to("#edge", { opacity: 0, duration: 0.12 }, t1 - 0.12);
+          tl.fromTo("#flash", { opacity: 0.5 }, { opacity: 0, duration: 0.2, ease: "power2.out", immediateRender: false }, t0);
+        }
+        tl.set("#glint", { attr: { "stroke-dasharray": `0 ${GL}` } }, 0);
+        function drawIn(el, t0, dur) {
+          const L = el.getTotalLength();
+          tl.set(el, { attr: { "stroke-dasharray": `${L} ${L}`, "stroke-dashoffset": L } }, 0);
+          tl.to(el, { attr: { "stroke-dashoffset": 0 }, duration: dur, ease: "power2.inOut" }, t0);
+        }
+        // spine line pair + angle arcs into group g; colour = rust (before) or holo (after)
+        function spinePair(g, P, holo, t0, labels) {
+          const col = holo ? "url(#hg)" : "#ff5b24";
+          const grp = $(g);
+          const ext = (p) => { const dx = p.sh[0] - p.hip[0], dy = p.sh[1] - p.hip[1]; return [p.hip[0] + dx * 1.18, p.hip[1] + dy * 1.18]; };
+          const arc = (p, r) => {   // from vertical (up) to the spine, centred on the hip
+            const a = Math.atan2(p.sh[0] - p.hip[0], p.hip[1] - p.sh[1]);
+            const x1 = p.hip[0], y1 = p.hip[1] - r, x2 = p.hip[0] + r * Math.sin(a), y2 = p.hip[1] - r * Math.cos(a);
+            return `M ${x1} ${y1} A ${r} ${r} 0 0 ${a > 0 ? 1 : 0} ${x2} ${y2}`;
+          };
+          const gE = ext(P.ghost), nE = ext(P.now);
+          const vert = mk("path", { d: `M ${P.now.hip[0]} ${P.now.hip[1]} V ${P.now.hip[1] - 250}`, stroke: "#fff", "stroke-opacity": 0.55, "stroke-width": 3, "stroke-dasharray": "6 10", fill: "none" }, grp);
+          const gs = mk("path", { d: `M ${P.ghost.hip[0]} ${P.ghost.hip[1]} L ${gE[0]} ${gE[1]}`, stroke: "rgba(16,16,20,0.55)", "stroke-width": 11, fill: "none", "stroke-linecap": "round" }, grp);
+          const gl = mk("path", { d: `M ${P.ghost.hip[0]} ${P.ghost.hip[1]} L ${gE[0]} ${gE[1]}`, stroke: "#fff", "stroke-width": 6, "stroke-dasharray": "16 12", fill: "none", "stroke-linecap": "round" }, grp);
+          const ns = mk("path", { d: `M ${P.now.hip[0]} ${P.now.hip[1]} L ${nE[0]} ${nE[1]}`, stroke: "rgba(16,16,20,0.6)", "stroke-width": 15, fill: "none", "stroke-linecap": "round" }, grp);
+          const nl = mk("path", { d: `M ${P.now.hip[0]} ${P.now.hip[1]} L ${nE[0]} ${nE[1]}`, stroke: col, "stroke-width": 9, fill: "none", "stroke-linecap": "round" }, grp);
+          const ar = mk("path", { d: arc(P.now, 92), stroke: col, "stroke-width": 6, fill: "none", "stroke-linecap": "round" }, grp);
+          const hipDot = mk("circle", { cx: P.now.hip[0], cy: P.now.hip[1], r: 11, fill: "#fff", stroke: "#101014", "stroke-width": 4 }, grp);
+          tl.set(grp, { opacity: 1 }, t0);
+          drawIn(vert, t0, 0.25); drawIn(gs, t0 + 0.05, 0.45); drawIn(gl, t0 + 0.05, 0.45);
+          drawIn(ns, t0 + 0.55, 0.25); drawIn(nl, t0 + 0.55, 0.25); drawIn(ar, t0 + 0.75, 0.3);
+          tl.fromTo(hipDot, { scale: 0, svgOrigin: `${P.now.hip[0]} ${P.now.hip[1]}` }, { scale: 1, duration: 0.25, ease: "back.out(3)", immediateRender: false }, t0 + 0.5);
+          if (labels) {
+            const tx = (x, y, s, fill, anchor) => { const t = mk("text", { x, y, fill, "font-family": "ChivoMono", "font-weight": 700, "font-size": 34, "text-anchor": anchor || "middle",
+                                                                            stroke: "#101014", "stroke-width": 7, "paint-order": "stroke" }, grp); t.textContent = s; return t; };
+            const a1 = tx(gE[0] + 18, gE[1] - 6, P.ghost.ang + "°", "#fff", "start");
+            const a2 = tx(nE[0] - 18, nE[1] - 14, P.now.ang + "°", holo ? "#b18cff" : "#ff5b24", "end");
+            if (holo) a2.setAttribute("fill", "#ffffff");
+            tl.fromTo(a1, { opacity: 0 }, { opacity: 1, duration: 0.2, immediateRender: false }, t0 + 0.45);
+            tl.fromTo(a2, { opacity: 0 }, { opacity: 1, duration: 0.2, immediateRender: false }, t0 + 0.85);
+          }
+          return grp;
+        }
+        // head markers above the cap: ghost pin at the address x, solid pin at the top x, arrow between
+        function headMarks(g, H, holo, t0) {
+          const grp = $(g), col = holo ? "url(#hg)" : "#ff5b24";
+          const y = Math.min(H.addr.top, H.top.top) - 34;
+          const pin = (x, fill, dash) => mk("path", { d: `M ${x} ${y + 26} L ${x - 15} ${y} L ${x + 15} ${y} Z`, fill, stroke: "#101014", "stroke-width": 3, "stroke-dasharray": dash || "none" }, grp);
+          const stem = (x) => mk("path", { d: `M ${x} ${y - 4} V ${y - 70}`, stroke: "#fff", "stroke-width": 4, "stroke-dasharray": "5 7" }, grp);
+          const s0 = stem(H.addr.x); const p0 = pin(H.addr.x, "#ffffff");
+          const p1 = pin(H.top.x, holo ? "#ffe27a" : "#ff5b24");
+          tl.set(grp, { opacity: 1 }, t0);
+          drawIn(s0, t0, 0.25);
+          tl.fromTo(p0, { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.22, ease: "back.out(2)", immediateRender: false }, t0 + 0.05);
+          tl.fromTo(p1, { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.22, ease: "back.out(2)", immediateRender: false }, t0 + 0.35);
+          const dx = H.top.x - H.addr.x;
+          if (Math.abs(dx) > 6) {
+            const ar = mk("path", { d: `M ${H.addr.x} ${y - 46} H ${H.top.x + (dx > 0 ? -2 : 2)}`, stroke: "#ff5b24", "stroke-width": 7, fill: "none", "stroke-linecap": "round", "marker-end": "url(#ahr)" }, grp);
+            drawIn(ar, t0 + 0.45, 0.2);
+          }
+          return grp;
+        }
+        function zoomTo(px, py, z, t0, dur) {   // push in on the stage around a point (video + drawings together)
+          tl.to("#stage", { x: px * (1 - z), y: py * (1 - z), scale: z, duration: dur, ease: "power2.inOut" }, t0);
+        }
+        function stageReset(t) { tl.set("#stage", { x: 0, y: 0, scale: 1 }, t); }
+        function counter(el, to, t0, dur, dec) {   // deterministic number roll (no onUpdate)
+          const n = 12;
+          for (let i = 0; i <= n; i++) tl.set(el, { textContent: (to * i / n).toFixed(dec) }, t0 + dur * i / n);
+        }
+        function sparkles(t0) {
+          const s = $("#spark"); tl.set(s, { opacity: 1 }, t0);
+          const pts = [[120, 300], [930, 250], [980, 760], [90, 900], [940, 1180], [150, 1330], [600, 186], [990, 520], [70, 600], [860, 1340]];
+          pts.forEach(([x, y], i) => {
+            const st = mk("path", { d: `M ${x} ${y - 26} Q ${x} ${y} ${x + 26} ${y} Q ${x} ${y} ${x} ${y + 26} Q ${x} ${y} ${x - 26} ${y} Q ${x} ${y} ${x} ${y - 26} Z`,
+                                     fill: i % 2 ? "#ffe27a" : "#ffffff" }, s);
+            const d = t0 + i * 0.07;
+            tl.fromTo(st, { scale: 0, rotation: 0, svgOrigin: `${x} ${y}`, opacity: 1 }, { scale: 1.2, rotation: 90, duration: 0.35, ease: "back.out(2)", immediateRender: false }, d);
+            tl.to(st, { scale: 0, opacity: 0, duration: 0.3, ease: "power2.in" }, d + 0.55);
+          });
+          tl.set(s, { opacity: 0 }, t0 + 1.8);
+        }
+        function shimmer(sel, t0, dur) { tl.fromTo(sel, { backgroundPosition: "0% 50%" }, { backgroundPosition: "100% 50%", duration: dur, ease: "none", immediateRender: false }, t0); }
+        function slab(sel, t0, t1, holo) {
+          // the frame shrinks into the card window of the slab
+          const S0 = 0.4531, X0 = 46 + 22, Y0 = 178 + 240;
+          tl.fromTo("#stage", { x: 0, y: 0, scale: 1 }, { x: X0, y: Y0, scale: S0, duration: 0.45, ease: "power3.inOut", immediateRender: false }, t0);
+          const el = $(sel); hide0(el);
+          tl.fromTo(el, { opacity: 0, scale: 1.06, transformOrigin: "50% 40%" }, { opacity: 1, scale: 1, duration: 0.4, ease: "power3.out", immediateRender: false }, t0 + 0.22);
+          tl.fromTo(el.querySelector(".lab"), { y: -30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "back.out(1.6)", immediateRender: false }, t0 + 0.38);
+          el.querySelectorAll(".srow").forEach((r, i) => {
+            tl.fromTo(r, { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.25, ease: "power2.out", immediateRender: false }, t0 + 0.83 + i * 0.2);
+            tl.fromTo(r.querySelector(".sbar i"), { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power2.out", immediateRender: false }, t0 + 0.9 + i * 0.2);
+          });
+          const g = el.querySelector(".g"), to = parseFloat(g.textContent);
+          tl.set(g, { textContent: "0.0" }, 0);
+          counter(g, to, t0 + 1.25, 0.55, 1);
+          tl.fromTo(g, { scale: 1.35, transformOrigin: "100% 50%" }, { scale: 1, duration: 0.3, ease: "back.out(2.5)", immediateRender: false }, t0 + 1.82);
+          if (holo) { el.querySelectorAll(".holo-bg, .holo-tx").forEach((h) => shimmer(h, t0 + 0.3, t1 - t0)); }
+          tl.to(el, { opacity: 0, duration: 0.15 }, t1 - 0.15);
+          stageReset(t1);
+        }
+
+        // ---------- HOOK (text on frame 0) ----------
+        const ti = $("#title"); tl.set(ti, { opacity: 1 }, 0);
+        shimmer("#title .strip", 0, 3.3);
+        tl.to(ti, { opacity: 0, x: 40, duration: 0.18 }, T.hook_frz.end - 0.2);
+        popIn("#tl", 0.30, T.hook_frz.end - 0.2); popIn("#tr", 0.45, T.hook_frz.end - 0.2);
+        edge(T.hook_frz.start, T.hook_frz.end);
+        spinePair("#g-split", G.split.L, false, W.hook_lines, false);
+        // right panel lines share the group: second call into the same group
+        spinePair("#g-split", G.split.R, true, W.hook_lines + 0.2, false);
+        tl.to("#g-split", { opacity: 0, duration: 0.15 }, T.hook_frz.end - 0.15);
+        popIn("#qL", W.hook_lines + 0.9, T.hook_frz.end - 0.2); popIn("#qR", W.hook_lines + 1.0, T.hook_frz.end - 0.2);
+        popIn("#qq", W.hook_lines + 0.75, T.hook_frz.end - 0.2);
+
+        // ---------- BEFORE ----------
+        foil(T.b_dtl.start);
+        plateIn("#p1", T.b_dtl.start + 0.15, T.b_fo1.start - 0.15);
+        popIn("#spd1", T.b_slow.start + 0.05, T.b_frz.end - 0.15);
+        edge(T.b_frz.start, T.b_frz.end);
+        spinePair("#g-sb", G.b_dtl, false, W.b_lines, true);
+        tl.to("#g-sb", { opacity: 0, duration: 0.15 }, T.b_frz.end - 0.15);
+        dropIn("#cb", W.b_lines + 0.85, T.b_frz.end - 0.15);
+        popIn("#hipb", W.b_lines + 1.2, T.b_frz.end - 0.15);
+        // face-on: freeze at the top, push in on the head, pins above the cap
+        edge(T.b_fo_top.start, T.b_fo_top.end);
+        zoomTo(G.b_fo.top.x, (G.b_fo.top.top + G.b_fo.top.bottom) / 2, 1.7, T.b_fo_top.start, 0.4);
+        headMarks("#g-hb", G.b_fo, false, W.b_head + 0.1);
+        tl.to("#g-hb", { opacity: 0, duration: 0.15 }, T.b_fo_top.end - 0.2);
+        tl.to("#stage", { x: 0, y: 0, scale: 1, duration: 0.2, ease: "power2.in" }, T.b_fo_top.end - 0.2);
+        dropIn("#hb", W.b_head + 0.6, T.b_fo_top.end - 0.15);
+        slab("#slabB", T.b_card.start, T.b_card.end, false);
+
+        // ---------- AFTER ----------
+        foil(T.a_dtl.start);
+        plateIn("#p2", T.a_dtl.start + 0.15, T.a_fo1.start - 0.15);
+        shimmer("#p2 .strip", T.a_dtl.start, 5);
+        popIn("#spd2", T.a_slow.start + 0.05, T.a_frz.end - 0.15);
+        edge(T.a_frz.start, T.a_frz.end);
+        spinePair("#g-sa", G.a_dtl, true, W.a_lines, true);
+        tl.to("#g-sa", { opacity: 0, duration: 0.15 }, T.a_frz.end - 0.15);
+        dropIn("#ca", W.a_lines + 0.85, T.a_frz.end - 0.15);
+        shimmer("#ca .holo-tx", W.a_lines + 0.85, 1.7);
+        popIn("#hipa", W.a_lines + 1.2, T.a_frz.end - 0.15);
+        edge(T.a_fo_top.start, T.a_fo_top.end);
+        zoomTo(G.a_fo.top.x, (G.a_fo.top.top + G.a_fo.top.bottom) / 2, 1.7, T.a_fo_top.start, 0.4);
+        headMarks("#g-ha", G.a_fo, true, W.a_head + 0.1);
+        tl.to("#g-ha", { opacity: 0, duration: 0.15 }, T.a_fo_top.end - 0.2);
+        tl.to("#stage", { x: 0, y: 0, scale: 1, duration: 0.2, ease: "power2.in" }, T.a_fo_top.end - 0.2);
+        dropIn("#ha", W.a_head + 0.6, T.a_fo_top.end - 0.15);
+        slab("#slabA", T.a_card.start, T.a_card.end, true);
+        hide0("#up");
+        tl.fromTo("#up", { opacity: 0, scale: 2.2, rotation: -20 }, { opacity: 1, scale: 1, rotation: -7, duration: 0.3, ease: "back.out(1.8)", immediateRender: false }, T.a_card.start + 1.95);
+        shimmer("#up", T.a_card.start + 1.95, 0.9);
+        tl.to("#up", { opacity: 0, duration: 0.15 }, T.a_card.end - 0.15);
+        sparkles(T.a_card.start + 2.0);
+
+        // ---------- PROOF ----------
+        foil(T.proof.start);
+        plateIn("#p3", T.proof.start + 0.15, T.proof_frz.end - 0.15);
+        popIn("#pl", T.proof.start + 0.3, T.proof_frz.end - 0.15); popIn("#pr", T.proof.start + 0.4, T.proof_frz.end - 0.15);
+        edge(T.proof_frz.start, T.proof_frz.end);
+        // second use of the split lines: clear and redraw
+        const gsp = $("#g-split"); const clone = gsp.cloneNode(false); clone.id = "g-split2"; gsp.parentNode.appendChild(clone);
+        spinePair("#g-split2", G.split.L, false, W.proof_lines, false);
+        spinePair("#g-split2", G.split.R, true, W.proof_lines + 0.2, false);
+        tl.to("#g-split2", { opacity: 0, duration: 0.15 }, T.proof_frz.end - 0.15);
+        dropIn("#nL", W.proof_lines + 0.9, T.proof_frz.end - 0.15); dropIn("#nR", W.proof_lines + 1.1, T.proof_frz.end - 0.15);
+        shimmer("#nR .holo-tx", W.proof_lines + 1.1, 1.4);
+
+        // ---------- END ----------
+        foil(T.end_play.start);
+        plateIn("#p4", T.end_play.start + 0.3, T.end_frz.start - 0.1);
+        ["#r1", "#r2", "#r3"].forEach((r, i) => {
+          hide0(r);
+          tl.fromTo(r, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.25, ease: "power2.out", immediateRender: false }, T.end_play.start + 0.6 + i * 0.25);
+          tl.to(r, { opacity: 0, duration: 0.15 }, T.end_frz.start - 0.1);
+        });
+        edge(T.end_frz.start, null);
+        dropIn("#mB", T.end_frz.start + 0.10, null);
+        dropIn("#mA", T.end_frz.start + 0.55, null);
+        popIn("#arw", T.end_frz.start + 0.45, null);
+        shimmer("#mA .holo-bg", T.end_frz.start + 0.55, 2.8); shimmer("#mA .holo-tx", T.end_frz.start + 0.55, 2.8);
+        popIn("#next", T.end_frz.start + 1.2, null);
+        dropIn("#cta", T.end_frz.start + 1.6, null);
+
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
