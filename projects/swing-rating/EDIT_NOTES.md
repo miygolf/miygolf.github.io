@@ -1,6 +1,7 @@
 # Rate swing: sebelum vs selepas adjust — edit notes
 
-HyperFrames 0.9.32 · 1080×1920 · 30 fps · 43.3 s · status: **draft preview v1** (`previews/swing-rating_preview_draft_v1.mp4`), waiting for the owner's "render".
+HyperFrames 0.9.32 · 1080×1920 · 30 fps · 43.3 s · status: **final delivered** (`final/swing-rating_1080x1920.mp4`, 54 MB): H.264 High ~10 Mbps, AAC 256k 48 kHz, −14.0 LUFS, peak −1.1 dBFS.
+Owner approved draft preview v1 unchanged ("cun", 2026-11-12).
 
 Request (2026-11-12): HyperFrames, transcribe first, motion graphics + premium SFX where they belong, never over the face, TikTok/IG safe zone,
 voice not buried, cut repeats and awkward pauses, strongest hook, preview before render, a design not used before, and
