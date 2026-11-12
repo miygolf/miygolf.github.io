@@ -20,10 +20,10 @@ TOTAL = TL["_total"]
 
 # ---------------- geometry (film px, uncropped 1080x1920; the camera is on a tripod) ----------------
 BALL = (385, 1359)                  # ball at address (same spot in the talk section)
-PIN = (470, 906)                    # estimated: left of the bunker, behind the branch line (approximate)
+PIN = (432, 906)                    # estimated: left of the bunker, behind the branch line (approximate)
 BUNKER = (548, 913)                 # pale sand face on the mound, where he aims
 BRANCH = (432, 868)                 # edge of the overhanging canopy on the line to the pin
-LAND = (478, 897)                   # estimated landing, just past the pin ("over sikit")
+LAND = (440, 897)                   # estimated landing, just past the pin ("over sikit")
 
 TRACKED = [  # (seconds after impact, x, y)   measured, tools/track_ball.py on the 4K frames (/2)
     (0.0, 385, 1359), (0.1135, 489, 990), (0.130, 494.5, 966), (0.1468, 499.5, 947.5), (0.1635, 503.5, 931.5),
@@ -31,12 +31,19 @@ TRACKED = [  # (seconds after impact, x, y)   measured, tools/track_ball.py on t
     (0.264, 516, 874), (0.280, 517.5, 868), (0.297, 518.5, 862.5), (0.314, 519.5, 857.5), (0.330, 520.5, 853),
     (0.347, 521, 848.5), (0.364, 521.5, 844.5), (0.380, 522, 841), (0.397, 522.5, 837.5),
 ]
-MODEL = [  # estimated continuation. The measured rise rate decays like 1/(t+0.076)^2 (fit on the tracked points), which leaves
-           # ~70-100 px more climb before gravity wins: apex ~ y 772 near 1.8 s, then it draws left and drops to the landing
-    (0.70, 532, 806), (1.00, 538, 790), (1.40, 543, 779), (1.80, 546, 773), (2.40, 547, 775), (3.10, 542, 788),
-    (3.80, 532, 808), (4.50, 516, 834), (5.10, 497, 864), (5.60, LAND[0], LAND[1]),
+MODEL = [  # estimated continuation (v3, owner: "more round/curve, takeoff kanan masuk kiri"): keeps drifting right after the measured
+           # launch, rounds over at its right-most point near the apex, then arcs back left and down to the landing just past the pin
+    (0.70, 541, 806), (1.00, 558, 781), (1.40, 576, 758), (1.90, 591, 741), (2.50, 600, 733), (3.10, 597, 736),
+    (3.70, 584, 750), (4.30, 563, 774), (4.85, 536, 810), (5.25, 510, 848), (5.60, LAND[0], LAND[1]),
 ]
-KEYS = TRACKED + MODEL
+# v3 shape (owner: "more round/curve, takeoff kanan masuk kiri"): keep the measured launch up to 0.2 s, then one smooth arc that keeps
+# bending right on the way up, rounds over at the top right, and comes back down to the left onto the landing. Past 0.2 s this is a drawn
+# shape, not measurement.
+KEYS = TRACKED[:7] + [
+    (0.35, 524, 852), (0.60, 545, 800), (1.00, 570, 750), (1.50, 592, 708), (2.00, 604, 682), (2.50, 607, 666),
+    (3.00, 600, 656), (3.50, 584, 653), (4.00, 562, 661), (4.50, 538, 684), (4.90, 514, 722), (5.20, 490, 770),
+    (5.42, 465, 830), (5.60, LAND[0], LAND[1]),
+]
 FLIGHT = KEYS[-1][0]
 
 
@@ -114,7 +121,7 @@ TR_MAIN = ribframes(B["impact"], B["impact"] + FLIGHT)
 
 # plan drawings
 DIRECT = f"M {BALL[0]} {BALL[1]} L {PIN[0]} {PIN[1]}"
-XMARK = (457, 978)                                                      # where the straight line meets the canopy
+XMARK = (424, 980)                                                      # where the straight line meets the canopy
 DRAWPLAN = f"M {BALL[0]} {BALL[1]} C 515 1080 600 905 {PIN[0]} {PIN[1]}"   # out right toward the bunker, curving back in
 
 # ---------------- captions: word times on the film (whisper on assets/voice.wav) ----------------

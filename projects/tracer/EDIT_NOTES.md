@@ -1,6 +1,6 @@
 # Draw elak dahan — 154 ke pin, with shot tracer — edit notes
 
-HyperFrames 0.9.32 · 1080×1920 · 30 fps · 32.0 s · status: **draft preview v2** (`previews/tracer-draw_preview_draft_v2.mp4`, 720p for review; v2 = more realistic tracer),
+HyperFrames 0.9.32 · 1080×1920 · 30 fps · 32.0 s · status: **draft preview v3** (`previews/tracer-draw_preview_draft_v3.mp4`, 720p for review; v2 = realistic red tracer, v3 = rounder draw shape),
 waiting for the owner's OK ("render") before the delivery render.
 
 Request (2026-11-12): add a shot tracer; HyperFrames; transcribe first; motion graphics and SFX where they belong; premium SFX; never over the face;
@@ -27,6 +27,10 @@ No music asked for → SFX only (house rule).
 - "154" has no unit in the audio: shown as "154 · ke pin" with no m/yd.
 
 ## The tracer — what is measured and what is estimated
+- **v3 (owner: "tracer tu kena more round/curve, takeoff kanan masuk kiri")**: only the launch up to 0.2 s is kept as measured; from there the path is a drawn,
+  smooth dome — keeps bending right on the way up, rounds over at the top right (y ≈ 653), and comes down to the left onto the landing. Pin moved left
+  to (432,906) and landing to (440,897) so the descent sits clearly left of the launch line. This shape follows the owner's description, not measurement.
+  The notes below describe v1/v2.
 - **Measured**: ball at address (385,1359) on the film; impact 39.80 (sound transient 39.82, frames agree); the ball's position frame by frame for the first
   0.4 s by differencing the 4K frames (`tools/track_ball.py`; camera on a tripod): it climbs to (522,838) while drifting right (the "start right" of the draw).
 - **Estimated**: after 0.4 s the ball is a few pixels wide in front of the tree line and can't be followed (`tools/track_sky.py` found nothing above it).
