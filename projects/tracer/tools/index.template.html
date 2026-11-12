@@ -252,7 +252,9 @@
         tl.set("#g-pin", { opacity: 1 }, W.curve + 0.65);
         tl.fromTo("#g-pin", { scale: 0, svgOrigin: "0 0" }, { scale: 1, duration: 0.3, ease: "back.out(2.5)", immediateRender: false }, W.curve + 0.65);
         // into the shot: plan stays as a faint ghost under the real flight
-        tl.to(["#g-direct", "#g-x", "#g-branch", "#g-aim"], { opacity: 0, duration: 0.25 }, T.swing.start + 1.0);
+        tl.to(["#g-direct", "#g-x", "#g-branch"], { opacity: 0, duration: 0.25 }, T.swing.start + 1.0);
+        tl.to("#g-aim", { opacity: 0.5, duration: 0.25 }, T.swing.start + 1.0);      // bunker rings stay faint: the ball turns before them
+        tl.to("#g-aim", { opacity: 0, duration: 0.4 }, B.landing + 0.6);
         tl.to("#g-plan", { opacity: 0.22, duration: 0.3 }, T.swing.start);
         sweep(T.swing.start);
 

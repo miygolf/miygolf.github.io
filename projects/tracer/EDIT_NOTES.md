@@ -1,6 +1,6 @@
 # Draw elak dahan — 154 ke pin, with shot tracer — edit notes
 
-HyperFrames 0.9.32 · 1080×1920 · 30 fps · 32.0 s · status: **draft preview v3** (`previews/tracer-draw_preview_draft_v3.mp4`, 720p for review; v2 = realistic red tracer, v3 = rounder draw shape),
+HyperFrames 0.9.32 · 1080×1920 · 30 fps · 32.0 s · status: **draft preview v4** (`previews/tracer-draw_preview_draft_v4.mp4`, 720p for review; v2 = realistic red tracer, v3 = rounder draw shape, v4 = turns before the bunker),
 waiting for the owner's OK ("render") before the delivery render.
 
 Request (2026-11-12): add a shot tracer; HyperFrames; transcribe first; motion graphics and SFX where they belong; premium SFX; never over the face;
@@ -27,6 +27,8 @@ No music asked for → SFX only (house rule).
 - "154" has no unit in the audio: shown as "154 · ke pin" with no m/yd.
 
 ## The tracer — what is measured and what is estimated
+- **v4 (owner: "curving sebelum bunker")**: the arc heads at the bunker and turns left before reaching its line: right-most point x ≈ 547 (the bunker's x)
+  at y ≈ 684, round top y ≈ 648, down to the landing at the pin. The lines no longer cross. Bunker rings stay faint (50 %) during the flight.
 - **v3 (owner: "tracer tu kena more round/curve, takeoff kanan masuk kiri")**: only the launch up to 0.2 s is kept as measured; from there the path is a drawn,
   smooth dome — keeps bending right on the way up, rounds over at the top right (y ≈ 653), and comes down to the left onto the landing. Pin moved left
   to (432,906) and landing to (440,897) so the descent sits clearly left of the launch line. This shape follows the owner's description, not measurement.

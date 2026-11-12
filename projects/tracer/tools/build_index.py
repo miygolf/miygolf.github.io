@@ -39,10 +39,10 @@ MODEL = [  # estimated continuation (v3, owner: "more round/curve, takeoff kanan
 # v3 shape (owner: "more round/curve, takeoff kanan masuk kiri"): keep the measured launch up to 0.2 s, then one smooth arc that keeps
 # bending right on the way up, rounds over at the top right, and comes back down to the left onto the landing. Past 0.2 s this is a drawn
 # shape, not measurement.
-KEYS = TRACKED[:7] + [
-    (0.35, 524, 852), (0.60, 545, 800), (1.00, 570, 750), (1.50, 592, 708), (2.00, 604, 682), (2.50, 607, 666),
-    (3.00, 600, 656), (3.50, 584, 653), (4.00, 562, 661), (4.50, 538, 684), (4.90, 514, 722), (5.20, 490, 770),
-    (5.42, 465, 830), (5.60, LAND[0], LAND[1]),
+KEYS = TRACKED[:7] + [   # v4 (owner: "curving sebelum bunker"): heads at the bunker, turns left before reaching its line (max x ~547 = bunker x)
+    (0.35, 520, 852), (0.60, 532, 800), (1.00, 541, 752), (1.50, 546, 712), (2.00, 547, 684), (2.50, 543, 664),
+    (3.00, 533, 652), (3.50, 518, 648), (4.00, 500, 654), (4.50, 481, 672), (4.90, 465, 705), (5.20, 452, 755),
+    (5.42, 444, 822), (5.60, LAND[0], LAND[1]),
 ]
 FLIGHT = KEYS[-1][0]
 
