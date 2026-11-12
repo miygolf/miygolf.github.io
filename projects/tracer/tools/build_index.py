@@ -88,8 +88,29 @@ def frames_from(t0, t1):
     return out
 
 
-TR_HOOK = frames_from(B["hook_impact"], TL["hook"]["end"])
-TR_MAIN = frames_from(B["impact"], B["impact"] + FLIGHT)
+# Ribbon for the tracer: points at 60 Hz with a width that falls off with distance (perspective), like broadcast tracers:
+# ~14 px at the club, ~3 px from 0.5 s on (the ball is far away by then), never below 2.4 px.
+RIB = []
+for k in range(int(FLIGHT * 60) + 1):
+    (x, y), _ = at(k / 60)
+    RIB.append([round(x, 1), round(y, 1), round(max(2.4, 14.0 / (1 + 9.0 * k / 60)), 2)])
+
+
+def ribframes(t0, t1):
+    """per film frame: [film_t, last whole ribbon index, head x, head y]"""
+    out = []; f = 0
+    while True:
+        ft = t0 + f / 30
+        if ft > t1 + 1e-6: break
+        tau = min(ft - t0, FLIGHT)
+        (x, y), _ = at(tau)
+        out.append([round(ft, 3), int(tau * 60), round(x, 1), round(y, 1)])
+        f += 1
+    return out
+
+
+TR_HOOK = ribframes(B["hook_impact"], TL["hook"]["end"])
+TR_MAIN = ribframes(B["impact"], B["impact"] + FLIGHT)
 
 # plan drawings
 DIRECT = f"M {BALL[0]} {BALL[1]} L {PIN[0]} {PIN[1]}"
@@ -200,7 +221,7 @@ def audio_tags():
 def main():
     tpl = open(os.path.join(ROOT, "tools", "index.template.html")).read()
     consts = {"T": {k: v for k, v in TL.items() if not k.startswith("_")}, "B": B, "TOTAL": TOTAL, "CAP": CAPDATA, "W": W, "END": END,
-              "TRH": TR_HOOK, "TRM": TR_MAIN, "LEN": round(L, 1), "LAND": LAND, "PIN": PIN}
+              "TRH": TR_HOOK, "TRM": TR_MAIN, "RIB": RIB, "LAND": LAND, "PIN": PIN}
     rep = {"{{TOTAL}}": str(TOTAL), "{{AUDIO}}": audio_tags(), "{{CAPS}}": CAPHTML, "{{PATH}}": PATH, "{{DIRECT}}": DIRECT,
            "{{DRAWPLAN}}": DRAWPLAN, "{{XX}}": str(XMARK[0]), "{{XY}}": str(XMARK[1]), "{{BX}}": str(BRANCH[0]), "{{BY}}": str(BRANCH[1]),
            "{{KX}}": str(BUNKER[0]), "{{KY}}": str(BUNKER[1]), "{{PX}}": str(PIN[0]), "{{PY}}": str(PIN[1]),

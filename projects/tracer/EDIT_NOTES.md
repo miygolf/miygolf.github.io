@@ -1,6 +1,6 @@
 # Draw elak dahan — 154 ke pin, with shot tracer — edit notes
 
-HyperFrames 0.9.32 · 1080×1920 · 30 fps · 32.0 s · status: **draft preview v1** (`previews/tracer-draw_preview_draft_v1.mp4`, 720p for review),
+HyperFrames 0.9.32 · 1080×1920 · 30 fps · 32.0 s · status: **draft preview v2** (`previews/tracer-draw_preview_draft_v2.mp4`, 720p for review; v2 = more realistic tracer),
 waiting for the owner's OK ("render") before the delivery render.
 
 Request (2026-11-12): add a shot tracer; HyperFrames; transcribe first; motion graphics and SFX where they belong; premium SFX; never over the face;
@@ -12,7 +12,9 @@ No music asked for → SFX only (house rule).
   materialise from a blur, with a specular sheen sweeping across once they land; a full-height glass sweep as the transition.
 - The plan is drawn into the scene while he explains it (static tripod shot of the hole): straight line to the pin with an X at the branch,
   rings on the branch, the draw curving out toward the bunker and back to the pin, aim rings on the bunker, a pin flag.
-- The flight: glowing comet tracer (coral → gold gradient, white core, blurred glow, bright head) over a faint ghost of the planned curve,
+- The flight: broadcast-style tracer (v2, owner: "trace bagi realistic skit"): a solid red ribbon that tapers with distance (~14 px at the club → 2.4 px far away),
+  faint warm core, light glow, a tiny bright ball head; drawn at the ball's measured pace. Over a faint ghost (22 %) of the planned curve,
+  (v1 had a coral → gold comet with a big glow and head)
   push-in to 1.6× during the flight on a stage that scales video and drawings together, ground ripple on landing, "OVER SIKIT" card with a leader.
 - Type: Manrope 800/700 + Fragment Mono. Palette: glass white rgba(255,255,255,.64), ink navy #0b1736, coral #ff5a36, gold #ffc93a, ice #c9f3ff.
 - No colour grade.
