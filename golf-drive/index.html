@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ms" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #0e3b2c;
+      }
+      body {
+        font-family: "Archivo Black", sans-serif;
+      }
+      /* Punch-in wrapper for the hook shot; origin on the golfer's head so the face stays put. */
+      #hook-wrap {
+        position: absolute;
+        inset: 0;
+        transform-origin: 430px 720px;
+      }
+      .media-fill {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1920px;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="7.1"
+      data-width="1080"
+      data-height="1920"
+    >
+      <!-- ── Footage ─────────────────────────────────────────────── -->
+      <!-- 1. HOOK: real-speed swing (source 5.55 → 7.20). Keeps its own sound: the real impact at 0.806 s. -->
+      <div id="hook-wrap">
+        <video
+          id="hook-video"
+          class="clip media-fill"
+          src="assets/video/swing.mp4"
+          playsinline
+          data-has-audio="true"
+          data-start="0"
+          data-duration="1.65"
+          data-media-start="5.55"
+          data-volume="1"
+          data-fade-out="0.08"
+          data-fx-chain="{&quot;version&quot;:1,&quot;nodes&quot;:[{&quot;type&quot;:&quot;highpass&quot;,&quot;id&quot;:&quot;hv1&quot;,&quot;label&quot;:&quot;Remove wind rumble&quot;,&quot;params&quot;:{&quot;frequency&quot;:90}},{&quot;type&quot;:&quot;compressor&quot;,&quot;id&quot;:&quot;hv2&quot;,&quot;label&quot;:&quot;Even out&quot;,&quot;params&quot;:{&quot;threshold&quot;:-30,&quot;ratio&quot;:4,&quot;attack&quot;:5,&quot;release&quot;:120}},{&quot;type&quot;:&quot;gain&quot;,&quot;id&quot;:&quot;hv3&quot;,&quot;label&quot;:&quot;Lift quiet phone audio&quot;,&quot;params&quot;:{&quot;gain&quot;:10}},{&quot;type&quot;:&quot;limiter&quot;,&quot;id&quot;:&quot;hv4&quot;,&quot;label&quot;:&quot;No clipping&quot;,&quot;params&quot;:{&quot;limit&quot;:-1}}]}"
+          data-track-index="0"
+          style="z-index: 1"
+        ></video>
+      </div>
+
+      <!-- 2. REPLAY: pre-rendered speed ramp (1× → 0.3× through impact → 1×). Silent; SFX carry it. -->
+      <video
+        id="replay-video"
+        class="clip media-fill"
+        src="assets/video/replay.mp4"
+        muted
+        playsinline
+        data-start="1.65"
+        data-duration="2.333"
+        data-track-index="0"
+        style="z-index: 2"
+      ></video>
+
+      <!-- ── Graphics scenes ─────────────────────────────────────── -->
+      <div
+        id="hook"
+        data-composition-id="hook"
+        data-composition-src="compositions/hook.html"
+        data-start="0"
+        data-duration="1.65"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1080"
+        data-height="1920"
+        style="z-index: 10"
+      ></div>
+      <div
+        id="replay"
+        data-composition-id="replay"
+        data-composition-src="compositions/replay.html"
+        data-start="1.65"
+        data-duration="2.333"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1080"
+        data-height="1920"
+        style="z-index: 10"
+      ></div>
+      <div
+        id="finish"
+        data-composition-id="finish"
+        data-composition-src="compositions/finish.html"
+        data-start="3.983"
+        data-duration="3.117"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1080"
+        data-height="1920"
+        style="z-index: 10"
+      ></div>
+
+      <!-- ── Sound effects (each peak lands ~1 frame after its picture) ── -->
+      <!-- hook: new number slams in (≈1.03) / +30m sticker (≈1.30) -->
+      <audio id="sfx-pop-1" src="assets/sfx/pop.mp3" data-start="0.94" data-duration="0.5" data-volume="0.4" data-track-index="6"></audio>
+      <audio id="sfx-click-1" src="assets/sfx/click-soft.mp3" data-start="1.26" data-duration="0.3" data-volume="0.35" data-track-index="3"></audio>
+      <!-- cut to replay at 1.65 -->
+      <audio id="sfx-whoosh-cut" src="assets/sfx/whoosh-transition.mp3" data-start="1.476" data-duration="0.8" data-volume="0.45" data-track-index="2"></audio>
+      <!-- replay impact at 2.533: club whoosh, the hit, a soft bass bed under it (the film's one big hit) -->
+      <audio id="sfx-swing" src="assets/sfx/swing-woosh.mp3" data-start="2.30" data-duration="0.66" data-volume="2.2" data-track-index="3"></audio>
+      <audio id="sfx-hit" src="assets/sfx/driver-hit.mp3" data-start="1.871" data-duration="1.5" data-volume="1.0" data-track-index="4"></audio>
+      <audio id="sfx-bass" src="assets/sfx/impact-bass.mp3" data-start="2.493" data-duration="1.4" data-volume="0.3" data-fade-out="0.6" data-track-index="5"></audio>
+      <!-- replay caption card (≈2.79) / ball drops into the target (≈3.59) -->
+      <audio id="sfx-pop-2" src="assets/sfx/pop.mp3" data-start="2.70" data-duration="0.6" data-volume="0.35" data-track-index="2"></audio>
+      <audio id="sfx-click-2" src="assets/sfx/click-soft.mp3" data-start="3.55" data-duration="0.3" data-volume="0.45" data-track-index="3"></audio>
+      <!-- freeze-frame shutter at 3.983 -->
+      <audio id="sfx-shutter" src="assets/sfx/shutter.mp3" data-start="3.906" data-duration="0.34" data-volume="0.55" data-track-index="4"></audio>
+      <!-- end card: chip (≈4.45), card (≈4.58), highlight (≈4.88) -->
+      <audio id="sfx-pop-3" src="assets/sfx/pop.mp3" data-start="4.36" data-duration="0.6" data-volume="0.4" data-track-index="2"></audio>
+      <audio id="sfx-whoosh-card" src="assets/sfx/whoosh-short.mp3" data-start="4.48" data-duration="0.5" data-volume="0.35" data-track-index="3"></audio>
+      <audio id="sfx-click-3" src="assets/sfx/click-soft.mp3" data-start="4.84" data-duration="0.3" data-volume="0.45" data-track-index="5"></audio>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      // Hook punch-in on the real impact (0.806 s), anchored on the head.
+      tl.fromTo("#hook-wrap", { scale: 1 }, { scale: 1, duration: 0.01 }, 0);
+      tl.to("#hook-wrap", { scale: 1.07, duration: 0.32, ease: "expo.out" }, 0.806);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,199 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      --ink: #0e3b2c;
+      --cream: #f6efdf;
+      --flag: #ffd23f;
+      --marker: #e8473c;
+      font-family: "Archivo Black", sans-serif;
+      pointer-events: none;
+    }
+    /* Right-aligned stack in the sky, right edge at x=920 (clear of the action rail),
+       bottom edge stays above y≈560 so the face (y 580–800) is never covered. */
+    #hook-stack {
+      position: absolute;
+      right: 160px;
+      top: 236px;
+      width: 620px;
+      height: 330px;
+    }
+    #hook-chip,
+    #hook-chip-now {
+      position: absolute;
+      right: 0;
+      top: 0;
+      padding: 10px 20px 8px;
+      border-radius: 10px;
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 34px;
+      letter-spacing: 3px;
+      line-height: 1;
+    }
+    #hook-chip {
+      background: var(--cream);
+      color: var(--ink);
+    }
+    #hook-chip-now {
+      opacity: 0;
+      background: var(--ink);
+      color: var(--flag);
+    }
+    #hook-old,
+    #hook-new {
+      position: absolute;
+      right: 0;
+      top: 66px;
+      padding: 14px 30px 18px;
+      border-radius: 22px;
+      line-height: 1;
+      white-space: nowrap;
+      transform-origin: 100% 50%;
+    }
+    #hook-old {
+      background: var(--ink);
+      color: var(--cream);
+      font-size: 150px;
+      box-shadow: 0 10px 0 rgba(0, 0, 0, 0.18);
+    }
+    #hook-old-unit,
+    #hook-new-unit {
+      font-size: 0.48em;
+      margin-left: 6px;
+    }
+    #hook-strike {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      top: 50%;
+      height: 16px;
+      margin-top: -6px;
+      background: var(--marker);
+      border-radius: 8px;
+      transform-origin: 0 50%;
+    }
+    #hook-new {
+      opacity: 0;
+      background: var(--flag);
+      color: var(--ink);
+      font-size: 124px;
+      padding: 22px 30px 24px;
+      box-shadow: 0 10px 0 rgba(14, 59, 44, 0.35);
+    }
+    #hook-sub {
+      position: absolute;
+      right: 6px;
+      top: 262px;
+      padding: 10px 20px;
+      border-radius: 999px;
+      background: rgba(14, 59, 44, 0.82);
+      color: var(--cream);
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 32px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    #hook-sticker {
+      position: absolute;
+      right: -24px;
+      top: 196px;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: var(--marker);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 44px;
+      line-height: 1;
+      border: 6px solid var(--cream);
+      opacity: 0;
+    }
+    #hook-flash {
+      position: absolute;
+      inset: 0;
+      background: #fff;
+      opacity: 0;
+    }
+    /* Impact burst on the ball (≈652,1387) — decoration in the low zone, far from the face. */
+    #hook-burst {
+      position: absolute;
+      left: 532px;
+      top: 1267px;
+      width: 240px;
+      height: 240px;
+      opacity: 0;
+    }
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+    <div id="hook-flash"></div>
+    <svg id="hook-burst" viewBox="-120 -120 240 240" data-layout-ignore>
+      <circle id="hook-ring" cx="0" cy="0" r="40" fill="none" stroke="#ffd23f" stroke-width="7" />
+      <g id="hook-rays" stroke="#f6efdf" stroke-width="7" stroke-linecap="round">
+        <line x1="0" y1="-62" x2="0" y2="-96" />
+        <line x1="44" y1="-44" x2="68" y2="-68" />
+        <line x1="62" y1="0" x2="96" y2="0" />
+        <line x1="44" y1="44" x2="68" y2="68" />
+        <line x1="-44" y1="44" x2="-68" y2="68" />
+        <line x1="-62" y1="0" x2="-96" y2="0" />
+        <line x1="-44" y1="-44" x2="-68" y2="-68" />
+      </g>
+    </svg>
+    <div id="hook-stack" data-layout-allow-overlap>
+      <div id="hook-chip">DULU</div>
+      <div id="hook-chip-now">SEKARANG</div>
+      <div id="hook-old">180<span id="hook-old-unit">m</span><div id="hook-strike"></div></div>
+      <div id="hook-new">200–220<span id="hook-new-unit">m</span></div>
+      <div id="hook-sub">pun susah…</div>
+      <div id="hook-sticker">+30m</div>
+    </div>
+  </div>
+  <script>
+    // Scene clock: impact (club meets ball) lands at 0.806 s.
+    const IMPACT = 0.806;
+    const tl = gsap.timeline({ paused: true });
+
+    // Frame 0 is the thumbnail: chip, old number and sub-line are already on screen.
+    tl.set("#hook-chip", { opacity: 1, rotation: -3 }, 0);
+    tl.set("#hook-chip-now", { rotation: -3 }, 0);
+    tl.set("#hook-new", { scale: 0.55, rotation: -2 }, 0);
+    tl.set("#hook-sticker", { scale: 0.2, rotation: -24 }, 0);
+    tl.set("#hook-burst", { scale: 0.4, transformOrigin: "50% 50%" }, 0);
+    tl.fromTo("#hook-old", { rotation: -2, scale: 1 }, { rotation: -2, scale: 1, duration: 0.01 }, 0);
+    tl.fromTo("#hook-sub", { opacity: 1, x: 0 }, { opacity: 1, x: 0, duration: 0.01 }, 0);
+    tl.fromTo("#hook-strike", { scaleX: 0 }, { scaleX: 0, duration: 0.01 }, 0);
+
+    // Impact: white flash + burst on the ball.
+    tl.fromTo("#hook-flash", { opacity: 0 }, { opacity: 0.55, duration: 0.04, ease: "none" }, IMPACT);
+    tl.to("#hook-flash", { opacity: 0, duration: 0.16, ease: "power2.out" }, IMPACT + 0.04);
+    tl.fromTo("#hook-burst", { opacity: 0 }, { opacity: 1, duration: 0.02, ease: "none" }, IMPACT);
+    tl.fromTo("#hook-burst", { scale: 0.4 }, { scale: 1.25, duration: 0.3, ease: "expo.out" }, IMPACT);
+    tl.to("#hook-burst", { opacity: 0, duration: 0.18, ease: "power2.in" }, IMPACT + 0.2);
+
+    // Marker strike through the old number, right after the hit.
+    tl.to("#hook-strike", { scaleX: 1, duration: 0.14, ease: "power3.out" }, IMPACT + 0.03);
+    tl.to("#hook-sub", { opacity: 0, x: 40, duration: 0.14, ease: "power3.in" }, IMPACT + 0.2);
+
+    // Old card drops away, new card slams in.
+    tl.to("#hook-old", { y: 70, rotation: 6, opacity: 0, duration: 0.16, ease: "power3.in" }, IMPACT + 0.17);
+    tl.to("#hook-chip", { opacity: 0, duration: 0.08 }, IMPACT + 0.17);
+    tl.to("#hook-chip-now", { opacity: 1, duration: 0.08 }, IMPACT + 0.2);
+    tl.to(
+      "#hook-new",
+      { opacity: 1, scale: 1, rotation: -2, duration: 0.42, ease: "back.out(1.7)" },
+      IMPACT + 0.22,
+    );
+    tl.to(
+      "#hook-sticker",
+      { opacity: 1, scale: 1, rotation: 10, duration: 0.36, ease: "back.out(2)" },
+      IMPACT + 0.4,
+    );
+
+    window.__timelines = window.__timelines || {};
+    window.__timelines["hook"] = tl;
+  </script>
+</template>

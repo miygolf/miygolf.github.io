@@ -1,0 +1,183 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      --ink: #0e3b2c;
+      --cream: #f6efdf;
+      --flag: #ffd23f;
+      --marker: #e8473c;
+      font-family: "Archivo Black", sans-serif;
+      pointer-events: none;
+    }
+    #rp-flash {
+      opacity: 0;
+      position: absolute;
+      inset: 0;
+      background: #fff;
+    }
+    /* Top-left tag: clear of the status bar (y>168) and of the face (x 300–500, y 560–800). */
+    #rp-tag {
+      position: absolute;
+      left: 64px;
+      top: 214px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 22px 12px 16px;
+      border-radius: 12px;
+      background: var(--ink);
+      color: var(--cream);
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 30px;
+      letter-spacing: 3px;
+      line-height: 1;
+    }
+    #rp-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--marker);
+    }
+    #rp-speed {
+      color: var(--flag);
+    }
+    /* Ball sits at ≈(650,1460) in the replay frame. */
+    #rp-burst {
+      opacity: 0;
+      position: absolute;
+      left: 500px;
+      top: 1310px;
+      width: 300px;
+      height: 300px;
+    }
+    /* Caption in the sky, bottom edge above y≈540: the head never rises above y≈560 here. */
+    #rp-cap {
+      position: absolute;
+      right: 160px;
+      top: 300px;
+      width: 600px;
+      height: 250px;
+    }
+    #rp-cap-chip {
+      opacity: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      padding: 10px 20px 8px;
+      border-radius: 10px;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 32px;
+      letter-spacing: 3px;
+      line-height: 1;
+    }
+    #rp-cap-card {
+      opacity: 0;
+      position: absolute;
+      right: 0;
+      top: 62px;
+      padding: 18px 28px 20px;
+      border-radius: 22px;
+      background: var(--flag);
+      color: var(--ink);
+      text-align: right;
+      line-height: 0.98;
+      font-size: 82px;
+      box-shadow: 0 10px 0 rgba(14, 59, 44, 0.35);
+      transform-origin: 100% 0;
+    }
+    .rp-line {
+      display: block;
+      white-space: nowrap;
+    }
+    .rp-word {
+      opacity: 0;
+      display: inline-block;
+    }
+    #rp-target {
+      opacity: 0;
+      position: absolute;
+      left: -70px;
+      top: -46px;
+      width: 120px;
+      height: 120px;
+    }
+  </style>
+  <div id="root" data-composition-id="replay" data-width="1080" data-height="1920">
+    <div id="rp-flash"></div>
+    <svg id="rp-burst" viewBox="-150 -150 300 300" data-layout-ignore>
+      <circle id="rp-ring" cx="0" cy="0" r="46" fill="none" stroke="#ffd23f" stroke-width="8" />
+      <circle id="rp-ring2" cx="0" cy="0" r="30" fill="none" stroke="#f6efdf" stroke-width="5" />
+      <g stroke="#f6efdf" stroke-width="7" stroke-linecap="round">
+        <line x1="0" y1="-76" x2="0" y2="-118" />
+        <line x1="54" y1="-54" x2="84" y2="-84" />
+        <line x1="76" y1="0" x2="118" y2="0" />
+        <line x1="-76" y1="0" x2="-118" y2="0" />
+        <line x1="-54" y1="-54" x2="-84" y2="-84" />
+      </g>
+    </svg>
+    <div id="rp-tag"><span id="rp-dot"></span>REPLAY <span id="rp-speed">0.3×</span></div>
+    <div id="rp-cap" data-layout-allow-overlap>
+      <div id="rp-cap-chip">TEE OFF</div>
+      <div id="rp-cap-card">
+        <span class="rp-line"><span class="rp-word" id="rp-w1">LURUS</span> <span class="rp-word" id="rp-w2">KE</span></span>
+        <span class="rp-line"><span class="rp-word" id="rp-w3">TARGET</span></span>
+        <svg id="rp-target" viewBox="-60 -60 120 120" data-layout-ignore>
+          <circle id="rp-t1" cx="0" cy="0" r="54" fill="#f6efdf" stroke="#0e3b2c" stroke-width="6" />
+          <circle id="rp-t2" cx="0" cy="0" r="34" fill="#e8473c" />
+          <circle id="rp-t3" cx="0" cy="0" r="15" fill="#f6efdf" />
+          <circle id="rp-ball" cx="0" cy="0" r="9" fill="#0e3b2c" opacity="0" />
+        </svg>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Scene clock: club meets ball at 0.883 s (frame 26.5 of the ramped replay).
+    const IMPACT = 0.883;
+    const tl = gsap.timeline({ paused: true });
+
+    tl.set("#rp-burst", { scale: 0.4, transformOrigin: "50% 50%" }, 0);
+    tl.set("#rp-cap-chip", { x: 30, rotation: -3 }, 0);
+    tl.set("#rp-cap-card", { scale: 0.7, rotation: -2 }, 0);
+    tl.set(".rp-word", { filter: "blur(6px)" }, 0);
+    tl.set("#rp-target", { scale: 0.3, rotation: -40, transformOrigin: "50% 50%" }, 0);
+    tl.set("#rp-ball", { x: -150, y: -120 }, 0);
+
+    // Tag arrives with the transition whoosh.
+    tl.fromTo("#rp-tag", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.32, ease: "expo.out" }, 0.02);
+    tl.fromTo("#rp-dot", { opacity: 1 }, { opacity: 0.25, duration: 0.3, ease: "steps(1)" }, 0.5);
+    tl.to("#rp-dot", { opacity: 1, duration: 0.3, ease: "steps(1)" }, 0.8);
+    tl.to("#rp-dot", { opacity: 0.25, duration: 0.3, ease: "steps(1)" }, 1.1);
+    tl.to("#rp-dot", { opacity: 1, duration: 0.3, ease: "steps(1)" }, 1.4);
+
+    // Impact: flash + burst on the ball.
+    tl.fromTo("#rp-flash", { opacity: 0 }, { opacity: 0.4, duration: 0.04, ease: "none" }, IMPACT);
+    tl.to("#rp-flash", { opacity: 0, duration: 0.2, ease: "power2.out" }, IMPACT + 0.04);
+    tl.fromTo("#rp-burst", { opacity: 0 }, { opacity: 1, duration: 0.02, ease: "none" }, IMPACT);
+    tl.fromTo("#rp-burst", { scale: 0.4 }, { scale: 1.3, duration: 0.45, ease: "expo.out" }, IMPACT);
+    tl.to("#rp-burst", { opacity: 0, duration: 0.25, ease: "power2.in" }, IMPACT + 0.32);
+
+    // Caption: chip, card, then words light up one by one.
+    const C = IMPACT + 0.2;
+    tl.to("#rp-cap-chip", { opacity: 1, x: 0, duration: 0.3, ease: "expo.out" }, C);
+    tl.to("#rp-cap-card", { opacity: 1, scale: 1, duration: 0.42, ease: "back.out(1.6)" }, C + 0.06);
+    tl.to("#rp-w1", { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power2.out" }, C + 0.14);
+    tl.to("#rp-w2", { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power2.out" }, C + 0.22);
+    tl.to("#rp-w3", { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power2.out" }, C + 0.3);
+
+    // Target pops, then a ball drops straight into the bullseye.
+    tl.to("#rp-target", { opacity: 1, scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.8)" }, C + 0.34);
+    tl.to("#rp-ball", { opacity: 1, duration: 0.05 }, C + 0.56);
+    tl.to("#rp-ball", { x: 0, duration: 0.3, ease: "power1.out" }, C + 0.56);
+    tl.to("#rp-ball", { y: 0, duration: 0.3, ease: "power2.in" }, C + 0.56);
+    tl.fromTo("#rp-t2", { scale: 1, transformOrigin: "50% 50%" }, { scale: 1.18, duration: 0.08, ease: "power2.out" }, C + 0.86);
+    tl.to("#rp-t2", { scale: 1, duration: 0.18, ease: "power2.inOut" }, C + 0.94);
+
+    window.__timelines = window.__timelines || {};
+    window.__timelines["replay"] = tl;
+  </script>
+</template>

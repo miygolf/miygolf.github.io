@@ -1,0 +1,148 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      --ink: #0e3b2c;
+      --cream: #f6efdf;
+      --flag: #ffd23f;
+      --marker: #e8473c;
+      font-family: "Archivo Black", sans-serif;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    /* Deep-green "range card" backdrop with mowing stripes. */
+    #fn-bg {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        180deg,
+        #0e3b2c 0px,
+        #0e3b2c 96px,
+        #124635 96px,
+        #124635 192px
+      );
+    }
+    #fn-photo {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      transform-origin: 50% 50%;
+    }
+    /* Cream photo border: sits just outside the canvas at full size, shows once the photo shrinks. */
+    #fn-frame {
+      position: absolute;
+      left: -24px;
+      top: -24px;
+      right: -24px;
+      bottom: -24px;
+      background: var(--cream);
+      border-radius: 6px;
+    }
+    #fn-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    #fn-flash {
+      position: absolute;
+      inset: 0;
+      background: #fff;
+      opacity: 0;
+    }
+    /* Top band, above the photo. */
+    #fn-chip {
+      position: absolute;
+      left: 72px;
+      top: 206px;
+      padding: 12px 22px 10px;
+      border-radius: 12px;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-size: 36px;
+      letter-spacing: 2px;
+      line-height: 1;
+    }
+    /* On the photo's sky, right side; bottom edge well above the face (≈y 790 here). */
+    #fn-card {
+      position: absolute;
+      right: 150px;
+      top: 392px;
+      padding: 20px 28px 22px;
+      border-radius: 22px;
+      background: var(--ink);
+      color: var(--cream);
+      text-align: right;
+      font-size: 64px;
+      line-height: 1.04;
+      box-shadow: 0 10px 0 rgba(0, 0, 0, 0.25);
+      transform-origin: 100% 0;
+    }
+    .fn-line {
+      display: block;
+      white-space: nowrap;
+    }
+    #fn-hl {
+      position: relative;
+      display: inline-block;
+      color: var(--ink);
+      padding: 2px 12px 0;
+      margin-top: 8px;
+      font-size: 84px;
+    }
+    #fn-hl-bg {
+      position: absolute;
+      inset: 0;
+      background: var(--flag);
+      border-radius: 10px;
+      transform-origin: 0 50%;
+    }
+    #fn-hl-text {
+      position: relative;
+    }
+  </style>
+  <div id="root" data-composition-id="finish" data-width="1080" data-height="1920">
+    <div id="fn-bg" data-layout-ignore></div>
+    <div id="fn-photo">
+      <div id="fn-frame"></div>
+      <img id="fn-img" src="assets/img/finish.jpg" alt="Finish pose" />
+    </div>
+    <div id="fn-flash"></div>
+    <div id="fn-chip">Rahsia dia?</div>
+    <div id="fn-card" data-layout-allow-overlap>
+      <span class="fn-line" id="fn-l1">2 minggu</span>
+      <span class="fn-line" id="fn-l2">swing</span>
+      <span class="fn-line"><span id="fn-hl"><span id="fn-hl-bg"></span><span id="fn-hl-text">TANPA KAYU</span></span></span>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // Shutter: the last replay frame freezes, flashes, and becomes a tilted photo card.
+    tl.fromTo("#fn-flash", { opacity: 0 }, { opacity: 0.85, duration: 0.03, ease: "none" }, 0.0);
+    tl.to("#fn-flash", { opacity: 0, duration: 0.28, ease: "power2.out" }, 0.05);
+    tl.fromTo(
+      "#fn-photo",
+      { scale: 1, y: 0, rotation: 0 },
+      { scale: 0.76, y: 130, rotation: -2.5, duration: 0.55, ease: "expo.out" },
+      0.06,
+    );
+
+    tl.fromTo("#fn-chip", { opacity: 0, y: -20, rotation: 0 }, { opacity: 1, y: 0, rotation: -3, duration: 0.36, ease: "back.out(2)" }, 0.36);
+
+    tl.fromTo("#fn-card", { opacity: 0, scale: 0.7, rotation: 0 }, { opacity: 1, scale: 1, rotation: 2, duration: 0.45, ease: "back.out(1.6)" }, 0.6);
+    tl.fromTo("#fn-l1", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13 }, 0.66);
+    tl.fromTo("#fn-l2", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13 }, 0.76);
+    tl.fromTo("#fn-hl", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2.2)" }, 0.9);
+    tl.fromTo("#fn-hl-bg", { scaleX: 0 }, { scaleX: 1, duration: 0.22, ease: "power3.out" }, 0.9);
+
+    window.__timelines = window.__timelines || {};
+    window.__timelines["finish"] = tl;
+  </script>
+</template>

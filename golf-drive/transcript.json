@@ -1,0 +1,185 @@
+{
+	"systeminfo": "WHISPER : VITISAI = 0 | COREML = 0 | OPENVINO = 0 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX_VNNI = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | AVX512 = 1 | AVX512_VBMI = 1 | AVX512_VNNI = 1 | AVX512_BF16 = 1 | AMX_INT8 = 1 | OPENMP = 1 | REPACK = 1 | ",
+	"model": {
+		"type": "small",
+		"multilingual": true,
+		"vocab": 51865,
+		"audio": {
+			"ctx": 1500,
+			"state": 768,
+			"head": 12,
+			"layer": 12
+		},
+		"text": {
+			"ctx": 448,
+			"state": 768,
+			"head": 12,
+			"layer": 12
+		},
+		"mels": 80,
+		"ftype": 1
+	},
+	"params": {
+		"model": "/root/.cache/hyperframes/whisper/models/ggml-small.bin",
+		"language": "ms",
+		"translate": false
+	},
+	"result": {
+		"language": "ms"
+	},
+	"transcription": [
+		{
+			"timestamps": {
+				"from": "00:00:00,000",
+				"to": "00:00:02,000"
+			},
+			"offsets": {
+				"from": 0,
+				"to": 2000
+			},
+			"text": " Terima kasih kerana menonton.",
+			"tokens": [
+				{
+					"text": "[_BEG_]",
+					"timestamps": {
+						"from": "00:00:00,000",
+						"to": "00:00:00,000"
+					},
+					"offsets": {
+						"from": 0,
+						"to": 0
+					},
+					"id": 50364,
+					"p": 0.669992,
+					"t_dtw": -1
+				},
+				{
+					"text": " Ter",
+					"timestamps": {
+						"from": "00:00:00,000",
+						"to": "00:00:00,210"
+					},
+					"offsets": {
+						"from": 0,
+						"to": 210
+					},
+					"id": 6564,
+					"p": 0.146943,
+					"t_dtw": -1
+				},
+				{
+					"text": "ima",
+					"timestamps": {
+						"from": "00:00:00,210",
+						"to": "00:00:00,420"
+					},
+					"offsets": {
+						"from": 210,
+						"to": 420
+					},
+					"id": 4775,
+					"p": 0.953339,
+					"t_dtw": -1
+				},
+				{
+					"text": " kasih",
+					"timestamps": {
+						"from": "00:00:00,420",
+						"to": "00:00:00,770"
+					},
+					"offsets": {
+						"from": 420,
+						"to": 770
+					},
+					"id": 35894,
+					"p": 0.945924,
+					"t_dtw": -1
+				},
+				{
+					"text": " ker",
+					"timestamps": {
+						"from": "00:00:00,770",
+						"to": "00:00:00,980"
+					},
+					"offsets": {
+						"from": 770,
+						"to": 980
+					},
+					"id": 19377,
+					"p": 0.611754,
+					"t_dtw": -1
+				},
+				{
+					"text": "ana",
+					"timestamps": {
+						"from": "00:00:00,980",
+						"to": "00:00:01,190"
+					},
+					"offsets": {
+						"from": 980,
+						"to": 1190
+					},
+					"id": 2095,
+					"p": 0.974896,
+					"t_dtw": -1
+				},
+				{
+					"text": " men",
+					"timestamps": {
+						"from": "00:00:01,190",
+						"to": "00:00:01,400"
+					},
+					"offsets": {
+						"from": 1190,
+						"to": 1400
+					},
+					"id": 1706,
+					"p": 0.883172,
+					"t_dtw": -1
+				},
+				{
+					"text": "onton",
+					"timestamps": {
+						"from": "00:00:01,400",
+						"to": "00:00:01,750"
+					},
+					"offsets": {
+						"from": 1400,
+						"to": 1750
+					},
+					"id": 45529,
+					"p": 0.933969,
+					"t_dtw": -1
+				},
+				{
+					"text": ".",
+					"timestamps": {
+						"from": "00:00:01,750",
+						"to": "00:00:02,000"
+					},
+					"offsets": {
+						"from": 1750,
+						"to": 2000
+					},
+					"id": 13,
+					"p": 0.302372,
+					"t_dtw": -1
+				},
+				{
+					"text": "[_TT_100]",
+					"timestamps": {
+						"from": "00:00:02,000",
+						"to": "00:00:02,000"
+					},
+					"offsets": {
+						"from": 2000,
+						"to": 2000
+					},
+					"id": 50464,
+					"p": 0.0529777,
+					"t_dtw": -1
+				}
+			]
+		}
+	]
+}
