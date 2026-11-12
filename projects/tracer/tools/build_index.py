@@ -134,7 +134,17 @@ CAPS = [
     dict(words=[("Kita", 12.18), ("*aim", 12.74), ("kat", 12.98), ("*bunker.", 13.14)], end=13.65),
     dict(words=[("Bagi", 13.70), ("dia", 14.26), ("*curve", 14.36), ("*masuk.", 14.62)], end=15.05),
     dict(words=[("Oh.", 22.44), ("What", 23.26), ("a", 23.58), ("*good", 25.52), ("*shot.", 25.68), ("🔥", 25.70)], end=26.30),
-    dict(words=[("Tapi", 26.54), ("*over", 27.10), ("*sikit.", 27.34), ("😅", 27.40)], end=28.40),
+    dict(words=[("Tapi", 26.54), ("*over", 27.10), ("*sikit.", 27.34), ("😅", 27.40)], end=27.90),
+    # RESULT (the friend on the green; whisper on the assembled track)
+    dict(words=[("Hole", 28.18), ("2,", 28.58), ("Iqbal.", 28.78)], end=29.20),
+    dict(words=[("I", 29.30), ("think", 29.60), ("for", 29.95), ("*birdie.", 30.24)], end=30.56),
+    dict(words=[("*Downhill", 30.58), ("putt,", 31.60), ("left", 32.08), ("to", 32.94), ("right.", 33.12)], end=33.36),
+    dict(words=[("Tengok", 33.68), ("apa", 33.84), ("jadi.", 33.94)], end=34.50),
+    dict(words=[("Back", 34.60), ("to", 35.00), ("back", 35.10), ("*birdie.", 35.24)], end=35.80),
+    dict(words=[("Need", 39.70), ("to", 40.10), ("*slow", 40.28), ("*down,", 40.46)], end=40.76),
+    dict(words=[("need", 40.80), ("to", 40.90), ("*slow", 41.02), ("*down!", 41.18), ("😬", 41.20)], end=42.20),
+    dict(words=[("Okay,", 43.82), ("not", 44.28), ("too", 44.68), ("bad.", 44.80)], end=45.30),
+    dict(words=[("Good", 48.82), ("*save", 49.22), ("lah.", 49.62), ("✅", 49.64)], end=50.00),
 ]
 
 
@@ -159,7 +169,7 @@ def caps_html():
 CAPHTML, CAPDATA = caps_html()
 W = {"branch": 4.82, "draw": 9.48, "aim": 12.74, "curve": 14.36, "good": 25.52, "over": 27.10, "one54": 0.05}
 ZOOM = 1.6      # stage push-in during the flight (origin 510,880; must match the template)
-END = 28.8      # end card (after "Tapi over sikit")
+END = S("end_freeze") + 0.32     # end card, after "Good save lah"
 
 # ---------------- SFX ----------------  Mixkit ids, see assets/sfx/CREDITS.md
 SFX = {
@@ -191,6 +201,14 @@ CUES = [
     (B["landing"] + 0.05, "2364.mp3", 0.22, "landing marker"),
     (W["good"] + 0.55, "2586.mp3", 0.10, "sparkle after 'good shot' (low)"),
     (W["over"] + 0.30, "1491.mp3", 0.22, "OVER arrow swipes past the pin"),
+    (S("r_intro1") - 0.10, "3115.mp3", 0.28, "glass sweep into the result"),
+    (S("r_intro1") + 0.35, "2357.mp3", 0.18, "RESULT tag"),
+    (S("r_intro1") + 0.60, "1489.mp3", 0.14, "pin -> ball line draws"),
+    (S("r_intro1") + 0.95, "2357.mp3", 0.18, "OVER SIKIT chip"),
+    (B["putt1_hole"], "786.mp3", 0.10, "soft build under the long putt, tops out as it passes the hole"),
+    (B["drop"], "2364.mp3", 0.24, "ripple at the hole as it drops"),
+    (B["drop"] + 0.45, "2925.mp3", 0.24, "GOOD SAVE chip (low, 'save' is spoken)"),
+    (S("end_freeze") + 0.05, "2586.mp3", 0.10, "sparkle after 'good save lah' (low)"),
     (END + 0.10, "3115.mp3", 0.30, "end glass card"),
     (END + 0.45, "2364.mp3", 0.20, "row 1"), (END + 0.65, "2364.mp3", 0.20, "row 2"), (END + 0.85, "2364.mp3", 0.22, "row 3"),
     (END + 1.00, "2925.mp3", 0.28, "SAVE tag"),

@@ -62,6 +62,12 @@
       #over { left: 690px; top: 700px; padding: 14px 22px 15px; border-radius: 22px; font-family: "Manrope"; font-weight: 800; font-size: 40px; }
       #over small { display: block; font-family: "Fragment"; font-weight: 400; font-size: 28px; color: rgba(11,23,54,0.66); text-transform: uppercase; }
       #lead { left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+      #rtag { left: 60px; top: 312px; padding: 12px 22px; border-radius: 999px; font-size: 30px; }
+      #rline { left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+      #rover { left: 600px; top: 1030px; padding: 14px 22px 15px; border-radius: 22px; font-family: "Manrope"; font-weight: 800; font-size: 40px; }
+      #rover small, #gsave small { display: block; white-space: nowrap; font-family: "Fragment"; font-weight: 400; font-size: 28px; color: rgba(11,23,54,0.66); text-transform: uppercase; }
+      #bputt { left: 60px; top: 312px; padding: 12px 22px; border-radius: 999px; font-size: 30px; }
+      #gsave { left: 560px; top: 1190px; padding: 14px 22px 15px; border-radius: 22px; font-family: "Manrope"; font-weight: 800; font-size: 44px; }
 
       /* end card */
       #endc { left: 60px; top: 196px; width: 870px; padding: 22px 30px 18px; }
@@ -72,7 +78,7 @@
       #endc .row i { flex: 0 0 58px; height: 58px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-style: normal;
                      font-family: "Fragment"; font-size: 30px; color: var(--ink); background: linear-gradient(135deg, var(--coral), var(--gold)); }
       #endc .row b { font-family: "Manrope"; font-weight: 800; font-size: 54px; letter-spacing: -0.02em; }
-      #cta { left: 60px; top: 592px; padding: 16px 26px; border-radius: 999px; font-family: "Manrope"; font-weight: 800; font-size: 38px;
+      #cta { left: 470px; top: 566px; padding: 16px 26px; border-radius: 999px; font-family: "Manrope"; font-weight: 800; font-size: 38px;
              background: linear-gradient(90deg, var(--coral), var(--gold)); color: var(--ink); box-shadow: 0 14px 34px rgba(255,90,54,0.35); }
 
       /* glass sweep transition */
@@ -138,7 +144,18 @@
         <circle id="lead-c" cx="{{LEADX}}" cy="{{LEADY}}" r="7" fill="#fff"/></svg>
       <div id="over" class="ov glass">Over sikit <span class="emo">😅</span><small>lepas pin</small><div class="sheen"></div></div>
 
-      <div id="endc" class="ov glass"><div class="eh mono"><span>154 · draw elak dahan</span><span>plan</span></div>
+      <!-- result -->
+      <div id="rtag" class="ov glass mono">Result · hole 2</div>
+      <svg id="rline" class="ov" viewBox="0 0 1080 1920"><path id="rline-p" d="M 476 1250 Q 556 1080 590 958" stroke="#fff" stroke-width="5" stroke-dasharray="1 0" stroke-linecap="round" fill="none"/>
+        <path d="M 576 980 L 590 954 L 604 982" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <circle id="rhole" cx="476" cy="1276" r="30" fill="none" stroke="#ffc93a" stroke-width="5"/></svg>
+      <div id="rover" class="ov glass">Over sikit <span class="emo">😅</span><small>bola lepas pin</small><div class="sheen"></div></div>
+      <div id="bputt" class="ov glass mono">Birdie putt · downhill</div>
+      <svg id="g-drop" class="ov" viewBox="0 0 1080 1920" style="left:0;top:0;width:1080px;height:1920px;">
+        <g transform="translate(746 1110) scale(1 0.42)"><circle id="dp1" r="10" fill="none" stroke="#fff" stroke-width="5"/><circle id="dp2" r="10" fill="none" stroke="#ffc93a" stroke-width="5"/></g></svg>
+      <div id="gsave" class="ov glass">Good save <span class="emo">✅</span><small>putt balik, masuk</small><div class="sheen"></div></div>
+
+      <div id="endc" class="ov glass"><div class="eh mono"><span>154 · draw elak dahan</span><span>good save ✓</span></div>
         <div class="row"><i>1</i><b>Aim kat bunker</b></div><div class="row"><i>2</i><b>Draw sikit</b></div><div class="row"><i>3</i><b>Curve masuk</b></div><div class="sheen"></div></div>
       <div id="cta" class="ov">Save, try kat range <span class="emo">📌</span></div>
 
@@ -272,8 +289,27 @@
         tl.set(lp, { attr: { "stroke-dasharray": `${LL} ${LL}`, "stroke-dashoffset": LL } }, 0);
         tl.set("#lead", { opacity: 1 }, W.over + 0.25);
         tl.to(lp, { attr: { "stroke-dashoffset": 0 }, duration: 0.3, ease: "power2.out" }, W.over + 0.25);
-        glassIn("#over", W.over + 0.3, K.END - 0.1);
-        tl.to("#lead", { opacity: 0, duration: 0.2 }, K.END - 0.1);
+        glassIn("#over", W.over + 0.3, T.r_intro1.start - 0.2);
+        tl.to("#lead", { opacity: 0, duration: 0.2 }, T.r_intro1.start - 0.2);
+
+        // ---------- RESULT (clip 2, on the green) ----------
+        sweep(T.r_intro1.start);
+        tl.set("#stage", { scale: 1 }, T.r_intro1.start);
+        tl.set(["#g-tr", "#g-land", "#g-plan", "#g-aim", "#g-pin"], { opacity: 0 }, T.r_intro1.start);
+        glassIn("#rtag", T.r_intro1.start + 0.35, T.r_putt.start + 0.6);
+        const rl = $("#rline-p"), RL = rl.getTotalLength(); hide0("#rline");
+        tl.set(rl, { attr: { "stroke-dasharray": `${RL} ${RL}`, "stroke-dashoffset": RL } }, 0);
+        tl.set("#rline", { opacity: 1 }, T.r_intro1.start + 0.6);
+        tl.to(rl, { attr: { "stroke-dashoffset": 0 }, duration: 0.6, ease: "power2.inOut" }, T.r_intro1.start + 0.6);
+        tl.fromTo("#rhole", { attr: { r: 4 } }, { attr: { r: 30 }, duration: 0.35, ease: "back.out(2)", immediateRender: false }, T.r_intro1.start + 0.6);
+        tl.to("#rline", { opacity: 0, duration: 0.25 }, T.r_putt.start + 0.2);
+        glassIn("#rover", T.r_intro1.start + 0.95, T.r_putt.start + 0.2);
+        glassIn("#bputt", B.putt1 - 0.1, T.r_ok.end - 0.1);
+        tl.set("#g-drop", { opacity: 1 }, B.drop);
+        tl.fromTo("#dp1", { attr: { r: 6 } }, { attr: { r: 30 }, duration: 0.3, ease: "back.out(2)", immediateRender: false }, B.drop);
+        tl.fromTo("#dp2", { attr: { r: 10 }, opacity: 1 }, { attr: { r: 110 }, opacity: 0, duration: 0.9, repeat: 1, ease: "power2.out", immediateRender: false }, B.drop);
+        tl.to("#g-drop", { opacity: 0, duration: 0.3 }, K.END);
+        glassIn("#gsave", B.drop + 0.45, K.END - 0.05);
 
         // ---------- END CARD ----------
         glassIn("#endc", K.END + 0.1, null);

@@ -11,6 +11,7 @@ Plan dia simple je:
 3️⃣ bagi dia curve masuk balik ke pin
 
 Last-last… good shot! Cuma over sikit je 😅
+Birdie putt downhill laju gila, terlajak… tapi putt balik masuk, good save ✅
 
 Korang berani try draw macam ni tak? Save dulu, try kat range 📌
 
@@ -22,7 +23,8 @@ Korang berani try draw macam ni tak? Save dulu, try kat range 📌
 ```
 154 ke pin, dahan depan line 🌳
 Aim bunker → draw sikit → curve masuk.
-Good shot, over sikit je 😅 Save, try kat range 📌
+Good shot, over sikit je 😅 Putt balik masuk, good save ✅
+Save, try kat range 📌
 
 #golfmalaysia #golftips #golflesson #golfswing #shottracer #reels
 ```

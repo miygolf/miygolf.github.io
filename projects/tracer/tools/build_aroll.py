@@ -14,6 +14,9 @@ Clip map (IMG_0030; the owner = grey shirt, black cap; talks quietly from off-fr
   22.05-23.4 "Bagi dia curve masuk."   (the club pokes in from the left now and then)
   24.5 walks in · 25-38.8 settles and waggles (cut) · takeaway 38.9 · top 39.5 · IMPACT 39.80 (transient 39.82) · finish 40.4, holds and watches
   45.74-49.32 "Oh, what a good shot." (quiet) · 49.4-51.5 walks up to the camera (face close, not used) · 50.8-52.2 "Tapi over sikit."
+Clip 2 (IMG_0034, the result, filmed by a friend from the hole): 0.84 "Hole 2, Iqbal." · 3.3 "I think for birdie." · 17.8 "Fast, downhill putt,
+  left to right." · 21.4 "Tengok apa jadi." · 22.6 "Back to back birdie." · birdie putt 24.28 · 27.9 "Need to slow down, need to slow down." ·
+  rolls past the hole ~30.0 · 34.0 "Okay, not too bad." (camera moved) · second putt 72.02, drops 74.95 · 74.9 "Good save lah." · 76.7 "One down." (not used)
 """
 import json, os, subprocess, sys, wave
 import numpy as np
@@ -38,9 +41,17 @@ EDL = [
     dict(name="swing", clip=1, a=38.30, b=45.50, speed=1.0),
     # "Oh, what a good shot." while he holds the finish and watches
     dict(name="react", clip=1, a=45.50, b=49.40, speed=1.0),
-    # freeze before he walks up to the camera: "Tapi over sikit." + end card
-    dict(name="end_freeze", clip=1, a=49.40, kind="freeze", dur=6.0),
-]
+    # freeze before he walks up to the camera: "Tapi over sikit."
+    dict(name="over_freeze", clip=1, a=49.40, kind="freeze", dur=2.0),
+    # RESULT (clip2, IMG_0034, filmed by a friend on the green; tripod by the hole): the ball sits past the pin
+    dict(name="r_intro1", clip=2, a=0.80, b=1.95, speed=1.0),      # "Hole 2, Iqbal."
+    dict(name="r_intro2", clip=2, a=3.25, b=4.65, speed=1.0),      # "I think for birdie."
+    dict(name="r_read", clip=2, a=17.70, b=20.45, speed=1.0),      # "Fast, downhill putt, left to right."
+    dict(name="r_b2b", clip=2, a=21.40, b=23.65, speed=1.0),       # "Tengok apa jadi. Back to back birdie."
+    dict(name="r_putt", clip=2, a=23.90, b=31.90, speed=1.0),      # birdie putt 24.28, "Need to slow down", rolls past the hole ~30.0
+    dict(name="r_ok", clip=2, a=31.90, kind="freeze", dur=1.55),   # "Okay, not too bad." (34.0, while the camera moves) laid on a freeze
+    dict(name="r_save", clip=2, a=71.20, b=75.95, speed=1.0),      # the putt back: stroke 72.02, drops 74.95, "Good save lah."
+    dict(name="end_freeze", clip=2, a=75.95, kind="freeze", dur=3.6),]
 
 def _lerp_expr(keys):
     expr = f"{keys[-1][1]}"
@@ -165,11 +176,22 @@ def build_audio(tl):
     i0, i1 = int(film_time(tl, "react", 45.60) * SR), int(film_time(tl, "react", 49.38) * SR)
     r = np.ones(i1 - i0, np.float32) * db(4); f = int(0.05 * SR); r[:f] = np.linspace(1, db(4), f); r[-f:] = np.linspace(db(4), 1, f)
     buf[i0:i1] *= r
-    # END: room tone under the freeze, "Tapi over sikit." on it
-    tone = piece(1, 49.40, 50.70, 0.05); tone = np.tile(tone, 5)[:int(6.0 * SR)]; tone *= np.linspace(1, 0, len(tone))
-    place(tone, T("end_freeze"), -8)
+    # "Tapi over sikit." on the freeze, room tone under it
+    tone = piece(1, 49.40, 50.70, 0.05); tone = np.tile(tone, 2)[:int(2.0 * SR)]
+    place(tone, T("over_freeze"), -8)
     ov = (50.72, 52.22)
-    place(piece(1, *ov), T("end_freeze") + 0.25, 0, (1, *ov))
+    place(piece(1, *ov), T("over_freeze") + 0.25, 0, (1, *ov))
+    # RESULT: clip2 sync sound. The friend is close to the phone on some lines and far on others: per-piece gains even them out
+    G2 = {"r_intro1": -6, "r_intro2": 2, "r_read": 3, "r_b2b": 5, "r_putt": 2, "r_save": 6}
+    for n, g in G2.items():
+        s2 = next(x for x in EDL if x["name"] == n)
+        place(piece(2, s2["a"], s2["b"], 0.03), T(n), g, (2, s2["a"], s2["b"]))
+    tone2 = piece(2, 31.0, 31.9, 0.05); tone2 = np.tile(tone2, 2)[:int(1.55 * SR)]
+    place(tone2, T("r_ok"), 0)
+    okp = (34.00, 35.38)
+    place(piece(2, *okp), T("r_ok") + 0.05, 5, (2, *okp))        # "Okay, not too bad."
+    tone3 = piece(2, 75.95, 76.60, 0.05); tone3 = np.tile(tone3, 6)[:int(3.6 * SR)]; tone3 *= np.linspace(1, 0, len(tone3))
+    place(tone3, T("end_freeze"), -4)
     tl["_voice"] = placed
     json.dump(tl, open(os.path.join(ROOT, "edit", "timeline.json"), "w"), indent=1)
     out = os.path.join(ROOT, "edit", "voice_raw.wav")
@@ -186,7 +208,9 @@ def build_audio(tl):
 if __name__ == "__main__":
     tl = timeline()
     beats = {"hook_impact": film_time(tl, "hook", IMPACT), "takeaway": film_time(tl, "swing", 38.90),
-             "impact": film_time(tl, "swing", IMPACT), "landing": film_time(tl, "swing", 45.40)}
+             "impact": film_time(tl, "swing", IMPACT), "landing": film_time(tl, "swing", 45.40),
+             "putt1": film_time(tl, "r_putt", 24.28), "putt1_hole": film_time(tl, "r_putt", 30.0),
+             "putt2": film_time(tl, "r_save", 72.02), "drop": film_time(tl, "r_save", 74.95)}
     tl["_beats"] = {k: round(v, 3) for k, v in beats.items()}
     os.makedirs(os.path.join(ROOT, "edit"), exist_ok=True); os.makedirs(os.path.join(ROOT, "assets"), exist_ok=True)
     json.dump(tl, open(os.path.join(ROOT, "edit", "timeline.json"), "w"), indent=1)

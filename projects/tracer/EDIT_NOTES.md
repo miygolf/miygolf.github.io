@@ -1,6 +1,6 @@
 # Draw elak dahan — 154 ke pin, with shot tracer — edit notes
 
-HyperFrames 0.9.32 · 1080×1920 · 30 fps · 32.0 s · status: **draft preview v4** (`previews/tracer-draw_preview_draft_v4.mp4`, 720p for review; v2 = realistic red tracer, v3 = rounder draw shape, v4 = turns before the bunker),
+HyperFrames 0.9.32 · 1080×1920 · 30 fps · 53.4 s · status: **draft preview v5** (`previews/tracer-draw_preview_draft_v5.mp4`, 720p for review; v2 = realistic red tracer, v3 = rounder draw shape, v4 = turns before the bunker, v5 = the result on the green added),
 waiting for the owner's OK ("render") before the delivery render.
 
 Request (2026-11-12): add a shot tracer; HyperFrames; transcribe first; motion graphics and SFX where they belong; premium SFX; never over the face;
@@ -48,7 +48,17 @@ No music asked for → SFX only (house rule).
 | 2.00–14.93 | 4.0–23.4 in 8 pieces | the plan, pauses cut (static picture, joins don't show): chips 1 Dahan depan pin / 2 Draw sikit / 3 Aim kat bunker / 4 Curve masuk, drawings in the scene |
 | 14.93–22.13 | 38.30–45.50 | glass sweep → address, swing, the whole flight at 1× with the tracer, push-in to 1.6×, landing ripple 22.03 |
 | 22.13–26.03 | 45.50–49.40 | "Oh, what a good shot." while he watches (he is out of frame in the push-in) |
-| 26.03–32.03 | freeze 49.40 | "Tapi over sikit." + OVER SIKIT card, then the end card (plan recap) + "Save, try kat range 📌" |
+| 26.03–28.03 | freeze 49.40 | "Tapi over sikit." + OVER SIKIT card |
+| 28.03–35.57 | clip2 0.8–23.65 in 4 pieces | glass sweep → RESULT · HOLE 2 on the green: "Hole 2, Iqbal. I think for birdie." · line from the pin to the ball past it + OVER SIKIT card · "Downhill putt, left to right." · "Tengok apa jadi. Back to back birdie." |
+| 35.57–43.57 | clip2 23.9–31.9 | BIRDIE PUTT · DOWNHILL: the putt (24.28) runs past the hole, "Need to slow down, need to slow down!" |
+| 43.57–45.10 | freeze clip2 31.9 | "Okay, not too bad." (said at 34.0 while the camera moves; laid on the freeze) |
+| 45.10–49.83 | clip2 71.2–75.95 | the putt back (72.02), drops 74.95 → ripple + GOOD SAVE ✅, "Good save lah." ("One down" after it is not used: no match status on screen) |
+| 49.83–53.43 | freeze clip2 75.95 | end card (plan recap, GOOD SAVE ✓) + "Save, try kat range 📌" (right of his head) |
+
+## Result clip (v5, owner: "tambah ni result yang over skit")
+- IMG_0034, filmed by a friend from the hole (phone on a stand by the pin). Narrator lines lifted per piece (he is near the phone on some, far on others).
+- The ball's spot past the pin is marked by a line from the hole toward the player reading the putt (the ball itself is too small to ring; the arrow stops short of him).
+- Distances, score and match status are not shown; only what is said ("I think for birdie", "Good save lah").
 
 ## Face / safe zone
 All text inside x 60–930, y 168–1330. The owner's face is only visible at the left (x < 260, y ≈ 850–960) while he addresses / watches, and it is out of frame
