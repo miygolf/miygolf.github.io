@@ -1,7 +1,6 @@
 # Draw elak dahan — 154 ke pin, with shot tracer — edit notes
 
-HyperFrames 0.9.32 · 1080×1920 · 30 fps · 53.4 s · status: **draft preview v5** (`previews/tracer-draw_preview_draft_v5.mp4`, 720p for review; v2 = realistic red tracer, v3 = rounder draw shape, v4 = turns before the bunker, v5 = the result on the green added),
-waiting for the owner's OK ("render") before the delivery render.
+HyperFrames 0.9.32 · 1080×1920 · 30 fps · 53.4 s · status: **final delivered** (`final/tracer-draw_1080x1920.mp4`, 87 MB): H.264 High ~13 Mbps, AAC 256k 48 kHz, −14.3 LUFS, peak −1.2 dBFS. Owner approved draft preview v5 ("cun render final", 2026-11-12). Previews v1–v5 in `previews/`,
 
 Request (2026-11-12): add a shot tracer; HyperFrames; transcribe first; motion graphics and SFX where they belong; premium SFX; never over the face;
 TikTok/IG safe zone; voice must stay on top; cut repeats and awkward pauses; strongest hook; preview before render; a design not used before.
@@ -69,7 +68,7 @@ in the 1.6× push-in that covers the reaction and the end freeze (when he turns 
   loudnorm −16 LUFS; "Oh, what a good shot" lifted +4 dB. **No music.**
 - 27 SFX cues (Mixkit, `assets/sfx/CREDITS.md`), each tied to something on screen; chip / pin / sweep sounds moved off the spoken words.
 - Preview checked by re-transcribing its mix: every line is heard; "Bagi dia curve masuk" is the quietest (whisper hears "curve masuk" in the English pass).
-- Delivery (when approved): `render -q delivery`, then `tools/master.sh` (−14 LUFS / −1.5 dBTP, H.264 CRF 17 ≤ 16 Mbps).
+- Delivery (when approved): `render -q delivery`, then `tools/master.sh` (−14 LUFS / −1.5 dBTP, H.264 CRF 18 ≤ 13 Mbps).
 
 ## Rebuild
 ```
