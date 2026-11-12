@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Glass Tracer": a clean broadcast look built around the shot tracer.
+         Frosted-glass cards (backdrop blur, bright 1.5 px edge, a specular sheen that sweeps across when they land),
+         the plan drawn into the scene (straight line blocked at the branch, the draw curving out toward the bunker and back to the pin),
+         then the real flight as a glowing comet tracer (coral -> gold) over a faint ghost of the plan, a ground ripple on landing.
+         Type: Manrope 800/700 + Fragment Mono. Palette: glass white, ink navy #0b1736, coral #ff5a36, gold #ffc93a, ice #c9f3ff.
+         The camera never moves: video and drawings sit on one #stage, so push-ins keep the tracer locked to the ball.
+         Safe band x 60-930, y 168-1330; the face (left, y ~850-960 when he turns) is kept clear. */
+      @font-face { font-family: "Manrope"; font-weight: 200 800; src: url("assets/fonts/Manrope-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Fragment"; font-weight: 400; src: url("assets/fonts/FragmentMono-Regular.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Noto Color Emoji"; font-weight: 400; src: url("assets/fonts/NotoColorEmoji.ttf") format("truetype"); font-display: block; }
+      :root { --ink: #0b1736; --coral: #ff5a36; --gold: #ffc93a; --ice: #c9f3ff; --glass: rgba(255,255,255,0.64); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 510px 880px; z-index: 1; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+      #draw { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+      .ov { position: absolute; z-index: 6; opacity: 0; pointer-events: none; }
+      .emo { font-family: "Noto Color Emoji", sans-serif; font-weight: 400; }
+      .mono { font-family: "Fragment", monospace; letter-spacing: 0.04em; text-transform: uppercase; }
+
+      .glass { background: var(--glass); -webkit-backdrop-filter: blur(18px) saturate(1.5); backdrop-filter: blur(18px) saturate(1.5);
+               border: 1.5px solid rgba(255,255,255,0.9); border-radius: 28px; box-shadow: 0 18px 44px rgba(11,23,54,0.28), inset 0 1px 0 rgba(255,255,255,0.95);
+               color: var(--ink); overflow: hidden; }
+      .glass .sheen { position: absolute; top: -20%; bottom: -20%; width: 34%; left: -40%; transform: skewX(-18deg); will-change: transform;
+                      background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.75), rgba(255,255,255,0)); pointer-events: none; }
+
+      /* hook title */
+      #title { left: 60px; top: 196px; width: 870px; padding: 26px 32px 28px; display: flex; align-items: center; gap: 28px; }
+      #title .big { font-family: "Fragment"; font-size: 132px; line-height: 0.9; letter-spacing: -0.03em; color: var(--ink); }
+      #title .bar { width: 4px; align-self: stretch; border-radius: 4px; background: linear-gradient(180deg, var(--coral), var(--gold)); }
+      #title .lab { font-size: 30px; color: rgba(11,23,54,0.7); }
+      #title .hd { font-family: "Manrope"; font-weight: 800; font-size: 66px; line-height: 1.0; letter-spacing: -0.02em; margin-top: 6px; }
+
+      /* captions */
+      .cap { left: 540px; top: 196px; transform: translateX(-50%); max-width: 870px; padding: 18px 32px 20px; white-space: nowrap; text-align: center;
+             font-family: "Manrope"; font-weight: 700; font-size: 50px; line-height: 1.1; letter-spacing: -0.01em; border-radius: 999px; }
+      .cap .w { position: relative; display: inline-block; opacity: 0.35; }
+      .cap .w.on { opacity: 1; }
+      .cap .w.hot::after { content: ""; position: absolute; left: -3px; right: -3px; bottom: -2px; height: 10px; border-radius: 6px;
+                           background: linear-gradient(90deg, var(--coral), var(--gold)); z-index: -1; }
+      .cap { isolation: isolate; }
+
+      /* plan chips (right column over the sky) */
+      .chip { left: 500px; width: 430px; padding: 16px 20px 16px 16px; display: flex; align-items: center; gap: 16px; border-radius: 24px; }
+      .chip i { flex: 0 0 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-style: normal;
+                font-family: "Fragment"; font-size: 28px; color: var(--ink); background: linear-gradient(135deg, var(--coral), var(--gold)); }
+      .chip b { font-family: "Manrope"; font-weight: 800; font-size: 36px; white-space: nowrap; line-height: 1.02; letter-spacing: -0.01em; }
+      .chip small { display: block; font-family: "Fragment"; font-size: 28px; color: rgba(11,23,54,0.66); text-transform: uppercase; letter-spacing: 0.02em; margin-top: 2px; white-space: nowrap; }
+      #c1 { top: 404px; } #c2 { top: 520px; } #c3 { top: 636px; } #c4 { top: 752px; }
+
+      /* tracer tag + over chip */
+      #tag { left: 650px; top: 196px; padding: 12px 22px; border-radius: 999px; font-size: 30px; display: flex; align-items: center; gap: 12px; }
+      #tag::before { content: ""; width: 14px; height: 14px; border-radius: 50%; background: var(--coral); box-shadow: 0 0 12px var(--coral); }
+      #over { left: 600px; top: 640px; padding: 14px 22px 15px; border-radius: 22px; font-family: "Manrope"; font-weight: 800; font-size: 40px; }
+      #over small { display: block; font-family: "Fragment"; font-weight: 400; font-size: 28px; color: rgba(11,23,54,0.66); text-transform: uppercase; }
+      #lead { left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+
+      /* end card */
+      #endc { left: 60px; top: 196px; width: 870px; padding: 22px 30px 18px; }
+      #endc .eh { display: flex; justify-content: space-between; font-size: 28px; color: rgba(11,23,54,0.7); padding-bottom: 12px;
+                  border-bottom: 1.5px solid rgba(11,23,54,0.14); }
+      #endc .row { display: flex; align-items: center; gap: 20px; padding: 14px 0; border-bottom: 1.5px solid rgba(11,23,54,0.1); }
+      #endc .row:last-child { border-bottom: 0; }
+      #endc .row i { flex: 0 0 58px; height: 58px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-style: normal;
+                     font-family: "Fragment"; font-size: 30px; color: var(--ink); background: linear-gradient(135deg, var(--coral), var(--gold)); }
+      #endc .row b { font-family: "Manrope"; font-weight: 800; font-size: 54px; letter-spacing: -0.02em; }
+      #cta { left: 60px; top: 592px; padding: 16px 26px; border-radius: 999px; font-family: "Manrope"; font-weight: 800; font-size: 38px;
+             background: linear-gradient(90deg, var(--coral), var(--gold)); color: var(--ink); box-shadow: 0 14px 34px rgba(255,90,54,0.35); }
+
+      /* glass sweep transition */
+      #sweep { position: absolute; top: 0; left: -520px; width: 460px; height: 1920px; z-index: 9; opacity: 0;
+               -webkit-backdrop-filter: blur(26px) brightness(1.12); backdrop-filter: blur(26px) brightness(1.12);
+               background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.35) 45%, rgba(201,243,255,0.5) 55%, rgba(255,255,255,0));
+               border-left: 2px solid rgba(255,255,255,0.8); border-right: 2px solid rgba(255,255,255,0.8); }
+      #flash { position: absolute; inset: 0; z-index: 8; background: #fff; opacity: 0; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="{{TOTAL}}" data-width="1080" data-height="1920" data-fps="30">
+      <div id="stage">
+        <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="{{TOTAL}}" data-track-index="1" muted playsinline></video>
+        <svg id="draw" viewBox="0 0 1080 1920">
+          <defs>
+            <linearGradient id="tg" gradientUnits="userSpaceOnUse" x1="0" y1="1360" x2="0" y2="800">
+              <stop offset="0" stop-color="#ff5a36"/><stop offset="1" stop-color="#ffc93a"/></linearGradient>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7"/></filter>
+            <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
+            <mask id="m-direct" maskUnits="userSpaceOnUse" x="0" y="0" width="1080" height="1920"><path id="mk-direct" d="{{DIRECT}}" fill="none" stroke="#fff" stroke-width="40" stroke-linecap="round"/></mask>
+            <mask id="m-plan" maskUnits="userSpaceOnUse" x="0" y="0" width="1080" height="1920"><path id="mk-plan" d="{{DRAWPLAN}}" fill="none" stroke="#fff" stroke-width="40" stroke-linecap="round"/></mask>
+          </defs>
+          <!-- plan: straight line to the pin, blocked at the branch -->
+          <g id="g-direct" opacity="0"><g mask="url(#m-direct)">
+            <path d="{{DIRECT}}" fill="none" stroke="#0b1736" stroke-opacity="0.35" stroke-width="9" stroke-dasharray="16 14" stroke-linecap="round"/>
+            <path d="{{DIRECT}}" fill="none" stroke="#fff" stroke-width="5" stroke-dasharray="16 14" stroke-linecap="round"/></g></g>
+          <g id="g-x" opacity="0" transform="translate({{XX}} {{XY}})"><circle r="24" fill="#ff5a36" stroke="#fff" stroke-width="4"/>
+            <path d="M -9 -9 L 9 9 M 9 -9 L -9 9" stroke="#fff" stroke-width="5" stroke-linecap="round"/></g>
+          <g id="g-branch" opacity="0" transform="translate({{BX}} {{BY}})"><circle id="br1" r="62" fill="none" stroke="#fff" stroke-width="4"/>
+            <circle id="br2" r="62" fill="none" stroke="#ff5a36" stroke-width="4" stroke-dasharray="10 12"/></g>
+          <!-- plan: the draw -->
+          <g id="g-plan" opacity="0"><g mask="url(#m-plan)">
+            <path d="{{DRAWPLAN}}" fill="none" stroke="#0b1736" stroke-opacity="0.3" stroke-width="10" stroke-dasharray="3 16" stroke-linecap="round"/>
+            <path d="{{DRAWPLAN}}" fill="none" stroke="#ffc93a" stroke-width="7" stroke-dasharray="3 16" stroke-linecap="round"/></g></g>
+          <g id="g-aim" opacity="0" transform="translate({{KX}} {{KY}}) scale(1 0.45)"><ellipse id="ai1" rx="40" ry="40" fill="none" stroke="#fff" stroke-width="5"/>
+            <ellipse id="ai2" rx="70" ry="70" fill="none" stroke="#ffc93a" stroke-width="5"/></g>
+          <g id="g-pin" opacity="0" transform="translate({{PX}} {{PY}})"><path d="M 0 0 V -58" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+            <path d="M 2 -58 L 30 -48 L 2 -38 Z" fill="#ff5a36" stroke="#fff" stroke-width="2"/><ellipse rx="10" ry="4" fill="#0b1736" opacity="0.4"/></g>
+          <!-- the tracer -->
+          <g id="g-tr" opacity="0">
+            <path id="tr-glow" d="{{PATH}}" fill="none" stroke="#ff5a36" stroke-opacity="0.6" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+            <path id="tr-main" d="{{PATH}}" fill="none" stroke="url(#tg)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+            <path id="tr-core" d="{{PATH}}" fill="none" stroke="#fff" stroke-opacity="0.9" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle id="hd-glow" r="20" fill="#ffc93a" opacity="0.8" filter="url(#glow)"/><circle id="hd" r="7" fill="#fff" filter="url(#soft)"/>
+          </g>
+          <g id="g-land" opacity="0" transform="translate({{LX}} {{LY}}) scale(1 0.38)"><circle id="ld1" r="10" fill="none" stroke="#fff" stroke-width="5"/>
+            <circle id="ld2" r="10" fill="none" stroke="#ffc93a" stroke-width="4"/><circle r="7" fill="#fff"/></g>
+        </svg>
+      </div>
+
+      <div id="title" class="ov glass"><div class="big">154</div><div class="bar"></div>
+        <div><div class="lab mono">ke pin · ada dahan depan</div><div class="hd">Draw elak dahan <span class="emo">🌳</span></div></div><div class="sheen"></div></div>
+
+      <div id="c1" class="ov glass chip"><i>1</i><div><b>Dahan depan pin</b><small>line terus kena</small></div><div class="sheen"></div></div>
+      <div id="c2" class="ov glass chip"><i>2</i><div><b>Draw sikit</b><small>curve kanan → kiri</small></div><div class="sheen"></div></div>
+      <div id="c3" class="ov glass chip"><i>3</i><div><b>Aim kat bunker</b><small>start kanan</small></div><div class="sheen"></div></div>
+      <div id="c4" class="ov glass chip"><i>4</i><div><b>Curve masuk</b><small>balik ke pin</small></div><div class="sheen"></div></div>
+
+      <div id="tag" class="ov glass mono">Shot tracer</div>
+      <svg id="lead" class="ov" viewBox="0 0 1080 1920"><path id="lead-p" d="M 640 760 L {{LEADX}} {{LEADY}}" stroke="#fff" stroke-width="4" stroke-linecap="round" fill="none"/>
+        <circle id="lead-c" cx="{{LEADX}}" cy="{{LEADY}}" r="7" fill="#fff"/></svg>
+      <div id="over" class="ov glass">Over sikit <span class="emo">😅</span><small>lepas pin</small><div class="sheen"></div></div>
+
+      <div id="endc" class="ov glass"><div class="eh mono"><span>154 · draw elak dahan</span><span>plan</span></div>
+        <div class="row"><i>1</i><b>Aim kat bunker</b></div><div class="row"><i>2</i><b>Draw sikit</b></div><div class="row"><i>3</i><b>Curve masuk</b></div><div class="sheen"></div></div>
+      <div id="cta" class="ov">Save, try kat range <span class="emo">📌</span></div>
+
+      {{CAPS}}
+
+      <div id="flash"></div>
+      <div id="sweep"></div>
+{{AUDIO}}
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {{CONSTS}};
+        const T = K.T, B = K.B, W = K.W;
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        const hide0 = (el) => tl.set(el, { opacity: 0 }, 0);
+
+        // glass card materialises: blur -> sharp, slight lift; the sheen sweeps across once it lands
+        function glassIn(sel, t0, t1) {
+          const el = $(sel); hide0(el);
+          tl.fromTo(el, { opacity: 0, y: 22, scale: 0.94, filter: "blur(14px)" }, { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.42, ease: "power3.out", immediateRender: false }, t0);
+          const sh = el.querySelector(".sheen");
+          if (sh) tl.fromTo(sh, { xPercent: 0 }, { xPercent: 480, duration: 0.7, ease: "power2.inOut", immediateRender: false }, t0 + 0.2);
+          if (t1 != null) tl.to(el, { opacity: 0, y: -14, filter: "blur(10px)", duration: 0.24, ease: "power2.in" }, t1);
+          return el;
+        }
+        function sweep(tc) {
+          tl.set("#sweep", { opacity: 1, x: 0 }, tc - 0.3);
+          tl.fromTo("#sweep", { x: 0 }, { x: 2100, duration: 0.6, ease: "power2.inOut", immediateRender: false }, tc - 0.3);
+          tl.set("#sweep", { opacity: 0 }, tc + 0.31);
+        }
+        function reveal(maskSel, t0, dur) {
+          const m = $(maskSel), L = m.getTotalLength();
+          tl.set(m, { attr: { "stroke-dasharray": `${L} ${L}`, "stroke-dashoffset": L } }, 0);
+          tl.to(m, { attr: { "stroke-dashoffset": 0 }, duration: dur, ease: "power2.inOut" }, t0);
+        }
+        function flash(t, a) { tl.fromTo("#flash", { opacity: a }, { opacity: 0, duration: 0.25, ease: "power2.out", immediateRender: false }, t); }
+
+        // ---------- captions ----------
+        K.CAP.forEach((c, i) => {
+          const el = $("#cap" + i); hide0(el);
+          el.classList.add("glass");
+          tl.fromTo(el, { opacity: 0, y: 12, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.2, ease: "power2.out", immediateRender: false }, Math.max(c.t0, 0));
+          tl.to(el, { opacity: 0, filter: "blur(8px)", duration: 0.14 }, c.t1);
+          el.querySelectorAll(".w").forEach((w) => tl.set(w, { className: w.className + " on" }, parseFloat(w.dataset.t)));
+        });
+
+        // ---------- tracer: drawn length + comet head per film frame ----------
+        const trp = ["#tr-glow", "#tr-main", "#tr-core"].map((s) => $(s));
+        trp.forEach((p) => tl.set(p, { attr: { "stroke-dasharray": `${K.LEN} ${K.LEN + 10}`, "stroke-dashoffset": K.LEN } }, 0));
+        function trace(frames, t0) {
+          tl.set("#g-tr", { opacity: 1 }, t0);
+          frames.forEach(([t, l, x, y]) => {
+            tl.set(trp, { attr: { "stroke-dashoffset": K.LEN - l } }, t);
+            tl.set(["#hd", "#hd-glow"], { attr: { cx: x, cy: y } }, t);
+          });
+        }
+        hide0("#g-tr");
+        trace(K.TRH, B.hook_impact);
+        tl.set("#g-tr", { opacity: 0 }, T.hook.end);
+        tl.set(trp, { attr: { "stroke-dashoffset": K.LEN } }, T.hook.end);
+        trace(K.TRM, B.impact);
+        tl.to(["#hd", "#hd-glow"], { opacity: 0, duration: 0.3 }, B.landing + 0.05);
+
+        // ---------- HOOK ----------
+        const ti = $("#title"); tl.set(ti, { opacity: 1 }, 0);     // text on frame 0
+        tl.fromTo(ti.querySelector(".sheen"), { xPercent: 0 }, { xPercent: 480, duration: 0.8, ease: "power2.inOut", immediateRender: false }, 0.1);
+        flash(B.hook_impact, 0.4);
+        tl.to(ti, { opacity: 0, filter: "blur(10px)", duration: 0.18 }, K.CAP[0].t0 - 0.2);
+        sweep(T.p1.start);
+
+        // ---------- THE PLAN ----------
+        glassIn("#c1", W.branch + 0.05, T.swing.start + 1.0);
+        tl.set("#g-branch", { opacity: 1 }, W.branch);
+        tl.fromTo("#br1", { attr: { r: 10 } }, { attr: { r: 62 }, duration: 0.35, ease: "back.out(2)", immediateRender: false }, W.branch);
+        tl.fromTo("#br2", { attr: { r: 10 }, rotation: 0 }, { attr: { r: 62 }, duration: 0.35, ease: "back.out(2)", immediateRender: false }, W.branch + 0.05);
+        tl.to("#br2", { rotation: 180, svgOrigin: "0 0", duration: 3, ease: "none" }, W.branch + 0.4);
+        tl.set("#g-direct", { opacity: 1 }, W.branch);
+        reveal("#mk-direct", W.branch, 0.5);
+        tl.set("#g-x", { opacity: 1 }, W.branch + 0.45);
+        tl.fromTo("#g-x", { scale: 0, svgOrigin: "0 0" }, { scale: 1, duration: 0.25, ease: "back.out(3)", immediateRender: false }, W.branch + 0.45);
+        tl.to(["#g-direct", "#g-x", "#g-branch"], { opacity: 0.25, duration: 0.4 }, W.draw);
+        glassIn("#c2", W.draw + 0.05, T.swing.start + 1.0);
+        tl.set("#g-plan", { opacity: 1 }, W.draw + 0.2);
+        reveal("#mk-plan", W.draw + 0.2, 1.1);
+        glassIn("#c3", W.aim + 0.05, T.swing.start + 1.0);
+        tl.set("#g-aim", { opacity: 1 }, W.aim + 0.1);
+        tl.fromTo("#ai1", { attr: { rx: 4, ry: 4 } }, { attr: { rx: 40, ry: 40 }, duration: 0.35, ease: "back.out(2)", immediateRender: false }, W.aim + 0.1);
+        tl.fromTo("#ai2", { attr: { rx: 4, ry: 4 }, opacity: 1 }, { attr: { rx: 70, ry: 70 }, duration: 0.45, ease: "back.out(1.6)", immediateRender: false }, W.aim + 0.18);
+        tl.fromTo("#ai2", { attr: { rx: 70, ry: 70 }, opacity: 1 }, { attr: { rx: 110, ry: 110 }, opacity: 0, duration: 0.8, repeat: 1, ease: "power2.out", immediateRender: false }, W.aim + 0.7);
+        glassIn("#c4", W.curve + 0.55, T.swing.start + 1.0);
+        tl.set("#g-pin", { opacity: 1 }, W.curve + 0.65);
+        tl.fromTo("#g-pin", { scale: 0, svgOrigin: "0 0" }, { scale: 1, duration: 0.3, ease: "back.out(2.5)", immediateRender: false }, W.curve + 0.65);
+        // into the shot: plan stays as a faint ghost under the real flight
+        tl.to(["#g-direct", "#g-x", "#g-branch", "#g-aim"], { opacity: 0, duration: 0.25 }, T.swing.start + 1.0);
+        tl.to("#g-plan", { opacity: 0.4, duration: 0.3 }, T.swing.start);
+        sweep(T.swing.start);
+
+        // ---------- THE SHOT ----------
+        glassIn("#tag", K.CAP[6].t1 + 0.12, K.CAP[7].t0 - 0.15);
+        flash(B.impact, 0.35);
+        tl.fromTo("#stage", { scale: 1 }, { scale: 1.6, duration: 4.4, ease: "power1.inOut", immediateRender: false }, B.impact + 0.5);
+        tl.set("#g-land", { opacity: 1 }, B.landing);
+        tl.fromTo("#ld1", { attr: { r: 6 } }, { attr: { r: 26 }, duration: 0.3, ease: "back.out(2)", immediateRender: false }, B.landing);
+        tl.fromTo("#ld2", { attr: { r: 10 }, opacity: 1 }, { attr: { r: 90 }, opacity: 0, duration: 0.9, repeat: 1, ease: "power2.out", immediateRender: false }, B.landing);
+        tl.to("#g-plan", { opacity: 0, duration: 0.4 }, B.landing + 0.6);
+
+        // ---------- OVER SIKIT ----------
+        const lp = $("#lead-p"), LL = lp.getTotalLength(); hide0("#lead");
+        tl.set(lp, { attr: { "stroke-dasharray": `${LL} ${LL}`, "stroke-dashoffset": LL } }, 0);
+        tl.set("#lead", { opacity: 1 }, W.over + 0.25);
+        tl.to(lp, { attr: { "stroke-dashoffset": 0 }, duration: 0.3, ease: "power2.out" }, W.over + 0.25);
+        glassIn("#over", W.over + 0.3, K.END - 0.1);
+        tl.to("#lead", { opacity: 0, duration: 0.2 }, K.END - 0.1);
+
+        // ---------- END CARD ----------
+        glassIn("#endc", K.END + 0.1, null);
+        document.querySelectorAll("#endc .row").forEach((r, i) => {
+          tl.set(r, { opacity: 0 }, 0);
+          tl.fromTo(r, { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.25, ease: "power2.out", immediateRender: false }, K.END + 0.45 + i * 0.2);
+        });
+        hide0("#cta");
+        tl.fromTo("#cta", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2.2)", immediateRender: false }, K.END + 1.0);
+
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>

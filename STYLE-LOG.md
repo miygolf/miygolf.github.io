@@ -55,3 +55,10 @@ Faiz P6–P8 **lab / telestrator** (graphite grid, red/lime, Archivo Black + Jet
 
 - Shot tip (2026-11-11, delivered from preview v1 unchanged, approved with "cun"): owner asked for **no background music** (SFX only) on a coach tip video. The coach's key word ("accelerate") was soft and whisper's word end was early:
   pin word ends with a cropped re-run that includes the next word, not just the word itself, before cutting. Reaction lines heard differently by each pass are kept as sound but not captioned.
+
+| Video | Look | Type | Palette | Motion signature |
+| --- | --- | --- | --- | --- |
+| **Draw elak dahan, 154 ke pin — shot tracer** (branch `ccr-0ed8529b-j52mac`, `projects/tracer/`) | **Glass Tracer**: clean broadcast built around the tracer, frosted-glass cards | Manrope 800/700 + Fragment Mono | glass white rgba(255,255,255,.64), ink navy #0b1736, coral #ff5a36 → gold #ffc93a (tracer gradient), ice #c9f3ff | cards materialise from blur with a specular sheen, full-height glass sweep transitions, plan drawn into the scene (blocked straight line + X, branch rings, draw curve, aim rings, pin flag), comet tracer with glow over a ghost of the plan, 1.6× push-in on a stage that keeps the tracer locked, ground ripple on landing; no grade, no music |
+
+- Tracer (2026-11-12, preview v1): owner asked for a **shot tracer**. From a tripod behind the golfer the ball is trackable by frame differencing only for ~0.4 s
+  (it disappears into the tree line); measure the launch, continue with a fitted curve, and say which part is estimated. Zoom in on the flight so the shape reads.
