@@ -1,0 +1,103 @@
+== IMG_0192 ms
+[  0.00-  1.94]  satu, tiga, kosong
+[  5.90-  8.64]  jangan nak kera, kita hantar pin, hantar pin ke dalam hole
+[  9.34- 10.12]  ke dalam hole
+[ 12.32- 15.82]  Satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu, satu,
+== IMG_0192 en
+[  0.00-  1.98]  1, 2, 3, 0
+[  6.04-  7.50]  Don't move, we want to send the pins
+[  7.50-  9.78]  Send the pins to the hole, okay?
+[  9.78- 10.54]  Send the pins to the hole, okay?
+[ 10.74- 13.82]  1, 2, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1
+[ 13.82- 15.64]  1, 2, 1, 2, 1, 2, 1, 2
+== IMG_0205 ms
+[  4.27-  5.23]  Ini boyang
+[ 25.14- 26.46]  Jangan gelak-gelak pukul tak kan?
+[ 26.58- 27.08]  Draw lagi
+[ 29.77- 30.93]  Kena kan?
+[ 31.93- 32.93]  Kena kan?
+[ 44.78- 45.06]  Baik kan?
+[ 50.14- 50.92]  Nak naik pilih dah buat
+[ 52.14- 53.06]  Ada lah
+[ 53.06- 54.26]  Nak naik yang semangat
+[ 55.24- 56.52]  Mana nak naik semangat?
+[ 56.58- 57.96]  Tengok macam tu pukul
+[ 57.96- 59.10]  Lagi takut dia
+[ 59.10- 60.50]  Kalau tu selalu kau pukul dulu
+[ 60.50- 62.12]  Tak apa, lainnya
+[ 62.12- 62.70]  Lainnya kan?
+== IMG_0205 en
+[  4.27- 25.18]  It's foggy.
+[ 25.52- 26.22]  It's not foggy.
+[ 26.60- 31.47]  It's not foggy.
+[ 31.47- 32.69]  It's not foggy.
+[ 44.52- 45.46]  Good shot.
+[ 51.16- 51.98]  It's not foggy.
+[ 51.98- 52.92]  It's not foggy.
+[ 53.04- 53.30]  It's not foggy.
+[ 53.30- 54.10]  It's not foggy.
+[ 56.72- 57.94]  It's not foggy.
+[ 58.14- 62.96]  It's not foggy.
+== IMG_0206 ms
+[  0.21-  2.41]  KD cakap 80 meter
+[  5.96-  7.82]  Nampak tak?
+[ 12.03- 13.31]  80 meter
+[ 20.22- 22.12]  Tak, ambil
+[ 32.07- 33.35]  Kuatnya bang
+== IMG_0206 en
+[  0.21-  2.41]  KD said 80 meters
+[  2.41-  3.63]  That's interesting
+[  5.00-  7.58]  Can you see it?
+[ 12.09- 13.23]  80 meters
+[ 13.23- 22.06]  I didn't take it
+[ 32.01- 33.51]  It's heavy bro
+[ 38.06- 38.60]  Good contact
+== IMG_0213 ms
+[  2.48-  4.74]  Dalam, tek, tek, tek, tek
+[  4.74-  5.42]  Terus dekat?
+[  5.70-  6.30]  Terus
+[  6.30-  8.16]  Waktu tadi kalau bergerut dalam tu
+[  8.16-  8.70]  Dapat ke?
+[ 11.26- 12.46]  Dalam tu
+[ 12.46- 14.48]  Dalam tu
+[ 23.86- 24.46]  Helo
+[ 26.86- 27.52]  Kira-kira
+[ 27.52- 28.26]  Kira-kira tu
+[ 31.42- 32.24]  Kira-kira tu
+[ 32.24- 32.26]  Kira-kira tu
+[ 32.26- 33.02]  Kira-kira tu
+[ 48.38- 49.58]  Takut-takut
+[ 49.58- 51.12]  Takut takut takut
+== IMG_0213 en
+[  2.48- 36.26]  Take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take, take
+[ 36.26- 51.42]  Ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready, ready
+== IMG_0214 ms
+== IMG_0214 en
+== IMG_0215 ms
+== IMG_0215 en
+== IMG_0216 ms
+[  4.63-  7.77]  Iconic hole, Templar Park, Rekin.
+== IMG_0216 en
+[  4.51-  7.65]  Iconic hole, Templar Park, Beijing.
+== IMG_0041 ms
+[  2.30-  8.92]  Baiklah, 4th shot. Pro pun miss the shot. 140 miss ke kanan masuk bangka.
+[ 10.48- 11.92]  So, live go on.
+[ 14.21- 14.71]  Bangka shot.
+== IMG_0041 en
+[  0.14-  2.14]  All right
+[  2.66-  9.12]  For short, pro also missed the shot, 140 missed to the right into the bunker
+[  9.74- 12.22]  So life goes on
+== IMG_5564 ms
+[  4.21-  4.81]  HUT
+== IMG_5564 en
+[  4.21-  4.79]  Good
+== IMG_6392 ms
+[  3.08-  3.36]  Selamat tinggal.
+== IMG_6392 en
+[  2.70-  3.32]  I'm done.
+== IMG_6411 ms
+[  0.21-  2.09]  Berhubungan dengan bola adalah baik.
+[  6.16-  6.58]  Bagus?
+== IMG_6411 en
+[  0.21-  2.07]  Contact with the ball is good.
+[  6.24-  6.40]  Good?

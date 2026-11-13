@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Yardage Book": the round told as pages of a player's yardage book. Kraft-paper chapter tabs (hole-style number roundel,
+         title in a soft serif, the real record time in mono), a pencil "round tracker" line across the top with a tick per chapter and a
+         dot that walks the round, kraft caption strips with the key word underlined in pencil red, title and end cards like the book's cover.
+         Raw: hard cuts, real sound, page-turn / pencil SFX only, no music.
+         Type: Young Serif (titles) + Sometype Mono 500/700 (times, labels) + Noto Color Emoji.
+         Palette: kraft #d8c49c, kraft dark #b89e6c, ink green #1f3a2b, pencil red #c2412d, chalk white #fbf7ec.
+         Safe band: x 60-930, y 168-1330. Faces checked per chapter (EDIT_NOTES.md): tabs left by default, right for the duff laugh and the
+         RM50 chip (heads high-left); captions low, "What a player" up in the trees (the ball is low). */
+      @font-face { font-family: "Young"; font-weight: 400; src: url("assets/fonts/YoungSerif-Regular.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Sometype"; font-weight: 400 800; src: url("assets/fonts/SometypeMono-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Noto Color Emoji"; font-weight: 400; src: url("assets/fonts/NotoColorEmoji.ttf") format("truetype"); font-display: block; }
+      :root { --kraft: #d8c49c; --kraft2: #b89e6c; --ink: #1f3a2b; --red: #c2412d; --chalk: #fbf7ec; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
+      .ov { position: absolute; z-index: 6; opacity: 0; pointer-events: none; }
+      .emo { font-family: "Noto Color Emoji", sans-serif; font-weight: 400; }
+      .mono { font-family: "Sometype", monospace; font-weight: 600; letter-spacing: 0.06em; }
+      .kraft { background: var(--kraft); }
+
+      /* ---- round tracker ---- */
+      #trk { left: 60px; top: 176px; width: 870px; height: 46px; opacity: 0; z-index: 7; }
+      #trk .ln { position: absolute; left: 0; right: 0; top: 22px; height: 3px; background: rgba(251,247,236,0.85); box-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+      #trk .tk { position: absolute; top: 14px; width: 3px; height: 19px; background: rgba(251,247,236,0.9); box-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+      #trk .dot { position: absolute; top: 12px; left: 0; width: 24px; height: 24px; margin-left: -12px; border-radius: 50%; background: var(--red);
+                  border: 3px solid var(--chalk); box-shadow: 0 2px 6px rgba(0,0,0,0.5); }
+
+      /* ---- chapter tab ---- */
+      .tab { top: 238px; display: flex; align-items: center; gap: 16px; padding: 14px 22px 14px 14px; border-radius: 10px;
+             background: var(--kraft);
+             color: var(--ink); box-shadow: 0 10px 24px rgba(0,0,0,0.35), inset 0 0 0 2px rgba(31,58,43,0.18); max-width: 870px; }
+      .tab .no { flex: 0 0 76px; height: 76px; border-radius: 50%; background: var(--ink); color: var(--chalk); display: flex; align-items: center; justify-content: center;
+                 font-family: "Sometype"; font-weight: 800; font-size: 34px; box-shadow: inset 0 0 0 4px var(--kraft), inset 0 0 0 7px var(--ink); }
+      .tab .tt { font-family: "Young"; font-size: 54px; line-height: 1.0; white-space: nowrap; }
+      .tab .sb { font-family: "Sometype"; font-weight: 500; font-size: 28px; margin-top: 4px; color: #4b4232; white-space: nowrap; }
+      .tab .tm { align-self: flex-start; margin-left: 10px; font-size: 28px; padding: 4px 10px; border-radius: 6px; background: var(--ink); color: var(--kraft); }
+
+      /* ---- caption ---- */
+      .cap { left: 540px; top: 1160px; transform: translateX(-50%); max-width: 880px; padding: 12px 26px 16px; border-radius: 8px;
+             background: var(--kraft);
+             color: var(--ink); font-family: "Young"; font-size: 46px; line-height: 1.16; text-align: center; white-space: nowrap; box-shadow: 0 8px 22px rgba(0,0,0,0.3); }
+      .cap.top { top: 330px; }
+      .cap .w { color: #6f6450; }
+      .cap .w.on { color: var(--ink); }
+      .cap .w.hot.on { color: var(--ink); text-decoration: underline; text-decoration-color: var(--red); text-decoration-thickness: 5px; text-underline-offset: 7px; }
+
+      /* ---- cover cards ---- */
+      .cover { left: 140px; width: 800px; padding: 34px 40px 36px; border-radius: 14px; color: var(--ink); text-align: center;
+               background: var(--kraft);
+               box-shadow: 0 18px 40px rgba(0,0,0,0.4), inset 0 0 0 3px rgba(31,58,43,0.25), inset 0 0 0 12px var(--kraft), inset 0 0 0 14px rgba(31,58,43,0.35); }
+      .cover .k { font-family: "Sometype"; font-weight: 700; font-size: 30px; letter-spacing: 0.2em; text-transform: uppercase; color: #4b4232; }
+      .cover .h { font-family: "Young"; font-size: 120px; line-height: 0.95; margin-top: 12px; }
+      .cover .s { font-family: "Young"; font-size: 46px; margin-top: 12px; }
+      .cover .rule { height: 3px; margin: 22px 60px 18px; background: repeating-linear-gradient(90deg, var(--ink) 0 14px, transparent 14px 22px); opacity: 0.6; }
+      #hook { top: 360px; left: 60px; width: 640px; padding: 22px 28px 24px; text-align: left; }
+      #hook .h { font-size: 92px; }
+      #flash { position: absolute; inset: 0; z-index: 8; background: #fff; opacity: 0; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="{{TOTAL}}" data-width="1080" data-height="1920" data-fps="30">
+      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="{{TOTAL}}" data-track-index="1" muted playsinline></video>
+
+      <div id="trk" class="ov"><div class="ln"></div><div class="dot"></div></div>
+
+      <!-- HOOK (frame 0) -->
+      <div id="hook" class="ov cover"><div class="k" style="letter-spacing:0.12em;">1 round · Templer Park</div><div class="h">Nyaris<br>masuk <span class="emo" style="font-size:76px">😱</span></div></div>
+
+      <!-- TITLE over the course -->
+      <div id="title" class="ov cover" style="top:430px;"><div class="k">Yardage book · 13.11.2026</div><div class="h">1 Round</div>
+        <div class="s">Templer Park</div><div class="rule"></div><div class="k" style="letter-spacing:0.08em;">10 cerita · 07:40 → 11:36</div></div>
+
+      {{TABS}}
+
+      <!-- END -->
+      <div id="endc" class="ov cover" style="top:430px;"><div class="k">Hole 18 · Templer Park</div><div class="h" style="font-size:104px;">Round<br>habis <span class="emo" style="font-size:80px">⛳</span></div>
+        <div class="rule"></div><div class="s" style="font-size:42px;">Jumpa round depan</div></div>
+
+      {{CAPS}}
+      <div id="flash"></div>
+{{AUDIO}}
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {{CONSTS}};
+        const T = K.T;
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        const hide0 = (el) => tl.set(el, { opacity: 0 }, 0);
+        function card(sel, t0, t1, from) {
+          const el = $(sel); hide0(el);
+          tl.fromTo(el, Object.assign({ opacity: 0, y: 24, rotation: -1.5 }, from || {}), { opacity: 1, y: 0, rotation: 0, duration: 0.3, ease: "power3.out", immediateRender: false }, t0);
+          if (t1 != null) tl.to(el, { opacity: 0, y: -16, duration: 0.2, ease: "power2.in" }, t1);
+          return el;
+        }
+
+        // captions
+        K.CAP.forEach((c, i) => {
+          const el = $("#cap" + i); hide0(el);
+          tl.fromTo(el, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.14, ease: "power2.out", immediateRender: false }, Math.max(c.t0, 0));
+          tl.set(el, { opacity: 0 }, c.t1);
+          el.querySelectorAll(".w").forEach((w) => tl.set(w, { className: w.className + " on" }, Math.max(parseFloat(w.dataset.t), 0)));
+        });
+
+        // hook + title
+        tl.set("#hook", { opacity: 1 }, 0);
+        tl.fromTo("#flash", { opacity: 0.6 }, { opacity: 0, duration: 0.25, immediateRender: false }, T.hook_freeze.start);
+        tl.to("#hook", { opacity: 0, y: -16, duration: 0.2 }, T.title.start - 0.15);
+        card("#title", T.title.start + 0.1, T.title.end - 0.25);
+
+        // round tracker: ticks at each chapter, dot walks the round
+        const trk = $("#trk"), C = K.CHAP, t0 = C[0][1], t1 = K.T.end_freeze.start;
+        C.forEach(([k, a]) => { const d = document.createElement("div"); d.className = "tk"; d.style.left = (870 * (a - t0) / (t1 - t0)) + "px"; trk.appendChild(d); });
+        tl.fromTo(trk, { opacity: 0 }, { opacity: 1, duration: 0.3, immediateRender: false }, t0);
+        tl.fromTo("#trk .dot", { x: 0 }, { x: 870, duration: t1 - t0, ease: "none", immediateRender: false }, t0);
+        tl.to(trk, { opacity: 0, duration: 0.25 }, t1);
+        // the laugh walks the face up into the top band: tracker steps aside for it
+        tl.to(trk, { opacity: 0, duration: 0.15 }, K.T.d_laugh.start - 0.1);
+        tl.to(trk, { opacity: 1, duration: 0.2 }, K.T.d_laugh.end);
+
+        // chapter tabs (2.8 s each)
+        C.forEach(([k, a, b]) => {
+          const sel = "#tab-" + k, el = $(sel); hide0(el);
+          const right = el.style.right !== "";
+          tl.fromTo(el, { opacity: 0, x: right ? 60 : -60, rotation: right ? 2 : -2 }, { opacity: 1, x: 0, rotation: 0, duration: 0.32, ease: "back.out(1.6)", immediateRender: false }, a + 0.05);
+          tl.to(el, { opacity: 0, x: right ? 40 : -40, duration: 0.2, ease: "power2.in" }, Math.min(a + 2.9, b - 0.2));
+        });
+
+        // end
+        card("#endc", K.T.end_freeze.start + 0.1, null);
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>

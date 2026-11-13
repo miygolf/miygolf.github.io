@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Yardage Book": the round told as pages of a player's yardage book. Kraft-paper chapter tabs (hole-style number roundel,
+         title in a soft serif, the real record time in mono), a pencil "round tracker" line across the top with a tick per chapter and a
+         dot that walks the round, kraft caption strips with the key word underlined in pencil red, title and end cards like the book's cover.
+         Raw: hard cuts, real sound, page-turn / pencil SFX only, no music.
+         Type: Young Serif (titles) + Sometype Mono 500/700 (times, labels) + Noto Color Emoji.
+         Palette: kraft #d8c49c, kraft dark #b89e6c, ink green #1f3a2b, pencil red #c2412d, chalk white #fbf7ec.
+         Safe band: x 60-930, y 168-1330. Faces checked per chapter (EDIT_NOTES.md): tabs left by default, right for the duff laugh and the
+         RM50 chip (heads high-left); captions low, "What a player" up in the trees (the ball is low). */
+      @font-face { font-family: "Young"; font-weight: 400; src: url("assets/fonts/YoungSerif-Regular.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Sometype"; font-weight: 400 800; src: url("assets/fonts/SometypeMono-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Noto Color Emoji"; font-weight: 400; src: url("assets/fonts/NotoColorEmoji.ttf") format("truetype"); font-display: block; }
+      :root { --kraft: #d8c49c; --kraft2: #b89e6c; --ink: #1f3a2b; --red: #c2412d; --chalk: #fbf7ec; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
+      .ov { position: absolute; z-index: 6; opacity: 0; pointer-events: none; }
+      .emo { font-family: "Noto Color Emoji", sans-serif; font-weight: 400; }
+      .mono { font-family: "Sometype", monospace; font-weight: 600; letter-spacing: 0.06em; }
+      .kraft { background: var(--kraft); }
+
+      /* ---- round tracker ---- */
+      #trk { left: 60px; top: 176px; width: 870px; height: 46px; opacity: 0; z-index: 7; }
+      #trk .ln { position: absolute; left: 0; right: 0; top: 22px; height: 3px; background: rgba(251,247,236,0.85); box-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+      #trk .tk { position: absolute; top: 14px; width: 3px; height: 19px; background: rgba(251,247,236,0.9); box-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+      #trk .dot { position: absolute; top: 12px; left: 0; width: 24px; height: 24px; margin-left: -12px; border-radius: 50%; background: var(--red);
+                  border: 3px solid var(--chalk); box-shadow: 0 2px 6px rgba(0,0,0,0.5); }
+
+      /* ---- chapter tab ---- */
+      .tab { top: 238px; display: flex; align-items: center; gap: 16px; padding: 14px 22px 14px 14px; border-radius: 10px;
+             background: var(--kraft);
+             color: var(--ink); box-shadow: 0 10px 24px rgba(0,0,0,0.35), inset 0 0 0 2px rgba(31,58,43,0.18); max-width: 870px; }
+      .tab .no { flex: 0 0 76px; height: 76px; border-radius: 50%; background: var(--ink); color: var(--chalk); display: flex; align-items: center; justify-content: center;
+                 font-family: "Sometype"; font-weight: 800; font-size: 34px; box-shadow: inset 0 0 0 4px var(--kraft), inset 0 0 0 7px var(--ink); }
+      .tab .tt { font-family: "Young"; font-size: 54px; line-height: 1.0; white-space: nowrap; }
+      .tab .sb { font-family: "Sometype"; font-weight: 500; font-size: 28px; margin-top: 4px; color: #4b4232; white-space: nowrap; }
+      .tab .tm { align-self: flex-start; margin-left: 10px; font-size: 28px; padding: 4px 10px; border-radius: 6px; background: var(--ink); color: var(--kraft); }
+
+      /* ---- caption ---- */
+      .cap { left: 540px; top: 1160px; transform: translateX(-50%); max-width: 880px; padding: 12px 26px 16px; border-radius: 8px;
+             background: var(--kraft);
+             color: var(--ink); font-family: "Young"; font-size: 46px; line-height: 1.16; text-align: center; white-space: nowrap; box-shadow: 0 8px 22px rgba(0,0,0,0.3); }
+      .cap.top { top: 330px; }
+      .cap .w { color: #6f6450; }
+      .cap .w.on { color: var(--ink); }
+      .cap .w.hot.on { color: var(--ink); text-decoration: underline; text-decoration-color: var(--red); text-decoration-thickness: 5px; text-underline-offset: 7px; }
+
+      /* ---- cover cards ---- */
+      .cover { left: 140px; width: 800px; padding: 34px 40px 36px; border-radius: 14px; color: var(--ink); text-align: center;
+               background: var(--kraft);
+               box-shadow: 0 18px 40px rgba(0,0,0,0.4), inset 0 0 0 3px rgba(31,58,43,0.25), inset 0 0 0 12px var(--kraft), inset 0 0 0 14px rgba(31,58,43,0.35); }
+      .cover .k { font-family: "Sometype"; font-weight: 700; font-size: 30px; letter-spacing: 0.2em; text-transform: uppercase; color: #4b4232; }
+      .cover .h { font-family: "Young"; font-size: 120px; line-height: 0.95; margin-top: 12px; }
+      .cover .s { font-family: "Young"; font-size: 46px; margin-top: 12px; }
+      .cover .rule { height: 3px; margin: 22px 60px 18px; background: repeating-linear-gradient(90deg, var(--ink) 0 14px, transparent 14px 22px); opacity: 0.6; }
+      #hook { top: 360px; left: 60px; width: 640px; padding: 22px 28px 24px; text-align: left; }
+      #hook .h { font-size: 92px; }
+      #flash { position: absolute; inset: 0; z-index: 8; background: #fff; opacity: 0; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="93.4333" data-width="1080" data-height="1920" data-fps="30">
+      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="93.4333" data-track-index="1" muted playsinline></video>
+
+      <div id="trk" class="ov"><div class="ln"></div><div class="dot"></div></div>
+
+      <!-- HOOK (frame 0) -->
+      <div id="hook" class="ov cover"><div class="k" style="letter-spacing:0.12em;">1 round · Templer Park</div><div class="h">Nyaris<br>masuk <span class="emo" style="font-size:76px">😱</span></div></div>
+
+      <!-- TITLE over the course -->
+      <div id="title" class="ov cover" style="top:430px;"><div class="k">Yardage book · 13.11.2026</div><div class="h">1 Round</div>
+        <div class="s">Templer Park</div><div class="rule"></div><div class="k" style="letter-spacing:0.08em;">10 cerita · 07:40 → 11:36</div></div>
+
+      <div id="tab-chip" class="ov tab" style="left:60px;"><div class="no">01</div><div class="tx"><div class="tt">Chipping 101</div><div class="sb">bola tengah · weight kiri · face normal</div></div><div class="tm mono">07:40</div></div>
+      <div id="tab-duff" class="ov tab" style="right:150px;"><div class="no">02</div><div class="tx"><div class="tt">Coach pun duff</div><div class="sb">part of the game 😅</div></div><div class="tm mono">08:27</div></div>
+      <div id="tab-pin" class="ov tab" style="left:60px;"><div class="no">03</div><div class="tx"><div class="tt">Hantar pin</div><div class="sb">dalam hole terus</div></div><div class="tm mono">08:54</div></div>
+      <div id="tab-bunker" class="ov tab" style="left:60px;"><div class="no">04</div><div class="tx"><div class="tt">Bunker</div><div class="sb">±20 ft · stock shot</div></div><div class="tm mono">09:00</div></div>
+      <div id="tab-downhill" class="ov tab" style="left:60px;"><div class="no">05</div><div class="tx"><div class="tt">Downhill lie</div><div class="sb">bola suka lari kiri</div></div><div class="tm mono">10:01</div></div>
+      <div id="tab-tee" class="ov tab" style="left:60px;"><div class="no">06</div><div class="tx"><div class="tt">Tee shot</div><div class="sb">dalam kabus</div></div><div class="tm mono">10:12</div></div>
+      <div id="tab-m80" class="ov tab" style="left:60px;"><div class="no">07</div><div class="tx"><div class="tt">80 meter</div><div class="sb">approach</div></div><div class="tm mono">10:19</div></div>
+      <div id="tab-rm50" class="ov tab" style="right:150px;"><div class="no">08</div><div class="tx"><div class="tt">Chip in = RM50?</div><div class="sb">30 meter</div></div><div class="tm mono">11:05</div></div>
+      <div id="tab-divot" class="ov tab" style="left:60px;"><div class="no">09</div><div class="tx"><div class="tt">Divot cam</div><div class="sb">dari bawah</div></div><div class="tm mono">11:30</div></div>
+      <div id="tab-h18" class="ov tab" style="left:60px;"><div class="no">10</div><div class="tx"><div class="tt">Hole 18</div><div class="sb">iconic hole, Templer Park</div></div><div class="tm mono">11:36</div></div>
+
+      <!-- END -->
+      <div id="endc" class="ov cover" style="top:430px;"><div class="k">Hole 18 · Templer Park</div><div class="h" style="font-size:104px;">Round<br>habis <span class="emo" style="font-size:80px">⛳</span></div>
+        <div class="rule"></div><div class="s" style="font-size:42px;">Jumpa round depan</div></div>
+
+      <div id="cap0" class="ov cap"><span class="w" data-t="5.633">Okay,</span> <span class="w hot" data-t="6.173">ball</span> <span class="w hot" data-t="6.373">position</span><br><span class="w" data-t="6.673">saya</span> <span class="w" data-t="6.953">akan</span> <span class="w" data-t="7.153">letak</span> <span class="w" data-t="7.433">kat</span> <span class="w hot" data-t="7.533">tengah.</span></div>
+      <div id="cap1" class="ov cap"><span class="w" data-t="8.030">Slightly</span> <span class="w hot" data-t="8.510">depan</span> <span class="w hot" data-t="8.910">sikit,</span> <span class="w" data-t="9.130">tak</span> <span class="w" data-t="9.250">apa.</span></div>
+      <div id="cap2" class="ov cap"><span class="w hot" data-t="9.637">Weight</span> <span class="w" data-t="10.117">pula</span> <span class="w hot" data-t="10.317">kiri.</span></div>
+      <div id="cap3" class="ov cap"><span class="w" data-t="10.767">Club</span> <span class="w" data-t="10.807">face</span> <span class="w hot" data-t="10.887">normal</span> <span class="w" data-t="11.447">je,</span><br><span class="w" data-t="11.747">tak</span> <span class="w" data-t="12.027">perlu</span> <span class="w hot" data-t="12.547">buka</span> <span class="w" data-t="12.887">pun.</span></div>
+      <div id="cap4" class="ov cap"><span class="w" data-t="21.113">Jangan</span> <span class="w" data-t="21.513">gerak,</span> <span class="w" data-t="21.853">kita</span> <span class="w" data-t="21.953">nak</span><br><span class="w hot" data-t="22.113">hantar</span> <span class="w hot" data-t="22.313">pin</span> <span class="w" data-t="22.973">dalam</span> <span class="w hot" data-t="23.193">hole.</span></div>
+      <div id="cap5" class="ov cap"><span class="w" data-t="27.233">Favourite</span> <span class="w hot" data-t="27.473">bunker</span> <span class="w" data-t="27.733">nampaknya…</span><br><span class="w" data-t="28.633">hari</span> <span class="w" data-t="28.793">ni?</span></div>
+      <div id="cap6" class="ov cap"><span class="w" data-t="29.293">Bunker</span> <span class="w hot" data-t="29.873">sahaja.</span></div>
+      <div id="cap7" class="ov cap"><span class="w" data-t="30.507">Almost</span> <span class="w" data-t="31.107">similar,</span><br><span class="w" data-t="31.647">about</span> <span class="w hot" data-t="31.867">20</span> <span class="w hot" data-t="32.187">feet.</span></div>
+      <div id="cap8" class="ov cap"><span class="w" data-t="32.867">Kita</span> <span class="w" data-t="33.167">main</span> <span class="w hot" data-t="33.327">stock</span> <span class="w hot" data-t="33.547">shot.</span></div>
+      <div id="cap9" class="ov cap top"><span class="w" data-t="36.657">What</span> <span class="w" data-t="37.137">a</span> <span class="w hot" data-t="37.337">player!</span> <span class="emo">🔥</span></div>
+      <div id="cap10" class="ov cap"><span class="w" data-t="38.200">So</span> <span class="w" data-t="39.180">lie</span> <span class="w" data-t="39.560">dia</span> <span class="w" data-t="39.840">ni</span><br><span class="w hot" data-t="40.060">menurun</span> <span class="w" data-t="40.660">macam</span> <span class="w" data-t="40.880">ni.</span></div>
+      <div id="cap11" class="ov cap"><span class="w" data-t="42.170">The</span> <span class="w" data-t="42.290">tendency</span> <span class="w" data-t="42.570">normally,</span> <span class="w" data-t="42.890">this</span> <span class="w" data-t="43.270">kind</span> <span class="w" data-t="43.450">of</span> <span class="w" data-t="43.550">lie,</span><br><span class="w" data-t="43.730">memang</span> <span class="w" data-t="44.090">bola</span> <span class="w" data-t="44.230">pergi</span> <span class="w hot" data-t="44.410">kiri.</span></div>
+      <div id="cap12" class="ov cap"><span class="w hot" data-t="45.023">Ball</span> <span class="w hot" data-t="45.383">position</span> <span class="w hot" data-t="45.803">tengah,</span><br><span class="w" data-t="46.503">saya</span> <span class="w" data-t="46.583">maintain.</span></div>
+      <div id="cap13" class="ov cap"><span class="w" data-t="46.883">Apa-apa</span> <span class="w" data-t="47.643">jenis</span> <span class="w" data-t="48.223">lie</span> <span class="w" data-t="48.463">pun</span><br><span class="w" data-t="48.703">saya</span> <span class="w" data-t="48.823">maintain</span> <span class="w hot" data-t="49.123">tengah.</span></div>
+      <div id="cap14" class="ov cap"><span class="w hot" data-t="49.817">Pegang</span> <span class="w hot" data-t="50.757">pendek.</span></div>
+      <div id="cap15" class="ov cap"><span class="w" data-t="51.267">Tapi</span> <span class="w" data-t="52.147">cuba</span> <span class="w" data-t="52.887">letak</span> <span class="w hot" data-t="53.227">weight</span> <span class="w" data-t="53.427">tu</span><br><span class="w" data-t="53.627">belah</span> <span class="w hot" data-t="54.007">kaki</span> <span class="w hot" data-t="54.307">kiri.</span></div>
+      <div id="cap16" class="ov cap"><span class="w" data-t="64.367">KD</span> <span class="w" data-t="65.247">cakap</span> <span class="w hot" data-t="65.687">80</span> <span class="w hot" data-t="66.007">meter.</span></div>
+      <div id="cap17" class="ov cap"><span class="w hot" data-t="70.007">30</span> <span class="w hot" data-t="71.487">meter.</span></div>
+      <div id="cap18" class="ov cap"><span class="w" data-t="71.747">Chip</span> <span class="w" data-t="73.047">in,</span> <span class="w hot" data-t="73.227">chip</span> <span class="w hot" data-t="73.947">in.</span></div>
+      <div id="cap19" class="ov cap"><span class="w hot" data-t="74.227">50</span> <span class="w hot" data-t="74.667">ringgit.</span></div>
+      <div id="cap20" class="ov cap"><span class="w" data-t="77.787">Tak</span> <span class="w hot" data-t="79.187">dapat.</span></div>
+      <div id="cap21" class="ov cap"><span class="w hot" data-t="83.533">Iconic</span> <span class="w hot" data-t="83.893">hole,</span><br><span class="w" data-t="84.213">Templer</span> <span class="w" data-t="85.013">Park,</span> <span class="w hot" data-t="85.273">18.</span></div>
+      <div id="flash"></div>
+      <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="93.4333" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>
+      <audio data-hf-id="hf-s00" id="sfx-00" class="clip" src="assets/sfx/2367.mp3" data-start="2.423" data-duration="0.65" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- title written -->
+      <audio data-hf-id="hf-s01" id="sfx-01" class="clip" src="assets/sfx/2380.mp3" data-start="5.293" data-duration="0.55" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- tab chip -->
+      <audio data-hf-id="hf-s02" id="sfx-02" class="clip" src="assets/sfx/2380.mp3" data-start="14.660" data-duration="0.55" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- tab duff -->
+      <audio data-hf-id="hf-s03" id="sfx-03" class="clip" src="assets/sfx/2380.mp3" data-start="20.693" data-duration="0.55" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- tab pin -->
+      <audio data-hf-id="hf-s04" id="sfx-04" class="clip" src="assets/sfx/2380.mp3" data-start="26.193" data-duration="0.55" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- tab bunker -->
+      <audio data-hf-id="hf-s05" id="sfx-05" class="clip" src="assets/sfx/2380.mp3" data-start="37.860" data-duration="0.55" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- tab downhill -->
+      <audio data-hf-id="hf-s06" id="sfx-06" class="clip" src="assets/sfx/2380.mp3" data-start="57.227" data-duration="0.55" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- tab tee -->
+      <audio data-hf-id="hf-s07" id="sfx-07" class="clip" src="assets/sfx/2380.mp3" data-start="64.127" data-duration="0.55" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- tab m80 -->
+      <audio data-hf-id="hf-s08" id="sfx-08" class="clip" src="assets/sfx/2380.mp3" data-start="69.427" data-duration="0.55" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- tab rm50 -->
+      <audio data-hf-id="hf-s09" id="sfx-09" class="clip" src="assets/sfx/2380.mp3" data-start="79.427" data-duration="0.55" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- tab divot -->
+      <audio data-hf-id="hf-s10" id="sfx-10" class="clip" src="assets/sfx/2380.mp3" data-start="82.893" data-duration="0.55" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- tab h18 -->
+      <audio data-hf-id="hf-s11" id="sfx-11" class="clip" src="assets/sfx/2367.mp3" data-start="89.873" data-duration="0.65" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- end card written -->
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {"T": {"hook_a": {"start": 0.0, "end": 0.7333}, "hook_freeze": {"start": 0.7333, "end": 2.3333}, "title": {"start": 2.3333, "end": 5.5333}, "c1a": {"start": 5.5333, "end": 7.9}, "c1b": {"start": 7.9, "end": 9.4667}, "c1c": {"start": 9.4667, "end": 10.7667}, "c1d": {"start": 10.7667, "end": 13.2}, "c1s": {"start": 13.2, "end": 14.9}, "d_ff": {"start": 14.9, "end": 17.1}, "d_shot": {"start": 17.1, "end": 19.3}, "d_laugh": {"start": 19.3, "end": 20.9333}, "p_q": {"start": 20.9333, "end": 23.8333}, "p_shot": {"start": 23.8333, "end": 26.4333}, "b_q": {"start": 26.4333, "end": 30.3667}, "b_plan": {"start": 30.3667, "end": 33.9}, "b_shot": {"start": 33.9, "end": 35.4667}, "b_whip": {"start": 35.4667, "end": 36.1667}, "b_roll": {"start": 36.1667, "end": 38.1}, "h_lie": {"start": 38.1, "end": 41.2}, "h_tend": {"start": 41.2, "end": 44.8333}, "h_pos": {"start": 44.8333, "end": 49.6667}, "h_grip": {"start": 49.6667, "end": 51.1667}, "h_w": {"start": 51.1667, "end": 54.5667}, "h_shot": {"start": 54.5667, "end": 57.4667}, "t1": {"start": 57.4667, "end": 60.8667}, "t2": {"start": 60.8667, "end": 64.3667}, "k_q": {"start": 64.3667, "end": 66.8667}, "k_shot": {"start": 66.8667, "end": 69.6667}, "r_bet": {"start": 69.6667, "end": 75.6667}, "r_shot": {"start": 75.6667, "end": 77.3667}, "r_friend": {"start": 77.3667, "end": 79.6667}, "g_a": {"start": 79.6667, "end": 80.4}, "g_slow": {"start": 80.4, "end": 81.8}, "g_b": {"start": 81.8, "end": 83.1333}, "i_q": {"start": 83.1333, "end": 86.0333}, "i_shot": {"start": 86.0333, "end": 89.8333}, "end_freeze": {"start": 89.8333, "end": 93.4333}}, "B": {"b_shot_impact": 35.14, "d_shot_impact": 17.95, "c1s_impact": 13.72, "h_shot_impact": 56.167, "r_shot_impact": 76.487, "i_shot_impact": 87.353, "t2_impact": 62.477, "t1_impact": 59.287, "k_shot_impact": 67.827, "g_a_impact": 80.457}, "TOTAL": 93.4333, "CAP": [{"t0": 5.533, "t1": 7.86}, {"t0": 7.93, "t1": 9.427}, {"t0": 9.537, "t1": 10.667}, {"t0": 10.667, "t1": 13.16}, {"t0": 21.013, "t1": 23.793}, {"t0": 27.133, "t1": 29.193}, {"t0": 29.193, "t1": 30.327}, {"t0": 30.407, "t1": 32.767}, {"t0": 32.767, "t1": 33.86}, {"t0": 36.557, "t1": 38.06}, {"t0": 38.1, "t1": 41.16}, {"t0": 42.07, "t1": 44.793}, {"t0": 44.923, "t1": 46.783}, {"t0": 46.783, "t1": 49.627}, {"t0": 49.717, "t1": 51.127}, {"t0": 51.167, "t1": 54.527}, {"t0": 64.267, "t1": 66.787}, {"t0": 69.907, "t1": 71.647}, {"t0": 71.647, "t1": 74.127}, {"t0": 74.127, "t1": 75.627}, {"t0": 77.687, "t1": 79.627}, {"t0": 83.433, "t1": 85.953}], "CHAP": [["chip", 5.533, 14.9], ["duff", 14.9, 20.933], ["pin", 20.933, 26.433], ["bunker", 26.433, 38.1], ["downhill", 38.1, 57.467], ["tee", 57.467, 64.367], ["m80", 64.367, 69.667], ["rm50", 69.667, 79.667], ["divot", 79.667, 83.133], ["h18", 83.133, 89.833]]};
+        const T = K.T;
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        const hide0 = (el) => tl.set(el, { opacity: 0 }, 0);
+        function card(sel, t0, t1, from) {
+          const el = $(sel); hide0(el);
+          tl.fromTo(el, Object.assign({ opacity: 0, y: 24, rotation: -1.5 }, from || {}), { opacity: 1, y: 0, rotation: 0, duration: 0.3, ease: "power3.out", immediateRender: false }, t0);
+          if (t1 != null) tl.to(el, { opacity: 0, y: -16, duration: 0.2, ease: "power2.in" }, t1);
+          return el;
+        }
+
+        // captions
+        K.CAP.forEach((c, i) => {
+          const el = $("#cap" + i); hide0(el);
+          tl.fromTo(el, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.14, ease: "power2.out", immediateRender: false }, Math.max(c.t0, 0));
+          tl.set(el, { opacity: 0 }, c.t1);
+          el.querySelectorAll(".w").forEach((w) => tl.set(w, { className: w.className + " on" }, Math.max(parseFloat(w.dataset.t), 0)));
+        });
+
+        // hook + title
+        tl.set("#hook", { opacity: 1 }, 0);
+        tl.fromTo("#flash", { opacity: 0.6 }, { opacity: 0, duration: 0.25, immediateRender: false }, T.hook_freeze.start);
+        tl.to("#hook", { opacity: 0, y: -16, duration: 0.2 }, T.title.start - 0.15);
+        card("#title", T.title.start + 0.1, T.title.end - 0.25);
+
+        // round tracker: ticks at each chapter, dot walks the round
+        const trk = $("#trk"), C = K.CHAP, t0 = C[0][1], t1 = K.T.end_freeze.start;
+        C.forEach(([k, a]) => { const d = document.createElement("div"); d.className = "tk"; d.style.left = (870 * (a - t0) / (t1 - t0)) + "px"; trk.appendChild(d); });
+        tl.fromTo(trk, { opacity: 0 }, { opacity: 1, duration: 0.3, immediateRender: false }, t0);
+        tl.fromTo("#trk .dot", { x: 0 }, { x: 870, duration: t1 - t0, ease: "none", immediateRender: false }, t0);
+        tl.to(trk, { opacity: 0, duration: 0.25 }, t1);
+        // the laugh walks the face up into the top band: tracker steps aside for it
+        tl.to(trk, { opacity: 0, duration: 0.15 }, K.T.d_laugh.start - 0.1);
+        tl.to(trk, { opacity: 1, duration: 0.2 }, K.T.d_laugh.end);
+
+        // chapter tabs (2.8 s each)
+        C.forEach(([k, a, b]) => {
+          const sel = "#tab-" + k, el = $(sel); hide0(el);
+          const right = el.style.right !== "";
+          tl.fromTo(el, { opacity: 0, x: right ? 60 : -60, rotation: right ? 2 : -2 }, { opacity: 1, x: 0, rotation: 0, duration: 0.32, ease: "back.out(1.6)", immediateRender: false }, a + 0.05);
+          tl.to(el, { opacity: 0, x: right ? 40 : -40, duration: 0.2, ease: "power2.in" }, Math.min(a + 2.9, b - 0.2));
+        });
+
+        // end
+        card("#endc", K.T.end_freeze.start + 0.1, null);
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
