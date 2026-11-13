@@ -114,6 +114,6 @@ Faiz P6–P8 **lab / telestrator** (graphite grid, red/lime, Archivo Black + Jet
 
 | Video | Look | Type | Palette | Motion signature |
 | --- | --- | --- | --- | --- |
-| **1 Round @ Templer Park — compilation (93 s)** (branch `claude/gifted-davinci-2netbk`, `projects/compile/`) | **Yardage Book**: kraft chapter tabs + pencil round tracker | Young Serif + Sometype Mono + Noto Color Emoji | kraft #d8c49c, ink green #1f3a2b, pencil red #c2412d, chalk #fbf7ec | 10 numbered chapter tabs with the real record time, top round-tracker line with ticks and a walking red dot, kraft caption strips with pencil-red underline, cover-style title/end cards; hard cuts, levelled real sound, page/pencil SFX, no music — **preview v1** |
+| **1 Round @ Templer Park — compilation (93 s)** (branch `claude/gifted-davinci-2netbk`, `projects/compile/`) | **Yardage Book**: kraft chapter tabs + pencil round tracker | Young Serif + Sometype Mono + Noto Color Emoji | kraft #d8c49c, ink green #1f3a2b, pencil red #c2412d, chalk #fbf7ec | 10 numbered chapter tabs with the real record time, top round-tracker line with ticks and a walking red dot, kraft caption strips with pencil-red underline, cover-style title/end cards; hard cuts, levelled real sound, page/pencil SFX, no music — **delivered from preview v1** |
 
 - Compilation (2026-11-13): "compile semua" from the Drive folder → one round in shooting order, one consistent look across clips that were edited in different styles; per-segment loudness levelling; off-day / other-golfer clips left out and listed.

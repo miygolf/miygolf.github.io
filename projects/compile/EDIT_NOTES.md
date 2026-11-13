@@ -38,3 +38,7 @@ npx hyperframes@0.9.32 render -q draft -o renders/preview_draft.mp4 && tools/mas
 npx hyperframes@0.9.32 render -q delivery -o renders/final_raw.mp4 && tools/master.sh renders/final_raw.mp4 final/templer-round_1080x1920.mp4
 ```
 The 93 s masters (~150 MB) are over GitHub's 100 MB file limit: previews/ and final/ mp4 are git-ignored here; delivered directly.
+
+## Delivery
+Owner approved v1 ("ok render", 2026-11-13). `final/templer-round_1080x1920.mp4`: 93.4 s, 1080×1920, 30 fps, H.264 High ~13.1 Mbps, AAC 256k,
+−14.0 LUFS, −2.9 dBTP, 152 MB (git-ignored: over GitHub's 100 MB limit; delivered directly).
