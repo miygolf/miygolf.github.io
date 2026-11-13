@@ -77,3 +77,10 @@ Faiz P6–P8 **lab / telestrator** (graphite grid, red/lime, Archivo Black + Jet
 
 - Coach duff (2026-11-13, delivered from preview v1 unchanged, "ok render"): blooper with no speech; owner asked for **no background music** (said both "letak background music" and "no background music" — the later one and the house rule won).
   Ambience SFX (birds, crickets) carried the nature-doc joke instead.
+
+| Video | Look | Type | Palette | Motion signature |
+| --- | --- | --- | --- | --- |
+| **Bunker, nyaris masuk** (branch `claude/gifted-davinci-2netbk`, `projects/bunker-nyaris/`) | **Neon Clubhouse**: the 19th-hole bar's neon signs | Tilt Neon + Sora 700/800 + Noto Color Emoji | tube pink #ff3d8b, tube aqua #39f3ff, tube core #fff4fa, smoked glass rgba(9,7,20,.74) | signs stutter-flicker on with an electric buzz, glowing tube frames, neon scan-line wipes, neon tracker ring riding the ball, pink pulse ring at the cup, pink-tinted impact flash; no grade, no music — **preview v1** |
+
+- Bunker nyaris (2026-11-13, preview v1): ball from the bunker rolled right past the cup — hook on the near-miss, not on the strike.
+  Numbers the coach says (distance) need a large-model crop check: small heard "30", medium/large-v3 crops heard "20"; strong noise reduction in the mix also turned it into "30".

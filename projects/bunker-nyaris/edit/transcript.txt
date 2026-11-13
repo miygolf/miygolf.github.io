@@ -1,0 +1,34 @@
+== work/clip1.wav lang=ms
+[  0.00-  1.78]  favorite bangka nampak ya?
+    favorite@0.00-1.04 bangka@1.04-1.36 nampak@1.36-1.60 ya?@1.60-1.78
+[  1.88-  2.78]  kut, Ibar, hari ni?
+    kut,@1.88-1.94 Ibar,@1.94-2.18 hari@2.22-2.38 ni?@2.38-2.78
+[  2.86-  3.84]  bangka sahaja
+    bangka@2.86-3.44 sahaja@3.44-3.84
+[  4.96-  8.30]  saya boleh tunjuk banyak sikit educational video
+    saya@4.96-5.56 boleh@5.56-5.76 tunjuk@5.76-6.06 banyak@6.06-6.36 sikit@6.36-6.64 educational@6.64-7.12 video@7.12-8.30
+[  9.56- 11.92]  almost similar, about 20 feet
+    almost@9.56-10.16 similar,@10.16-10.62 about@10.70-10.92 20@10.92-11.24 feet@11.24-11.92
+[ 11.92- 12.82]  kita main stop-sharp
+    kita@11.92-12.22 main@12.22-12.38 stop@12.38-12.60 -sharp@12.60-12.82
+[ 14.76- 15.96]  stop-shot
+    stop@14.76-15.36 -shot@15.36-15.96
+[ 22.40- 23.90]  what a player
+    what@22.40-23.00 a@23.00-23.60 player@23.60-23.90
+== work/clip1.wav lang=ms
+[  0.00-  1.78]  favorite bangka nampak ya?
+    favorite@0.00-1.04 bangka@1.04-1.36 nampak@1.36-1.60 ya?@1.60-1.78
+[  1.88-  2.78]  kut, Ibar, hari ni?
+    kut,@1.88-1.94 Ibar,@1.94-2.18 hari@2.22-2.38 ni?@2.38-2.78
+[  2.86-  3.84]  bangka sahaja
+    bangka@2.86-3.44 sahaja@3.44-3.84
+[  4.96-  8.30]  saya boleh tunjuk banyak sikit educational video
+    saya@4.96-5.56 boleh@5.56-5.76 tunjuk@5.76-6.06 banyak@6.06-6.36 sikit@6.36-6.64 educational@6.64-7.12 video@7.12-8.30
+[  9.56- 11.92]  almost similar, about 20 feet
+    almost@9.56-10.16 similar,@10.16-10.62 about@10.70-10.92 20@10.92-11.24 feet@11.24-11.92
+[ 11.92- 12.82]  kita main stop-sharp
+    kita@11.92-12.22 main@12.22-12.38 stop@12.38-12.60 -sharp@12.60-12.82
+[ 14.76- 15.96]  stop-shot
+    stop@14.76-15.36 -shot@15.36-15.96
+[ 22.40- 23.90]  what a player
+    what@22.40-23.00 a@23.00-23.60 player@23.60-23.90
