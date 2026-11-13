@@ -20,7 +20,8 @@ Paper #fffdf4, rule blue #a9c8ea, margin red #e2675f, ballpoint blue #1f3fa8, re
 | 2.20–12.87 | the coach's points | checklist page; tick 1 on "tengah", sub-line on "depan sikit", tick 2 on "kiri", tick 3 on "buka" |
 | 12.87–15.73 | address + chip, raw | page leaves after the take-away |
 | 15.73–18.03 | camera follows to the green | — |
-| 18.03–21.93 | selfie ✌️, freeze | recap page (all ticked) + "Kelas habis ✌️" |
+| 18.03–18.73 | selfie ✌️ | — |
+| 18.73–22.6 | v2: the same person laughing (coach-duff clip2, 26.30–26.95), freeze on the smile | recap page (all ticked) + "Kelas habis ✌️" |
 
 ## Build
 ```
@@ -30,3 +31,8 @@ npx hyperframes@0.9.32 render -q draft -o renders/preview_draft.mp4 && tools/mas
 # on "render":
 npx hyperframes@0.9.32 render -q delivery -o renders/final_raw.mp4 && tools/master.sh renders/final_raw.mp4 final/chipup-checklist_1080x1920.mp4
 ```
+
+## v2 (owner: "Muka hujung tu ejas bagi senyum" → option 1)
+No frame of this clip has a smile (checked every frame 26.2–26.96), and no face editing is done. The owner chose to close on the same person
+laughing the same morning: `projects/coach-duff` clip2 (IMG_0188) 26.30–26.95 at 1×, freeze on 26.95 (big smile; same shirt and cap).
+That clip is `.src/clip2.mov` here (tools/fetch.sh fetches it).

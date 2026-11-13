@@ -14,6 +14,7 @@ Clip map (face-on, the coach by a greenside bunker; the person filming turns the
   12.38-13.40 "Okay, club face dia"   15.44-17.62 "normal je, tak perlu buka pun." (large-v3 crop ms "buka", en "no need to open it")
   18.84 "Right" ; IMPACT 19.22 (sound peak 19.24) ; camera pans to the green 20.6-24.5 ("Baik" / "That's it" ~23.4: passes disagree, not captioned)
   25.4-26.96 selfie of the person filming, two fingers up
+  clip2 = projects/coach-duff/.src/clip2.mov (IMG_0188, Drive id 1HwK3uPQilJTJR_tYBxtNPdjIIArOdBBN): the laugh used as the closing shot
   Faces (film px): coach x 420-680 / y 330-800 (centre) -> notebook card in the left column (x 60-420); selfie face x 600-900 / y 300-800.
 """
 import json, os, subprocess, sys, wave
@@ -42,7 +43,10 @@ EDL = [
     dict(name="shot", clip=1, a=17.75, b=20.60, speed=1.0),
     dict(name="pan", clip=1, a=21.00, b=23.30, speed=1.0),
     dict(name="selfie", clip=1, a=26.05, b=26.75, speed=1.0),
-    dict(name="end_freeze", clip=1, a=26.75, kind="freeze", dur=3.2),   # two fingers up, sharp
+    # owner: "muka hujung tu ejas bagi senyum" -> no smiling frame in this clip; the same person laughing on the same morning
+    # (projects/coach-duff clip2, IMG_0188, 26.30-26.95, same shirt and cap) closes the video instead (owner chose option 1)
+    dict(name="laugh", clip=2, a=26.30, b=26.95, speed=1.0),
+    dict(name="end_freeze", clip=2, a=26.95, kind="freeze", dur=3.2),
 ]
 
 
@@ -166,9 +170,9 @@ def build_audio(tl):
         i = int(t * SR); x = x[:max(0, len(buf) - i)]; buf[i:i + len(x)] += x * db(gain_db)
         if src: placed.append([src[0], round(src[1], 3), round(src[2], 3), round(t, 4)])
     T = lambda n: tl[n]["start"]
-    for n in ("intro", "p1", "p2", "p3", "p4a", "p4b", "shot", "pan", "selfie"):
+    for n in ("intro", "p1", "p2", "p3", "p4a", "p4b", "shot", "pan", "selfie", "laugh"):
         s = next(x for x in EDL if x["name"] == n)
-        place(piece(1, s["a"], s["b"], 0.03), T(n), 0, (1, s["a"], s["b"]))
+        place(piece(s["clip"], s["a"], s["b"], 0.03), T(n), 0, (s["clip"], s["a"], s["b"]))
     place(piece(1, 18.85, 19.20, 0.05), 0.0, -6)
     place(piece(1, SND - 0.03, SND + 0.40, 0.004), film_time(tl, "hook_a", IMPACT) + 1 / FPS - 0.03, 0)
     tl["_voice"] = placed
