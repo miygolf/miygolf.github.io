@@ -50,14 +50,14 @@
       #fx path { fill: none; stroke: var(--chalk); stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; opacity: 0.95;
                  filter: drop-shadow(0 0 2px rgba(0,0,0,0.6)); }
       #fx path.yl { stroke: var(--cy); }
-      #fx text { font-family: "Kalam"; font-weight: 700; font-size: 56px; fill: var(--cy); filter: drop-shadow(0 2px 3px rgba(0,0,0,0.7)); }
+      #fx text { font-family: "Kalam"; font-weight: 700; font-size: 56px; fill: var(--cy); stroke: #25312b; stroke-width: 10px; paint-order: stroke; stroke-linejoin: round; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.7)); }
       #eraser { position: absolute; z-index: 7; left: 0; top: 0; width: 230px; height: 110px; border-radius: 14px; opacity: 0; pointer-events: none;
                 background: linear-gradient(180deg, #d9c8a6 0 46%, #3b3b3b 46% 100%); box-shadow: 0 10px 24px rgba(0,0,0,0.4); }
     </style>
   </head>
   <body>
-    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="22.6667" data-width="1080" data-height="1920" data-fps="30">
-      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="22.6667" data-track-index="1" muted playsinline></video>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="23.6667" data-width="1080" data-height="1920" data-fps="30">
+      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="23.6667" data-track-index="1" muted playsinline></video>
 
       <svg id="fx" class="ov" viewBox="0 0 1080 1920">
         <g id="hc"><path id="hc-p" d="M -6 -70 C 52 -74 92 -36 88 6 C 84 52 36 78 -14 72 C -62 66 -90 30 -84 -12 C -78 -50 -40 -76 4 -74 L 22 -66"/></g>
@@ -94,7 +94,7 @@
         <div class="hand" style="font-size:50px; margin-top:8px;"><span class="wr" id="hw2">try <span class="y">stock shot</span> kat bunker</span></div>
         <div class="hand p" style="font-size:44px; margin-top:4px;"><span class="wr" id="hw3">(target: masuk terus 😂)</span></div>
       </div>
-      <div id="cta" class="ov cap" style="top:1236px; font-size:46px;">Korang pernah nyaris hole-out? <span class="emo">👇</span></div>
+      <div id="cta" class="ov cap" style="top:1206px; font-size:40px;">Korang nak belajar hit shot bunker camni? <span class="emo">🤔</span><br><span style="color:#ffe07a">Komen, share dulu</span> <span class="emo">👇</span></div>
 
       <!-- captions -->
       <div id="cap0" class="ov cap"><span class="w" data-t="3.333">Favourite</span> <span class="w hot" data-t="3.573">bunker</span> <span class="w" data-t="3.833">nampaknya…</span><br><span class="w" data-t="4.733">hari</span> <span class="w" data-t="4.893">ni?</span></div>
@@ -103,7 +103,7 @@
       <div id="cap3" class="ov cap"><span class="w" data-t="9.893">Almost</span> <span class="w" data-t="10.493">similar,</span><br><span class="w" data-t="11.033">about</span> <span class="w hot" data-t="11.253">20</span> <span class="w hot" data-t="11.573">feet.</span></div>
       <div id="cap4" class="ov cap"><span class="w" data-t="12.253">Kita</span> <span class="w" data-t="12.553">main</span> <span class="w hot" data-t="12.713">stock</span> <span class="w hot" data-t="12.933">shot.</span></div>
       <div id="cap5" class="ov cap"><span class="w" data-t="17.057">What</span> <span class="w" data-t="17.537">a</span> <span class="w hot" data-t="17.737">player!</span> <span class="emo">🔥</span></div>
-      <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="22.6667" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>
+      <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="23.6667" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>
       <!-- sound design: Mixkit ids (assets/sfx/CREDITS.md). start = picture beat - file peak. No music. -->
       <audio data-hf-id="hf-s00" id="sfx-00" class="clip" src="assets/sfx/2366-write.mp3" data-start="0.050" data-duration="0.85" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- stock shot line chalked under BUNKER 101 -->
       <audio data-hf-id="hf-s01" id="sfx-01" class="clip" src="assets/sfx/2372.mp3" data-start="0.763" data-duration="0.30" data-track-index="13" data-volume="0.3" data-audio-group="sfx"></audio> <!-- chalk circle round the cup -->
@@ -114,7 +114,7 @@
     <script>
       (function () {
         window.__timelines = window.__timelines || {};
-        const K = {"T": {"hook_a": {"start": 0.0, "end": 0.7333}, "hook_freeze": {"start": 0.7333, "end": 2.5333}, "q": {"start": 2.5333, "end": 6.4667}, "edu": {"start": 6.4667, "end": 9.6333}, "plan": {"start": 9.6333, "end": 13.3}, "shot": {"start": 13.3, "end": 15.1667}, "whip": {"start": 15.1667, "end": 16.5667}, "roll": {"start": 16.5667, "end": 19.2667}, "end_freeze": {"start": 19.2667, "end": 22.6667}}, "B": {"hook_cup": 0.733, "shot_impact": 14.84, "roll_cup": 16.977, "w_fav": 2.633, "w_bunker": 5.393, "w_edu": 8.807, "w_20": 11.253, "w_stop": 12.713, "w_player": 17.717}, "TOTAL": 22.6667, "CAP": [{"t0": 3.233, "t1": 5.273}, {"t0": 5.293, "t1": 6.407}, {"t0": 7.027, "t1": 9.573}, {"t0": 9.793, "t1": 12.133}, {"t0": 12.153, "t1": 13.953}, {"t0": 16.957, "t1": 18.757}], "HOOK_CUP": [558, 1090], "ROLL_CUP": [590, 1280], "CUPK": [[16.917, 616, 1307], [17.05, 583, 1266], [17.183, 564, 1237], [17.317, 543, 1220], [17.45, 516, 1212], [17.583, 484, 1209], [17.717, 450, 1206], [17.85, 422, 1204], [17.983, 399, 1204], [18.117, 383, 1205], [18.25, 374, 1209], [18.383, 367, 1213], [18.517, 362, 1215], [18.65, 357, 1217], [18.783, 355, 1221], [18.917, 353, 1224], [19.05, 352, 1226], [19.183, 351, 1229]]};
+        const K = {"T": {"hook_a": {"start": 0.0, "end": 0.7333}, "hook_freeze": {"start": 0.7333, "end": 2.5333}, "q": {"start": 2.5333, "end": 6.4667}, "edu": {"start": 6.4667, "end": 9.6333}, "plan": {"start": 9.6333, "end": 13.3}, "shot": {"start": 13.3, "end": 15.1667}, "whip": {"start": 15.1667, "end": 16.5667}, "roll": {"start": 16.5667, "end": 19.2667}, "end_freeze": {"start": 19.2667, "end": 23.6667}}, "B": {"hook_cup": 0.733, "shot_impact": 14.84, "roll_cup": 16.977, "w_fav": 2.633, "w_bunker": 5.393, "w_edu": 8.807, "w_20": 11.253, "w_stop": 12.713, "w_player": 17.717}, "TOTAL": 23.6667, "CAP": [{"t0": 3.233, "t1": 5.273}, {"t0": 5.293, "t1": 6.407}, {"t0": 7.027, "t1": 9.573}, {"t0": 9.793, "t1": 12.133}, {"t0": 12.153, "t1": 13.953}, {"t0": 16.957, "t1": 18.757}], "HOOK_CUP": [558, 1090], "ROLL_CUP": [590, 1280], "CUPK": [[16.917, 616, 1307], [17.05, 583, 1266], [17.183, 564, 1237], [17.317, 543, 1220], [17.45, 516, 1212], [17.583, 484, 1209], [17.717, 450, 1206], [17.85, 422, 1204], [17.983, 399, 1204], [18.117, 383, 1205], [18.25, 374, 1209], [18.383, 367, 1213], [18.517, 362, 1215], [18.65, 357, 1217], [18.783, 355, 1221], [18.917, 353, 1224], [19.05, 352, 1226], [19.183, 351, 1229]]};
         const T = K.T, B = K.B;
         const tl = gsap.timeline({ paused: true });
         const $ = (s) => document.querySelector(s);
@@ -178,7 +178,7 @@
         board("#hw", T.end_freeze.start + 0.05, null, { rotation: 2 });
         write("#hw1", T.end_freeze.start + 0.1, 0.5); write("#hw2", T.end_freeze.start + 0.65, 0.55); write("#hw3", T.end_freeze.start + 1.0, 0.45);
         const cta = $("#cta"); hide0(cta);
-        tl.fromTo(cta, { opacity: 0 }, { opacity: 1, duration: 0.15, immediateRender: false }, T.end_freeze.start + 0.9);
+        tl.fromTo(cta, { opacity: 0 }, { opacity: 1, duration: 0.15, immediateRender: false }, T.end_freeze.start + 0.6);
         window.__timelines["main"] = tl;
       })();
     </script>

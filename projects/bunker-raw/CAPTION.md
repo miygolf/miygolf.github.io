@@ -13,7 +13,8 @@ Dengar sendiri reaction atas green tu 👀
 
 Last-last lalu tepi lubang je… nyaris masuk 😱
 
-Homework: try stock shot kat bunker. Korang pernah nyaris hole-out? Comment 👇
+Homework: try stock shot kat bunker 📝
+Korang nak belajar hit shot bunker camni? Komen, share dulu 👇
 
 #golfmalaysia #golftips #golflesson #golfswing #bunkershot #fyp
 ```
@@ -23,7 +24,7 @@ Homework: try stock shot kat bunker. Korang pernah nyaris hole-out? Comment 👇
 ```
 Kelas Bunker 101 📚
 20 feet, stock shot… nyaris masuk 😱
-Homework: try kat bunker 📌
+Nak belajar hit shot bunker camni? Komen, share dulu 👇
 
 #golfmalaysia #golftips #golflesson #golfswing #bunkershot #golfreels
 ```

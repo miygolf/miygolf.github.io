@@ -53,7 +53,7 @@ EDL = [
     dict(name="whip", clip=1, a=21.05, b=22.45, speed=1.0),
     # the roll past the cup, "What a player!"
     dict(name="roll", clip=1, a=22.45, b=25.15, speed=1.0),
-    dict(name="end_freeze", clip=1, a=25.15, kind="freeze", dur=3.4),
+    dict(name="end_freeze", clip=1, a=25.15, kind="freeze", dur=4.4),
 ]
 
 

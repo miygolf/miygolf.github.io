@@ -44,3 +44,7 @@ npx hyperframes@0.9.32 render -q delivery -o renders/final_raw.mp4 && tools/mast
 - Every "stop shot" → **"stock shot"** (caption, hook board, plan board, homework board, CAPTION.md).
 - Removed the green-ambience bed under the hook and the end freeze: it was one 0.9 s piece repeated every ~0.85 s (heard as a stuck sound).
   Those two stretches now carry only the chalk SFX. `previews/bunker-raw_preview_v2.mp4`, −14.0 LUFS, −2.9 dBTP.
+
+## v3 (owner: "Cta korang nk belajar hit shot bunker camni ke ke komen share dulu")
+- End CTA → "Korang nak belajar hit shot bunker camni? 🤔 / Komen, share dulu 👇" (two lines, 40 px, below the ball); end freeze 3.4 → 4.4 s so it reads.
+- CAPTION.md CTA lines updated to match. "nyaris!!" chalk note gets a slate outline (contrast on the bright green).
