@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Trail Cam": the duff told as wildlife footage. The tripod phone is a trail camera: amber data bar with the real record clock
+         (it races on the fast-forward and runs backwards on the rewind), REC dot, mode pill (REW / FF / REPLAY / CAPTURED), shutter flash on every trigger.
+         The narration is a naturalist's field tags: khaki card stock on a string, punched hole, soft-serif headings, ink-stamped labels.
+         Type: Fraunces (soft, wonky, opsz 144; italic for the "Latin" and the punchlines) + Share Tech Mono (camera data) + Noto Color Emoji.
+         Palette: bark ink #16130e, card khaki #efe5c8, trail-cam amber #ffb21a, REC red #ff3b2f, stamp moss #2f5a2c.
+         Safe band: x 60-930, y 168-1330. Faces (EDIT_NOTES.md): hook is framed below the face; address face x 220-340 / y 380-520 -> tags in the right column;
+         laugh / end face x 20-540 / y 0-600 -> right column x >= 570 only. */
+      @font-face { font-family: "Fraunces"; font-weight: 100 900; src: url("assets/fonts/Fraunces-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Fraunces"; font-style: italic; font-weight: 100 900; src: url("assets/fonts/Fraunces-Italic-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "STM"; font-weight: 400; src: url("assets/fonts/ShareTechMono-Regular.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Noto Color Emoji"; font-weight: 400; src: url("assets/fonts/NotoColorEmoji.ttf") format("truetype"); font-display: block; }
+      :root { --ink: #16130e; --paper: #efe5c8; --paper2: #e3d6b0; --amber: #ffb21a; --rec: #ff3b2f; --moss: #2f5a2c; --hud: rgba(12,11,8,0.66); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; transform-origin: 50% 45%; }
+      .ov { position: absolute; z-index: 6; opacity: 0; pointer-events: none; }
+      .emo { font-family: "Noto Color Emoji", sans-serif; font-weight: 400; font-style: normal; }
+      .mono { font-family: "STM", monospace; letter-spacing: 0.04em; text-transform: uppercase; }
+      .serif { font-family: "Fraunces", serif; font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1; }
+      .it { font-family: "Fraunces", serif; font-style: italic; font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1; }
+
+      /* ---- trail-cam data bar (always on) ---- */
+      #hud { left: 60px; top: 178px; width: 870px; height: 64px; background: var(--hud); border-radius: 4px; display: flex; align-items: center;
+             padding: 0 22px; gap: 18px; color: var(--amber); font-size: 28px; opacity: 1; z-index: 7; white-space: nowrap; }
+      #hud .rec { display: flex; align-items: center; gap: 10px; color: #fff; }
+      #hud .rec i { width: 18px; height: 18px; border-radius: 50%; background: var(--rec); box-shadow: 0 0 10px rgba(255,59,47,0.8); }
+      #hud .sep { width: 2px; height: 30px; background: rgba(255,178,26,0.35); }
+      #hud .clk { margin-left: auto; font-variant-numeric: tabular-nums; }
+      #hud .bat { width: 44px; height: 22px; border: 3px solid var(--amber); border-radius: 3px; position: relative; padding: 2px; display: flex; gap: 2px; }
+      #hud .bat::after { content: ""; position: absolute; right: -8px; top: 5px; width: 4px; height: 7px; background: var(--amber); }
+      #hud .bat b { flex: 1; background: var(--amber); }
+      #hud2 { left: 600px; top: 178px; width: 330px; height: 64px; background: var(--hud); border-radius: 4px; display: flex; align-items: center; justify-content: space-between;
+              padding: 0 20px; color: var(--amber); font-size: 28px; z-index: 7; white-space: nowrap; font-variant-numeric: tabular-nums; }
+      #hud2 .rec { display: flex; align-items: center; gap: 10px; color: #fff; }
+      #hud2 .rec i { width: 18px; height: 18px; border-radius: 50%; background: var(--rec); }
+      #mode { left: 60px; top: 254px; padding: 8px 16px 9px; background: var(--hud); border-radius: 4px; color: #fff; font-size: 30px; z-index: 7; display: flex; gap: 12px; align-items: center; }
+      #mode .ic { color: var(--amber); }
+      #watch { left: 640px; top: 254px; padding: 8px 16px 9px; background: var(--hud); border-radius: 4px; color: var(--amber); font-size: 30px; z-index: 7;
+               font-variant-numeric: tabular-nums; display: flex; gap: 12px; align-items: center; }
+      #watch span:first-child { color: #fff; }
+
+      /* ---- field tag: khaki card on a string, punched hole, notched corners ---- */
+      .tagw { filter: drop-shadow(0 10px 14px rgba(0,0,0,0.38)); transform-origin: 50% -60px; }
+      .tag { position: relative; background: var(--paper); color: var(--ink); padding: 26px 34px 28px 74px;
+             clip-path: polygon(22px 0, calc(100% - 0px) 0, 100% 100%, 22px 100%, 0 calc(100% - 22px), 0 22px); }
+      .tag::before { content: ""; position: absolute; left: 24px; top: 50%; width: 26px; height: 26px; margin-top: -13px; border-radius: 50%;
+                     background: rgba(22,19,14,0.88); box-shadow: inset 0 0 0 5px var(--paper2); }
+      .tag .k { font-size: 26px; color: rgba(22,19,14,0.62); display: flex; gap: 12px; align-items: center; }
+      .tag .k::before { content: ""; width: 34px; height: 3px; background: var(--moss); }
+      .tag .h { font-weight: 800; line-height: 0.95; margin-top: 8px; letter-spacing: -0.01em; }
+      .tag .l { font-weight: 500; font-size: 40px; line-height: 1.12; margin-top: 10px; }
+      .tag .l b { font-weight: 800; }
+      .string { position: absolute; left: 36px; top: -70px; width: 3px; height: 92px; background: linear-gradient(#d9cfb2, #b7a983); transform-origin: 50% 0; z-index: -1; }
+      u { text-decoration: none; background: linear-gradient(transparent 62%, var(--amber) 62%, var(--amber) 92%, transparent 92%); padding: 0 4px; background-size: 100% 100%; background-repeat: no-repeat; }
+
+      /* ---- ink stamp ---- */
+      .stamp { padding: 10px 20px 12px; border: 6px solid var(--rec); color: var(--rec); border-radius: 8px; font-size: 40px; letter-spacing: 0.08em;
+               background: rgba(239,229,200,0.86); box-shadow: 0 6px 16px rgba(0,0,0,0.3); white-space: nowrap; }
+
+      /* ---- flag ring ---- */
+      #fring { left: 0; top: 0; width: 1080px; height: 1920px; opacity: 1; z-index: 5; }
+      #fring circle { fill: none; stroke: var(--amber); stroke-width: 7; }
+      #fring .dash { stroke-dasharray: 10 14; }
+      .chip { padding: 10px 18px 11px; background: var(--ink); color: var(--paper); border-radius: 4px; font-size: 32px; white-space: nowrap; display: flex; gap: 10px; align-items: center; }
+
+      /* ---- turf arrow (replay) ---- */
+      #tarr { left: 0; top: 0; width: 1080px; height: 1920px; opacity: 1; z-index: 5; }
+      #tarr path { fill: none; stroke: var(--paper); stroke-width: 8; stroke-linecap: round; stroke-linejoin: round; }
+      #tarr .sh { stroke: rgba(22,19,14,0.55); stroke-width: 14; }
+
+      /* ---- big punchline (laugh) ---- */
+      #pog { left: 590px; top: 640px; width: 340px; color: #fff; font-size: 128px; line-height: 0.9; font-weight: 700;
+             text-shadow: 0 6px 28px rgba(0,0,0,0.45), 0 2px 0 rgba(0,0,0,0.25); }
+      #pog span { display: block; }
+      #pog .g { color: var(--amber); }
+      #stare { left: 560px; top: 560px; color: #fff; font-size: 92px; font-weight: 600; text-shadow: 0 4px 22px rgba(0,0,0,0.5); white-space: nowrap; }
+
+      /* ---- rewind tracking noise ---- */
+      #rewfx { position: absolute; inset: 0; z-index: 4; opacity: 0; pointer-events: none; overflow: hidden; }
+      #rewfx .band { position: absolute; left: 0; width: 100%; height: 70px; background:
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.75) 0 3px, rgba(255,255,255,0.1) 3px 9px, rgba(255,255,255,0.55) 9px 11px, rgba(0,0,0,0.25) 11px 17px);
+        mix-blend-mode: screen; filter: blur(1px); }
+      #rewfx .tint { position: absolute; inset: 0; background: linear-gradient(rgba(20,30,40,0.25), rgba(20,30,40,0.1)); }
+      #rewbig { left: 390px; width: 300px; top: 840px; padding: 18px 0 26px; text-align: center; color: var(--amber); font-size: 150px; line-height: 1; background: var(--hud); border-radius: 10px; z-index: 7; }
+      #flash { position: absolute; inset: 0; z-index: 8; background: #fff; opacity: 0; pointer-events: none; }
+      #vig { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: radial-gradient(ellipse 85% 70% at 50% 45%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.28) 100%); }
+
+      /* ---- end entry card ---- */
+      #entry .tag { width: 360px; padding: 26px 26px 28px 30px; clip-path: polygon(0 0, 100% 0, 100% 100%, 22px 100%, 0 calc(100% - 22px)); }
+      #entry .tag::before { left: 50%; top: 20px; margin-left: -13px; margin-top: 0; }
+      #entry .tag .k { margin-top: 36px; }
+      #entry .h { font-size: 118px; margin-top: 4px; }
+      #entry .pr { font-size: 34px; color: rgba(22,19,14,0.7); margin-top: 2px; }
+      #entry .df { font-size: 40px; line-height: 1.1; margin-top: 16px; font-weight: 600; }
+      #entry .hr { height: 3px; background: repeating-linear-gradient(90deg, var(--ink) 0 10px, transparent 10px 18px); margin: 20px 0 16px; opacity: 0.5; }
+      #entry .st { font-size: 28px; }
+      #entry .st b { display: block; font-family: "Fraunces"; font-weight: 800; font-size: 44px; letter-spacing: 0; text-transform: none; margin-top: 4px; font-variation-settings: "opsz" 144, "SOFT" 100; }
+      #entry .string { left: 50%; top: -96px; height: 120px; }
+      #cta { left: 470px; top: 1176px; }
+      #cta .stamp { border-color: var(--ink); color: var(--ink); background: var(--amber); font-size: 36px; letter-spacing: 0.04em; }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="18.3667" data-width="1080" data-height="1920" data-fps="30">
+      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="18.3667" data-track-index="1" muted playsinline></video>
+      <div id="vig"></div>
+      <div id="rewfx"><div class="tint"></div><div class="band" style="top:300px"></div><div class="band" style="top:980px; height:40px"></div><div class="band" style="top:1500px; height:90px"></div></div>
+
+      <!-- trail-cam data bar -->
+      <div id="hud" class="ov mono"><span class="rec"><i></i>REC</span><span class="sep"></span><span>CAM&#8209;02</span><span class="sep"></span><span id="trig">TRIG 001</span>
+        <span class="clk" id="clk">13/11/2026 08:28:19</span><span class="bat"><b></b><b></b><b></b></span></div>
+      <div id="hud2" class="ov mono"><span class="rec"><i></i>REC</span><span id="clk2">08:28:23</span></div>
+      <div id="mode" class="ov mono"><span class="ic" id="mode-ic">▶</span><span id="mode-tx">1×</span></div>
+      <div id="watch" class="ov mono"><span>Setup</span><span id="watch-tx">00:00</span></div>
+
+      <!-- HOOK: title tag, frame 0 -->
+      <div id="hook" class="ov tagw" style="left:60px; top:330px;"><div class="string"></div><div class="tag">
+        <div class="k mono">Rakaman kamera hutan</div>
+        <div class="h serif" style="font-size:118px;">Coach pun<br>boleh <u class="it">duff.</u></div></div></div>
+      <div id="caught" class="ov" style="left:560px; top:760px;"><div class="stamp mono">Tertangkap <span class="emo">📸</span></div></div>
+      <div id="rewbig" class="ov mono">◀◀</div>
+
+      <!-- HABITAT -->
+      <div id="lie" class="ov tagw" style="left:60px; top:340px;"><div class="string"></div><div class="tag">
+        <div class="k mono">Habitat</div>
+        <div class="h serif" style="font-size:84px;">Fairway</div>
+        <div class="l serif">Lie: cantik <span id="lie-ok" class="emo" style="display:inline-block">✅</span></div></div></div>
+      <svg id="fring" class="ov" viewBox="0 0 1080 1920">
+        <g id="fg"><circle id="fr1" cx="524" cy="362" r="62"/><circle id="fr2" class="dash" cx="524" cy="362" r="86"/></g></svg>
+      <div id="fchip-w" class="ov" style="left:0; top:0; opacity:1;"><div id="fchip" class="ov chip mono" style="left:640px; top:338px;">Sasaran <span class="emo">🚩</span></div></div>
+
+      <!-- SPECIMEN -->
+      <div id="spec" class="ov tagw" style="left:520px; top:430px;"><div class="string"></div><div class="tag">
+        <div class="k mono">Spesimen No. 02</div>
+        <div class="h serif" style="font-size:96px;">Coach</div>
+        <div class="l it" style="font-size:38px;">Coachus golfus</div>
+        <div class="l serif" style="font-size:32px; margin-top:12px;">tahap: <b>pro</b> <span class="emo">🏅</span></div></div></div>
+
+      <!-- FAST-FORWARD observation -->
+      <div id="ffn" class="ov tagw" style="left:520px; top:430px;"><div class="string"></div><div class="tag">
+        <div class="k mono">Pemerhatian</div>
+        <div class="l serif" style="font-size:50px; font-weight:700; margin-top:10px;">Setup…<br><span class="it" style="font-weight:600;">lama sikit</span> <span class="emo">😅</span></div></div></div>
+
+      <!-- after the shot -->
+      <div id="stare" class="ov it">…senyap. <span class="emo">🦗</span></div>
+      <svg id="tarr" class="ov" viewBox="0 0 1080 1920"><path class="sh" id="ta-s" d="M 700 900 C 640 960 520 990 421 1060"/><path id="ta" d="M 700 900 C 640 960 520 990 421 1060"/>
+        <path class="sh" id="th-s" d="M 421 1060 m 34 -6 l -34 6 l 14 -32"/><path id="th" d="M 421 1060 m 34 -6 l -34 6 l 14 -32"/></svg>
+      <div id="turf" class="ov tagw" style="left:600px; top:690px;"><div class="string"></div><div class="tag" style="padding:20px 28px 22px 66px;">
+        <div class="k mono">Bukti</div>
+        <div class="l serif" style="font-size:48px; font-weight:800; margin-top:6px;">Tanah <span class="emo">🌱</span><br><span class="it" style="font-weight:600;">terbang dulu</span></div></div></div>
+
+      <!-- punchline over the laugh -->
+      <div id="pog" class="ov it"><span>Part</span><span>of the</span><span class="g">game.</span></div>
+
+      <!-- END: field-guide entry -->
+      <div id="entry" class="ov tagw" style="left:570px; top:330px;"><div class="string"></div><div class="tag">
+        <div class="k mono">Entri No. 02</div>
+        <div class="h serif">duff</div>
+        <div class="pr it">(n.) bila tanah kena dulu, baru bola</div>
+        <div class="hr"></div>
+        <div class="st mono">Status<b>biasa je.</b></div>
+        <div class="st mono" style="margin-top:12px;">Coach pun?<b>kena jugak <span class="emo" style="font-size:38px">😂</span></b></div></div></div>
+      <div id="cta" class="ov"><div class="stamp mono">Korang last duff bila? <span class="emo">👇</span></div></div>
+
+      <div id="flash"></div>
+      <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="18.3667" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>
+      <!-- ambience beds (Mixkit 1210 forest birds; not music) -->
+      <audio data-hf-id="hf-bed0" id="bed-0" class="clip" src="assets/sfx/1210-bed.mp3" data-start="0.000" data-duration="2.633" data-media-start="0.00" data-track-index="11" data-volume="0.3" data-audio-group="sfx"></audio>
+      <audio data-hf-id="hf-bed1" id="bed-1" class="clip" src="assets/sfx/1210-bed.mp3" data-start="3.533" data-duration="4.200" data-media-start="2.00" data-track-index="11" data-volume="0.42" data-audio-group="sfx"></audio>
+      <audio data-hf-id="hf-bed2" id="bed-2" class="clip" src="assets/sfx/1210-bed.mp3" data-start="7.733" data-duration="2.200" data-media-start="4.00" data-track-index="11" data-volume="0.14" data-audio-group="sfx"></audio>
+      <audio data-hf-id="hf-bed3" id="bed-3" class="clip" src="assets/sfx/1210-bed.mp3" data-start="9.933" data-duration="1.300" data-media-start="6.50" data-track-index="11" data-volume="0.42" data-audio-group="sfx"></audio>
+      <audio data-hf-id="hf-bed4" id="bed-4" class="clip" src="assets/sfx/1210-bed.mp3" data-start="12.133" data-duration="6.233" data-media-start="9.00" data-track-index="11" data-volume="0.36" data-audio-group="sfx"></audio>
+      <!-- sound design: Mixkit ids (assets/sfx/CREDITS.md). start = picture beat - file peak. No music. -->
+      <audio data-hf-id="hf-s00" id="sfx-00" class="clip" src="assets/sfx/1119.mp3" data-start="0.000" data-duration="0.13" data-media-start="0.120" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- title types on, frame 0 -->
+      <audio data-hf-id="hf-s01" id="sfx-01" class="clip" src="assets/sfx/1119.mp3" data-start="0.070" data-duration="0.25" data-track-index="13" data-volume="0.22" data-audio-group="sfx"></audio> <!-- title line 2 -->
+      <audio data-hf-id="hf-s02" id="sfx-02" class="clip" src="assets/sfx/2121.mp3" data-start="0.920" data-duration="0.40" data-track-index="12" data-volume="0.38" data-audio-group="sfx"></audio> <!-- strike layer (0.5x) -->
+      <audio data-hf-id="hf-s03" id="sfx-03" class="clip" src="assets/sfx/753.mp3" data-start="1.020" data-duration="0.47" data-track-index="13" data-volume="0.55" data-audio-group="sfx"></audio> <!-- turf thud: the chunk -->
+      <audio data-hf-id="hf-s04" id="sfx-04" class="clip" src="assets/sfx/1430.mp3" data-start="1.227" data-duration="0.40" data-track-index="14" data-volume="0.55" data-audio-group="sfx"></audio> <!-- trail-cam shutter on the freeze -->
+      <audio data-hf-id="hf-s05" id="sfx-05" class="clip" src="assets/sfx/772.mp3" data-start="0.967" data-duration="0.75" data-track-index="15" data-volume="0.22" data-audio-group="sfx"></audio> <!-- freeze weight under the flash -->
+      <audio data-hf-id="hf-s06" id="sfx-06" class="clip" src="assets/sfx/2364.mp3" data-start="1.737" data-duration="0.14" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- TERTANGKAP stamp -->
+      <audio data-hf-id="hf-s07" id="sfx-07" class="clip" src="assets/sfx/1092.mp3" data-start="2.633" data-duration="1.05" data-track-index="12" data-volume="0.42" data-audio-group="sfx"></audio> <!-- tape rewind over the setup -->
+      <audio data-hf-id="hf-s08" id="sfx-08" class="clip" src="assets/sfx/1440.mp3" data-start="3.373" data-duration="0.62" data-track-index="13" data-volume="0.3" data-audio-group="sfx"></audio> <!-- tape stops: play clunk -->
+      <audio data-hf-id="hf-s09" id="sfx-09" class="clip" src="assets/sfx/1119.mp3" data-start="3.653" data-duration="0.25" data-track-index="14" data-volume="0.26" data-audio-group="sfx"></audio> <!-- habitat note -->
+      <audio data-hf-id="hf-s10" id="sfx-10" class="clip" src="assets/sfx/2364.mp3" data-start="4.293" data-duration="0.14" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- lie tick -->
+      <audio data-hf-id="hf-s11" id="sfx-11" class="clip" src="assets/sfx/2364.mp3" data-start="5.297" data-duration="0.14" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- flag ring -->
+      <audio data-hf-id="hf-s12" id="sfx-12" class="clip" src="assets/sfx/166.mp3" data-start="6.163" data-duration="0.60" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- specimen tag swings in -->
+      <audio data-hf-id="hf-s13" id="sfx-13" class="clip" src="assets/sfx/1430.mp3" data-start="6.603" data-duration="0.40" data-track-index="13" data-volume="0.35" data-audio-group="sfx"></audio> <!-- trail cam triggers (TRIG 002) -->
+      <audio data-hf-id="hf-s14" id="sfx-14" class="clip" src="assets/sfx/1096-ff.mp3" data-start="7.753" data-duration="2.20" data-track-index="12" data-volume="0.45" data-audio-group="sfx"></audio> <!-- reel fast-forward whirr -->
+      <audio data-hf-id="hf-s15" id="sfx-15" class="clip" src="assets/sfx/1119.mp3" data-start="7.783" data-duration="0.25" data-track-index="13" data-volume="0.22" data-audio-group="sfx"></audio> <!-- observation note -->
+      <audio data-hf-id="hf-s16" id="sfx-16" class="clip" src="assets/sfx/2364.mp3" data-start="10.223" data-duration="0.14" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- stopwatch stops at the take-away -->
+      <audio data-hf-id="hf-s17" id="sfx-17" class="clip" src="assets/sfx/2121.mp3" data-start="10.643" data-duration="0.40" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- strike layer -->
+      <audio data-hf-id="hf-s18" id="sfx-18" class="clip" src="assets/sfx/753.mp3" data-start="10.743" data-duration="0.47" data-track-index="13" data-volume="0.62" data-audio-group="sfx"></audio> <!-- turf thud -->
+      <audio data-hf-id="hf-s19" id="sfx-19" class="clip" src="assets/sfx/27.mp3" data-start="11.013" data-duration="0.85" data-track-index="14" data-volume="0.22" data-audio-group="sfx"></audio> <!-- a bird squeaks at it -->
+      <audio data-hf-id="hf-s20" id="sfx-20" class="clip" src="assets/sfx/39.mp3" data-start="11.283" data-duration="1.20" data-track-index="12" data-volume="1.0" data-audio-group="sfx"></audio> <!-- crickets through the stare -->
+      <audio data-hf-id="hf-s21" id="sfx-21" class="clip" src="assets/sfx/166.mp3" data-start="11.813" data-duration="0.60" data-track-index="13" data-volume="0.32" data-audio-group="sfx"></audio> <!-- whip into the replay -->
+      <audio data-hf-id="hf-s22" id="sfx-22" class="clip" src="assets/sfx/2121.mp3" data-start="12.393" data-duration="0.40" data-track-index="14" data-volume="0.3" data-audio-group="sfx"></audio> <!-- replay strike layer -->
+      <audio data-hf-id="hf-s23" id="sfx-23" class="clip" src="assets/sfx/2498.mp3" data-start="12.383" data-duration="0.50" data-track-index="15" data-volume="0.4" data-audio-group="sfx"></audio> <!-- replay thud -->
+      <audio data-hf-id="hf-s24" id="sfx-24" class="clip" src="assets/sfx/1119.mp3" data-start="12.753" data-duration="0.25" data-track-index="12" data-volume="0.24" data-audio-group="sfx"></audio> <!-- turf label -->
+      <audio data-hf-id="hf-s25" id="sfx-25" class="clip" src="assets/sfx/1119.mp3" data-start="13.803" data-duration="0.25" data-track-index="12" data-volume="0.24" data-audio-group="sfx"></audio> <!-- Part of -->
+      <audio data-hf-id="hf-s26" id="sfx-26" class="clip" src="assets/sfx/1119.mp3" data-start="14.083" data-duration="0.25" data-track-index="12" data-volume="0.24" data-audio-group="sfx"></audio> <!-- the game. -->
+      <audio data-hf-id="hf-s27" id="sfx-27" class="clip" src="assets/sfx/1440.mp3" data-start="14.797" data-duration="0.62" data-track-index="12" data-volume="0.5" data-audio-group="sfx"></audio> <!-- shutter: the laugh captured -->
+      <audio data-hf-id="hf-s28" id="sfx-28" class="clip" src="assets/sfx/1119.mp3" data-start="15.177" data-duration="0.25" data-track-index="13" data-volume="0.24" data-audio-group="sfx"></audio> <!-- entry card -->
+      <audio data-hf-id="hf-s29" id="sfx-29" class="clip" src="assets/sfx/1119.mp3" data-start="15.477" data-duration="0.25" data-track-index="12" data-volume="0.2" data-audio-group="sfx"></audio> <!-- definition -->
+      <audio data-hf-id="hf-s30" id="sfx-30" class="clip" src="assets/sfx/1119.mp3" data-start="15.777" data-duration="0.25" data-track-index="12" data-volume="0.2" data-audio-group="sfx"></audio> <!-- status -->
+      <audio data-hf-id="hf-s31" id="sfx-31" class="clip" src="assets/sfx/2364.mp3" data-start="16.157" data-duration="0.14" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- CTA tag -->
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {"T": {"hook_a": {"start": 0.0, "end": 1.3667}, "hook_freeze": {"start": 1.3667, "end": 2.6333}, "rew": {"start": 2.6333, "end": 3.5333}, "lie": {"start": 3.5333, "end": 4.9667}, "lie_flag": {"start": 4.9667, "end": 5.9333}, "walk": {"start": 5.9333, "end": 7.7333}, "ff": {"start": 7.7333, "end": 9.9333}, "shot": {"start": 9.9333, "end": 12.1333}, "replay": {"start": 12.1333, "end": 13.3333}, "laugh": {"start": 13.3333, "end": 14.9667}, "end_freeze": {"start": 14.9667, "end": 18.3667}}, "B": {"hook_impact": 1.06, "hook_turf": 1.367, "lie_flag": 5.267, "walk_address": 7.29, "ff_rehearsal": 9.133, "shot_takeaway": 10.233, "shot_impact": 10.783, "shot_stare": 11.233, "replay_impact": 12.533, "laugh_face": 13.933}, "TOTAL": 18.3667, "CLOCK": [[0.0, 1.3667, 21.62, 0.5], [1.3667, 2.6333, 22.3, 0], [2.6333, 3.5333, 22.3, -21.0], [3.5333, 4.9667, -27.8, 1.6], [4.9667, 5.9333, -25.5, 1.0], [5.9333, 7.7333, 3.4, 1.4], [7.7333, 9.9333, 5.9, 7.0], [9.9333, 12.1333, 21.3, 1.0], [12.1333, 13.3333, 21.95, 0.5], [13.3333, 14.9667, 25.3, 1.0], [14.9667, 18.3667, 26.95, 0]], "REC0": "2026-11-13T08:27:57", "ADDR": 5.5, "TAKE": 21.6, "TAG": {"lie_note": 3.753, "flag": 5.307, "spec": 6.483, "ff_note": 7.883, "stare": 11.413, "turf": 12.853, "pog": 13.953, "end": 14.967}, "FLAG": [524, 362], "TURF": [421, 1060], "FLAGK": [[5.297, 0, 0], [5.367, -12, 24], [5.437, -12, 40], [5.567, 6, 74], [5.697, -2, 84], [5.867, -4, 100]]};
+        const T = K.T, B = K.B, G = K.TAG;
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        const hide0 = (el) => tl.set(el, { opacity: 0 }, 0);
+        const pad = (n) => String(n).padStart(2, "0");
+
+        // ---------- trail-cam clock / mode / stopwatch: one driver tween, deterministic per seek ----------
+        const rec0 = new Date(K.REC0).getTime();
+        const clk = $("#clk"), clk2 = $("#clk2"), mic = $("#mode-ic"), mtx = $("#mode-tx"), wtx = $("#watch-tx"), trig = $("#trig");
+        const MODES = { hook_a: ["▶", "½× slow"], hook_freeze: ["■", "Captured"], rew: ["◀◀", "Rew ×21"], lie: ["▶", "Play"], lie_flag: ["▶", "Play"], walk: ["▶", "Play"],
+                        ff: ["▶▶", "FF ×7"], shot: ["▶", "1×"], replay: ["▶", "Replay ½×"], laugh: ["▶", "1×"], end_freeze: ["■", "Captured"] };
+        function srcAt(t) {
+          for (const [a, b, s0, r] of K.CLOCK) if (t >= a - 1e-6 && t < b + 1e-6) return { src: s0 + (t - a) * r };
+          const c = K.CLOCK[K.CLOCK.length - 1]; return { src: c[2] };
+        }
+        function segAt(t) { let n = "hook_a"; for (const k in T) if (t >= T[k].start - 1e-6) n = k; return n; }
+        const drv = { t: 0 };
+        function paint() {
+          const t = drv.t, s = srcAt(t).src, d = new Date(rec0 + s * 1000);
+          const hms = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+          clk.textContent = `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${String(d.getFullYear()).slice(2)}  ${hms}`; clk2.textContent = hms;
+          const seg = segAt(t), m = MODES[seg] || ["▶", "1×"];
+          mic.textContent = m[0]; mtx.textContent = m[1];
+          trig.textContent = t >= G.spec + 0.26 ? "TRIG 002" : "TRIG 001";
+          const w = Math.max(0, Math.min(K.TAKE, s) - K.ADDR);
+          wtx.textContent = `00:${pad(Math.floor(w))}`;
+        }
+        tl.to(drv, { t: K.TOTAL, duration: K.TOTAL, ease: "none", onUpdate: paint }, 0);
+        tl.set("#hud", { opacity: 1 }, 0);
+        tl.set("#mode", { opacity: 1 }, 0);
+        // laugh + end: the face rises into the top band -> full bar and mode pill go, a compact REC/clock pill sits right of the face
+        tl.set(["#hud", "#mode"], { opacity: 0 }, T.laugh.start);
+        tl.fromTo("#hud2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.2, ease: "power2.out", immediateRender: false }, T.laugh.start);
+        tl.fromTo(["#hud .rec i", "#hud2 .rec i"], { opacity: 1 }, { opacity: 0.15, duration: 0.5, repeat: Math.max(0, Math.floor(K.TOTAL / 0.5) - 1), yoyo: true, ease: "steps(1)" }, 0);
+
+        function flash(t, a) { tl.fromTo("#flash", { opacity: a || 0.8 }, { opacity: 0, duration: 0.25, ease: "power2.out", immediateRender: false }, t); }
+        function punch(t, s) { tl.fromTo("#aroll", { scale: s || 1.04 }, { scale: 1, duration: 0.32, ease: "power3.out", immediateRender: false }, t); }
+        function shake(t) { tl.fromTo("#aroll", { x: -10, y: 6 }, { x: 0, y: 0, duration: 0.28, ease: "rough({strength: 2, points: 8, randomize: false})", immediateRender: false }, t); }
+        // tag swings in on its string, settles with a little sway, flips up and away
+        function swing(sel, t0, t1, rot) {
+          const el = $(sel); hide0(el);
+          tl.fromTo(el, { opacity: 1, y: -260, rotation: (rot || 6) * 2.4 }, { y: 0, rotation: rot || -2, duration: 0.5, ease: "back.out(1.6)", immediateRender: false }, t0);
+          tl.to(el, { rotation: (rot || -2) + 1.6, duration: 0.6, yoyo: true, repeat: 1, ease: "sine.inOut" }, t0 + 0.5);
+          if (t1 != null) {
+            tl.to(el, { y: -320, rotation: (rot || -2) - 8, duration: 0.26, ease: "power2.in" }, t1);
+            tl.set(el, { opacity: 0 }, t1 + 0.26);
+          }
+          return el;
+        }
+        function pop(sel, t0, t1, from) {
+          const el = $(sel); hide0(el);
+          const f = Object.assign({ opacity: 0, scale: 0.85 }, from || {}), to = f.to || 0; delete f.to;
+          tl.fromTo(el, f, { opacity: 1, scale: 1, x: 0, y: 0, rotation: to, duration: 0.24, ease: "back.out(2.2)", immediateRender: false }, t0);
+          if (t1 != null) tl.to(el, { opacity: 0, duration: 0.16 }, t1);
+          return el;
+        }
+
+        // ---------- HOOK ----------
+        const hook = $("#hook");
+        tl.set(hook, { opacity: 1, rotation: -2 }, 0);                       // text on frame 0
+        tl.from(hook, { y: -22, duration: 0.35, ease: "power2.out" }, 0);
+        tl.from("#hook u", { backgroundSize: "0% 100%", duration: 0.4, ease: "power2.out" }, 0.25);
+        punch(B.hook_impact, 1.03); shake(B.hook_impact);
+        flash(B.hook_turf, 0.85);
+        pop("#caught", B.hook_turf + 0.36, T.rew.start, { scale: 1.9, rotation: -16, to: -7 });
+        tl.to(hook, { y: -300, rotation: -9, duration: 0.24, ease: "power2.in" }, T.rew.start - 0.02);
+        tl.set(hook, { opacity: 0 }, T.rew.start + 0.24);
+        // ---------- REWIND ----------
+        tl.set("#rewfx", { opacity: 1 }, T.rew.start); tl.set("#rewfx", { opacity: 0 }, T.rew.end);
+        document.querySelectorAll("#rewfx .band").forEach((b, i) => {
+          tl.fromTo(b, { y: 0 }, { y: -(300 + i * 260), duration: T.rew.end - T.rew.start, ease: "none", immediateRender: false }, T.rew.start);
+        });
+        tl.set("#aroll", { filter: "saturate(0.35) contrast(1.15) brightness(1.05)" }, T.rew.start);
+        tl.set("#aroll", { filter: "none" }, T.rew.end);
+        pop("#rewbig", T.rew.start + 0.04, T.rew.end - 0.06, { scale: 1.2 });
+        tl.fromTo("#rewbig", { opacity: 1 }, { opacity: 0.35, duration: 0.1, yoyo: true, repeat: 3, ease: "steps(1)", immediateRender: false }, T.rew.start + 0.3);
+        tl.set("#rewbig", { opacity: 0 }, T.rew.end - 0.02);
+        // ---------- HABITAT ----------
+        swing("#lie", G.lie_note, B.lie_flag - 0.25, -2);
+        tl.from("#lie-ok", { scale: 0, rotation: -40, duration: 0.3, ease: "back.out(3)" }, G.lie_note + 0.55);
+        ["#fr1", "#fr2"].forEach((r, i) => {
+          tl.set(r, { opacity: 0 }, 0);
+          tl.fromTo(r, { opacity: 1, attr: { r: 8 } }, { attr: { r: i ? 86 : 62 }, duration: 0.34, ease: "back.out(2)", immediateRender: false }, G.flag + i * 0.06);
+          tl.to(r, { opacity: 0, duration: 0.15 }, T.walk.start - 0.02);
+        });
+        tl.fromTo("#fr2", { rotation: 0, svgOrigin: `${K.FLAG[0]} ${K.FLAG[1]}` }, { rotation: 60, duration: 0.6, ease: "none", immediateRender: false }, G.flag);
+        pop("#fchip", G.flag + 0.1, T.walk.start - 0.02, { x: -30 });
+        // ring + chip ride the handheld drift (flag tracked on the A-roll)
+        K.FLAGK.forEach(([t, dx, dy], i) => {
+          if (i === 0) { tl.set("#fg", { x: dx, y: dy }, 0); tl.set("#fchip-w", { y: dy }, 0); return; }
+          const p = K.FLAGK[i - 1];
+          tl.to("#fg", { x: dx, y: dy, duration: t - p[0], ease: "none" }, p[0]);
+          tl.to("#fchip-w", { y: dy, duration: t - p[0], ease: "none" }, p[0]);
+        });
+        // ---------- SPECIMEN ----------
+        swing("#spec", G.spec, T.ff.start + 0.02, -3);
+        flash(G.spec + 0.26, 0.4);
+        // ---------- FAST-FORWARD ----------
+        swing("#ffn", G.ff_note, T.shot.start + 0.05, 2);
+        tl.set("#watch", { opacity: 0 }, 0);
+        pop("#watch", T.ff.start, T.shot.start + 0.7, { y: -12 });
+        tl.fromTo("#watch", { scale: 1.12 }, { scale: 1, duration: 0.22, ease: "back.out(3)", immediateRender: false }, B.shot_takeaway);
+        tl.set("#watch", { opacity: 1 }, B.shot_takeaway);
+        tl.to("#watch", { opacity: 0, duration: 0.16 }, B.shot_impact - 0.05);
+        // ---------- THE SHOT ----------
+        flash(B.shot_impact, 0.35); punch(B.shot_impact, 1.035); shake(B.shot_impact);
+        pop("#stare", G.stare, T.replay.start - 0.04, { y: 16 });
+        // ---------- REPLAY ----------
+        punch(B.replay_impact, 1.05);
+        const ta = $("#ta"), L = ta.getTotalLength();
+        ["#ta", "#ta-s"].forEach((p) => {
+          tl.set(p, { attr: { "stroke-dasharray": `${L} ${L}`, "stroke-dashoffset": L } }, 0);
+          tl.to(p, { attr: { "stroke-dashoffset": 0 }, duration: 0.3, ease: "power2.out" }, G.turf + 0.12);
+        });
+        ["#th", "#th-s"].forEach((p) => { tl.set(p, { opacity: 0 }, 0); tl.set(p, { opacity: 1 }, G.turf + 0.4); });
+        tl.set("#tarr", { opacity: 0 }, 0); tl.set("#tarr", { opacity: 1 }, G.turf + 0.1); tl.set("#tarr", { opacity: 0 }, T.laugh.start);
+        swing("#turf", G.turf, T.laugh.start - 0.2, 3);
+        // ---------- LAUGH ----------
+        const pg = $("#pog"); hide0(pg); tl.set(pg, { opacity: 1 }, G.pog);
+        pg.querySelectorAll("span").forEach((s, i) => {
+          tl.fromTo(s, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.28, ease: "power3.out", immediateRender: false }, G.pog + (i ? 0.28 : 0) + (i > 1 ? 0.12 : 0));
+        });
+        tl.to(pg, { opacity: 0, duration: 0.18 }, G.end - 0.1);
+        // ---------- END ----------
+        flash(G.end, 0.9);
+        swing("#entry", G.end + 0.3, null, -2);
+        pop("#cta", G.end + 1.2, null, { scale: 1.8, rotation: -12, to: -4 });
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>

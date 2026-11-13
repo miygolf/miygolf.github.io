@@ -1,0 +1,8 @@
+== work/clip1.wav lang=ms
+[  3.22-  4.62]  Terima kasih kerana menonton.
+    Terima@3.22-4.62 kasih@4.62-4.62 kerana@4.62-4.62 menonton.@4.62-4.62
+== work/clip1.wav lang=nn
+== work/clip2.wav lang=ms
+[ 30.00- 31.28]  Terima kasih kerana menonton.
+    Terima@30.00-31.28 kasih@31.28-31.28 kerana@31.28-31.28 menonton.@31.28-31.28
+== work/clip2.wav lang=nn

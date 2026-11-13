@@ -1,0 +1,59 @@
+{
+ "hook_a": {
+  "start": 0.0,
+  "end": 1.3667
+ },
+ "hook_freeze": {
+  "start": 1.3667,
+  "end": 2.6333
+ },
+ "rew": {
+  "start": 2.6333,
+  "end": 3.5333
+ },
+ "lie": {
+  "start": 3.5333,
+  "end": 4.9667
+ },
+ "lie_flag": {
+  "start": 4.9667,
+  "end": 5.9333
+ },
+ "walk": {
+  "start": 5.9333,
+  "end": 7.7333
+ },
+ "ff": {
+  "start": 7.7333,
+  "end": 9.9333
+ },
+ "shot": {
+  "start": 9.9333,
+  "end": 12.1333
+ },
+ "replay": {
+  "start": 12.1333,
+  "end": 13.3333
+ },
+ "laugh": {
+  "start": 13.3333,
+  "end": 14.9667
+ },
+ "end_freeze": {
+  "start": 14.9667,
+  "end": 18.3667
+ },
+ "_total": 18.3667,
+ "_beats": {
+  "hook_impact": 1.06,
+  "hook_turf": 1.367,
+  "lie_flag": 5.267,
+  "walk_address": 7.29,
+  "ff_rehearsal": 9.133,
+  "shot_takeaway": 10.233,
+  "shot_impact": 10.783,
+  "shot_stare": 11.233,
+  "replay_impact": 12.533,
+  "laugh_face": 13.933
+ }
+}
