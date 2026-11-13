@@ -94,7 +94,7 @@ Faiz P6–P8 **lab / telestrator** (graphite grid, red/lime, Archivo Black + Jet
 
 | Video | Look | Type | Palette | Motion signature |
 | --- | --- | --- | --- | --- |
-| **Kelas Bunker 101 (raw cut of the bunker near-miss)** (branch `claude/gifted-davinci-2netbk`, `projects/bunker-raw/`) | **Chalkboard**: chalk notes on raw footage | Cabin Sketch 700 + Kalam 400/700 + Noto Color Emoji | slate #25312b, chalk #f3f0e6, chalk yellow #ffe07a, chalk pink #ff9fb8, rim wood #8b5e3c | small slate boards, stepped chalk write-on, hand-drawn chalk circle tracked on the cup, double chalk underline, eraser wipe, HOMEWORK end board; hard cuts, 1× real sound, five soft SFX, no music — **preview v3** |
+| **Kelas Bunker 101 (raw cut of the bunker near-miss)** (branch `claude/gifted-davinci-2netbk`, `projects/bunker-raw/`) | **Chalkboard**: chalk notes on raw footage | Cabin Sketch 700 + Kalam 400/700 + Noto Color Emoji | slate #25312b, chalk #f3f0e6, chalk yellow #ffe07a, chalk pink #ff9fb8, rim wood #8b5e3c | small slate boards, stepped chalk write-on, hand-drawn chalk circle tracked on the cup, double chalk underline, eraser wipe, HOMEWORK end board; hard cuts, 1× real sound, five soft SFX, no music — **delivered from preview v3** |
 
 - Bunker raw (2026-11-13, preview v1): owner asked for **educational + a little humour, relaxed, less SFX, raw**, and to hear the green. Low-motion notes, hard cuts, real sound carries it.
   v2: the coach's word is **"stock shot"** (not "stop shot": whisper heard "stop-sharp / stock shower / stock shaft"); and never loop a short ambience piece under a freeze — the owner hears the repeat as a stuck sound ("sound yg sangkut").

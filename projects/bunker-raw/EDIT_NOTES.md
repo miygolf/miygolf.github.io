@@ -48,3 +48,6 @@ npx hyperframes@0.9.32 render -q delivery -o renders/final_raw.mp4 && tools/mast
 ## v3 (owner: "Cta korang nk belajar hit shot bunker camni ke ke komen share dulu")
 - End CTA → "Korang nak belajar hit shot bunker camni? 🤔 / Komen, share dulu 👇" (two lines, 40 px, below the ball); end freeze 3.4 → 4.4 s so it reads.
 - CAPTION.md CTA lines updated to match. "nyaris!!" chalk note gets a slate outline (contrast on the bright green).
+
+## Delivery
+Owner approved v3 ("Render", 2026-11-13). `final/bunker-raw_1080x1920.mp4`: 23.7 s, 1080×1920, 30 fps, H.264 High ~11.7 Mbps, AAC 256k, −14.0 LUFS, −2.9 dBTP.
