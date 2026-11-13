@@ -1,0 +1,18 @@
+== ms
+[  1.64-  3.40]  30 meter
+    30@1.64 meter@3.04
+[  3.40-  4.86]  Chip in
+    Chip@3.40 in@4.68
+[  4.86-  5.86]  Chip in
+    Chip@4.86 in@5.50
+[  5.86-  7.26]  50 ringgit
+    50@5.86 ringgit@6.82
+[ 15.58- 17.68]  Tak dapat
+    Tak@15.58 dapat@16.98
+== en
+[  1.60-  5.86]  30 meter chip in chip in
+    30@1.60 meter@3.00 chip@3.38 in@4.70 chip@4.84 in@5.52
+[  5.86-  8.00]  50 ringgit
+    50@5.86 ringgit@6.84
+[ 23.20- 28.50]  I can't get it.
+    I@23.20 can't@24.60 get@26.00 it.@28.48

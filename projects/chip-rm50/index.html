@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* Same treatment as projects/bunker-raw ("Kelas Bunker 101"), owner: "sama buat macam bunker shot style". A raw, relaxed lesson with chalk on top. Small slate boards with a thin wood rim, notes chalked on
+         (write-on wipe in short steps, like a hand), hand-drawn chalk circle round the cup, double chalk underline on STOCK SHOT,
+         an eraser swipe that cleans the hook board. Hard cuts, real sound, almost no SFX.
+         Type: Cabin Sketch 700 (chalk headings) + Kalam 400/700 (chalk handwriting, captions) + Noto Color Emoji.
+         Palette: slate #25312b, chalk #f3f0e6, chalk yellow #ffe07a, chalk pink #ff9fb8, rim wood #8b5e3c.
+         Safe band: x 60-930, y 168-1330. Faces (EDIT_NOTES.md): the coach's head is high in frame (x 300-560 / y 60-380), the friend
+         x 300-540 / y 240-330 -> chalk boards in the right column (x >= 560) or low (y >= 600), captions low (y 1160+). */
+      @font-face { font-family: "Chalk"; font-weight: 700; src: url("assets/fonts/CabinSketch-Bold.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Kalam"; font-weight: 400; src: url("assets/fonts/Kalam-Regular.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Kalam"; font-weight: 700; src: url("assets/fonts/Kalam-Bold.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Noto Color Emoji"; font-weight: 400; src: url("assets/fonts/NotoColorEmoji.ttf") format("truetype"); font-display: block; }
+      :root { --slate: #25312b; --chalk: #f3f0e6; --cy: #ffe07a; --cp: #ff9fb8; --wood: #8b5e3c; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
+      .ov { position: absolute; z-index: 6; opacity: 0; pointer-events: none; }
+      .emo { font-family: "Noto Color Emoji", sans-serif; font-weight: 400; }
+
+      /* ---- slate board ---- */
+      .board { background:
+                 radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.07), rgba(255,255,255,0) 60%),
+                 radial-gradient(ellipse at 80% 90%, rgba(255,255,255,0.05), rgba(255,255,255,0) 55%), var(--slate);
+               border: 10px solid var(--wood); border-radius: 10px; padding: 18px 30px 22px; color: var(--chalk);
+               box-shadow: inset 0 0 0 2px rgba(0,0,0,0.35), 0 14px 30px rgba(0,0,0,0.35); }
+      .chalk { font-family: "Chalk", cursive; font-weight: 700; line-height: 0.95; letter-spacing: 0.01em; text-shadow: 0 0 1px rgba(243,240,230,0.6); }
+      .hand { font-family: "Kalam", cursive; font-weight: 700; line-height: 1.1; }
+      .wr { display: inline-block; clip-path: inset(0 100% 0 0); }      /* chalk write-on target */
+      .y { color: var(--cy); } .p { color: var(--cp); }
+
+      /* ---- caption: chalk handwriting on a slate strip ---- */
+      .cap { left: 540px; top: 1160px; transform: translateX(-50%); max-width: 870px; padding: 10px 26px 14px; background: rgba(37,49,43,0.86);
+             border-radius: 10px; color: var(--chalk); font-family: "Kalam"; font-weight: 700; font-size: 52px; line-height: 1.12; text-align: center;
+             white-space: nowrap; box-shadow: 0 8px 22px rgba(0,0,0,0.3); }
+      .cap .w { color: #b9b6ad; }
+      .cap .w.on { color: var(--chalk); }
+      .cap .w.hot.on { color: var(--cy); }
+      
+
+      /* ---- chalk marks on the footage ---- */
+      #fx { left: 0; top: 0; width: 1080px; height: 1920px; opacity: 1; z-index: 5; overflow: visible; }
+      #fx path { fill: none; stroke: var(--chalk); stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; opacity: 0.95;
+                 filter: drop-shadow(0 0 2px rgba(0,0,0,0.6)); }
+      #fx path.yl { stroke: var(--cy); }
+      #fx text { font-family: "Kalam"; font-weight: 700; font-size: 56px; fill: var(--cy); stroke: #25312b; stroke-width: 10px; paint-order: stroke; stroke-linejoin: round; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.7)); }
+      #eraser { position: absolute; z-index: 7; left: 0; top: 0; width: 230px; height: 110px; border-radius: 14px; opacity: 0; pointer-events: none;
+                background: linear-gradient(180deg, #d9c8a6 0 46%, #3b3b3b 46% 100%); box-shadow: 0 10px 24px rgba(0,0,0,0.4); }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="23.7" data-width="1080" data-height="1920" data-fps="30">
+      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="23.7" data-track-index="1" muted playsinline></video>
+
+      <!-- HOOK board, frame 0 (right column, clear of the coach's head) -->
+      <div id="hook" class="ov board" style="left:560px; top:380px; width:370px; transform: rotate(-2deg);">
+        <div class="hand" style="font-size:32px; opacity:0.85;"><span class="wr" id="hk0" style="clip-path:none">Kelas hari ni:</span></div>
+        <div class="chalk" style="font-size:96px; margin-top:4px;"><span class="wr" id="hk1" style="clip-path:none">CHIP<br>101</span></div>
+        <div class="hand y" style="font-size:40px; margin-top:6px;"><span class="wr" id="hk2">30 m · chip in<br>= RM50 <span class="emo">💸</span></span></div>
+      </div>
+      <div id="eraser"></div>
+
+      <!-- the bet, chalked line by line as it is said -->
+      <div id="n-bet" class="ov board" style="left:560px; top:300px; width:370px; transform: rotate(1.5deg);">
+        <div class="hand" style="font-size:44px;"><span class="wr" id="nb1">jarak: <span class="y">30 m</span></span></div>
+        <div class="hand" style="font-size:44px; margin-top:4px;"><span class="wr" id="nb2">target: <span class="y">chip in</span> <span class="emo">🎯</span></span></div>
+        <div class="chalk p" style="font-size:66px; margin-top:8px;"><span class="wr" id="nb3">RM50 <span class="emo" style="font-size:52px">💸</span></span></div>
+      </div>
+      <!-- watching -->
+      <div id="n-pray" class="ov board" style="left:600px; top:420px; transform: rotate(-3deg);">
+        <div class="hand" style="font-size:48px;"><span class="wr" id="np">masuk… masuk… <span class="emo">🙏</span></span></div></div>
+      <!-- the friend -->
+      <div id="n-rm" class="ov board" style="left:580px; top:520px; transform: rotate(2deg);">
+        <div class="hand" style="font-size:48px;"><span class="wr" id="nr">RM50… <span class="p">tak jadi</span> <span class="emo">😂</span></span></div></div>
+
+      <!-- END: homework (low, clear of the friend's face) -->
+      <div id="hw" class="ov board" style="left:60px; top:640px; width:870px; transform: rotate(-1deg);">
+        <div class="chalk" style="font-size:104px;"><span class="wr" id="hw1">HOMEWORK <span class="emo" style="font-size:80px">📝</span></span></div>
+        <div class="hand" style="font-size:50px; margin-top:8px;"><span class="wr" id="hw2">try <span class="y">chip in</span> dari 30 meter</span></div>
+        <div class="hand p" style="font-size:44px; margin-top:4px;"><span class="wr" id="hw3">(RM50 standby 😂)</span></div>
+      </div>
+      <div id="cta" class="ov cap" style="top:1206px; font-size:40px;">Korang rasa boleh chip in dari 30 meter? <span class="emo">🤔</span><br><span style="color:#ffe07a">Komen, share dulu</span> <span class="emo">👇</span></div>
+
+      <!-- captions -->
+      <div id="cap0" class="ov cap"><span class="w hot" data-t="2.740">30</span> <span class="w hot" data-t="4.220">meter.</span></div>
+      <div id="cap1" class="ov cap"><span class="w" data-t="4.480">Chip</span> <span class="w" data-t="5.780">in,</span> <span class="w hot" data-t="5.960">chip</span> <span class="w hot" data-t="6.680">in.</span></div>
+      <div id="cap2" class="ov cap"><span class="w hot" data-t="6.960">50</span> <span class="w hot" data-t="7.220">ringgit.</span></div>
+      <div id="cap3" class="ov cap"><span class="w hot" data-t="13.100">Masuk!</span></div>
+      <div id="cap4" class="ov cap"><span class="w" data-t="17.220">Tak</span> <span class="w hot" data-t="18.620">dapat.</span></div>
+      <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="23.7" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>
+      <!-- sound design: Mixkit ids (assets/sfx/CREDITS.md). start = picture beat - file peak. No music. -->
+      <audio data-hf-id="hf-s00" id="sfx-00" class="clip" src="assets/sfx/2366-write.mp3" data-start="0.050" data-duration="0.85" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- RM50 line chalked under CHIP 101 -->
+      <audio data-hf-id="hf-s01" id="sfx-01" class="clip" src="assets/sfx/3085.mp3" data-start="1.710" data-duration="0.90" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- board wiped clean into the story -->
+      <audio data-hf-id="hf-s02" id="sfx-02" class="clip" src="assets/sfx/2372.mp3" data-start="7.030" data-duration="0.30" data-track-index="12" data-volume="0.22" data-audio-group="sfx"></audio> <!-- RM50 chalked -->
+      <audio data-hf-id="hf-s03" id="sfx-03" class="clip" src="assets/sfx/2366-write.mp3" data-start="19.300" data-duration="0.85" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- HOMEWORK chalked -->
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {"T": {"hook_a": {"start": 0.0, "end": 1.3}, "hook_freeze": {"start": 1.3, "end": 2.4}, "bet": {"start": 2.4, "end": 8.4}, "shot": {"start": 8.4, "end": 11.4}, "watch": {"start": 11.4, "end": 14.5}, "friend": {"start": 14.5, "end": 19.3}, "end_freeze": {"start": 19.3, "end": 23.7}}, "B": {"hook_impact": 0.74, "shot_impact": 10.42, "w_30": 2.74, "w_chip": 4.48, "w_50": 6.96, "w_masuk": 13.1, "w_takdapat": 17.22}, "TOTAL": 23.7, "CAP": [{"t0": 2.64, "t1": 4.36}, {"t0": 4.38, "t1": 6.84}, {"t0": 6.86, "t1": 8.34}, {"t0": 13.0, "t1": 13.9}, {"t0": 17.12, "t1": 19.07}]};
+        const T = K.T, B = K.B;
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        const hide0 = (el) => tl.set(el, { opacity: 0 }, 0);
+        // chalk write-on: the clip opens left -> right in small hand-like steps
+        function write(sel, t, dur) {
+          tl.set(sel, { clipPath: "inset(0 100% 0 0)" }, 0);
+          tl.to(sel, { clipPath: "inset(0 0% 0 0)", duration: dur || 0.5, ease: "steps(" + Math.round((dur || 0.5) * 24) + ")" }, t);
+        }
+        function board(sel, t0, t1, from) {
+          const el = $(sel); hide0(el);
+          tl.fromTo(el, Object.assign({ opacity: 0, y: -14 }, from || {}), { opacity: 1, y: 0, duration: 0.18, ease: "power2.out", immediateRender: false }, t0);
+          if (t1 != null) tl.to(el, { opacity: 0, duration: 0.15 }, t1);
+          return el;
+        }
+        function draw(sel, t, dur) {
+          const p = $(sel), L = p.getTotalLength();
+          tl.set(p, { attr: { "stroke-dasharray": `${L} ${L}`, "stroke-dashoffset": L } }, 0);
+          tl.to(p, { attr: { "stroke-dashoffset": 0 }, duration: dur || 0.4, ease: "power1.inOut" }, t);
+        }
+
+        // ---------- captions ----------
+        K.CAP.forEach((c, i) => {
+          const el = $("#cap" + i); hide0(el);
+          tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.12, immediateRender: false }, Math.max(c.t0, 0));
+          tl.set(el, { opacity: 0 }, c.t1);
+          el.querySelectorAll(".w").forEach((w) => tl.set(w, { className: w.className + " on" }, Math.max(parseFloat(w.dataset.t), 0)));
+        });
+
+        // ---------- HOOK ----------
+        tl.set("#hook", { opacity: 1 }, 0);                                // board on frame 0, CHIP 101 already on it
+        write("#hk2", 0.15, 0.55);
+        tl.set("#eraser", { x: 380, y: 520, rotation: -8 }, 0);
+        tl.set("#eraser", { opacity: 1 }, T.bet.start - 0.42);
+        tl.to("#eraser", { x: 1100, y: 470, duration: 0.36, ease: "power1.inOut" }, T.bet.start - 0.42);
+        tl.to("#hook", { clipPath: "inset(0 0 0 100%)", duration: 0.36, ease: "power1.inOut" }, T.bet.start - 0.40);
+        tl.set(["#hook", "#eraser"], { opacity: 0 }, T.bet.start - 0.04);
+
+        // ---------- the bet ----------
+        board("#n-bet", B.w_30 - 0.05, T.shot.start + 1.2, { rotation: 5 });
+        write("#nb1", B.w_30, 0.45); write("#nb2", B.w_chip + 0.05, 0.5); write("#nb3", B.w_50 + 0.05, 0.45);
+        // ---------- watching / the friend ----------
+        board("#n-pray", B.w_masuk + 0.35, T.friend.start - 0.06, { rotation: -6 }); write("#np", B.w_masuk + 0.4, 0.55);
+        board("#n-rm", B.w_takdapat + 0.35, T.end_freeze.start - 0.06, { rotation: 6 }); write("#nr", B.w_takdapat + 0.4, 0.55);
+
+        // ---------- END ----------
+        board("#hw", T.end_freeze.start + 0.05, null, { rotation: 2 });
+        write("#hw1", T.end_freeze.start + 0.1, 0.5); write("#hw2", T.end_freeze.start + 0.65, 0.55); write("#hw3", T.end_freeze.start + 1.0, 0.45);
+        const cta = $("#cta"); hide0(cta);
+        tl.fromTo(cta, { opacity: 0 }, { opacity: 1, duration: 0.15, immediateRender: false }, T.end_freeze.start + 0.6);
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>

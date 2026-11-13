@@ -98,3 +98,9 @@ Faiz P6–P8 **lab / telestrator** (graphite grid, red/lime, Archivo Black + Jet
 
 - Bunker raw (2026-11-13, preview v1): owner asked for **educational + a little humour, relaxed, less SFX, raw**, and to hear the green. Low-motion notes, hard cuts, real sound carries it.
   v2: the coach's word is **"stock shot"** (not "stop shot": whisper heard "stop-sharp / stock shower / stock shaft"); and never loop a short ambience piece under a freeze — the owner hears the repeat as a stuck sound ("sound yg sangkut").
+
+| Video | Look | Type | Palette | Motion signature |
+| --- | --- | --- | --- | --- |
+| **Chip in RM50 (30 m)** (branch `claude/gifted-davinci-2netbk`, `projects/chip-rm50/`) | **Chalkboard, reused on request** ("sama buat macam bunker shot style") | as Kelas Bunker 101 | as Kelas Bunker 101 | boards in the right column (head high in frame), bet chalked line by line, eraser wipe, HOMEWORK board; hard cuts, real sound, four soft SFX — **preview v1** |
+
+- Chip RM50 (2026-11-13, preview v1): the owner asked to repeat the bunker-raw style — a request to reuse a look overrides "every video gets a new look".
