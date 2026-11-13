@@ -19,7 +19,7 @@ as it passes the cup. Tilt Neon + Sora 700/800 + Noto Color Emoji. Tube pink #ff
 | 0.00–2.33 | hook: ball at the cup 0.5×, freeze as it passes | NYARIS MASUK sign flickers on (frame 0), cup rings, 😱 |
 | 2.33–3.60 | "Bunker sahaja." (walking in) | caption |
 | 3.60–7.13 | "Almost similar, about 20 feet. Kita main stop shot." | captions + ≈20 ft sign, then STOP SHOT sign (held through the address) |
-| 7.13–8.98 | address + swing 1× | pink flash + punch on impact |
+| 7.13–8.98 | address + swing 1× (v2: starts tight on the coach, pulls out to full frame by ~8.3) | pink flash + punch on impact |
 | 8.98–9.68 | whip to the green 2× | neon scan rides the whip |
 | 9.68–11.63 | the roll 1× | tracker ring on the ball, cup pulse, NYARIS!, "What a player! 🔥" (in the trees: the ball is low) |
 | 11.63–12.60 | replay 0.5× tight on the splash | REPLAY ½× |
@@ -40,3 +40,8 @@ npx hyperframes@0.9.32 render -q draft -o renders/preview_draft.mp4 && tools/mas
 # on "render":
 npx hyperframes@0.9.32 render -q delivery -o renders/final_raw.mp4 && tools/master.sh renders/final_raw.mp4 final/bunker-nyaris_1080x1920.mp4
 ```
+
+## Versions
+- v1 (`previews/bunker-nyaris_preview_v1.mp4`, `VARIANT=v1`): slow punch-in on the far address, close address at full frame.
+- v2 (`previews/bunker-nyaris_preview_v2_zoomout.mp4`, default `VARIANT=zoomout`): owner asked "zoom out at address" — far address at full frame;
+  close address starts at 1.38× on the coach and eases out to full frame before the take-away, so the swing and the splash play wide.

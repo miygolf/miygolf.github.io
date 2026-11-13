@@ -32,6 +32,18 @@ CUP = 22.86             # ball at the cup
 
 GRADE = "null"          # no colour grade: iPhone colour as shot
 
+# Variants (same timing, so graphics and SFX are shared):
+#   v1       : slow punch-in on the far address (plan), close address at full frame
+#   zoomout  : (v2, owner asked "zoom out at address") plan at full frame; the close address starts tight on the coach and
+#              pulls out to full frame before the take-away (~20.4), so the swing and the splash play wide
+VARIANT = os.environ.get("VARIANT", "zoomout")
+if VARIANT == "v1":
+    PLAN_ZOOM = [(0, 1.12, 1000, 2050), (3.54, 1.2, 950, 2050)]
+    SHOT_ZOOM = None
+else:
+    PLAN_ZOOM = None
+    SHOT_ZOOM = [(0, 1.38, 880, 2050), (0.25, 1.36, 885, 2045), (1.15, 1.0, 1080, 1920), (1.85, 1.0, 1080, 1920)]
+
 # EDL in film order.  kind: None (play), "freeze" (hold src a for dur)
 # zoom = [(t_in_segment, zoom, cx, cy)] in source pixels (2160x3840), smoothstep between keys
 EDL = [
@@ -41,9 +53,9 @@ EDL = [
     # "Bunker sahaja." walking in
     dict(name="walk", clip=1, a=2.72, b=3.98, speed=1.0),
     # "Almost similar, about 20 feet. Kita main stop shot."
-    dict(name="plan", clip=1, a=9.42, b=12.96, speed=1.0, zoom=[(0, 1.12, 1000, 2050), (3.54, 1.2, 950, 2050)]),
+    dict(name="plan", clip=1, a=9.42, b=12.96, speed=1.0, zoom=PLAN_ZOOM),
     # address, swing at 1x
-    dict(name="shot", clip=1, a=19.20, b=21.05, speed=1.0),
+    dict(name="shot", clip=1, a=19.20, b=21.05, speed=1.0, zoom=SHOT_ZOOM),
     # whip to the green
     dict(name="whip", clip=1, a=21.05, b=22.45, speed=2.0),
     # the roll at 1x: past the cup, "What a player!"
