@@ -11,8 +11,8 @@ Clip map (IMG_0193, handheld; the coach = grey shirt, black cap, in a greenside 
   0.00-2.38  question: "Favourite bunker nampaknya [name unclear] hari ni?" (large-v3 ms+en agree on "favourite bunker", "hari ni"; the name is not captioned)
   2.86-3.84  "Bunker sahaja."  (coach walking toward the camera, face ~ x 480-680 / y 560-720 film)
   4.38-7.30  "Saya boleh tunjuk banyak sikit educational video."
-  9.56-11.92 "Almost similar, about 20 feet."  ("20": medium full pass + 3 cropped passes; small heard "30")
-  11.92-12.82 "Kita main stop shot."  (face far, ~ x 340-510 / y 890-930 film)
+  9.56-11.92 "Almost similar, about 20 feet."  ("20": medium + large-v3 crops)
+  11.92-12.82 "Kita main stock shot."  (face far, ~ x 340-510 / y 890-930 film)
   13-19      setup, camera walks in; "stop shot" repeated 14.76-15.96 (cut)
   address ~19.2, IMPACT 20.74 (picture; sound peak 20.749), sand spray 20.75-21.0
   21.0-22.4  camera whips to the green past two players
@@ -183,10 +183,7 @@ def build_audio(tl):
     i0, i1 = int(film_time(tl, "plan", 11.90) * SR), int(film_time(tl, "plan", 12.92) * SR)
     ramp = np.ones(i1 - i0, np.float32) * db(9); f = int(0.04 * SR); ramp[:f] = np.linspace(1, db(9), f); ramp[-f:] = np.linspace(db(9), 1, f)
     buf[i0:i1] *= ramp
-    # hook: the green's own quiet (after the reaction) under the slow roll and freeze; end freeze the same
-    g = piece(1, 24.25, 25.15, 0.1)
-    for t in (0.0, 0.85, 1.7): place(g, t, -4)
-    for k in range(5): place(g, T("end_freeze") + k * 0.8, -4 - 2 * k)
+    # hook and end freeze: no sound bed. (v1 looped a 0.9 s green-ambience piece here; the owner heard it as a stuck sound: removed)
     tl["_voice"] = placed
     json.dump(tl, open(os.path.join(ROOT, "edit", "timeline.json"), "w"), indent=1)
     out = os.path.join(ROOT, "edit", "voice_raw.wav")

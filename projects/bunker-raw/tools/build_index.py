@@ -32,7 +32,7 @@ CAPS = [
     dict(words=[("Bunker", 2.86), ("*sahaja.", 3.44)], end=3.84),
     dict(words=[("Saya", 4.96), ("boleh", 5.56), ("tunjuk", 5.76), ("banyak", 6.06), ("sikit", 6.36), "/", ("*educational", 6.64), ("*video.", 7.12)], end=7.40),
     dict(words=[("Almost", 9.56), ("similar,", 10.16), "/", ("about", 10.70), ("*20", 10.92), ("*feet.", 11.24)], end=11.90),
-    dict(words=[("Kita", 11.92), ("main", 12.22), ("*stop", 12.38), ("*shot.", 12.60)], end=12.90),
+    dict(words=[("Kita", 11.92), ("main", 12.22), ("*stock", 12.38), ("*shot.", 12.60)], end=12.90),
     dict(words=[("What", 22.94), ("a", 23.42), ("*player!", 23.62), ("🔥", 23.62)], end=24.10),
 ]
 
@@ -81,10 +81,10 @@ CUPK = [[t, x + 27, y + 507] for t, x, y, n in _FL][::2]
 # ---- SFX: only five, soft ----  Mixkit ids, see assets/sfx/CREDITS.md
 SFX = {"2366-write.mp3": (0.10, 0.85), "2372.mp3": (0.03, 0.30), "3085.mp3": (0.39, 0.90)}
 CUES = [
-    (0.15, "2366-write.mp3", 0.28, "stop shot line chalked under BUNKER 101"),
+    (0.15, "2366-write.mp3", 0.28, "stock shot line chalked under BUNKER 101"),
     (B["hook_cup"] + 0.06, "2372.mp3", 0.30, "chalk circle round the cup"),
     (S("q") - 0.30, "3085.mp3", 0.22, "board wiped clean into the story"),
-    (B["w_stop"] + 0.40, "2372.mp3", 0.22, "STOP SHOT underlined, after the word"),
+    (B["w_stop"] + 0.40, "2372.mp3", 0.22, "STOCK SHOT underlined, after the word"),
     (S("end_freeze") + 0.10, "2366-write.mp3", 0.28, "HOMEWORK chalked"),
 ]
 SPEECH = [(ft, ft + b - a) for c, a, b, ft in VOICE]
