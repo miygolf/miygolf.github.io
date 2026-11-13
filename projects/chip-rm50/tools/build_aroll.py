@@ -10,6 +10,7 @@ Clip map (handheld behind/side of the coach, grey shirt; a friend in black with 
   7.3-14.6   waiting at address (cut)
   impact 16.62 (picture; sound peak 16.646), divot flies, he watches 17-22
   20.40-20.94 "Masuk!" (ms) / "Go in!" (en)   16.6-17.5 and 21.3-24.5 unclear chatter (not captioned)
+  takeaway (club face open) ~16.02, release ~16.80 (owner: "takeaway dengan open club face, pastu release macam biasa")
   23.6       camera pans to the friend on the green: hands out, "Tak dapat." 26.82-28.22 (ms; en "can't reach it")
   Faces (film px): coach x 300-560 / y 60-380 (head high in frame) -> chalk boards in the right column (x >= 560);
   friend x 300-380 / y 250-330.
@@ -27,6 +28,8 @@ SND = 16.646
 
 GRADE = "null"
 
+REPZ = [(0, 1.2, 1000, 2300), (1, 1.2, 1000, 2300)]   # gentle, on the hands / club / ball
+
 EDL = [
     # HOOK: the strike 0.5x, freeze as the turf flies
     dict(name="hook_a", clip=1, a=16.25, b=16.90, speed=0.5),
@@ -39,7 +42,13 @@ EDL = [
     dict(name="watch", clip=1, a=18.70, b=21.80, speed=1.0),
     # the friend: hands out, "Tak dapat."
     dict(name="friend", clip=1, a=24.10, b=28.90, speed=1.0),
-    dict(name="end_freeze", clip=1, a=28.90, kind="freeze", dur=4.4),
+    # HOW (owner's words: "takeaway dengan open club face, pastu release macam biasa"): replay 0.5x with two freezes
+    dict(name="rep_a", clip=1, a=15.70, b=16.02, speed=0.5, zoom=REPZ),
+    dict(name="rep_take", clip=1, a=16.02, kind="freeze", dur=1.6, zoom=REPZ),
+    dict(name="rep_b", clip=1, a=16.02, b=16.80, speed=0.5, zoom=REPZ),
+    dict(name="rep_rel", clip=1, a=16.80, kind="freeze", dur=1.6, zoom=REPZ),
+    dict(name="rep_c", clip=1, a=16.80, b=17.10, speed=0.5, zoom=REPZ),
+    dict(name="end_freeze", clip=1, a=28.90, kind="freeze", dur=3.3),
 ]
 
 
@@ -167,6 +176,7 @@ def build_audio(tl):
         s = next(x for x in EDL if x["name"] == n)
         place(piece(1, s["a"], s["b"], 0.03), T(n), 0, (1, s["a"], s["b"]))
     place(piece(1, 16.25, 16.62, 0.05), 0.0, -6)
+    place(piece(1, SND - 0.03, SND + 0.40, 0.004), film_time(tl, "rep_b", IMPACT) + 1 / FPS - 0.03, -2)   # real strike on the slowed replay
     place(piece(1, SND - 0.03, SND + 0.40, 0.004), film_time(tl, "hook_a", IMPACT) + 1 / FPS - 0.03, 0)
     tl["_voice"] = placed
     json.dump(tl, open(os.path.join(ROOT, "edit", "timeline.json"), "w"), indent=1)
@@ -186,6 +196,7 @@ if __name__ == "__main__":
         "shot_impact": film_time(tl, "shot", IMPACT),
         "w_30": film_time(tl, "bet", 1.64), "w_chip": film_time(tl, "bet", 3.38), "w_50": film_time(tl, "bet", 5.86),
         "w_masuk": film_time(tl, "watch", 20.40), "w_takdapat": film_time(tl, "friend", 26.82),
+        "rep_impact": film_time(tl, "rep_b", IMPACT),
     }
     tl["_beats"] = {k: round(v, 3) for k, v in beats.items()}
     os.makedirs(os.path.join(ROOT, "edit"), exist_ok=True)

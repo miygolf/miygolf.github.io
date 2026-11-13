@@ -31,3 +31,9 @@ npx hyperframes@0.9.32 render -q draft -o renders/preview_draft.mp4 && tools/mas
 # on "render":
 npx hyperframes@0.9.32 render -q delivery -o renders/final_raw.mp4 && tools/master.sh renders/final_raw.mp4 final/chip-rm50_1080x1920.mp4
 ```
+
+## v2 (owner: "Buang cta. Cara aku buat chip shot ni, takeaway dengan open club face pastu release macam biasa.")
+- On-screen CTA removed (and the comment/share line removed from CAPTION.md).
+- New HOW section after "Tak dapat": replay 0.5× (zoom 1.2 on hands/club/ball) with two freezes and the coach's own words chalked on:
+  **1 · takeaway, buka club face** (freeze 16.02, the face shows open toward the camera) and **2 · release macam biasa** (freeze 16.80, the turf flying).
+  Real strike on the slowed impact. HOMEWORK board now recaps the method. 28.6 s. −14 LUFS.

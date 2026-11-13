@@ -7,11 +7,13 @@
 
 "Chip in, chip in!"
 "Masuk!" 🙏
+Last-last… tak dapat 🥲
 
-Last-last… tak dapat 🥲 RM50 selamat lagi.
+Cara aku buat chip shot ni simple je:
+1️⃣ takeaway dengan open club face
+2️⃣ pastu release macam biasa
 
-Homework: try chip in dari 30 meter 📝
-Korang rasa boleh chip in dari 30 meter? Komen, share dulu 👇
+Save dulu, try kat range nanti 📌
 
 #golfmalaysia #golftips #golflesson #golfswing #chipping #fyp
 ```
@@ -19,9 +21,8 @@ Korang rasa boleh chip in dari 30 meter? Komen, share dulu 👇
 ## Instagram
 
 ```
-30 meter, chip in = RM50 💸
-Masuk!… tak dapat 😂
-Korang rasa boleh? Komen, share dulu 👇
+30 meter, chip in = RM50 💸 … tak dapat 😂
+Cara aku: takeaway open club face, release macam biasa.
 
 #golfmalaysia #golftips #golflesson #golfswing #chipping #golfreels
 ```

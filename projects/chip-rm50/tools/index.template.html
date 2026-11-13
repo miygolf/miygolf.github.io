@@ -79,13 +79,21 @@
       <div id="n-rm" class="ov board" style="left:580px; top:520px; transform: rotate(2deg);">
         <div class="hand" style="font-size:48px;"><span class="wr" id="nr">RM50… <span class="p">tak jadi</span> <span class="emo">😂</span></span></div></div>
 
+      <!-- HOW: the coach's own method, on the replay freezes -->
+      <div id="n-how" class="ov board" style="left:560px; top:300px; width:370px; padding:16px 22px 20px; transform: rotate(-1.5deg);">
+        <div class="hand" style="font-size:34px; opacity:0.9;"><span class="wr" id="nh0">Cara coach chip:</span></div>
+        <div class="hand" style="font-size:39px; margin-top:8px;"><span class="wr" id="nh1"><span class="y">1</span> · takeaway,<br>&nbsp;&nbsp;&nbsp;<span class="y">buka club face</span></span></div>
+        <div class="hand" style="font-size:39px; margin-top:8px;"><span class="wr" id="nh2"><span class="y">2</span> · <span class="y">release</span><br>&nbsp;&nbsp;&nbsp;macam biasa</span></div>
+      </div>
+      <div id="rep" class="ov board" style="left:60px; top:1180px; padding:10px 22px 14px; transform: rotate(-2deg);">
+        <div class="chalk" style="font-size:52px;">REPLAY ½×</div></div>
+
       <!-- END: homework (low, clear of the friend's face) -->
       <div id="hw" class="ov board" style="left:60px; top:640px; width:870px; transform: rotate(-1deg);">
         <div class="chalk" style="font-size:104px;"><span class="wr" id="hw1">HOMEWORK <span class="emo" style="font-size:80px">📝</span></span></div>
-        <div class="hand" style="font-size:50px; margin-top:8px;"><span class="wr" id="hw2">try <span class="y">chip in</span> dari 30 meter</span></div>
-        <div class="hand p" style="font-size:44px; margin-top:4px;"><span class="wr" id="hw3">(RM50 standby 😂)</span></div>
+        <div class="hand" style="font-size:46px; margin-top:8px;"><span class="wr" id="hw2">takeaway <span class="y">buka face</span>, release biasa</span></div>
+        <div class="hand p" style="font-size:44px; margin-top:4px;"><span class="wr" id="hw3">(target chip in, RM50 standby 😂)</span></div>
       </div>
-      <div id="cta" class="ov cap" style="top:1206px; font-size:40px;">Korang rasa boleh chip in dari 30 meter? <span class="emo">🤔</span><br><span style="color:#ffe07a">Komen, share dulu</span> <span class="emo">👇</span></div>
 
       <!-- captions -->
       {{CAPS}}
@@ -138,13 +146,20 @@
         write("#nb1", B.w_30, 0.45); write("#nb2", B.w_chip + 0.05, 0.5); write("#nb3", B.w_50 + 0.05, 0.45);
         // ---------- watching / the friend ----------
         board("#n-pray", B.w_masuk + 0.35, T.friend.start - 0.06, { rotation: -6 }); write("#np", B.w_masuk + 0.4, 0.55);
-        board("#n-rm", B.w_takdapat + 0.35, T.end_freeze.start - 0.06, { rotation: 6 }); write("#nr", B.w_takdapat + 0.4, 0.55);
+        board("#n-rm", B.w_takdapat + 0.35, T.rep_a.start - 0.06, { rotation: 6 }); write("#nr", B.w_takdapat + 0.4, 0.55);
+
+        // ---------- HOW: replay with the coach's two steps ----------
+        board("#rep", T.rep_a.start + 0.05, T.end_freeze.start - 0.06, { rotation: -6 });
+        board("#n-how", T.rep_a.start + 0.1, T.end_freeze.start - 0.06, { rotation: 5 });
+        write("#nh0", T.rep_a.start + 0.15, 0.4);
+        write("#nh1", T.rep_take.start + 0.05, 0.6);
+        write("#nh2", T.rep_rel.start + 0.05, 0.6);
+        tl.fromTo("#aroll", { scale: 1.03 }, { scale: 1, duration: 0.3, ease: "power2.out", immediateRender: false }, T.rep_take.start);
+        tl.fromTo("#aroll", { scale: 1.03 }, { scale: 1, duration: 0.3, ease: "power2.out", immediateRender: false }, T.rep_rel.start);
 
         // ---------- END ----------
         board("#hw", T.end_freeze.start + 0.05, null, { rotation: 2 });
-        write("#hw1", T.end_freeze.start + 0.1, 0.5); write("#hw2", T.end_freeze.start + 0.65, 0.55); write("#hw3", T.end_freeze.start + 1.0, 0.45);
-        const cta = $("#cta"); hide0(cta);
-        tl.fromTo(cta, { opacity: 0 }, { opacity: 1, duration: 0.15, immediateRender: false }, T.end_freeze.start + 0.6);
+        write("#hw1", T.end_freeze.start + 0.1, 0.5); write("#hw2", T.end_freeze.start + 0.65, 0.55); write("#hw3", T.end_freeze.start + 0.85, 0.45);
         window.__timelines["main"] = tl;
       })();
     </script>

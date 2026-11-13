@@ -71,6 +71,8 @@ CUES = [
     (0.15, "2366-write.mp3", 0.28, "RM50 line chalked under CHIP 101"),
     (S("bet") - 0.30, "3085.mp3", 0.22, "board wiped clean into the story"),
     (B["w_50"] + 0.10, "2372.mp3", 0.22, "RM50 chalked"),
+    (S("rep_take") + 0.05, "2366-write.mp3", 0.24, "step 1 chalked on the takeaway freeze"),
+    (S("rep_rel") + 0.05, "2366-write.mp3", 0.24, "step 2 chalked on the release freeze"),
     (S("end_freeze") + 0.10, "2366-write.mp3", 0.28, "HOMEWORK chalked"),
 ]
 

@@ -23,11 +23,31 @@
   "start": 14.5,
   "end": 19.3
  },
- "end_freeze": {
+ "rep_a": {
   "start": 19.3,
-  "end": 23.7
+  "end": 19.9333
  },
- "_total": 23.7,
+ "rep_take": {
+  "start": 19.9333,
+  "end": 21.5333
+ },
+ "rep_b": {
+  "start": 21.5333,
+  "end": 23.1
+ },
+ "rep_rel": {
+  "start": 23.1,
+  "end": 24.7
+ },
+ "rep_c": {
+  "start": 24.7,
+  "end": 25.3
+ },
+ "end_freeze": {
+  "start": 25.3,
+  "end": 28.6
+ },
+ "_total": 28.6,
  "_beats": {
   "hook_impact": 0.74,
   "shot_impact": 10.42,
@@ -35,7 +55,8 @@
   "w_chip": 4.48,
   "w_50": 6.96,
   "w_masuk": 13.1,
-  "w_takdapat": 17.22
+  "w_takdapat": 17.22,
+  "rep_impact": 22.733
  },
  "_voice": [
   [
