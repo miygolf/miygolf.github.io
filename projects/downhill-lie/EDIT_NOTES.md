@@ -43,3 +43,9 @@ npx hyperframes@0.9.32 render -q draft -o renders/preview_draft.mp4 && tools/mas
 # on "render":
 npx hyperframes@0.9.32 render -q delivery -o renders/final_raw.mp4 && tools/master.sh renders/final_raw.mp4 final/downhill-lie_1080x1920.mp4
 ```
+
+## Delivery
+Owner: "Ok render", then "Voice hujung tu mute": the room tone under the pan / end card / hook came from the clip's last seconds (68.4–70.2),
+which carry "okay … breathe" from behind the phone. Replaced with a voice-free stretch (27.10–29.30); the end of the final has no speech
+(medium + VAD re-check). `final/downhill-lie_1080x1920.mp4`: 38.3 s, 1080×1920, 30 fps, H.264 High ~12.6 Mbps, AAC 256k, −14.0 LUFS, −2.0 dBTP.
+The "… kanan sikit" tip (55–60 s) stays out (not confirmed).
