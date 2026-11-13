@@ -47,3 +47,6 @@ npx hyperframes@0.9.32 render -q delivery -o renders/final_raw.mp4 && tools/mast
   close address starts at 1.38× on the coach and eases out to full frame before the take-away, so the swing and the splash play wide.
 - v3 (`previews/bunker-nyaris_preview_v3_wide.mp4`, default `VARIANT=wide`): owner: "bagi nampak surrounding" — hook 1.25–1.36× (was 1.9–2.2×)
   so the green, trees and hills read, both addresses at full frame, replay 1.2–1.28× (was 1.6–1.75×). Hook cup ring position is computed from the zoom.
+
+## Delivery
+Owner approved v3 ("Render", 2026-11-13). `final/bunker-nyaris_1080x1920.mp4`: 16.5 s, 1080×1920, 30 fps, H.264 High ~12.5 Mbps, AAC 256k 48 kHz, −14.1 LUFS, −2.1 dBTP.
