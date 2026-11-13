@@ -1,0 +1,30 @@
+== ms
+[  0.00-  1.56]  Favourite bangka nampaknya
+    Favourite@0.00 bangka@1.02 nampaknya@1.22
+[  1.56-  2.38]  Kok Syibah hari ni
+    Kok@1.56 Syibah@1.82 hari@2.08 ni@2.24
+[  2.38-  3.64]  Bangka sahaja
+    Bangka@2.38 sahaja@3.30
+[  3.64-  6.54]  Saya boleh tunjuk banyak sikit
+    Saya@3.64 boleh@4.92 tunjuk@5.64 banyak@5.98 sikit@6.20
+[  6.54-  7.28]  Educational video
+    Educational@6.54 video@6.98
+[  9.30- 10.34]  Almost similar
+    Almost@9.30 similar@9.98
+[ 10.34- 11.32]  About 20 feet
+    About@10.34 20@10.78 feet@11.04
+[ 22.00- 23.66]  Wah the player
+    Wah@22.00 the@22.68 player@23.36
+== en
+[  0.00-  1.72]  Favourite bunker you see today?
+    Favourite@0.00 bunker@1.02 you@1.16 see@1.38 today?@1.42
+[  2.40-  3.16]  Just a bunker
+    Just@2.40 a@2.90 bunker@2.90
+[  4.38-  7.30]  I can show you a lot of educational videos
+    I@4.38 can@4.98 show@5.58 you@5.90 a@6.00 lot@6.06 of@6.20 educational@6.56 videos@6.78
+[  9.38- 11.30]  Almost similar, about 20 feet
+    Almost@9.38 similar,@9.98 about@10.54 20@10.78 feet@11.00
+[ 12.00- 12.68]  The main stop shaft
+    The@11.78 main@12.08 stop@12.20 shaft@12.42
+[ 22.16- 23.66]  Wow the player
+    Wow@22.16 the@22.76 player@23.36
