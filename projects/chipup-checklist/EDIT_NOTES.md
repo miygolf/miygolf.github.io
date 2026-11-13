@@ -36,3 +36,8 @@ npx hyperframes@0.9.32 render -q delivery -o renders/final_raw.mp4 && tools/mast
 No frame of this clip has a smile (checked every frame 26.2–26.96), and no face editing is done. The owner chose to close on the same person
 laughing the same morning: `projects/coach-duff` clip2 (IMG_0188) 26.30–26.95 at 1×, freeze on 26.95 (big smile; same shirt and cap).
 That clip is `.src/clip2.mov` here (tools/fetch.sh fetches it).
+
+## v3 + delivery (owner: "Part hand gesture peace buang pastu render")
+- The two-finger selfie removed: the camera's move to the green cuts straight to the laugh; sticky now "Kelas habis 😄".
+- `final/chipup-checklist_1080x1920.mp4`: 21.8 s, 1080×1920, 30 fps, H.264 High ~12.7 Mbps, AAC 256k, −14.0 LUFS, −2.9 dBTP.
+- Still open: "chip up" vs "chip uphill" (title kept neutral: CHIPPING).

@@ -42,7 +42,7 @@ EDL = [
     dict(name="p4b", clip=1, a=15.32, b=17.75, speed=1.0),
     dict(name="shot", clip=1, a=17.75, b=20.60, speed=1.0),
     dict(name="pan", clip=1, a=21.00, b=23.30, speed=1.0),
-    dict(name="selfie", clip=1, a=26.05, b=26.75, speed=1.0),
+    # (v3: the two-finger selfie removed, owner: "part hand gesture peace buang")
     # owner: "muka hujung tu ejas bagi senyum" -> no smiling frame in this clip; the same person laughing on the same morning
     # (projects/coach-duff clip2, IMG_0188, 26.30-26.95, same shirt and cap) closes the video instead (owner chose option 1)
     dict(name="laugh", clip=2, a=26.30, b=26.95, speed=1.0),
@@ -170,7 +170,7 @@ def build_audio(tl):
         i = int(t * SR); x = x[:max(0, len(buf) - i)]; buf[i:i + len(x)] += x * db(gain_db)
         if src: placed.append([src[0], round(src[1], 3), round(src[2], 3), round(t, 4)])
     T = lambda n: tl[n]["start"]
-    for n in ("intro", "p1", "p2", "p3", "p4a", "p4b", "shot", "pan", "selfie", "laugh"):
+    for n in ("intro", "p1", "p2", "p3", "p4a", "p4b", "shot", "pan", "laugh"):
         s = next(x for x in EDL if x["name"] == n)
         place(piece(s["clip"], s["a"], s["b"], 0.03), T(n), 0, (s["clip"], s["a"], s["b"]))
     place(piece(1, 18.85, 19.20, 0.05), 0.0, -6)
