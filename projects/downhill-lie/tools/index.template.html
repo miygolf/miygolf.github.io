@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Spirit Level": an uneven-lie lesson told with a builder's level. Every card is a level-yellow tool body with a mint glass vial;
+         it slides in tilted (the slope) and levels out as its bubble glides to the centre lines. Step numbers sit in the bubble.
+         Section changes are a tilted yellow band with hazard edges sweeping across. Ground marks (stance bracket, grip ring, low-point
+         ring, left-foot arrow) ride the tracked ball. Captions: ink plates, the spoken key word in level yellow.
+         Type: Big Shoulders Display 800/900 (headlines) + Figtree 700/800 (captions, subs) + Red Hat Mono 600 (labels) + Noto Color Emoji.
+         Palette: level yellow #ffd400, ink #121212, vial mint #bff3cf, bubble #f7fff9, aluminium #a7afb6.
+         Safe band: x 60-930, y 168-1330. Faces (EDIT_NOTES.md): coach face-on, face x 470-720 / y 460-700 -> cards y 192-440, captions y 1150+,
+         ground marks at the feet / ball (y 1180-1620). */
+      @font-face { font-family: "BigS"; font-weight: 100 900; src: url("assets/fonts/BigShoulders.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Figtree"; font-weight: 300 900; src: url("assets/fonts/Figtree-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "RHM"; font-weight: 300 700; src: url("assets/fonts/RedHatMono-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Noto Color Emoji"; font-weight: 400; src: url("assets/fonts/NotoColorEmoji.ttf") format("truetype"); font-display: block; }
+      :root { --y: #ffd400; --ink: #121212; --mint: #bff3cf; --bub: #f7fff9; --al: #a7afb6; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; transform-origin: 50% 50%; }
+      .ov { position: absolute; z-index: 6; opacity: 0; pointer-events: none; }
+      .emo { font-family: "Noto Color Emoji", sans-serif; font-weight: 400; }
+      .mono { font-family: "RHM", monospace; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+
+      /* ---- level card ---- */
+      .lvl { left: 60px; top: 192px; width: 870px; display: flex; align-items: stretch; background: var(--y); color: var(--ink); border-radius: 16px;
+             box-shadow: 0 0 0 4px var(--ink), 0 16px 34px rgba(0,0,0,0.35); transform-origin: 0% 50%; overflow: hidden; }
+      .lvl::before, .lvl::after { content: ""; position: absolute; top: 0; bottom: 0; width: 14px; background: linear-gradient(90deg, #8f979e, #cdd3d8, #8f979e); }
+      .lvl::before { left: 0; } .lvl::after { right: 0; }
+      .vial { flex: 0 0 210px; margin: 18px 0 18px 32px; border-radius: 999px; background: linear-gradient(180deg, #e6fff0, var(--mint) 45%, #93e2b0);
+              box-shadow: inset 0 0 0 4px var(--ink), inset 0 6px 10px rgba(255,255,255,0.7); position: relative; overflow: hidden; }
+      .vial .ln { position: absolute; top: 12px; bottom: 12px; width: 4px; background: var(--ink); opacity: 0.85; }
+      .vial .ln.a { left: calc(50% - 40px); } .vial .ln.b { left: calc(50% + 36px); }
+      .vial .bub { position: absolute; top: 50%; left: 50%; width: 66px; height: 66px; margin: -33px 0 0 -33px; border-radius: 50%;
+                   background: radial-gradient(circle at 35% 30%, #fff, var(--bub) 40%, #d7f7e3); box-shadow: inset 0 0 0 3px rgba(18,18,18,0.55);
+                   display: flex; align-items: center; justify-content: center; font-family: "BigS"; font-weight: 900; font-size: 46px; line-height: 1; }
+      .lvl .body { flex: 1; padding: 20px 40px 22px 28px; display: flex; flex-direction: column; justify-content: center; }
+      .lvl .lab { font-size: 28px; display: flex; align-items: center; gap: 12px; }
+      .lvl .lab::after { content: ""; flex: 1; height: 3px; background: repeating-linear-gradient(90deg, var(--ink) 0 14px, transparent 14px 22px); opacity: 0.5; }
+      .lvl .hd { font-family: "BigS"; font-weight: 900; font-size: 104px; line-height: 0.9; text-transform: uppercase; margin-top: 6px; white-space: nowrap; }
+      .lvl .sub { font-family: "Figtree"; font-weight: 700; font-size: 34px; margin-top: 6px; }
+      .lvl svg.dg { position: absolute; right: 34px; top: 26px; width: 120px; height: 136px; }
+
+      /* ---- caption plate ---- */
+      .cap { left: 540px; top: 1150px; transform: translateX(-50%); max-width: 870px; padding: 14px 28px 18px; background: rgba(18,18,18,0.82); border-radius: 14px;
+             color: #fff; font-family: "Figtree"; font-weight: 800; font-size: 48px; line-height: 1.15; text-align: center; white-space: nowrap;
+             box-shadow: 0 10px 26px rgba(0,0,0,0.3); border-bottom: 5px solid var(--y); }
+      .cap .w { color: #a9a9a9; }
+      .cap .w.on { color: #fff; }
+      .cap .w.hot.on { color: var(--y); }
+
+      /* ---- ground marks ---- */
+      #marks { left: 0; top: 0; width: 1080px; height: 1920px; opacity: 1; z-index: 5; overflow: visible; }
+      #marks .k { stroke: var(--ink); stroke-width: 14; fill: none; stroke-linecap: round; stroke-linejoin: round; opacity: 0.55; }
+      #marks .y { stroke: var(--y); stroke-width: 8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      #marks .yd { stroke: var(--y); stroke-width: 6; fill: none; stroke-dasharray: 4 14; stroke-linecap: round; }
+      #marks text { font-family: "RHM"; font-weight: 700; font-size: 34px; fill: var(--ink); letter-spacing: 0.06em; }
+      .chip { padding: 8px 16px 10px; background: var(--y); color: var(--ink); border-radius: 10px; font-size: 30px; box-shadow: 0 0 0 4px var(--ink); white-space: nowrap; }
+
+      /* ---- tilted band wipe ---- */
+      #wipe { position: absolute; left: -400px; top: -300px; width: 1900px; height: 2600px; z-index: 9; pointer-events: none; opacity: 0;
+              display: flex; transform: rotate(-9deg); }
+      #wipe .b { flex: 0 0 760px; height: 100%; background: var(--y); position: relative; }
+      #wipe .b::before, #wipe .b::after { content: ""; position: absolute; top: 0; bottom: 0; width: 46px;
+              background: repeating-linear-gradient(45deg, var(--ink) 0 22px, var(--y) 22px 44px); }
+      #wipe .b::before { left: 0; } #wipe .b::after { right: 0; }
+      #flash { position: absolute; inset: 0; z-index: 8; background: #fff; opacity: 0; pointer-events: none; }
+
+      /* ---- end recap ---- */
+      #recap { left: 60px; top: 192px; width: 870px; background: var(--y); border-radius: 16px; box-shadow: 0 0 0 4px var(--ink), 0 16px 34px rgba(0,0,0,0.35);
+               color: var(--ink); overflow: hidden; transform-origin: 0% 50%; }
+      #recap .hdr { display: flex; align-items: center; gap: 22px; padding: 20px 30px 16px; border-bottom: 4px solid var(--ink); }
+      #recap .hdr .vial { flex: 0 0 170px; height: 64px; margin: 0; }
+      #recap .hdr .vial .bub { width: 44px; height: 44px; margin: -22px 0 0 -22px; }
+      #recap .hdr b { font-family: "BigS"; font-weight: 900; font-size: 76px; line-height: 0.9; text-transform: uppercase; }
+      #recap .row { display: flex; align-items: center; gap: 20px; padding: 12px 30px; border-bottom: 3px dashed rgba(18,18,18,0.3); }
+      #recap .row:last-child { border-bottom: 0; }
+      #recap .row i { flex: 0 0 58px; height: 58px; border-radius: 50%; background: var(--ink); color: var(--y); font-style: normal; font-family: "BigS"; font-weight: 900;
+                      font-size: 40px; display: flex; align-items: center; justify-content: center; }
+      #recap .row span { font-family: "Figtree"; font-weight: 800; font-size: 44px; }
+      #save { left: 330px; top: 900px; }
+      #save .chip { font-size: 36px; padding: 12px 22px 14px; background: var(--ink); color: var(--y); box-shadow: 0 0 0 4px var(--y); }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="{{TOTAL}}" data-width="1080" data-height="1920" data-fps="30">
+      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="{{TOTAL}}" data-track-index="1" muted playsinline></video>
+
+      <svg id="marks" class="ov" viewBox="0 0 1080 1920"><g id="anc">
+        <g id="m-stance"><path class="k" d="M {{FLX}} {{FLY}} L {{FRX}} {{FRY}}"/><path class="y" id="m-br" d="M {{FLX}} {{FLY}} L {{FRX}} {{FRY}}"/>
+          <path class="k" d="M {{FLX}} {{FLY}} m 0 -26 v 52 M {{FRX}} {{FRY}} m 0 -26 v 52"/><path class="y" d="M {{FLX}} {{FLY}} m 0 -26 v 52 M {{FRX}} {{FRY}} m 0 -26 v 52"/>
+          <path class="yd" id="m-mid" d="M 13 -222 L 0 -30"/><circle class="k" r="30"/><circle class="y" id="m-ball" r="30"/></g>
+        <g id="m-grip"><circle class="k" cx="{{HX}}" cy="{{HY}}" r="70"/><circle class="y" id="m-gr" cx="{{HX}}" cy="{{HY}}" r="70"/>
+          <path class="k" d="M {{HX}} {{HY}} m 110 -50 v 100 m -24 -26 l 24 26 l 24 -26"/><path class="y" d="M {{HX}} {{HY}} m 110 -50 v 100 m -24 -26 l 24 26 l 24 -26"/></g>
+        <g id="m-low"><ellipse class="k" rx="64" ry="22"/><ellipse class="y" id="m-lr" rx="64" ry="22"/>
+          <g id="q1" transform="translate(-110 -60)"><circle r="30" fill="#ffd400" stroke="#121212" stroke-width="5"/><text x="-10" y="12">?</text></g>
+          <g id="q2" transform="translate(90 -60)"><circle r="30" fill="#ffd400" stroke="#121212" stroke-width="5"/><text x="-10" y="12">?</text></g></g>
+        <g id="m-foot"><path class="k" d="M {{FRX}} {{FRY}} m 0 -190 v 130 m -34 -36 l 34 36 l 34 -36"/><path class="y" d="M {{FRX}} {{FRY}} m 0 -190 v 130 m -34 -36 l 34 36 l 34 -36"/>
+          <ellipse class="k" cx="{{FRX}}" cy="{{FRY}}" rx="70" ry="24"/><ellipse class="y" cx="{{FRX}}" cy="{{FRY}}" rx="70" ry="24"/></g>
+        <g id="m-direct"><circle class="k" r="34"/><circle class="y" id="m-dr" r="34"/></g>
+      </g></svg>
+      <div id="footchip" class="ov chip mono">Kaki kiri</div>
+
+      <!-- HOOK, frame 0 -->
+      <div id="hook" class="ov lvl"><div class="vial"><div class="ln a"></div><div class="ln b"></div><div class="bub"></div></div>
+        <div class="body"><div class="lab mono">Uneven lie</div><div class="hd" style="font-size:132px;">Downhill</div></div></div>
+      <div id="steps4" class="ov chip mono" style="left:640px; top:470px; font-size:34px;">4 step je ↓</div>
+
+      <!-- LIE -->
+      <div id="c-lie" class="ov lvl"><div class="vial"><div class="ln a"></div><div class="ln b"></div><div class="bub"></div></div>
+        <div class="body"><div class="lab mono">Lie</div><div class="hd">Menurun</div><div class="sub">downhill · uneven lie</div></div></div>
+      <!-- TENDENCY -->
+      <div id="c-tend" class="ov lvl"><div class="vial"><div class="ln a"></div><div class="ln b"></div><div class="bub"><span class="emo" style="font-size:34px">⚠️</span></div></div>
+        <div class="body" style="padding-right:180px;"><div class="lab mono">Tendency</div><div class="hd" style="font-size:86px;">Bola ke kiri</div></div>
+        <svg class="dg" viewBox="0 0 150 170"><path d="M 96 160 V 20" stroke="#121212" stroke-width="5" stroke-dasharray="6 10" fill="none"/>
+          <path d="M 86 20 l 10 -14 l 10 14" stroke="#121212" stroke-width="5" fill="none"/>
+          <path id="dg-curve" d="M 96 160 C 96 100 80 60 30 34" stroke="#121212" stroke-width="10" fill="none" stroke-linecap="round"/>
+          <circle cx="96" cy="160" r="9" fill="#fff" stroke="#121212" stroke-width="4"/></svg></div>
+      <!-- STEPS -->
+      <div id="c-s1" class="ov lvl"><div class="vial"><div class="ln a"></div><div class="ln b"></div><div class="bub">1</div></div>
+        <div class="body"><div class="lab mono">Step 1</div><div class="hd">Bola tengah</div><div class="sub">ball position tengah stance</div></div></div>
+      <div id="c-s2" class="ov lvl"><div class="vial"><div class="ln a"></div><div class="ln b"></div><div class="bub">2</div></div>
+        <div class="body"><div class="lab mono">Step 2</div><div class="hd" style="font-size:90px;">Pegang pendek</div><div class="sub">grip down sikit</div></div></div>
+      <div id="c-s3" class="ov lvl"><div class="vial"><div class="ln a"></div><div class="ln b"></div><div class="bub">3</div></div>
+        <div class="body"><div class="lab mono">Step 3</div><div class="hd" style="font-size:90px;">Cari low point</div><div class="sub">practice swing dulu</div></div></div>
+      <div id="c-s4" class="ov lvl"><div class="vial"><div class="ln a"></div><div class="ln b"></div><div class="bub">4</div></div>
+        <div class="body"><div class="lab mono">Step 4</div><div class="hd">Weight kiri</div><div class="sub">supaya kena bola direct</div></div></div>
+
+      <!-- END recap -->
+      <div id="recap" class="ov"><div class="hdr"><div class="vial"><div class="ln a"></div><div class="ln b"></div><div class="bub"></div></div><b>Downhill lie</b></div>
+        <div class="row"><i>1</i><span>Bola tengah stance</span></div>
+        <div class="row"><i>2</i><span>Pegang pendek</span></div>
+        <div class="row"><i>3</i><span>Practice swing, cari low point</span></div>
+        <div class="row"><i>4</i><span>Weight kaki kiri</span></div></div>
+      <div id="save" class="ov"><div class="chip mono">Save. Try kat range <span class="emo">📌</span></div></div>
+
+      <!-- captions -->
+      {{CAPS}}
+      <div id="wipe"><div class="b"></div></div>
+      <div id="flash"></div>
+{{AUDIO}}
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {{CONSTS}};
+        const T = K.T, B = K.B, W = K.W, ST = K.STEP;
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        const hide0 = (el) => tl.set(el, { opacity: 0 }, 0);
+        // level card: slides in tilted like the slope, the bubble sits off-centre, then the card levels and the bubble glides to the lines
+        function level(sel, t0, t1) {
+          const el = $(sel); hide0(el);
+          const bub = el.querySelector(".vial .bub");
+          tl.fromTo(el, { opacity: 1, x: -140, rotation: -7 }, { x: 0, duration: 0.34, ease: "power3.out", immediateRender: false }, t0);
+          tl.to(el, { rotation: 0, duration: 0.5, ease: "elastic.out(1, 0.55)" }, t0 + 0.3);
+          if (bub) tl.fromTo(bub, { x: -62 }, { x: 0, duration: 0.6, ease: "back.out(2.2)", immediateRender: false }, t0 + 0.32);
+          if (t1 != null) {
+            tl.to(el, { x: 980, rotation: 5, duration: 0.3, ease: "power2.in" }, t1);
+            tl.set(el, { opacity: 0, x: 0, rotation: 0 }, t1 + 0.3);
+          }
+          return el;
+        }
+        function wipe(tc) {
+          tl.set("#wipe", { opacity: 1 }, tc - 0.22);
+          tl.fromTo("#wipe", { x: -1300 }, { x: 1500, duration: 0.5, ease: "power2.inOut", immediateRender: false }, tc - 0.22);
+          tl.set("#wipe", { opacity: 0 }, tc + 0.3);
+        }
+        function flash(t, a) { tl.fromTo("#flash", { opacity: a || 0.6 }, { opacity: 0, duration: 0.24, ease: "power2.out", immediateRender: false }, t); }
+        function punch(t, s) { tl.fromTo("#aroll", { scale: s || 1.04 }, { scale: 1, duration: 0.32, ease: "power3.out", immediateRender: false }, t); }
+        function show(sel, t0, t1, from) {
+          const el = $(sel); hide0(el);
+          tl.fromTo(el, Object.assign({ opacity: 0, scale: 0.6, transformOrigin: "50% 50%" }, from || {}), { opacity: 1, scale: 1, duration: 0.28, ease: "back.out(2.4)", immediateRender: false }, t0);
+          if (t1 != null) tl.to(el, { opacity: 0, duration: 0.16 }, t1);
+          return el;
+        }
+
+        // ---------- captions ----------
+        K.CAP.forEach((c, i) => {
+          const el = $("#cap" + i); hide0(el);
+          tl.fromTo(el, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.16, ease: "power2.out", immediateRender: false }, Math.max(c.t0, 0));
+          tl.to(el, { opacity: 0, duration: 0.12 }, c.t1);
+          el.querySelectorAll(".w").forEach((w) => tl.set(w, { className: w.className + " on" }, Math.max(parseFloat(w.dataset.t), 0)));
+        });
+
+        // ---------- ground-mark anchor rides the ball ----------
+        tl.set("#anc", { x: 600, y: 1500 }, 0);
+        Object.keys(K.BALL).forEach((seg) => {
+          const p = K.BALL[seg]; if (!p.length) return;
+          tl.set("#anc", { x: p[0][1], y: p[0][2] }, p[0][0]);
+          for (let i = 1; i < p.length; i++) tl.to("#anc", { x: p[i][1], y: p[i][2], duration: Math.max(0.01, p[i][0] - p[i - 1][0]), ease: "none" }, p[i - 1][0]);
+        });
+        ["#m-stance", "#m-grip", "#m-low", "#m-foot", "#m-direct", "#q1", "#q2"].forEach((s) => tl.set(s, { opacity: 0 }, 0));
+
+        // ---------- HOOK ----------
+        const hk = $("#hook");
+        tl.set(hk, { opacity: 1, rotation: -6 }, 0);                       // text on frame 0 (tilted, then it levels)
+        tl.to(hk, { rotation: 0, duration: 0.6, ease: "elastic.out(1, 0.5)" }, 0.12);
+        tl.fromTo("#hook .bub", { x: -62 }, { x: 0, duration: 0.6, ease: "back.out(2.2)", immediateRender: false }, 0.12);
+        flash(T.hook_freeze.start, 0.5); punch(B.hook_impact, 1.03);
+        show("#steps4", T.hook_b.start + 0.05, T.lie.start - 0.1, { rotation: -10 });
+        tl.to(hk, { x: 980, rotation: 5, duration: 0.3, ease: "power2.in" }, T.lie.start - 0.2);
+        tl.set(hk, { opacity: 0 }, T.lie.start + 0.1);
+        wipe(T.lie.start);
+
+        // ---------- LIE / TENDENCY ----------
+        level("#c-lie", ST.lie, ST.tend - 0.32);
+        // the lie card's vial tips and stays off level while he says "menurun"
+        tl.to("#c-lie", { rotation: -5, duration: 0.4, ease: "power2.out" }, W.w_menurun);
+        tl.to("#c-lie .bub", { x: -62, duration: 0.5, ease: "power2.out" }, W.w_menurun);
+        level("#c-tend", ST.tend, ST.s1 - 0.32);
+        const cv = $("#dg-curve"), CL = cv.getTotalLength();
+        tl.set(cv, { attr: { "stroke-dasharray": `${CL} ${CL}`, "stroke-dashoffset": CL } }, 0);
+        tl.to(cv, { attr: { "stroke-dashoffset": 0 }, duration: 0.6, ease: "power2.out" }, W.w_kiri - 0.1);
+
+        // ---------- STEPS ----------
+        level("#c-s1", ST.s1, ST.s2 - 0.32);
+        const br = $("#m-br"), BL = br.getTotalLength();
+        tl.set("#m-stance", { opacity: 1 }, W.w_tengah + 0.05);
+        tl.fromTo(br, { attr: { "stroke-dasharray": `${BL} ${BL}`, "stroke-dashoffset": BL } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.35, ease: "power2.out", immediateRender: false }, W.w_tengah + 0.05);
+        tl.fromTo("#m-ball", { attr: { r: 6 } }, { attr: { r: 30 }, duration: 0.3, ease: "back.out(2)", immediateRender: false }, W.w_tengah + 0.4);
+        tl.to("#m-stance", { opacity: 0, duration: 0.15 }, T.s2.start - 0.1);
+
+        level("#c-s2", ST.s2, ST.s3 - 0.32);
+        tl.set("#m-grip", { opacity: 1 }, W.w_pendek);
+        tl.fromTo("#m-gr", { attr: { r: 10 } }, { attr: { r: 70 }, duration: 0.32, ease: "back.out(2)", immediateRender: false }, W.w_pendek);
+        tl.to("#m-grip", { opacity: 0, duration: 0.15 }, T.s3.start - 0.05);
+
+        level("#c-s3", ST.s3, ST.s4 - 0.32);
+        tl.set("#m-low", { opacity: 1 }, W.w_lowpoint);
+        tl.fromTo("#m-lr", { attr: { rx: 8, ry: 3 } }, { attr: { rx: 64, ry: 22 }, duration: 0.34, ease: "back.out(2)", immediateRender: false }, W.w_lowpoint);
+        tl.fromTo("#q1", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(3)", immediateRender: false }, W.sini1);
+        tl.fromTo("#q2", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(3)", immediateRender: false }, W.sini2);
+        tl.to("#m-low", { opacity: 0, duration: 0.15 }, T.s4a.start - 0.05);
+
+        level("#c-s4", ST.s4, T.shot.start - 0.3);
+        tl.set("#m-foot", { opacity: 1 }, W.w_kakikiri);
+        tl.fromTo("#m-foot", { y: -30 }, { y: 0, duration: 0.3, ease: "bounce.out", immediateRender: false }, W.w_kakikiri);
+        tl.to("#m-foot", { opacity: 0, duration: 0.15 }, T.s4b.start - 0.05);
+        tl.set("#m-direct", { opacity: 1 }, W.w_direct);
+        tl.fromTo("#m-dr", { attr: { r: 6 } }, { attr: { r: 34 }, duration: 0.3, ease: "back.out(2)", immediateRender: false }, W.w_direct);
+        tl.to("#m-direct", { opacity: 0, duration: 0.15 }, T.shot.start - 0.05);
+
+        // ---------- THE SHOT ----------
+        wipe(T.shot.start);
+        flash(B.shot_impact, 0.45); punch(B.shot_impact, 1.035);
+
+        // ---------- END ----------
+        const rc = $("#recap"); hide0(rc);
+        tl.fromTo(rc, { opacity: 1, x: -140, rotation: -7 }, { x: 0, duration: 0.34, ease: "power3.out", immediateRender: false }, ST.end);
+        tl.to(rc, { rotation: 0, duration: 0.5, ease: "elastic.out(1, 0.55)" }, ST.end + 0.3);
+        tl.fromTo("#recap .bub", { x: -50 }, { x: 0, duration: 0.6, ease: "back.out(2.2)", immediateRender: false }, ST.end + 0.32);
+        document.querySelectorAll("#recap .row").forEach((r, i) => {
+          tl.set(r, { opacity: 0 }, 0);
+          tl.fromTo(r, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.22, ease: "power2.out", immediateRender: false }, ST.end + 0.55 + i * 0.17);
+        });
+        show("#save", ST.end + 1.45, null, { rotation: -8 });
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>

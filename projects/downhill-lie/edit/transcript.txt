@@ -1,0 +1,104 @@
+== ms
+[  1.44-  2.28]  menampak downhill
+    menampak@1.44 downhill@2.08
+[  2.28-  3.54]  uneven line
+    uneven@2.28 line@2.78
+[  6.98-  7.92]  dekat sikit
+    dekat@6.98 sikit@7.62
+[  7.92-  9.50]  bagi nampak
+    bagi@7.92 nampak@8.66
+[ 11.04- 12.66]  so line dia ni
+    so@11.04 line@11.68 dia@12.10 ni@12.44
+[ 12.66- 13.74]  menurun macam ni
+    menurun@12.66 macam@13.24 ni@13.48
+[ 14.28- 15.36]  dah lah downhill line
+    dah@14.24 lah@14.56 downhill@14.68 line@14.94
+[ 15.36- 17.02]  kasi dekat bawah
+    kasi@15.36 dekat@16.26 bawah@16.54
+[ 17.02- 18.46]  nak buat apa
+    nak@17.02 buat@18.16 apa@18.32
+[ 19.82- 21.24]  ok the tendency normally
+    ok@19.82 the@20.46 tendency@20.64 normally@20.92
+[ 21.24- 22.10]  this kind of line
+    this@21.24 kind@21.64 of@21.80 line@21.90
+[ 22.10- 23.12]  memang bola pergi kiri
+    memang@22.10 bola@22.34 pergi@22.58 kiri@22.76
+[ 23.98- 25.16]  kiri satu hal
+    kiri@23.98 satu@24.62 hal@24.84
+[ 25.16- 26.20]  draft satu hal
+    draft@25.16 satu@25.72 hal@25.92
+[ 26.20- 26.56]  betul
+    betul@26.20
+[ 29.22- 31.16]  So, macam saya selalu buat
+    So,@29.22 macam@29.98 saya@30.28 selalu@30.52 buat@30.90
+[ 31.16- 32.60]  Cooperation tengah
+    Cooperation@31.16 tengah@32.06
+[ 32.60- 33.02]  Saya maintain
+    Saya@32.60 maintain@32.68
+[ 33.02- 34.80]  Apa-apa jenis line pun
+    Apa@33.02 -apa@33.34 jenis@33.76 line@34.28 pun@34.60
+[ 34.80- 35.74]  Saya maintain tengah
+    Saya@34.80 maintain@34.92 tengah@35.24
+[ 36.54- 37.54]  Pegang pendek
+    Pegang@36.54 pendek@37.14
+[ 37.54- 39.78]  Then, buat tu practice swing tu
+    Then,@37.54 buat@38.38 tu@38.54 practice@38.64 swing@38.92 tu@39.56
+[ 39.78- 40.90]  Korang kena make sure
+    Korang@39.78 kena@40.40 make@40.56 sure@40.72
+[ 40.90- 42.12]  Lower point korang tu kat mana
+    Lower@40.90 point@41.08 korang@41.40 tu@41.70 kat@41.84 mana@41.94
+[ 42.12- 43.68]  Kena dekat sini ke
+    Kena@42.12 dekat@42.94 sini@43.14 ke@43.38
+[ 43.68- 45.00]  Kena dekat sini ke kan
+    Kena@43.68 dekat@44.06 sini@44.22 ke@44.46 kan@44.74
+[ 46.20- 48.16]  Tapi, cuba letak weight tu
+    Tapi,@46.20 cuba@46.80 letak@47.40 weight@47.74 tu@47.98
+[ 48.16- 49.08]  Belah kaki kiri
+    Belah@48.16 kaki@48.54 kiri@48.84
+[ 50.68- 52.70]  So, supaya kena bola darat
+    So,@50.68 supaya@51.36 kena@51.80 bola@52.10 darat@52.30
+[ 55.18- 57.42]  letak tim kanan sikit
+    letak@55.18 tim@56.52 kanan@56.72 sikit@57.12
+[ 57.42- 60.14]  wikah kiri
+    wikah@57.42 kiri@59.80
+[ 66.60- 67.94]  ok
+    ok@66.60
+[ 67.94- 68.88]  breath
+    breath@67.94
+== en
+[  0.00-  2.28]  I can see the downhill.
+    I@0.00 can@0.12 see@0.64 the@0.78 downhill.@2.12
+[  2.70-  3.46]  Uneven line.
+    Uneven@2.70 line.@3.18
+[ 11.10- 13.70]  The line goes down like this.
+    The@11.10 line@11.58 goes@12.06 down@12.72 like@13.16 this.@13.44
+[ 14.08- 15.30]  That's the downhill line.
+    That's@14.08 the@14.56 downhill@14.62 line.@14.96
+[ 15.60- 16.78]  The ball is at the bottom.
+    The@15.60 ball@16.08 is@16.46 at@16.46 the@16.46 bottom.@16.60
+[ 17.72- 18.36]  What are you going to do?
+    What@17.72 are@18.20 you@18.22 going@18.22 to@18.24 do?@18.24
+[ 20.10- 23.06]  The tendency normally, this kind of line, the ball goes to the left.
+    The@20.10 tendency@20.58 normally,@20.94 this@21.48 kind@21.62 of@21.82 line,@21.88 the@22.16 ball@22.38 goes@22.52 to@22.74 the@22.82 left.@22.94
+[ 24.20- 25.16]  Left is one thing.
+    Left@24.20 is@24.68 one@24.74 thing.@24.90
+[ 25.32- 25.74]  Right.
+    Right.@25.32
+[ 30.00- 35.58]  So like I always do, I maintain the line in the middle
+    So@30.00 like@30.00 I@30.22 always@30.46 do,@30.82 I@31.22 maintain@31.82 the@32.86 line@33.64 in@34.16 the@34.78 middle@35.02
+[ 35.58- 37.52]  Hold it tight
+    Hold@35.58 it@35.88 tight@37.16
+[ 37.52- 39.62]  Then practice the swing
+    Then@37.52 practice@38.16 the@38.70 swing@39.18
+[ 39.62- 41.88]  You have to make sure where the low point is
+    You@39.62 have@40.16 to@40.44 make@40.60 sure@40.72 where@40.94 the@41.04 low@41.04 point@41.14 is@41.38
+[ 41.88- 44.94]  It has to be here or here right?
+    It@41.88 has@42.54 to@42.96 be@43.02 here@43.08 or@43.46 here@43.82 right?@44.28
+[ 46.04- 48.76]  But try to put the weight on the left leg
+    But@46.04 try@46.66 to@47.18 put@47.46 the@47.66 weight@47.80 on@48.02 the@48.20 left@48.36 leg@48.54
+[ 50.52- 52.26]  So that it hits the ball
+    So@50.52 that@51.14 it@51.76 hits@51.88 the@52.08 ball@52.18
+[ 52.26- 57.40]  Put the right hand a little
+    Put@52.26 the@53.26 right@56.54 hand@56.82 a@56.82 little@57.16
+[ 61.48- 70.34]  Okay, breathe, breathe, breathe, breathe, breathe, breathe, breathe, breathe, breathe,
+    Okay,@61.48 breathe,@68.14 breathe,@70.10 breathe,@70.34 breathe,@70.34 breathe,@70.34 breathe,@70.34 breathe,@70.34 breathe,@70.34 breathe,@70.34

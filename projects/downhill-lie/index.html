@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Spirit Level": an uneven-lie lesson told with a builder's level. Every card is a level-yellow tool body with a mint glass vial;
+         it slides in tilted (the slope) and levels out as its bubble glides to the centre lines. Step numbers sit in the bubble.
+         Section changes are a tilted yellow band with hazard edges sweeping across. Ground marks (stance bracket, grip ring, low-point
+         ring, left-foot arrow) ride the tracked ball. Captions: ink plates, the spoken key word in level yellow.
+         Type: Big Shoulders Display 800/900 (headlines) + Figtree 700/800 (captions, subs) + Red Hat Mono 600 (labels) + Noto Color Emoji.
+         Palette: level yellow #ffd400, ink #121212, vial mint #bff3cf, bubble #f7fff9, aluminium #a7afb6.
+         Safe band: x 60-930, y 168-1330. Faces (EDIT_NOTES.md): coach face-on, face x 470-720 / y 460-700 -> cards y 192-440, captions y 1150+,
+         ground marks at the feet / ball (y 1180-1620). */
+      @font-face { font-family: "BigS"; font-weight: 100 900; src: url("assets/fonts/BigShoulders.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Figtree"; font-weight: 300 900; src: url("assets/fonts/Figtree-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "RHM"; font-weight: 300 700; src: url("assets/fonts/RedHatMono-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Noto Color Emoji"; font-weight: 400; src: url("assets/fonts/NotoColorEmoji.ttf") format("truetype"); font-display: block; }
+      :root { --y: #ffd400; --ink: #121212; --mint: #bff3cf; --bub: #f7fff9; --al: #a7afb6; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; transform-origin: 50% 50%; }
+      .ov { position: absolute; z-index: 6; opacity: 0; pointer-events: none; }
+      .emo { font-family: "Noto Color Emoji", sans-serif; font-weight: 400; }
+      .mono { font-family: "RHM", monospace; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+
+      /* ---- level card ---- */
+      .lvl { left: 60px; top: 192px; width: 870px; display: flex; align-items: stretch; background: var(--y); color: var(--ink); border-radius: 16px;
+             box-shadow: 0 0 0 4px var(--ink), 0 16px 34px rgba(0,0,0,0.35); transform-origin: 0% 50%; overflow: hidden; }
+      .lvl::before, .lvl::after { content: ""; position: absolute; top: 0; bottom: 0; width: 14px; background: linear-gradient(90deg, #8f979e, #cdd3d8, #8f979e); }
+      .lvl::before { left: 0; } .lvl::after { right: 0; }
+      .vial { flex: 0 0 210px; margin: 18px 0 18px 32px; border-radius: 999px; background: linear-gradient(180deg, #e6fff0, var(--mint) 45%, #93e2b0);
+              box-shadow: inset 0 0 0 4px var(--ink), inset 0 6px 10px rgba(255,255,255,0.7); position: relative; overflow: hidden; }
+      .vial .ln { position: absolute; top: 12px; bottom: 12px; width: 4px; background: var(--ink); opacity: 0.85; }
+      .vial .ln.a { left: calc(50% - 40px); } .vial .ln.b { left: calc(50% + 36px); }
+      .vial .bub { position: absolute; top: 50%; left: 50%; width: 66px; height: 66px; margin: -33px 0 0 -33px; border-radius: 50%;
+                   background: radial-gradient(circle at 35% 30%, #fff, var(--bub) 40%, #d7f7e3); box-shadow: inset 0 0 0 3px rgba(18,18,18,0.55);
+                   display: flex; align-items: center; justify-content: center; font-family: "BigS"; font-weight: 900; font-size: 46px; line-height: 1; }
+      .lvl .body { flex: 1; padding: 20px 40px 22px 28px; display: flex; flex-direction: column; justify-content: center; }
+      .lvl .lab { font-size: 28px; display: flex; align-items: center; gap: 12px; }
+      .lvl .lab::after { content: ""; flex: 1; height: 3px; background: repeating-linear-gradient(90deg, var(--ink) 0 14px, transparent 14px 22px); opacity: 0.5; }
+      .lvl .hd { font-family: "BigS"; font-weight: 900; font-size: 104px; line-height: 0.9; text-transform: uppercase; margin-top: 6px; white-space: nowrap; }
+      .lvl .sub { font-family: "Figtree"; font-weight: 700; font-size: 34px; margin-top: 6px; }
+      .lvl svg.dg { position: absolute; right: 34px; top: 26px; width: 120px; height: 136px; }
+
+      /* ---- caption plate ---- */
+      .cap { left: 540px; top: 1150px; transform: translateX(-50%); max-width: 870px; padding: 14px 28px 18px; background: rgba(18,18,18,0.82); border-radius: 14px;
+             color: #fff; font-family: "Figtree"; font-weight: 800; font-size: 48px; line-height: 1.15; text-align: center; white-space: nowrap;
+             box-shadow: 0 10px 26px rgba(0,0,0,0.3); border-bottom: 5px solid var(--y); }
+      .cap .w { color: #a9a9a9; }
+      .cap .w.on { color: #fff; }
+      .cap .w.hot.on { color: var(--y); }
+
+      /* ---- ground marks ---- */
+      #marks { left: 0; top: 0; width: 1080px; height: 1920px; opacity: 1; z-index: 5; overflow: visible; }
+      #marks .k { stroke: var(--ink); stroke-width: 14; fill: none; stroke-linecap: round; stroke-linejoin: round; opacity: 0.55; }
+      #marks .y { stroke: var(--y); stroke-width: 8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      #marks .yd { stroke: var(--y); stroke-width: 6; fill: none; stroke-dasharray: 4 14; stroke-linecap: round; }
+      #marks text { font-family: "RHM"; font-weight: 700; font-size: 34px; fill: var(--ink); letter-spacing: 0.06em; }
+      .chip { padding: 8px 16px 10px; background: var(--y); color: var(--ink); border-radius: 10px; font-size: 30px; box-shadow: 0 0 0 4px var(--ink); white-space: nowrap; }
+
+      /* ---- tilted band wipe ---- */
+      #wipe { position: absolute; left: -400px; top: -300px; width: 1900px; height: 2600px; z-index: 9; pointer-events: none; opacity: 0;
+              display: flex; transform: rotate(-9deg); }
+      #wipe .b { flex: 0 0 760px; height: 100%; background: var(--y); position: relative; }
+      #wipe .b::before, #wipe .b::after { content: ""; position: absolute; top: 0; bottom: 0; width: 46px;
+              background: repeating-linear-gradient(45deg, var(--ink) 0 22px, var(--y) 22px 44px); }
+      #wipe .b::before { left: 0; } #wipe .b::after { right: 0; }
+      #flash { position: absolute; inset: 0; z-index: 8; background: #fff; opacity: 0; pointer-events: none; }
+
+      /* ---- end recap ---- */
+      #recap { left: 60px; top: 192px; width: 870px; background: var(--y); border-radius: 16px; box-shadow: 0 0 0 4px var(--ink), 0 16px 34px rgba(0,0,0,0.35);
+               color: var(--ink); overflow: hidden; transform-origin: 0% 50%; }
+      #recap .hdr { display: flex; align-items: center; gap: 22px; padding: 20px 30px 16px; border-bottom: 4px solid var(--ink); }
+      #recap .hdr .vial { flex: 0 0 170px; height: 64px; margin: 0; }
+      #recap .hdr .vial .bub { width: 44px; height: 44px; margin: -22px 0 0 -22px; }
+      #recap .hdr b { font-family: "BigS"; font-weight: 900; font-size: 76px; line-height: 0.9; text-transform: uppercase; }
+      #recap .row { display: flex; align-items: center; gap: 20px; padding: 12px 30px; border-bottom: 3px dashed rgba(18,18,18,0.3); }
+      #recap .row:last-child { border-bottom: 0; }
+      #recap .row i { flex: 0 0 58px; height: 58px; border-radius: 50%; background: var(--ink); color: var(--y); font-style: normal; font-family: "BigS"; font-weight: 900;
+                      font-size: 40px; display: flex; align-items: center; justify-content: center; }
+      #recap .row span { font-family: "Figtree"; font-weight: 800; font-size: 44px; }
+      #save { left: 330px; top: 900px; }
+      #save .chip { font-size: 36px; padding: 12px 22px 14px; background: var(--ink); color: var(--y); box-shadow: 0 0 0 4px var(--y); }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="38.3" data-width="1080" data-height="1920" data-fps="30">
+      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="38.3" data-track-index="1" muted playsinline></video>
+
+      <svg id="marks" class="ov" viewBox="0 0 1080 1920"><g id="anc">
+        <g id="m-stance"><path class="k" d="M -112 -235 L 138 -210"/><path class="y" id="m-br" d="M -112 -235 L 138 -210"/>
+          <path class="k" d="M -112 -235 m 0 -26 v 52 M 138 -210 m 0 -26 v 52"/><path class="y" d="M -112 -235 m 0 -26 v 52 M 138 -210 m 0 -26 v 52"/>
+          <path class="yd" id="m-mid" d="M 13 -222 L 0 -30"/><circle class="k" r="30"/><circle class="y" id="m-ball" r="30"/></g>
+        <g id="m-grip"><circle class="k" cx="60" cy="-530" r="70"/><circle class="y" id="m-gr" cx="60" cy="-530" r="70"/>
+          <path class="k" d="M 60 -530 m 110 -50 v 100 m -24 -26 l 24 26 l 24 -26"/><path class="y" d="M 60 -530 m 110 -50 v 100 m -24 -26 l 24 26 l 24 -26"/></g>
+        <g id="m-low"><ellipse class="k" rx="64" ry="22"/><ellipse class="y" id="m-lr" rx="64" ry="22"/>
+          <g id="q1" transform="translate(-110 -60)"><circle r="30" fill="#ffd400" stroke="#121212" stroke-width="5"/><text x="-10" y="12">?</text></g>
+          <g id="q2" transform="translate(90 -60)"><circle r="30" fill="#ffd400" stroke="#121212" stroke-width="5"/><text x="-10" y="12">?</text></g></g>
+        <g id="m-foot"><path class="k" d="M 138 -210 m 0 -190 v 130 m -34 -36 l 34 36 l 34 -36"/><path class="y" d="M 138 -210 m 0 -190 v 130 m -34 -36 l 34 36 l 34 -36"/>
+          <ellipse class="k" cx="138" cy="-210" rx="70" ry="24"/><ellipse class="y" cx="138" cy="-210" rx="70" ry="24"/></g>
+        <g id="m-direct"><circle class="k" r="34"/><circle class="y" id="m-dr" r="34"/></g>
+      </g></svg>
+      <div id="footchip" class="ov chip mono">Kaki kiri</div>
+
+      <!-- HOOK, frame 0 -->
+      <div id="hook" class="ov lvl"><div class="vial"><div class="ln a"></div><div class="ln b"></div><div class="bub"></div></div>
+        <div class="body"><div class="lab mono">Uneven lie</div><div class="hd" style="font-size:132px;">Downhill</div></div></div>
+      <div id="steps4" class="ov chip mono" style="left:640px; top:470px; font-size:34px;">4 step je ↓</div>
+
+      <!-- LIE -->
+      <div id="c-lie" class="ov lvl"><div class="vial"><div class="ln a"></div><div class="ln b"></div><div class="bub"></div></div>
+        <div class="body"><div class="lab mono">Lie</div><div class="hd">Menurun</div><div class="sub">downhill · uneven lie</div></div></div>
+      <!-- TENDENCY -->
+      <div id="c-tend" class="ov lvl"><div class="vial"><div class="ln a"></div><div class="ln b"></div><div class="bub"><span class="emo" style="font-size:34px">⚠️</span></div></div>
+        <div class="body" style="padding-right:180px;"><div class="lab mono">Tendency</div><div class="hd" style="font-size:86px;">Bola ke kiri</div></div>
+        <svg class="dg" viewBox="0 0 150 170"><path d="M 96 160 V 20" stroke="#121212" stroke-width="5" stroke-dasharray="6 10" fill="none"/>
+          <path d="M 86 20 l 10 -14 l 10 14" stroke="#121212" stroke-width="5" fill="none"/>
+          <path id="dg-curve" d="M 96 160 C 96 100 80 60 30 34" stroke="#121212" stroke-width="10" fill="none" stroke-linecap="round"/>
+          <circle cx="96" cy="160" r="9" fill="#fff" stroke="#121212" stroke-width="4"/></svg></div>
+      <!-- STEPS -->
+      <div id="c-s1" class="ov lvl"><div class="vial"><div class="ln a"></div><div class="ln b"></div><div class="bub">1</div></div>
+        <div class="body"><div class="lab mono">Step 1</div><div class="hd">Bola tengah</div><div class="sub">ball position tengah stance</div></div></div>
+      <div id="c-s2" class="ov lvl"><div class="vial"><div class="ln a"></div><div class="ln b"></div><div class="bub">2</div></div>
+        <div class="body"><div class="lab mono">Step 2</div><div class="hd" style="font-size:90px;">Pegang pendek</div><div class="sub">grip down sikit</div></div></div>
+      <div id="c-s3" class="ov lvl"><div class="vial"><div class="ln a"></div><div class="ln b"></div><div class="bub">3</div></div>
+        <div class="body"><div class="lab mono">Step 3</div><div class="hd" style="font-size:90px;">Cari low point</div><div class="sub">practice swing dulu</div></div></div>
+      <div id="c-s4" class="ov lvl"><div class="vial"><div class="ln a"></div><div class="ln b"></div><div class="bub">4</div></div>
+        <div class="body"><div class="lab mono">Step 4</div><div class="hd">Weight kiri</div><div class="sub">supaya kena bola direct</div></div></div>
+
+      <!-- END recap -->
+      <div id="recap" class="ov"><div class="hdr"><div class="vial"><div class="ln a"></div><div class="ln b"></div><div class="bub"></div></div><b>Downhill lie</b></div>
+        <div class="row"><i>1</i><span>Bola tengah stance</span></div>
+        <div class="row"><i>2</i><span>Pegang pendek</span></div>
+        <div class="row"><i>3</i><span>Practice swing, cari low point</span></div>
+        <div class="row"><i>4</i><span>Weight kaki kiri</span></div></div>
+      <div id="save" class="ov"><div class="chip mono">Save. Try kat range <span class="emo">📌</span></div></div>
+
+      <!-- captions -->
+      <div id="cap0" class="ov cap"><span class="w" data-t="2.800">So</span> <span class="w" data-t="3.780">lie</span> <span class="w" data-t="4.160">dia</span> <span class="w" data-t="4.440">ni</span><br><span class="w hot" data-t="4.660">menurun</span> <span class="w" data-t="5.260">macam</span> <span class="w" data-t="5.480">ni.</span></div>
+      <div id="cap1" class="ov cap"><span class="w" data-t="5.930">Nak</span> <span class="w" data-t="6.470">buat</span> <span class="w" data-t="6.690">apa?</span> <span class="emo">🤔</span></div>
+      <div id="cap2" class="ov cap" style="font-size:42px;"><span class="w" data-t="7.870">The</span> <span class="w" data-t="7.990">tendency</span> <span class="w" data-t="8.270">normally,</span> <span class="w" data-t="8.590">this</span> <span class="w" data-t="8.970">kind</span> <span class="w" data-t="9.150">of</span> <span class="w" data-t="9.250">lie,</span><br><span class="w" data-t="9.430">memang</span> <span class="w" data-t="9.790">bola</span> <span class="w" data-t="9.930">pergi</span> <span class="w hot" data-t="10.110">kiri.</span></div>
+      <div id="cap3" class="ov cap"><span class="w hot" data-t="10.723">Ball</span> <span class="w hot" data-t="11.083">position</span> <span class="w hot" data-t="11.503">tengah,</span><br><span class="w" data-t="12.203">saya</span> <span class="w" data-t="12.283">maintain.</span></div>
+      <div id="cap4" class="ov cap"><span class="w" data-t="12.583">Apa-apa</span> <span class="w" data-t="13.343">jenis</span> <span class="w" data-t="13.923">lie</span> <span class="w" data-t="14.163">pun</span><br><span class="w" data-t="14.403">saya</span> <span class="w" data-t="14.523">maintain</span> <span class="w hot" data-t="14.823">tengah.</span></div>
+      <div id="cap5" class="ov cap"><span class="w hot" data-t="15.517">Pegang</span> <span class="w hot" data-t="16.457">pendek.</span></div>
+      <div id="cap6" class="ov cap"><span class="w" data-t="16.907">Then</span> <span class="w" data-t="17.587">buat</span> <span class="w" data-t="17.807">tu</span> <span class="w hot" data-t="17.927">practice</span> <span class="w hot" data-t="18.207">swing</span> <span class="w" data-t="18.827">tu.</span></div>
+      <div id="cap7" class="ov cap"><span class="w" data-t="19.067">Korang</span> <span class="w" data-t="19.707">kena</span> <span class="w" data-t="19.847">make</span> <span class="w" data-t="20.027">sure</span><br><span class="w hot" data-t="20.207">low</span> <span class="w hot" data-t="20.367">point</span> <span class="w" data-t="20.687">korang</span> <span class="w" data-t="21.107">kat</span> <span class="w" data-t="21.227">mana.</span></div>
+      <div id="cap8" class="ov cap"><span class="w" data-t="21.407">Kena</span> <span class="w" data-t="22.247">kat</span> <span class="w hot" data-t="22.387">sini</span> <span class="w" data-t="22.687">ke,</span><br><span class="w" data-t="22.967">kena</span> <span class="w" data-t="23.387">kat</span> <span class="w hot" data-t="23.507">sini</span> <span class="w" data-t="23.767">ke</span> <span class="w" data-t="24.047">kan.</span></div>
+      <div id="cap9" class="ov cap"><span class="w" data-t="24.433">Tapi</span> <span class="w" data-t="25.313">cuba</span> <span class="w" data-t="26.053">letak</span> <span class="w hot" data-t="26.393">weight</span> <span class="w" data-t="26.593">tu</span><br><span class="w" data-t="26.793">belah</span> <span class="w hot" data-t="27.173">kaki</span> <span class="w hot" data-t="27.473">kiri.</span></div>
+      <div id="cap10" class="ov cap"><span class="w" data-t="27.823">So</span> <span class="w" data-t="28.423">supaya</span> <span class="w" data-t="29.023">kena</span> <span class="w" data-t="29.263">bola</span> <span class="w hot" data-t="29.483">direct.</span></div>
+      <div id="wipe"><div class="b"></div></div>
+      <div id="flash"></div>
+      <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="38.3" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>
+      <!-- sound design: Mixkit ids (assets/sfx/CREDITS.md). start = picture beat - file peak. No music. -->
+      <audio data-hf-id="hf-s00" id="sfx-00" class="clip" src="assets/sfx/2858.mp3" data-start="0.000" data-duration="0.25" data-media-start="0.200" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- level card locks on, frame 0 -->
+      <audio data-hf-id="hf-s01" id="sfx-01" class="clip" src="assets/sfx/3000.mp3" data-start="0.350" data-duration="0.45" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- bubble settles to centre -->
+      <audio data-hf-id="hf-s02" id="sfx-02" class="clip" src="assets/sfx/2126.mp3" data-start="0.730" data-duration="0.45" data-track-index="13" data-volume="0.28" data-audio-group="sfx"></audio> <!-- strike layer on the real one -->
+      <audio data-hf-id="hf-s03" id="sfx-03" class="clip" src="assets/sfx/2364.mp3" data-start="1.040" data-duration="0.14" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- 4 STEP tag -->
+      <audio data-hf-id="hf-s04" id="sfx-04" class="clip" src="assets/sfx/1120.mp3" data-start="1.520" data-duration="0.14" data-track-index="12" data-volume="0.5" data-audio-group="sfx"></audio> <!-- freeze tick -->
+      <audio data-hf-id="hf-s05" id="sfx-05" class="clip" src="assets/sfx/166.mp3" data-start="2.360" data-duration="0.60" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- tilt wipe into the lie -->
+      <audio data-hf-id="hf-s06" id="sfx-06" class="clip" src="assets/sfx/2858.mp3" data-start="2.720" data-duration="0.45" data-track-index="13" data-volume="0.3" data-audio-group="sfx"></audio> <!-- lie card slides in tilted -->
+      <audio data-hf-id="hf-s07" id="sfx-07" class="clip" src="assets/sfx/3000.mp3" data-start="3.320" data-duration="0.45" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- lie bubble levels -->
+      <audio data-hf-id="hf-s08" id="sfx-08" class="clip" src="assets/sfx/2357.mp3" data-start="4.520" data-duration="0.32" data-track-index="12" data-volume="0.25" data-audio-group="sfx"></audio> <!-- slope vial tips -->
+      <audio data-hf-id="hf-s09" id="sfx-09" class="clip" src="assets/sfx/2858.mp3" data-start="7.660" data-duration="0.45" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- tend card slides in tilted -->
+      <audio data-hf-id="hf-s10" id="sfx-10" class="clip" src="assets/sfx/3000.mp3" data-start="8.260" data-duration="0.45" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- tend bubble levels -->
+      <audio data-hf-id="hf-s11" id="sfx-11" class="clip" src="assets/sfx/1489.mp3" data-start="9.450" data-duration="1.00" data-track-index="12" data-volume="0.25" data-audio-group="sfx"></audio> <!-- curve draws left in the diagram -->
+      <audio data-hf-id="hf-s12" id="sfx-12" class="clip" src="assets/sfx/2858.mp3" data-start="11.023" data-duration="0.45" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- s1 card slides in tilted -->
+      <audio data-hf-id="hf-s13" id="sfx-13" class="clip" src="assets/sfx/2568.mp3" data-start="11.653" data-duration="0.10" data-track-index="12" data-volume="0.5" data-audio-group="sfx"></audio> <!-- stance bracket + centre tick -->
+      <audio data-hf-id="hf-s14" id="sfx-14" class="clip" src="assets/sfx/3000.mp3" data-start="11.623" data-duration="0.45" data-track-index="13" data-volume="0.3" data-audio-group="sfx"></audio> <!-- s1 bubble levels -->
+      <audio data-hf-id="hf-s15" id="sfx-15" class="clip" src="assets/sfx/2858.mp3" data-start="15.727" data-duration="0.45" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- s2 card slides in tilted -->
+      <audio data-hf-id="hf-s16" id="sfx-16" class="clip" src="assets/sfx/3000.mp3" data-start="16.327" data-duration="0.45" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- s2 bubble levels -->
+      <audio data-hf-id="hf-s17" id="sfx-17" class="clip" src="assets/sfx/1124.mp3" data-start="16.447" data-duration="0.18" data-track-index="13" data-volume="0.5" data-audio-group="sfx"></audio> <!-- grip ring -->
+      <audio data-hf-id="hf-s18" id="sfx-18" class="clip" src="assets/sfx/2858.mp3" data-start="17.497" data-duration="0.45" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- s3 card slides in tilted -->
+      <audio data-hf-id="hf-s19" id="sfx-19" class="clip" src="assets/sfx/3000.mp3" data-start="18.097" data-duration="0.45" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- s3 bubble levels -->
+      <audio data-hf-id="hf-s20" id="sfx-20" class="clip" src="assets/sfx/2357.mp3" data-start="20.067" data-duration="0.32" data-track-index="12" data-volume="0.25" data-audio-group="sfx"></audio> <!-- low point ring -->
+      <audio data-hf-id="hf-s21" id="sfx-21" class="clip" src="assets/sfx/1124.mp3" data-start="22.327" data-duration="0.18" data-track-index="12" data-volume="0.45" data-audio-group="sfx"></audio> <!-- here? -->
+      <audio data-hf-id="hf-s22" id="sfx-22" class="clip" src="assets/sfx/1124.mp3" data-start="23.447" data-duration="0.18" data-track-index="12" data-volume="0.45" data-audio-group="sfx"></audio> <!-- or here? -->
+      <audio data-hf-id="hf-s23" id="sfx-23" class="clip" src="assets/sfx/2858.mp3" data-start="25.913" data-duration="0.45" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- s4 card slides in tilted -->
+      <audio data-hf-id="hf-s24" id="sfx-24" class="clip" src="assets/sfx/3000.mp3" data-start="26.513" data-duration="0.45" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- s4 bubble levels -->
+      <audio data-hf-id="hf-s25" id="sfx-25" class="clip" src="assets/sfx/2568.mp3" data-start="27.273" data-duration="0.10" data-track-index="12" data-volume="0.5" data-audio-group="sfx"></audio> <!-- left-foot arrow -->
+      <audio data-hf-id="hf-s26" id="sfx-26" class="clip" src="assets/sfx/2357.mp3" data-start="29.343" data-duration="0.32" data-track-index="12" data-volume="0.25" data-audio-group="sfx"></audio> <!-- ball-first ring -->
+      <audio data-hf-id="hf-s27" id="sfx-27" class="clip" src="assets/sfx/166.mp3" data-start="29.460" data-duration="0.60" data-track-index="13" data-volume="0.35" data-audio-group="sfx"></audio> <!-- tilt wipe into the shot -->
+      <audio data-hf-id="hf-s28" id="sfx-28" class="clip" src="assets/sfx/2121.mp3" data-start="31.260" data-duration="0.40" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- strike layer -->
+      <audio data-hf-id="hf-s29" id="sfx-29" class="clip" src="assets/sfx/1491.mp3" data-start="32.500" data-duration="0.40" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- camera follows the ball -->
+      <audio data-hf-id="hf-s30" id="sfx-30" class="clip" src="assets/sfx/2858.mp3" data-start="34.520" data-duration="0.45" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- recap card -->
+      <audio data-hf-id="hf-s31" id="sfx-31" class="clip" src="assets/sfx/3000.mp3" data-start="35.150" data-duration="0.45" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- recap bubble levels -->
+      <audio data-hf-id="hf-s32" id="sfx-32" class="clip" src="assets/sfx/1124.mp3" data-start="35.190" data-duration="0.18" data-track-index="13" data-volume="0.4" data-audio-group="sfx"></audio> <!-- row 1 -->
+      <audio data-hf-id="hf-s33" id="sfx-33" class="clip" src="assets/sfx/1124.mp3" data-start="35.360" data-duration="0.18" data-track-index="14" data-volume="0.4" data-audio-group="sfx"></audio> <!-- row 2 -->
+      <audio data-hf-id="hf-s34" id="sfx-34" class="clip" src="assets/sfx/1124.mp3" data-start="35.530" data-duration="0.18" data-track-index="13" data-volume="0.4" data-audio-group="sfx"></audio> <!-- row 3 -->
+      <audio data-hf-id="hf-s35" id="sfx-35" class="clip" src="assets/sfx/1124.mp3" data-start="35.700" data-duration="0.18" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- row 4 -->
+      <audio data-hf-id="hf-s36" id="sfx-36" class="clip" src="assets/sfx/2364.mp3" data-start="36.190" data-duration="0.14" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- SAVE tag -->
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {"T": {"hook_a": {"start": 0.0, "end": 1.0}, "hook_b": {"start": 1.0, "end": 1.6}, "hook_freeze": {"start": 1.6, "end": 2.7}, "lie": {"start": 2.7, "end": 5.8}, "ask": {"start": 5.8, "end": 6.9}, "tend": {"start": 6.9, "end": 10.5333}, "s1": {"start": 10.5333, "end": 15.3667}, "s2": {"start": 15.3667, "end": 16.8667}, "s3": {"start": 16.8667, "end": 24.3333}, "s4a": {"start": 24.3333, "end": 27.7333}, "s4b": {"start": 27.7333, "end": 29.8}, "shot": {"start": 29.8, "end": 32.7}, "pan": {"start": 32.7, "end": 34.7}, "end_freeze": {"start": 34.7, "end": 38.3}}, "B": {"hook_impact": 0.9, "shot_impact": 31.4, "shot_takeaway": 30.6, "w_menurun": 4.66, "w_ask": 5.93, "w_tendency": 7.99, "w_kiri": 10.11, "w_tengah": 11.503, "w_pendek": 16.457, "w_practice": 17.927, "w_lowpoint": 20.207, "w_weight": 26.393, "w_kakikiri": 27.173, "w_direct": 29.483}, "W": {"hook_impact": 0.9, "shot_impact": 31.4, "shot_takeaway": 30.6, "w_menurun": 4.66, "w_ask": 5.93, "w_tendency": 7.99, "w_kiri": 10.11, "w_tengah": 11.503, "w_pendek": 16.457, "w_practice": 17.927, "w_lowpoint": 20.207, "w_weight": 26.393, "w_kakikiri": 27.173, "w_direct": 29.483, "sini1": 22.387, "sini2": 23.507}, "TOTAL": 38.3, "CAP": [{"t0": 2.7, "t1": 5.76}, {"t0": 5.83, "t1": 6.86}, {"t0": 7.77, "t1": 10.493}, {"t0": 10.623, "t1": 12.463}, {"t0": 12.483, "t1": 15.327}, {"t0": 15.417, "t1": 16.787}, {"t0": 16.807, "t1": 18.947}, {"t0": 18.967, "t1": 21.287}, {"t0": 21.307, "t1": 24.293}, {"t0": 24.333, "t1": 27.693}, {"t0": 27.723, "t1": 29.76}], "BALL": {"lie": [[2.7, 607, 1528], [2.833, 611, 1525], [2.967, 614, 1520], [3.1, 608, 1510], [3.233, 597, 1508], [3.367, 579, 1509], [3.5, 562, 1509], [3.633, 548, 1513], [3.767, 537, 1522], [3.9, 528, 1530], [4.033, 523, 1536], [4.167, 521, 1540], [4.3, 518, 1542], [4.433, 512, 1544], [4.567, 504, 1548], [4.7, 493, 1553], [4.833, 478, 1558], [4.967, 465, 1563], [5.1, 458, 1569], [5.233, 456, 1572], [5.367, 450, 1570], [5.5, 441, 1566], [5.633, 429, 1563], [5.767, 422, 1562]], "tend": [[6.9, 561, 1465], [7.033, 560, 1467], [7.167, 554, 1469], [7.3, 548, 1469], [7.433, 551, 1472], [7.567, 561, 1473], [7.7, 565, 1474], [7.833, 569, 1474], [7.967, 572, 1474], [8.1, 575, 1472], [8.233, 577, 1469], [8.367, 578, 1468], [8.5, 580, 1466], [8.633, 581, 1463], [8.767, 582, 1458], [8.9, 584, 1452], [9.033, 588, 1447], [9.167, 590, 1444], [9.3, 592, 1442], [9.433, 593, 1440], [9.567, 594, 1439], [9.7, 597, 1438], [9.833, 601, 1438], [9.967, 604, 1438], [10.1, 606, 1437], [10.233, 609, 1434], [10.367, 614, 1435], [10.5, 617, 1436]], "s1": [[10.533, 618, 1611], [10.667, 620, 1611], [10.8, 625, 1611], [10.933, 626, 1612], [11.067, 626, 1611], [11.2, 625, 1610], [11.333, 624, 1610], [11.467, 623, 1609], [11.6, 622, 1607], [11.733, 623, 1604], [11.867, 623, 1601], [12.0, 626, 1597], [12.133, 629, 1592], [12.267, 634, 1587], [12.4, 638, 1582], [12.533, 642, 1577], [12.667, 646, 1572], [12.8, 649, 1566], [12.933, 651, 1561], [13.067, 653, 1554], [13.2, 653, 1548], [13.333, 652, 1544], [13.467, 651, 1543], [13.6, 649, 1541], [13.733, 647, 1540], [13.867, 646, 1539], [14.0, 644, 1539], [14.133, 643, 1538], [14.267, 644, 1538], [14.4, 645, 1537], [14.533, 646, 1535], [14.667, 647, 1534], [14.8, 648, 1534], [14.933, 648, 1535], [15.067, 649, 1535], [15.2, 649, 1535], [15.333, 650, 1535]], "s2": [[15.367, 644, 1538], [15.5, 646, 1536], [15.633, 651, 1531], [15.767, 651, 1529], [15.9, 652, 1525], [16.033, 654, 1518], [16.167, 657, 1510], [16.3, 658, 1501], [16.433, 658, 1493], [16.567, 658, 1484], [16.7, 658, 1476], [16.833, 658, 1473]], "s3": [[16.867, 648, 1472], [17.0, 650, 1467], [17.133, 654, 1459], [17.267, 655, 1459], [17.4, 657, 1461], [17.533, 660, 1461], [17.667, 659, 1460], [17.8, 657, 1459], [17.933, 655, 1458], [18.067, 654, 1458], [18.2, 654, 1458], [18.333, 654, 1458], [18.467, 655, 1457], [18.6, 656, 1458], [18.733, 658, 1458], [18.867, 660, 1459], [19.0, 662, 1460], [19.133, 666, 1461], [19.267, 669, 1464], [19.4, 672, 1466], [19.533, 674, 1469], [19.667, 675, 1473], [19.8, 674, 1477], [19.933, 673, 1481], [20.067, 670, 1486], [20.2, 667, 1489], [20.333, 664, 1493], [20.467, 660, 1496], [20.6, 656, 1499], [20.733, 652, 1502], [20.867, 649, 1504], [21.0, 645, 1506], [21.133, 642, 1508], [21.267, 637, 1511], [21.4, 633, 1514], [21.533, 630, 1517], [21.667, 628, 1518], [21.8, 626, 1520], [21.933, 625, 1521], [22.067, 624, 1522], [22.2, 623, 1523], [22.333, 623, 1522], [22.467, 623, 1520], [22.6, 623, 1517], [22.733, 623, 1513], [22.867, 624, 1510], [23.0, 625, 1508], [23.133, 627, 1506], [23.267, 629, 1504], [23.4, 631, 1502], [23.533, 632, 1501], [23.667, 632, 1501], [23.8, 632, 1500], [23.933, 632, 1499], [24.067, 631, 1498], [24.2, 631, 1496]], "s4a": [[24.333, 618, 1496], [24.467, 617, 1492], [24.6, 615, 1485], [24.733, 611, 1486], [24.867, 606, 1487], [25.0, 601, 1487], [25.133, 596, 1487], [25.267, 590, 1489], [25.4, 585, 1491], [25.533, 581, 1492], [25.667, 577, 1493], [25.8, 573, 1495], [25.933, 570, 1495], [26.067, 568, 1495], [26.2, 565, 1496], [26.333, 563, 1498], [26.467, 562, 1500], [26.6, 561, 1501], [26.733, 561, 1503], [26.867, 560, 1505], [27.0, 560, 1507], [27.133, 561, 1510], [27.267, 561, 1512], [27.4, 562, 1514], [27.533, 563, 1516], [27.667, 563, 1517]], "s4b": [[27.733, 588, 1531], [27.867, 588, 1530], [28.0, 589, 1530], [28.133, 588, 1533], [28.267, 586, 1536], [28.4, 585, 1538], [28.533, 583, 1539], [28.667, 581, 1539], [28.8, 580, 1537], [28.933, 578, 1532], [29.067, 577, 1524], [29.2, 575, 1515], [29.333, 573, 1503], [29.467, 570, 1490], [29.6, 567, 1476], [29.733, 569, 1471]]}, "STEP": {"lie": 2.95, "tend": 7.89, "s1": 11.253, "s2": 15.957, "s3": 17.727, "s4": 26.143, "end": 34.75}};
+        const T = K.T, B = K.B, W = K.W, ST = K.STEP;
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        const hide0 = (el) => tl.set(el, { opacity: 0 }, 0);
+        // level card: slides in tilted like the slope, the bubble sits off-centre, then the card levels and the bubble glides to the lines
+        function level(sel, t0, t1) {
+          const el = $(sel); hide0(el);
+          const bub = el.querySelector(".vial .bub");
+          tl.fromTo(el, { opacity: 1, x: -140, rotation: -7 }, { x: 0, duration: 0.34, ease: "power3.out", immediateRender: false }, t0);
+          tl.to(el, { rotation: 0, duration: 0.5, ease: "elastic.out(1, 0.55)" }, t0 + 0.3);
+          if (bub) tl.fromTo(bub, { x: -62 }, { x: 0, duration: 0.6, ease: "back.out(2.2)", immediateRender: false }, t0 + 0.32);
+          if (t1 != null) {
+            tl.to(el, { x: 980, rotation: 5, duration: 0.3, ease: "power2.in" }, t1);
+            tl.set(el, { opacity: 0, x: 0, rotation: 0 }, t1 + 0.3);
+          }
+          return el;
+        }
+        function wipe(tc) {
+          tl.set("#wipe", { opacity: 1 }, tc - 0.22);
+          tl.fromTo("#wipe", { x: -1300 }, { x: 1500, duration: 0.5, ease: "power2.inOut", immediateRender: false }, tc - 0.22);
+          tl.set("#wipe", { opacity: 0 }, tc + 0.3);
+        }
+        function flash(t, a) { tl.fromTo("#flash", { opacity: a || 0.6 }, { opacity: 0, duration: 0.24, ease: "power2.out", immediateRender: false }, t); }
+        function punch(t, s) { tl.fromTo("#aroll", { scale: s || 1.04 }, { scale: 1, duration: 0.32, ease: "power3.out", immediateRender: false }, t); }
+        function show(sel, t0, t1, from) {
+          const el = $(sel); hide0(el);
+          tl.fromTo(el, Object.assign({ opacity: 0, scale: 0.6, transformOrigin: "50% 50%" }, from || {}), { opacity: 1, scale: 1, duration: 0.28, ease: "back.out(2.4)", immediateRender: false }, t0);
+          if (t1 != null) tl.to(el, { opacity: 0, duration: 0.16 }, t1);
+          return el;
+        }
+
+        // ---------- captions ----------
+        K.CAP.forEach((c, i) => {
+          const el = $("#cap" + i); hide0(el);
+          tl.fromTo(el, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.16, ease: "power2.out", immediateRender: false }, Math.max(c.t0, 0));
+          tl.to(el, { opacity: 0, duration: 0.12 }, c.t1);
+          el.querySelectorAll(".w").forEach((w) => tl.set(w, { className: w.className + " on" }, Math.max(parseFloat(w.dataset.t), 0)));
+        });
+
+        // ---------- ground-mark anchor rides the ball ----------
+        tl.set("#anc", { x: 600, y: 1500 }, 0);
+        Object.keys(K.BALL).forEach((seg) => {
+          const p = K.BALL[seg]; if (!p.length) return;
+          tl.set("#anc", { x: p[0][1], y: p[0][2] }, p[0][0]);
+          for (let i = 1; i < p.length; i++) tl.to("#anc", { x: p[i][1], y: p[i][2], duration: Math.max(0.01, p[i][0] - p[i - 1][0]), ease: "none" }, p[i - 1][0]);
+        });
+        ["#m-stance", "#m-grip", "#m-low", "#m-foot", "#m-direct", "#q1", "#q2"].forEach((s) => tl.set(s, { opacity: 0 }, 0));
+
+        // ---------- HOOK ----------
+        const hk = $("#hook");
+        tl.set(hk, { opacity: 1, rotation: -6 }, 0);                       // text on frame 0 (tilted, then it levels)
+        tl.to(hk, { rotation: 0, duration: 0.6, ease: "elastic.out(1, 0.5)" }, 0.12);
+        tl.fromTo("#hook .bub", { x: -62 }, { x: 0, duration: 0.6, ease: "back.out(2.2)", immediateRender: false }, 0.12);
+        flash(T.hook_freeze.start, 0.5); punch(B.hook_impact, 1.03);
+        show("#steps4", T.hook_b.start + 0.05, T.lie.start - 0.1, { rotation: -10 });
+        tl.to(hk, { x: 980, rotation: 5, duration: 0.3, ease: "power2.in" }, T.lie.start - 0.2);
+        tl.set(hk, { opacity: 0 }, T.lie.start + 0.1);
+        wipe(T.lie.start);
+
+        // ---------- LIE / TENDENCY ----------
+        level("#c-lie", ST.lie, ST.tend - 0.32);
+        // the lie card's vial tips and stays off level while he says "menurun"
+        tl.to("#c-lie", { rotation: -5, duration: 0.4, ease: "power2.out" }, W.w_menurun);
+        tl.to("#c-lie .bub", { x: -62, duration: 0.5, ease: "power2.out" }, W.w_menurun);
+        level("#c-tend", ST.tend, ST.s1 - 0.32);
+        const cv = $("#dg-curve"), CL = cv.getTotalLength();
+        tl.set(cv, { attr: { "stroke-dasharray": `${CL} ${CL}`, "stroke-dashoffset": CL } }, 0);
+        tl.to(cv, { attr: { "stroke-dashoffset": 0 }, duration: 0.6, ease: "power2.out" }, W.w_kiri - 0.1);
+
+        // ---------- STEPS ----------
+        level("#c-s1", ST.s1, ST.s2 - 0.32);
+        const br = $("#m-br"), BL = br.getTotalLength();
+        tl.set("#m-stance", { opacity: 1 }, W.w_tengah + 0.05);
+        tl.fromTo(br, { attr: { "stroke-dasharray": `${BL} ${BL}`, "stroke-dashoffset": BL } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.35, ease: "power2.out", immediateRender: false }, W.w_tengah + 0.05);
+        tl.fromTo("#m-ball", { attr: { r: 6 } }, { attr: { r: 30 }, duration: 0.3, ease: "back.out(2)", immediateRender: false }, W.w_tengah + 0.4);
+        tl.to("#m-stance", { opacity: 0, duration: 0.15 }, T.s2.start - 0.1);
+
+        level("#c-s2", ST.s2, ST.s3 - 0.32);
+        tl.set("#m-grip", { opacity: 1 }, W.w_pendek);
+        tl.fromTo("#m-gr", { attr: { r: 10 } }, { attr: { r: 70 }, duration: 0.32, ease: "back.out(2)", immediateRender: false }, W.w_pendek);
+        tl.to("#m-grip", { opacity: 0, duration: 0.15 }, T.s3.start - 0.05);
+
+        level("#c-s3", ST.s3, ST.s4 - 0.32);
+        tl.set("#m-low", { opacity: 1 }, W.w_lowpoint);
+        tl.fromTo("#m-lr", { attr: { rx: 8, ry: 3 } }, { attr: { rx: 64, ry: 22 }, duration: 0.34, ease: "back.out(2)", immediateRender: false }, W.w_lowpoint);
+        tl.fromTo("#q1", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(3)", immediateRender: false }, W.sini1);
+        tl.fromTo("#q2", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(3)", immediateRender: false }, W.sini2);
+        tl.to("#m-low", { opacity: 0, duration: 0.15 }, T.s4a.start - 0.05);
+
+        level("#c-s4", ST.s4, T.shot.start - 0.3);
+        tl.set("#m-foot", { opacity: 1 }, W.w_kakikiri);
+        tl.fromTo("#m-foot", { y: -30 }, { y: 0, duration: 0.3, ease: "bounce.out", immediateRender: false }, W.w_kakikiri);
+        tl.to("#m-foot", { opacity: 0, duration: 0.15 }, T.s4b.start - 0.05);
+        tl.set("#m-direct", { opacity: 1 }, W.w_direct);
+        tl.fromTo("#m-dr", { attr: { r: 6 } }, { attr: { r: 34 }, duration: 0.3, ease: "back.out(2)", immediateRender: false }, W.w_direct);
+        tl.to("#m-direct", { opacity: 0, duration: 0.15 }, T.shot.start - 0.05);
+
+        // ---------- THE SHOT ----------
+        wipe(T.shot.start);
+        flash(B.shot_impact, 0.45); punch(B.shot_impact, 1.035);
+
+        // ---------- END ----------
+        const rc = $("#recap"); hide0(rc);
+        tl.fromTo(rc, { opacity: 1, x: -140, rotation: -7 }, { x: 0, duration: 0.34, ease: "power3.out", immediateRender: false }, ST.end);
+        tl.to(rc, { rotation: 0, duration: 0.5, ease: "elastic.out(1, 0.55)" }, ST.end + 0.3);
+        tl.fromTo("#recap .bub", { x: -50 }, { x: 0, duration: 0.6, ease: "back.out(2.2)", immediateRender: false }, ST.end + 0.32);
+        document.querySelectorAll("#recap .row").forEach((r, i) => {
+          tl.set(r, { opacity: 0 }, 0);
+          tl.fromTo(r, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.22, ease: "power2.out", immediateRender: false }, ST.end + 0.55 + i * 0.17);
+        });
+        show("#save", ST.end + 1.45, null, { rotation: -8 });
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>

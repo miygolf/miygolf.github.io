@@ -84,3 +84,10 @@ Faiz P6–P8 **lab / telestrator** (graphite grid, red/lime, Archivo Black + Jet
 
 - Bunker nyaris (2026-11-13, delivered from v3 "render"): owner asked for a zoom-out at address (v2), then "bagi nampak surrounding" (v3: everything near full frame) — this owner prefers wide framing that shows the course over tight punch-ins. Ball from the bunker rolled right past the cup — hook on the near-miss, not on the strike.
   Numbers the coach says (distance) need a large-model crop check: small heard "30", medium/large-v3 crops heard "20"; strong noise reduction in the mix also turned it into "30".
+
+| Video | Look | Type | Palette | Motion signature |
+| --- | --- | --- | --- | --- |
+| **Uneven lie: downhill tutorial** (branch `claude/gifted-davinci-2netbk`, `projects/downhill-lie/`) | **Spirit Level**: a builder's level — yellow tool-body cards with a glass vial | Big Shoulders Display 900 + Figtree 800 + Red Hat Mono 600 + Noto Color Emoji | level yellow #ffd400, ink #121212, vial mint #bff3cf, aluminium #a7afb6 | cards slide in tilted and level out as the bubble glides to centre (number in the bubble), card tips off level on "menurun", tilted hazard-edged band wipes, ground marks riding the tracked ball (stance bracket, grip ring, low-point ring + ? markers, left-foot arrow), recap card; no grade, no music, wide framing — **preview v1** |
+
+- Downhill lie (2026-11-13, preview v1): face-on tutorial with the coach's own words (large-v3 transcript; one tip "… kanan sikit" held back as unclear).
+  Face-on: target is screen right, so "kiri/kanan" are drawn as a top-down diagram or on the named foot, never as a bare screen arrow.
