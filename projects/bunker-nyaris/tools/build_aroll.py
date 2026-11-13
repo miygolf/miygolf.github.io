@@ -36,20 +36,30 @@ GRADE = "null"          # no colour grade: iPhone colour as shot
 #   v1       : slow punch-in on the far address (plan), close address at full frame
 #   zoomout  : (v2, owner asked "zoom out at address") plan at full frame; the close address starts tight on the coach and
 #              pulls out to full frame before the take-away (~20.4), so the swing and the splash play wide
-VARIANT = os.environ.get("VARIANT", "zoomout")
+#   wide     : (v3, owner: "bagi nampak surrounding") everything as wide as the phone shot it: hook 1.25-1.36x (was 1.9-2.2x),
+#              both addresses at full frame, replay 1.2-1.28x (was 1.6-1.75x)
+VARIANT = os.environ.get("VARIANT", "wide")
+HOOK_A = [(0, 1.9, 1120, 2450), (0.72, 2.05, 1180, 2480)]
+HOOK_F = [(0, 2.05, 1180, 2480), (1.6, 2.2, 1190, 2500)]
+REPLAY_Z = [(0, 1.6, 900, 2350), (0.96, 1.75, 920, 2350)]
 if VARIANT == "v1":
     PLAN_ZOOM = [(0, 1.12, 1000, 2050), (3.54, 1.2, 950, 2050)]
     SHOT_ZOOM = None
 else:
     PLAN_ZOOM = None
     SHOT_ZOOM = [(0, 1.38, 880, 2050), (0.25, 1.36, 885, 2045), (1.15, 1.0, 1080, 1920), (1.85, 1.0, 1080, 1920)]
+if VARIANT == "wide":
+    SHOT_ZOOM = None
+    HOOK_A = [(0, 1.25, 1150, 2350), (0.72, 1.3, 1180, 2400)]
+    HOOK_F = [(0, 1.3, 1180, 2400), (1.6, 1.36, 1185, 2420)]
+    REPLAY_Z = [(0, 1.2, 950, 2200), (0.96, 1.28, 950, 2250)]
 
 # EDL in film order.  kind: None (play), "freeze" (hold src a for dur)
 # zoom = [(t_in_segment, zoom, cx, cy)] in source pixels (2160x3840), smoothstep between keys
 EDL = [
     # HOOK: the ball rolling at the cup, 0.5x, tight; freeze as it passes the hole
-    dict(name="hook_a", clip=1, a=22.50, b=CUP, speed=0.5, zoom=[(0, 1.9, 1120, 2450), (0.72, 2.05, 1180, 2480)]),
-    dict(name="hook_freeze", clip=1, a=CUP, kind="freeze", dur=1.6, zoom=[(0, 2.05, 1180, 2480), (1.6, 2.2, 1190, 2500)]),
+    dict(name="hook_a", clip=1, a=22.50, b=CUP, speed=0.5, zoom=HOOK_A),
+    dict(name="hook_freeze", clip=1, a=CUP, kind="freeze", dur=1.6, zoom=HOOK_F),
     # "Bunker sahaja." walking in
     dict(name="walk", clip=1, a=2.72, b=3.98, speed=1.0),
     # "Almost similar, about 20 feet. Kita main stop shot."
@@ -61,7 +71,7 @@ EDL = [
     # the roll at 1x: past the cup, "What a player!"
     dict(name="roll", clip=1, a=22.45, b=24.40, speed=1.0),
     # REPLAY of the strike at 0.5x, tight on the splash
-    dict(name="replay", clip=1, a=20.56, b=21.04, speed=0.5, zoom=[(0, 1.6, 900, 2350), (0.96, 1.75, 920, 2350)]),
+    dict(name="replay", clip=1, a=20.56, b=21.04, speed=0.5, zoom=REPLAY_Z),
     # END: the green, ball beside the pin
     dict(name="end_a", clip=1, a=24.40, b=25.15, speed=1.0),
     dict(name="end_freeze", clip=1, a=25.15, kind="freeze", dur=3.2),

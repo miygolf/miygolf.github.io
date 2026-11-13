@@ -45,3 +45,5 @@ npx hyperframes@0.9.32 render -q delivery -o renders/final_raw.mp4 && tools/mast
 - v1 (`previews/bunker-nyaris_preview_v1.mp4`, `VARIANT=v1`): slow punch-in on the far address, close address at full frame.
 - v2 (`previews/bunker-nyaris_preview_v2_zoomout.mp4`, default `VARIANT=zoomout`): owner asked "zoom out at address" — far address at full frame;
   close address starts at 1.38× on the coach and eases out to full frame before the take-away, so the swing and the splash play wide.
+- v3 (`previews/bunker-nyaris_preview_v3_wide.mp4`, default `VARIANT=wide`): owner: "bagi nampak surrounding" — hook 1.25–1.36× (was 1.9–2.2×)
+  so the green, trees and hills read, both addresses at full frame, replay 1.2–1.28× (was 1.6–1.75×). Hook cup ring position is computed from the zoom.

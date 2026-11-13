@@ -67,7 +67,11 @@ def caps_html():
 CAPHTML, CAPDATA = caps_html()
 
 # ---- positions (film px) ----
-HOOK_CUP = (569, 1083)      # cup on the hook freeze (zoom 2.05 @ src (1180, 2480)); refined on the snapshot
+import importlib.util as _u
+_sp = _u.spec_from_file_location("ar", os.path.join(ROOT, "tools", "build_aroll.py")); _ar = _u.module_from_spec(_sp); _sp.loader.exec_module(_ar)
+_z, _cx, _cy = _ar.HOOK_F[0][1:]
+CUP_SRC = (1208, 2600)       # cup base in source px at the freeze (22.86)
+HOOK_CUP = (round((CUP_SRC[0] - (_cx - 1080 / _z)) * _z / 2), round((CUP_SRC[1] - (_cy - 1920 / _z)) * _z / 2))
 ROLL_CUP = (590, 1280)      # cup when the ball passes it in the roll (film 10.11)
 # ball tracker: smoothed (5-frame mean) positions from edit/ball_roll.json, every 3rd frame
 sm = []
