@@ -1,6 +1,6 @@
 import sys, json
 from faster_whisper import WhisperModel
-m = WhisperModel("small", device="cpu", compute_type="int8")
+m = WhisperModel(__import__("os").environ.get("WM","small"), device="cpu", compute_type="int8")
 from faster_whisper.audio import decode_audio
 import numpy as np, wave
 def load(p):
