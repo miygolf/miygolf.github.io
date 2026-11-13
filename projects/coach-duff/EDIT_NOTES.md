@@ -43,3 +43,8 @@ tools/master.sh renders/preview_draft.mp4 previews/coach-duff_preview_v1.mp4    
 npx hyperframes@0.9.32 render -q delivery -o renders/final_raw.mp4
 tools/master.sh renders/final_raw.mp4 final/coach-duff_1080x1920.mp4
 ```
+
+## Delivery
+Owner approved preview v1 unchanged ("ok render", 2026-11-13). `final/coach-duff_1080x1920.mp4`: 18.4 s, 1080×1920, 30 fps, H.264 High ~13.6 Mbps,
+AAC 256k 48 kHz, −14.2 LUFS, −1.3 dBTP. `tools/master.sh` now does static gain + an oversampled limiter (the old two-pass loudnorm
+left this mix at −0.3 / +1.0 dBTP because the strike transients are short and loud).
