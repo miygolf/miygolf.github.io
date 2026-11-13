@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Notebook Checklist": same raw, relaxed, educational treatment as the chalkboard edits (hard cuts, real sound, few SFX), new format:
+         the lesson is a page torn from a lined notebook (blue rules, red margin, binder holes) pinned in the left column; each point the
+         coach says gets a checkbox that is ticked in red pen as he says it, key words highlighted. Recap of the page at the end.
+         Type: Shantell Sans 800 (headings, wobbly handwriting) + Patrick Hand (list, captions) + Noto Color Emoji.
+         Palette: paper #fffdf4, rule blue #a9c8ea, margin red #e2675f, ballpoint blue #1f3fa8, red pen #d93a2b, highlighter #eaff6a.
+         Safe band: x 60-930, y 168-1330. Faces (EDIT_NOTES.md): coach x 420-680 / y 330-800 (centre) -> notebook in the left column (x 60-410),
+         captions low (y 1160+); selfie face x 600-900 / y 300-800 -> recap card low (y 900+), left. */
+      @font-face { font-family: "Shantell"; font-weight: 300 800; src: url("assets/fonts/ShantellSans-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Patrick"; font-weight: 400; src: url("assets/fonts/PatrickHand-Regular.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Noto Color Emoji"; font-weight: 400; src: url("assets/fonts/NotoColorEmoji.ttf") format("truetype"); font-display: block; }
+      :root { --paper: #fffdf4; --rule: #a9c8ea; --margin: #e2675f; --pen: #1f3fa8; --red: #d93a2b; --hl: #eaff6a; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
+      .ov { position: absolute; z-index: 6; opacity: 0; pointer-events: none; }
+      .emo { font-family: "Noto Color Emoji", sans-serif; font-weight: 400; }
+
+      /* ---- notebook page ---- */
+      .page { background: repeating-linear-gradient(180deg, transparent 0 55px, var(--rule) 55px 57px), var(--paper);
+              background-position: 0 30px; border-radius: 6px; color: var(--pen);
+              padding: 26px 22px 24px 64px; box-shadow: 0 16px 34px rgba(0,0,0,0.35); font-family: "Patrick"; }
+      .page::before { content: ""; position: absolute; left: 46px; top: 0; bottom: 0; width: 3px; background: var(--margin); opacity: 0.8; }
+      .page .holes { position: absolute; left: 14px; top: 24px; bottom: 24px; width: 18px; display: flex; flex-direction: column; justify-content: space-around; }
+      .page .holes i { width: 18px; height: 18px; border-radius: 50%; background: rgba(0,0,0,0.55); box-shadow: inset 0 2px 3px rgba(0,0,0,0.6); }
+      .page .tape { position: absolute; top: -18px; left: 50%; width: 120px; height: 36px; margin-left: -60px; background: rgba(240,230,190,0.75); transform: rotate(-3deg); }
+      .head { font-family: "Shantell"; font-weight: 800; color: var(--pen); line-height: 1.0; }
+      .hl { background: linear-gradient(transparent 52%, var(--hl) 52%, var(--hl) 90%, transparent 90%); padding: 0 4px; }
+      .item { display: flex; align-items: flex-start; gap: 10px; font-size: 36px; line-height: 1.05; margin-top: 14px; }
+      .box { flex: 0 0 34px; height: 34px; border: 4px solid var(--pen); border-radius: 6px; position: relative; margin-top: 4px; }
+      .box svg { position: absolute; left: -6px; top: -14px; width: 56px; height: 56px; overflow: visible; }
+      .box svg path { fill: none; stroke: var(--red); stroke-width: 8; stroke-linecap: round; stroke-linejoin: round; }
+      .sub { font-size: 28px; color: #4a5a8a; margin: 2px 0 0 44px; }
+      .wr { display: inline-block; clip-path: inset(0 100% 0 0); }
+
+      /* ---- caption: pen on a paper strip ---- */
+      .cap { left: 540px; top: 1160px; transform: translateX(-50%) rotate(-0.6deg); max-width: 870px; padding: 8px 24px 12px; background: var(--paper);
+             border-radius: 4px; color: var(--pen); font-family: "Patrick"; font-size: 54px; line-height: 1.08; text-align: center; white-space: nowrap;
+             box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+      .cap .w { color: #6b76a0; }
+      .cap .w.on { color: var(--pen); }
+      .cap .w.hot.on { background: linear-gradient(transparent 50%, var(--hl) 50%, var(--hl) 92%, transparent 92%); }
+      .sticky { background: #fff27a; color: #3b3200; font-family: "Shantell"; font-weight: 700; padding: 16px 22px 18px; border-radius: 3px;
+                box-shadow: 0 12px 24px rgba(0,0,0,0.3); }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="{{TOTAL}}" data-width="1080" data-height="1920" data-fps="30">
+      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="{{TOTAL}}" data-track-index="1" muted playsinline></video>
+
+      <!-- HOOK: page title on frame 0 -->
+      <div id="hook" class="ov page" style="left:60px; top:260px; width:360px; transform: rotate(-2deg);"><div class="tape"></div>
+        <div class="holes"><i></i><i></i><i></i></div>
+        <div class="head" style="font-size:34px; color:#4a5a8a;">Nota hari ni:</div>
+        <div class="head" style="font-size:54px; margin-top:6px;"><span class="hl">CHIPPING</span></div>
+        <div class="head" style="font-size:44px; margin-top:10px;"><span class="wr" id="hk2">3 benda je <span class="emo">✍️</span></span></div>
+      </div>
+
+      <!-- the checklist page (left column) -->
+      <div id="list" class="ov page" style="left:56px; top:230px; width:330px; transform: rotate(-1.5deg); padding:22px 16px 18px 58px;"><div class="tape"></div>
+        <div class="holes"><i></i><i></i><i></i><i></i></div>
+        <div class="head" style="font-size:40px;">Chipping <span class="emo" style="font-size:34px">⛳</span></div>
+        <div class="item" id="i1"><div class="box"><svg viewBox="0 0 56 56"><path id="t1" d="M 8 30 L 22 44 L 50 8"/></svg></div><div><span class="hl">Bola tengah</span></div></div>
+        <div class="sub" id="i1s">(slightly depan sikit ok)</div>
+        <div class="item" id="i2"><div class="box"><svg viewBox="0 0 56 56"><path id="t2" d="M 8 30 L 22 44 L 50 8"/></svg></div><div><span class="hl">Weight kiri</span></div></div>
+        <div class="item" id="i3"><div class="box"><svg viewBox="0 0 56 56"><path id="t3" d="M 8 30 L 22 44 L 50 8"/></svg></div><div><span class="hl">Club face</span><br><span class="hl">normal</span></div></div>
+        <div class="sub" id="i3s">(tak perlu buka pun)</div>
+      </div>
+
+      <!-- END: recap over the selfie freeze (low left, clear of the face) -->
+      <div id="recap" class="ov page" style="left:60px; top:1066px; width:540px; padding-bottom:16px; transform: rotate(-2deg); padding-top:22px;"><div class="tape"></div>
+        <div class="holes"><i></i><i></i><i></i></div>
+        <div class="head" style="font-size:40px;">Recap chipping <span class="emo" style="font-size:36px">✅</span></div>
+        <div class="item" style="font-size:36px; margin-top:6px;"><div class="box"><svg viewBox="0 0 56 56"><path d="M 8 30 L 22 44 L 50 8"/></svg></div><div>Bola tengah</div></div>
+        <div class="item" style="font-size:36px; margin-top:6px;"><div class="box"><svg viewBox="0 0 56 56"><path d="M 8 30 L 22 44 L 50 8"/></svg></div><div>Weight kiri</div></div>
+        <div class="item" style="font-size:36px; margin-top:6px;"><div class="box"><svg viewBox="0 0 56 56"><path d="M 8 30 L 22 44 L 50 8"/></svg></div><div>Face normal, tak buka</div></div>
+      </div>
+      <div id="peace" class="ov sticky" style="left:640px; top:1200px; font-size:44px; transform: rotate(4deg);">Kelas habis <span class="emo">✌️</span></div>
+
+      <!-- captions -->
+      {{CAPS}}
+{{AUDIO}}
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {{CONSTS}};
+        const T = K.T, B = K.B;
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        const hide0 = (el) => tl.set(el, { opacity: 0 }, 0);
+        function write(sel, t, dur) {
+          tl.set(sel, { clipPath: "inset(0 100% 0 0)" }, 0);
+          tl.to(sel, { clipPath: "inset(0 0% 0 0)", duration: dur || 0.5, ease: "steps(" + Math.round((dur || 0.5) * 24) + ")" }, t);
+        }
+        function tick(sel, t) {
+          const p = $(sel), L = p.getTotalLength();
+          tl.set(p, { attr: { "stroke-dasharray": `${L} ${L}`, "stroke-dashoffset": L } }, 0);
+          tl.to(p, { attr: { "stroke-dashoffset": 0 }, duration: 0.25, ease: "power2.out" }, t);
+        }
+        function card(sel, t0, t1, from) {
+          const el = $(sel); hide0(el);
+          tl.fromTo(el, Object.assign({ opacity: 0, x: -60 }, from || {}), { opacity: 1, x: 0, duration: 0.25, ease: "power2.out", immediateRender: false }, t0);
+          if (t1 != null) tl.to(el, { opacity: 0, x: -40, duration: 0.18 }, t1);
+          return el;
+        }
+
+        // ---------- captions ----------
+        K.CAP.forEach((c, i) => {
+          const el = $("#cap" + i); hide0(el);
+          tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.12, immediateRender: false }, Math.max(c.t0, 0));
+          tl.set(el, { opacity: 0 }, c.t1);
+          el.querySelectorAll(".w").forEach((w) => tl.set(w, { className: w.className + " on" }, Math.max(parseFloat(w.dataset.t), 0)));
+        });
+
+        // ---------- HOOK ----------
+        tl.set("#hook", { opacity: 1 }, 0);                          // title on frame 0
+        write("#hk2", 0.1, 0.5);
+        tl.to("#hook", { opacity: 0, x: -40, duration: 0.18 }, T.intro.start - 0.05);
+
+        // ---------- checklist ----------
+        card("#list", T.intro.start + 0.1, T.shot.start + 0.9);
+        ["#i1", "#i1s", "#i2", "#i3", "#i3s"].forEach((s) => tl.set(s, { opacity: 0.35 }, 0));
+        tl.to(["#i1"], { opacity: 1, duration: 0.15 }, T.p1.start + 0.3); tick("#t1", B.w_tengah + 0.12);
+        tl.to(["#i1s"], { opacity: 1, duration: 0.15 }, B.w_depan);
+        tl.to(["#i2"], { opacity: 1, duration: 0.15 }, T.p3.start + 0.1); tick("#t2", B.w_kiri + 0.12);
+        tl.to(["#i3"], { opacity: 1, duration: 0.15 }, B.w_face);
+        tl.to(["#i3s"], { opacity: 1, duration: 0.15 }, B.w_buka - 0.2); tick("#t3", B.w_buka + 0.12);
+
+        // ---------- END ----------
+        card("#recap", T.end_freeze.start + 0.05, null, { rotation: -6 });
+        const pc = $("#peace"); hide0(pc);
+        tl.fromTo(pc, { opacity: 0, scale: 0.7, rotation: 12 }, { opacity: 1, scale: 1, rotation: 4, duration: 0.3, ease: "back.out(2.4)", immediateRender: false }, T.end_freeze.start + 0.5);
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>

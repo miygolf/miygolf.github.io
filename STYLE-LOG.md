@@ -105,3 +105,9 @@ Faiz P6–P8 **lab / telestrator** (graphite grid, red/lime, Archivo Black + Jet
 
 - Chip RM50 (2026-11-13, preview v1): the owner asked to repeat the bunker-raw style — a request to reuse a look overrides "every video gets a new look".
   v2: the owner gave his own method ("takeaway dengan open club face, pastu release macam biasa") and asked to drop the CTA: a replay with numbered freezes in his words beats a CTA here.
+
+| Video | Look | Type | Palette | Motion signature |
+| --- | --- | --- | --- | --- |
+| **Chipping checklist (ball tengah, weight kiri, face normal)** (branch `claude/gifted-davinci-2netbk`, `projects/chipup-checklist/`) | **Notebook Checklist**: lined notebook page with red-pen ticks (same raw educational treatment, new format) | Shantell Sans 800 + Patrick Hand + Noto Color Emoji | paper #fffdf4, rule blue #a9c8ea, margin red #e2675f, ballpoint #1f3fa8, red pen #d93a2b, highlighter #eaff6a | page slides into the left column, checkbox ticked in red pen on each spoken point, highlighter on key words, paper caption strips, recap page + sticky note on the closing selfie; hard cuts, real sound, six soft SFX, no music — **preview v1** |
+
+- Chipping checklist (2026-11-13, preview v1): owner asked for the same educational style with a slightly different format — kept the raw treatment, swapped chalk boards for a notebook checklist.
