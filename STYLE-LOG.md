@@ -101,7 +101,7 @@ Faiz P6–P8 **lab / telestrator** (graphite grid, red/lime, Archivo Black + Jet
 
 | Video | Look | Type | Palette | Motion signature |
 | --- | --- | --- | --- | --- |
-| **Chip in RM50 (30 m)** (branch `claude/gifted-davinci-2netbk`, `projects/chip-rm50/`) | **Chalkboard, reused on request** ("sama buat macam bunker shot style") | as Kelas Bunker 101 | as Kelas Bunker 101 | boards in the right column (head high in frame), bet chalked line by line, eraser wipe, HOMEWORK board, v2 adds a 0.5× replay with the coach's two steps chalked on freezes; hard cuts, real sound, soft chalk SFX — **preview v2** |
+| **Chip in RM50 (30 m)** (branch `claude/gifted-davinci-2netbk`, `projects/chip-rm50/`) | **Chalkboard, reused on request** ("sama buat macam bunker shot style") | as Kelas Bunker 101 | as Kelas Bunker 101 | boards in the right column (head high in frame), bet chalked line by line, eraser wipe, HOMEWORK board, v2 adds a 0.5× replay with the coach's two steps chalked on freezes; hard cuts, real sound, soft chalk SFX — **delivered from preview v2** |
 
 - Chip RM50 (2026-11-13, preview v1): the owner asked to repeat the bunker-raw style — a request to reuse a look overrides "every video gets a new look".
   v2: the owner gave his own method ("takeaway dengan open club face, pastu release macam biasa") and asked to drop the CTA: a replay with numbered freezes in his words beats a CTA here.

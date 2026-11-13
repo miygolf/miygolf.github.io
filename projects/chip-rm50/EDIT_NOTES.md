@@ -37,3 +37,6 @@ npx hyperframes@0.9.32 render -q delivery -o renders/final_raw.mp4 && tools/mast
 - New HOW section after "Tak dapat": replay 0.5× (zoom 1.2 on hands/club/ball) with two freezes and the coach's own words chalked on:
   **1 · takeaway, buka club face** (freeze 16.02, the face shows open toward the camera) and **2 · release macam biasa** (freeze 16.80, the turf flying).
   Real strike on the slowed impact. HOMEWORK board now recaps the method. 28.6 s. −14 LUFS.
+
+## Delivery
+Owner approved v2 ("Ok render", 2026-11-13). `final/chip-rm50_1080x1920.mp4`: 28.6 s, 1080×1920, 30 fps, H.264 High ~12.5 Mbps, AAC 256k, −14.1 LUFS, −2.9 dBTP.
