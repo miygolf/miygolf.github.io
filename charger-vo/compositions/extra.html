@@ -1,0 +1,25 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .hl { font-family: "Outfit", sans-serif; font-weight: 400; line-height: 1.04; letter-spacing: -0.01em; color: #fff; text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 14px rgba(0, 0, 0, 0.6); }
+    .lb { font-family: "JetBrains Mono", monospace; font-weight: 400; font-size: 34px; letter-spacing: 0.02em; color: #fff; text-shadow: 2px 0px 0 #000, -2px 0px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 0 10px rgba(0, 0, 0, 0.55); }
+    .ac { color: var(--cyan); }
+    #ex { position: absolute; left: 120px; top: 330px; }
+    .ex-r { opacity: 0; line-height: 1.55; font-size: 38px; }
+    .ex-r .n { color: var(--cyan); }
+  </style>
+  <div id="root" data-composition-id="extra" data-width="1080" data-height="1920">
+    <div id="ex">
+      <div id="ex-r1" class="lb ex-r"><span class="n">4</span> · Port USB-C 3A</div>
+      <div id="ex-r2" class="lb ex-r"><span class="n">5</span> · Port USB-A 2.4A</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#ex-r1", { opacity: 0, x: 14 }, { opacity: 1, x: 0, duration: 0.2, ease: "power3.out" }, 0.15);
+    tl.fromTo("#ex-r2", { opacity: 0, x: 14 }, { opacity: 1, x: 0, duration: 0.2, ease: "power3.out" }, 0.45);
+    tl.to("#ex", { opacity: 0, duration: 0.12, ease: "power2.in" }, 2.500);
+    tl.set({}, {}, 2.62);
+    window.__timelines["extra"] = tl;
+  </script>
+</template>

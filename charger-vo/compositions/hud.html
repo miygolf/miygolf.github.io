@@ -1,0 +1,23 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .hl { font-family: "Outfit", sans-serif; font-weight: 400; line-height: 1.04; letter-spacing: -0.01em; color: #fff; text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 14px rgba(0, 0, 0, 0.6); }
+    .lb { font-family: "JetBrains Mono", monospace; font-weight: 400; font-size: 34px; letter-spacing: 0.02em; color: #fff; text-shadow: 2px 0px 0 #000, -2px 0px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 0 10px rgba(0, 0, 0, 0.55); }
+    .ac { color: var(--cyan); }
+    #hud-track { position: absolute; left: 120px; top: 286px; width: 768px; height: 3px; background: rgba(255, 255, 255, 0.35); box-shadow: 0 0 4px rgba(0, 0, 0, 0.7); }
+    #hud-bar { position: absolute; left: 120px; top: 286px; width: 768px; height: 3px; background: var(--cyan); box-shadow: 0 0 10px rgba(127, 231, 255, 0.9), 0 0 2px #000; transform-origin: left center; }
+    #hud-tick { position: absolute; left: 120px; top: 279px; width: 4px; height: 17px; background: var(--cyan); box-shadow: 0 0 8px rgba(127, 231, 255, 0.9), 0 0 2px #000; }
+  </style>
+  <div id="root" data-composition-id="hud" data-width="1080" data-height="1920">
+    <div id="hud-track"></div>
+    <div id="hud-bar"></div>
+    <div id="hud-tick"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#hud-bar", { scaleX: 0 }, { scaleX: 1, duration: 22.07, ease: "none" }, 0);
+    tl.fromTo("#hud-tick", { x: 0 }, { x: 764, duration: 22.07, ease: "none" }, 0);
+    tl.set({}, {}, 22.05);
+    window.__timelines["hud"] = tl;
+  </script>
+</template>

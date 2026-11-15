@@ -1,0 +1,24 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .hl { font-family: "Outfit", sans-serif; font-weight: 400; line-height: 1.04; letter-spacing: -0.01em; color: #fff; text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 14px rgba(0, 0, 0, 0.6); }
+    .lb { font-family: "JetBrains Mono", monospace; font-weight: 400; font-size: 34px; letter-spacing: 0.02em; color: #fff; text-shadow: 2px 0px 0 #000, -2px 0px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 0 10px rgba(0, 0, 0, 0.55); }
+    .ac { color: var(--cyan); }
+    #rt { position: absolute; left: 120px; top: 330px; }
+    .rt-l { font-size: 72px; }
+  </style>
+  <div id="root" data-composition-id="retract" data-width="1080" data-height="1920">
+    <div id="rt">
+      <div id="rt-l1" class="hl rt-l">Kabel boleh tarik</div>
+      <div id="rt-l2" class="hl rt-l">&amp; <span class="ac">masuk balik.</span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#rt-l1", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.24, ease: "power3.out" }, 0.08);
+    tl.fromTo("#rt-l2", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.24, ease: "power3.out" }, 1.330);
+    tl.to("#rt", { opacity: 0, duration: 0.12, ease: "power2.in" }, 3.190);
+    tl.set({}, {}, 3.31);
+    window.__timelines["retract"] = tl;
+  </script>
+</template>

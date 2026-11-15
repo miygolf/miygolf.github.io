@@ -1,0 +1,106 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .cap { position: absolute; left: 120px; width: 660px; font-family: "Outfit", sans-serif; font-weight: 400; font-size: 58px; line-height: 1.12; color: #fff; text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 14px rgba(0, 0, 0, 0.6); }
+    .cap .w { color: #fff; }
+  </style>
+  <div id="root" data-composition-id="captions" data-width="1080" data-height="1920">
+    <div id="cap-g0" class="cap clip" data-start="0.11" data-duration="2.19" style="top: 500px"><span id="cap-g0-w0" class="w">kita</span> <span id="cap-g0-w1" class="w">dapat</span> <span id="cap-g0-w2" class="w">charging</span> <span id="cap-g0-w3" class="w">Super</span> <span id="cap-g0-w4" class="w">Charge.</span></div>
+    <div id="cap-g1" class="cap clip" data-start="2.3" data-duration="2.03" style="top: 640px"><span id="cap-g1-w0" class="w">Ada</span> <span id="cap-g1-w1" class="w">PD30W,</span></div>
+    <div id="cap-g2" class="cap clip" data-start="4.33" data-duration="0.93" style="top: 640px"><span id="cap-g2-w0" class="w">2.4A,</span></div>
+    <div id="cap-g3" class="cap clip" data-start="5.26" data-duration="2" style="top: 640px"><span id="cap-g3-w0" class="w">kita</span> <span id="cap-g3-w1" class="w">boleh</span> <span id="cap-g3-w2" class="w">tengok</span> <span id="cap-g3-w3" class="w">bateri.</span></div>
+    <div id="cap-g4" class="cap clip" data-start="7.26" data-duration="2.64" style="top: 820px"><span id="cap-g4-w0" class="w">ada</span> <span id="cap-g4-w1" class="w">additional</span> <span id="cap-g4-w2" class="w">Type-C</span> <span id="cap-g4-w3" class="w">dan</span> <span id="cap-g4-w4" class="w">Type-A.</span></div>
+    <div id="cap-g5" class="cap clip" data-start="9.9" data-duration="1.38" style="top: 1110px"><span id="cap-g5-w0" class="w">saya</span> <span id="cap-g5-w1" class="w">letak</span> <span id="cap-g5-w2" class="w">kat</span> <span id="cap-g5-w3" class="w">sini,</span></div>
+    <div id="cap-g6" class="cap clip" data-start="11.28" data-duration="1.72" style="top: 1110px"><span id="cap-g6-w0" class="w">and</span> <span id="cap-g6-w1" class="w">then</span> <span id="cap-g6-w2" class="w">naikkan.</span></div>
+    <div id="cap-g7" class="cap clip" data-start="13" data-duration="1.25" style="top: 1110px"><span id="cap-g7-w0" class="w">kita</span> <span id="cap-g7-w1" class="w">boleh</span> <span id="cap-g7-w2" class="w">tarik</span> <span id="cap-g7-w3" class="w">benda</span> <span id="cap-g7-w4" class="w">ni,</span></div>
+    <div id="cap-g8" class="cap clip" data-start="14.25" data-duration="2.08" style="top: 860px"><span id="cap-g8-w0" class="w">tarik</span> <span id="cap-g8-w1" class="w">balik,</span> <span id="cap-g8-w2" class="w">supaya</span> <span id="cap-g8-w3" class="w">dia</span> <span id="cap-g8-w4" class="w">masuk</span> <span id="cap-g8-w5" class="w">balik.</span></div>
+    <div id="cap-g9" class="cap clip" data-start="16.33" data-duration="1.68" style="top: 1110px"><span id="cap-g9-w0" class="w">charging</span> <span id="cap-g9-w1" class="w">Android</span></div>
+    <div id="cap-g10" class="cap clip" data-start="18.01" data-duration="1.06" style="top: 1110px"><span id="cap-g10-w0" class="w">30W.</span></div>
+    <div id="cap-g11" class="cap clip" data-start="19.07" data-duration="0.95" style="top: 1110px"><span id="cap-g11-w0" class="w">Mantap</span> <span id="cap-g11-w1" class="w">dah.</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.set("#cap-g0-w0", { color: "#7fe7ff" }, 0.230);
+    tl.set("#cap-g0-w0", { color: "#ffffff" }, 0.430);
+    tl.set("#cap-g0-w1", { color: "#7fe7ff" }, 0.430);
+    tl.set("#cap-g0-w1", { color: "#ffffff" }, 0.730);
+    tl.set("#cap-g0-w2", { color: "#7fe7ff" }, 0.730);
+    tl.set("#cap-g0-w2", { color: "#ffffff" }, 1.230);
+    tl.set("#cap-g0-w3", { color: "#7fe7ff" }, 1.230);
+    tl.set("#cap-g0-w3", { color: "#ffffff" }, 1.870);
+    tl.set("#cap-g0-w4", { color: "#7fe7ff" }, 1.870);
+    tl.fromTo("#cap-g0", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, 0.110);
+    tl.set("#cap-g1-w0", { color: "#7fe7ff" }, 2.380);
+    tl.set("#cap-g1-w0", { color: "#ffffff" }, 2.920);
+    tl.set("#cap-g1-w1", { color: "#7fe7ff" }, 2.920);
+    tl.fromTo("#cap-g1", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, 2.300);
+    tl.set("#cap-g2-w0", { color: "#7fe7ff" }, 4.400);
+    tl.fromTo("#cap-g2", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, 4.330);
+    tl.set("#cap-g3-w0", { color: "#7fe7ff" }, 5.300);
+    tl.set("#cap-g3-w0", { color: "#ffffff" }, 5.960);
+    tl.set("#cap-g3-w1", { color: "#7fe7ff" }, 5.960);
+    tl.set("#cap-g3-w1", { color: "#ffffff" }, 6.160);
+    tl.set("#cap-g3-w2", { color: "#7fe7ff" }, 6.160);
+    tl.set("#cap-g3-w2", { color: "#ffffff" }, 6.460);
+    tl.set("#cap-g3-w3", { color: "#7fe7ff" }, 6.460);
+    tl.fromTo("#cap-g3", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, 5.260);
+    tl.set("#cap-g4-w0", { color: "#7fe7ff" }, 7.340);
+    tl.set("#cap-g4-w0", { color: "#ffffff" }, 7.660);
+    tl.set("#cap-g4-w1", { color: "#7fe7ff" }, 7.660);
+    tl.set("#cap-g4-w1", { color: "#ffffff" }, 8.260);
+    tl.set("#cap-g4-w2", { color: "#7fe7ff" }, 8.260);
+    tl.set("#cap-g4-w2", { color: "#ffffff" }, 8.880);
+    tl.set("#cap-g4-w3", { color: "#7fe7ff" }, 8.880);
+    tl.set("#cap-g4-w3", { color: "#ffffff" }, 9.160);
+    tl.set("#cap-g4-w4", { color: "#7fe7ff" }, 9.160);
+    tl.fromTo("#cap-g4", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, 7.260);
+    tl.set("#cap-g5-w0", { color: "#7fe7ff" }, 9.970);
+    tl.set("#cap-g5-w0", { color: "#ffffff" }, 10.190);
+    tl.set("#cap-g5-w1", { color: "#7fe7ff" }, 10.190);
+    tl.set("#cap-g5-w1", { color: "#ffffff" }, 10.530);
+    tl.set("#cap-g5-w2", { color: "#7fe7ff" }, 10.530);
+    tl.set("#cap-g5-w2", { color: "#ffffff" }, 10.670);
+    tl.set("#cap-g5-w3", { color: "#7fe7ff" }, 10.670);
+    tl.fromTo("#cap-g5", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, 9.900);
+    tl.set("#cap-g6-w0", { color: "#7fe7ff" }, 11.360);
+    tl.set("#cap-g6-w0", { color: "#ffffff" }, 11.520);
+    tl.set("#cap-g6-w1", { color: "#7fe7ff" }, 11.520);
+    tl.set("#cap-g6-w1", { color: "#ffffff" }, 12.320);
+    tl.set("#cap-g6-w2", { color: "#7fe7ff" }, 12.320);
+    tl.fromTo("#cap-g6", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, 11.280);
+    tl.set("#cap-g7-w0", { color: "#7fe7ff" }, 13.050);
+    tl.set("#cap-g7-w0", { color: "#ffffff" }, 13.370);
+    tl.set("#cap-g7-w1", { color: "#7fe7ff" }, 13.370);
+    tl.set("#cap-g7-w1", { color: "#ffffff" }, 13.570);
+    tl.set("#cap-g7-w2", { color: "#7fe7ff" }, 13.570);
+    tl.set("#cap-g7-w2", { color: "#ffffff" }, 13.810);
+    tl.set("#cap-g7-w3", { color: "#7fe7ff" }, 13.810);
+    tl.set("#cap-g7-w3", { color: "#ffffff" }, 13.990);
+    tl.set("#cap-g7-w4", { color: "#7fe7ff" }, 13.990);
+    tl.fromTo("#cap-g7", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, 13.000);
+    tl.set("#cap-g8-w0", { color: "#7fe7ff" }, 14.330);
+    tl.set("#cap-g8-w0", { color: "#ffffff" }, 14.530);
+    tl.set("#cap-g8-w1", { color: "#7fe7ff" }, 14.530);
+    tl.set("#cap-g8-w1", { color: "#ffffff" }, 15.290);
+    tl.set("#cap-g8-w2", { color: "#7fe7ff" }, 15.290);
+    tl.set("#cap-g8-w2", { color: "#ffffff" }, 15.650);
+    tl.set("#cap-g8-w3", { color: "#7fe7ff" }, 15.650);
+    tl.set("#cap-g8-w3", { color: "#ffffff" }, 15.810);
+    tl.set("#cap-g8-w4", { color: "#7fe7ff" }, 15.810);
+    tl.set("#cap-g8-w4", { color: "#ffffff" }, 16.010);
+    tl.set("#cap-g8-w5", { color: "#7fe7ff" }, 16.010);
+    tl.fromTo("#cap-g8", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, 14.250);
+    tl.set("#cap-g9-w0", { color: "#7fe7ff" }, 16.400);
+    tl.set("#cap-g9-w0", { color: "#ffffff" }, 17.550);
+    tl.set("#cap-g9-w1", { color: "#7fe7ff" }, 17.550);
+    tl.fromTo("#cap-g9", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, 16.330);
+    tl.set("#cap-g10-w0", { color: "#7fe7ff" }, 18.070);
+    tl.fromTo("#cap-g10", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, 18.010);
+    tl.set("#cap-g11-w0", { color: "#7fe7ff" }, 19.150);
+    tl.set("#cap-g11-w0", { color: "#ffffff" }, 19.450);
+    tl.set("#cap-g11-w1", { color: "#7fe7ff" }, 19.450);
+    tl.fromTo("#cap-g11", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, 19.070);
+    tl.set({}, {}, 22.05);
+    window.__timelines["captions"] = tl;
+  </script>
+</template>
