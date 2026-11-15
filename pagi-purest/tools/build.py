@@ -5,6 +5,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SEG = json.load(open(os.path.join(ROOT, "assets/clips/segments.json")))
 MAP = json.load(open(os.path.join(ROOT, "assets/map/map.json")))
 TOTAL = 26.5
+USE_MUSIC = False  # user asked for no background music (SFX only)
 FD = 1.25   # seconds per plate
 EXT = 12.5 + 6 * FD  # exterior start (20.0)
 FOOD = [  # photo, label, clock
@@ -15,6 +16,8 @@ FOOD = [  # photo, label, clock
     ("IMG_0260", "Kuih tradisional", "08:25"),
     ("IMG_0262", "Bubur + buah", "08:38"),
 ]
+
+MUSIC_TAG = (f'      <audio id="music" src="assets/audio/music.m4a" data-start="0" data-duration="{TOTAL}" data-volume="1" data-track-index="8"></audio>\n' if USE_MUSIC else "")
 
 # ---------------------------------------------------------------- media timeline
 media = []  # (id, kind, src, start, dur, cls)
@@ -219,8 +222,7 @@ html = f"""<!doctype html>
         <div class="cta">Nak tengok bilik dia? Komen <b>BILIK</b></div>
       </div>
 
-      <audio id="music" src="assets/audio/music.m4a" data-start="0" data-duration="{TOTAL}" data-volume="1" data-track-index="8"></audio>
-__SFX__
+{MUSIC_TAG}__SFX__
     </div>
     <script>
       window.__timelines = window.__timelines || {{}};
