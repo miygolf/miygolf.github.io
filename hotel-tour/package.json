@@ -1,0 +1,20 @@
+{
+  "name": "purest-hotel-kenangan",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "python3 tools/build.py && npx --yes hyperframes@0.9.52 media-treatment --selector .media --grading tools/grade.json --apply",
+    "dev": "npx --yes hyperframes@0.9.52 preview",
+    "check": "npx --yes hyperframes@0.9.52 check",
+    "render": "npx --yes hyperframes@0.9.52 render"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "hyperframes": "^0.9.52"
+  },
+  "private": true,
+  "type": "module"
+}

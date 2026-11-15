@@ -1,0 +1,72 @@
+{
+ "s01_reveal": {
+  "src": "IMG_0259",
+  "in": 4.6,
+  "out": 7.4,
+  "speed": 1.0,
+  "duration": 2.8
+ },
+ "s03_corridor": {
+  "src": "IMG_0238",
+  "in": 3.8,
+  "out": 7.0,
+  "speed": 0.7,
+  "duration": 4.567
+ },
+ "s04_bed": {
+  "src": "IMG_0258",
+  "in": 0.2,
+  "out": 3.2,
+  "speed": 0.7,
+  "duration": 4.3
+ },
+ "s05_room": {
+  "src": "IMG_0258",
+  "in": 5.8,
+  "out": 8.6,
+  "speed": 0.7,
+  "duration": 4.0
+ },
+ "s06_marble": {
+  "src": "IMG_0242",
+  "in": 2.0,
+  "out": 4.6,
+  "speed": 0.7,
+  "duration": 3.733
+ },
+ "s07_shower": {
+  "src": "IMG_0259",
+  "in": 10.1,
+  "out": 12.3,
+  "speed": 1.0,
+  "duration": 2.2
+ },
+ "s09_amenity": {
+  "src": "IMG_0243",
+  "in": 0.2,
+  "out": 2.8,
+  "speed": 1.0,
+  "duration": 2.6
+ },
+ "s10_coffee": {
+  "src": "IMG_0241",
+  "in": 8.6,
+  "out": 11.4,
+  "speed": 1.0,
+  "duration": 2.8
+ },
+ "s11_card": {
+  "src": "IMG_0244",
+  "in": 0.6,
+  "out": 3.4,
+  "speed": 0.75,
+  "duration": 3.733
+ },
+ "s12_wide": {
+  "src": "IMG_0258",
+  "in": 16.4,
+  "out": 19.8,
+  "speed": 0.7,
+  "duration": 4.867
+ }
+}
