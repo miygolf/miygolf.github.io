@@ -1,0 +1,47 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    .hl {
+      font-family: "Outfit", sans-serif;
+      font-weight: 400;
+      line-height: 1.04;
+      letter-spacing: -0.01em;
+      color: #fff;
+      text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 14px rgba(0, 0, 0, 0.6);
+    }
+    .lb {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 400;
+      font-size: 34px;
+      letter-spacing: 0.02em;
+      color: #fff;
+      text-shadow: 2px 0px 0 #000, -2px 0px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 0 10px rgba(0, 0, 0, 0.55);
+    }
+    .ac { color: var(--cyan); }
+    #hk-wrap { position: absolute; left: 120px; top: 930px; }
+    #hk-kick { margin-bottom: 18px; color: var(--cyan); letter-spacing: 0.14em; font-size: 30px; }
+    .hk-line { font-size: 72px; }
+    #hk-acc { position: relative; display: inline-block; }
+    #hk-under { position: absolute; left: 0; right: 0; bottom: -6px; height: 5px; background: var(--cyan); box-shadow: 0 0 12px rgba(127, 231, 255, 0.8), 0 0 2px #000; transform-origin: left center; }
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+    <div id="hk-wrap">
+      <div id="hk-kick" class="lb">CAR CHARGER · PD30W</div>
+      <div class="hl hk-line">Kereta lama,</div>
+      <div class="hl hk-line">port cas dia</div>
+      <div class="hl hk-line">macam <span id="hk-acc">kereta baru.<span id="hk-under"></span></span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#hk-acc", { color: "#ffffff" }, { color: "#7fe7ff", duration: 0.3, ease: "power2.out" }, 0.35);
+    tl.fromTo("#hk-under", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power3.out" }, 0.35);
+    tl.fromTo("#hk-wrap", { y: 0 }, { y: -12, duration: 2.5, ease: "none" }, 0);
+    tl.to("#hk-wrap", { opacity: 0, duration: 0.14, ease: "power2.in" }, 2.44);
+    tl.set({}, {}, 2.58);
+    window.__timelines["hook"] = tl;
+  </script>
+</template>

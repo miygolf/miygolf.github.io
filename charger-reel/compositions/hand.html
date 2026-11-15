@@ -1,0 +1,42 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    .hl {
+      font-family: "Outfit", sans-serif;
+      font-weight: 400;
+      line-height: 1.04;
+      letter-spacing: -0.01em;
+      color: #fff;
+      text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 14px rgba(0, 0, 0, 0.6);
+    }
+    .lb {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 400;
+      font-size: 34px;
+      letter-spacing: 0.02em;
+      color: #fff;
+      text-shadow: 2px 0px 0 #000, -2px 0px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 0 10px rgba(0, 0, 0, 0.55);
+    }
+    .ac { color: var(--cyan); }
+    #hd-wrap { position: absolute; left: 120px; top: 330px; }
+    #hd-t { font-size: 92px; }
+    #hd-s { margin-top: 14px; }
+  </style>
+  <div id="root" data-composition-id="hand" data-width="1080" data-height="1920">
+    <div id="hd-wrap">
+      <div id="hd-t" class="hl">Kecik je.</div>
+      <div id="hd-s" class="lb">terus pasang bawah <span class="ac">dashboard</span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#hd-t", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.26, ease: "power3.out" }, 0.1);
+    tl.fromTo("#hd-s", { opacity: 0, x: 14 }, { opacity: 1, x: 0, duration: 0.22, ease: "power3.out" }, 0.3);
+    tl.to("#hd-wrap", { opacity: 0, duration: 0.12, ease: "power2.in" }, 1.86);
+    tl.set({}, {}, 1.98);
+    window.__timelines["hand"] = tl;
+  </script>
+</template>

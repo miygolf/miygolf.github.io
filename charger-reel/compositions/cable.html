@@ -1,0 +1,44 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    .hl {
+      font-family: "Outfit", sans-serif;
+      font-weight: 400;
+      line-height: 1.04;
+      letter-spacing: -0.01em;
+      color: #fff;
+      text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 14px rgba(0, 0, 0, 0.6);
+    }
+    .lb {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 400;
+      font-size: 34px;
+      letter-spacing: 0.02em;
+      color: #fff;
+      text-shadow: 2px 0px 0 #000, -2px 0px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 0 10px rgba(0, 0, 0, 0.55);
+    }
+    .ac { color: var(--cyan); }
+    #cb-wrap { position: absolute; left: 120px; top: 330px; }
+    .cb-l { font-size: 80px; }
+    #cb-s { margin-top: 14px; }
+  </style>
+  <div id="root" data-composition-id="cable" data-width="1080" data-height="1920">
+    <div id="cb-wrap">
+      <div id="cb-l1" class="hl cb-l">Kabel Type-C</div>
+      <div id="cb-l2" class="hl cb-l"><span class="ac">dah siap ada.</span></div>
+      <div id="cb-s" class="lb">tarik, terus cas</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#cb-l1", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.26, ease: "power3.out" }, 0.12);
+    tl.fromTo("#cb-l2", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.26, ease: "power3.out" }, 0.3);
+    tl.fromTo("#cb-s", { opacity: 0, x: 14 }, { opacity: 1, x: 0, duration: 0.22, ease: "power3.out" }, 0.6);
+    tl.to("#cb-wrap", { opacity: 0, duration: 0.12, ease: "power2.in" }, 2.86);
+    tl.set({}, {}, 2.98);
+    window.__timelines["cable"] = tl;
+  </script>
+</template>

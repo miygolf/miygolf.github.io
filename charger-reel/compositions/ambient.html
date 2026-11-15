@@ -1,0 +1,44 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    .hl {
+      font-family: "Outfit", sans-serif;
+      font-weight: 400;
+      line-height: 1.04;
+      letter-spacing: -0.01em;
+      color: #fff;
+      text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 14px rgba(0, 0, 0, 0.6);
+    }
+    .lb {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 400;
+      font-size: 34px;
+      letter-spacing: 0.02em;
+      color: #fff;
+      text-shadow: 2px 0px 0 #000, -2px 0px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 0 10px rgba(0, 0, 0, 0.55);
+    }
+    .ac { color: var(--cyan); }
+    #am-wrap { position: absolute; left: 120px; top: 330px; }
+    .am-l { font-size: 80px; }
+    #am-s { margin-top: 14px; }
+  </style>
+  <div id="root" data-composition-id="ambient" data-width="1080" data-height="1920">
+    <div id="am-wrap">
+      <div id="am-l1" class="hl am-l">Bonus:</div>
+      <div id="am-l2" class="hl am-l"><span class="ac">lampu biru.</span></div>
+      <div id="am-s" class="lb">ruang kaki tak gelap</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#am-l1", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.24, ease: "power3.out" }, 0.05);
+    tl.fromTo("#am-l2", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.24, ease: "power3.out" }, 0.18);
+    tl.fromTo("#am-s", { opacity: 0, x: 14 }, { opacity: 1, x: 0, duration: 0.2, ease: "power3.out" }, 0.36);
+    tl.to("#am-wrap", { opacity: 0, duration: 0.1, ease: "power2.in" }, 1.88);
+    tl.set({}, {}, 1.98);
+    window.__timelines["ambient"] = tl;
+  </script>
+</template>
