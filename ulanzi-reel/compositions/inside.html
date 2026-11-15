@@ -1,0 +1,99 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background-color: #151515;
+      background-image: radial-gradient(rgba(242, 238, 230, 0.09) 2px, transparent 2.5px);
+      background-size: 36px 36px;
+    }
+    #in-title {
+      position: absolute;
+      left: 120px;
+      top: 316px;
+      font-family: "Archivo Black", sans-serif;
+      font-size: 84px;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      background: var(--tape);
+      padding: 14px 24px 18px;
+    }
+    .in-tag {
+      position: absolute;
+      left: 120px;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-family: "IBM Plex Mono", monospace;
+      font-weight: 600;
+      font-size: 32px;
+      letter-spacing: 0.06em;
+      color: var(--ink);
+      background: var(--signal);
+      padding: 12px 20px;
+      opacity: 0;
+    }
+    .in-card {
+      position: absolute;
+      background: var(--tape);
+      padding: 14px;
+      box-shadow: 0 26px 60px rgba(0, 0, 0, 0.55);
+      opacity: 0;
+    }
+    .in-card img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    #in-t1 { top: 444px; }
+    #in-t2 { top: 512px; }
+    #in-t3 { top: 580px; }
+    #in-c1 { left: 150px; top: 690px; width: 748px; height: 495px; }
+    #in-c2 { left: 520px; top: 664px; width: 310px; height: 626px; }
+    #in-c3 { left: 200px; top: 690px; width: 570px; height: 570px; }
+    #in-credit {
+      position: absolute;
+      left: 618px;
+      top: 352px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 28px;
+      letter-spacing: 0.02em;
+      color: var(--tape);
+      opacity: 0.75;
+    }
+  </style>
+  <div id="root" data-composition-id="inside" data-width="1080" data-height="1920">
+    <div id="in-c1" class="in-card"><img src="assets/img/inside-open.jpg" alt="Hand opening the bag's wide main zip" /></div>
+    <div id="in-c2" class="in-card"><img src="assets/img/inside-dividers.jpg" alt="Camera and lenses held by the padded dividers" /></div>
+    <div id="in-c3" class="in-card"><img src="assets/img/inside-gear.jpg" alt="Camera, iPad mini, light and charger fitting in the bag" /></div>
+    <div id="in-title">Dalam dia?</div>
+    <div id="in-t1" class="in-tag">BUKAAN LEBAR</div>
+    <div id="in-t2" class="in-tag">DIVIDER UNTUK KAMERA</div>
+    <div id="in-t3" class="in-tag">KAMERA · IPAD MINI · LAMPU</div>
+    <div id="in-credit">Gambar: Ulanzi</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#in-title", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.24, ease: "power3.out" }, 0.05);
+    // three prints dealt onto the table, one per beat
+    const beats = [
+      ["#in-c1", "#in-t1", 0.15, -2.5, -60],
+      ["#in-c2", "#in-t2", 0.9, 3, 70],
+      ["#in-c3", "#in-t3", 1.65, -1.5, -50],
+    ];
+    beats.forEach(([card, tag, t, rot, dx], i) => {
+      tl.fromTo(card, { opacity: 0, x: dx, y: 60, rotation: rot * 2.2, scale: 0.94 }, { opacity: 1, x: 0, y: 0, rotation: rot, scale: 1, duration: 0.3, ease: "power3.out" }, t);
+      tl.fromTo(card + " img", { scale: 1.0 }, { scale: 1.05, duration: 1.5, ease: "none" }, t);
+      tl.fromTo(tag, { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.2, ease: "power3.out" }, t + 0.12);
+      if (i < beats.length - 1) {
+        tl.to(card, { opacity: 0.55, duration: 0.25, ease: "power1.out" }, beats[i + 1][2]);
+      }
+    });
+    tl.fromTo("#in-credit", { opacity: 0 }, { opacity: 0.75, duration: 0.3, ease: "none" }, 0.3);
+    tl.set({}, {}, 3.18);
+    window.__timelines["inside"] = tl;
+  </script>
+</template>
