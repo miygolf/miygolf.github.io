@@ -30,7 +30,7 @@
     .hook-line {
       position: relative;
       font-family: "Archivo Black", sans-serif;
-      font-size: 92px;
+      font-size: 80px;
       line-height: 1;
       letter-spacing: -0.02em;
       color: var(--ink);
@@ -45,7 +45,8 @@
       z-index: 1;
       color: var(--ink);
     }
-    #hook-mark {
+    #hook-mark,
+    #hook-mark2 {
       position: absolute;
       left: -8px;
       right: -8px;
@@ -59,18 +60,19 @@
   <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
     <div id="hook-wrap">
       <div id="hook-kicker" class="hook-kicker"><b>●</b> ULANZI HMN1 / LUNAR SLING</div>
-      <div id="hook-l1" class="hook-line">Beg paling</div>
-      <div id="hook-l2" class="hook-line"><span class="hook-word"><span id="hook-mark"></span>clean</span> aku</div>
-      <div id="hook-l3" class="hook-line">pernah pakai.</div>
+      <div id="hook-l1" class="hook-line">Beg yang</div>
+      <div id="hook-l2" class="hook-line"><span class="hook-word"><span id="hook-mark"></span>banyak ruang</span> &amp;</div>
+      <div id="hook-l3" class="hook-line">sangat <span class="hook-word"><span id="hook-mark2"></span>praktikal.</span></div>
     </div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
     // frame 0 already carries the full hook (thumbnail); motion is small
     tl.fromTo("#hook-mark", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power3.out" }, 0.12);
-    tl.fromTo("#hook-wrap", { y: 0 }, { y: -14, duration: 2.3, ease: "none" }, 0);
-    tl.fromTo("#hook-kicker", { x: 0 }, { x: 8, duration: 2.2, ease: "none" }, 0);
-    tl.to("#hook-wrap", { opacity: 0, x: -30, duration: 0.18, ease: "power2.in" }, 2.2);
+    tl.fromTo("#hook-mark2", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power3.out" }, 0.55);
+    tl.fromTo("#hook-wrap", { y: 0 }, { y: -14, duration: 2.7, ease: "none" }, 0);
+    tl.fromTo("#hook-kicker", { x: 0 }, { x: 8, duration: 2.6, ease: "none" }, 0);
+    tl.to("#hook-wrap", { opacity: 0, x: -30, duration: 0.18, ease: "power2.in" }, 2.6);
     window.__timelines["hook"] = tl;
   </script>
 </template>
