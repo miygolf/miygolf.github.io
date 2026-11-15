@@ -56,7 +56,7 @@
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
-    const cuts = [0, 2.4, 6.4, 9.4, 13.4, 14.2, 17.2];
+    const cuts = [0, 2.4, 6.4, 9.4, 30.9, 31.7, 34.7];
     cuts.forEach((t, i) => {
       tl.set(`#vf-n${i + 1}`, { opacity: 1 }, t);
       if (i > 0) tl.set(`#vf-n${i}`, { opacity: 0 }, t);
@@ -68,7 +68,7 @@
       tl.fromTo("#vf-bl", { x: -8, y: 8 }, { x: 0, y: 0, duration: 0.3, ease: "power3.out" }, t);
       tl.fromTo("#vf-br", { x: 8, y: 8 }, { x: 0, y: 0, duration: 0.3, ease: "power3.out" }, t);
     });
-    tl.set({}, {}, 19.95);
+    tl.set({}, {}, 37.45);
     window.__timelines["frame"] = tl;
   </script>
 </template>
