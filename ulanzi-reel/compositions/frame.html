@@ -45,16 +45,17 @@
     <div id="vf-bl" class="vf"></div>
     <div id="vf-br" class="vf"></div>
     <div id="vf-count">
-      <span id="vf-n1" class="n">01/05</span>
-      <span id="vf-n2" class="n">02/05</span>
-      <span id="vf-n3" class="n">03/05</span>
-      <span id="vf-n4" class="n">04/05</span>
-      <span id="vf-n5" class="n">05/05</span>
+      <span id="vf-n1" class="n">01/06</span>
+      <span id="vf-n2" class="n">02/06</span>
+      <span id="vf-n3" class="n">03/06</span>
+      <span id="vf-n4" class="n">04/06</span>
+      <span id="vf-n5" class="n">05/06</span>
+      <span id="vf-n6" class="n">06/06</span>
     </div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
-    const cuts = [0, 2.4, 6.4, 7.2, 10.6];
+    const cuts = [0, 2.4, 6.4, 9.4, 10.2, 13.6];
     cuts.forEach((t, i) => {
       tl.set(`#vf-n${i + 1}`, { opacity: 1 }, t);
       if (i > 0) tl.set(`#vf-n${i}`, { opacity: 0 }, t);
@@ -66,7 +67,7 @@
       tl.fromTo("#vf-bl", { x: -8, y: 8 }, { x: 0, y: 0, duration: 0.3, ease: "power3.out" }, t);
       tl.fromTo("#vf-br", { x: 8, y: 8 }, { x: 0, y: 0, duration: 0.3, ease: "power3.out" }, t);
     });
-    tl.set({}, {}, 13.35);
+    tl.set({}, {}, 16.75);
     window.__timelines["frame"] = tl;
   </script>
 </template>

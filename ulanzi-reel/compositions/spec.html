@@ -1,0 +1,109 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #sp-panel {
+      position: absolute;
+      left: 120px;
+      top: 330px;
+      width: 640px;
+      padding: 34px 40px 40px;
+      background: var(--ink);
+      color: var(--tape);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+      transform-origin: left top;
+    }
+    #sp-kicker {
+      font-family: "IBM Plex Mono", monospace;
+      font-weight: 600;
+      font-size: 28px;
+      letter-spacing: 0.12em;
+      color: var(--tape);
+      opacity: 0.85;
+    }
+    #sp-kicker b {
+      color: var(--signal);
+      font-weight: 600;
+    }
+    #sp-big {
+      display: flex;
+      align-items: baseline;
+      gap: 18px;
+      margin: 10px 0 18px;
+      font-family: "Archivo Black", sans-serif;
+      line-height: 0.9;
+      color: var(--tape);
+    }
+    #sp-num {
+      font-size: 250px;
+      letter-spacing: -0.04em;
+    }
+    #sp-unit {
+      font-size: 120px;
+      color: var(--signal);
+    }
+    #sp-sub {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 30px;
+      color: var(--tape);
+      opacity: 0.7;
+      margin-left: 6px;
+    }
+    #sp-rule {
+      height: 3px;
+      background: var(--tape);
+      opacity: 0.25;
+      margin: 0 0 18px;
+      transform-origin: left center;
+    }
+    .sp-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-family: "IBM Plex Mono", monospace;
+      font-weight: 600;
+      font-size: 34px;
+      letter-spacing: 0.02em;
+      color: var(--tape);
+      padding: 9px 0;
+    }
+    .sp-box {
+      flex: 0 0 auto;
+      width: 30px;
+      height: 30px;
+      border: 3px solid var(--signal);
+      position: relative;
+    }
+    .sp-tick {
+      position: absolute;
+      inset: 4px;
+      background: var(--signal);
+    }
+  </style>
+  <div id="root" data-composition-id="spec" data-width="1080" data-height="1920">
+    <div id="sp-panel">
+      <div id="sp-kicker"><b>●</b> SPEC / HMN1 LUNAR</div>
+      <div id="sp-big"><span id="sp-num">5</span><span id="sp-unit">L</span><span id="sp-sub">36×20×11 cm</span></div>
+      <div id="sp-rule"></div>
+      <div id="sp-r1" class="sp-row"><span class="sp-box"><span id="sp-t1" class="sp-tick"></span></span><span>2 divider, 3 ruang</span></div>
+      <div id="sp-r2" class="sp-row"><span class="sp-box"><span id="sp-t2" class="sp-tick"></span></span><span>Muat iPad mini</span></div>
+      <div id="sp-r3" class="sp-row"><span class="sp-box"><span id="sp-t3" class="sp-tick"></span></span><span>Lining velvet berpadding</span></div>
+      <div id="sp-r4" class="sp-row"><span class="sp-box"><span id="sp-t4" class="sp-tick"></span></span><span>Ringan, ±400 g</span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // panel unfolds onto the empty bed as the bag leaves frame
+    tl.fromTo("#sp-panel", { opacity: 0, x: -40, scaleY: 0.92 }, { opacity: 1, x: 0, scaleY: 1, duration: 0.32, ease: "power3.out" }, 0.55);
+    tl.fromTo("#sp-big", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.3, ease: "back.out(1.6)" }, 0.9);
+    tl.fromTo("#sp-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power2.out" }, 1.05);
+    [1.3, 1.5, 1.7, 1.9].forEach((t, i) => {
+      tl.fromTo(`#sp-r${i + 1}`, { opacity: 0, x: -18 }, { opacity: 1, x: 0, duration: 0.2, ease: "power3.out" }, t);
+      tl.fromTo(`#sp-t${i + 1}`, { scale: 0 }, { scale: 1, duration: 0.16, ease: "back.out(3)" }, t + 0.06);
+    });
+    tl.to("#sp-panel", { opacity: 0, x: -30, duration: 0.16, ease: "power2.in" }, 2.82);
+    window.__timelines["spec"] = tl;
+  </script>
+</template>

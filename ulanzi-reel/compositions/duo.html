@@ -23,6 +23,20 @@
       padding: 14px 22px 18px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
     }
+    #duo-tag {
+      margin-top: 6px;
+      font-family: "IBM Plex Mono", monospace;
+      font-weight: 600;
+      font-size: 32px;
+      letter-spacing: 0.06em;
+      color: var(--tape);
+      background: var(--ink);
+      padding: 12px 20px;
+    }
+    #duo-tag b {
+      color: var(--signal);
+      font-weight: 600;
+    }
     #duo-l2 {
       background: var(--signal);
       color: var(--ink);
@@ -32,12 +46,14 @@
     <div id="duo-wrap">
       <div id="duo-l1" class="duo-line">Satu, cukup kemas.</div>
       <div id="duo-l2" class="duo-line">Dua? Sedondon.</div>
+      <div id="duo-tag"><b>●</b> STRAP 80–120 CM</div>
     </div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
     tl.fromTo("#duo-l1", { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.28, ease: "power3.out" }, 0.2);
     tl.fromTo("#duo-l2", { opacity: 0, y: 22, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "back.out(1.8)" }, 1.34);
+    tl.fromTo("#duo-tag", { opacity: 0, x: -18 }, { opacity: 1, x: 0, duration: 0.22, ease: "power3.out" }, 1.9);
     tl.to("#duo-wrap", { opacity: 0, x: -24, duration: 0.16, ease: "power2.in" }, 3.2);
     window.__timelines["duo"] = tl;
   </script>
