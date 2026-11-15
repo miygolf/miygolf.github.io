@@ -50,7 +50,7 @@
     const marks = [0.15, 1.75, 3.55, 5.55];
     marks.forEach((t, i) => {
       tl.fromTo(`#in-t${i + 1}`, { opacity: 0, x: -18 }, { opacity: 1, x: 0, duration: 0.2, ease: "power3.out" }, t);
-      if (i > 0) tl.to(`#in-t${i}`, { opacity: 0.55, duration: 0.2, ease: "power1.out" }, t);
+      if (i > 0) tl.to(`#in-t${i}`, { opacity: 0.8, duration: 0.2, ease: "power1.out" }, t);
     });
     tl.to(["#in-t1", "#in-t2", "#in-t3"], { opacity: 1, duration: 0.25, ease: "power1.out" }, 6.6);
     tl.to(["#in-title", "#in-t1", "#in-t2", "#in-t3", "#in-t4"], { opacity: 0, x: -24, duration: 0.12, ease: "power2.in" }, 7.26);
