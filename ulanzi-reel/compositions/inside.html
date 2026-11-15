@@ -8,42 +8,40 @@
       position: absolute;
       left: 120px;
       top: 364px;
-      font-family: "Archivo Black", sans-serif;
-      font-size: 84px;
+      font-family: "Inter", sans-serif;
+      font-weight: 400;
+      font-size: 88px;
       line-height: 1;
       letter-spacing: -0.02em;
-      color: var(--ink);
-      background: var(--tape);
-      padding: 14px 24px 18px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      color: #fff;
+      text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 10px rgba(0, 0, 0, 0.55);
     }
     .in-tag {
       position: absolute;
       left: 120px;
-      display: inline-flex;
-      align-items: center;
-      gap: 14px;
       font-family: "IBM Plex Mono", monospace;
-      font-weight: 600;
-      font-size: 32px;
-      letter-spacing: 0.06em;
-      color: var(--ink);
-      background: var(--signal);
-      padding: 12px 20px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      font-weight: 400;
+      font-size: 36px;
+      letter-spacing: 0.04em;
+      color: #fff;
       opacity: 0;
+      text-shadow: 2px 0px 0 #000, -2px 0px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 0 10px rgba(0, 0, 0, 0.55);
     }
-    #in-t1 { top: 496px; }
-    #in-t2 { top: 564px; }
-    #in-t3 { top: 632px; }
-    #in-t4 { top: 700px; }
+    .in-tag b {
+      color: var(--signal);
+      font-weight: 400;
+    }
+    #in-t1 { top: 488px; }
+    #in-t2 { top: 546px; }
+    #in-t3 { top: 604px; }
+    #in-t4 { top: 662px; }
   </style>
   <div id="root" data-composition-id="inside" data-width="1080" data-height="1920">
     <div id="in-title">Dalam dia?</div>
-    <div id="in-t1" class="in-tag">01 · POKET ZIP BELAKANG</div>
-    <div id="in-t2" class="in-tag">02 · ZIP UTAMA</div>
-    <div id="in-t3" class="in-tag">03 · POKET ZIP DALAM</div>
-    <div id="in-t4" class="in-tag">04 · MINI POUCH</div>
+    <div id="in-t1" class="in-tag"><b>01</b> · POKET ZIP BELAKANG</div>
+    <div id="in-t2" class="in-tag"><b>02</b> · ZIP UTAMA</div>
+    <div id="in-t3" class="in-tag"><b>03</b> · POKET ZIP DALAM</div>
+    <div id="in-t4" class="in-tag"><b>04</b> · MINI POUCH</div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });

@@ -24,11 +24,11 @@
       width: 112px;
       height: 44px;
       font-family: "IBM Plex Mono", monospace;
-      font-weight: 600;
+      font-weight: 400;
       font-size: 28px;
       letter-spacing: 0.08em;
-      color: var(--ink);
-      background: var(--tape);
+      color: #fff;
+      text-shadow: 2px 0px 0 #000, -2px 0px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 0 10px rgba(0, 0, 0, 0.55);
     }
     #vf-count .n {
       position: absolute;
@@ -44,7 +44,7 @@
     <div id="vf-tr" class="vf"></div>
     <div id="vf-bl" class="vf"></div>
     <div id="vf-br" class="vf"></div>
-    <div id="vf-count">
+    <div id="vf-count" data-layout-ignore>
       <span id="vf-n1" class="n">01/07</span>
       <span id="vf-n2" class="n">02/07</span>
       <span id="vf-n3" class="n">03/07</span>
