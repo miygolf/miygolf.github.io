@@ -1,0 +1,56 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #in-title {
+      position: absolute;
+      left: 120px;
+      top: 364px;
+      font-family: "Archivo Black", sans-serif;
+      font-size: 84px;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      background: var(--tape);
+      padding: 14px 24px 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    .in-tag {
+      position: absolute;
+      left: 120px;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-family: "IBM Plex Mono", monospace;
+      font-weight: 600;
+      font-size: 32px;
+      letter-spacing: 0.06em;
+      color: var(--ink);
+      background: var(--signal);
+      padding: 12px 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+    }
+    #in-t1 { top: 496px; }
+    #in-t2 { top: 564px; }
+    #in-t3 { top: 632px; }
+  </style>
+  <div id="root" data-composition-id="inside" data-width="1080" data-height="1920">
+    <div id="in-title">Dalam dia?</div>
+    <div id="in-t1" class="in-tag">01 · RUANG UTAMA</div>
+    <div id="in-t2" class="in-tag">02 · POKET ZIP DALAM</div>
+    <div id="in-t3" class="in-tag">03 · MINI POUCH</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#in-title", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.24, ease: "power3.out" }, 0.04);
+    // one tag per shot; tags stack so each stays readable to the end of the scene
+    [0.2, 1.5, 2.8].forEach((t, i) => {
+      tl.fromTo(`#in-t${i + 1}`, { opacity: 0, x: -18 }, { opacity: 1, x: 0, duration: 0.2, ease: "power3.out" }, t);
+    });
+    tl.to(["#in-title", "#in-t1", "#in-t2", "#in-t3"], { opacity: 0, x: -24, duration: 0.14, ease: "power2.in" }, 3.84);
+    window.__timelines["inside"] = tl;
+  </script>
+</template>

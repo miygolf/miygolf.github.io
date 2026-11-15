@@ -52,18 +52,21 @@
       <video id="v-hook" class="clip shot" src="assets/video/0246.mp4" data-start="0" data-duration="2.4" data-media-start="2.6" muted data-track-index="0"></video>
       <!-- one continuous camera move: product reveal, then the bag leaves frame and the empty bed carries the spec card -->
       <video id="v-bed" class="clip shot" src="assets/video/0245.mp4" data-start="2.4" data-duration="7" data-media-start="1.7" muted data-track-index="0"></video>
-      <video id="v-logo" class="clip shot" src="assets/video/0256.mp4" data-start="12.6" data-duration="0.8" data-media-start="0" muted data-track-index="0"></video>
-      <video id="v-duo" class="clip shot" src="assets/video/0249.mp4" data-start="13.4" data-duration="3.4" data-media-start="0.6" muted data-track-index="0"></video>
+      <!-- interior: creator's own clip IMG_0271, keeps its real zipper sound -->
+      <video id="v-in1" class="clip shot" src="assets/video/0271.mp4" data-start="9.4" data-duration="1.4" data-media-start="3.4" data-has-audio="true" data-volume="2.8" data-fade-in="0.05" data-fade-out="0.05" data-track-index="0"></video>
+      <video id="v-in2" class="clip shot" src="assets/video/0271.mp4" data-start="10.8" data-duration="1.3" data-media-start="4.8" data-has-audio="true" data-volume="2.8" data-fade-in="0.05" data-fade-out="0.05" data-track-index="0"></video>
+      <video id="v-in3" class="clip shot" src="assets/video/0271.mp4" data-start="12.1" data-duration="1.3" data-media-start="16.4" data-has-audio="true" data-volume="2.6" data-fade-in="0.05" data-fade-out="0.08" data-track-index="0"></video>
+      <video id="v-logo" class="clip shot" src="assets/video/0256.mp4" data-start="13.4" data-duration="0.8" data-media-start="0" muted data-track-index="0"></video>
+      <video id="v-duo" class="clip shot" src="assets/video/0249.mp4" data-start="14.2" data-duration="3" data-media-start="0.6" muted data-track-index="0"></video>
 
       <!-- SCENES (graphics) -->
       <div id="hook" class="clip" data-composition-id="hook" data-composition-src="compositions/hook.html" data-start="0" data-duration="2.4" data-track-index="2" data-track-kind="graphics"></div>
       <div id="detail" class="clip" data-composition-id="detail" data-composition-src="compositions/detail.html" data-start="2.4" data-duration="4" data-track-index="2" data-track-kind="graphics"></div>
       <div id="spec" class="clip" data-composition-id="spec" data-composition-src="compositions/spec.html" data-start="6.4" data-duration="3" data-track-index="2" data-track-kind="graphics"></div>
-      <!-- lookbook: creator's own photos, front + side -->
-      <div id="style" class="clip" data-composition-id="style" data-composition-src="compositions/style.html" data-start="9.4" data-duration="3.2" data-track-index="1" data-track-kind="graphics"></div>
-      <div id="focus" class="clip" data-composition-id="focus" data-composition-src="compositions/focus.html" data-start="12.6" data-duration="0.8" data-track-index="2" data-track-kind="graphics"></div>
-      <div id="duo" class="clip" data-composition-id="duo" data-composition-src="compositions/duo.html" data-start="13.4" data-duration="3.4" data-track-index="2" data-track-kind="graphics"></div>
-      <div id="cta" class="clip" data-composition-id="cta" data-composition-src="compositions/cta.html" data-start="16.8" data-duration="3.2" data-track-index="1" data-track-kind="graphics"></div>
+      <div id="inside" class="clip" data-composition-id="inside" data-composition-src="compositions/inside.html" data-start="9.4" data-duration="4" data-track-index="2" data-track-kind="graphics"></div>
+      <div id="focus" class="clip" data-composition-id="focus" data-composition-src="compositions/focus.html" data-start="13.4" data-duration="0.8" data-track-index="2" data-track-kind="graphics"></div>
+      <div id="duo" class="clip" data-composition-id="duo" data-composition-src="compositions/duo.html" data-start="14.2" data-duration="3" data-track-index="2" data-track-kind="graphics"></div>
+      <div id="cta" class="clip" data-composition-id="cta" data-composition-src="compositions/cta.html" data-start="17.2" data-duration="2.8" data-track-index="1" data-track-kind="graphics"></div>
 
       <!-- persistent viewfinder frame + shot counter -->
       <div id="frame" class="clip" data-composition-id="frame" data-composition-src="compositions/frame.html" data-start="0" data-duration="20" data-track-index="3" data-track-kind="graphics"></div>
@@ -81,15 +84,16 @@
       <audio id="sfx-row3" class="clip" src="assets/sfx/key-press.mp3" data-start="8.06" data-duration="0.4" data-volume="1.6" data-track-index="8"></audio>
       <audio id="sfx-row4" class="clip" src="assets/sfx/click-soft.mp3" data-start="8.29" data-duration="0.37" data-volume="0.35" data-track-index="9"></audio>
       <audio id="sfx-cut2" class="clip" src="assets/sfx/whoosh.mp3" data-start="9.38" data-duration="0.5" data-playback-rate="1.15" data-volume="0.4" data-track-index="6"></audio>
-      <audio id="sfx-card1" class="clip" src="assets/sfx/click-soft.mp3" data-start="9.70" data-duration="0.37" data-volume="0.5" data-track-index="7"></audio>
-      <audio id="sfx-card2" class="clip" src="assets/sfx/pop.mp3" data-start="10.21" data-duration="0.5" data-volume="0.42" data-track-index="8"></audio>
-      <audio id="sfx-focus" class="clip" src="assets/sfx/click.mp3" data-start="12.67" data-duration="0.37" data-volume="0.9" data-track-index="6"></audio>
-      <audio id="sfx-cut3" class="clip" src="assets/sfx/whoosh.mp3" data-start="13.37" data-duration="0.57" data-volume="0.35" data-track-index="7"></audio>
-      <audio id="sfx-duo" class="clip" src="assets/sfx/pop.mp3" data-start="14.65" data-duration="0.5" data-volume="0.45" data-track-index="8"></audio>
-      <audio id="sfx-strap" class="clip" src="assets/sfx/click-soft.mp3" data-start="15.29" data-duration="0.37" data-volume="0.5" data-track-index="9"></audio>
-      <audio id="sfx-swell" class="clip" src="assets/sfx/whoosh-cinematic.mp3" data-start="14.38" data-duration="3.2" data-volume="0.28" data-fade-in="0.6" data-fade-out="0.9" data-track-index="10"></audio>
-      <audio id="sfx-payoff" class="clip" src="assets/sfx/impact-bass-1.mp3" data-start="16.79" data-duration="2.1" data-volume="0.22" data-fade-out="1" data-track-index="5"></audio>
-      <audio id="sfx-shine" class="clip" src="assets/sfx/sparkle.mp3" data-start="17.66" data-duration="1.6" data-volume="0.18" data-fade-out="0.6" data-track-index="6"></audio>
+      <audio id="sfx-in1" class="clip" src="assets/sfx/click-soft.mp3" data-start="9.59" data-duration="0.37" data-volume="0.4" data-track-index="7"></audio>
+      <audio id="sfx-in2" class="clip" src="assets/sfx/click-soft.mp3" data-start="10.89" data-duration="0.37" data-volume="0.4" data-track-index="8"></audio>
+      <audio id="sfx-in3" class="clip" src="assets/sfx/click-soft.mp3" data-start="12.19" data-duration="0.37" data-volume="0.4" data-track-index="7"></audio>
+      <audio id="sfx-focus" class="clip" src="assets/sfx/click.mp3" data-start="13.47" data-duration="0.37" data-volume="0.9" data-track-index="6"></audio>
+      <audio id="sfx-cut3" class="clip" src="assets/sfx/whoosh.mp3" data-start="14.17" data-duration="0.57" data-volume="0.35" data-track-index="7"></audio>
+      <audio id="sfx-duo" class="clip" src="assets/sfx/pop.mp3" data-start="15.31" data-duration="0.5" data-volume="0.45" data-track-index="8"></audio>
+      <audio id="sfx-strap" class="clip" src="assets/sfx/click-soft.mp3" data-start="15.55" data-duration="0.37" data-volume="0.5" data-track-index="9"></audio>
+      <audio id="sfx-swell" class="clip" src="assets/sfx/whoosh-cinematic.mp3" data-start="14.78" data-duration="3.2" data-volume="0.28" data-fade-in="0.6" data-fade-out="0.9" data-track-index="10"></audio>
+      <audio id="sfx-payoff" class="clip" src="assets/sfx/impact-bass-1.mp3" data-start="17.19" data-duration="2.1" data-volume="0.22" data-fade-out="1" data-track-index="5"></audio>
+      <audio id="sfx-shine" class="clip" src="assets/sfx/sparkle.mp3" data-start="17.91" data-duration="1.6" data-volume="0.18" data-fade-out="0.6" data-track-index="6"></audio>
     </div>
     <script>
       const tl = gsap.timeline({ paused: true });
