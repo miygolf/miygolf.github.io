@@ -134,7 +134,7 @@ html = f"""<!doctype html>
                    background: var(--yolk); padding: 6px 20px 10px; border-radius: 12px; transform: rotate(-2deg); }}
 
       /* day stamp */
-      #stamp {{ position: absolute; left: 120px; top: 300px; z-index: 50; padding: 18px 30px 22px; border: 7px solid var(--sun);
+      #stamp {{ position: absolute; left: 120px; top: 330px; z-index: 50; padding: 18px 30px 22px; border: 7px solid var(--sun);
                border-radius: 20px; background: rgba(14,59,67,.88); color: var(--paper); transform-origin: 30% 50%; }}
       #stamp .d {{ font-family: var(--grot); font-weight: 800; font-size: 132px; line-height: .9; letter-spacing: -.03em; }}
       #stamp .dt {{ font-family: var(--mono); font-weight: 700; font-size: 32px; color: var(--yolk); margin-top: 10px; letter-spacing: .06em; }}
@@ -166,13 +166,16 @@ html = f"""<!doctype html>
 
       /* end card */
       #endcard {{ position: absolute; inset: 0; z-index: 70; background: var(--teal); }}
-      #endcard .e1 {{ position: absolute; left: 120px; top: 330px; font-family: var(--grot); font-weight: 800; font-size: 210px; line-height: .86;
+      #endcard .e1 {{ position: absolute; left: 120px; top: 330px; font-family: var(--grot); font-weight: 800; font-size: 168px; line-height: .86;
                      color: var(--paper); letter-spacing: -.04em; }}
-      #endcard .done {{ position: absolute; left: 150px; top: 560px; font-family: var(--grot); font-weight: 800; font-size: 84px; color: var(--sun);
+      #endcard .done {{ position: absolute; left: 150px; top: 520px; font-family: var(--grot); font-weight: 800; font-size: 84px; color: var(--sun);
                        border: 8px solid var(--sun); border-radius: 18px; padding: 6px 26px 12px; transform-origin: 40% 50%; }}
-      #endcard .line {{ position: absolute; left: 124px; top: 740px; font-family: var(--mono); font-weight: 700; font-size: 38px; color: var(--yolk); }}
-      #endcard .emap {{ position: absolute; left: 124px; top: 850px; opacity: .9; }}
-      #endcard .loc {{ position: absolute; left: 124px; top: 1130px; font-family: var(--grot); font-weight: 500; font-size: 40px; color: var(--paper); line-height: 1.2; }}
+      #endcard .line {{ position: absolute; left: 124px; top: 700px; font-family: var(--mono); font-weight: 700; font-size: 38px; color: var(--yolk); }}
+      #endcard .emap {{ position: absolute; left: 124px; top: 800px; opacity: .9; }}
+      #endcard .cta {{ position: absolute; left: 124px; top: 1110px; max-width: 650px; font-family: var(--grot); font-weight: 800; font-size: 44px; line-height: 1.05;
+                    color: var(--teal); background: var(--yolk); padding: 14px 24px 18px; border-radius: 16px; box-shadow: 8px 8px 0 var(--sun); transform-origin: 0 50%; }}
+      #endcard .cta b {{ color: var(--yolk); background: var(--teal); padding: 0 12px 4px; border-radius: 8px; }}
+      #endcard .loc {{ position: absolute; left: 350px; top: 880px; font-family: var(--grot); font-weight: 500; font-size: 40px; color: var(--paper); line-height: 1.2; }}
     </style>
   </head>
   <body>
@@ -182,14 +185,14 @@ html = f"""<!doctype html>
       <div id="scrim2" class="scrim clip" data-start="11.0" data-duration="{round(END - 11.0, 3)}" data-track-index="2"></div>
 
       <div id="hook" class="clip" data-start="0" data-duration="3" data-track-index="3">
-        <div class="chip">SARAPAN HOTEL</div>
+        <div class="chip">STAY 1 MALAM + BREAKFAST</div>
         <div class="big"><span id="hw1">BUFFET</span><br /><span id="hw2">PAGI</span></div>
-        <div class="sub" id="hsub">di Sungai Petani</div>
+        <div class="sub" id="hsub">ada apa je?</div>
       </div>
 
       <div id="stamp" class="clip" data-start="3.05" data-duration="2.1" data-track-index="3">
-        <div class="d">HARI 1</div>
-        <div class="dt">AHAD &middot; 15 NOV 2026</div>
+        <div class="d">1 MALAM</div>
+        <div class="dt">PACKAGE + SARAPAN</div>
       </div>
       <div id="mapA" class="mapcard clip" data-start="{MAP1_IN}" data-duration="{round(S('corridor')['start'] - MAP1_IN, 3)}" data-track-index="3">
         {map_svg("A", 240)}
@@ -208,11 +211,12 @@ html = f"""<!doctype html>
       <div id="capB" class="cap clip" data-start="{round(PIN2 + 0.3, 3)}" data-duration="{round(END - PIN2 - 0.3, 3)}" data-track-index="4">Jalan Indah,<br />Sungai Petani</div>
 
       <div id="endcard" class="clip" data-start="{END}" data-duration="{round(TOTAL - END, 3)}" data-track-index="7">
-        <div class="e1">HARI 1</div>
-        <div class="done">SELESAI!</div>
-        <div class="line">6 pinggan. 1 pagi.</div>
+        <div class="e1">SARAPAN</div>
+        <div class="done">TERMASUK!</div>
+        <div class="line">Package 1 malam + breakfast</div>
         <div class="loc">Purest Hotel<br />Sungai Petani, Kedah</div>
         <div class="emap">{map_svg("C", 200)}</div>
+        <div class="cta">Nak tengok bilik dia? Komen <b>BILIK</b></div>
       </div>
 
       <audio id="music" src="assets/audio/music.m4a" data-start="0" data-duration="{TOTAL}" data-volume="1" data-track-index="8"></audio>
@@ -242,11 +246,12 @@ __SFX__
       tl.fromTo("#endcard", {{y:1920}}, {{y:0, duration:0.35, ease:"expo.out"}}, {END});
       tl.fromTo("#endcard .e1", {{y:80, opacity:0}}, {{y:0, opacity:1, duration:0.4, ease:"expo.out"}}, {END + 0.1});
       tl.fromTo("#endcard .done", {{scale:2.6, rotation:-16, opacity:0}}, {{scale:1, rotation:-5, opacity:1, duration:0.2, ease:"power4.in"}}, {END + 0.45});
-      tl.fromTo("#endcard .line", {{x:-40, opacity:0}}, {{x:0, opacity:1, duration:0.3, ease:"power3.out"}}, {END + 1.0});
-      tl.fromTo("#endcard .loc", {{x:-40, opacity:0}}, {{x:0, opacity:1, duration:0.3, ease:"power3.out"}}, {END + 1.25});
-      tl.fromTo("#endcard .emap", {{scale:0.6, opacity:0}}, {{scale:1, opacity:0.9, duration:0.4, ease:"back.out(1.8)"}}, {END + 1.4});
-      tl.fromTo("#pinC", {{y:-90, opacity:0}}, {{y:0, opacity:1, duration:0.45, ease:"bounce.out"}}, {END + 1.7});
-      tl.fromTo("#ringC", {{scale:0.2, opacity:1, transformOrigin:"50% 50%"}}, {{scale:3.2, opacity:0, duration:0.9, ease:"power2.out"}}, {END + 2.05});
+      tl.fromTo("#endcard .line", {{x:-40, opacity:0}}, {{x:0, opacity:1, duration:0.3, ease:"power3.out"}}, {END + 0.75});
+      tl.fromTo("#endcard .loc", {{x:-40, opacity:0}}, {{x:0, opacity:1, duration:0.3, ease:"power3.out"}}, {END + 0.95});
+      tl.fromTo("#endcard .cta", {{scale:0.4, rotation:-10, opacity:0}}, {{scale:1, rotation:-2, opacity:1, duration:0.35, ease:"back.out(2.2)"}}, {END + 1.25});
+      tl.fromTo("#endcard .emap", {{scale:0.6, opacity:0}}, {{scale:1, opacity:0.9, duration:0.4, ease:"back.out(1.8)"}}, {END + 0.95});
+      tl.fromTo("#pinC", {{y:-90, opacity:0}}, {{y:0, opacity:1, duration:0.45, ease:"bounce.out"}}, {END + 1.15});
+      tl.fromTo("#ringC", {{scale:0.2, opacity:1, transformOrigin:"50% 50%"}}, {{scale:3.2, opacity:0, duration:0.9, ease:"power2.out"}}, {END + 1.5});
 
       window.__timelines["main"] = tl;
       tl.seek(0);
@@ -264,7 +269,7 @@ SFX += [("ding", 9.38, 0.75), ("whoosh", 10.88, 0.7), ("pop", 11.06, 0.55), ("ti
 for i in range(len(FOOD)):
     SFX += [("shutter", 12.5 + i * FD, 0.65), ("pop", 12.56 + i * FD, 0.5)]
 SFX += [("whoosh", EXT - 0.12, 0.7), ("pop", EXT + 0.15, 0.55), ("pop", MAP2_IN, 0.5), ("ping", PIN2 + 0.3, 0.5)]
-SFX += [("whoosh", END - 0.1, 0.75), ("stamp", END + 0.65, 1.0), ("pop", END + 1.0, 0.45), ("pop", END + 1.4, 0.45), ("ping", END + 2.05, 0.5)]
+SFX += [("whoosh", END - 0.1, 0.75), ("stamp", END + 0.65, 1.0), ("pop", END + 0.75, 0.45), ("pop", END + 1.25, 0.55), ("ping", END + 1.5, 0.5)]
 LEN = {"impact": 1.4, "shutter": 0.16, "pop": 0.12, "whoosh": 0.42, "stamp": 0.35, "ping": 1.0, "tick": 0.05, "ding": 1.6}
 sfx_html = []
 for k, (n, st, vol) in enumerate(sorted(SFX, key=lambda x: x[1])):
