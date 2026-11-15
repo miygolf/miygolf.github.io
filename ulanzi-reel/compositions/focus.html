@@ -1,0 +1,64 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #fc-box {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 0;
+      height: 0;
+    }
+    .fc-c {
+      position: absolute;
+      width: 46px;
+      height: 46px;
+      border: 0 solid var(--signal);
+    }
+    #fc-tl { left: -240px; top: -150px; border-top-width: 5px; border-left-width: 5px; }
+    #fc-tr { left: 194px; top: -150px; border-top-width: 5px; border-right-width: 5px; }
+    #fc-bl { left: -240px; top: 104px; border-bottom-width: 5px; border-left-width: 5px; }
+    #fc-br { left: 194px; top: 104px; border-bottom-width: 5px; border-right-width: 5px; }
+    #fc-tag {
+      position: absolute;
+      left: 120px;
+      top: 760px;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-family: "IBM Plex Mono", monospace;
+      font-weight: 600;
+      font-size: 34px;
+      letter-spacing: 0.06em;
+      color: var(--ink);
+      background: var(--tape);
+      padding: 14px 22px 14px 18px;
+    }
+    #fc-tag .idx { color: #d4400c; }
+  </style>
+  <div id="root" data-composition-id="focus" data-width="1080" data-height="1920">
+    <div id="fc-box">
+      <div id="fc-tl" class="fc-c"></div>
+      <div id="fc-tr" class="fc-c"></div>
+      <div id="fc-bl" class="fc-c"></div>
+      <div id="fc-br" class="fc-c"></div>
+    </div>
+    <div id="fc-tag"><span class="idx">04</span><span>LOGO SUBTLE</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // focus brackets follow the woven Ulanzi patch as the camera tilts up
+    tl.set("#fc-box", { x: 432, y: 1145 }, 0);
+    tl.to("#fc-box", { x: 454, y: 1175, duration: 0.25, ease: "none" }, 0);
+    tl.to("#fc-box", { x: 456, y: 1200, duration: 0.25, ease: "none" }, 0.25);
+    tl.to("#fc-box", { x: 560, y: 1226, duration: 0.25, ease: "none" }, 0.5);
+    // snap in like autofocus
+    tl.fromTo("#fc-box", { scale: 1.35, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.16, ease: "power4.out" }, 0.08);
+    tl.to("#fc-box", { scale: 0.72, duration: 0.5, ease: "none" }, 0.24);
+    tl.fromTo("#fc-tag", { opacity: 0, x: -18 }, { opacity: 1, x: 0, duration: 0.18, ease: "power3.out" }, 0.1);
+    tl.set({}, {}, 0.78);
+    window.__timelines["focus"] = tl;
+  </script>
+</template>

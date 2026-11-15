@@ -1,0 +1,108 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    /* tracked callout: the group's origin sits on the product point */
+    #det-a {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 0;
+      height: 0;
+    }
+    #det-a-dot {
+      position: absolute;
+      left: -13px;
+      top: -13px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--signal);
+      box-shadow: 0 0 0 6px rgba(255, 90, 31, 0.28);
+    }
+    #det-a-line {
+      position: absolute;
+      left: -1.5px;
+      top: -210px;
+      width: 3px;
+      height: 198px;
+      background: var(--tape);
+      transform-origin: bottom center;
+    }
+    #det-a-tag {
+      position: absolute;
+      right: -40px;
+      bottom: 206px;
+      white-space: nowrap;
+    }
+    .det-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-family: "IBM Plex Mono", monospace;
+      font-weight: 600;
+      font-size: 34px;
+      letter-spacing: 0.06em;
+      color: var(--ink);
+      background: var(--tape);
+      padding: 14px 22px 14px 18px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+    }
+    .det-tag .idx {
+      color: #d4400c;
+    }
+    .det-tag .hole {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--ink);
+      opacity: 0.85;
+    }
+    #det-stack {
+      position: absolute;
+      left: 120px;
+      top: 330px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+    }
+  </style>
+  <div id="root" data-composition-id="detail" data-width="1080" data-height="1920">
+    <div id="det-a">
+      <div id="det-a-line"></div>
+      <div id="det-a-dot"></div>
+      <div id="det-a-tag" class="det-tag"><span class="hole"></span><span class="idx">01</span><span>POUCH CLIP-ON</span></div>
+    </div>
+    <div id="det-stack">
+      <div id="det-b" class="det-tag"><span class="hole"></span><span class="idx">02</span><span>BENTUK HALF-MOON</span></div>
+      <div id="det-c" class="det-tag"><span class="hole"></span><span class="idx">03</span><span>FINISH MATTE</span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // track the pouch logo through the camera move (measured from the footage, scene time)
+    const path = [
+      [0.6, 842, 821],
+      [1.0, 756, 855],
+      [1.5, 605, 916],
+      [1.9, 497, 942],
+      [2.4, 346, 972],
+    ];
+    tl.set("#det-a", { x: path[0][1], y: path[0][2] }, 0);
+    for (let i = 1; i < path.length; i++) {
+      tl.to("#det-a", { x: path[i][1], y: path[i][2], duration: path[i][0] - path[i - 1][0], ease: "none" }, path[i - 1][0]);
+    }
+    tl.fromTo("#det-a-dot", { scale: 0 }, { scale: 1, duration: 0.22, ease: "back.out(2.4)" }, 0.6);
+    tl.fromTo("#det-a-line", { scaleY: 0 }, { scaleY: 1, duration: 0.22, ease: "power3.out" }, 0.66);
+    tl.fromTo("#det-a-tag", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.24, ease: "power3.out" }, 0.74);
+    tl.to("#det-a", { opacity: 0, duration: 0.16, ease: "power2.in" }, 1.72);
+
+    tl.fromTo("#det-b", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.26, ease: "power3.out" }, 2.45);
+    tl.fromTo("#det-c", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.26, ease: "power3.out" }, 2.75);
+    tl.to("#det-stack", { opacity: 0, x: -24, duration: 0.16, ease: "power2.in" }, 3.8);
+    window.__timelines["detail"] = tl;
+  </script>
+</template>

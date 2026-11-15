@@ -1,0 +1,78 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: var(--ground);
+    }
+    #cta-photo {
+      position: absolute;
+      left: -135px;
+      top: -240px;
+      width: 1350px;
+      height: 2400px;
+      object-fit: cover;
+    }
+    #cta-flash {
+      position: absolute;
+      inset: 0;
+      background: #fff;
+      opacity: 0;
+    }
+    #cta-wrap {
+      position: absolute;
+      right: 192px;
+      top: 380px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 14px;
+    }
+    #cta-big {
+      font-family: "Archivo Black", sans-serif;
+      font-size: 104px;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      background: var(--tape);
+      padding: 16px 26px 22px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+    #cta-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-family: "IBM Plex Mono", monospace;
+      font-weight: 600;
+      font-size: 44px;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      background: var(--signal);
+      padding: 14px 24px;
+    }
+    #cta-chip b {
+      font-family: "Archivo Black", sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+    }
+  </style>
+  <div id="root" data-composition-id="cta" data-width="1080" data-height="1920">
+    <img id="cta-photo" src="assets/img/hero.jpg" alt="Ulanzi bag worn with clip-on pouch" />
+    <div id="cta-flash"></div>
+    <div id="cta-wrap">
+      <div id="cta-big">Nak link?</div>
+      <div id="cta-chip">Komen <b>“BEG”</b></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // shutter flash, then a slow push-in on the hero still
+    tl.fromTo("#cta-flash", { opacity: 0.85 }, { opacity: 0, duration: 0.3, ease: "power2.out" }, 0);
+    tl.fromTo("#cta-photo", { scale: 1.0 }, { scale: 1.06, duration: 2.8, ease: "none" }, 0);
+    tl.fromTo("#cta-big", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 0.3);
+    tl.fromTo("#cta-chip", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 0.6);
+    tl.set({}, {}, 2.78);
+    window.__timelines["cta"] = tl;
+  </script>
+</template>

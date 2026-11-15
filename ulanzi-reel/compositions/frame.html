@@ -1,0 +1,72 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .vf {
+      position: absolute;
+      width: 44px;
+      height: 44px;
+      border-color: rgba(242, 238, 230, 0.85);
+      border-style: solid;
+      border-width: 0;
+    }
+    #vf-tl { left: 72px; top: 264px; border-top-width: 3px; border-left-width: 3px; }
+    #vf-tr { right: 72px; top: 264px; border-top-width: 3px; border-right-width: 3px; }
+    #vf-bl { left: 72px; top: 1228px; border-bottom-width: 3px; border-left-width: 3px; }
+    #vf-br { right: 72px; top: 1228px; border-bottom-width: 3px; border-right-width: 3px; }
+    #vf-count {
+      position: absolute;
+      right: 192px;
+      top: 300px;
+      width: 112px;
+      height: 44px;
+      font-family: "IBM Plex Mono", monospace;
+      font-weight: 600;
+      font-size: 28px;
+      letter-spacing: 0.08em;
+      color: var(--ink);
+      background: var(--tape);
+    }
+    #vf-count .n {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 4px;
+      text-align: center;
+      opacity: 0;
+    }
+  </style>
+  <div id="root" data-composition-id="frame" data-width="1080" data-height="1920">
+    <div id="vf-tl" class="vf"></div>
+    <div id="vf-tr" class="vf"></div>
+    <div id="vf-bl" class="vf"></div>
+    <div id="vf-br" class="vf"></div>
+    <div id="vf-count">
+      <span id="vf-n1" class="n">01/05</span>
+      <span id="vf-n2" class="n">02/05</span>
+      <span id="vf-n3" class="n">03/05</span>
+      <span id="vf-n4" class="n">04/05</span>
+      <span id="vf-n5" class="n">05/05</span>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const cuts = [0, 2.4, 6.4, 7.2, 10.6];
+    cuts.forEach((t, i) => {
+      tl.set(`#vf-n${i + 1}`, { opacity: 1 }, t);
+      if (i > 0) tl.set(`#vf-n${i}`, { opacity: 0 }, t);
+    });
+    // brackets breathe in a hair on every cut (small, like a lens re-focusing)
+    cuts.slice(1).forEach((t) => {
+      tl.fromTo("#vf-tl", { x: -8, y: -8 }, { x: 0, y: 0, duration: 0.3, ease: "power3.out" }, t);
+      tl.fromTo("#vf-tr", { x: 8, y: -8 }, { x: 0, y: 0, duration: 0.3, ease: "power3.out" }, t);
+      tl.fromTo("#vf-bl", { x: -8, y: 8 }, { x: 0, y: 0, duration: 0.3, ease: "power3.out" }, t);
+      tl.fromTo("#vf-br", { x: 8, y: 8 }, { x: 0, y: 0, duration: 0.3, ease: "power3.out" }, t);
+    });
+    tl.set({}, {}, 13.35);
+    window.__timelines["frame"] = tl;
+  </script>
+</template>
