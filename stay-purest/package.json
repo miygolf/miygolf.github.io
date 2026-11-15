@@ -1,0 +1,23 @@
+{
+  "name": "stay-purest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "python3 tools/build.py && npx --yes hyperframes@0.9.52 media-treatment --selector .food --grading tools/grade_food.json --apply && npx --yes hyperframes@0.9.52 media-treatment --selector .vid --grading tools/grade_vid.json --apply",
+    "check": "npx --yes hyperframes@0.9.52 check",
+    "render": "npx --yes hyperframes@0.9.52 render",
+    "dev": "npx --yes hyperframes@0.9.52 preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "d3-geo": "^3.1.1",
+    "hyperframes": "^0.9.52",
+    "topojson-client": "^3.1.0",
+    "world-atlas": "^2.0.2"
+  },
+  "private": true,
+  "type": "module"
+}

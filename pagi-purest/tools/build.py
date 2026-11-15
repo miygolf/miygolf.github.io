@@ -12,9 +12,9 @@ FOOD = [  # photo, label, clock
     ("IMG_0266", "Nasi goreng + telur", "07:58"),
     ("IMG_0264", "Nasi lemak", "08:05"),
     ("IMG_0261", "Roti jala + kari", "08:14"),
-    ("IMG_0263", "Dim sum + pastri", "08:24"),
+    ("IMG_0263", "Bubur + buah", "08:24"),
     ("IMG_0260", "Kuih tradisional", "08:25"),
-    ("IMG_0262", "Bubur + buah", "08:38"),
+    ("IMG_0262", "Dim sum + pastri", "08:38"),
 ]
 
 MUSIC_TAG = (f'      <audio id="music" src="assets/audio/music.m4a" data-start="0" data-duration="{TOTAL}" data-volume="1" data-track-index="8"></audio>\n' if USE_MUSIC else "")
@@ -26,7 +26,7 @@ def m(id_, kind, src, start, dur, cls):
 
 m("h1", "img", "IMG_0264", 0.0, 0.5, "food")
 m("h2", "img", "IMG_0261", 0.5, 0.5, "food")
-m("h3", "img", "IMG_0263", 1.0, 0.5, "food")
+m("h3", "img", "IMG_0262", 1.0, 0.5, "food")
 m("h4", "img", "IMG_0264", 1.5, 1.5, "food")
 m("window", "vid", "v_window", 3.0, SEG["v_window"], "vid")
 t = 3.0 + SEG["v_window"]
