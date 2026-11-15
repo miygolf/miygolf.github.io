@@ -1,0 +1,6 @@
+node_modules/
+.hyperframes/
+.transcode-cache/
+preview/
+renders/
+*.trf
