@@ -10,7 +10,7 @@ for k, (_, src, st, du, vol) in enumerate(tags, 2):
     args += ["-i", src]; ms = int(round(float(st) * 1000))
     fl.append(f"[{k}:a]atrim=0:{du},aformat=sample_rates=48000:channel_layouts=stereo,volume={vol},adelay={ms}|{ms}[a{k}]")
 fl.append("[1:a]" + "".join(f"[a{k}]" for k in range(2, len(tags) + 2)) +
-          f"amix=inputs={len(tags) + 1}:normalize=0:duration=first,volume=1.0,alimiter=limit=0.6[out]")
+          f"amix=inputs={len(tags) + 1}:normalize=0:duration=first,volume=1.25,alimiter=limit=0.6:level=0[out]")
 args += ["-filter_complex", ";".join(fl), "-map", "0:v", "-map", "[out]", "-c:v", "copy", "-c:a", "aac", "-b:a", "256k",
          "-movflags", "+faststart", sys.argv[2]]
 subprocess.run(args, check=True); print(len(tags), "sfx mixed")
