@@ -208,7 +208,7 @@
       <div class="section-head">
         <div class="eyebrow">Lessons &amp; services</div>
         <h2>Lessons &amp; pricing</h2>
-        <p>Packages are arranged by DM on WhatsApp. Payment by cash, MyDebit or Tap2Pay (Visa / Mastercard). Lessons outside the PJ area carry an extra charge.</p>
+        <p>For package details, message on WhatsApp. Payment by cash, MyDebit or Tap2Pay (Visa / Mastercard). Lessons outside the PJ area carry an extra charge.</p>
       </div>
       <div class="cards" id="serviceCards"></div>
     </div>
@@ -318,12 +318,12 @@ const CONFIG = {
     { title: "Payment", text: "Cash, MyDebit, Tap2Pay Visa / Mastercard" }
   ],
 
-  // dm: true = lesson ni diurus melalui DM WhatsApp (butang buka WhatsApp terus, tak masuk dalam borang).
+  // dm: true = lesson ni diurus melalui WhatsApp (butang buka WhatsApp terus, tak masuk dalam borang).
   // price: letak "RM 150" dsb. Kosongkan ("") kalau taknak tunjuk harga.
   services: [
     { name: "Single Lesson", duration: "60 min", price: "RM 280", desc: "One 60-minute lesson, tailored to your swing and your goals." },
-    { name: "4-Lesson Package", dm: true, duration: "4 × 60 min", price: "RM 1,100", desc: "Four 60-minute lessons — works out to RM 275 per lesson." },
-    { name: "8-Lesson Package", dm: true, duration: "8 × 60 min", price: "RM 2,000", desc: "Eight 60-minute lessons — works out to RM 250 per lesson." },
+    { name: "4-Lesson Package", dm: true, duration: "4 × 60 min", price: "", desc: "Four 60-minute lessons. Message on WhatsApp for details." },
+    { name: "8-Lesson Package", dm: true, duration: "8 × 60 min", price: "", desc: "Eight 60-minute lessons. Message on WhatsApp for details." },
     { name: "Playing Lesson (On Course)", duration: "9 holes", price: "RM 500", desc: "Nine holes on the course with Coach Iqbal — strategy, shot selection and scoring. Green fee not included." }
   ],
 
@@ -369,10 +369,10 @@ CONFIG.services.forEach(s => {
   const label = [s.name, s.duration, s.price].filter(Boolean).join(" · ");
   if (!s.dm) serviceSelect.append(el("option", { value: s.name, textContent: label }));
 
-  const pick = el("button", { type: "button", textContent: s.dm ? "DM on WhatsApp" : "Book this" });
+  const pick = el("button", { type: "button", textContent: s.dm ? "More info on WhatsApp" : "Book this" });
   pick.addEventListener("click", () => {
     if (s.dm) {
-      window.open(waLink(`Hi ${displayName}, I'm interested in the ${s.name}${s.price ? ` (${s.price})` : ""}.`), "_blank", "noopener");
+      window.open(waLink(`Hi ${displayName}, I'd like more info on the ${s.name}.`), "_blank", "noopener");
       return;
     }
     serviceSelect.value = s.name;
