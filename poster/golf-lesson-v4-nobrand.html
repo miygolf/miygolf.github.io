@@ -162,6 +162,13 @@
   .tryout .cta{position:relative;z-index:1;margin-right:16px;background:var(--green-900);color:var(--gold-light);
     font-weight:800;font-size:15px;letter-spacing:1px;padding:11px 18px;border-radius:12px;text-decoration:none;white-space:nowrap}
 
+  .payband{grid-template-columns:auto 1fr}
+  .payband .tag b{font-size:28px}
+  .pays{display:flex;justify-content:space-around;align-items:center;padding-right:18px;position:relative;z-index:1}
+  .pays span{display:flex;align-items:center;gap:9px;font-weight:800;font-size:20px;color:var(--green-900);white-space:nowrap}
+  .pays span + span{border-left:2px solid rgba(11,47,35,.25);padding-left:22px}
+  .pays svg{width:28px;height:28px;flex:none}
+
   /* ---------- NO-BRAND OVERRIDES ---------- */
   .badges{left:52px;right:auto;top:40px}
   .qr{top:40px}
@@ -290,11 +297,15 @@
   </section>
 
 
-  <!-- TRYOUT -->
-  <div class="tryout">
-    <div class="tag"><b>★ TRYOUT</b><span>SESSION</span></div>
-    <p>Sesi Percubaan 60 Minit<span>Cuba dulu sebelum pilih pakej</span></p>
-    <a class="cta" href="https://wa.me/60198728829?text=Hi%20Coach%2C%20saya%20nak%20tanya%20pasal%20golf%20lesson">WhatsApp untuk tempah →</a>
+  <!-- PAYMENT -->
+  <div class="tryout payband">
+    <div class="tag"><b>WE ACCEPT</b><span>KAMI MENERIMA</span></div>
+    <div class="pays">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 9.5h19M6 15h4"/></svg>myDebit</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><circle cx="10" cy="12" r="3"/><circle cx="14" cy="12" r="3"/></svg>Visa / Master</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/><path d="M9 9.5h6v4H9z"/></svg>E-Wallet</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.8"/><path d="M5.5 9.5v5M18.5 9.5v5"/></svg>Cash</span>
+    </div>
   </div>
 
   <!-- TIPS -->
@@ -315,7 +326,6 @@
     </div>
     <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
       <a class="wa" href="https://wa.me/60198728829?text=Hi%20Coach%2C%20saya%20nak%20tanya%20pasal%20golf%20lesson"><span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2a9.8 9.8 0 0 0-8.4 14.8L2.3 21.7l4.8-1.3A9.8 9.8 0 1 0 12 2.2zm4.9 13.6c-.2.6-1.2 1.2-1.7 1.2-.4.1-1 .1-1.6-.1-2.6-.9-4.6-3.1-5.4-4.4-.6-1-.9-2.1-.2-3.1.3-.4.6-.6.9-.6h.6c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .6l-.4.6c-.1.2-.3.3-.1.6.6 1 1.4 1.8 2.5 2.4.3.1.4.1.6-.1l.7-.9c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.2.4.3.1.1.1.6-.1 1.3z"/></svg></span><span><small>WHATSAPP</small><span class="phone">019-872 8829</span></span></a>
-      <div class="pay"><span class="chip">myDebit</span><span class="chip">Tap2Pay (Visa/Master)</span><span class="chip">E-Wallet</span><span class="chip">Cash</span></div>
     </div>
     <div class="closing">Latihan yang betul hari ini, keputusan yang lebih baik esok!</div>
   </footer>
