@@ -1,0 +1,31 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .hl { font-family: "Poppins", sans-serif; font-weight: 600; line-height: 1.08; letter-spacing: -0.01em; color: #fff; text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 14px rgba(0, 0, 0, 0.6); }
+    .lb { font-family: "IBM Plex Mono", monospace; font-weight: 500; font-size: 36px; letter-spacing: 0.02em; color: #fff; text-shadow: 2px 0px 0 #000, -2px 0px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 0 10px rgba(0, 0, 0, 0.55); }
+    .am { color: var(--amber); }
+    .ln { overflow: hidden; padding: 0 10px 8px 6px; margin: 0 -10px -8px -6px; }
+    .ln > span { display: inline-block; }
+    #vt-w { position: absolute; left: 120px; top: 330px; width: 760px; }
+    .vt-r { opacity: 0; font-size: 38px; line-height: 1.5; }
+    #vt-r1 { margin-top: 16px; }
+  </style>
+  <div id="root" data-composition-id="volt" data-width="1080" data-height="1920">
+    <div id="vt-w">
+      <div class="ln hl" style="font-size: 72px"><span id="vt-l0">Bonus: tengok</span></div>
+      <div class="ln hl" style="font-size: 72px"><span id="vt-l1"><span class="am">voltan bateri.</span></span></div>
+      <div id="vt-r1" class="lb vt-r">13V ke atas → alternator OK</div>
+      <div id="vt-r2" class="lb vt-r">Bawah 13V → <span class="am">tak cas</span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#vt-l0", { yPercent: 105 }, { yPercent: 0, duration: 0.32, ease: "power3.out" }, 0.10);
+    tl.fromTo("#vt-l1", { yPercent: 105 }, { yPercent: 0, duration: 0.32, ease: "power3.out" }, 0.28);
+    tl.fromTo("#vt-r1", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.22, ease: "power3.out" }, 0.9);
+    tl.fromTo("#vt-r2", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.22, ease: "power3.out" }, 1.8);
+    tl.to("#vt-w", { opacity: 0, duration: 0.12, ease: "power2.in" }, 4.06);
+    tl.set({}, {}, 4.18);
+    window.__timelines["volt"] = tl;
+  </script>
+</template>

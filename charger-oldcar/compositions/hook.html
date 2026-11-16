@@ -1,0 +1,30 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .hl { font-family: "Poppins", sans-serif; font-weight: 600; line-height: 1.08; letter-spacing: -0.01em; color: #fff; text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 14px rgba(0, 0, 0, 0.6); }
+    .lb { font-family: "IBM Plex Mono", monospace; font-weight: 500; font-size: 36px; letter-spacing: 0.02em; color: #fff; text-shadow: 2px 0px 0 #000, -2px 0px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 0 10px rgba(0, 0, 0, 0.55); }
+    .am { color: var(--amber); }
+    .ln { overflow: hidden; padding: 0 10px 8px 6px; margin: 0 -10px -8px -6px; }
+    .ln > span { display: inline-block; }
+    #hk-w { position: absolute; left: 120px; top: 330px; width: 760px; }
+    #hk-usb { position: relative; }
+    #hk-strike { position: absolute; left: -4px; right: -4px; top: 54%; height: 6px; background: var(--amber); box-shadow: 0 0 0 2px #000; transform-origin: left center; }
+    #hk-sub { margin-top: 18px; font-size: 64px; }
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+    <div id="hk-w">
+      <div class="ln hl" style="font-size: 80px"><span id="hk-l0">Kereta lama</span></div>
+      <div class="ln hl" style="font-size: 80px"><span id="hk-l1">tak ada port <span id="hk-usb">USB?<span id="hk-strike"></span></span></span></div>
+      <div class="ln hl" id="hk-sub-ln"><span id="hk-sub" class="hl">Guna <span class="am">soket rokok</span> je.</span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.set(["#hk-l0", "#hk-l1"], { yPercent: 0 }, 0);
+    tl.fromTo("#hk-strike", { scaleX: 0 }, { scaleX: 1, duration: 0.28, ease: "power3.out" }, 0.55);
+    tl.fromTo("#hk-sub", { yPercent: 105 }, { yPercent: 0, duration: 0.32, ease: "power3.out" }, 1.0);
+    tl.to("#hk-w", { opacity: 0, duration: 0.12, ease: "power2.in" }, 2.86);
+    tl.set({}, {}, 2.98);
+    window.__timelines["hook"] = tl;
+  </script>
+</template>

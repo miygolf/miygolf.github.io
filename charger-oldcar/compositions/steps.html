@@ -1,0 +1,32 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .hl { font-family: "Poppins", sans-serif; font-weight: 600; line-height: 1.08; letter-spacing: -0.01em; color: #fff; text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 14px rgba(0, 0, 0, 0.6); }
+    .lb { font-family: "IBM Plex Mono", monospace; font-weight: 500; font-size: 36px; letter-spacing: 0.02em; color: #fff; text-shadow: 2px 0px 0 #000, -2px 0px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 0 10px rgba(0, 0, 0, 0.55); }
+    .am { color: var(--amber); }
+    .ln { overflow: hidden; padding: 0 10px 8px 6px; margin: 0 -10px -8px -6px; }
+    .ln > span { display: inline-block; }
+    .st-s { position: absolute; top: 284px; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, 0.35); box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.55); }
+  </style>
+  <div id="root" data-composition-id="steps" data-width="1080" data-height="1920">
+    <div id="st-s0" class="st-s" style="left: 120.0px; width: 101.1px"></div>
+    <div id="st-s1" class="st-s" style="left: 231.1px; width: 101.1px"></div>
+    <div id="st-s2" class="st-s" style="left: 342.3px; width: 101.1px"></div>
+    <div id="st-s3" class="st-s" style="left: 453.4px; width: 101.1px"></div>
+    <div id="st-s4" class="st-s" style="left: 564.6px; width: 101.1px"></div>
+    <div id="st-s5" class="st-s" style="left: 675.7px; width: 101.1px"></div>
+    <div id="st-s6" class="st-s" style="left: 786.9px; width: 101.1px"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#st-s0", { backgroundColor: "rgba(255,255,255,0.35)" }, { backgroundColor: "#ffb547", duration: 0.2, ease: "none" }, 0.00);
+    tl.fromTo("#st-s1", { backgroundColor: "rgba(255,255,255,0.35)" }, { backgroundColor: "#ffb547", duration: 0.2, ease: "none" }, 3.00);
+    tl.fromTo("#st-s2", { backgroundColor: "rgba(255,255,255,0.35)" }, { backgroundColor: "#ffb547", duration: 0.2, ease: "none" }, 7.00);
+    tl.fromTo("#st-s3", { backgroundColor: "rgba(255,255,255,0.35)" }, { backgroundColor: "#ffb547", duration: 0.2, ease: "none" }, 11.20);
+    tl.fromTo("#st-s4", { backgroundColor: "rgba(255,255,255,0.35)" }, { backgroundColor: "#ffb547", duration: 0.2, ease: "none" }, 13.80);
+    tl.fromTo("#st-s5", { backgroundColor: "rgba(255,255,255,0.35)" }, { backgroundColor: "#ffb547", duration: 0.2, ease: "none" }, 17.00);
+    tl.fromTo("#st-s6", { backgroundColor: "rgba(255,255,255,0.35)" }, { backgroundColor: "#ffb547", duration: 0.2, ease: "none" }, 20.60);
+    tl.set({}, {}, 23.38);
+    window.__timelines["steps"] = tl;
+  </script>
+</template>
