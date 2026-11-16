@@ -7,22 +7,25 @@
     .ln { overflow: hidden; padding: 0 10px 8px 6px; margin: 0 -10px -8px -6px; }
     .ln > span { display: inline-block; }
     #cb-w { position: absolute; left: 120px; top: 330px; width: 760px; }
-    #cb-s { margin-top: 16px; opacity: 0; }
+    .cb-r { opacity: 0; font-size: 34px; line-height: 1.5; }
+    #cb-s1 { margin-top: 16px; }
   </style>
   <div id="root" data-composition-id="cables" data-width="1080" data-height="1920">
     <div id="cb-w">
-      <div class="ln hl" style="font-size: 72px"><span id="cb-l0">2 kabel Type-C</span></div>
-      <div class="ln hl" style="font-size: 72px"><span id="cb-l1"><span class="am">siap ada.</span></span></div>
-      <div id="cb-s" class="lb">+ USB-C PD30W &amp; USB-A 2.4A</div>
+      <div class="ln hl" style="font-size: 72px"><span id="cb-l0">4 port, 2 kabel</span></div>
+      <div class="ln hl" style="font-size: 72px"><span id="cb-l1"><span class="am">retractable.</span></span></div>
+      <div id="cb-s1" class="lb cb-r">Kiri · kabel Type-C <span class="am">PD30W</span> + 2.4A</div>
+      <div id="cb-s2" class="lb cb-r">Kanan · port Type-C 3A + Type-A 2.4A</div>
     </div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
     tl.fromTo("#cb-l0", { yPercent: 105 }, { yPercent: 0, duration: 0.32, ease: "power3.out" }, 0.10);
     tl.fromTo("#cb-l1", { yPercent: 105 }, { yPercent: 0, duration: 0.32, ease: "power3.out" }, 0.28);
-    tl.fromTo("#cb-s", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.22, ease: "power3.out" }, 0.4);
-    tl.to("#cb-w", { opacity: 0, duration: 0.12, ease: "power2.in" }, 2.46);
-    tl.set({}, {}, 2.58);
+    tl.fromTo("#cb-s1", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.22, ease: "power3.out" }, 0.4);
+    tl.fromTo("#cb-s2", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.22, ease: "power3.out" }, 0.8);
+    tl.to("#cb-w", { opacity: 0, duration: 0.12, ease: "power2.in" }, 3.26);
+    tl.set({}, {}, 3.38);
     window.__timelines["cables"] = tl;
   </script>
 </template>
