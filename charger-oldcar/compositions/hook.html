@@ -9,22 +9,19 @@
     #hk-w { position: absolute; left: 120px; top: 330px; width: 760px; }
     #hk-usb { position: relative; }
     #hk-strike { position: absolute; left: -4px; right: -4px; top: 54%; height: 6px; background: var(--amber); box-shadow: 0 0 0 2px #000; transform-origin: left center; }
-    #hk-sub { margin-top: 18px; font-size: 64px; }
   </style>
   <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
     <div id="hk-w">
       <div class="ln hl" style="font-size: 80px"><span id="hk-l0">Kereta lama</span></div>
       <div class="ln hl" style="font-size: 80px"><span id="hk-l1">tak ada port <span id="hk-usb">USB?<span id="hk-strike"></span></span></span></div>
-      <div class="ln hl" id="hk-sub-ln"><span id="hk-sub" class="hl">Guna <span class="am">soket 12V</span> je.</span></div>
     </div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
     tl.set(["#hk-l0", "#hk-l1"], { yPercent: 0 }, 0);
     tl.fromTo("#hk-strike", { scaleX: 0 }, { scaleX: 1, duration: 0.28, ease: "power3.out" }, 0.55);
-    tl.fromTo("#hk-sub", { yPercent: 105 }, { yPercent: 0, duration: 0.32, ease: "power3.out" }, 1.0);
-    tl.to("#hk-w", { opacity: 0, duration: 0.12, ease: "power2.in" }, 2.86);
-    tl.set({}, {}, 2.98);
+    tl.to("#hk-w", { opacity: 0, duration: 0.12, ease: "power2.in" }, 2.46);
+    tl.set({}, {}, 2.58);
     window.__timelines["hook"] = tl;
   </script>
 </template>
