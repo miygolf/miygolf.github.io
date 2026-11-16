@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<title>Coach Iqbal PGM</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@500;600;700;800&family=Kaushan+Script&display=swap" rel="stylesheet">
+<style>
+  :root{--green-900:#0b2f23;--green-800:#0f3d2e;--green-700:#16513d;--gold:#d9ac4f;--gold-light:#f0d38c;--cream:#f7f1e3;--wa:#25a35a}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#222}
+  .poster{width:1080px;height:1080px;position:relative;overflow:hidden;font-family:'Montserrat',sans-serif;color:var(--cream);
+    background:
+      radial-gradient(700px 520px at 50% 58%, rgba(240,211,140,.22), transparent 70%),
+      repeating-linear-gradient(115deg, rgba(255,255,255,.025) 0 60px, rgba(0,0,0,.035) 60px 120px),
+      linear-gradient(180deg,var(--green-800),var(--green-900));}
+  .rays{position:absolute;inset:0;background:repeating-conic-gradient(from 0deg at 50% 60%, rgba(240,211,140,.06) 0 6deg, transparent 6deg 18deg);
+    -webkit-mask:radial-gradient(circle at 50% 60%, #000 0 30%, transparent 62%);mask:radial-gradient(circle at 50% 60%, #000 0 30%, transparent 62%)}
+
+  .top{position:absolute;top:44px;left:0;right:0;text-align:center}
+  .kicker{display:inline-flex;align-items:center;gap:14px;font-weight:800;font-size:18px;letter-spacing:6px;color:var(--gold-light)}
+  .kicker:before,.kicker:after{content:"";width:60px;height:2px;background:var(--gold)}
+  h1{font-family:'Anton',sans-serif;font-weight:400;font-size:104px;line-height:1;letter-spacing:2px;margin-top:10px;text-shadow:0 6px 0 rgba(0,0,0,.25)}
+  h1 span{color:var(--gold)}
+  .role{font-family:'Kaushan Script',cursive;font-size:38px;color:var(--gold-light);margin-top:4px}
+
+  .frame{position:absolute;left:50%;top:318px;width:760px;transform:translateX(-50%) rotate(-2deg);
+    background:linear-gradient(135deg,#f7dd97,#c9973c 40%,#f3d184 60%,#b98a33);padding:12px;border-radius:14px;
+    box-shadow:0 30px 60px rgba(0,0,0,.55),0 0 60px rgba(240,211,140,.35)}
+  .frame .inner{background:#fff;padding:10px;border-radius:6px}
+  .frame img{display:block;width:100%;height:auto;border-radius:2px}
+
+  .seal{position:absolute;left:804px;top:262px;width:190px;height:190px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#fbe7a8,#d9ac4f 55%,#a87a2a);color:var(--green-900);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transform:rotate(10deg);
+    box-shadow:0 14px 30px rgba(0,0,0,.45),inset 0 0 0 6px rgba(255,255,255,.35),inset 0 0 0 9px rgba(11,47,35,.35)}
+  .seal small{font-weight:800;font-size:13px;letter-spacing:3px}
+  .seal b{font-family:'Anton',sans-serif;font-weight:400;font-size:52px;line-height:1;margin:2px 0}
+  .seal span{font-weight:800;font-size:13px;letter-spacing:2px;line-height:1.25}
+
+  .ticks{position:absolute;left:60px;right:60px;bottom:118px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .tick{background:rgba(0,0,0,.28);border:1.5px solid rgba(240,211,140,.35);border-radius:16px;padding:14px 14px;display:flex;align-items:center;gap:12px}
+  .tick i{width:34px;height:34px;border-radius:50%;background:var(--gold);display:grid;place-items:center;flex:none}
+  .tick i svg{width:18px;height:18px}
+  .tick b{display:block;font-weight:800;font-size:16px;line-height:1.2}
+  .tick span{display:block;font-weight:500;font-size:13px;color:#c4d4ca;margin-top:2px}
+
+  .cta{position:absolute;left:60px;right:60px;bottom:40px;height:60px;border-radius:16px;display:flex;align-items:center;justify-content:center;gap:14px;
+    background:linear-gradient(90deg,#f7dd97,#e8bd5c 55%,#f3d184);color:var(--green-900);font-weight:800;font-size:20px;letter-spacing:1px}
+  .cta .ic{width:34px;height:34px;border-radius:50%;background:var(--wa);display:grid;place-items:center}
+  .cta .ic svg{width:20px;height:20px;color:#fff}
+  .cta em{font-style:normal;font-family:'Anton',sans-serif;font-weight:400;font-size:28px;letter-spacing:1px}
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="rays"></div>
+
+  <div class="top">
+    <div class="kicker">COACH BERTAULIAH</div>
+    <h1>COACH <span>IQBAL</span></h1>
+    <div class="role">Certified Level 2 Teaching Professional</div>
+  </div>
+
+  <div class="frame"><div class="inner"><img src="assets/pgm-certificate-clean.jpg" alt="Sijil PGM Level 2 Teaching Professional"></div></div>
+
+  <div class="seal"><small>CERTIFIED</small><b>LEVEL 2</b><span>TEACHING<br>PROFESSIONAL</span></div>
+
+  <div class="ticks">
+    <div class="tick"><i><svg viewBox="0 0 24 24" fill="none" stroke="#0b2f23" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></i><div><b>Diiktiraf PGM</b><span>Professional Golf Association of Malaysia</span></div></div>
+    <div class="tick"><i><svg viewBox="0 0 24 24" fill="none" stroke="#0b2f23" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></i><div><b>Golf Specific Level 2</b><span>Teaching Professional</span></div></div>
+    <div class="tick"><i><svg viewBox="0 0 24 24" fill="none" stroke="#0b2f23" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></i><div><b>Coaching Berdata</b><span>SC4 Pro / LiPar launch monitor</span></div></div>
+  </div>
+
+  <div class="cta"><span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2a9.8 9.8 0 0 0-8.4 14.8L2.3 21.7l4.8-1.3A9.8 9.8 0 1 0 12 2.2zm4.9 13.6c-.2.6-1.2 1.2-1.7 1.2-.4.1-1 .1-1.6-.1-2.6-.9-4.6-3.1-5.4-4.4-.6-1-.9-2.1-.2-3.1.3-.4.6-.6.9-.6h.6c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .6l-.4.6c-.1.2-.3.3-.1.6.6 1 1.4 1.8 2.5 2.4.3.1.4.1.6-.1l.7-.9c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.2.4.3.1.1.1.6-.1 1.3z"/></svg></span>Belajar dengan coach bertauliah · <em>019-872 8829</em></div>
+</div>
+</body>
+</html>
