@@ -1,35 +1,31 @@
 <template>
   <style>
     #root { position: absolute; inset: 0; }
-    .hl { font-family: "Outfit", sans-serif; font-weight: 400; line-height: 1.04; letter-spacing: -0.01em; color: #fff; text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 14px rgba(0, 0, 0, 0.6); }
-    .lb { font-family: "JetBrains Mono", monospace; font-weight: 400; font-size: 36px; letter-spacing: 0.02em; color: #fff; text-shadow: 2px 0px 0 #000, -2px 0px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 0 10px rgba(0, 0, 0, 0.55); }
+    .hl { font-family: "Outfit", sans-serif; font-weight: 600; line-height: 1.04; letter-spacing: -0.01em; color: #fff; text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 14px rgba(0, 0, 0, 0.6); }
+    .lb { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 36px; letter-spacing: 0.02em; color: #fff; text-shadow: 2px 0px 0 #000, -2px 0px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 0 10px rgba(0, 0, 0, 0.55); }
     .ac { color: var(--cyan); }
     .wr { color: var(--amber); }
-    .cap { font-family: "Outfit", sans-serif; font-weight: 400; font-size: 60px; line-height: 1.12; color: #fff; text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 14px rgba(0, 0, 0, 0.6); }
+    .cap { font-family: "Outfit", sans-serif; font-weight: 600; font-size: 60px; line-height: 1.12; color: #fff; text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 14px rgba(0, 0, 0, 0.6); }
     .cap .w { color: #fff; }
-    #ph { position: absolute; left: 120px; top: 1060px; width: 660px; }
+    #ph { position: absolute; left: 120px; top: 600px; width: 660px; }
   </style>
   <div id="root" data-composition-id="phone" data-width="1080" data-height="1920">
     <div id="ph">
-      <div id="ph-c" class="cap"><span id="ph-c-w0" class="w">Sambung</span> <span id="ph-c-w1" class="w">wireless</span> <span id="ph-c-w2" class="w">charger,</span> <span id="ph-c-w3" class="w">letak</span> <span id="ph-c-w4" class="w">phone,</span> <span id="ph-c-w5" class="w">terus</span> <span id="ph-c-w6" class="w">cas.</span></div>
+      <div id="ph-c" class="cap"><span id="ph-c-w0" class="w">Sambung</span> <span id="ph-c-w1" class="w">wireless</span> <span id="ph-c-w2" class="w">charger,</span> <span id="ph-c-w3" class="w">terus</span> <span id="ph-c-w4" class="w">cas.</span></div>
     </div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
     tl.fromTo("#ph-c", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.2, ease: "power3.out" }, 0.1);
     tl.set("#ph-c-w0", { color: "#7fe7ff" }, 0.25);
-    tl.set("#ph-c-w0", { color: "#ffffff" }, 0.53);
-    tl.set("#ph-c-w1", { color: "#7fe7ff" }, 0.53);
-    tl.set("#ph-c-w1", { color: "#ffffff" }, 0.81);
-    tl.set("#ph-c-w2", { color: "#7fe7ff" }, 0.81);
-    tl.set("#ph-c-w2", { color: "#ffffff" }, 1.09);
-    tl.set("#ph-c-w3", { color: "#7fe7ff" }, 1.09);
-    tl.set("#ph-c-w3", { color: "#ffffff" }, 1.37);
-    tl.set("#ph-c-w4", { color: "#7fe7ff" }, 1.37);
-    tl.set("#ph-c-w4", { color: "#ffffff" }, 1.65);
-    tl.set("#ph-c-w5", { color: "#7fe7ff" }, 1.65);
-    tl.set("#ph-c-w5", { color: "#ffffff" }, 1.93);
-    tl.set("#ph-c-w6", { color: "#7fe7ff" }, 1.93);
+    tl.set("#ph-c-w0", { color: "#ffffff" }, 0.55);
+    tl.set("#ph-c-w1", { color: "#7fe7ff" }, 0.55);
+    tl.set("#ph-c-w1", { color: "#ffffff" }, 0.85);
+    tl.set("#ph-c-w2", { color: "#7fe7ff" }, 0.85);
+    tl.set("#ph-c-w2", { color: "#ffffff" }, 1.15);
+    tl.set("#ph-c-w3", { color: "#7fe7ff" }, 1.15);
+    tl.set("#ph-c-w3", { color: "#ffffff" }, 1.45);
+    tl.set("#ph-c-w4", { color: "#7fe7ff" }, 1.45);
     tl.to("#ph", { opacity: 0, duration: 0.12, ease: "power2.in" }, 3.36);
     tl.set({}, {}, 3.48);
     window.__timelines["phone"] = tl;
