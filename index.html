@@ -147,6 +147,9 @@
   }
   .slots input:checked + span { background: var(--green-700); border-color: var(--green-700); color: #fff; font-weight: 600; }
   .slots input:focus-visible + span { outline: 3px solid var(--gold); outline-offset: 2px; }
+  .instant { max-width: 720px; margin-bottom: 22px; }
+  .instant p { margin: 10px 0 0; color: rgba(255,255,255,.75); }
+  .instant h3 { margin-top: 34px; font-size: 1.3rem; }
   .error { color: var(--danger); font-size: .9rem; margin: 0; min-height: 1.2em; }
   .note { color: var(--muted); font-size: .86rem; margin: 0; text-align: center; }
 
@@ -166,7 +169,7 @@
       <a class="hide-sm" href="#about">About</a>
       <a class="hide-sm" href="#services">Lessons</a>
       <a class="hide-sm" href="#contact">Contact</a>
-      <a class="btn small" href="#book">Book now</a>
+      <a class="btn small js-book" href="#book">Book now</a>
     </nav>
   </div>
 </header>
@@ -179,7 +182,7 @@
         <h1 id="heroTitle"></h1>
         <p id="heroText"></p>
         <div class="hero-cta">
-          <a class="btn" href="#book">Book a lesson</a>
+          <a class="btn js-book" href="#book">Book a lesson</a>
           <a class="btn ghost" href="#services">See lessons</a>
         </div>
       </div>
@@ -216,7 +219,14 @@
       <div class="section-head">
         <div class="eyebrow">Appointment</div>
         <h2>Book a session</h2>
-        <p>Fill this in and your request is sent straight to WhatsApp. You'll get a reply to confirm the slot.</p>
+        <p id="bookIntro">Fill this in and your request is sent straight to WhatsApp. You'll get a reply to confirm the slot.</p>
+      </div>
+
+      <div class="instant" id="instant" hidden>
+        <a class="btn js-book" href="#book">Pick a slot on Google Calendar</a>
+        <p>See the open slots and book one instantly.</p>
+        <h3>Or send a request via WhatsApp</h3>
+        <p>For packages, questions, or if you'd rather chat first.</p>
       </div>
 
       <form class="form" id="bookingForm" novalidate>
@@ -291,6 +301,7 @@ const CONFIG = {
   headline: "Play better golf, one lesson at a time.",
   intro: "Personal 60-minute golf lessons with Coach Iqbal Yusoff in the PJ area. Book a session and let's work on your game.",
 
+  bookingUrl: "",                      // link booking page Google Calendar (calendar.app.google/...). Kosong = butang Book pergi ke borang WhatsApp
   whatsapp: "60198728829",                     // nombor WhatsApp, format antarabangsa tanpa "+": e.g. "60123456789"
   email: "",
   instagram: "",                       // username je, tanpa @
@@ -394,6 +405,13 @@ for (let t = CONFIG.hours.start * 60; t + CONFIG.slotMinutes <= CONFIG.hours.end
     el("input", { type: "radio", name: "time", value: label }),
     el("span", { textContent: label })
   ));
+}
+
+// --- Google Calendar booking page (kalau ada) ---
+if (CONFIG.bookingUrl) {
+  document.querySelectorAll(".js-book").forEach(a => { a.href = CONFIG.bookingUrl; a.target = "_blank"; a.rel = "noopener"; });
+  $("instant").hidden = false;
+  $("bookIntro").textContent = "Book a slot instantly, or send a request on WhatsApp.";
 }
 
 // --- Booking submit -> WhatsApp ---
