@@ -1,0 +1,28 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .hl { font-family: "Outfit", sans-serif; font-weight: 400; line-height: 1.04; letter-spacing: -0.01em; color: #fff; text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 14px rgba(0, 0, 0, 0.6); }
+    .lb { font-family: "JetBrains Mono", monospace; font-weight: 400; font-size: 36px; letter-spacing: 0.02em; color: #fff; text-shadow: 2px 0px 0 #000, -2px 0px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 0 10px rgba(0, 0, 0, 0.55); }
+    .ac { color: var(--cyan); }
+    .wr { color: var(--amber); }
+    #hk { position: absolute; left: 120px; top: 320px; }
+    #hk-k { color: var(--cyan); letter-spacing: 0.14em; font-size: 30px; margin-bottom: 12px; }
+    .hk-l { font-size: 76px; }
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+    <div id="hk">
+      <div id="hk-k" class="lb">CAR CHARGER · PD30W · V2</div>
+      <div class="hl hk-l">Charger kereta</div>
+      <div class="hl hk-l">yang boleh check</div>
+      <div class="hl hk-l"><span id="hk-acc">alternator.</span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#hk-acc", { color: "#ffffff" }, { color: "#7fe7ff", duration: 0.3, ease: "power2.out" }, 0.35);
+    tl.fromTo("#hk", { y: 0 }, { y: -10, duration: 2.8, ease: "none" }, 0);
+    tl.to("#hk", { opacity: 0, duration: 0.12, ease: "power2.in" }, 2.66);
+    tl.set({}, {}, 2.78);
+    window.__timelines["hook"] = tl;
+  </script>
+</template>

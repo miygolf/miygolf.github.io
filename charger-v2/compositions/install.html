@@ -1,0 +1,36 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .hl { font-family: "Outfit", sans-serif; font-weight: 400; line-height: 1.04; letter-spacing: -0.01em; color: #fff; text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 14px rgba(0, 0, 0, 0.6); }
+    .lb { font-family: "JetBrains Mono", monospace; font-weight: 400; font-size: 36px; letter-spacing: 0.02em; color: #fff; text-shadow: 2px 0px 0 #000, -2px 0px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 0 10px rgba(0, 0, 0, 0.55); }
+    .ac { color: var(--cyan); }
+    .wr { color: var(--amber); }
+    .cap { font-family: "Outfit", sans-serif; font-weight: 400; font-size: 60px; line-height: 1.12; color: #fff; text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 14px rgba(0, 0, 0, 0.6); }
+    .cap .w { color: #fff; }
+    #in { position: absolute; left: 120px; top: 330px; width: 700px; }
+    #in-s { margin-top: 12px; opacity: 0; }
+  </style>
+  <div id="root" data-composition-id="install" data-width="1080" data-height="1920">
+    <div id="in">
+      <div id="in-c" class="cap"><span id="in-c-w0" class="w">Cucuk</span> <span id="in-c-w1" class="w">je</span> <span id="in-c-w2" class="w">kat</span> <span id="in-c-w3" class="w">soket</span> <span id="in-c-w4" class="w">rokok.</span></div>
+      <div id="in-s" class="lb">lampu biru terus <span class="ac">menyala</span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#in-c", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.2, ease: "power3.out" }, 0.08);
+    tl.set("#in-c-w0", { color: "#7fe7ff" }, 0.25);
+    tl.set("#in-c-w0", { color: "#ffffff" }, 0.51);
+    tl.set("#in-c-w1", { color: "#7fe7ff" }, 0.51);
+    tl.set("#in-c-w1", { color: "#ffffff" }, 0.77);
+    tl.set("#in-c-w2", { color: "#7fe7ff" }, 0.77);
+    tl.set("#in-c-w2", { color: "#ffffff" }, 1.03);
+    tl.set("#in-c-w3", { color: "#7fe7ff" }, 1.03);
+    tl.set("#in-c-w3", { color: "#ffffff" }, 1.29);
+    tl.set("#in-c-w4", { color: "#7fe7ff" }, 1.29);
+    tl.fromTo("#in-s", { opacity: 0, x: 14 }, { opacity: 1, x: 0, duration: 0.2, ease: "power3.out" }, 1.3);
+    tl.to("#in", { opacity: 0, duration: 0.12, ease: "power2.in" }, 2.66);
+    tl.set({}, {}, 2.78);
+    window.__timelines["install"] = tl;
+  </script>
+</template>

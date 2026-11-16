@@ -1,0 +1,36 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .hl { font-family: "Outfit", sans-serif; font-weight: 400; line-height: 1.04; letter-spacing: -0.01em; color: #fff; text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 14px rgba(0, 0, 0, 0.6); }
+    .lb { font-family: "JetBrains Mono", monospace; font-weight: 400; font-size: 36px; letter-spacing: 0.02em; color: #fff; text-shadow: 2px 0px 0 #000, -2px 0px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 0 10px rgba(0, 0, 0, 0.55); }
+    .ac { color: var(--cyan); }
+    .wr { color: var(--amber); }
+    #vt { position: absolute; left: 120px; top: 330px; }
+    #vt-t { font-size: 66px; margin-bottom: 14px; }
+    .vt-r { opacity: 0; font-size: 40px; line-height: 1.5; }
+    #vt-ring { position: absolute; left: 0; top: 0; width: 0; height: 0; opacity: 0; }
+    #vt-ring i { position: absolute; left: -95px; top: -60px; width: 190px; height: 120px; border-radius: 50%; border: 4px solid var(--cyan); box-shadow: 0 0 16px rgba(127, 231, 255, 0.9), 0 0 0 2px rgba(0, 0, 0, 0.6); }
+  </style>
+  <div id="root" data-composition-id="volt" data-width="1080" data-height="1920">
+    <div id="vt-ring"><i></i></div>
+    <div id="vt">
+      <div id="vt-t" class="hl">Tengok <span class="ac">voltan</span> bateri:</div>
+      <div id="vt-r1" class="lb vt-r">13V ke atas → alternator <span class="ac">OK</span></div>
+      <div id="vt-r2" class="lb vt-r">Bawah 13V → <span class="wr">ada problem</span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // display position measured at src 51.8 / 53.8 / 55.8
+    tl.set("#vt-ring", { x: 607, y: 1212 }, 0);
+    tl.to("#vt-ring", { x: 590, y: 1212, duration: 2.0, ease: "none" }, 0);
+    tl.to("#vt-ring", { x: 610, y: 1205, duration: 2.0, ease: "none" }, 2.0);
+    tl.fromTo("#vt-ring", { opacity: 0, scale: 1.4 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power3.out" }, 0.2);
+    tl.fromTo("#vt-t", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.24, ease: "power3.out" }, 0.1);
+    tl.fromTo("#vt-r1", { opacity: 0, x: 14 }, { opacity: 1, x: 0, duration: 0.22, ease: "power3.out" }, 0.7);
+    tl.fromTo("#vt-r2", { opacity: 0, x: 14 }, { opacity: 1, x: 0, duration: 0.22, ease: "power3.out" }, 1.7);
+    tl.to(["#vt", "#vt-ring"], { opacity: 0, duration: 0.12, ease: "power2.in" }, 3.86);
+    tl.set({}, {}, 3.98);
+    window.__timelines["volt"] = tl;
+  </script>
+</template>
