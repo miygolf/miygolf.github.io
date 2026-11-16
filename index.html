@@ -195,8 +195,8 @@
     <div class="wrap">
       <div class="section-head">
         <div class="eyebrow">Lessons &amp; services</div>
-        <h2>Pick what fits your game</h2>
-        <p>Every session is tailored to your level — from first swing to tournament prep.</p>
+        <h2>Lessons &amp; pricing</h2>
+        <p>Every lesson is 60 minutes. Payment by MyDebit or Tap2Pay (Visa / Mastercard). Lessons outside the PJ area carry an extra charge.</p>
       </div>
       <div class="cards" id="serviceCards"></div>
     </div>
@@ -228,7 +228,7 @@
         </div>
 
         <fieldset class="field">
-          <legend>Preferred time</legend>
+          <legend>Preferred time <small>(9 AM – 10 PM, by appointment)</small></legend>
           <div class="slots" id="slots"></div>
         </fieldset>
 
@@ -274,39 +274,39 @@
    ============================================================ */
 const CONFIG = {
   brand: "MIY Golf Performance",
-  coachName: "",                       // e.g. "Coach Ahmad" — kosongkan kalau nak guna brand je
+  coachName: "Coach Iqbal",                      // kosongkan kalau nak guna brand je
+  fullName: "Iqbal Yusoff",                   // nama penuh, untuk initial dalam bulatan
   photo: "",                           // e.g. "photo.jpg" (letak fail dalam folder yang sama)
   tagline: "Golf coaching",
   headline: "Play better golf, one lesson at a time.",
-  intro: "Personal coaching for beginners, juniors and serious players. Book a session and let's work on your game.",
+  intro: "Personal 60-minute golf lessons with Coach Iqbal Yusoff in the PJ area. Book a session and let's work on your game.",
 
-  whatsapp: "",                        // nombor WhatsApp, format antarabangsa tanpa "+": e.g. "60123456789"
+  whatsapp: "60198728829",                     // nombor WhatsApp, format antarabangsa tanpa "+": e.g. "60123456789"
   email: "",
   instagram: "",                       // username je, tanpa @
 
-  aboutTitle: "Coaching built around you",
+  aboutTitle: "Coach Iqbal Yusoff",
   about: [
     "Every golfer is different, so every lesson starts with where your game is right now — your swing, your goals and how much time you have to practise.",
     "Sessions cover full swing, short game, putting and course management, with clear drills to take away so you keep improving between lessons."
   ],
   facts: [
-    { title: "All levels", text: "Beginners, juniors, and low handicappers" },
-    { title: "1-to-1 & groups", text: "Private, pair, or small group sessions" },
-    { title: "Range & on-course", text: "Driving range lessons and playing lessons" }
+    { title: "60-minute lessons", text: "Single lessons or packages of 4 and 8" },
+    { title: "PJ area", text: "Outside PJ available with an extra charge" },
+    { title: "9 AM – 10 PM", text: "By appointment only" },
+    { title: "Payment", text: "MyDebit, Tap2Pay Visa / Mastercard" }
   ],
 
   // price: letak "RM 150" dsb. Kosongkan ("") kalau taknak tunjuk harga.
   services: [
-    { name: "Private Lesson", duration: "60 min", price: "", desc: "One-to-one coaching focused entirely on your swing and goals." },
-    { name: "Beginner Intro", duration: "60 min", price: "", desc: "New to golf? Learn grip, stance and the basic swing from scratch." },
-    { name: "Junior Lesson", duration: "45 min", price: "", desc: "Fun, structured coaching for young golfers." },
-    { name: "Group Lesson", duration: "90 min", price: "", desc: "Learn with friends or family — 2 to 4 players." },
-    { name: "Playing Lesson", duration: "9 holes", price: "", desc: "On-course coaching: strategy, shot selection and scoring." },
-    { name: "Swing Assessment", duration: "30 min", price: "", desc: "Video review of your swing with a clear improvement plan." }
+    { name: "Single Lesson", duration: "60 min", price: "RM 280", desc: "One 60-minute lesson. Good for a first session or a quick tune-up." },
+    { name: "4-Lesson Package", duration: "4 × 60 min", price: "RM 1,100", desc: "Four 60-minute lessons — works out to RM 275 per lesson." },
+    { name: "8-Lesson Package", duration: "8 × 60 min", price: "RM 2,000", desc: "Eight 60-minute lessons — works out to RM 250 per lesson." }
   ],
 
-  locations: [],                       // e.g. ["KGNS Driving Range", "Glenmarie Golf"] — kosong = sorok pilihan lokasi
-  hours: { start: 8, end: 20 },        // slot masa: 8 pagi hingga 8 malam (slot terakhir mula 7 malam)
+  locations: ["PJ area", "Outside PJ (extra charge applies)"],
+  //                // e.g. ["KGNS Driving Range", "Glenmarie Golf"] — kosong = sorok pilihan lokasi
+  hours: { start: 9, end: 22 },        // slot masa: 9 pagi hingga 10 malam (slot terakhir mula 9 malam)
   slotMinutes: 60
 };
 /* ============================================================ */
@@ -329,7 +329,7 @@ $("heroText").textContent = CONFIG.intro;
 if (CONFIG.photo) {
   $("portrait").append(el("img", { src: CONFIG.photo, alt: "" }));
 } else {
-  $("portrait").textContent = displayName.split(/\s+/).slice(0, 2).map(w => w[0]).join("").toUpperCase();
+  $("portrait").textContent = (CONFIG.fullName || displayName).split(/\s+/).slice(0, 2).map(w => w[0]).join("").toUpperCase();
 }
 
 // --- About ---
