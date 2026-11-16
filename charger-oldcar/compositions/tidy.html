@@ -7,23 +7,20 @@
     .ln { overflow: hidden; padding: 0 10px 8px 6px; margin: 0 -10px -8px -6px; }
     .ln > span { display: inline-block; }
     #td-w { position: absolute; left: 120px; top: 330px; width: 760px; }
-    #td-gap { height: 12px; }
   </style>
   <div id="root" data-composition-id="tidy" data-width="1080" data-height="1920">
     <div id="td-w">
-      <div class="ln hl" style="font-size: 72px"><span id="td-l0">Tak nak wayar</span></div>
-      <div class="ln hl" style="font-size: 72px"><span id="td-l1">bersepah?</span></div>
-      <div id="td-gap"></div>
-      <div class="ln hl" style="font-size: 72px"><span id="td2-l0">Tarik, <span class="am">lepas.</span> Settle.</span></div>
+      <div class="ln hl" style="font-size: 66px"><span id="td-l0">Tarik bila nak guna,</span></div>
+      <div class="ln hl" style="font-size: 66px"><span id="td-l1">lepas, dia <span class="am">masuk balik.</span></span></div>
     </div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo("#td-l0", { yPercent: 105 }, { yPercent: 0, duration: 0.32, ease: "power3.out" }, 0.10);
-    tl.fromTo("#td-l1", { yPercent: 105 }, { yPercent: 0, duration: 0.32, ease: "power3.out" }, 0.26);
-    tl.fromTo("#td2-l0", { yPercent: 105 }, { yPercent: 0, duration: 0.32, ease: "power3.out" }, 1.40);
-    tl.to("#td-w", { opacity: 0, duration: 0.12, ease: "power2.in" }, 3.46);
-    tl.set({}, {}, 3.58);
+    tl.fromTo("#td-l0", { yPercent: 105 }, { yPercent: 0, duration: 0.32, ease: "power3.out" }, 0.1);
+    // second line lands as the hand lets go (src ~60.0); the cable winds back in by ~60.6
+    tl.fromTo("#td-l1", { yPercent: 105 }, { yPercent: 0, duration: 0.32, ease: "power3.out" }, 2.6);
+    tl.to("#td-w", { opacity: 0, duration: 0.12, ease: "power2.in" }, 4.24);
+    tl.set({}, {}, 4.38);
     window.__timelines["tidy"] = tl;
   </script>
 </template>
