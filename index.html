@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MIY Golf — Golf Lessons & Coaching</title>
+<meta name="description" content="Book golf lessons with Coach Iqbal Yusoff — MIY Golf.">
+<style>
+  :root {
+    --green-900: #0f2a1d;
+    --green-700: #1c4a33;
+    --green-500: #2f7a52;
+    --cream: #f6f2e8;
+    --paper: #fffdf8;
+    --ink: #17211b;
+    --muted: #5d6b62;
+    --line: #e2dccd;
+    --gold: #c39a3f;
+    --danger: #b3261e;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    background: var(--cream);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; line-height: 1.15; margin: 0; font-weight: 600; }
+  a { color: inherit; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+
+  /* Nav */
+  .nav { position: sticky; top: 0; z-index: 20; background: rgba(15, 42, 29, .96); color: #fff; backdrop-filter: blur(6px); }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .brand { font-family: Georgia, serif; font-size: 1.1rem; letter-spacing: .02em; text-decoration: none; }
+  .brand b { color: var(--gold); font-weight: 600; }
+  .nav-links { display: flex; gap: 22px; align-items: center; font-size: .92rem; }
+  .nav-links a { text-decoration: none; opacity: .85; }
+  .nav-links a:hover { opacity: 1; }
+  .nav-links a.hide-sm { display: none; }
+  @media (min-width: 720px) { .nav-links a.hide-sm { display: inline; } }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 13px 22px; border-radius: 999px; border: 0; cursor: pointer;
+    font: inherit; font-weight: 600; text-decoration: none;
+    background: var(--gold); color: #1d1605; transition: transform .12s, filter .12s;
+  }
+  .btn:hover { filter: brightness(1.07); transform: translateY(-1px); }
+  .btn:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: 3px solid var(--gold); outline-offset: 2px;
+  }
+  .btn.small { padding: 8px 16px; font-size: .88rem; opacity: 1 !important; }
+  .btn.ghost { background: transparent; color: #fff; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.5); }
+  .btn.green { background: var(--green-700); color: #fff; width: 100%; padding: 15px 22px; font-size: 1rem; }
+
+  /* Hero */
+  .hero {
+    color: #fff;
+    background:
+      radial-gradient(900px 420px at 85% -10%, rgba(195,154,63,.28), transparent 60%),
+      linear-gradient(160deg, var(--green-900), var(--green-700) 70%, var(--green-500));
+    padding: 64px 0 76px;
+  }
+  .hero .wrap { display: grid; gap: 36px; align-items: center; }
+  @media (min-width: 820px) { .hero .wrap { grid-template-columns: 1.3fr .7fr; } .hero { padding: 92px 0 104px; } }
+  .eyebrow { text-transform: uppercase; letter-spacing: .18em; font-size: .75rem; color: var(--gold); font-weight: 700; }
+  .hero h1 { font-size: clamp(2.2rem, 6vw, 3.6rem); margin: 14px 0 16px; }
+  .hero p { font-size: 1.08rem; max-width: 34em; margin: 0 0 28px; color: rgba(255,255,255,.86); }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; }
+  .portrait {
+    width: min(260px, 70%); aspect-ratio: 1; border-radius: 50%; margin: 0 auto;
+    background: linear-gradient(145deg, rgba(255,255,255,.16), rgba(255,255,255,.04));
+    box-shadow: inset 0 0 0 2px rgba(195,154,63,.7), 0 24px 60px rgba(0,0,0,.3);
+    display: grid; place-items: center; overflow: hidden;
+    font-family: Georgia, serif; font-size: 4rem; color: var(--gold);
+  }
+  .portrait img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* Sections */
+  section { padding: 64px 0; }
+  .section-head { margin-bottom: 30px; }
+  .section-head h2 { font-size: clamp(1.7rem, 4vw, 2.3rem); margin-top: 8px; }
+  .section-head p { color: var(--muted); max-width: 40em; margin: 10px 0 0; }
+
+  .about { background: var(--paper); border-block: 1px solid var(--line); }
+  .about-grid { display: grid; gap: 28px; }
+  @media (min-width: 820px) { .about-grid { grid-template-columns: 1.2fr .8fr; gap: 48px; } }
+  .about p { margin: 0 0 14px; }
+  .facts { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .facts li { padding: 14px 16px; background: var(--cream); border-radius: var(--radius); border: 1px solid var(--line); }
+  .facts b { display: block; font-family: Georgia, serif; font-size: 1.05rem; }
+  .facts span { color: var(--muted); font-size: .92rem; }
+
+  .cards { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+  .card {
+    background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 22px; display: flex; flex-direction: column; gap: 8px;
+  }
+  .card h3 { font-size: 1.25rem; }
+  .card p { margin: 0; color: var(--muted); font-size: .95rem; flex: 1; }
+  .meta { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-size: .9rem; color: var(--muted); }
+  .meta .price { color: var(--green-700); font-weight: 700; font-size: 1.05rem; }
+  .card button {
+    margin-top: 8px; background: none; border: 1.5px solid var(--green-700); color: var(--green-700);
+    border-radius: 999px; padding: 9px 14px; font: inherit; font-weight: 600; cursor: pointer;
+  }
+  .card button:hover { background: var(--green-700); color: #fff; }
+
+  /* Booking */
+  .booking { background: var(--green-900); color: #fff; }
+  .booking .section-head p { color: rgba(255,255,255,.75); }
+  .form {
+    background: var(--paper); color: var(--ink); border-radius: 20px; padding: 24px;
+    display: grid; gap: 18px; max-width: 720px;
+  }
+  @media (min-width: 640px) { .form { padding: 32px; } .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; } }
+  .row2 { display: grid; gap: 18px; }
+  .field label, .field legend { display: block; font-weight: 600; font-size: .92rem; margin-bottom: 6px; padding: 0; }
+  .field small { color: var(--muted); font-weight: 400; }
+  fieldset.field { border: 0; margin: 0; padding: 0; min-width: 0; }
+  input, select, textarea {
+    width: 100%; font: inherit; color: inherit; background: #fff;
+    border: 1.5px solid var(--line); border-radius: 10px; padding: 12px 13px; min-height: 48px;
+  }
+  textarea { min-height: 90px; resize: vertical; }
+  input:focus, select:focus, textarea:focus { border-color: var(--green-500); }
+  .slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(86px, 1fr)); gap: 8px; }
+  .slots label { margin: 0; font-weight: 500; }
+  .slots input { position: absolute; opacity: 0; width: 1px; height: 1px; min-height: 0; }
+  .slots span {
+    display: block; text-align: center; padding: 10px 4px; border-radius: 10px;
+    border: 1.5px solid var(--line); background: #fff; cursor: pointer; font-size: .92rem;
+  }
+  .slots input:checked + span { background: var(--green-700); border-color: var(--green-700); color: #fff; font-weight: 600; }
+  .slots input:focus-visible + span { outline: 3px solid var(--gold); outline-offset: 2px; }
+  .error { color: var(--danger); font-size: .9rem; margin: 0; min-height: 1.2em; }
+  .note { color: var(--muted); font-size: .86rem; margin: 0; text-align: center; }
+
+  /* Contact / footer */
+  .contact-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .contact-grid .card a { color: var(--green-700); font-weight: 600; word-break: break-word; }
+  footer { padding: 28px 0 40px; color: var(--muted); font-size: .88rem; text-align: center; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" id="brand"></a>
+    <nav class="nav-links">
+      <a class="hide-sm" href="#about">About</a>
+      <a class="hide-sm" href="#services">Lessons</a>
+      <a class="hide-sm" href="#contact">Contact</a>
+      <a class="btn small" href="#book">Book now</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <div class="eyebrow" id="heroEyebrow"></div>
+        <h1 id="heroTitle"></h1>
+        <p id="heroText"></p>
+        <div class="hero-cta">
+          <a class="btn" href="#book">Book a lesson</a>
+          <a class="btn ghost" href="#services">See lessons</a>
+        </div>
+      </div>
+      <div class="portrait" id="portrait" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <section class="about" id="about">
+    <div class="wrap about-grid">
+      <div>
+        <div class="section-head">
+          <div class="eyebrow">About</div>
+          <h2 id="aboutTitle"></h2>
+        </div>
+        <div id="aboutText"></div>
+      </div>
+      <ul class="facts" id="facts"></ul>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Lessons &amp; services</div>
+        <h2>Lessons &amp; pricing</h2>
+        <p>Every lesson is 60 minutes. Payment by cash, MyDebit or Tap2Pay (Visa / Mastercard). Lessons outside the PJ area carry an extra charge.</p>
+      </div>
+      <div class="cards" id="serviceCards"></div>
+    </div>
+  </section>
+
+  <section class="booking" id="book">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Appointment</div>
+        <h2>Book a session</h2>
+        <p>Fill this in and your request is sent straight to WhatsApp. You'll get a reply to confirm the slot.</p>
+      </div>
+
+      <form class="form" id="bookingForm" novalidate>
+        <div class="field">
+          <label for="service">Lesson / service</label>
+          <select id="service" name="service" required></select>
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label for="date">Preferred date</label>
+            <input type="date" id="date" name="date" required>
+          </div>
+          <div class="field" id="locationField">
+            <label for="location">Location</label>
+            <select id="location" name="location"></select>
+          </div>
+        </div>
+
+        <fieldset class="field">
+          <legend>Preferred time <small>(9 AM – 10 PM, by appointment)</small></legend>
+          <div class="slots" id="slots"></div>
+        </fieldset>
+
+        <div class="row2">
+          <div class="field">
+            <label for="name">Your name</label>
+            <input type="text" id="name" name="name" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="phone">Phone number</label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" placeholder="e.g. 012-345 6789" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="notes">Anything I should know? <small>(optional)</small></label>
+          <textarea id="notes" name="notes" placeholder="Handicap, what you want to work on, number of players…"></textarea>
+        </div>
+
+        <p class="error" id="formError" role="alert"></p>
+        <button class="btn green" type="submit">Send booking request via WhatsApp</button>
+        <p class="note">This is a request, not a confirmed slot — you'll get a WhatsApp reply to confirm.</p>
+      </form>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Contact</div>
+        <h2>Get in touch</h2>
+      </div>
+      <div class="contact-grid" id="contactCards"></div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap" id="footerText"></div></footer>
+
+<script>
+/* ============================================================
+   EDIT HERE — semua maklumat profile ada dalam CONFIG ni.
+   ============================================================ */
+const CONFIG = {
+  brand: "MIY Golf",
+  logo: "",                            // e.g. "logo.png" — kalau ada, gambar logo ganti tulisan kat atas
+  coachName: "Coach Iqbal",                      // kosongkan kalau nak guna brand je
+  fullName: "Iqbal Yusoff",                   // nama penuh, untuk initial dalam bulatan
+  photo: "",                           // e.g. "photo.jpg" (letak fail dalam folder yang sama)
+  tagline: "Golf coaching",
+  headline: "Play better golf, one lesson at a time.",
+  intro: "Personal 60-minute golf lessons with Coach Iqbal Yusoff in the PJ area. Book a session and let's work on your game.",
+
+  whatsapp: "60198728829",                     // nombor WhatsApp, format antarabangsa tanpa "+": e.g. "60123456789"
+  email: "",
+  instagram: "",                       // username je, tanpa @
+
+  aboutTitle: "Coach Iqbal Yusoff",
+  about: [
+    "Every golfer is different, so every lesson starts with where your game is right now — your swing, your goals and how much time you have to practise.",
+    "Sessions cover full swing, short game, putting and course management, with clear drills to take away so you keep improving between lessons."
+  ],
+  facts: [
+    { title: "60-minute lessons", text: "Single lessons or packages of 4 and 8" },
+    { title: "PJ area", text: "Outside PJ available with an extra charge" },
+    { title: "9 AM – 10 PM", text: "By appointment only" },
+    { title: "Payment", text: "Cash, MyDebit, Tap2Pay Visa / Mastercard" }
+  ],
+
+  // price: letak "RM 150" dsb. Kosongkan ("") kalau taknak tunjuk harga.
+  services: [
+    { name: "Single Lesson", duration: "60 min", price: "RM 280", desc: "One 60-minute lesson. Good for a first session or a quick tune-up." },
+    { name: "4-Lesson Package", duration: "4 × 60 min", price: "RM 1,100", desc: "Four 60-minute lessons — works out to RM 275 per lesson." },
+    { name: "8-Lesson Package", duration: "8 × 60 min", price: "RM 2,000", desc: "Eight 60-minute lessons — works out to RM 250 per lesson." }
+  ],
+
+  locations: ["PJ area", "Outside PJ (extra charge applies)"],
+  //                // e.g. ["KGNS Driving Range", "Glenmarie Golf"] — kosong = sorok pilihan lokasi
+  hours: { start: 9, end: 22 },        // slot masa: 9 pagi hingga 10 malam (slot terakhir mula 9 malam)
+  slotMinutes: 60
+};
+/* ============================================================ */
+
+const $ = id => document.getElementById(id);
+const el = (tag, props = {}, ...kids) => {
+  const n = Object.assign(document.createElement(tag), props);
+  kids.forEach(k => n.append(k));
+  return n;
+};
+const displayName = CONFIG.coachName || CONFIG.brand;
+
+// --- Header / hero ---
+document.title = `${CONFIG.brand} — Golf Lessons & Coaching`;
+const [firstWord, ...restWords] = CONFIG.brand.split(" ");
+if (CONFIG.logo) {
+  $("brand").append(el("img", { src: CONFIG.logo, alt: CONFIG.brand, style: "height:38px;display:block" }));
+} else {
+  $("brand").append(el("b", { textContent: firstWord }), " " + restWords.join(" "));
+}
+$("heroEyebrow").textContent = CONFIG.coachName ? `${CONFIG.coachName} · ${CONFIG.tagline}` : `${CONFIG.brand} · ${CONFIG.tagline}`;
+$("heroTitle").textContent = CONFIG.headline;
+$("heroText").textContent = CONFIG.intro;
+if (CONFIG.photo) {
+  $("portrait").append(el("img", { src: CONFIG.photo, alt: "" }));
+} else {
+  $("portrait").textContent = (CONFIG.fullName || displayName).split(/\s+/).slice(0, 2).map(w => w[0]).join("").toUpperCase();
+}
+
+// --- About ---
+$("aboutTitle").textContent = CONFIG.aboutTitle;
+CONFIG.about.forEach(p => $("aboutText").append(el("p", { textContent: p })));
+CONFIG.facts.forEach(f => $("facts").append(el("li", {}, el("b", { textContent: f.title }), el("span", { textContent: f.text }))));
+
+// --- Services ---
+const serviceSelect = $("service");
+serviceSelect.append(el("option", { value: "", textContent: "Choose a lesson…" }));
+CONFIG.services.forEach(s => {
+  const label = [s.name, s.duration, s.price].filter(Boolean).join(" · ");
+  serviceSelect.append(el("option", { value: s.name, textContent: label }));
+
+  const pick = el("button", { type: "button", textContent: "Book this" });
+  pick.addEventListener("click", () => {
+    serviceSelect.value = s.name;
+    $("book").scrollIntoView();
+    $("date").focus({ preventScroll: true });
+  });
+  $("serviceCards").append(el("article", { className: "card" },
+    el("h3", { textContent: s.name }),
+    el("p", { textContent: s.desc }),
+    el("div", { className: "meta" }, el("span", { textContent: s.duration }), el("span", { className: "price", textContent: s.price || "" })),
+    pick
+  ));
+});
+
+// --- Location ---
+if (CONFIG.locations.length) {
+  CONFIG.locations.forEach(l => $("location").append(el("option", { value: l, textContent: l })));
+} else {
+  $("locationField").hidden = true;
+}
+
+// --- Date (no past dates) ---
+const pad = n => String(n).padStart(2, "0");
+const now = new Date();
+const todayStr = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+$("date").min = todayStr;
+
+// --- Time slots ---
+const fmtTime = mins => {
+  const h = Math.floor(mins / 60), m = mins % 60;
+  return `${h % 12 || 12}:${pad(m)} ${h < 12 ? "AM" : "PM"}`;
+};
+for (let t = CONFIG.hours.start * 60; t + CONFIG.slotMinutes <= CONFIG.hours.end * 60; t += CONFIG.slotMinutes) {
+  const label = fmtTime(t);
+  $("slots").append(el("label", {},
+    el("input", { type: "radio", name: "time", value: label }),
+    el("span", { textContent: label })
+  ));
+}
+
+// --- Booking submit -> WhatsApp ---
+const waLink = text => `https://wa.me/${CONFIG.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(text)}`;
+
+$("bookingForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const f = new FormData(e.target);
+  const v = k => (f.get(k) || "").toString().trim();
+  const err = $("formError");
+
+  const missing =
+    !v("service") ? ["service", "Please choose a lesson."] :
+    !v("date") ? ["date", "Please pick a date."] :
+    v("date") < todayStr ? ["date", "That date has already passed — please pick another."] :
+    !v("time") ? [null, "Please pick a time."] :
+    !v("name") ? ["name", "Please enter your name."] :
+    v("phone").replace(/\D/g, "").length < 8 ? ["phone", "Please enter a valid phone number."] :
+    null;
+
+  if (missing) {
+    err.textContent = missing[1];
+    if (missing[0]) $(missing[0]).focus();
+    return;
+  }
+  err.textContent = "";
+
+  const [y, m, d] = v("date").split("-").map(Number);
+  const niceDate = new Date(y, m - 1, d).toLocaleDateString("en-MY", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+
+  const lines = [
+    `Hi ${displayName}, I'd like to book a session:`,
+    "",
+    `Lesson: ${v("service")}`,
+    `Date: ${niceDate}`,
+    `Time: ${v("time")}`,
+    CONFIG.locations.length ? `Location: ${v("location")}` : null,
+    `Name: ${v("name")}`,
+    `Phone: ${v("phone")}`,
+    v("notes") ? `Notes: ${v("notes")}` : null
+  ].filter(l => l !== null);
+
+  window.open(waLink(lines.join("\n")), "_blank", "noopener");
+});
+
+// --- Contact ---
+const contacts = [];
+if (CONFIG.whatsapp) contacts.push(["WhatsApp", "+" + CONFIG.whatsapp.replace(/\D/g, ""), waLink(`Hi ${displayName}, I have a question about lessons.`)]);
+if (CONFIG.email) contacts.push(["Email", CONFIG.email, `mailto:${CONFIG.email}`]);
+if (CONFIG.instagram) contacts.push(["Instagram", "@" + CONFIG.instagram, `https://instagram.com/${CONFIG.instagram}`]);
+if (!contacts.length) contacts.push(["Bookings", "Use the booking form above", "#book"]);
+contacts.forEach(([title, text, href]) => {
+  const a = el("a", { href, textContent: text });
+  if (href.startsWith("http")) { a.target = "_blank"; a.rel = "noopener"; }
+  $("contactCards").append(el("div", { className: "card" }, el("h3", { textContent: title }), a));
+});
+if (CONFIG.locations.length) {
+  $("contactCards").append(el("div", { className: "card" }, el("h3", { textContent: "Where" }), el("p", { textContent: CONFIG.locations.join(" · ") })));
+}
+
+$("footerText").textContent = `© ${now.getFullYear()} ${CONFIG.brand}. All rights reserved.`;
+</script>
+</body>
+</html>
