@@ -4,6 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MIY Golf — Golf Lessons & Coaching</title>
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<meta property="og:title" content="MIY Golf — Golf Lessons with Coach Iqbal">
+<meta property="og:description" content="Book a 60-minute golf lesson with Coach Iqbal Yusoff in the PJ area.">
+<meta property="og:image" content="https://miygolfperformance-sketch.github.io/miygolf/logo.jpg">
+<meta property="og:type" content="website">
 <meta name="description" content="Book golf lessons with Coach Iqbal Yusoff — MIY Golf.">
 <style>
   :root {
@@ -37,6 +43,8 @@
   .nav { position: sticky; top: 0; z-index: 20; background: rgba(15, 42, 29, .96); color: #fff; backdrop-filter: blur(6px); }
   .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
   .brand { font-family: Georgia, serif; font-size: 1.1rem; letter-spacing: .02em; text-decoration: none; }
+  .brand { display: inline-flex; align-items: center; gap: 10px; }
+  .brand img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 1.5px var(--gold); }
   .brand b { color: var(--gold); font-weight: 600; }
   .nav-links { display: flex; gap: 22px; align-items: center; font-size: .92rem; }
   .nav-links a { text-decoration: none; opacity: .85; }
@@ -79,6 +87,7 @@
     display: grid; place-items: center; overflow: hidden;
     font-family: Georgia, serif; font-size: 4rem; color: var(--gold);
   }
+  .portrait.is-logo { width: min(340px, 82%); border-radius: 28px; }
   .portrait img { width: 100%; height: 100%; object-fit: cover; }
 
   /* Sections */
@@ -174,7 +183,7 @@
           <a class="btn ghost" href="#services">See lessons</a>
         </div>
       </div>
-      <div class="portrait" id="portrait" aria-hidden="true"></div>
+      <div class="portrait" id="portrait"></div>
     </div>
   </div>
 
@@ -274,7 +283,7 @@
    ============================================================ */
 const CONFIG = {
   brand: "MIY Golf",
-  logo: "",                            // e.g. "logo.png" — kalau ada, gambar logo ganti tulisan kat atas
+  logo: "logo.jpg",                         // gambar logo: keluar kat bar atas, hero, icon tab dan preview bila share link
   coachName: "Coach Iqbal",                      // kosongkan kalau nak guna brand je
   fullName: "Iqbal Yusoff",                   // nama penuh, untuk initial dalam bulatan
   photo: "",                           // e.g. "photo.jpg" (letak fail dalam folder yang sama)
@@ -323,16 +332,14 @@ const displayName = CONFIG.coachName || CONFIG.brand;
 // --- Header / hero ---
 document.title = `${CONFIG.brand} — Golf Lessons & Coaching`;
 const [firstWord, ...restWords] = CONFIG.brand.split(" ");
-if (CONFIG.logo) {
-  $("brand").append(el("img", { src: CONFIG.logo, alt: CONFIG.brand, style: "height:38px;display:block" }));
-} else {
-  $("brand").append(el("b", { textContent: firstWord }), " " + restWords.join(" "));
-}
+if (CONFIG.logo) $("brand").append(el("img", { src: CONFIG.logo, alt: "" }));
+$("brand").append(el("span", {}, el("b", { textContent: firstWord }), " " + restWords.join(" ")));
 $("heroEyebrow").textContent = CONFIG.coachName ? `${CONFIG.coachName} · ${CONFIG.tagline}` : `${CONFIG.brand} · ${CONFIG.tagline}`;
 $("heroTitle").textContent = CONFIG.headline;
 $("heroText").textContent = CONFIG.intro;
-if (CONFIG.photo) {
-  $("portrait").append(el("img", { src: CONFIG.photo, alt: "" }));
+if (CONFIG.photo || CONFIG.logo) {
+  if (!CONFIG.photo) $("portrait").classList.add("is-logo");
+  $("portrait").append(el("img", { src: CONFIG.photo || CONFIG.logo, alt: `${CONFIG.fullName || displayName} — ${CONFIG.brand}` }));
 } else {
   $("portrait").textContent = (CONFIG.fullName || displayName).split(/\s+/).slice(0, 2).map(w => w[0]).join("").toUpperCase();
 }
