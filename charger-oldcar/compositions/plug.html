@@ -13,16 +13,14 @@
     <div id="pg-w">
       <div class="ln hl" style="font-size: 76px"><span id="pg-l0">Cucuk,</span></div>
       <div class="ln hl" style="font-size: 76px"><span id="pg-l1">terus <span class="am">menyala.</span></span></div>
-      <div id="pg-s" class="lb">4 port + meter voltan dalam 1</div>
     </div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
     tl.fromTo("#pg-l0", { yPercent: 105 }, { yPercent: 0, duration: 0.32, ease: "power3.out" }, 0.15);
     tl.fromTo("#pg-l1", { yPercent: 105 }, { yPercent: 0, duration: 0.32, ease: "power3.out" }, 0.35);
-    tl.fromTo("#pg-s", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.24, ease: "power3.out" }, 1.6);
-    tl.to("#pg-w", { opacity: 0, duration: 0.12, ease: "power2.in" }, 3.86);
-    tl.set({}, {}, 3.98);
+    tl.to("#pg-w", { opacity: 0, duration: 0.12, ease: "power2.in" }, 1.36);
+    tl.set({}, {}, 1.48);
     window.__timelines["plug"] = tl;
   </script>
 </template>
