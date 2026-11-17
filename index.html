@@ -375,6 +375,10 @@ CONFIG.services.forEach(s => {
       window.open(waLink(`Hi ${displayName}, I'd like more info on the ${s.name}.`), "_blank", "noopener");
       return;
     }
+    if (CONFIG.bookingUrl) {
+      window.open(CONFIG.bookingUrl, "_blank", "noopener");
+      return;
+    }
     serviceSelect.value = s.name;
     $("book").scrollIntoView();
     $("date").focus({ preventScroll: true });
