@@ -114,7 +114,9 @@
   .card p { margin: 0; color: var(--muted); font-size: .95rem; flex: 1; }
   .meta { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-size: .9rem; color: var(--muted); }
   .meta .price { color: var(--green-700); font-weight: 700; font-size: 1.05rem; text-align: right; }
-  .meta .price small { display: block; color: var(--muted); font-weight: 500; font-size: .8rem; }
+  .price-list { list-style: none; margin: 0; padding: 10px 0 0; border-top: 1px solid var(--line); display: grid; gap: 6px; font-size: .86rem; color: var(--muted); }
+  .price-list li { display: flex; justify-content: space-between; gap: 12px; }
+  .price-list b { color: var(--ink); font-weight: 600; white-space: nowrap; }
   .card button {
     margin-top: 8px; background: none; border: 1.5px solid var(--green-700); color: var(--green-700);
     border-radius: 999px; padding: 9px 14px; font: inherit; font-weight: 600; cursor: pointer;
@@ -321,7 +323,7 @@ const CONFIG = {
   photo: "",                           // e.g. "photo.jpg" (letak fail dalam folder yang sama)
   tagline: "Golf coaching",
   headline: "Play better golf, one lesson at a time.",
-  intro: "Personal golf lessons and on-course playing lessons with Coach Iqbal Yusoff at XPark Kota Damansara, PJ South and around Kota Damansara. Book a session and let's work on your game.",
+  intro: "Personal golf lessons and on-course playing lessons with Coach Iqbal Yusoff at XPark Kota Damansara, KWASA Driving Range, XPark PJ South and around Kota Damansara. Book a session and let's work on your game.",
 
   whatsapp: "60198728829",                     // nombor WhatsApp, format antarabangsa tanpa "+": e.g. "60123456789"
   email: "",
@@ -334,26 +336,29 @@ const CONFIG = {
   ],
   facts: [
     { title: "Lessons & on-course", text: "60-minute lessons, packages and 9-hole playing lessons" },
-    { title: "XPark Kota Damansara & PJ South", text: "Evenings around Kota Damansara. Outside the area available with an extra charge" },
+    { title: "Kota Damansara & PJ South", text: "XPark Kota Damansara, KWASA Driving Range and XPark PJ South. Outside the area available with an extra charge" },
     { title: "Tue – Sat", text: "Tue–Thu 8 AM–4 PM · Tue–Sat 5 PM–10 PM. By appointment only" },
     { title: "Payment", text: "Cash, MyDebit, Tap2Pay Visa / Mastercard" }
   ],
 
   // dm: true = lesson ni diurus melalui WhatsApp (butang buka WhatsApp terus, tak masuk dalam borang).
   // tidycal: path booking TidyCal (dari kod embed, data-path="..."). Ada = kalendar TidyCal keluar kat bahagian Book.
-  // minutes: tempoh lesson (untuk kira slot masa terakhir). outsidePrice: harga kalau luar kawasan.
+  // minutes: tempoh lesson (untuk kira slot masa terakhir).
+  // prices: harga ikut lokasi (nama lokasi mesti sama macam dalam schedule; "Outside area" = luar kawasan).
   // course: lokasi tetap untuk lesson ni (ganti pilihan lokasi biasa), courseNote: nota bawah lokasi.
   // price: letak "RM 150" dsb. Kosongkan ("") kalau taknak tunjuk harga.
   services: [
-    { name: "Single Lesson", duration: "60 min", minutes: 60, price: "RM 250", outsidePrice: "RM 280", desc: "One 60-minute lesson, tailored to your swing and your goals." },
+    { name: "Single Lesson", duration: "60 min", minutes: 60, price: "From RM 250",
+      prices: { "XPark Kota Damansara": "RM 250", "KWASA Driving Range": "RM 250", "Kota Damansara area": "RM 250", "XPark PJ South": "RM 280", "Outside area": "RM 320" },
+      desc: "One 60-minute lesson, tailored to your swing and your goals." },
     { name: "Lesson Packages", dm: true, duration: "Multiple lessons", price: "", desc: "Lesson packages are available. Message on WhatsApp for details." },
     { name: "Playing Lesson (On Course)", duration: "9 holes · 2 hours", minutes: 120, price: "RM 600", course: "Golf course (TBC)", courseNote: "The golf course will be arranged with you on WhatsApp.", desc: "Nine holes on the course with Coach Iqbal — strategy, shot selection and scoring. Course arranged on WhatsApp. Green fee not included." }
   ],
 
   // Waktu & lokasi lesson. days: 0 = Ahad, 1 = Isnin ... 6 = Sabtu. start/end: jam, format 24 jam.
   schedule: [
-    { days: [2, 3, 4], start: 8, end: 16, locations: ["XPark Kota Damansara", "PJ South"] },
-    { days: [2, 3, 4, 5, 6], start: 17, end: 22, locations: ["Kota Damansara area"] }
+    { days: [2, 3, 4], start: 8, end: 16, locations: ["XPark Kota Damansara", "KWASA Driving Range", "XPark PJ South"] },
+    { days: [2, 3, 4, 5, 6], start: 17, end: 22, locations: ["Kota Damansara area", "KWASA Driving Range"] }
   ],
   outsideArea: "Outside area",         // pilihan lokasi luar kawasan (extra charge). Kosong = takde pilihan ni
   slotMinutes: 60
@@ -410,6 +415,14 @@ function openWaForm() {
   $("showWaForm").setAttribute("aria-expanded", "true");
 }
 
+// Senarai harga ikut lokasi untuk kad lesson (lokasi yang sama harga digabung satu baris)
+function priceList(s) {
+  const groups = new Map();
+  Object.entries(s.prices).forEach(([l, p]) => groups.set(p, [...(groups.get(p) || []), l]));
+  return el("ul", { className: "price-list" },
+    ...[...groups].map(([p, ls]) => el("li", {}, el("span", { textContent: ls.join(" / ") }), el("b", { textContent: p }))));
+}
+
 // --- Services ---
 const serviceSelect = $("service");
 serviceSelect.append(el("option", { value: "", textContent: "Choose a lesson…" }));
@@ -437,7 +450,8 @@ CONFIG.services.forEach(s => {
   $("serviceCards").append(el("article", { className: "card" },
     el("h3", { textContent: s.name }),
     el("p", { textContent: s.desc }),
-    el("div", { className: "meta" }, el("span", { textContent: s.duration }), el("span", { className: "price" }, s.price || "", s.outsidePrice ? el("small", { textContent: `Outside area ${s.outsidePrice}` }) : "")),
+    el("div", { className: "meta" }, el("span", { textContent: s.duration }), el("span", { className: "price", textContent: s.price || "" })),
+    s.prices ? priceList(s) : "",
     pick
   ));
 });
@@ -458,7 +472,8 @@ const fmtTime = mins => {
 const fmtHour = h => `${h % 12 || 12} ${h < 12 ? "AM" : "PM"}`;
 const fmtDays = days => days.length > 2 && days.every((d, i) => i === 0 || d === days[i - 1] + 1)
   ? `${DAYS[days[0]]}–${DAYS[days[days.length - 1]]}` : days.map(d => DAYS[d]).join(", ");
-const blockText = b => `${fmtDays(b.days)}, ${fmtHour(b.start)}–${fmtHour(b.end)}: ${b.locations.join(" or ")}`;
+const orList = a => a.length > 1 ? `${a.slice(0, -1).join(", ")} or ${a[a.length - 1]}` : a.join("");
+const blockText = b => `${fmtDays(b.days)}, ${fmtHour(b.start)}–${fmtHour(b.end)}: ${orList(b.locations)}`;
 const openDays = [...new Set(CONFIG.schedule.flatMap(b => b.days))].sort();
 const currentService = () => CONFIG.services.find(x => x.name === serviceSelect.value);
 const dayOf = dateStr => new Date(`${dateStr}T00:00`).getDay();
@@ -499,10 +514,14 @@ function applyLocations() {
     : CONFIG.schedule;
   const course = s && s.course;
   const list = course ? (blocks.length ? [course] : []) : [...new Set(blocks.flatMap(b => b.locations))];
-  if (!course && CONFIG.outsideArea && blocks.length) list.push(`${CONFIG.outsideArea} (${s && s.outsidePrice ? s.outsidePrice : "extra charge"})`);
+  if (!course && CONFIG.outsideArea && blocks.length) list.push(CONFIG.outsideArea);
   const sel = $("location");
   const prev = sel.value;
-  sel.replaceChildren(...list.map(l => el("option", { value: l, textContent: l, selected: l === prev })));
+  const label = l => {
+    const p = s && s.prices && s.prices[l];
+    return p ? `${l} (${p})` : l === CONFIG.outsideArea ? `${l} (extra charge)` : l;
+  };
+  sel.replaceChildren(...list.map(l => el("option", { value: l, textContent: label(l), selected: l === prev })));
   $("locationField").hidden = !list.length;
   const hint = course ? (list.length ? s.courseNote || "" : "") : t ? blockText(CONFIG.schedule[t.dataset.block]) + "." : "";
   $("locationHint").hidden = !hint;
@@ -530,6 +549,12 @@ if (tidyMode) {
     if (opening) { openWaForm(); $("service").focus(); }
     else { $("bookingForm").hidden = true; $("showWaForm").setAttribute("aria-expanded", "false"); }
   });
+}
+
+function lessonPrice(name, location) {
+  const s = CONFIG.services.find(x => x.name === name);
+  if (!s) return "";
+  return s.prices ? s.prices[location] || "" : s.price || "";
 }
 
 // --- Booking submit -> WhatsApp ---
@@ -568,6 +593,7 @@ $("bookingForm").addEventListener("submit", e => {
     `Date: ${niceDate}`,
     `Time: ${v("time")}`,
     v("location") ? `Location: ${v("location")}` : null,
+    lessonPrice(v("service"), v("location")) ? `Price: ${lessonPrice(v("service"), v("location"))}` : null,
     `Name: ${v("name")}`,
     `Phone: ${v("phone")}`,
     v("notes") ? `Notes: ${v("notes")}` : null
