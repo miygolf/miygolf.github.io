@@ -158,6 +158,8 @@
   }
   .lesson-tabs button small { display: block; font-weight: 400; font-size: .85rem; opacity: .8; }
   .lesson-tabs button[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--green-900); }
+  .tidy-note { max-width: 720px; margin: 0 0 14px; color: rgba(255,255,255,.85); font-size: .95rem; }
+  .hint { display: block; margin-top: 6px; color: var(--green-700); font-size: .86rem; }
   .tidy-frame { background: transparent; border-radius: 20px; overflow: hidden; max-width: 720px; min-height: 500px; margin-bottom: 30px; }
   .tidy-frame a { display: block; padding: 24px; color: #fff; }
   .wa-alt { max-width: 720px; margin-bottom: 22px; }
@@ -239,6 +241,7 @@
 
       <div id="tidy" hidden>
         <div class="lesson-tabs" id="lessonTabs" role="group" aria-label="Choose your lesson"></div>
+        <p class="tidy-note" id="tidyNote" hidden></p>
         <div class="tidy-frame" id="tidyFrame"></div>
         <div class="wa-alt">
           <h3>Prefer to chat first?</h3>
@@ -260,7 +263,8 @@
           </div>
           <div class="field" id="locationField">
             <label for="location">Location</label>
-            <select id="location" name="location"></select>
+            <select id="location" name="location" aria-describedby="locationHint"></select>
+            <small class="hint" id="locationHint" hidden></small>
           </div>
         </div>
 
@@ -331,15 +335,16 @@ const CONFIG = {
   facts: [
     { title: "Lessons & on-course", text: "60-minute lessons, packages and 9-hole playing lessons" },
     { title: "PJ area", text: "Outside PJ available with an extra charge" },
-    { title: "9 AM – 10 PM", text: "By appointment only" },
+    { title: "9 AM – 10 PM", text: "By appointment only. Evening single lessons (from 6 PM) in Kota Damansara" },
     { title: "Payment", text: "Cash, MyDebit, Tap2Pay Visa / Mastercard" }
   ],
 
   // dm: true = lesson ni diurus melalui WhatsApp (butang buka WhatsApp terus, tak masuk dalam borang).
   // tidycal: path booking TidyCal (dari kod embed, data-path="..."). Ada = kalendar TidyCal keluar kat bahagian Book.
+  // evening: lesson malam (dari pukul `from`, format 24 jam) hanya di `location`.
   // price: letak "RM 150" dsb. Kosongkan ("") kalau taknak tunjuk harga.
   services: [
-    { name: "Single Lesson", duration: "60 min", price: "RM 280", tidycal: "miygolf/private", desc: "One 60-minute lesson, tailored to your swing and your goals." },
+    { name: "Single Lesson", duration: "60 min", price: "RM 280", tidycal: "miygolf/private", evening: { from: 18, location: "Kota Damansara" }, desc: "One 60-minute lesson, tailored to your swing and your goals. Evening lessons (from 6 PM) are in Kota Damansara only." },
     { name: "Lesson Packages", dm: true, duration: "Multiple lessons", price: "", desc: "Lesson packages are available. Message on WhatsApp for details." },
     { name: "Playing Lesson (On Course)", duration: "9 holes · 2 hours", price: "RM 500", tidycal: "miygolf/private-1rpwol9", desc: "Nine holes on the course with Coach Iqbal — strategy, shot selection and scoring. Green fee not included." }
   ],
@@ -388,6 +393,8 @@ function showTidy(s) {
   const embed = el("div", { className: "tidycal-embed" },
     el("a", { href: `https://tidycal.com/${s.tidycal}`, target: "_blank", rel: "noopener", textContent: "Loading the booking calendar… If it doesn't appear, tap here to book." }));
   embed.dataset.path = s.tidycal;
+  $("tidyNote").hidden = !s.evening;
+  $("tidyNote").textContent = s.evening ? eveningText(s.evening) : "";
   $("tidyFrame").replaceChildren(embed);
   if (window.TidyCal) {
     window.TidyCal.init(embed);
@@ -395,6 +402,9 @@ function showTidy(s) {
     tidyScriptAdded = true;   // skrip TidyCal akan cari div.tidycal-embed sendiri bila dah load
     document.head.append(el("script", { src: "https://asset-tidycal.b-cdn.net/js/embed.js", async: true }));
   }
+}
+function eveningText(ev) {
+  return `Evening lessons (from ${fmtTime(ev.from * 60)}) are in ${ev.location} only.`;
 }
 function openWaForm() {
   $("bookingForm").hidden = false;
@@ -420,6 +430,7 @@ CONFIG.services.forEach(s => {
       return;
     }
     serviceSelect.value = s.name;
+    applyEveningRule();
     if (tidyMode) openWaForm();
     $("book").scrollIntoView();
     $("date").focus({ preventScroll: true });
@@ -435,6 +446,7 @@ CONFIG.services.forEach(s => {
 // --- Location ---
 if (CONFIG.locations.length) {
   CONFIG.locations.forEach(l => $("location").append(el("option", { value: l, textContent: l })));
+  $("location").dataset.mode = "normal";
 } else {
   $("locationField").hidden = true;
 }
@@ -452,11 +464,29 @@ const fmtTime = mins => {
 };
 for (let t = CONFIG.hours.start * 60; t + CONFIG.slotMinutes <= CONFIG.hours.end * 60; t += CONFIG.slotMinutes) {
   const label = fmtTime(t);
-  $("slots").append(el("label", {},
-    el("input", { type: "radio", name: "time", value: label }),
-    el("span", { textContent: label })
-  ));
+  const input = el("input", { type: "radio", name: "time", value: label });
+  input.dataset.mins = t;
+  $("slots").append(el("label", {}, input, el("span", { textContent: label })));
 }
+
+// --- Lesson malam: lokasi dikunci ikut service.evening ---
+function applyEveningRule() {
+  const s = CONFIG.services.find(x => x.name === serviceSelect.value);
+  const t = document.querySelector('input[name="time"]:checked');
+  const ev = s && s.evening && t && Number(t.dataset.mins) >= s.evening.from * 60 ? s.evening : null;
+  const mode = ev ? "evening" : "normal";
+  const sel = $("location");
+  if (sel.dataset.mode !== mode) {
+    const list = ev ? [ev.location] : CONFIG.locations;
+    sel.replaceChildren(...list.map(l => el("option", { value: l, textContent: l })));
+    sel.dataset.mode = mode;
+    $("locationField").hidden = !list.length;
+  }
+  $("locationHint").hidden = !ev;
+  $("locationHint").textContent = ev ? eveningText(ev) : "";
+}
+serviceSelect.addEventListener("change", applyEveningRule);
+$("slots").addEventListener("change", applyEveningRule);
 
 if (tidyMode) {
   $("tidy").hidden = false;
