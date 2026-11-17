@@ -1,0 +1,28 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .bt { position: absolute; left: 120px; width: 840px; text-align: center; }
+    .bg { font-family: "Montserrat", sans-serif; font-weight: 800; font-style: italic; text-transform: uppercase; line-height: 0.98; letter-spacing: -0.01em; color: #fff; text-shadow: 0 0 2px #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 6px 0 rgba(0, 0, 0, 0.45), 0 10px 26px rgba(0, 0, 0, 0.65); }
+    .bs { font-family: "Montserrat", sans-serif; font-weight: 600; font-size: 40px; line-height: 1.25; margin-top: 14px; color: #fff; text-shadow: 0 0 2px #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 6px 0 rgba(0, 0, 0, 0.45), 0 10px 26px rgba(0, 0, 0, 0.65); }
+    .y { color: #ffd23f; }
+    .pw { position: absolute; inset: 0; overflow: hidden; }
+    .pw-in { position: absolute; inset: 0; }
+    .pw-in img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  </style>
+  <div id="root" data-composition-id="b-cables" data-width="1080" data-height="1920">
+    <div class="pw"><div id="b-cables-pin" class="pw-in" style="transform-origin: 50% 90%"><img src="assets/img/ph-0300.jpg" alt="" /></div></div>
+    <div id="b-cables-w" class="bt" style="top: 360px">
+      <div id="b-cables-b" class="bg" style="font-size: 112px">2 kabel<br /><span class="y">siap ada</span></div>
+      <div id="b-cables-s" class="bs">Type-C PD30W + Type-C 2.4A</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#b-cables-pin", { scale: 1.0 }, { scale: 1.1, duration: 2.2, ease: "none" }, 0);
+    tl.fromTo("#b-cables-b", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.26, ease: "back.out(2.4)" }, 0.08);
+    tl.fromTo("#b-cables-s", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.24, ease: "power3.out" }, 0.40);
+    tl.to("#b-cables-w", { opacity: 0, duration: 0.12, ease: "power2.in" }, 2.06);
+    tl.set({}, {}, 2.18);
+    window.__timelines["b-cables"] = tl;
+  </script>
+</template>

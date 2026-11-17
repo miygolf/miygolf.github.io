@@ -1,0 +1,31 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .bt { position: absolute; left: 120px; width: 840px; text-align: center; }
+    .bg { font-family: "Montserrat", sans-serif; font-weight: 800; font-style: italic; text-transform: uppercase; line-height: 0.98; letter-spacing: -0.01em; color: #fff; text-shadow: 0 0 2px #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 6px 0 rgba(0, 0, 0, 0.45), 0 10px 26px rgba(0, 0, 0, 0.65); }
+    .bs { font-family: "Montserrat", sans-serif; font-weight: 600; font-size: 40px; line-height: 1.25; margin-top: 14px; color: #fff; text-shadow: 0 0 2px #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 6px 0 rgba(0, 0, 0, 0.45), 0 10px 26px rgba(0, 0, 0, 0.65); }
+    .y { color: #ffd23f; }
+    .pw { position: absolute; inset: 0; overflow: hidden; }
+    .pw-in { position: absolute; inset: 0; }
+    .pw-in img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .bd { position: absolute; width: 0; height: 0; }
+    .bd::after { content: ""; position: absolute; left: -22px; top: -22px; width: 44px; height: 44px; border-radius: 50%; border: 5px solid #ffd23f; box-shadow: 0 0 0 3px #000, 0 0 16px rgba(255, 210, 63, 0.9); }
+  </style>
+  <div id="root" data-composition-id="b-slots" data-width="1080" data-height="1920">
+    <div class="pw"><div id="b-slots-pin" class="pw-in" style="transform-origin: 60% 50%"><img src="assets/img/ph-0297.jpg" alt="" /><div class="bd" style="left: 640px; top: 855px"></div><div class="bd" style="left: 630px; top: 955px"></div></div></div>
+    <div id="b-slots-w" class="bt" style="top: 360px">
+      <div id="b-slots-b" class="bg" style="font-size: 112px">+2 slot<br /><span class="y">extra</span></div>
+      <div id="b-slots-s" class="bs">Type-C 3A + USB-A 2.4A</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#b-slots-pin", { scale: 1.0 }, { scale: 1.05, duration: 2.4, ease: "none" }, 0);
+    tl.fromTo("#b-slots-b", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.26, ease: "back.out(2.4)" }, 0.08);
+    tl.fromTo("#b-slots-s", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.24, ease: "power3.out" }, 0.40);
+    tl.fromTo(".bd", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.24, ease: "back.out(3)", stagger: 0.12 }, 0.35);
+    tl.to("#b-slots-w", { opacity: 0, duration: 0.12, ease: "power2.in" }, 2.26);
+    tl.set({}, {}, 2.38);
+    window.__timelines["b-slots"] = tl;
+  </script>
+</template>
