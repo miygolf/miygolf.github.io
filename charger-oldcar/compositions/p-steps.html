@@ -1,0 +1,33 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .st-s { position: absolute; top: 284px; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, 0.35); box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.55); }
+  </style>
+  <div id="root" data-composition-id="p-steps" data-width="1080" data-height="1920">
+    <div id="ps-s0" class="st-s" style="left: 120.0px; width: 69.6px"></div>
+    <div id="ps-s1" class="st-s" style="left: 197.6px; width: 69.6px"></div>
+    <div id="ps-s2" class="st-s" style="left: 275.2px; width: 69.6px"></div>
+    <div id="ps-s3" class="st-s" style="left: 352.8px; width: 69.6px"></div>
+    <div id="ps-s4" class="st-s" style="left: 430.4px; width: 69.6px"></div>
+    <div id="ps-s5" class="st-s" style="left: 508.0px; width: 69.6px"></div>
+    <div id="ps-s6" class="st-s" style="left: 585.6px; width: 69.6px"></div>
+    <div id="ps-s7" class="st-s" style="left: 663.2px; width: 69.6px"></div>
+    <div id="ps-s8" class="st-s" style="left: 740.8px; width: 69.6px"></div>
+    <div id="ps-s9" class="st-s" style="left: 818.4px; width: 69.6px"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#ps-s0", { backgroundColor: "rgba(255,255,255,0.35)" }, { backgroundColor: "#ffb547", duration: 0.2, ease: "none" }, 0.00);
+    tl.fromTo("#ps-s1", { backgroundColor: "rgba(255,255,255,0.35)" }, { backgroundColor: "#ffb547", duration: 0.2, ease: "none" }, 2.40);
+    tl.fromTo("#ps-s2", { backgroundColor: "rgba(255,255,255,0.35)" }, { backgroundColor: "#ffb547", duration: 0.2, ease: "none" }, 6.00);
+    tl.fromTo("#ps-s3", { backgroundColor: "rgba(255,255,255,0.35)" }, { backgroundColor: "#ffb547", duration: 0.2, ease: "none" }, 8.40);
+    tl.fromTo("#ps-s4", { backgroundColor: "rgba(255,255,255,0.35)" }, { backgroundColor: "#ffb547", duration: 0.2, ease: "none" }, 10.80);
+    tl.fromTo("#ps-s5", { backgroundColor: "rgba(255,255,255,0.35)" }, { backgroundColor: "#ffb547", duration: 0.2, ease: "none" }, 12.80);
+    tl.fromTo("#ps-s6", { backgroundColor: "rgba(255,255,255,0.35)" }, { backgroundColor: "#ffb547", duration: 0.2, ease: "none" }, 14.30);
+    tl.fromTo("#ps-s7", { backgroundColor: "rgba(255,255,255,0.35)" }, { backgroundColor: "#ffb547", duration: 0.2, ease: "none" }, 17.10);
+    tl.fromTo("#ps-s8", { backgroundColor: "rgba(255,255,255,0.35)" }, { backgroundColor: "#ffb547", duration: 0.2, ease: "none" }, 19.30);
+    tl.fromTo("#ps-s9", { backgroundColor: "rgba(255,255,255,0.35)" }, { backgroundColor: "#ffb547", duration: 0.2, ease: "none" }, 21.90);
+    tl.set({}, {}, 24.48);
+    window.__timelines["p-steps"] = tl;
+  </script>
+</template>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      :root { --ground: #0b0906; --amber: #ffb547; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; background: var(--ground); }
+      .shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="24.5" data-width="1080" data-height="1920">
+      <!-- PHOTOS + VIDEO: product photos (IMG_0297-0306) introduce the product, the clips prove it -->
+      <video id="pv-socket" class="clip shot" src="assets/video/socket.mp4" data-start="10.8" data-duration="2" data-media-start="0.6" muted data-track-index="0"></video>
+      <video id="pv-plug" class="clip shot" src="assets/video/plug.mp4" data-start="12.8" data-duration="1.5" data-media-start="0.6" muted data-track-index="0"></video>
+      <video id="pv-volt" class="clip shot" src="assets/video/dev.mp4" data-start="14.3" data-duration="2.8" data-media-start="4" muted data-track-index="0"></video>
+      <video id="pv-phone" class="clip shot" src="assets/video/phone.mp4" data-start="17.1" data-duration="2.2" data-media-start="0.6" muted data-track-index="0"></video>
+      <video id="pv-retract" class="clip shot" src="assets/video/tidy.mp4" data-start="19.3" data-duration="2.6" data-media-start="6.9" muted data-track-index="0"></video>
+
+      <video id="pv-cta" class="clip shot" src="assets/video/cta.mp4" data-start="21.9" data-duration="2.6" data-media-start="0.1" muted data-track-index="0"></video>
+
+      <!-- OVERLAYS: photo scenes carry their own picture; plain outlined semi-bold text, no boxes -->
+      <div id="p-hook" class="clip" data-composition-id="p-hook" data-composition-src="compositions/p-hook.html" data-start="0" data-duration="2.4" data-track-index="2" data-track-kind="graphics"></div>
+      <div id="p-ports" class="clip" data-composition-id="p-ports" data-composition-src="compositions/p-ports.html" data-start="2.4" data-duration="3.6" data-track-index="2" data-track-kind="graphics"></div>
+      <div id="p-cables" class="clip" data-composition-id="p-cables" data-composition-src="compositions/p-cables.html" data-start="6" data-duration="2.4" data-track-index="2" data-track-kind="graphics"></div>
+      <div id="p-fold" class="clip" data-composition-id="p-fold" data-composition-src="compositions/p-fold.html" data-start="8.4" data-duration="2.4" data-track-index="2" data-track-kind="graphics"></div>
+      <div id="p-socket" class="clip" data-composition-id="p-socket" data-composition-src="compositions/p-socket.html" data-start="10.8" data-duration="2" data-track-index="2" data-track-kind="graphics"></div>
+      <div id="p-plug" class="clip" data-composition-id="p-plug" data-composition-src="compositions/p-plug.html" data-start="12.8" data-duration="1.5" data-track-index="2" data-track-kind="graphics"></div>
+      <div id="p-volt" class="clip" data-composition-id="p-volt" data-composition-src="compositions/p-volt.html" data-start="14.3" data-duration="2.8" data-track-index="2" data-track-kind="graphics"></div>
+      <div id="p-phone" class="clip" data-composition-id="p-phone" data-composition-src="compositions/p-phone.html" data-start="17.1" data-duration="2.2" data-track-index="2" data-track-kind="graphics"></div>
+      <div id="p-retract" class="clip" data-composition-id="p-retract" data-composition-src="compositions/p-retract.html" data-start="19.3" data-duration="2.6" data-track-index="2" data-track-kind="graphics"></div>
+      <div id="p-cta" class="clip" data-composition-id="p-cta" data-composition-src="compositions/p-cta.html" data-start="21.9" data-duration="2.6" data-track-index="2" data-track-kind="graphics"></div>
+      <div id="p-steps" class="clip" data-composition-id="p-steps" data-composition-src="compositions/p-steps.html" data-start="0" data-duration="24.5" data-track-index="3" data-track-kind="graphics"></div>
+
+      <!-- SFX -->
+      <audio id="psfx-hook" class="clip" src="assets/sfx/pop.mp3" data-start="0.463" data-duration="0.5" data-volume="0.35" data-track-index="7"></audio>
+      <audio id="psfx-cut1" class="clip" src="assets/sfx/whoosh.mp3" data-start="2.37" data-duration="0.57" data-volume="0.28" data-track-index="8"></audio>
+      <audio id="psfx-cut2" class="clip" src="assets/sfx/whoosh.mp3" data-start="5.96" data-duration="0.63" data-volume="0.28" data-playback-rate="0.9" data-track-index="8"></audio>
+      <audio id="psfx-cut3" class="clip" src="assets/sfx/whoosh.mp3" data-start="8.37" data-duration="0.51" data-volume="0.28" data-playback-rate="1.12" data-track-index="8"></audio>
+      <audio id="psfx-cut4" class="clip" src="assets/sfx/whoosh.mp3" data-start="10.76" data-duration="0.67" data-volume="0.28" data-playback-rate="0.85" data-track-index="8"></audio>
+      <audio id="psfx-cut5" class="clip" src="assets/sfx/whoosh.mp3" data-start="12.78" data-duration="0.47" data-volume="0.28" data-playback-rate="1.2" data-track-index="8"></audio>
+      <audio id="psfx-cut6" class="clip" src="assets/sfx/whoosh.mp3" data-start="14.27" data-duration="0.57" data-volume="0.28" data-track-index="8"></audio>
+      <audio id="psfx-cut7" class="clip" src="assets/sfx/whoosh.mp3" data-start="17.06" data-duration="0.63" data-volume="0.28" data-playback-rate="0.9" data-track-index="8"></audio>
+      <audio id="psfx-cut8" class="clip" src="assets/sfx/whoosh.mp3" data-start="19.27" data-duration="0.51" data-volume="0.28" data-playback-rate="1.12" data-track-index="8"></audio>
+      <audio id="psfx-cut9" class="clip" src="assets/sfx/whoosh.mp3" data-start="21.86" data-duration="0.67" data-volume="0.28" data-playback-rate="0.85" data-track-index="8"></audio>
+      <audio id="psfx-pt0" class="clip" src="assets/sfx/key-press.mp3" data-start="2.81" data-duration="0.4" data-volume="1.3" data-track-index="9"></audio>
+      <audio id="psfx-pt1" class="clip" src="assets/sfx/key-press.mp3" data-start="3.13" data-duration="0.4" data-volume="1.3" data-track-index="10"></audio>
+      <audio id="psfx-pt2" class="clip" src="assets/sfx/key-press.mp3" data-start="3.45" data-duration="0.4" data-volume="1.3" data-track-index="9"></audio>
+      <audio id="psfx-pt3" class="clip" src="assets/sfx/key-press.mp3" data-start="3.77" data-duration="0.4" data-volume="1.3" data-track-index="10"></audio>
+      <audio id="psfx-pt4" class="clip" src="assets/sfx/key-press.mp3" data-start="4.09" data-duration="0.4" data-volume="1.3" data-track-index="9"></audio>
+      <audio id="psfx-lit" class="clip" src="assets/sfx/ping.mp3" data-start="13.35" data-duration="1" data-volume="0.3" data-track-index="6"></audio>
+      <audio id="psfx-ph" class="clip" src="assets/sfx/sparkle.mp3" data-start="17.4" data-duration="1.4" data-volume="0.18" data-fade-out="0.5" data-track-index="6"></audio>
+      <audio id="psfx-ret" class="clip" src="assets/sfx/click-soft.mp3" data-start="19.9" data-duration="0.37" data-volume="0.5" data-track-index="7"></audio>
+      <audio id="psfx-cta" class="clip" src="assets/sfx/impact-bass-1.mp3" data-start="21.89" data-duration="2" data-volume="0.16" data-fade-out="0.9" data-track-index="5"></audio>
+      <audio id="psfx-pop" class="clip" src="assets/sfx/pop.mp3" data-start="22.16" data-duration="0.5" data-volume="0.4" data-track-index="9"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .hl { font-family: "Poppins", sans-serif; font-weight: 600; line-height: 1.08; letter-spacing: -0.01em; color: #fff; text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 14px rgba(0, 0, 0, 0.6); }
+    .lb { font-family: "IBM Plex Mono", monospace; font-weight: 500; font-size: 36px; letter-spacing: 0.02em; color: #fff; text-shadow: 2px 0px 0 #000, -2px 0px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 0 10px rgba(0, 0, 0, 0.55); }
+    .am { color: var(--amber); }
+    .ln { overflow: hidden; padding: 0 10px 8px 6px; margin: 0 -10px -8px -6px; }
+    .ln > span { display: inline-block; }
+    .pw { position: absolute; inset: 0; overflow: hidden; }
+    .pw-in { position: absolute; inset: 0; }
+    .pw-in img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    #p-volt-w { position: absolute; left: 120px; top: 330px; width: 780px; }
+    #p-volt-s { margin-top: 14px; opacity: 0; }
+  </style>
+  <div id="root" data-composition-id="p-volt" data-width="1080" data-height="1920">
+    <div id="p-volt-w">
+      <div class="ln hl" style="font-size: 70px"><span id="p-volt-l0">Voltan bateri</span></div>
+      <div class="ln hl" style="font-size: 70px"><span id="p-volt-l1"><span class="am">live.</span></span></div>
+      <div id="p-volt-s" class="lb">Bawah 13V → alternator tak cas</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#p-volt-l0", { yPercent: 105 }, { yPercent: 0, duration: 0.32, ease: "power3.out" }, 0.10);
+    tl.fromTo("#p-volt-l1", { yPercent: 105 }, { yPercent: 0, duration: 0.32, ease: "power3.out" }, 0.28);
+    tl.fromTo("#p-volt-s", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.22, ease: "power3.out" }, 0.70);
+    tl.to("#p-volt-w", { opacity: 0, duration: 0.12, ease: "power2.in" }, 2.66);
+    tl.set({}, {}, 2.78);
+    window.__timelines["p-volt"] = tl;
+  </script>
+</template>
