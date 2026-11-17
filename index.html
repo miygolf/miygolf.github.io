@@ -342,11 +342,12 @@ const CONFIG = {
   // dm: true = lesson ni diurus melalui WhatsApp (butang buka WhatsApp terus, tak masuk dalam borang).
   // tidycal: path booking TidyCal (dari kod embed, data-path="..."). Ada = kalendar TidyCal keluar kat bahagian Book.
   // minutes: tempoh lesson (untuk kira slot masa terakhir). outsidePrice: harga kalau luar kawasan.
+  // course: lokasi tetap untuk lesson ni (ganti pilihan lokasi biasa), courseNote: nota bawah lokasi.
   // price: letak "RM 150" dsb. Kosongkan ("") kalau taknak tunjuk harga.
   services: [
     { name: "Single Lesson", duration: "60 min", minutes: 60, price: "RM 250", outsidePrice: "RM 280", desc: "One 60-minute lesson, tailored to your swing and your goals." },
     { name: "Lesson Packages", dm: true, duration: "Multiple lessons", price: "", desc: "Lesson packages are available. Message on WhatsApp for details." },
-    { name: "Playing Lesson (On Course)", duration: "9 holes · 2 hours", minutes: 120, price: "RM 600", desc: "Nine holes on the course with Coach Iqbal — strategy, shot selection and scoring. Green fee not included." }
+    { name: "Playing Lesson (On Course)", duration: "9 holes · 2 hours", minutes: 120, price: "RM 600", course: "Golf course (TBC)", courseNote: "The golf course will be arranged with you on WhatsApp.", desc: "Nine holes on the course with Coach Iqbal — strategy, shot selection and scoring. Course arranged on WhatsApp. Green fee not included." }
   ],
 
   // Waktu & lokasi lesson. days: 0 = Ahad, 1 = Isnin ... 6 = Sabtu. start/end: jam, format 24 jam.
@@ -496,14 +497,16 @@ function applyLocations() {
   const blocks = t ? [CONFIG.schedule[t.dataset.block]]
     : date ? CONFIG.schedule.filter(b => b.days.includes(dayOf(date)))
     : CONFIG.schedule;
-  const list = [...new Set(blocks.flatMap(b => b.locations))];
-  if (CONFIG.outsideArea && blocks.length) list.push(`${CONFIG.outsideArea} (${s && s.outsidePrice ? s.outsidePrice : "extra charge"})`);
+  const course = s && s.course;
+  const list = course ? (blocks.length ? [course] : []) : [...new Set(blocks.flatMap(b => b.locations))];
+  if (!course && CONFIG.outsideArea && blocks.length) list.push(`${CONFIG.outsideArea} (${s && s.outsidePrice ? s.outsidePrice : "extra charge"})`);
   const sel = $("location");
   const prev = sel.value;
   sel.replaceChildren(...list.map(l => el("option", { value: l, textContent: l, selected: l === prev })));
   $("locationField").hidden = !list.length;
-  $("locationHint").hidden = !t;
-  $("locationHint").textContent = t ? blockText(CONFIG.schedule[t.dataset.block]) + "." : "";
+  const hint = course ? (list.length ? s.courseNote || "" : "") : t ? blockText(CONFIG.schedule[t.dataset.block]) + "." : "";
+  $("locationHint").hidden = !hint;
+  $("locationHint").textContent = hint;
 }
 serviceSelect.addEventListener("change", renderSlots);
 $("date").addEventListener("change", renderSlots);
