@@ -150,8 +150,8 @@
   .instant { max-width: 720px; margin-bottom: 22px; }
   .instant p { margin: 10px 0 0; color: rgba(255,255,255,.75); }
   .instant h3 { margin-top: 34px; font-size: 1.3rem; }
-  .instant .policy {
-    margin-top: 18px; padding: 12px 16px; border-left: 3px solid rgba(255,255,255,.5);
+  .booking .policy {
+    max-width: 720px; margin: 0 0 22px; padding: 12px 16px; border-left: 3px solid rgba(255,255,255,.5);
     background: rgba(255,255,255,.07); border-radius: 0 10px 10px 0; color: rgba(255,255,255,.9);
   }
   .row2:has(> .field[hidden]) { grid-template-columns: 1fr; }
@@ -238,8 +238,9 @@
           <li><b>Choose your lesson</b> and fill in your details below.</li>
           <li><b>Pick an open slot</b> on Google Calendar. It opens next.</li>
         </ol>
-        <p class="policy"><strong>Need to cancel or reschedule?</strong> Please give at least 48 hours notice before your lesson. Use the link in your booking confirmation email, or WhatsApp us.</p>
       </div>
+
+      <p class="policy"><strong>Need to cancel or reschedule?</strong> Please give at least 48 hours notice before your lesson. <span id="policyHow">Just message us on WhatsApp.</span></p>
 
       <form class="form" id="bookingForm" novalidate>
         <div class="field">
@@ -321,7 +322,7 @@ const CONFIG = {
   headline: "Play better golf, one lesson at a time.",
   intro: "Personal golf lessons and on-course playing lessons with Coach Iqbal Yusoff in the PJ area. Book a session and let's work on your game.",
 
-  bookingUrl: "https://calendar.app.google/GfKtmiYTPURVhSVp9",                      // link booking page Google Calendar (calendar.app.google/...). Kosong = butang Book pergi ke borang WhatsApp
+  bookingUrl: "",                      // link booking page Google Calendar (calendar.app.google/...). Kosong = butang Book pergi ke borang WhatsApp
   whatsapp: "60198728829",                     // nombor WhatsApp, format antarabangsa tanpa "+": e.g. "60123456789"
   email: "",
   instagram: "",                       // username je, tanpa @
@@ -445,6 +446,7 @@ if (calendarMode) {
   $("submitBtn").textContent = "Next: pick a slot on Google Calendar";
   $("formNote").textContent = "Google Calendar shows the open slots. Your booking is confirmed once you pick one there.";
   $("openCal").href = CONFIG.bookingUrl;
+  $("policyHow").textContent = "Use the link in your booking confirmation email, or WhatsApp us.";
 }
 function showForm() {
   $("nextStep").hidden = true;
