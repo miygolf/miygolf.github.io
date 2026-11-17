@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      :root { --ground: #050605; --neon: #b6ff3b; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; background: var(--ground); }
+      .shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="24.5" data-width="1080" data-height="1920">
+      <!-- "KERETA LAMA, LEVEL UP": photos + clips; every feature is an unlock (XP bar, 0/7 -> 7/7, flash + rising pings) -->
+      <video id="uv-socket" class="clip shot" src="assets/video/socket.mp4" data-start="2.4" data-duration="2" data-media-start="0.6" muted data-track-index="0"></video>
+      <video id="uv-power" class="clip shot" src="assets/video/plug.mp4" data-start="4.4" data-duration="1.5" data-media-start="0.6" muted data-track-index="0"></video>
+      <video id="uv-volt" class="clip shot" src="assets/video/dev.mp4" data-start="14.3" data-duration="2.8" data-media-start="4" muted data-track-index="0"></video>
+      <video id="uv-boost" class="clip shot" src="assets/video/phone.mp4" data-start="17.1" data-duration="2.2" data-media-start="0.6" muted data-track-index="0"></video>
+      <video id="uv-retract" class="clip shot" src="assets/video/tidy.mp4" data-start="19.3" data-duration="2.6" data-media-start="6.9" muted data-track-index="0"></video>
+      <video id="uv-end" class="clip shot" src="assets/video/cta.mp4" data-start="21.9" data-duration="2.6" data-media-start="0.1" muted data-track-index="0"></video>
+
+      <!-- OVERLAYS: plain outlined text (no boxes) -->
+      <div id="u-hook" class="clip" data-composition-id="u-hook" data-composition-src="compositions/u-hook.html" data-start="0" data-duration="2.4" data-track-index="2" data-track-kind="graphics"></div>
+      <div id="u-socket" class="clip" data-composition-id="u-socket" data-composition-src="compositions/u-socket.html" data-start="2.4" data-duration="2" data-track-index="2" data-track-kind="graphics"></div>
+      <div id="u-power" class="clip" data-composition-id="u-power" data-composition-src="compositions/u-power.html" data-start="4.4" data-duration="1.5" data-track-index="2" data-track-kind="graphics"></div>
+      <div id="u-ports" class="clip" data-composition-id="u-ports" data-composition-src="compositions/u-ports.html" data-start="5.9" data-duration="3.6" data-track-index="2" data-track-kind="graphics"></div>
+      <div id="u-cables" class="clip" data-composition-id="u-cables" data-composition-src="compositions/u-cables.html" data-start="9.5" data-duration="2.4" data-track-index="2" data-track-kind="graphics"></div>
+      <div id="u-fold" class="clip" data-composition-id="u-fold" data-composition-src="compositions/u-fold.html" data-start="11.9" data-duration="2.4" data-track-index="2" data-track-kind="graphics"></div>
+      <div id="u-volt" class="clip" data-composition-id="u-volt" data-composition-src="compositions/u-volt.html" data-start="14.3" data-duration="2.8" data-track-index="2" data-track-kind="graphics"></div>
+      <div id="u-boost" class="clip" data-composition-id="u-boost" data-composition-src="compositions/u-boost.html" data-start="17.1" data-duration="2.2" data-track-index="2" data-track-kind="graphics"></div>
+      <div id="u-retract" class="clip" data-composition-id="u-retract" data-composition-src="compositions/u-retract.html" data-start="19.3" data-duration="2.6" data-track-index="2" data-track-kind="graphics"></div>
+      <div id="u-end" class="clip" data-composition-id="u-end" data-composition-src="compositions/u-end.html" data-start="21.9" data-duration="2.6" data-track-index="2" data-track-kind="graphics"></div>
+      <div id="u-hud" class="clip" data-composition-id="u-hud" data-composition-src="compositions/u-hud.html" data-start="0" data-duration="24.5" data-track-index="3" data-track-kind="graphics"></div>
+
+      <!-- SFX -->
+      <audio id="usfx-hook" class="clip" src="assets/sfx/impact-bass-1.mp3" data-start="0.44" data-duration="2" data-volume="0.16" data-fade-out="0.8" data-track-index="5"></audio>
+      <audio id="usfx-cut1" class="clip" src="assets/sfx/whoosh.mp3" data-start="2.37" data-duration="0.57" data-volume="0.26" data-track-index="6"></audio>
+      <audio id="usfx-cut2" class="clip" src="assets/sfx/whoosh.mp3" data-start="4.36" data-duration="0.63" data-volume="0.26" data-playback-rate="0.9" data-track-index="6"></audio>
+      <audio id="usfx-cut3" class="clip" src="assets/sfx/whoosh.mp3" data-start="5.87" data-duration="0.51" data-volume="0.26" data-playback-rate="1.12" data-track-index="6"></audio>
+      <audio id="usfx-cut4" class="clip" src="assets/sfx/whoosh.mp3" data-start="9.46" data-duration="0.67" data-volume="0.26" data-playback-rate="0.85" data-track-index="6"></audio>
+      <audio id="usfx-cut5" class="clip" src="assets/sfx/whoosh.mp3" data-start="11.88" data-duration="0.47" data-volume="0.26" data-playback-rate="1.2" data-track-index="6"></audio>
+      <audio id="usfx-cut6" class="clip" src="assets/sfx/whoosh.mp3" data-start="14.27" data-duration="0.57" data-volume="0.26" data-track-index="6"></audio>
+      <audio id="usfx-cut7" class="clip" src="assets/sfx/whoosh.mp3" data-start="17.06" data-duration="0.63" data-volume="0.26" data-playback-rate="0.9" data-track-index="6"></audio>
+      <audio id="usfx-cut8" class="clip" src="assets/sfx/whoosh.mp3" data-start="19.27" data-duration="0.51" data-volume="0.26" data-playback-rate="1.12" data-track-index="6"></audio>
+      <audio id="usfx-cut9" class="clip" src="assets/sfx/whoosh.mp3" data-start="21.86" data-duration="0.67" data-volume="0.26" data-playback-rate="0.85" data-track-index="6"></audio>
+      <audio id="usfx-power" class="clip" src="assets/sfx/impact-bass-1.mp3" data-start="5.17" data-duration="2" data-volume="0.2" data-fade-out="0.9" data-track-index="5"></audio>
+      <audio id="usfx-power2" class="clip" src="assets/sfx/sparkle.mp3" data-start="5.18" data-duration="1.6" data-volume="0.22" data-fade-out="0.5" data-track-index="10"></audio>
+      <audio id="usfx-u0" class="clip" src="assets/sfx/ping.mp3" data-start="5.86" data-duration="1" data-volume="0.3" data-track-index="7"></audio>
+      <audio id="usfx-u1" class="clip" src="assets/sfx/ping.mp3" data-start="6.71" data-duration="0.89" data-volume="0.3" data-playback-rate="1.12" data-track-index="8"></audio>
+      <audio id="usfx-u2" class="clip" src="assets/sfx/ping.mp3" data-start="7.56" data-duration="0.8" data-volume="0.3" data-playback-rate="1.25" data-track-index="7"></audio>
+      <audio id="usfx-u3" class="clip" src="assets/sfx/ping.mp3" data-start="8.41" data-duration="0.71" data-volume="0.3" data-playback-rate="1.4" data-track-index="8"></audio>
+      <audio id="usfx-u4" class="clip" src="assets/sfx/ping.mp3" data-start="9.46" data-duration="1" data-volume="0.3" data-track-index="7"></audio>
+      <audio id="usfx-u5" class="clip" src="assets/sfx/ping.mp3" data-start="11.89" data-duration="0.89" data-volume="0.3" data-playback-rate="1.12" data-track-index="8"></audio>
+      <audio id="usfx-u6" class="clip" src="assets/sfx/ping.mp3" data-start="14.32" data-duration="0.8" data-volume="0.3" data-playback-rate="1.25" data-track-index="7"></audio>
+      <audio id="usfx-ret" class="clip" src="assets/sfx/click-soft.mp3" data-start="19.9" data-duration="0.37" data-volume="0.5" data-track-index="9"></audio>
+      <audio id="usfx-end" class="clip" src="assets/sfx/chime.mp3" data-start="21.95" data-duration="2.5" data-volume="0.22" data-fade-out="0.8" data-track-index="8"></audio>
+      <audio id="usfx-endhit" class="clip" src="assets/sfx/impact-bass-1.mp3" data-start="21.89" data-duration="2" data-volume="0.18" data-fade-out="0.9" data-track-index="5"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

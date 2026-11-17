@@ -1,0 +1,43 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .big { font-family: "Oswald", sans-serif; font-weight: 600; text-transform: uppercase; line-height: 1.0; letter-spacing: 0.01em; color: #fff; text-shadow: 4px 0px 0 #000, -4px 0px 0 #000, 0px 4px 0 #000, 0px -4px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 18px rgba(0, 0, 0, 0.6); }
+    .mono { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 36px; letter-spacing: 0.02em; color: #fff; text-shadow: 2px 0px 0 #000, -2px 0px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 0 10px rgba(0, 0, 0, 0.55); }
+    .g { color: var(--neon); }
+    .pw { position: absolute; inset: 0; overflow: hidden; }
+    .pw-in { position: absolute; inset: 0; }
+    .pw-in img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    #ue { position: absolute; left: 120px; top: 720px; transform-origin: left center; }
+    #ue-1 { font-size: 64px; }
+    #ue-2 { font-size: 118px; }
+    #uc { position: absolute; left: 120px; top: 940px; opacity: 0; }
+    #uc-t { font-size: 96px; }
+    #uc-chip { display: flex; align-items: center; gap: 16px; margin-top: 12px; font-size: 38px; }
+    #uc-chip b { color: #ffc81e; font-weight: 500; }
+    #uc-bag, #uc-arrow { flex: 0 0 auto; filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.85)); }
+    #uc-bag { width: 46px; height: 46px; }
+    #uc-arrow { width: 30px; height: 36px; }
+  </style>
+  <div id="root" data-composition-id="u-end" data-width="1080" data-height="1920">
+    <div id="ue">
+      <div id="ue-1" class="mono">KERETA LAMA</div>
+      <div id="ue-2" class="big g">Fully upgraded</div>
+    </div>
+    <div id="uc">
+      <div id="uc-t" class="big">Nak link?</div>
+      <div id="uc-chip" class="mono">
+        <svg id="uc-bag" viewBox="0 0 48 48" aria-hidden="true"><path d="M16 17v-3a8 8 0 0 1 16 0v3" fill="none" stroke="#ffc81e" stroke-width="4" stroke-linecap="round" /><path d="M8 17h32l-2.5 25a3 3 0 0 1-3 2.7h-21a3 3 0 0 1-3-2.7z" fill="#ffc81e" /></svg>
+        <span>Tekan <b>beg kuning</b> di bawah</span>
+        <svg id="uc-arrow" viewBox="0 0 30 36" aria-hidden="true"><path d="M15 3v26M5 20l10 11 10-11" fill="none" stroke="#ffc81e" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#ue", { scale: 1.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, ease: "power4.out" }, 0.08);
+    tl.fromTo("#uc", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.22, ease: "power3.out" }, 0.45);
+    tl.fromTo("#uc-arrow", { y: -4 }, { y: 6, duration: 0.28, ease: "sine.inOut", yoyo: true, repeat: 3 }, 0.9);
+    tl.set({}, {}, 2.58);
+    window.__timelines["u-end"] = tl;
+  </script>
+</template>

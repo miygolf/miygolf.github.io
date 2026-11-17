@@ -1,0 +1,25 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .big { font-family: "Oswald", sans-serif; font-weight: 600; text-transform: uppercase; line-height: 1.0; letter-spacing: 0.01em; color: #fff; text-shadow: 4px 0px 0 #000, -4px 0px 0 #000, 0px 4px 0 #000, 0px -4px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 18px rgba(0, 0, 0, 0.6); }
+    .mono { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 36px; letter-spacing: 0.02em; color: #fff; text-shadow: 2px 0px 0 #000, -2px 0px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 0 10px rgba(0, 0, 0, 0.55); }
+    .g { color: var(--neon); }
+    .pw { position: absolute; inset: 0; overflow: hidden; }
+    .pw-in { position: absolute; inset: 0; }
+    .pw-in img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    #up { position: absolute; left: 120px; top: 360px; }
+    #up-1 { font-size: 132px; transform-origin: left center; }
+  </style>
+  <div id="root" data-composition-id="u-power" data-width="1080" data-height="1920">
+    <div id="up">
+      <div id="up-1" class="big g">Power on</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#up-1", { scale: 1.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, ease: "power4.out" }, 0.78);
+    tl.to("#up", { opacity: 0, duration: 0.12, ease: "power2.in" }, 1.36);
+    tl.set({}, {}, 1.48);
+    window.__timelines["u-power"] = tl;
+  </script>
+</template>

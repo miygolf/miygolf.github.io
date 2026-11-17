@@ -1,0 +1,71 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .big { font-family: "Oswald", sans-serif; font-weight: 600; text-transform: uppercase; line-height: 1.0; letter-spacing: 0.01em; color: #fff; text-shadow: 4px 0px 0 #000, -4px 0px 0 #000, 0px 4px 0 #000, 0px -4px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 18px rgba(0, 0, 0, 0.6); }
+    .mono { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 36px; letter-spacing: 0.02em; color: #fff; text-shadow: 2px 0px 0 #000, -2px 0px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 0 10px rgba(0, 0, 0, 0.55); }
+    .g { color: var(--neon); }
+    .pw { position: absolute; inset: 0; overflow: hidden; }
+    .pw-in { position: absolute; inset: 0; }
+    .pw-in img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    #xp-flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+    .xp-s { position: absolute; top: 290px; height: 8px; border-radius: 4px; background: rgba(255, 255, 255, 0.3); box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.6); transform-origin: center; }
+    #xp-lbl { position: absolute; left: 700px; top: 272px; width: 188px; height: 44px; }
+    #xp-lbl .t { position: absolute; left: 0; top: 0; font-size: 28px; }
+    .xp-n { position: absolute; right: 0; top: 0; font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 28px; color: var(--neon); opacity: 0; text-shadow: 2px 0px 0 #000, -2px 0px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 0 10px rgba(0, 0, 0, 0.55); }
+  </style>
+  <div id="root" data-composition-id="u-hud" data-width="1080" data-height="1920">
+    <div id="xp-flash"></div>
+    <div id="xp-s0" class="xp-s" style="left: 120.0px; width: 73.1px"></div>
+    <div id="xp-s1" class="xp-s" style="left: 201.1px; width: 73.1px"></div>
+    <div id="xp-s2" class="xp-s" style="left: 282.3px; width: 73.1px"></div>
+    <div id="xp-s3" class="xp-s" style="left: 363.4px; width: 73.1px"></div>
+    <div id="xp-s4" class="xp-s" style="left: 444.6px; width: 73.1px"></div>
+    <div id="xp-s5" class="xp-s" style="left: 525.7px; width: 73.1px"></div>
+    <div id="xp-s6" class="xp-s" style="left: 606.9px; width: 73.1px"></div>
+    <div id="xp-lbl"><span class="t mono">UPGRADE</span><span id="xp-n0" class="xp-n">0/7</span><span id="xp-n1" class="xp-n">1/7</span><span id="xp-n2" class="xp-n">2/7</span><span id="xp-n3" class="xp-n">3/7</span><span id="xp-n4" class="xp-n">4/7</span><span id="xp-n5" class="xp-n">5/7</span><span id="xp-n6" class="xp-n">6/7</span><span id="xp-n7" class="xp-n">7/7</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.set("#xp-flash", { opacity: 0 }, 0);
+    tl.set("#xp-n0", { opacity: 1 }, 0);
+    tl.fromTo("#xp-s0", { backgroundColor: "rgba(255,255,255,0.3)", scaleY: 1 }, { backgroundColor: "#b6ff3b", scaleY: 1.8, duration: 0.12, ease: "power4.out" }, 6.15);
+    tl.to("#xp-s0", { scaleY: 1, duration: 0.25, ease: "power2.out" }, 6.27);
+    tl.set("#xp-n0", { opacity: 0 }, 6.15);
+    tl.set("#xp-n1", { opacity: 1 }, 6.15);
+    tl.fromTo("#xp-flash", { opacity: 0.55 }, { opacity: 0, duration: 0.22, ease: "power2.out", immediateRender: false }, 6.15);
+    tl.fromTo("#xp-s1", { backgroundColor: "rgba(255,255,255,0.3)", scaleY: 1 }, { backgroundColor: "#b6ff3b", scaleY: 1.8, duration: 0.12, ease: "power4.out" }, 6.97);
+    tl.to("#xp-s1", { scaleY: 1, duration: 0.25, ease: "power2.out" }, 7.09);
+    tl.set("#xp-n1", { opacity: 0 }, 6.97);
+    tl.set("#xp-n2", { opacity: 1 }, 6.97);
+    tl.fromTo("#xp-flash", { opacity: 0.55 }, { opacity: 0, duration: 0.22, ease: "power2.out", immediateRender: false }, 6.97);
+    tl.fromTo("#xp-s2", { backgroundColor: "rgba(255,255,255,0.3)", scaleY: 1 }, { backgroundColor: "#b6ff3b", scaleY: 1.8, duration: 0.12, ease: "power4.out" }, 7.79);
+    tl.to("#xp-s2", { scaleY: 1, duration: 0.25, ease: "power2.out" }, 7.91);
+    tl.set("#xp-n2", { opacity: 0 }, 7.79);
+    tl.set("#xp-n3", { opacity: 1 }, 7.79);
+    tl.fromTo("#xp-flash", { opacity: 0.55 }, { opacity: 0, duration: 0.22, ease: "power2.out", immediateRender: false }, 7.79);
+    tl.fromTo("#xp-s3", { backgroundColor: "rgba(255,255,255,0.3)", scaleY: 1 }, { backgroundColor: "#b6ff3b", scaleY: 1.8, duration: 0.12, ease: "power4.out" }, 8.61);
+    tl.to("#xp-s3", { scaleY: 1, duration: 0.25, ease: "power2.out" }, 8.73);
+    tl.set("#xp-n3", { opacity: 0 }, 8.61);
+    tl.set("#xp-n4", { opacity: 1 }, 8.61);
+    tl.fromTo("#xp-flash", { opacity: 0.55 }, { opacity: 0, duration: 0.22, ease: "power2.out", immediateRender: false }, 8.61);
+    tl.fromTo("#xp-s4", { backgroundColor: "rgba(255,255,255,0.3)", scaleY: 1 }, { backgroundColor: "#b6ff3b", scaleY: 1.8, duration: 0.12, ease: "power4.out" }, 9.75);
+    tl.to("#xp-s4", { scaleY: 1, duration: 0.25, ease: "power2.out" }, 9.87);
+    tl.set("#xp-n4", { opacity: 0 }, 9.75);
+    tl.set("#xp-n5", { opacity: 1 }, 9.75);
+    tl.fromTo("#xp-flash", { opacity: 0.55 }, { opacity: 0, duration: 0.22, ease: "power2.out", immediateRender: false }, 9.75);
+    tl.fromTo("#xp-s5", { backgroundColor: "rgba(255,255,255,0.3)", scaleY: 1 }, { backgroundColor: "#b6ff3b", scaleY: 1.8, duration: 0.12, ease: "power4.out" }, 12.15);
+    tl.to("#xp-s5", { scaleY: 1, duration: 0.25, ease: "power2.out" }, 12.27);
+    tl.set("#xp-n5", { opacity: 0 }, 12.15);
+    tl.set("#xp-n6", { opacity: 1 }, 12.15);
+    tl.fromTo("#xp-flash", { opacity: 0.55 }, { opacity: 0, duration: 0.22, ease: "power2.out", immediateRender: false }, 12.15);
+    tl.fromTo("#xp-s6", { backgroundColor: "rgba(255,255,255,0.3)", scaleY: 1 }, { backgroundColor: "#b6ff3b", scaleY: 1.8, duration: 0.12, ease: "power4.out" }, 14.55);
+    tl.to("#xp-s6", { scaleY: 1, duration: 0.25, ease: "power2.out" }, 14.67);
+    tl.set("#xp-n6", { opacity: 0 }, 14.55);
+    tl.set("#xp-n7", { opacity: 1 }, 14.55);
+    tl.fromTo("#xp-flash", { opacity: 0.55 }, { opacity: 0, duration: 0.22, ease: "power2.out", immediateRender: false }, 14.55);
+    tl.fromTo("#xp-flash", { opacity: 0.8 }, { opacity: 0, duration: 0.35, ease: "power2.out", immediateRender: false }, 5.18);
+    tl.fromTo("#xp-flash", { opacity: 0.7 }, { opacity: 0, duration: 0.4, ease: "power2.out", immediateRender: false }, 21.90);
+    tl.set({}, {}, 24.48);
+    window.__timelines["u-hud"] = tl;
+  </script>
+</template>

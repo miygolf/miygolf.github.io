@@ -1,0 +1,57 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .big { font-family: "Oswald", sans-serif; font-weight: 600; text-transform: uppercase; line-height: 1.0; letter-spacing: 0.01em; color: #fff; text-shadow: 4px 0px 0 #000, -4px 0px 0 #000, 0px 4px 0 #000, 0px -4px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 0 18px rgba(0, 0, 0, 0.6); }
+    .mono { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 36px; letter-spacing: 0.02em; color: #fff; text-shadow: 2px 0px 0 #000, -2px 0px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 0 10px rgba(0, 0, 0, 0.55); }
+    .g { color: var(--neon); }
+    .pw { position: absolute; inset: 0; overflow: hidden; }
+    .pw-in { position: absolute; inset: 0; }
+    .pw-in img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .uq-u { position: absolute; left: 120px; top: 360px; opacity: 0; transform-origin: left center; }
+    .uq-dot { position: absolute; width: 0; height: 0; }
+    .uq-dot i { position: absolute; left: -18px; top: -18px; width: 36px; height: 36px; border-radius: 50%; border: 5px solid var(--neon); box-shadow: 0 0 0 3px #000, 0 0 18px rgba(182, 255, 59, 0.9); }
+  </style>
+  <div id="root" data-composition-id="u-ports" data-width="1080" data-height="1920">
+    <div class="pw"><div id="u-ports-pin" class="pw-in" style="transform-origin: 50% 52%"><img src="assets/img/ph-0297.jpg" alt="" /><div id="uq-d0" class="uq-dot" style="left: 160px; top: 870px"><i></i></div><div id="uq-d1" class="uq-dot" style="left: 160px; top: 1070px"><i></i></div><div id="uq-d2" class="uq-dot" style="left: 640px; top: 855px"><i></i></div><div id="uq-d3" class="uq-dot" style="left: 630px; top: 955px"><i></i></div></div></div>
+    <div id="uq-u0" class="uq-u">
+      <div class="big g" style="font-size: 104px">+ PD30W</div>
+      <div class="mono">kabel Type-C · fast charge</div>
+    </div>
+    <div id="uq-u1" class="uq-u">
+      <div class="big g" style="font-size: 104px">+ 2.4A</div>
+      <div class="mono">kabel Type-C kedua</div>
+    </div>
+    <div id="uq-u2" class="uq-u">
+      <div class="big g" style="font-size: 104px">+ Type-C 3A</div>
+      <div class="mono">port tambahan</div>
+    </div>
+    <div id="uq-u3" class="uq-u">
+      <div class="big g" style="font-size: 104px">+ USB-A 2.4A</div>
+      <div class="mono">untuk kabel lama</div>
+    </div>
+
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#u-ports-pin", { scale: 1.0 }, { scale: 1.0 }, 0);
+    tl.fromTo("#uq-u0", { scale: 1.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, ease: "power4.out" }, 0.25);
+    tl.fromTo("#uq-d0", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, ease: "back.out(3)" }, 0.25);
+    tl.to("#u-ports-pin", { scale: 1.025, duration: 0.18, ease: "power4.out" }, 0.25);
+    tl.to("#uq-u0", { opacity: 0, duration: 0.12, ease: "power2.in" }, 0.95);
+    tl.fromTo("#uq-u1", { scale: 1.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, ease: "power4.out" }, 1.07);
+    tl.fromTo("#uq-d1", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, ease: "back.out(3)" }, 1.07);
+    tl.to("#u-ports-pin", { scale: 1.050, duration: 0.18, ease: "power4.out" }, 1.07);
+    tl.to("#uq-u1", { opacity: 0, duration: 0.12, ease: "power2.in" }, 1.77);
+    tl.fromTo("#uq-u2", { scale: 1.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, ease: "power4.out" }, 1.89);
+    tl.fromTo("#uq-d2", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, ease: "back.out(3)" }, 1.89);
+    tl.to("#u-ports-pin", { scale: 1.075, duration: 0.18, ease: "power4.out" }, 1.89);
+    tl.to("#uq-u2", { opacity: 0, duration: 0.12, ease: "power2.in" }, 2.59);
+    tl.fromTo("#uq-u3", { scale: 1.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, ease: "power4.out" }, 2.71);
+    tl.fromTo("#uq-d3", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, ease: "back.out(3)" }, 2.71);
+    tl.to("#u-ports-pin", { scale: 1.100, duration: 0.18, ease: "power4.out" }, 2.71);
+    tl.to("#uq-u3", { opacity: 0, duration: 0.12, ease: "power2.in" }, 3.46);
+    tl.to(".uq-dot", { opacity: 0, duration: 0.12, ease: "power2.in" }, 3.46);
+    tl.set({}, {}, 3.58);
+    window.__timelines["u-ports"] = tl;
+  </script>
+</template>
