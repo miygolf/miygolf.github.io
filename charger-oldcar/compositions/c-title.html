@@ -1,0 +1,23 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #tt-corner { position: absolute; right: 130px; top: 250px; text-align: right; font-family: "Montserrat", sans-serif; font-weight: 800; font-style: italic; font-size: 40px; line-height: 1.05; letter-spacing: 0.01em; text-transform: uppercase; color: #fff; text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000; }
+    #tt-card { position: absolute; left: 120px; top: 310px; padding: 22px 34px 26px; background: #fff; border-radius: 22px; box-shadow: -9px -7px 0 #25f4ee, 9px 7px 0 #fe2c55; transform-origin: left center; }
+    #tt-card div { font-family: "Montserrat", sans-serif; font-weight: 700; font-size: 58px; line-height: 1.12; color: #111; }
+  </style>
+  <div id="root" data-composition-id="c-title" data-width="1080" data-height="1920">
+    <div id="tt-corner">Charger kereta<br />4 port · 12V</div>
+    <div id="tt-card">
+      <div>Charger 4 Port</div>
+      <div>+ Meter Voltan</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#tt-corner", { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, 0.0);
+    tl.fromTo("#tt-card", { scale: 0.6, opacity: 0, rotation: -4 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.34, ease: "back.out(2.2)" }, 0.05);
+    tl.to("#tt-card", { scale: 0.85, opacity: 0, duration: 0.16, ease: "power2.in" }, 2.42);
+    tl.set({}, {}, 24.08);
+    window.__timelines["c-title"] = tl;
+  </script>
+</template>
