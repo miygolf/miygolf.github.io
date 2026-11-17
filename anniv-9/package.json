@@ -1,0 +1,13 @@
+{
+  "name": "anniv-9",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "python3 tools/build.py && npx --yes hyperframes@0.9.52 media-treatment --selector .win img --grading tools/grade.json --apply",
+    "check": "npx --yes hyperframes@0.9.52 check",
+    "render": "npx --yes hyperframes@0.9.52 render"
+  },
+  "dependencies": {
+    "hyperframes": "^0.9.52"
+  }
+}
