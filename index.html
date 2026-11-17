@@ -7,7 +7,7 @@
 <link rel="icon" type="image/png" href="icon.png">
 <link rel="apple-touch-icon" href="icon.png">
 <meta property="og:title" content="MIY Golf — Golf Lessons with Coach Iqbal">
-<meta property="og:description" content="Book a golf lesson or a 9-hole playing lesson with Coach Iqbal Yusoff in the PJ area.">
+<meta property="og:description" content="Book a golf lesson or a 9-hole playing lesson with Coach Iqbal Yusoff in Kota Damansara and PJ South.">
 <meta property="og:image" content="https://miygolfperformance-sketch.github.io/miygolf/logo.jpg">
 <meta property="og:type" content="website">
 <meta name="description" content="Book golf lessons with Coach Iqbal Yusoff — MIY Golf.">
@@ -113,7 +113,8 @@
   .card h3 { font-size: 1.25rem; }
   .card p { margin: 0; color: var(--muted); font-size: .95rem; flex: 1; }
   .meta { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-size: .9rem; color: var(--muted); }
-  .meta .price { color: var(--green-700); font-weight: 700; font-size: 1.05rem; }
+  .meta .price { color: var(--green-700); font-weight: 700; font-size: 1.05rem; text-align: right; }
+  .meta .price small { display: block; color: var(--muted); font-weight: 500; font-size: .8rem; }
   .card button {
     margin-top: 8px; background: none; border: 1.5px solid var(--green-700); color: var(--green-700);
     border-radius: 999px; padding: 9px 14px; font: inherit; font-weight: 600; cursor: pointer;
@@ -158,7 +159,8 @@
   }
   .lesson-tabs button small { display: block; font-weight: 400; font-size: .85rem; opacity: .8; }
   .lesson-tabs button[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--green-900); }
-  .tidy-note { max-width: 720px; margin: 0 0 14px; color: rgba(255,255,255,.85); font-size: .95rem; }
+  .slots-empty { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: .92rem; }
+  .where p { flex: 0; }
   .hint { display: block; margin-top: 6px; color: var(--green-700); font-size: .86rem; }
   .tidy-frame { background: transparent; border-radius: 20px; overflow: hidden; max-width: 720px; min-height: 500px; margin-bottom: 30px; }
   .tidy-frame a { display: block; padding: 24px; color: #fff; }
@@ -223,7 +225,7 @@
       <div class="section-head">
         <div class="eyebrow">Lessons &amp; services</div>
         <h2>Lessons &amp; pricing</h2>
-        <p>For package details, message on WhatsApp. Payment by cash, MyDebit or Tap2Pay (Visa / Mastercard). Lessons outside the PJ area carry an extra charge.</p>
+        <p>For package details, message on WhatsApp. Payment by cash, MyDebit or Tap2Pay (Visa / Mastercard). Lessons outside the area carry an extra charge.</p>
       </div>
       <div class="cards" id="serviceCards"></div>
     </div>
@@ -241,7 +243,6 @@
 
       <div id="tidy" hidden>
         <div class="lesson-tabs" id="lessonTabs" role="group" aria-label="Choose your lesson"></div>
-        <p class="tidy-note" id="tidyNote" hidden></p>
         <div class="tidy-frame" id="tidyFrame"></div>
         <div class="wa-alt">
           <h3>Prefer to chat first?</h3>
@@ -256,22 +257,21 @@
           <select id="service" name="service" required></select>
         </div>
 
-        <div class="row2">
-          <div class="field">
-            <label for="date">Preferred date</label>
-            <input type="date" id="date" name="date" required>
-          </div>
-          <div class="field" id="locationField">
-            <label for="location">Location</label>
-            <select id="location" name="location" aria-describedby="locationHint"></select>
-            <small class="hint" id="locationHint" hidden></small>
-          </div>
+        <div class="field">
+          <label for="date">Preferred date</label>
+          <input type="date" id="date" name="date" required>
         </div>
 
         <fieldset class="field">
-          <legend>Preferred time <small>(9 AM – 10 PM, by appointment)</small></legend>
+          <legend>Preferred time <small id="timeHint">(pick a date first)</small></legend>
           <div class="slots" id="slots"></div>
         </fieldset>
+
+        <div class="field" id="locationField">
+          <label for="location">Location</label>
+          <select id="location" name="location" aria-describedby="locationHint"></select>
+          <small class="hint" id="locationHint" hidden></small>
+        </div>
 
         <div class="row2">
           <div class="field">
@@ -321,7 +321,7 @@ const CONFIG = {
   photo: "",                           // e.g. "photo.jpg" (letak fail dalam folder yang sama)
   tagline: "Golf coaching",
   headline: "Play better golf, one lesson at a time.",
-  intro: "Personal golf lessons and on-course playing lessons with Coach Iqbal Yusoff in the PJ area. Book a session and let's work on your game.",
+  intro: "Personal golf lessons and on-course playing lessons with Coach Iqbal Yusoff at XPark Kota Damansara, PJ South and around Kota Damansara. Book a session and let's work on your game.",
 
   whatsapp: "60198728829",                     // nombor WhatsApp, format antarabangsa tanpa "+": e.g. "60123456789"
   email: "",
@@ -334,24 +334,27 @@ const CONFIG = {
   ],
   facts: [
     { title: "Lessons & on-course", text: "60-minute lessons, packages and 9-hole playing lessons" },
-    { title: "PJ area", text: "Outside PJ available with an extra charge" },
-    { title: "9 AM – 10 PM", text: "By appointment only. Evening single lessons (from 6 PM) in Kota Damansara" },
+    { title: "XPark Kota Damansara & PJ South", text: "Evenings around Kota Damansara. Outside the area available with an extra charge" },
+    { title: "Tue – Sat", text: "Tue–Thu 8 AM–4 PM · Tue–Sat 5 PM–10 PM. By appointment only" },
     { title: "Payment", text: "Cash, MyDebit, Tap2Pay Visa / Mastercard" }
   ],
 
   // dm: true = lesson ni diurus melalui WhatsApp (butang buka WhatsApp terus, tak masuk dalam borang).
   // tidycal: path booking TidyCal (dari kod embed, data-path="..."). Ada = kalendar TidyCal keluar kat bahagian Book.
-  // evening: lesson malam (dari pukul `from`, format 24 jam) hanya di `location`.
+  // minutes: tempoh lesson (untuk kira slot masa terakhir). outsidePrice: harga kalau luar kawasan.
   // price: letak "RM 150" dsb. Kosongkan ("") kalau taknak tunjuk harga.
   services: [
-    { name: "Single Lesson", duration: "60 min", price: "RM 280", evening: { from: 18, location: "Kota Damansara" }, desc: "One 60-minute lesson, tailored to your swing and your goals. Evening lessons (from 6 PM) are in Kota Damansara only." },
+    { name: "Single Lesson", duration: "60 min", minutes: 60, price: "RM 250", outsidePrice: "RM 280", desc: "One 60-minute lesson, tailored to your swing and your goals." },
     { name: "Lesson Packages", dm: true, duration: "Multiple lessons", price: "", desc: "Lesson packages are available. Message on WhatsApp for details." },
-    { name: "Playing Lesson (On Course)", duration: "9 holes · 2 hours", price: "RM 500", desc: "Nine holes on the course with Coach Iqbal — strategy, shot selection and scoring. Green fee not included." }
+    { name: "Playing Lesson (On Course)", duration: "9 holes · 2 hours", minutes: 120, price: "RM 600", desc: "Nine holes on the course with Coach Iqbal — strategy, shot selection and scoring. Green fee not included." }
   ],
 
-  locations: ["PJ area", "Outside PJ (extra charge applies)"],
-  //                // e.g. ["KGNS Driving Range", "Glenmarie Golf"] — kosong = sorok pilihan lokasi
-  hours: { start: 9, end: 22 },        // slot masa: 9 pagi hingga 10 malam (slot terakhir mula 9 malam)
+  // Waktu & lokasi lesson. days: 0 = Ahad, 1 = Isnin ... 6 = Sabtu. start/end: jam, format 24 jam.
+  schedule: [
+    { days: [2, 3, 4], start: 8, end: 16, locations: ["XPark Kota Damansara", "PJ South"] },
+    { days: [2, 3, 4, 5, 6], start: 17, end: 22, locations: ["Kota Damansara area"] }
+  ],
+  outsideArea: "Outside area",         // pilihan lokasi luar kawasan (extra charge). Kosong = takde pilihan ni
   slotMinutes: 60
 };
 /* ============================================================ */
@@ -393,8 +396,6 @@ function showTidy(s) {
   const embed = el("div", { className: "tidycal-embed" },
     el("a", { href: `https://tidycal.com/${s.tidycal}`, target: "_blank", rel: "noopener", textContent: "Loading the booking calendar… If it doesn't appear, tap here to book." }));
   embed.dataset.path = s.tidycal;
-  $("tidyNote").hidden = !s.evening;
-  $("tidyNote").textContent = s.evening ? eveningText(s.evening) : "";
   $("tidyFrame").replaceChildren(embed);
   if (window.TidyCal) {
     window.TidyCal.init(embed);
@@ -402,9 +403,6 @@ function showTidy(s) {
     tidyScriptAdded = true;   // skrip TidyCal akan cari div.tidycal-embed sendiri bila dah load
     document.head.append(el("script", { src: "https://asset-tidycal.b-cdn.net/js/embed.js", async: true }));
   }
-}
-function eveningText(ev) {
-  return `Evening lessons (from ${fmtTime(ev.from * 60)}) are in ${ev.location} only.`;
 }
 function openWaForm() {
   $("bookingForm").hidden = false;
@@ -430,7 +428,7 @@ CONFIG.services.forEach(s => {
       return;
     }
     serviceSelect.value = s.name;
-    applyEveningRule();
+    renderSlots();
     if (tidyMode) openWaForm();
     $("book").scrollIntoView();
     $("date").focus({ preventScroll: true });
@@ -438,18 +436,10 @@ CONFIG.services.forEach(s => {
   $("serviceCards").append(el("article", { className: "card" },
     el("h3", { textContent: s.name }),
     el("p", { textContent: s.desc }),
-    el("div", { className: "meta" }, el("span", { textContent: s.duration }), el("span", { className: "price", textContent: s.price || "" })),
+    el("div", { className: "meta" }, el("span", { textContent: s.duration }), el("span", { className: "price" }, s.price || "", s.outsidePrice ? el("small", { textContent: `Outside area ${s.outsidePrice}` }) : "")),
     pick
   ));
 });
-
-// --- Location ---
-if (CONFIG.locations.length) {
-  CONFIG.locations.forEach(l => $("location").append(el("option", { value: l, textContent: l })));
-  $("location").dataset.mode = "normal";
-} else {
-  $("locationField").hidden = true;
-}
 
 // --- Date (no past dates) ---
 const pad = n => String(n).padStart(2, "0");
@@ -457,36 +447,68 @@ const now = new Date();
 const todayStr = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
 $("date").min = todayStr;
 
-// --- Time slots ---
+// --- Waktu & lokasi ikut CONFIG.schedule ---
+const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const DAYS_LONG = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const fmtTime = mins => {
   const h = Math.floor(mins / 60), m = mins % 60;
   return `${h % 12 || 12}:${pad(m)} ${h < 12 ? "AM" : "PM"}`;
 };
-for (let t = CONFIG.hours.start * 60; t + CONFIG.slotMinutes <= CONFIG.hours.end * 60; t += CONFIG.slotMinutes) {
-  const label = fmtTime(t);
-  const input = el("input", { type: "radio", name: "time", value: label });
-  input.dataset.mins = t;
-  $("slots").append(el("label", {}, input, el("span", { textContent: label })));
+const fmtHour = h => `${h % 12 || 12} ${h < 12 ? "AM" : "PM"}`;
+const fmtDays = days => days.length > 2 && days.every((d, i) => i === 0 || d === days[i - 1] + 1)
+  ? `${DAYS[days[0]]}–${DAYS[days[days.length - 1]]}` : days.map(d => DAYS[d]).join(", ");
+const blockText = b => `${fmtDays(b.days)}, ${fmtHour(b.start)}–${fmtHour(b.end)}: ${b.locations.join(" or ")}`;
+const openDays = [...new Set(CONFIG.schedule.flatMap(b => b.days))].sort();
+const currentService = () => CONFIG.services.find(x => x.name === serviceSelect.value);
+const dayOf = dateStr => new Date(`${dateStr}T00:00`).getDay();
+
+function renderSlots() {
+  const s = currentService();
+  const len = (s && s.minutes) || CONFIG.slotMinutes;
+  const date = $("date").value;
+  const prev = (document.querySelector('input[name="time"]:checked') || {}).value;
+  $("slots").replaceChildren();
+  if (!date) {
+    $("timeHint").textContent = "(pick a date first)";
+  } else {
+    const blocks = CONFIG.schedule.filter(b => b.days.includes(dayOf(date)));
+    if (!blocks.length) {
+      $("timeHint").textContent = "";
+      $("slots").append(el("p", { className: "slots-empty", textContent: `No lessons on ${DAYS_LONG[dayOf(date)]}. Lessons run ${fmtDays(openDays)}, please pick another date.` }));
+    } else {
+      $("timeHint").textContent = `(${blocks.map(b => `${fmtHour(b.start)}–${fmtHour(b.end)}`).join(" & ")})`;
+      blocks.forEach(b => {
+        for (let t = b.start * 60; t + len <= b.end * 60; t += CONFIG.slotMinutes) {
+          const input = el("input", { type: "radio", name: "time", value: fmtTime(t), checked: fmtTime(t) === prev });
+          input.dataset.block = CONFIG.schedule.indexOf(b);
+          $("slots").append(el("label", {}, input, el("span", { textContent: fmtTime(t) })));
+        }
+      });
+    }
+  }
+  applyLocations();
 }
 
-// --- Lesson malam: lokasi dikunci ikut service.evening ---
-function applyEveningRule() {
-  const s = CONFIG.services.find(x => x.name === serviceSelect.value);
+function applyLocations() {
+  const s = currentService();
   const t = document.querySelector('input[name="time"]:checked');
-  const ev = s && s.evening && t && Number(t.dataset.mins) >= s.evening.from * 60 ? s.evening : null;
-  const mode = ev ? "evening" : "normal";
+  const date = $("date").value;
+  const blocks = t ? [CONFIG.schedule[t.dataset.block]]
+    : date ? CONFIG.schedule.filter(b => b.days.includes(dayOf(date)))
+    : CONFIG.schedule;
+  const list = [...new Set(blocks.flatMap(b => b.locations))];
+  if (CONFIG.outsideArea && blocks.length) list.push(`${CONFIG.outsideArea} (${s && s.outsidePrice ? s.outsidePrice : "extra charge"})`);
   const sel = $("location");
-  if (sel.dataset.mode !== mode) {
-    const list = ev ? [ev.location] : CONFIG.locations;
-    sel.replaceChildren(...list.map(l => el("option", { value: l, textContent: l })));
-    sel.dataset.mode = mode;
-    $("locationField").hidden = !list.length;
-  }
-  $("locationHint").hidden = !ev;
-  $("locationHint").textContent = ev ? eveningText(ev) : "";
+  const prev = sel.value;
+  sel.replaceChildren(...list.map(l => el("option", { value: l, textContent: l, selected: l === prev })));
+  $("locationField").hidden = !list.length;
+  $("locationHint").hidden = !t;
+  $("locationHint").textContent = t ? blockText(CONFIG.schedule[t.dataset.block]) + "." : "";
 }
-serviceSelect.addEventListener("change", applyEveningRule);
-$("slots").addEventListener("change", applyEveningRule);
+serviceSelect.addEventListener("change", renderSlots);
+$("date").addEventListener("change", renderSlots);
+$("slots").addEventListener("change", applyLocations);
+renderSlots();
 
 if (tidyMode) {
   $("tidy").hidden = false;
@@ -520,6 +542,7 @@ $("bookingForm").addEventListener("submit", e => {
     !v("service") ? ["service", "Please choose a lesson."] :
     !v("date") ? ["date", "Please pick a date."] :
     v("date") < todayStr ? ["date", "That date has already passed — please pick another."] :
+    !openDays.includes(dayOf(v("date"))) ? ["date", `No lessons on that day. Lessons run ${fmtDays(openDays)}.`] :
     !v("time") ? [null, "Please pick a time."] :
     !v("name") ? ["name", "Please enter your name."] :
     v("phone").replace(/\D/g, "").length < 8 ? ["phone", "Please enter a valid phone number."] :
@@ -541,7 +564,7 @@ $("bookingForm").addEventListener("submit", e => {
     `Lesson: ${v("service")}`,
     `Date: ${niceDate}`,
     `Time: ${v("time")}`,
-    CONFIG.locations.length ? `Location: ${v("location")}` : null,
+    v("location") ? `Location: ${v("location")}` : null,
     `Name: ${v("name")}`,
     `Phone: ${v("phone")}`,
     v("notes") ? `Notes: ${v("notes")}` : null
@@ -561,8 +584,10 @@ contacts.forEach(([title, text, href]) => {
   if (href.startsWith("http")) { a.target = "_blank"; a.rel = "noopener"; }
   $("contactCards").append(el("div", { className: "card" }, el("h3", { textContent: title }), a));
 });
-if (CONFIG.locations.length) {
-  $("contactCards").append(el("div", { className: "card" }, el("h3", { textContent: "Where" }), el("p", { textContent: CONFIG.locations.join(" · ") })));
+if (CONFIG.schedule.length) {
+  $("contactCards").append(el("div", { className: "card where" }, el("h3", { textContent: "Where & when" }),
+    ...CONFIG.schedule.map(b => el("p", { textContent: blockText(b) })),
+    CONFIG.outsideArea ? el("p", { textContent: `${CONFIG.outsideArea}: extra charge` }) : ""));
 }
 
 $("footerText").textContent = `© ${now.getFullYear()} ${CONFIG.brand}. All rights reserved.`;
