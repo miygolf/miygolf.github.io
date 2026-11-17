@@ -150,6 +150,10 @@
   .instant { max-width: 720px; margin-bottom: 22px; }
   .instant p { margin: 10px 0 0; color: rgba(255,255,255,.75); }
   .instant h3 { margin-top: 34px; font-size: 1.3rem; }
+  .instant .policy {
+    margin-top: 18px; padding: 12px 16px; border-left: 3px solid rgba(255,255,255,.5);
+    background: rgba(255,255,255,.07); border-radius: 0 10px 10px 0; color: rgba(255,255,255,.9);
+  }
   .error { color: var(--danger); font-size: .9rem; margin: 0; min-height: 1.2em; }
   .note { color: var(--muted); font-size: .86rem; margin: 0; text-align: center; }
 
@@ -225,6 +229,7 @@
       <div class="instant" id="instant" hidden>
         <a class="btn js-book" href="#book">Pick a slot on Google Calendar</a>
         <p>See the open slots and book one instantly.</p>
+        <p class="policy"><strong>Need to cancel or reschedule?</strong> Please give at least 48 hours notice before your lesson. Use the link in your booking confirmation email, or WhatsApp us.</p>
         <h3>Or send a request via WhatsApp</h3>
         <p>For playing lessons, questions, or if you'd rather chat first.</p>
       </div>
