@@ -154,6 +154,13 @@
     margin-top: 18px; padding: 12px 16px; border-left: 3px solid rgba(255,255,255,.5);
     background: rgba(255,255,255,.07); border-radius: 0 10px 10px 0; color: rgba(255,255,255,.9);
   }
+  .row2:has(> .field[hidden]) { grid-template-columns: 1fr; }
+  .steps { margin: 0; padding-left: 1.3em; color: rgba(255,255,255,.9); display: grid; gap: 6px; }
+  .next { text-align: center; }
+  .next h3 { font-size: 1.3rem; margin: 0; }
+  .next p { margin: 0; color: var(--muted); }
+  .next .btn.outline { background: transparent; color: var(--green-700); box-shadow: inset 0 0 0 1.5px var(--green-700); width: 100%; padding: 13px 22px; }
+  .linkbtn { background: none; border: 0; padding: 4px; font: inherit; font-size: .9rem; color: var(--green-700); text-decoration: underline; cursor: pointer; }
   .error { color: var(--danger); font-size: .9rem; margin: 0; min-height: 1.2em; }
   .note { color: var(--muted); font-size: .86rem; margin: 0; text-align: center; }
 
@@ -227,11 +234,11 @@
       </div>
 
       <div class="instant" id="instant" hidden>
-        <a class="btn js-book" href="#book">Pick a slot on Google Calendar</a>
-        <p>See the open slots and book one instantly.</p>
+        <ol class="steps">
+          <li><b>Choose your lesson</b> and fill in your details below.</li>
+          <li><b>Pick an open slot</b> on Google Calendar. It opens next.</li>
+        </ol>
         <p class="policy"><strong>Need to cancel or reschedule?</strong> Please give at least 48 hours notice before your lesson. Use the link in your booking confirmation email, or WhatsApp us.</p>
-        <h3>Or send a request via WhatsApp</h3>
-        <p>For playing lessons, questions, or if you'd rather chat first.</p>
       </div>
 
       <form class="form" id="bookingForm" novalidate>
@@ -241,7 +248,7 @@
         </div>
 
         <div class="row2">
-          <div class="field">
+          <div class="field" id="dateField">
             <label for="date">Preferred date</label>
             <input type="date" id="date" name="date" required>
           </div>
@@ -251,7 +258,7 @@
           </div>
         </div>
 
-        <fieldset class="field">
+        <fieldset class="field" id="timeField">
           <legend>Preferred time <small>(9 AM – 10 PM, by appointment)</small></legend>
           <div class="slots" id="slots"></div>
         </fieldset>
@@ -273,9 +280,17 @@
         </div>
 
         <p class="error" id="formError" role="alert"></p>
-        <button class="btn green" type="submit">Send booking request via WhatsApp</button>
-        <p class="note">This is a request, not a confirmed slot — you'll get a WhatsApp reply to confirm.</p>
+        <button class="btn green" type="submit" id="submitBtn">Send booking request via WhatsApp</button>
+        <p class="note" id="formNote">This is a request, not a confirmed slot — you'll get a WhatsApp reply to confirm.</p>
       </form>
+
+      <div class="form next" id="nextStep" hidden>
+        <h3>Now pick your slot</h3>
+        <p>Google Calendar has opened in a new tab. Choose an open date and time there to confirm your <b id="nextLesson"></b>.</p>
+        <a class="btn green" id="openCal" target="_blank" rel="noopener">Open Google Calendar</a>
+        <a class="btn outline" id="sendWa" target="_blank" rel="noopener">Send my details on WhatsApp</a>
+        <button class="linkbtn" type="button" id="backToForm">Change my details</button>
+      </div>
     </div>
   </section>
 
@@ -367,6 +382,8 @@ $("aboutTitle").textContent = CONFIG.aboutTitle;
 CONFIG.about.forEach(p => $("aboutText").append(el("p", { textContent: p })));
 CONFIG.facts.forEach(f => $("facts").append(el("li", {}, el("b", { textContent: f.title }), el("span", { textContent: f.text }))));
 
+const calendarMode = !!CONFIG.bookingUrl;
+
 // --- Services ---
 const serviceSelect = $("service");
 serviceSelect.append(el("option", { value: "", textContent: "Choose a lesson…" }));
@@ -380,13 +397,10 @@ CONFIG.services.forEach(s => {
       window.open(waLink(`Hi ${displayName}, I'd like more info on the ${s.name}.`), "_blank", "noopener");
       return;
     }
-    if (CONFIG.bookingUrl) {
-      window.open(CONFIG.bookingUrl, "_blank", "noopener");
-      return;
-    }
     serviceSelect.value = s.name;
+    showForm();
     $("book").scrollIntoView();
-    $("date").focus({ preventScroll: true });
+    $(calendarMode ? "name" : "date").focus({ preventScroll: true });
   });
   $("serviceCards").append(el("article", { className: "card" },
     el("h3", { textContent: s.name }),
@@ -423,11 +437,21 @@ for (let t = CONFIG.hours.start * 60; t + CONFIG.slotMinutes <= CONFIG.hours.end
 }
 
 // --- Google Calendar booking page (kalau ada) ---
-if (CONFIG.bookingUrl) {
-  document.querySelectorAll(".js-book").forEach(a => { a.href = CONFIG.bookingUrl; a.target = "_blank"; a.rel = "noopener"; });
+// Pelanggan isi borang dulu (pilih lesson + butiran), lepas tu baru pilih slot kat Google Calendar.
+if (calendarMode) {
   $("instant").hidden = false;
-  $("bookIntro").textContent = "Book a slot instantly, or send a request on WhatsApp.";
+  $("bookIntro").textContent = "Two quick steps to book your lesson.";
+  $("dateField").hidden = true;
+  $("timeField").hidden = true;
+  $("submitBtn").textContent = "Next: pick a slot on Google Calendar";
+  $("formNote").textContent = "Google Calendar shows the open slots. Your booking is confirmed once you pick one there.";
+  $("openCal").href = CONFIG.bookingUrl;
 }
+function showForm() {
+  $("nextStep").hidden = true;
+  $("bookingForm").hidden = false;
+}
+$("backToForm").addEventListener("click", () => { showForm(); $("book").scrollIntoView(); });
 
 // --- Booking submit -> WhatsApp ---
 const waLink = text => `https://wa.me/${CONFIG.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(text)}`;
@@ -440,9 +464,9 @@ $("bookingForm").addEventListener("submit", e => {
 
   const missing =
     !v("service") ? ["service", "Please choose a lesson."] :
-    !v("date") ? ["date", "Please pick a date."] :
-    v("date") < todayStr ? ["date", "That date has already passed — please pick another."] :
-    !v("time") ? [null, "Please pick a time."] :
+    !calendarMode && !v("date") ? ["date", "Please pick a date."] :
+    !calendarMode && v("date") < todayStr ? ["date", "That date has already passed — please pick another."] :
+    !calendarMode && !v("time") ? [null, "Please pick a time."] :
     !v("name") ? ["name", "Please enter your name."] :
     v("phone").replace(/\D/g, "").length < 8 ? ["phone", "Please enter a valid phone number."] :
     null;
@@ -453,6 +477,25 @@ $("bookingForm").addEventListener("submit", e => {
     return;
   }
   err.textContent = "";
+
+  if (calendarMode) {
+    const details = [
+      `Hi ${displayName}, I'm booking a slot on your Google Calendar:`,
+      "",
+      `Lesson: ${v("service")}`,
+      CONFIG.locations.length ? `Location: ${v("location")}` : null,
+      `Name: ${v("name")}`,
+      `Phone: ${v("phone")}`,
+      v("notes") ? `Notes: ${v("notes")}` : null
+    ].filter(l => l !== null);
+    $("nextLesson").textContent = v("service");
+    $("sendWa").href = waLink(details.join("\n"));
+    $("bookingForm").hidden = true;
+    $("nextStep").hidden = false;
+    $("book").scrollIntoView();
+    window.open(CONFIG.bookingUrl, "_blank", "noopener");
+    return;
+  }
 
   const [y, m, d] = v("date").split("-").map(Number);
   const niceDate = new Date(y, m - 1, d).toLocaleDateString("en-MY", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
