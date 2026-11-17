@@ -147,20 +147,22 @@
   }
   .slots input:checked + span { background: var(--green-700); border-color: var(--green-700); color: #fff; font-weight: 600; }
   .slots input:focus-visible + span { outline: 3px solid var(--gold); outline-offset: 2px; }
-  .instant { max-width: 720px; margin-bottom: 22px; }
-  .instant p { margin: 10px 0 0; color: rgba(255,255,255,.75); }
-  .instant h3 { margin-top: 34px; font-size: 1.3rem; }
   .booking .policy {
     max-width: 720px; margin: 0 0 22px; padding: 12px 16px; border-left: 3px solid rgba(255,255,255,.5);
     background: rgba(255,255,255,.07); border-radius: 0 10px 10px 0; color: rgba(255,255,255,.9);
   }
-  .row2:has(> .field[hidden]) { grid-template-columns: 1fr; }
-  .steps { margin: 0; padding-left: 1.3em; color: rgba(255,255,255,.9); display: grid; gap: 6px; }
-  .next { text-align: center; }
-  .next h3 { font-size: 1.3rem; margin: 0; }
-  .next p { margin: 0; color: var(--muted); }
-  .next .btn.outline { background: transparent; color: var(--green-700); box-shadow: inset 0 0 0 1.5px var(--green-700); width: 100%; padding: 13px 22px; }
-  .linkbtn { background: none; border: 0; padding: 4px; font: inherit; font-size: .9rem; color: var(--green-700); text-decoration: underline; cursor: pointer; }
+  .lesson-tabs { display: flex; flex-wrap: wrap; gap: 10px; max-width: 720px; margin-bottom: 14px; }
+  .lesson-tabs button {
+    flex: 1 1 220px; min-height: 52px; padding: 11px 16px; border-radius: 12px; cursor: pointer; text-align: left;
+    font: inherit; font-weight: 600; color: #fff; background: transparent; border: 1.5px solid rgba(255,255,255,.35);
+  }
+  .lesson-tabs button small { display: block; font-weight: 400; font-size: .85rem; opacity: .8; }
+  .lesson-tabs button[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--green-900); }
+  .tidy-frame { background: transparent; border-radius: 20px; overflow: hidden; max-width: 720px; min-height: 500px; margin-bottom: 30px; }
+  .tidy-frame a { display: block; padding: 24px; color: #fff; }
+  .wa-alt { max-width: 720px; margin-bottom: 22px; }
+  .wa-alt h3 { font-size: 1.3rem; margin: 0; }
+  .wa-alt p { margin: 8px 0 16px; color: rgba(255,255,255,.75); }
   .error { color: var(--danger); font-size: .9rem; margin: 0; min-height: 1.2em; }
   .note { color: var(--muted); font-size: .86rem; margin: 0; text-align: center; }
 
@@ -233,14 +235,17 @@
         <p id="bookIntro">Fill this in and your request is sent straight to WhatsApp. You'll get a reply to confirm the slot.</p>
       </div>
 
-      <div class="instant" id="instant" hidden>
-        <ol class="steps">
-          <li><b>Choose your lesson</b> and fill in your details below.</li>
-          <li><b>Pick an open slot</b> on Google Calendar. It opens next.</li>
-        </ol>
-      </div>
-
       <p class="policy"><strong>Need to cancel or reschedule?</strong> Please give at least 48 hours notice before your lesson. <span id="policyHow">Just message us on WhatsApp.</span></p>
+
+      <div id="tidy" hidden>
+        <div class="lesson-tabs" id="lessonTabs" role="group" aria-label="Choose your lesson"></div>
+        <div class="tidy-frame" id="tidyFrame"></div>
+        <div class="wa-alt">
+          <h3>Prefer to chat first?</h3>
+          <p>Send a request on WhatsApp instead, for questions or a time you can't see above.</p>
+          <button class="btn ghost" type="button" id="showWaForm" aria-expanded="false" aria-controls="bookingForm">Send a request on WhatsApp</button>
+        </div>
+      </div>
 
       <form class="form" id="bookingForm" novalidate>
         <div class="field">
@@ -249,7 +254,7 @@
         </div>
 
         <div class="row2">
-          <div class="field" id="dateField">
+          <div class="field">
             <label for="date">Preferred date</label>
             <input type="date" id="date" name="date" required>
           </div>
@@ -259,7 +264,7 @@
           </div>
         </div>
 
-        <fieldset class="field" id="timeField">
+        <fieldset class="field">
           <legend>Preferred time <small>(9 AM – 10 PM, by appointment)</small></legend>
           <div class="slots" id="slots"></div>
         </fieldset>
@@ -281,17 +286,9 @@
         </div>
 
         <p class="error" id="formError" role="alert"></p>
-        <button class="btn green" type="submit" id="submitBtn">Send booking request via WhatsApp</button>
-        <p class="note" id="formNote">This is a request, not a confirmed slot — you'll get a WhatsApp reply to confirm.</p>
+        <button class="btn green" type="submit">Send booking request via WhatsApp</button>
+        <p class="note">This is a request, not a confirmed slot — you'll get a WhatsApp reply to confirm.</p>
       </form>
-
-      <div class="form next" id="nextStep" hidden>
-        <h3>Now pick your slot</h3>
-        <p>Google Calendar has opened in a new tab. Choose an open date and time there to confirm your <b id="nextLesson"></b>.</p>
-        <a class="btn green" id="openCal" target="_blank" rel="noopener">Open Google Calendar</a>
-        <a class="btn outline" id="sendWa" target="_blank" rel="noopener">Send my details on WhatsApp</a>
-        <button class="linkbtn" type="button" id="backToForm">Change my details</button>
-      </div>
     </div>
   </section>
 
@@ -322,7 +319,6 @@ const CONFIG = {
   headline: "Play better golf, one lesson at a time.",
   intro: "Personal golf lessons and on-course playing lessons with Coach Iqbal Yusoff in the PJ area. Book a session and let's work on your game.",
 
-  bookingUrl: "",                      // link booking page Google Calendar (calendar.app.google/...). Kosong = butang Book pergi ke borang WhatsApp
   whatsapp: "60198728829",                     // nombor WhatsApp, format antarabangsa tanpa "+": e.g. "60123456789"
   email: "",
   instagram: "",                       // username je, tanpa @
@@ -340,11 +336,12 @@ const CONFIG = {
   ],
 
   // dm: true = lesson ni diurus melalui WhatsApp (butang buka WhatsApp terus, tak masuk dalam borang).
+  // tidycal: path booking TidyCal (dari kod embed, data-path="..."). Ada = kalendar TidyCal keluar kat bahagian Book.
   // price: letak "RM 150" dsb. Kosongkan ("") kalau taknak tunjuk harga.
   services: [
-    { name: "Single Lesson", duration: "60 min", price: "RM 280", desc: "One 60-minute lesson, tailored to your swing and your goals." },
+    { name: "Single Lesson", duration: "60 min", price: "RM 280", tidycal: "miygolf/private", desc: "One 60-minute lesson, tailored to your swing and your goals." },
     { name: "Lesson Packages", dm: true, duration: "Multiple lessons", price: "", desc: "Lesson packages are available. Message on WhatsApp for details." },
-    { name: "Playing Lesson (On Course)", duration: "9 holes · 2 hours", price: "RM 500", desc: "Nine holes on the course with Coach Iqbal — strategy, shot selection and scoring. Green fee not included." }
+    { name: "Playing Lesson (On Course)", duration: "9 holes · 2 hours", price: "RM 500", tidycal: "miygolf/private-1rpwol9", desc: "Nine holes on the course with Coach Iqbal — strategy, shot selection and scoring. Green fee not included." }
   ],
 
   locations: ["PJ area", "Outside PJ (extra charge applies)"],
@@ -382,7 +379,27 @@ $("aboutTitle").textContent = CONFIG.aboutTitle;
 CONFIG.about.forEach(p => $("aboutText").append(el("p", { textContent: p })));
 CONFIG.facts.forEach(f => $("facts").append(el("li", {}, el("b", { textContent: f.title }), el("span", { textContent: f.text }))));
 
-const calendarMode = !!CONFIG.bookingUrl;
+// --- TidyCal booking calendar (kalau ada lesson dengan tidycal) ---
+const tidyServices = CONFIG.services.filter(s => s.tidycal);
+const tidyMode = tidyServices.length > 0;
+let tidyScriptAdded = false;
+function showTidy(s) {
+  document.querySelectorAll("#lessonTabs button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.name === s.name)));
+  const embed = el("div", { className: "tidycal-embed" },
+    el("a", { href: `https://tidycal.com/${s.tidycal}`, target: "_blank", rel: "noopener", textContent: "Loading the booking calendar… If it doesn't appear, tap here to book." }));
+  embed.dataset.path = s.tidycal;
+  $("tidyFrame").replaceChildren(embed);
+  if (window.TidyCal) {
+    window.TidyCal.init(embed);
+  } else if (!tidyScriptAdded) {
+    tidyScriptAdded = true;   // skrip TidyCal akan cari div.tidycal-embed sendiri bila dah load
+    document.head.append(el("script", { src: "https://asset-tidycal.b-cdn.net/js/embed.js", async: true }));
+  }
+}
+function openWaForm() {
+  $("bookingForm").hidden = false;
+  $("showWaForm").setAttribute("aria-expanded", "true");
+}
 
 // --- Services ---
 const serviceSelect = $("service");
@@ -397,10 +414,15 @@ CONFIG.services.forEach(s => {
       window.open(waLink(`Hi ${displayName}, I'd like more info on the ${s.name}.`), "_blank", "noopener");
       return;
     }
+    if (tidyMode && s.tidycal) {
+      showTidy(s);
+      $("book").scrollIntoView();
+      return;
+    }
     serviceSelect.value = s.name;
-    showForm();
+    if (tidyMode) openWaForm();
     $("book").scrollIntoView();
-    $(calendarMode ? "name" : "date").focus({ preventScroll: true });
+    $("date").focus({ preventScroll: true });
   });
   $("serviceCards").append(el("article", { className: "card" },
     el("h3", { textContent: s.name }),
@@ -436,23 +458,24 @@ for (let t = CONFIG.hours.start * 60; t + CONFIG.slotMinutes <= CONFIG.hours.end
   ));
 }
 
-// --- Google Calendar booking page (kalau ada) ---
-// Pelanggan isi borang dulu (pilih lesson + butiran), lepas tu baru pilih slot kat Google Calendar.
-if (calendarMode) {
-  $("instant").hidden = false;
-  $("bookIntro").textContent = "Two quick steps to book your lesson.";
-  $("dateField").hidden = true;
-  $("timeField").hidden = true;
-  $("submitBtn").textContent = "Next: pick a slot on Google Calendar";
-  $("formNote").textContent = "Google Calendar shows the open slots. Your booking is confirmed once you pick one there.";
-  $("openCal").href = CONFIG.bookingUrl;
-  $("policyHow").textContent = "Use the link in your booking confirmation email, or WhatsApp us.";
+if (tidyMode) {
+  $("tidy").hidden = false;
+  $("bookingForm").hidden = true;
+  $("bookIntro").textContent = "Choose your lesson, then pick an open date and time below. You'll get a confirmation email straight away.";
+  $("policyHow").textContent = "Use the link in your confirmation email, or WhatsApp us.";
+  tidyServices.forEach(s => {
+    const b = el("button", { type: "button" }, s.name, el("small", { textContent: [s.duration, s.price].filter(Boolean).join(" · ") }));
+    b.dataset.name = s.name;
+    b.addEventListener("click", () => showTidy(s));
+    $("lessonTabs").append(b);
+  });
+  showTidy(tidyServices[0]);
+  $("showWaForm").addEventListener("click", () => {
+    const opening = $("bookingForm").hidden;
+    if (opening) { openWaForm(); $("service").focus(); }
+    else { $("bookingForm").hidden = true; $("showWaForm").setAttribute("aria-expanded", "false"); }
+  });
 }
-function showForm() {
-  $("nextStep").hidden = true;
-  $("bookingForm").hidden = false;
-}
-$("backToForm").addEventListener("click", () => { showForm(); $("book").scrollIntoView(); });
 
 // --- Booking submit -> WhatsApp ---
 const waLink = text => `https://wa.me/${CONFIG.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(text)}`;
@@ -465,9 +488,9 @@ $("bookingForm").addEventListener("submit", e => {
 
   const missing =
     !v("service") ? ["service", "Please choose a lesson."] :
-    !calendarMode && !v("date") ? ["date", "Please pick a date."] :
-    !calendarMode && v("date") < todayStr ? ["date", "That date has already passed — please pick another."] :
-    !calendarMode && !v("time") ? [null, "Please pick a time."] :
+    !v("date") ? ["date", "Please pick a date."] :
+    v("date") < todayStr ? ["date", "That date has already passed — please pick another."] :
+    !v("time") ? [null, "Please pick a time."] :
     !v("name") ? ["name", "Please enter your name."] :
     v("phone").replace(/\D/g, "").length < 8 ? ["phone", "Please enter a valid phone number."] :
     null;
@@ -478,25 +501,6 @@ $("bookingForm").addEventListener("submit", e => {
     return;
   }
   err.textContent = "";
-
-  if (calendarMode) {
-    const details = [
-      `Hi ${displayName}, I'm booking a slot on your Google Calendar:`,
-      "",
-      `Lesson: ${v("service")}`,
-      CONFIG.locations.length ? `Location: ${v("location")}` : null,
-      `Name: ${v("name")}`,
-      `Phone: ${v("phone")}`,
-      v("notes") ? `Notes: ${v("notes")}` : null
-    ].filter(l => l !== null);
-    $("nextLesson").textContent = v("service");
-    $("sendWa").href = waLink(details.join("\n"));
-    $("bookingForm").hidden = true;
-    $("nextStep").hidden = false;
-    $("book").scrollIntoView();
-    window.open(CONFIG.bookingUrl, "_blank", "noopener");
-    return;
-  }
 
   const [y, m, d] = v("date").split("-").map(Number);
   const niceDate = new Date(y, m - 1, d).toLocaleDateString("en-MY", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
