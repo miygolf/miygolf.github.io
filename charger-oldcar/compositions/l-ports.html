@@ -1,0 +1,30 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .lx { position: absolute; left: 120px; width: 840px; text-align: center; color: #fff; isolation: isolate; }
+    .lx::before { content: ""; position: absolute; left: -60px; right: -60px; top: -90px; bottom: -90px; z-index: -1; background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.32) 45%, rgba(0, 0, 0, 0) 72%); }
+    .lx-k { font-family: "Playfair Display", serif; font-weight: 400; font-size: 28px; letter-spacing: 0.32em; text-transform: uppercase; color: #f2dfac; text-shadow: 0 0 2px rgba(0, 0, 0, 0.9), 0 2px 18px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.45); }
+    .lx-rule { width: 220px; height: 2px; margin: 18px auto 20px; background: #e3cc93; box-shadow: 0 0 8px rgba(0, 0, 0, 0.6); transform-origin: center; }
+    .lx-h { font-family: "Playfair Display", serif; font-weight: 400; font-style: italic; font-size: 64px; line-height: 1.16; text-shadow: 0 0 2px rgba(0, 0, 0, 0.9), 0 2px 18px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.45); }
+    .lx-s { font-family: "Playfair Display", serif; font-weight: 400; font-size: 36px; line-height: 1.35; margin-top: 16px; color: #fff8e8; text-shadow: 0 0 2px rgba(0, 0, 0, 0.9), 0 2px 18px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.45); }
+    #l-ports-w { top: 360px; }
+  </style>
+  <div id="root" data-composition-id="l-ports" data-width="1080" data-height="1920">
+    <div id="l-ports-w" class="lx">
+      <div id="l-ports-k" class="lx-k">Empat port</div>
+      <div id="l-ports-r" class="lx-rule"></div>
+      <div id="l-ports-h" class="lx-h">Dua kabel Type-C,<br />tersimpan kemas.</div>
+      <div id="l-ports-s" class="lx-s">PD30W · 2.4A · 3A · 2.4A</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#l-ports-k", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" }, 0.35);
+    tl.fromTo("#l-ports-r", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "power2.inOut" }, 0.50);
+    tl.fromTo("#l-ports-h", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, 0.70);
+    tl.fromTo("#l-ports-s", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" }, 1.15);
+    tl.to("#l-ports-w", { opacity: 0, duration: 0.35, ease: "power1.in" }, 2.55);
+    tl.set({}, {}, 2.98);
+    window.__timelines["l-ports"] = tl;
+  </script>
+</template>

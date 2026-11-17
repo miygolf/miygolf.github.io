@@ -1,0 +1,24 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .lx { position: absolute; left: 120px; width: 840px; text-align: center; color: #fff; isolation: isolate; }
+    .lx::before { content: ""; position: absolute; left: -60px; right: -60px; top: -90px; bottom: -90px; z-index: -1; background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.32) 45%, rgba(0, 0, 0, 0) 72%); }
+    .lx-k { font-family: "Playfair Display", serif; font-weight: 400; font-size: 28px; letter-spacing: 0.32em; text-transform: uppercase; color: #f2dfac; text-shadow: 0 0 2px rgba(0, 0, 0, 0.9), 0 2px 18px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.45); }
+    .lx-rule { width: 220px; height: 2px; margin: 18px auto 20px; background: #e3cc93; box-shadow: 0 0 8px rgba(0, 0, 0, 0.6); transform-origin: center; }
+    .lx-h { font-family: "Playfair Display", serif; font-weight: 400; font-style: italic; font-size: 64px; line-height: 1.16; text-shadow: 0 0 2px rgba(0, 0, 0, 0.9), 0 2px 18px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.45); }
+    .lx-s { font-family: "Playfair Display", serif; font-weight: 400; font-size: 36px; line-height: 1.35; margin-top: 16px; color: #fff8e8; text-shadow: 0 0 2px rgba(0, 0, 0, 0.9), 0 2px 18px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.45); }
+    #l-plug-w { top: 360px; }
+  </style>
+  <div id="root" data-composition-id="l-plug" data-width="1080" data-height="1920">
+    <div id="l-plug-w" class="lx">
+      <div id="l-plug-h" class="lx-h">Satu sentuhan.</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#l-plug-h", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, 0.35);
+    tl.to("#l-plug-w", { opacity: 0, duration: 0.35, ease: "power1.in" }, 1.95);
+    tl.set({}, {}, 2.38);
+    window.__timelines["l-plug"] = tl;
+  </script>
+</template>
