@@ -1,0 +1,16 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #hk { position: absolute; left: 120px; top: 330px; width: 768px; text-align: center; font-family: "Montserrat", sans-serif; font-weight: 700; font-size: 50px; line-height: 1.15; color: #fff; text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000; }
+    #hk span { color: #ffe14d; }
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+    <div id="hk">Wire <span>bersepah</span> dalam kereta lama?</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.to("#hk", { opacity: 0, duration: 0.2, ease: "power1.in" }, 4.3);
+    tl.set({}, {}, 4.53);
+    window.__timelines["hook"] = tl;
+  </script>
+</template>
