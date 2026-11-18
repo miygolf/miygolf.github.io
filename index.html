@@ -365,9 +365,9 @@ const CONFIG = {
   ],
 
   // Waktu & lokasi lesson. days: 0 = Ahad, 1 = Isnin ... 6 = Sabtu. start/end: jam, format 24 jam.
-  // Ikut waktu dalam TidyCal.
+  // Ikut waktu dalam TidyCal. breaks: waktu tutup dalam blok (contoh Jumaat 11 AM–3 PM).
   schedule: [
-    { id: "day", days: [1, 2, 3, 4, 5], start: 8, end: 17, locations: ["XPark Kota Damansara", "KWASA Driving Range", "XPark PJ South"] },
+    { id: "day", days: [1, 2, 3, 4, 5], start: 8, end: 17, breaks: [{ days: [5], start: 11, end: 15 }], locations: ["XPark Kota Damansara", "KWASA Driving Range", "XPark PJ South"] },
     { id: "night", days: [2, 3, 4], start: 17, end: 22, locations: ["Kota Damansara area", "KWASA Driving Range"] }
   ],
 
@@ -433,7 +433,7 @@ function showTidy(tab) {
 function tabNote(tab) {
   const s = CONFIG.services.find(x => x.name === tab.service) || {};
   const b = CONFIG.schedule.find(x => x.id === tab.time);
-  const when = b ? `${fmtDays(b.days)}, ${fmtHour(b.start)}–${fmtHour(b.end)}` : "";
+  const when = b ? whenText(b) : "";
   if (s.course) return `${when}. ${s.courseNote || ""}`;
   const where = b ? orList(b.locations.map(l => { const p = lessonPrice(s.name, l, 1); return p ? `${l} (${p})` : l; })) : "";
   return `${when} at ${where}, for 1 person.`;
@@ -506,7 +506,9 @@ const fmtHour = h => `${h % 12 || 12} ${h < 12 ? "AM" : "PM"}`;
 const fmtDays = days => days.length > 2 && days.every((d, i) => i === 0 || d === days[i - 1] + 1)
   ? `${DAYS[days[0]]}–${DAYS[days[days.length - 1]]}` : days.map(d => DAYS[d]).join(", ");
 const orList = a => a.length > 1 ? `${a.slice(0, -1).join(", ")} or ${a[a.length - 1]}` : a.join("");
-const blockText = b => `${fmtDays(b.days)}, ${fmtHour(b.start)}–${fmtHour(b.end)}: ${orList(b.locations)}`;
+const whenText = b => `${fmtDays(b.days)}, ${fmtHour(b.start)}–${fmtHour(b.end)}` +
+  (b.breaks || []).map(br => ` (${fmtDays(br.days)} closed ${fmtHour(br.start)}–${fmtHour(br.end)})`).join("");
+const blockText = b => `${whenText(b)}: ${orList(b.locations)}`;
 // Waktu yang dibenarkan untuk lesson s (ikut s.times), pada hari `day` (kosong = semua hari)
 const blocksFor = (s, day) => CONFIG.schedule.filter(b =>
   (day === undefined || b.days.includes(day)) && (!s || !s.times || s.times.includes(b.id)));
@@ -544,6 +546,8 @@ function renderSlots() {
       $("timeHint").textContent = `(${blocks.map(b => `${fmtHour(b.start)}–${fmtHour(b.end)}`).join(" & ")})`;
       blocks.forEach(b => {
         for (let t = b.start * 60; t + len <= b.end * 60; t += CONFIG.slotMinutes) {
+          const inBreak = (b.breaks || []).some(br => br.days.includes(dayOf(date)) && t < br.end * 60 && t + len > br.start * 60);
+          if (inBreak) continue;
           const input = el("input", { type: "radio", name: "time", value: fmtTime(t), checked: fmtTime(t) === prev });
           input.dataset.block = CONFIG.schedule.indexOf(b);
           $("slots").append(el("label", {}, input, el("span", { textContent: fmtTime(t) })));
