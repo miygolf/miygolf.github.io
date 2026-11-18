@@ -269,6 +269,12 @@
           <div class="slots" id="slots"></div>
         </fieldset>
 
+        <div class="field" id="paxField" hidden>
+          <label for="pax">Number of people</label>
+          <select id="pax" name="pax" aria-describedby="paxHint"></select>
+          <small class="hint" id="paxHint"></small>
+        </div>
+
         <div class="field" id="locationField">
           <label for="location">Location</label>
           <select id="location" name="location" aria-describedby="locationHint"></select>
@@ -344,13 +350,14 @@ const CONFIG = {
   // dm: true = lesson ni diurus melalui WhatsApp (butang buka WhatsApp terus, tak masuk dalam borang).
   // tidycal: path booking TidyCal (dari kod embed, data-path="..."). Ada = kalendar TidyCal keluar kat bahagian Book.
   // minutes: tempoh lesson (untuk kira slot masa terakhir).
+  // extraPax: tambahan harga untuk setiap orang lepas orang pertama. maxPax: had orang dalam borang (lebih = WhatsApp).
   // prices: harga ikut lokasi (nama lokasi mesti sama macam dalam schedule; "Outside area" = luar kawasan).
   // course: lokasi tetap untuk lesson ni (ganti pilihan lokasi biasa), courseNote: nota bawah lokasi.
   // price: letak "RM 150" dsb. Kosongkan ("") kalau taknak tunjuk harga.
   services: [
-    { name: "Single Lesson", duration: "60 min", minutes: 60, price: "From RM 250",
+    { name: "Single Lesson", duration: "60 min", minutes: 60, price: "From RM 250", extraPax: 90, maxPax: 3,
       prices: { "XPark Kota Damansara": "RM 250", "KWASA Driving Range": "RM 250", "Kota Damansara area": "RM 250", "XPark PJ South": "RM 280", "Outside area": "RM 320" },
-      desc: "One 60-minute lesson, tailored to your swing and your goals." },
+      desc: "One 60-minute coaching lesson, tailored to your swing and your goals. Practice balls are provided for short game only." },
     { name: "Lesson Packages", dm: true, duration: "Multiple lessons", price: "", desc: "Lesson packages are available. Message on WhatsApp for details." },
     { name: "Playing Lesson (On Course)", duration: "9 holes · 2 hours", minutes: 120, price: "RM 600", course: "Golf course (TBC)", courseNote: "The golf course will be arranged with you on WhatsApp.", desc: "Nine holes on the course with Coach Iqbal — strategy, shot selection and scoring. Course arranged on WhatsApp. Green fee not included." }
   ],
@@ -415,12 +422,16 @@ function openWaForm() {
   $("showWaForm").setAttribute("aria-expanded", "true");
 }
 
+const amt = p => Number(String(p).replace(/[^\d.]/g, ""));
+const rm = n => `RM ${n.toLocaleString("en-MY")}`;
+
 // Senarai harga ikut lokasi untuk kad lesson (lokasi yang sama harga digabung satu baris)
 function priceList(s) {
   const groups = new Map();
   Object.entries(s.prices).forEach(([l, p]) => groups.set(p, [...(groups.get(p) || []), l]));
   return el("ul", { className: "price-list" },
-    ...[...groups].map(([p, ls]) => el("li", {}, el("span", { textContent: ls.join(" / ") }), el("b", { textContent: p }))));
+    ...[...groups].map(([p, ls]) => el("li", {}, el("span", { textContent: ls.join(" / ") }), el("b", { textContent: p }))),
+    s.extraPax ? el("li", {}, el("span", { textContent: `Each extra person (up to ${s.maxPax} people)` }), el("b", { textContent: `+${rm(s.extraPax)}` })) : "");
 }
 
 // --- Services ---
@@ -478,7 +489,20 @@ const openDays = [...new Set(CONFIG.schedule.flatMap(b => b.days))].sort();
 const currentService = () => CONFIG.services.find(x => x.name === serviceSelect.value);
 const dayOf = dateStr => new Date(`${dateStr}T00:00`).getDay();
 
+// --- Bilangan orang (untuk lesson yang ada maxPax) ---
+const paxCount = () => $("paxField").hidden ? 1 : Number($("pax").value) || 1;
+function renderPax() {
+  const s = currentService();
+  const max = (s && s.maxPax) || 1;
+  const prev = paxCount();
+  $("paxField").hidden = max < 2;
+  $("pax").replaceChildren(...Array.from({ length: max }, (_, i) =>
+    el("option", { value: i + 1, textContent: i ? `${i + 1} people` : "1 person", selected: i + 1 === prev })));
+  $("paxHint").textContent = max > 1 ? `+${rm(s.extraPax || 0)} per extra person. ${max + 1} or more? Message us on WhatsApp.` : "";
+}
+
 function renderSlots() {
+  renderPax();
   const s = currentService();
   const len = (s && s.minutes) || CONFIG.slotMinutes;
   const date = $("date").value;
@@ -518,7 +542,7 @@ function applyLocations() {
   const sel = $("location");
   const prev = sel.value;
   const label = l => {
-    const p = s && s.prices && s.prices[l];
+    const p = s && s.prices ? lessonPrice(s.name, l, paxCount()) : "";
     return p ? `${l} (${p})` : l === CONFIG.outsideArea ? `${l} (extra charge)` : l;
   };
   sel.replaceChildren(...list.map(l => el("option", { value: l, textContent: label(l), selected: l === prev })));
@@ -530,6 +554,7 @@ function applyLocations() {
 serviceSelect.addEventListener("change", renderSlots);
 $("date").addEventListener("change", renderSlots);
 $("slots").addEventListener("change", applyLocations);
+$("pax").addEventListener("change", applyLocations);
 renderSlots();
 
 if (tidyMode) {
@@ -551,10 +576,11 @@ if (tidyMode) {
   });
 }
 
-function lessonPrice(name, location) {
+function lessonPrice(name, location, pax = 1) {
   const s = CONFIG.services.find(x => x.name === name);
-  if (!s) return "";
-  return s.prices ? s.prices[location] || "" : s.price || "";
+  const base = s && (s.prices ? s.prices[location] : s.price);
+  if (!base || !amt(base)) return "";
+  return rm(amt(base) + (s.extraPax || 0) * (pax - 1));
 }
 
 // --- Booking submit -> WhatsApp ---
@@ -593,7 +619,8 @@ $("bookingForm").addEventListener("submit", e => {
     `Date: ${niceDate}`,
     `Time: ${v("time")}`,
     v("location") ? `Location: ${v("location")}` : null,
-    lessonPrice(v("service"), v("location")) ? `Price: ${lessonPrice(v("service"), v("location"))}` : null,
+    $("paxField").hidden ? null : `People: ${paxCount()}`,
+    lessonPrice(v("service"), v("location"), paxCount()) ? `Price: ${lessonPrice(v("service"), v("location"), paxCount())}` : null,
     `Name: ${v("name")}`,
     `Phone: ${v("phone")}`,
     v("notes") ? `Notes: ${v("notes")}` : null
