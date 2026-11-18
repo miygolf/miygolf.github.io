@@ -7,7 +7,7 @@
 <link rel="icon" type="image/png" href="icon.png">
 <link rel="apple-touch-icon" href="icon.png">
 <meta property="og:title" content="MIY Golf — Golf Lessons with Coach Iqbal">
-<meta property="og:description" content="Book a golf lesson or a 9-hole playing lesson with Coach Iqbal Yusoff in Kota Damansara and PJ South.">
+<meta property="og:description" content="Book a golf lesson or a 9-hole playing lesson with Coach Iqbal Yusoff in Petaling Jaya, Kota Damansara, Puncak Alam and Cyberjaya.">
 <meta property="og:image" content="https://miygolfperformance-sketch.github.io/miygolf/logo.jpg">
 <meta property="og:type" content="website">
 <meta name="description" content="Book golf lessons with Coach Iqbal Yusoff — MIY Golf.">
@@ -331,7 +331,7 @@ const CONFIG = {
   photo: "",                           // e.g. "photo.jpg" (letak fail dalam folder yang sama)
   tagline: "Golf coaching",
   headline: "Play better golf, one lesson at a time.",
-  intro: "Personal golf lessons and on-course playing lessons with Coach Iqbal Yusoff at XPark Kota Damansara, KWASA Driving Range, XPark PJ South and around Kota Damansara. Book a session and let's work on your game.",
+  intro: "Personal golf lessons and on-course playing lessons with Coach Iqbal Yusoff at XPark PJ South, XPark Kota Damansara, KWASA, Puncak Alam and Semarak Range in Cyberjaya. Book a session and let's work on your game.",
 
   whatsapp: "60198728829",                     // nombor WhatsApp, format antarabangsa tanpa "+": e.g. "60123456789"
   email: "",
@@ -344,7 +344,7 @@ const CONFIG = {
   ],
   facts: [
     { title: "Lessons & on-course", text: "60-minute lessons, packages and 9-hole playing lessons" },
-    { title: "Kota Damansara & PJ South", text: "XPark Kota Damansara, KWASA Driving Range and XPark PJ South. Outside the area available with an extra charge" },
+    { title: "PJ, Kota Damansara & more", text: "XPark PJ South, XPark Kota Damansara, KWASA, Puncak Alam and Semarak Range (Cyberjaya). Outside the area available with an extra charge" },
     { title: "Mon – Fri", text: "Mon–Fri 8 AM–5 PM · Tue–Thu evenings 5 PM–10 PM. By appointment only" },
     { title: "Payment", text: "Cash, MyDebit, Tap2Pay Visa / Mastercard" }
   ],
@@ -358,17 +358,17 @@ const CONFIG = {
   // price: letak "RM 150" dsb. Kosongkan ("") kalau taknak tunjuk harga.
   services: [
     { name: "Single Lesson", duration: "60 min", minutes: 60, price: "From RM 250", extraPax: 90, maxPax: 3,
-      prices: { "XPark Kota Damansara": "RM 250", "KWASA Driving Range": "RM 250", "Kota Damansara area": "RM 250", "XPark PJ South": "RM 280", "Outside area": "RM 320" },
+      prices: { "XPark Kota Damansara": "RM 250", "KWASA Driving Range": "RM 250", "XPark PJ South": "RM 280", "Puncak Alam Driving Range": "RM 280", "Semarak Range, Cyberjaya": "RM 320", "Outside area": "RM 320" },
       desc: "One 60-minute coaching lesson, tailored to your swing and your goals. Practice balls are provided for short game only." },
     { name: "Lesson Packages", dm: true, duration: "Multiple lessons", price: "", desc: "Lesson packages are available. Message on WhatsApp for details." },
     { name: "Playing Lesson (On Course)", duration: "9 holes · 2 hours", minutes: 120, price: "RM 600", times: ["day"], course: "Golf course (TBC)", courseNote: "The golf course will be arranged with you on WhatsApp.", desc: "Nine holes on the course with Coach Iqbal — strategy, shot selection and scoring. Course arranged on WhatsApp. Green fee not included." }
   ],
 
   // Waktu & lokasi lesson. days: 0 = Ahad, 1 = Isnin ... 6 = Sabtu. start/end: jam, format 24 jam.
-  // Ikut waktu dalam TidyCal. breaks: waktu tutup dalam blok (contoh Jumaat 11 AM–3 PM).
+  // Ikut waktu & lokasi dalam TidyCal. breaks: waktu tutup dalam blok (contoh Jumaat 11 AM–3 PM).
   schedule: [
-    { id: "day", days: [1, 2, 3, 4, 5], start: 8, end: 17, breaks: [{ days: [5], start: 11, end: 15 }], locations: ["XPark Kota Damansara", "KWASA Driving Range", "XPark PJ South"] },
-    { id: "night", days: [2, 3, 4], start: 17, end: 22, locations: ["Kota Damansara area", "KWASA Driving Range"] }
+    { id: "day", days: [1, 2, 3, 4, 5], start: 8, end: 17, breaks: [{ days: [5], start: 11, end: 15 }], locations: ["XPark PJ South", "Semarak Range, Cyberjaya"] },
+    { id: "night", days: [2, 3, 4], start: 17, end: 22, locations: ["XPark Kota Damansara", "KWASA Driving Range", "Puncak Alam Driving Range"] }
   ],
 
   // Kalendar TidyCal dalam bahagian Book (path dari kod embed, data-path="..."). Kosongkan [] = guna borang WhatsApp sahaja.
@@ -594,7 +594,9 @@ if (tidyMode) {
     const s = CONFIG.services.find(x => x.name === tab.service) || {};
     const b = CONFIG.schedule.find(x => x.id === tab.time);
     const when = b ? `${fmtDays(b.days)}, ${fmtHour(b.start)}–${fmtHour(b.end)}` : "";
-    const btn = el("button", { type: "button" }, tab.label, el("small", { textContent: [when, s.price].filter(Boolean).join(" · ") }));
+    const lows = s.prices && b ? b.locations.map(l => amt(lessonPrice(s.name, l, 1))).filter(Boolean) : [];
+    const price = lows.length ? `From ${rm(Math.min(...lows))}` : s.price;
+    const btn = el("button", { type: "button" }, tab.label, el("small", { textContent: [when, price].filter(Boolean).join(" · ") }));
     btn.addEventListener("click", () => showTidy(tab));
     $("lessonTabs").append(btn);
   });
