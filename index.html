@@ -361,7 +361,7 @@ const CONFIG = {
       prices: { "XPark Kota Damansara": "RM 250", "KWASA Driving Range": "RM 250", "XPark PJ South": "RM 280", "Puncak Alam Driving Range": "RM 280", "Semarak Range, Cyberjaya": "RM 320", "Outside area": "RM 320" },
       desc: "One 60-minute coaching lesson, tailored to your swing and your goals. Practice balls are provided for short game only." },
     { name: "Lesson Packages", dm: true, duration: "Multiple lessons", price: "", desc: "Lesson packages are available. Message on WhatsApp for details." },
-    { name: "Playing Lesson (On Course)", duration: "9 holes · 2 hours", minutes: 120, price: "RM 600", times: ["day"], course: "Golf course (TBC)", courseNote: "The golf course will be arranged with you on WhatsApp.", desc: "Nine holes on the course with Coach Iqbal — strategy, shot selection and scoring. Course arranged on WhatsApp. Green fee not included." }
+    { name: "Playing Lesson (On Course)", duration: "9 holes · 2 hours", minutes: 120, price: "RM 450", times: ["day"], course: "Golf course (TBC)", courseNote: "The golf course will be arranged with you on WhatsApp.", desc: "Nine holes on the course with Coach Iqbal — strategy, shot selection and scoring. Course arranged on WhatsApp. Green fee not included." }
   ],
 
   // Waktu & lokasi lesson. days: 0 = Ahad, 1 = Isnin ... 6 = Sabtu. start/end: jam, format 24 jam.
@@ -594,9 +594,7 @@ if (tidyMode) {
     const s = CONFIG.services.find(x => x.name === tab.service) || {};
     const b = CONFIG.schedule.find(x => x.id === tab.time);
     const when = b ? `${fmtDays(b.days)}, ${fmtHour(b.start)}–${fmtHour(b.end)}` : "";
-    const lows = s.prices && b ? b.locations.map(l => amt(lessonPrice(s.name, l, 1))).filter(Boolean) : [];
-    const price = lows.length ? `From ${rm(Math.min(...lows))}` : s.price;
-    const btn = el("button", { type: "button" }, tab.label, el("small", { textContent: [when, price].filter(Boolean).join(" · ") }));
+    const btn = el("button", { type: "button" }, tab.label, el("small", { textContent: [when, s.price].filter(Boolean).join(" · ") }));
     btn.addEventListener("click", () => showTidy(tab));
     $("lessonTabs").append(btn);
   });
