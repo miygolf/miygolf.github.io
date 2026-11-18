@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MIY Golf — Package Lessons</title>
+<!-- Page untuk client pakej sahaja: tak ada link dari page utama, dan Google diminta jangan senaraikan. -->
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="../icon.png">
+<link rel="apple-touch-icon" href="../icon.png">
+<meta property="og:title" content="MIY Golf — Book your package lesson">
+<meta property="og:description" content="For MIY Golf package clients: book your next lesson with Coach Iqbal.">
+<meta property="og:image" content="https://miygolf.github.io/logo.jpg">
+<meta property="og:type" content="website">
+<style>
+  :root {
+    --green-900: #0f2a1d;
+    --green-700: #1c4a33;
+    --cream: #f6f2e8;
+    --ink: #17211b;
+    --muted: #5d6b62;
+    --gold: #c39a3f;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #fff; background: var(--green-900); line-height: 1.6; -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; line-height: 1.15; margin: 0; font-weight: 600; }
+  a { color: inherit; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+  [hidden] { display: none !important; }
+
+  .nav { position: sticky; top: 0; z-index: 20; background: rgba(15, 42, 29, .96); backdrop-filter: blur(6px); border-bottom: 1px solid rgba(255,255,255,.08); }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .brand { display: inline-flex; align-items: center; gap: 10px; font-family: Georgia, serif; font-size: 1.1rem; letter-spacing: .02em; text-decoration: none; }
+  .brand img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 1.5px var(--gold); }
+  .brand b { color: var(--gold); font-weight: 600; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 13px 22px; border-radius: 999px; border: 0; cursor: pointer;
+    font: inherit; font-weight: 600; text-decoration: none;
+    background: var(--gold); color: #1d1605; transition: transform .12s, filter .12s;
+  }
+  .btn:hover { filter: brightness(1.07); transform: translateY(-1px); }
+  .btn:focus-visible, a:focus-visible, button:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+  .btn.small { padding: 8px 16px; font-size: .88rem; }
+  .btn.ghost { background: transparent; color: #fff; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.5); }
+
+  main { padding: 48px 0 24px; }
+  .eyebrow { text-transform: uppercase; letter-spacing: .18em; font-size: .75rem; color: var(--gold); font-weight: 700; }
+  .head { margin-bottom: 26px; max-width: 720px; }
+  .head h1 { font-size: clamp(1.9rem, 5vw, 2.6rem); margin: 10px 0 12px; }
+  .head p { margin: 0 0 10px; color: rgba(255,255,255,.8); }
+  .tip { margin-top: 14px; padding: 12px 16px; border-radius: 12px; background: rgba(195,154,63,.14); border: 1px solid rgba(195,154,63,.45); color: #fff; }
+  .policy {
+    max-width: 720px; margin: 0 0 22px; padding: 12px 16px; border-left: 3px solid rgba(255,255,255,.5);
+    background: rgba(255,255,255,.07); border-radius: 0 10px 10px 0; color: rgba(255,255,255,.9);
+  }
+  .lesson-tabs { display: flex; flex-wrap: wrap; gap: 10px; max-width: 720px; margin-bottom: 14px; }
+  .lesson-tabs button {
+    flex: 1 1 220px; min-height: 52px; padding: 11px 16px; border-radius: 12px; cursor: pointer; text-align: left;
+    font: inherit; font-weight: 600; color: #fff; background: transparent; border: 1.5px solid rgba(255,255,255,.35);
+  }
+  .lesson-tabs button small { display: block; font-weight: 400; font-size: .85rem; opacity: .8; }
+  .lesson-tabs button[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--green-900); }
+  .tidy-note { max-width: 720px; margin: 0 0 14px; color: rgba(255,255,255,.85); font-size: .95rem; }
+  .tidy-frame { border-radius: 20px; overflow: hidden; max-width: 720px; min-height: 500px; margin-bottom: 30px; }
+  .tidy-frame a { display: block; padding: 24px; color: #fff; }
+  .help { max-width: 720px; margin-bottom: 10px; }
+  .help h2 { font-size: 1.3rem; }
+  .help p { margin: 8px 0 16px; color: rgba(255,255,255,.75); }
+  .help .row { display: flex; flex-wrap: wrap; gap: 12px; }
+  footer { padding: 28px 0 40px; color: rgba(255,255,255,.55); font-size: .88rem; text-align: center; }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../"><img src="../logo.jpg" alt=""><span><b>MIY</b> Golf</span></a>
+    <a class="btn small" id="waTop" target="_blank" rel="noopener">WhatsApp</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">Package clients</div>
+      <h1>Book your package lesson</h1>
+      <p>Welcome back! Choose Day or Night, then pick an open date and time below. You'll get a confirmation email straight away.</p>
+      <p class="tip"><strong>When you book,</strong> please add your package (4 or 8 lessons) and which lesson this is, for example "3 of 8".</p>
+    </div>
+
+    <p class="policy"><strong>Need to cancel or reschedule?</strong> Please give at least 48 hours notice before your lesson. Use the link in your confirmation email, or WhatsApp us.</p>
+
+    <div class="lesson-tabs" id="lessonTabs" role="group" aria-label="Choose Day or Night"></div>
+    <p class="tidy-note" id="tidyNote"></p>
+    <div class="tidy-frame" id="tidyFrame"></div>
+
+    <div class="help">
+      <h2>Need help?</h2>
+      <p>Can't find a time that works, or not sure how many lessons you have left? Message Coach Iqbal on WhatsApp.</p>
+      <div class="row">
+        <a class="btn" id="waHelp" target="_blank" rel="noopener">Message on WhatsApp</a>
+        <a class="btn ghost" href="../">Back to main site</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer><div class="wrap" id="footerText"></div></footer>
+
+<script>
+/* ============================================================
+   EDIT HERE — booking TidyCal untuk client pakej.
+   path: dari kod embed TidyCal (data-path="...").
+   ============================================================ */
+const CONFIG = {
+  brand: "MIY Golf",
+  coachName: "Coach Iqbal",
+  whatsapp: "60198728829",
+  tabs: [
+    { label: "Package Lesson · Day", when: "Mon–Fri, 8 AM–5 PM", path: "miygolf/private-1gex650-1k2q8q4",
+      note: "Mon–Fri, 8 AM–5 PM (Fri closed 11 AM–3 PM) at XPark PJ South or Semarak Range, Cyberjaya." },
+    { label: "Package Lesson · Night", when: "Tue–Thu, 5 PM–10 PM", path: "miygolf/private-3exwlwp",
+      note: "Tue–Thu, 5 PM–10 PM at XPark Kota Damansara, KWASA Driving Range or Puncak Alam Driving Range." }
+  ]
+};
+/* ============================================================ */
+
+const $ = id => document.getElementById(id);
+const el = (tag, props = {}, ...kids) => {
+  const n = Object.assign(document.createElement(tag), props);
+  kids.forEach(k => n.append(k));
+  return n;
+};
+const waLink = text => `https://wa.me/${CONFIG.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(text)}`;
+
+$("waTop").href = waLink(`Hi ${CONFIG.coachName}, I'm a package client.`);
+$("waHelp").href = waLink(`Hi ${CONFIG.coachName}, I'm a package client and I need help booking my next lesson.`);
+
+let tidyScriptAdded = false;
+function showTab(tab) {
+  document.querySelectorAll("#lessonTabs button").forEach((b, i) => b.setAttribute("aria-pressed", String(CONFIG.tabs[i] === tab)));
+  $("tidyNote").textContent = tab.note;
+  const embed = el("div", { className: "tidycal-embed" },
+    el("a", { href: `https://tidycal.com/${tab.path}`, target: "_blank", rel: "noopener", textContent: "Loading the booking calendar… If it doesn't appear, tap here to book." }));
+  embed.dataset.path = tab.path;
+  $("tidyFrame").replaceChildren(embed);
+  if (window.TidyCal) {
+    window.TidyCal.init(embed);
+  } else if (!tidyScriptAdded) {
+    tidyScriptAdded = true;   // skrip TidyCal akan cari div.tidycal-embed sendiri bila dah load
+    document.head.append(el("script", { src: "https://asset-tidycal.b-cdn.net/js/embed.js", async: true }));
+  }
+}
+
+CONFIG.tabs.forEach(tab => {
+  const b = el("button", { type: "button" }, tab.label, el("small", { textContent: tab.when }));
+  b.addEventListener("click", () => showTab(tab));
+  $("lessonTabs").append(b);
+});
+showTab(CONFIG.tabs[0]);
+
+$("footerText").textContent = `© ${new Date().getFullYear()} ${CONFIG.brand}. All rights reserved.`;
+</script>
+</body>
+</html>
