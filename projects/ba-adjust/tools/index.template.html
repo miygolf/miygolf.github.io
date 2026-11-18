@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Film Slate": the lesson told as two takes on a film set. TAKE 01 BEFORE / TAKE 02 AFTER clapperboards (hinged striped sticks that
+         clap shut), the coach's analysis screen recording shown as-is (his own red plane line; top = before, bottom = after) with slate-black
+         side margins carrying vertical BEFORE / AFTER labels, numbered cause / fix cards that quote the coach word by word as he says them.
+         Type: Saira Extra Condensed 800 (slate titles) + IBM Plex Mono 600 (slate fields) + Caveat 700 (marker on the slate) + Noto Color Emoji.
+         Palette: slate #141414, stripe white #f2f1ec, before orange #ff7a1a, after mint #2ee59d, marker white.
+         Safe band: x 60-930, y 168-1330. Faces (EDIT_NOTES.md): down-the-line head at y 560-680 -> slates in the top band; analysis: the top-panel
+         golfer stays in x 300-600 -> cause cards on the right of the top panel (y 560-900); bottom-panel golfer x 330-600, face y 1150-1250 ->
+         fix cards on the right (x 560-930, y 990-1320); face-on replay head at y 300-420 -> labels low. */
+      @font-face { font-family: "Saira"; font-weight: 800; src: url("assets/fonts/SairaExtraCondensed-ExtraBold.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Plex"; font-weight: 600; src: url("assets/fonts/IBMPlexMono-SemiBold.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Caveat"; font-weight: 400 700; src: url("assets/fonts/Caveat-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Noto Color Emoji"; font-weight: 400; src: url("assets/fonts/NotoColorEmoji.ttf") format("truetype"); font-display: block; }
+      :root { --slate: #141414; --white: #f2f1ec; --bef: #ff7a1a; --aft: #2ee59d; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #141414; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #141414; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
+      .ov { position: absolute; z-index: 6; opacity: 0; pointer-events: none; }
+      .emo { font-family: "Noto Color Emoji", sans-serif; font-weight: 400; }
+      .mono { font-family: "Plex", monospace; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+
+      /* ---- clapperboard ---- */
+      .slate { width: 600px; color: var(--white); filter: drop-shadow(0 14px 22px rgba(0,0,0,0.45)); }
+      .slate .sticks { height: 58px; position: relative; }
+      .slate .stk { position: absolute; left: 0; right: 0; height: 46px; border-radius: 6px 6px 0 0;
+                    background: repeating-linear-gradient(-55deg, var(--white) 0 34px, var(--slate) 34px 68px); border: 4px solid var(--slate); }
+      .slate .top { top: 0; transform-origin: 3% 100%; }
+      .slate .bot { top: 50px; height: 12px; border-radius: 0; background: repeating-linear-gradient(-55deg, var(--slate) 0 34px, var(--white) 34px 68px); border-top: 0; }
+      .slate .body { background: var(--slate); border: 4px solid var(--white); border-radius: 0 0 8px 8px; padding: 16px 22px 18px; margin-top: 8px; }
+      .slate .row { display: flex; gap: 14px; font-size: 28px; border-bottom: 2px solid rgba(242,241,236,0.35); padding: 4px 0 8px; }
+      .slate .row span:first-child { color: rgba(242,241,236,0.6); }
+      .slate .big { font-family: "Saira"; font-size: 120px; line-height: 0.92; text-transform: uppercase; margin-top: 10px; }
+      .slate .mk { font-family: "Caveat"; font-weight: 700; font-size: 52px; line-height: 1; margin-top: 4px; }
+      .bef .big, .bef .mk { color: var(--bef); }
+      .aft .big, .aft .mk { color: var(--aft); }
+
+      /* ---- margins on the analysis ---- */
+      .vlab { font-family: "Saira"; font-size: 84px; letter-spacing: 0.06em; text-transform: uppercase; writing-mode: vertical-rl; transform: rotate(180deg); line-height: 1; }
+      #vl-b { left: 92px; top: 250px; color: var(--bef); }
+      #vl-a { left: 92px; top: 1000px; color: var(--aft); }
+      .vtk { font-family: "Plex"; font-weight: 600; font-size: 28px; color: rgba(242,241,236,0.7); writing-mode: vertical-rl; transform: rotate(180deg); letter-spacing: 0.1em; }
+      #vt-b { left: 170px; top: 250px; } #vt-a { left: 170px; top: 1000px; }
+
+      /* ---- quote cards ---- */
+      .card { left: 548px; width: 382px; background: var(--slate); color: var(--white); border-radius: 10px; padding: 16px 18px 16px;
+              box-shadow: 0 12px 26px rgba(0,0,0,0.45); border-left: 10px solid var(--white); }
+      .card.cause { top: 214px; border-left-color: var(--bef); }
+      .card.note { top: 214px; border-left-color: var(--white); }
+      .card.fix { top: 1010px; border-left-color: var(--aft); }
+      .card .hd { display: flex; align-items: center; gap: 12px; }
+      .card .no { flex: 0 0 58px; height: 58px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: "Saira"; font-size: 46px; color: var(--slate); background: var(--white); }
+      .card.cause .no { background: var(--bef); } .card.fix .no { background: var(--aft); }
+      .card .tt { font-family: "Saira"; font-size: 56px; line-height: 0.95; text-transform: uppercase; }
+      .card .said { font-family: "Caveat"; font-weight: 700; font-size: 44px; line-height: 1.05; margin-top: 10px; color: rgba(242,241,236,0.5); }
+      .card .said .w.on { color: var(--white); }
+      .card.cause .said .w.hot.on { color: var(--bef); } .card.fix .said .w.hot.on { color: var(--aft); } .card.note .said .w.hot.on { color: #ffe46b; }
+      .card .by { font-size: 28px; color: rgba(242,241,236,0.55); margin-top: 6px; text-align: right; }
+
+      /* ---- tags ---- */
+      .tag { padding: 10px 18px 12px; border-radius: 8px; background: var(--slate); color: var(--white); font-size: 30px; border: 3px solid var(--white); white-space: nowrap; }
+      .tag.b { border-color: var(--bef); color: var(--bef); } .tag.a { border-color: var(--aft); color: var(--aft); }
+      #cta { left: 60px; top: 196px; width: 870px; }
+      #cta .body { text-align: left; }
+      #cta .big { font-size: 112px; color: var(--white); }
+      #cta .mk { color: var(--aft); font-size: 56px; }
+      #cta .rc { font-family: "Plex"; font-weight: 600; font-size: 30px; color: rgba(242,241,236,0.8); margin-top: 12px; letter-spacing: 0.02em; }
+      #flash { position: absolute; inset: 0; z-index: 8; background: #fff; opacity: 0; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="{{TOTAL}}" data-width="1080" data-height="1920" data-fps="30">
+      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="{{TOTAL}}" data-track-index="1" muted playsinline></video>
+
+      <!-- HOOK slate (frame 0) -->
+      <div id="hook" class="ov slate aft" style="left:60px; top:190px;"><div class="sticks"><div class="stk top"></div><div class="stk bot"></div></div>
+        <div class="body"><div class="row mono"><span>Scene</span><span>Swing</span><span style="margin-left:auto;">Bay 32</span></div>
+          <div class="big" style="color:var(--white); font-size:100px;">Before <span style="color:var(--bef)">vs</span> After</div>
+          <div class="mk" style="font-size:44px;">1 adjustment · 18 minit kemudian</div></div></div>
+
+      <!-- TAKE slates -->
+      <div id="sl-b" class="ov slate bef" style="left:60px; top:190px; width:470px;"><div class="sticks"><div class="stk top"></div><div class="stk bot"></div></div>
+        <div class="body"><div class="row mono"><span>Take</span><span>01</span></div><div class="big">Before</div></div></div>
+      <div id="sl-a" class="ov slate aft" style="left:60px; top:190px; width:470px;"><div class="sticks"><div class="stk top"></div><div class="stk bot"></div></div>
+        <div class="body"><div class="row mono"><span>Take</span><span>02</span></div><div class="big">After</div></div></div>
+
+      <!-- analysis margins -->
+      <div id="vl-b" class="ov vlab" data-layout-allow-overlap data-layout-allow-occlusion>Before</div><div id="vt-b" class="ov vtk" data-layout-allow-overlap data-layout-allow-occlusion>Take 01</div>
+      <div id="vl-a" class="ov vlab" data-layout-allow-overlap data-layout-allow-occlusion>After</div><div id="vt-a" class="ov vtk" data-layout-allow-overlap data-layout-allow-occlusion>Take 02</div>
+
+      {{CARDS}}
+
+      <!-- replay tags (low: the face-on head is high) -->
+      <div id="rp-b" class="ov tag b mono" style="left:60px; top:1220px;">Before · 1×</div>
+      <div id="rp-a" class="ov tag a mono" style="left:60px; top:1220px;">After · 1×</div>
+
+      <!-- CTA -->
+      <div id="cta" class="ov slate"><div class="sticks"><div class="stk top"></div><div class="stk bot"></div></div>
+        <div class="body"><div class="big">Problem sama?</div><div class="mk">Save. Cuba kat range ↓</div>
+          <div class="rc">Turun dalam plane · lutut masuk · finish cantik</div></div></div>
+
+      <div id="flash"></div>
+{{AUDIO}}
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {{CONSTS}};
+        const T = K.T, B = K.B;
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        const hide0 = (el) => tl.set(el, { opacity: 0 }, 0);
+        // slate: drops in with the stick open, claps shut, then lifts away
+        function slate(sel, t0, t1, openAt0) {
+          const el = $(sel), top = el.querySelector(".top");
+          if (!openAt0) hide0(el);
+          if (!openAt0) tl.fromTo(el, { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.18, ease: "power2.out", immediateRender: false }, t0 - 0.2);
+          tl.fromTo(top, { rotation: -24 }, { rotation: 0, duration: 0.12, ease: "power3.in", immediateRender: false }, t0 - 0.12);
+          tl.fromTo(el, { y: 0 }, { y: 5, duration: 0.05, yoyo: true, repeat: 1, immediateRender: false }, t0);
+          if (t1 != null) tl.to(el, { opacity: 0, y: -30, duration: 0.2, ease: "power2.in" }, t1);
+        }
+        function show(sel, t0, t1, from) {
+          const el = $(sel); hide0(el);
+          tl.fromTo(el, Object.assign({ opacity: 0, x: -20 }, from || {}), { opacity: 1, x: 0, y: 0, duration: 0.22, ease: "power2.out", immediateRender: false }, t0);
+          if (t1 != null) tl.to(el, { opacity: 0, duration: 0.15 }, t1);
+        }
+        function flash(t, a) { tl.fromTo("#flash", { opacity: a }, { opacity: 0, duration: 0.22, immediateRender: false }, t); }
+
+        // HOOK: slate on frame 0 (stick open), claps at 0.12
+        tl.set("#hook", { opacity: 1 }, 0);
+        tl.set("#hook .top", { rotation: -24 }, 0);
+        slate("#hook", 0.14, T.b_swing.start - 0.15, true);
+        flash(T.hook_freeze.start, 0.5);
+
+        // takes
+        slate("#sl-b", T.b_swing.start + 0.15, T.b_swing.end - 0.9);
+        slate("#sl-a", T.a_swing.start + 0.15, T.a_swing.end - 0.9);
+        flash(B.b_impact, 0.3); flash(B.a_impact, 0.3);
+
+        // analysis margins
+        [["#vl-b", "#vt-b"], ["#vl-a", "#vt-a"]].forEach(([l, k]) => {
+          [[T.m_bs.start, T.m_c2.end], [T.m_f1.start, T.m_f3.end]].forEach(([a, b], i) => {
+            [l, k].forEach((s) => { if (i === 0) hide0($(s));
+              tl.fromTo(s, { opacity: 0 }, { opacity: 1, duration: 0.25, immediateRender: false }, a + 0.05);
+              tl.to(s, { opacity: 0, duration: 0.15 }, b - 0.1); });
+          });
+        });
+        // dim the panel the card is NOT about
+        // cards: quote lights word by word
+        K.CARDS.forEach((c) => {
+          show("#" + c.id, c.t0, c.t1, { x: 40 });
+          document.querySelectorAll("#" + c.id + " .w").forEach((w) => tl.set(w, { className: w.className + " on" }, parseFloat(w.dataset.t)));
+        });
+
+        // replay
+        show("#rp-b", T.fo_b.start + 0.05, T.fo_b.end - 0.05);
+        show("#rp-a", T.fo_a.start + 0.05, T.fo_a.end - 0.05);
+        flash(B.fob_impact, 0.25); flash(B.foa_impact, 0.25);
+
+        // CTA over the after finish
+        slate("#cta", T.end_freeze.start + 0.35, null);
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>

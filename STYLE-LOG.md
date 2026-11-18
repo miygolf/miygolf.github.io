@@ -117,3 +117,9 @@ Faiz P6–P8 **lab / telestrator** (graphite grid, red/lime, Archivo Black + Jet
 | **1 Round @ Templer Park — compilation (93 s)** (branch `claude/gifted-davinci-2netbk`, `projects/compile/`) | **Yardage Book**: kraft chapter tabs + pencil round tracker | Young Serif + Sometype Mono + Noto Color Emoji | kraft #d8c49c, ink green #1f3a2b, pencil red #c2412d, chalk #fbf7ec | 10 numbered chapter tabs with the real record time, top round-tracker line with ticks and a walking red dot, kraft caption strips with pencil-red underline, cover-style title/end cards; hard cuts, levelled real sound, page/pencil SFX, no music — **delivered from preview v1** |
 
 - Compilation (2026-11-13): "compile semua" from the Drive folder → one round in shooting order, one consistent look across clips that were edited in different styles; per-segment loudness levelling; off-day / other-golfer clips left out and listed.
+
+| Video | Look | Type | Palette | Motion signature |
+| --- | --- | --- | --- | --- |
+| **Before & after adjustment (bay 32, night)** (branch `claude/gifted-davinci-2netbk`, `projects/ba-adjust/`) | **Film Slate**: TAKE 01 / TAKE 02 clapperboards + the coach's own analysis recording | Saira Extra Condensed 800 + IBM Plex Mono 600 + Caveat 700 + Noto Color Emoji | slate #141414, white #f2f1ec, before orange #ff7a1a, after mint #2ee59d | clapper sticks clap shut on each take, the coach's stacked before/after analysis with his red plane line between slate margins and vertical labels, numbered quote cards lit word by word in his voice; no music — **preview v1** |
+
+- Before/after (2026-11-18, preview v1): the coach sent his own analysis screen recording with voice-over — use it as the diagnosis (his words, his lines) and as the side-by-side proof.

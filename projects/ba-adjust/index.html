@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Film Slate": the lesson told as two takes on a film set. TAKE 01 BEFORE / TAKE 02 AFTER clapperboards (hinged striped sticks that
+         clap shut), the coach's analysis screen recording shown as-is (his own red plane line; top = before, bottom = after) with slate-black
+         side margins carrying vertical BEFORE / AFTER labels, numbered cause / fix cards that quote the coach word by word as he says them.
+         Type: Saira Extra Condensed 800 (slate titles) + IBM Plex Mono 600 (slate fields) + Caveat 700 (marker on the slate) + Noto Color Emoji.
+         Palette: slate #141414, stripe white #f2f1ec, before orange #ff7a1a, after mint #2ee59d, marker white.
+         Safe band: x 60-930, y 168-1330. Faces (EDIT_NOTES.md): down-the-line head at y 560-680 -> slates in the top band; analysis: the top-panel
+         golfer stays in x 300-600 -> cause cards on the right of the top panel (y 560-900); bottom-panel golfer x 330-600, face y 1150-1250 ->
+         fix cards on the right (x 560-930, y 990-1320); face-on replay head at y 300-420 -> labels low. */
+      @font-face { font-family: "Saira"; font-weight: 800; src: url("assets/fonts/SairaExtraCondensed-ExtraBold.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Plex"; font-weight: 600; src: url("assets/fonts/IBMPlexMono-SemiBold.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Caveat"; font-weight: 400 700; src: url("assets/fonts/Caveat-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Noto Color Emoji"; font-weight: 400; src: url("assets/fonts/NotoColorEmoji.ttf") format("truetype"); font-display: block; }
+      :root { --slate: #141414; --white: #f2f1ec; --bef: #ff7a1a; --aft: #2ee59d; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #141414; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #141414; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
+      .ov { position: absolute; z-index: 6; opacity: 0; pointer-events: none; }
+      .emo { font-family: "Noto Color Emoji", sans-serif; font-weight: 400; }
+      .mono { font-family: "Plex", monospace; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+
+      /* ---- clapperboard ---- */
+      .slate { width: 600px; color: var(--white); filter: drop-shadow(0 14px 22px rgba(0,0,0,0.45)); }
+      .slate .sticks { height: 58px; position: relative; }
+      .slate .stk { position: absolute; left: 0; right: 0; height: 46px; border-radius: 6px 6px 0 0;
+                    background: repeating-linear-gradient(-55deg, var(--white) 0 34px, var(--slate) 34px 68px); border: 4px solid var(--slate); }
+      .slate .top { top: 0; transform-origin: 3% 100%; }
+      .slate .bot { top: 50px; height: 12px; border-radius: 0; background: repeating-linear-gradient(-55deg, var(--slate) 0 34px, var(--white) 34px 68px); border-top: 0; }
+      .slate .body { background: var(--slate); border: 4px solid var(--white); border-radius: 0 0 8px 8px; padding: 16px 22px 18px; margin-top: 8px; }
+      .slate .row { display: flex; gap: 14px; font-size: 28px; border-bottom: 2px solid rgba(242,241,236,0.35); padding: 4px 0 8px; }
+      .slate .row span:first-child { color: rgba(242,241,236,0.6); }
+      .slate .big { font-family: "Saira"; font-size: 120px; line-height: 0.92; text-transform: uppercase; margin-top: 10px; }
+      .slate .mk { font-family: "Caveat"; font-weight: 700; font-size: 52px; line-height: 1; margin-top: 4px; }
+      .bef .big, .bef .mk { color: var(--bef); }
+      .aft .big, .aft .mk { color: var(--aft); }
+
+      /* ---- margins on the analysis ---- */
+      .vlab { font-family: "Saira"; font-size: 84px; letter-spacing: 0.06em; text-transform: uppercase; writing-mode: vertical-rl; transform: rotate(180deg); line-height: 1; }
+      #vl-b { left: 92px; top: 250px; color: var(--bef); }
+      #vl-a { left: 92px; top: 1000px; color: var(--aft); }
+      .vtk { font-family: "Plex"; font-weight: 600; font-size: 28px; color: rgba(242,241,236,0.7); writing-mode: vertical-rl; transform: rotate(180deg); letter-spacing: 0.1em; }
+      #vt-b { left: 170px; top: 250px; } #vt-a { left: 170px; top: 1000px; }
+
+      /* ---- quote cards ---- */
+      .card { left: 548px; width: 382px; background: var(--slate); color: var(--white); border-radius: 10px; padding: 16px 18px 16px;
+              box-shadow: 0 12px 26px rgba(0,0,0,0.45); border-left: 10px solid var(--white); }
+      .card.cause { top: 214px; border-left-color: var(--bef); }
+      .card.note { top: 214px; border-left-color: var(--white); }
+      .card.fix { top: 1010px; border-left-color: var(--aft); }
+      .card .hd { display: flex; align-items: center; gap: 12px; }
+      .card .no { flex: 0 0 58px; height: 58px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: "Saira"; font-size: 46px; color: var(--slate); background: var(--white); }
+      .card.cause .no { background: var(--bef); } .card.fix .no { background: var(--aft); }
+      .card .tt { font-family: "Saira"; font-size: 56px; line-height: 0.95; text-transform: uppercase; }
+      .card .said { font-family: "Caveat"; font-weight: 700; font-size: 44px; line-height: 1.05; margin-top: 10px; color: rgba(242,241,236,0.5); }
+      .card .said .w.on { color: var(--white); }
+      .card.cause .said .w.hot.on { color: var(--bef); } .card.fix .said .w.hot.on { color: var(--aft); } .card.note .said .w.hot.on { color: #ffe46b; }
+      .card .by { font-size: 28px; color: rgba(242,241,236,0.55); margin-top: 6px; text-align: right; }
+
+      /* ---- tags ---- */
+      .tag { padding: 10px 18px 12px; border-radius: 8px; background: var(--slate); color: var(--white); font-size: 30px; border: 3px solid var(--white); white-space: nowrap; }
+      .tag.b { border-color: var(--bef); color: var(--bef); } .tag.a { border-color: var(--aft); color: var(--aft); }
+      #cta { left: 60px; top: 196px; width: 870px; }
+      #cta .body { text-align: left; }
+      #cta .big { font-size: 112px; color: var(--white); }
+      #cta .mk { color: var(--aft); font-size: 56px; }
+      #cta .rc { font-family: "Plex"; font-weight: 600; font-size: 30px; color: rgba(242,241,236,0.8); margin-top: 12px; letter-spacing: 0.02em; }
+      #flash { position: absolute; inset: 0; z-index: 8; background: #fff; opacity: 0; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="41.3667" data-width="1080" data-height="1920" data-fps="30">
+      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="41.3667" data-track-index="1" muted playsinline></video>
+
+      <!-- HOOK slate (frame 0) -->
+      <div id="hook" class="ov slate aft" style="left:60px; top:190px;"><div class="sticks"><div class="stk top"></div><div class="stk bot"></div></div>
+        <div class="body"><div class="row mono"><span>Scene</span><span>Swing</span><span style="margin-left:auto;">Bay 32</span></div>
+          <div class="big" style="color:var(--white); font-size:100px;">Before <span style="color:var(--bef)">vs</span> After</div>
+          <div class="mk" style="font-size:44px;">1 adjustment · 18 minit kemudian</div></div></div>
+
+      <!-- TAKE slates -->
+      <div id="sl-b" class="ov slate bef" style="left:60px; top:190px; width:470px;"><div class="sticks"><div class="stk top"></div><div class="stk bot"></div></div>
+        <div class="body"><div class="row mono"><span>Take</span><span>01</span></div><div class="big">Before</div></div></div>
+      <div id="sl-a" class="ov slate aft" style="left:60px; top:190px; width:470px;"><div class="sticks"><div class="stk top"></div><div class="stk bot"></div></div>
+        <div class="body"><div class="row mono"><span>Take</span><span>02</span></div><div class="big">After</div></div></div>
+
+      <!-- analysis margins -->
+      <div id="vl-b" class="ov vlab" data-layout-allow-overlap data-layout-allow-occlusion>Before</div><div id="vt-b" class="ov vtk" data-layout-allow-overlap data-layout-allow-occlusion>Take 01</div>
+      <div id="vl-a" class="ov vlab" data-layout-allow-overlap data-layout-allow-occlusion>After</div><div id="vt-a" class="ov vtk" data-layout-allow-overlap data-layout-allow-occlusion>Take 02</div>
+
+      <div id="k0" class="ov card note"><div class="hd"><span class="no">✓</span><span class="tt">Backswing sama</span></div><div class="said">“<span class="w" data-t="5.830">Backswing</span> <span class="w" data-t="6.250">angkat</span> <span class="w hot" data-t="6.470">cantik</span> <span class="w" data-t="6.990">je,</span> <span class="w" data-t="7.110">on</span> <span class="w hot" data-t="7.970">plane.</span>”</div><div class="by mono">— coach</div></div>
+      <div id="k1" class="ov card cause"><div class="hd"><span class="no">1</span><span class="tt">Tangan atas plane</span></div><div class="said">“<span class="w" data-t="8.623">Bila</span> <span class="w" data-t="8.863">down</span> <span class="w" data-t="9.083">swing</span> <span class="w" data-t="9.303">tu,</span> <span class="w" data-t="9.583">tangan</span> <span class="w" data-t="10.763">tu</span> <span class="w" data-t="10.883">di</span> <span class="w hot" data-t="11.523">atas</span> <span class="w hot" data-t="12.163">swing</span> <span class="w hot" data-t="12.703">plane.</span>”</div><div class="by mono">— coach</div></div>
+      <div id="k2" class="ov card cause"><div class="hd"><span class="no">2</span><span class="tt">Badan terangkat</span></div><div class="said">“<span class="w" data-t="13.367">Tengok,</span> <span class="w hot" data-t="14.087">terangkat</span> <span class="w" data-t="14.787">badan-badan.</span> <span class="w" data-t="17.187">Sebab</span> <span class="w hot" data-t="17.767">bodi</span> <span class="w hot" data-t="18.127">tak</span> <span class="w hot" data-t="18.227">clear.</span>”</div><div class="by mono">— coach</div></div>
+      <div id="k3" class="ov card fix"><div class="hd"><span class="no">1</span><span class="tt">Turun dalam plane</span></div><div class="said">“<span class="w" data-t="21.397">Dia</span> <span class="w" data-t="22.197">turun,</span> <span class="w" data-t="22.717">dia</span> <span class="w hot" data-t="23.177">dalam</span> <span class="w hot" data-t="23.577">plane,</span> <span class="w" data-t="23.897">so</span> <span class="w" data-t="25.337">kita</span> <span class="w" data-t="25.597">jadi</span> <span class="w hot" data-t="25.877">shallow</span> <span class="w" data-t="26.217">lah.</span>”</div><div class="by mono">— coach</div></div>
+      <div id="k4" class="ov card fix"><div class="hd"><span class="no">2</span><span class="tt">Lutut masuk</span></div><div class="said">“<span class="w" data-t="26.797">Lepas</span> <span class="w" data-t="27.157">tu</span> <span class="w hot" data-t="27.237">lutut</span> <span class="w hot" data-t="27.797">masuk.</span>”</div><div class="by mono">— coach</div></div>
+      <div id="k4b" class="ov card fix"><div class="hd"><span class="no">2</span><span class="tt">Tak early extension</span></div><div class="said">“<span class="w" data-t="28.300">Kita</span> <span class="w" data-t="28.620">tak</span> <span class="w" data-t="28.980">adalah</span> <span class="w" data-t="29.220">kes</span> <span class="w hot" data-t="29.980">early</span> <span class="w hot" data-t="30.820">extension</span> <span class="w" data-t="31.140">tu.</span>”</div><div class="by mono">— coach</div></div>
+      <div id="k5" class="ov card fix"><div class="hd"><span class="no">3</span><span class="tt">Finish cantik</span></div><div class="said">“<span class="w" data-t="31.567">After</span> <span class="w" data-t="32.387">ni</span> <span class="w hot" data-t="32.687">finishing</span> <span class="w hot" data-t="33.767">cantik</span> <span class="w" data-t="34.247">je.</span>”</div><div class="by mono">— coach</div></div>
+
+      <!-- replay tags (low: the face-on head is high) -->
+      <div id="rp-b" class="ov tag b mono" style="left:60px; top:1220px;">Before · 1×</div>
+      <div id="rp-a" class="ov tag a mono" style="left:60px; top:1220px;">After · 1×</div>
+
+      <!-- CTA -->
+      <div id="cta" class="ov slate"><div class="sticks"><div class="stk top"></div><div class="stk bot"></div></div>
+        <div class="body"><div class="big">Problem sama?</div><div class="mk">Save. Cuba kat range ↓</div>
+          <div class="rc">Turun dalam plane · lutut masuk · finish cantik</div></div></div>
+
+      <div id="flash"></div>
+      <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="41.3667" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>
+      <audio data-hf-id="hf-s00" id="sfx-00" class="clip" src="assets/sfx/2167.mp3" data-start="0.000" data-duration="0.30" data-track-index="12" data-volume="0.45" data-audio-group="sfx"></audio> <!-- slate clap: title, frame 0 -->
+      <audio data-hf-id="hf-s01" id="sfx-01" class="clip" src="assets/sfx/2121.mp3" data-start="0.820" data-duration="0.40" data-track-index="12" data-volume="0.25" data-audio-group="sfx"></audio> <!-- strike layer under the real one (0.5x) -->
+      <audio data-hf-id="hf-s02" id="sfx-02" class="clip" src="assets/sfx/2167.mp3" data-start="2.010" data-duration="0.30" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- slate clap: TAKE 01 BEFORE -->
+      <audio data-hf-id="hf-s03" id="sfx-03" class="clip" src="assets/sfx/175.mp3" data-start="4.430" data-duration="0.40" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- sweep into the coach's analysis -->
+      <audio data-hf-id="hf-s04" id="sfx-04" class="clip" src="assets/sfx/1120.mp3" data-start="4.850" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- card k0 -->
+      <audio data-hf-id="hf-s05" id="sfx-05" class="clip" src="assets/sfx/1120.mp3" data-start="8.483" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- card k1 -->
+      <audio data-hf-id="hf-s06" id="sfx-06" class="clip" src="assets/sfx/1120.mp3" data-start="13.217" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- card k2 -->
+      <audio data-hf-id="hf-s07" id="sfx-07" class="clip" src="assets/sfx/2167.mp3" data-start="18.677" data-duration="0.30" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- slate clap: TAKE 02 AFTER -->
+      <audio data-hf-id="hf-s08" id="sfx-08" class="clip" src="assets/sfx/175.mp3" data-start="20.797" data-duration="0.40" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- sweep into the analysis (after) -->
+      <audio data-hf-id="hf-s09" id="sfx-09" class="clip" src="assets/sfx/1120.mp3" data-start="21.217" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- card k3 -->
+      <audio data-hf-id="hf-s10" id="sfx-10" class="clip" src="assets/sfx/1120.mp3" data-start="26.617" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- card k4 -->
+      <audio data-hf-id="hf-s11" id="sfx-11" class="clip" src="assets/sfx/1120.mp3" data-start="31.417" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- card k5 -->
+      <audio data-hf-id="hf-s12" id="sfx-12" class="clip" src="assets/sfx/2167.mp3" data-start="34.477" data-duration="0.30" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- slate clap: replay -->
+      <audio data-hf-id="hf-s13" id="sfx-13" class="clip" src="assets/sfx/2364.mp3" data-start="38.307" data-duration="0.14" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- CTA -->
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {"T": {"hook_a": {"start": 0.0, "end": 1.0}, "hook_freeze": {"start": 1.0, "end": 2.1}, "b_swing": {"start": 2.1, "end": 4.9}, "m_bs": {"start": 4.9, "end": 8.5333}, "m_c1": {"start": 8.5333, "end": 13.2667}, "m_c2": {"start": 13.2667, "end": 18.7667}, "a_swing": {"start": 18.7667, "end": 21.2667}, "m_f1": {"start": 21.2667, "end": 26.6667}, "m_f2a": {"start": 26.6667, "end": 28.2}, "m_f2b": {"start": 28.2, "end": 31.4667}, "m_f3": {"start": 31.4667, "end": 34.5667}, "fo_b": {"start": 34.5667, "end": 36.2667}, "fo_a": {"start": 36.2667, "end": 37.9667}, "end_freeze": {"start": 37.9667, "end": 41.3667}}, "B": {"hook_impact": 0.96, "b_impact": 3.52, "a_impact": 20.067, "fob_impact": 35.467, "foa_impact": 37.197}, "TOTAL": 41.3667, "CARDS": [{"id": "k0", "t0": 4.95, "t1": 8.473}, {"id": "k1", "t0": 8.583, "t1": 13.207}, {"id": "k2", "t0": 13.317, "t1": 18.707}, {"id": "k3", "t0": 21.317, "t1": 26.607}, {"id": "k4", "t0": 26.717, "t1": 28.14}, {"id": "k4b", "t0": 28.25, "t1": 31.407}, {"id": "k5", "t0": 31.517, "t1": 34.507}]};
+        const T = K.T, B = K.B;
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        const hide0 = (el) => tl.set(el, { opacity: 0 }, 0);
+        // slate: drops in with the stick open, claps shut, then lifts away
+        function slate(sel, t0, t1, openAt0) {
+          const el = $(sel), top = el.querySelector(".top");
+          if (!openAt0) hide0(el);
+          if (!openAt0) tl.fromTo(el, { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.18, ease: "power2.out", immediateRender: false }, t0 - 0.2);
+          tl.fromTo(top, { rotation: -24 }, { rotation: 0, duration: 0.12, ease: "power3.in", immediateRender: false }, t0 - 0.12);
+          tl.fromTo(el, { y: 0 }, { y: 5, duration: 0.05, yoyo: true, repeat: 1, immediateRender: false }, t0);
+          if (t1 != null) tl.to(el, { opacity: 0, y: -30, duration: 0.2, ease: "power2.in" }, t1);
+        }
+        function show(sel, t0, t1, from) {
+          const el = $(sel); hide0(el);
+          tl.fromTo(el, Object.assign({ opacity: 0, x: -20 }, from || {}), { opacity: 1, x: 0, y: 0, duration: 0.22, ease: "power2.out", immediateRender: false }, t0);
+          if (t1 != null) tl.to(el, { opacity: 0, duration: 0.15 }, t1);
+        }
+        function flash(t, a) { tl.fromTo("#flash", { opacity: a }, { opacity: 0, duration: 0.22, immediateRender: false }, t); }
+
+        // HOOK: slate on frame 0 (stick open), claps at 0.12
+        tl.set("#hook", { opacity: 1 }, 0);
+        tl.set("#hook .top", { rotation: -24 }, 0);
+        slate("#hook", 0.14, T.b_swing.start - 0.15, true);
+        flash(T.hook_freeze.start, 0.5);
+
+        // takes
+        slate("#sl-b", T.b_swing.start + 0.15, T.b_swing.end - 0.9);
+        slate("#sl-a", T.a_swing.start + 0.15, T.a_swing.end - 0.9);
+        flash(B.b_impact, 0.3); flash(B.a_impact, 0.3);
+
+        // analysis margins
+        [["#vl-b", "#vt-b"], ["#vl-a", "#vt-a"]].forEach(([l, k]) => {
+          [[T.m_bs.start, T.m_c2.end], [T.m_f1.start, T.m_f3.end]].forEach(([a, b], i) => {
+            [l, k].forEach((s) => { if (i === 0) hide0($(s));
+              tl.fromTo(s, { opacity: 0 }, { opacity: 1, duration: 0.25, immediateRender: false }, a + 0.05);
+              tl.to(s, { opacity: 0, duration: 0.15 }, b - 0.1); });
+          });
+        });
+        // dim the panel the card is NOT about
+        // cards: quote lights word by word
+        K.CARDS.forEach((c) => {
+          show("#" + c.id, c.t0, c.t1, { x: 40 });
+          document.querySelectorAll("#" + c.id + " .w").forEach((w) => tl.set(w, { className: w.className + " on" }, parseFloat(w.dataset.t)));
+        });
+
+        // replay
+        show("#rp-b", T.fo_b.start + 0.05, T.fo_b.end - 0.05);
+        show("#rp-a", T.fo_a.start + 0.05, T.fo_a.end - 0.05);
+        flash(B.fob_impact, 0.25); flash(B.foa_impact, 0.25);
+
+        // CTA over the after finish
+        slate("#cta", T.end_freeze.start + 0.35, null);
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
