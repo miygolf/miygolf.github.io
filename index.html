@@ -164,6 +164,7 @@
   .slots-empty { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: .92rem; }
   .where p { flex: 0; }
   .hint { display: block; margin-top: 6px; color: var(--green-700); font-size: .86rem; }
+  .tidy-note { max-width: 720px; margin: 0 0 14px; color: rgba(255,255,255,.85); font-size: .95rem; }
   .tidy-frame { background: transparent; border-radius: 20px; overflow: hidden; max-width: 720px; min-height: 500px; margin-bottom: 30px; }
   .tidy-frame a { display: block; padding: 24px; color: #fff; }
   .wa-alt { max-width: 720px; margin-bottom: 22px; }
@@ -245,10 +246,11 @@
 
       <div id="tidy" hidden>
         <div class="lesson-tabs" id="lessonTabs" role="group" aria-label="Choose your lesson"></div>
+        <p class="tidy-note" id="tidyNote"></p>
         <div class="tidy-frame" id="tidyFrame"></div>
         <div class="wa-alt">
           <h3>Prefer to chat first?</h3>
-          <p>Send a request on WhatsApp instead, for questions or a time you can't see above.</p>
+          <p>Send a request on WhatsApp instead: for 2–3 people, outside the area, questions, or a time you can't see above.</p>
           <button class="btn ghost" type="button" id="showWaForm" aria-expanded="false" aria-controls="bookingForm">Send a request on WhatsApp</button>
         </div>
       </div>
@@ -343,12 +345,12 @@ const CONFIG = {
   facts: [
     { title: "Lessons & on-course", text: "60-minute lessons, packages and 9-hole playing lessons" },
     { title: "Kota Damansara & PJ South", text: "XPark Kota Damansara, KWASA Driving Range and XPark PJ South. Outside the area available with an extra charge" },
-    { title: "Tue – Sat", text: "Tue–Thu 8 AM–4 PM · Tue–Sat 5 PM–10 PM. By appointment only" },
+    { title: "Mon – Fri", text: "Mon–Fri 8 AM–5 PM · Tue–Thu evenings 5 PM–10 PM. By appointment only" },
     { title: "Payment", text: "Cash, MyDebit, Tap2Pay Visa / Mastercard" }
   ],
 
   // dm: true = lesson ni diurus melalui WhatsApp (butang buka WhatsApp terus, tak masuk dalam borang).
-  // tidycal: path booking TidyCal (dari kod embed, data-path="..."). Ada = kalendar TidyCal keluar kat bahagian Book.
+  // times: id waktu dalam schedule yang dibenarkan untuk lesson ni (kosong = semua waktu).
   // minutes: tempoh lesson (untuk kira slot masa terakhir).
   // extraPax: tambahan harga untuk setiap orang lepas orang pertama. maxPax: had orang dalam borang (lebih = WhatsApp).
   // prices: harga ikut lokasi (nama lokasi mesti sama macam dalam schedule; "Outside area" = luar kawasan).
@@ -359,13 +361,22 @@ const CONFIG = {
       prices: { "XPark Kota Damansara": "RM 250", "KWASA Driving Range": "RM 250", "Kota Damansara area": "RM 250", "XPark PJ South": "RM 280", "Outside area": "RM 320" },
       desc: "One 60-minute coaching lesson, tailored to your swing and your goals. Practice balls are provided for short game only." },
     { name: "Lesson Packages", dm: true, duration: "Multiple lessons", price: "", desc: "Lesson packages are available. Message on WhatsApp for details." },
-    { name: "Playing Lesson (On Course)", duration: "9 holes · 2 hours", minutes: 120, price: "RM 600", course: "Golf course (TBC)", courseNote: "The golf course will be arranged with you on WhatsApp.", desc: "Nine holes on the course with Coach Iqbal — strategy, shot selection and scoring. Course arranged on WhatsApp. Green fee not included." }
+    { name: "Playing Lesson (On Course)", duration: "9 holes · 2 hours", minutes: 120, price: "RM 600", times: ["day"], course: "Golf course (TBC)", courseNote: "The golf course will be arranged with you on WhatsApp.", desc: "Nine holes on the course with Coach Iqbal — strategy, shot selection and scoring. Course arranged on WhatsApp. Green fee not included." }
   ],
 
   // Waktu & lokasi lesson. days: 0 = Ahad, 1 = Isnin ... 6 = Sabtu. start/end: jam, format 24 jam.
+  // Ikut waktu dalam TidyCal.
   schedule: [
-    { days: [2, 3, 4], start: 8, end: 16, locations: ["XPark Kota Damansara", "KWASA Driving Range", "XPark PJ South"] },
-    { days: [2, 3, 4, 5, 6], start: 17, end: 22, locations: ["Kota Damansara area", "KWASA Driving Range"] }
+    { id: "day", days: [1, 2, 3, 4, 5], start: 8, end: 17, locations: ["XPark Kota Damansara", "KWASA Driving Range", "XPark PJ South"] },
+    { id: "night", days: [2, 3, 4], start: 17, end: 22, locations: ["Kota Damansara area", "KWASA Driving Range"] }
+  ],
+
+  // Kalendar TidyCal dalam bahagian Book (path dari kod embed, data-path="..."). Kosongkan [] = guna borang WhatsApp sahaja.
+  // service: nama lesson di atas, time: id waktu dalam schedule.
+  tidycal: [
+    { label: "Private Lesson · Day", service: "Single Lesson", time: "day", path: "miygolf/private-1gex650" },
+    { label: "Private Lesson · Night", service: "Single Lesson", time: "night", path: "miygolf/private" },
+    { label: "Playing Lesson · 9 holes", service: "Playing Lesson (On Course)", time: "day", path: "miygolf/private-1rpwol9" }
   ],
   outsideArea: "Outside area",         // pilihan lokasi luar kawasan (extra charge). Kosong = takde pilihan ni
   slotMinutes: 60
@@ -400,15 +411,16 @@ $("aboutTitle").textContent = CONFIG.aboutTitle;
 CONFIG.about.forEach(p => $("aboutText").append(el("p", { textContent: p })));
 CONFIG.facts.forEach(f => $("facts").append(el("li", {}, el("b", { textContent: f.title }), el("span", { textContent: f.text }))));
 
-// --- TidyCal booking calendar (kalau ada lesson dengan tidycal) ---
-const tidyServices = CONFIG.services.filter(s => s.tidycal);
-const tidyMode = tidyServices.length > 0;
+// --- TidyCal booking calendar (CONFIG.tidycal) ---
+const tidyTabs = CONFIG.tidycal || [];
+const tidyMode = tidyTabs.length > 0;
 let tidyScriptAdded = false;
-function showTidy(s) {
-  document.querySelectorAll("#lessonTabs button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.name === s.name)));
+function showTidy(tab) {
+  document.querySelectorAll("#lessonTabs button").forEach((b, i) => b.setAttribute("aria-pressed", String(tidyTabs[i] === tab)));
+  $("tidyNote").textContent = tabNote(tab);
   const embed = el("div", { className: "tidycal-embed" },
-    el("a", { href: `https://tidycal.com/${s.tidycal}`, target: "_blank", rel: "noopener", textContent: "Loading the booking calendar… If it doesn't appear, tap here to book." }));
-  embed.dataset.path = s.tidycal;
+    el("a", { href: `https://tidycal.com/${tab.path}`, target: "_blank", rel: "noopener", textContent: "Loading the booking calendar… If it doesn't appear, tap here to book." }));
+  embed.dataset.path = tab.path;
   $("tidyFrame").replaceChildren(embed);
   if (window.TidyCal) {
     window.TidyCal.init(embed);
@@ -416,6 +428,15 @@ function showTidy(s) {
     tidyScriptAdded = true;   // skrip TidyCal akan cari div.tidycal-embed sendiri bila dah load
     document.head.append(el("script", { src: "https://asset-tidycal.b-cdn.net/js/embed.js", async: true }));
   }
+}
+// Nota bawah butang TidyCal: waktu + lokasi & harga (1 orang), atau nota padang untuk Playing Lesson
+function tabNote(tab) {
+  const s = CONFIG.services.find(x => x.name === tab.service) || {};
+  const b = CONFIG.schedule.find(x => x.id === tab.time);
+  const when = b ? `${fmtDays(b.days)}, ${fmtHour(b.start)}–${fmtHour(b.end)}` : "";
+  if (s.course) return `${when}. ${s.courseNote || ""}`;
+  const where = b ? orList(b.locations.map(l => { const p = lessonPrice(s.name, l, 1); return p ? `${l} (${p})` : l; })) : "";
+  return `${when} at ${where}, for 1 person.`;
 }
 function openWaForm() {
   $("bookingForm").hidden = false;
@@ -447,8 +468,9 @@ CONFIG.services.forEach(s => {
       window.open(waLink(`Hi ${displayName}, I'd like more info on the ${s.name}.`), "_blank", "noopener");
       return;
     }
-    if (tidyMode && s.tidycal) {
-      showTidy(s);
+    const tab = tidyTabs.find(x => x.service === s.name);
+    if (tab) {
+      showTidy(tab);
       $("book").scrollIntoView();
       return;
     }
@@ -485,7 +507,10 @@ const fmtDays = days => days.length > 2 && days.every((d, i) => i === 0 || d ===
   ? `${DAYS[days[0]]}–${DAYS[days[days.length - 1]]}` : days.map(d => DAYS[d]).join(", ");
 const orList = a => a.length > 1 ? `${a.slice(0, -1).join(", ")} or ${a[a.length - 1]}` : a.join("");
 const blockText = b => `${fmtDays(b.days)}, ${fmtHour(b.start)}–${fmtHour(b.end)}: ${orList(b.locations)}`;
-const openDays = [...new Set(CONFIG.schedule.flatMap(b => b.days))].sort();
+// Waktu yang dibenarkan untuk lesson s (ikut s.times), pada hari `day` (kosong = semua hari)
+const blocksFor = (s, day) => CONFIG.schedule.filter(b =>
+  (day === undefined || b.days.includes(day)) && (!s || !s.times || s.times.includes(b.id)));
+const openDaysFor = s => [...new Set(blocksFor(s).flatMap(b => b.days))].sort();
 const currentService = () => CONFIG.services.find(x => x.name === serviceSelect.value);
 const dayOf = dateStr => new Date(`${dateStr}T00:00`).getDay();
 
@@ -511,10 +536,10 @@ function renderSlots() {
   if (!date) {
     $("timeHint").textContent = "(pick a date first)";
   } else {
-    const blocks = CONFIG.schedule.filter(b => b.days.includes(dayOf(date)));
+    const blocks = blocksFor(s, dayOf(date));
     if (!blocks.length) {
       $("timeHint").textContent = "";
-      $("slots").append(el("p", { className: "slots-empty", textContent: `No lessons on ${DAYS_LONG[dayOf(date)]}. Lessons run ${fmtDays(openDays)}, please pick another date.` }));
+      $("slots").append(el("p", { className: "slots-empty", textContent: `Not available on ${DAYS_LONG[dayOf(date)]}. Available ${fmtDays(openDaysFor(s))}, please pick another date.` }));
     } else {
       $("timeHint").textContent = `(${blocks.map(b => `${fmtHour(b.start)}–${fmtHour(b.end)}`).join(" & ")})`;
       blocks.forEach(b => {
@@ -534,8 +559,7 @@ function applyLocations() {
   const t = document.querySelector('input[name="time"]:checked');
   const date = $("date").value;
   const blocks = t ? [CONFIG.schedule[t.dataset.block]]
-    : date ? CONFIG.schedule.filter(b => b.days.includes(dayOf(date)))
-    : CONFIG.schedule;
+    : blocksFor(s, date ? dayOf(date) : undefined);
   const course = s && s.course;
   const list = course ? (blocks.length ? [course] : []) : [...new Set(blocks.flatMap(b => b.locations))];
   if (!course && CONFIG.outsideArea && blocks.length) list.push(CONFIG.outsideArea);
@@ -562,13 +586,15 @@ if (tidyMode) {
   $("bookingForm").hidden = true;
   $("bookIntro").textContent = "Choose your lesson, then pick an open date and time below. You'll get a confirmation email straight away.";
   $("policyHow").textContent = "Use the link in your confirmation email, or WhatsApp us.";
-  tidyServices.forEach(s => {
-    const b = el("button", { type: "button" }, s.name, el("small", { textContent: [s.duration, s.price].filter(Boolean).join(" · ") }));
-    b.dataset.name = s.name;
-    b.addEventListener("click", () => showTidy(s));
-    $("lessonTabs").append(b);
+  tidyTabs.forEach(tab => {
+    const s = CONFIG.services.find(x => x.name === tab.service) || {};
+    const b = CONFIG.schedule.find(x => x.id === tab.time);
+    const when = b ? `${fmtDays(b.days)}, ${fmtHour(b.start)}–${fmtHour(b.end)}` : "";
+    const btn = el("button", { type: "button" }, tab.label, el("small", { textContent: [when, s.price].filter(Boolean).join(" · ") }));
+    btn.addEventListener("click", () => showTidy(tab));
+    $("lessonTabs").append(btn);
   });
-  showTidy(tidyServices[0]);
+  showTidy(tidyTabs[0]);
   $("showWaForm").addEventListener("click", () => {
     const opening = $("bookingForm").hidden;
     if (opening) { openWaForm(); $("service").focus(); }
@@ -596,7 +622,7 @@ $("bookingForm").addEventListener("submit", e => {
     !v("service") ? ["service", "Please choose a lesson."] :
     !v("date") ? ["date", "Please pick a date."] :
     v("date") < todayStr ? ["date", "That date has already passed — please pick another."] :
-    !openDays.includes(dayOf(v("date"))) ? ["date", `No lessons on that day. Lessons run ${fmtDays(openDays)}.`] :
+    !openDaysFor(currentService()).includes(dayOf(v("date"))) ? ["date", `Not available on that day. Available ${fmtDays(openDaysFor(currentService()))}.`] :
     !v("time") ? [null, "Please pick a time."] :
     !v("name") ? ["name", "Please enter your name."] :
     v("phone").replace(/\D/g, "").length < 8 ? ["phone", "Please enter a valid phone number."] :
