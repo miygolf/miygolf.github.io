@@ -1,0 +1,43 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .pw { position: absolute; inset: 0; overflow: hidden; }
+    #sp-pin { position: absolute; inset: 0; transform-origin: 50% 52%; }
+    #sp-pin img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .sp-dot { position: absolute; width: 0; height: 0; }
+    .sp-dot b { position: absolute; left: -22px; top: -22px; width: 44px; height: 44px; border-radius: 50%; background: #ffe14d; border: 4px solid #000; font-family: "Montserrat", sans-serif; font-weight: 800; font-size: 24px; line-height: 36px; text-align: center; color: #000; }
+    #sp-w { position: absolute; left: 120px; top: 330px; width: 768px; }
+    #sp-t { font-family: "Montserrat", sans-serif; font-weight: 800; font-size: 76px; line-height: 1.05; color: #fff; transform-origin: left center; text-shadow: 5px 0px 0 #000, -5px 0px 0 #000, 0px 5px 0 #000, 0px -5px 0 #000, 4px 4px 0 #000, -4px 4px 0 #000, 4px -4px 0 #000, -4px -4px 0 #000, 5px 2px 0 #000, -5px 2px 0 #000, 5px -2px 0 #000, -5px -2px 0 #000, 2px 5px 0 #000, -2px 5px 0 #000, 2px -5px 0 #000, -2px -5px 0 #000, 0 8px 14px rgba(0, 0, 0, 0.45); }
+    .sp-r { font-family: "Montserrat", sans-serif; font-weight: 700; font-size: 42px; line-height: 1.38; color: #fff; opacity: 0; text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 0 4px 10px rgba(0, 0, 0, 0.5); }
+    .y { color: #ffe14d; }
+  </style>
+  <div id="root" data-composition-id="spec" data-width="1080" data-height="1920">
+    <div class="pw"><div id="sp-pin"><img src="assets/img/ph-0297.jpg" alt="Car charger front: two Type-C cables, Type-C and USB-A ports, voltage display" /><div id="sp-d0" class="sp-dot" style="left: 160px; top: 870px"><b>1</b></div><div id="sp-d1" class="sp-dot" style="left: 160px; top: 1070px"><b>2</b></div><div id="sp-d2" class="sp-dot" style="left: 640px; top: 855px"><b>3</b></div><div id="sp-d3" class="sp-dot" style="left: 630px; top: 955px"><b>4</b></div><div id="sp-d4" class="sp-dot" style="left: 660px; top: 1140px"><b>V</b></div></div></div>
+    <div id="sp-w">
+      <div id="sp-t">4 port <span class="y">+ voltan</span></div>
+      <div id="sp-r0" class="sp-r"><span class="y">1</span> · Kabel Type-C <span class="y">PD30W</span></div>
+      <div id="sp-r1" class="sp-r"><span class="y">2</span> · Kabel Type-C 2.4A</div>
+      <div id="sp-r2" class="sp-r"><span class="y">3</span> · Port Type-C 3A</div>
+      <div id="sp-r3" class="sp-r"><span class="y">4</span> · Port USB-A 2.4A</div>
+      <div id="sp-r4" class="sp-r"><span class="y">V</span> · Meter <span class="y">voltan</span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#sp-pin", { scale: 1.0 }, { scale: 1.04, duration: 3.6, ease: "none" }, 0);
+    tl.fromTo("#sp-t", { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.14, ease: "back.out(3)" }, 0.05);
+    tl.fromTo("#sp-r0", { opacity: 0, x: 12 }, { opacity: 1, x: 0, duration: 0.16, ease: "power3.out" }, 0.40);
+    tl.fromTo("#sp-d0", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, ease: "back.out(3)" }, 0.40);
+    tl.fromTo("#sp-r1", { opacity: 0, x: 12 }, { opacity: 1, x: 0, duration: 0.16, ease: "power3.out" }, 0.74);
+    tl.fromTo("#sp-d1", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, ease: "back.out(3)" }, 0.74);
+    tl.fromTo("#sp-r2", { opacity: 0, x: 12 }, { opacity: 1, x: 0, duration: 0.16, ease: "power3.out" }, 1.08);
+    tl.fromTo("#sp-d2", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, ease: "back.out(3)" }, 1.08);
+    tl.fromTo("#sp-r3", { opacity: 0, x: 12 }, { opacity: 1, x: 0, duration: 0.16, ease: "power3.out" }, 1.42);
+    tl.fromTo("#sp-d3", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, ease: "back.out(3)" }, 1.42);
+    tl.fromTo("#sp-r4", { opacity: 0, x: 12 }, { opacity: 1, x: 0, duration: 0.16, ease: "power3.out" }, 1.76);
+    tl.fromTo("#sp-d4", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, ease: "back.out(3)" }, 1.76);
+    tl.to("#sp-w", { opacity: 0, duration: 0.12, ease: "power2.in" }, 3.46);
+    tl.set({}, {}, 3.58);
+    window.__timelines["spec"] = tl;
+  </script>
+</template>
