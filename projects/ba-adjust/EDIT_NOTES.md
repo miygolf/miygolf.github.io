@@ -13,7 +13,7 @@ Saira Extra Condensed 800 + IBM Plex Mono 600 + Caveat 700 + Noto Color Emoji. S
 - `clip_m4v.m4v`: the coach's analysis (screen recording with his voice, 105.6 s). **Diagnosis in his words** (large-v3 ms + en + crops):
   backswing "angkat cantik je, on plane" (same on both) · cause 1 "bila down swing tu, tangan tu di atas swing plane" · cause 2 "terangkat
   badan-badan, sebab bodi tak clear" · fix 1 "dia turun, dia dalam plane, so kita jadi shallow lah" · fix 2 "lepas tu lutut masuk" + "kita tak
-  adalah kes early extension tu" · fix 3 "after ni finishing cantik je". The student's name and the comparisons to another player are not used.
+  adalah kes early extension tu" · fix 3 "after ni finishing cantik je". The coach says the student's name several times (start, ~24.3 s, ~64.3 s "lutut masuk macam <name>", ~67.9 s): whisper heard it as another name; every cut ends/starts clear of it (privacy).
 
 ## Structure
 | film | segment |
@@ -43,3 +43,7 @@ npx hyperframes@0.9.32 render -q delivery -o renders/final_raw.mp4 && tools/mast
 - New testimonial: the student's reply ("Nampak beza dia boss / Ini yg saya dok cari2 teknik dia tu / Alhamdulillah, puas hati dengan kelas tadi
   boss…") in a phone frame over the dimmed after finish. Name and profile photo pixelated then blurred (`assets/img/testimonial.png`, made from
   the owner's screenshot; the original is not in the repo). Backswing card trimmed 0.75 s. 44.7 s.
+
+## v3 (owner: the name the coach says is the student's, not another player)
+The "macam <name>" in the coach's voice is the student. Cuts re-checked so it is never heard: "lepas tu lutut masuk" ends at 63.80 (12 ms fade)
+before "macam <name>"; the early-extension line starts at 68.36. large-v3 + medium on the final mix find no name. 44.6 s.

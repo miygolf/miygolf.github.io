@@ -12,7 +12,7 @@ Sources (.src/, tools/fetch.sh):
      · 80.3-85.4 "tengok, terangkat badan-badan, sebab bodi tak clear" · 53.4-58.4 "dia turun, dia dalam plane, so kita jadi shallow lah"
      · 62.6-63.8 "lepas tu lutut masuk" · 68.4-71.4 "kita tak adalah kes early extension tu" · 92.4-95.2 "after ni finishing cantik je"
      · 100.5-104.0 "banyak kan buat drill tu lah, yang saya tunjuk tadi tu kan" (over the face-on reps = the drill, owner's note)
-     The student's name (0.6-2.2) and the comparisons to another player ("macam N...") are not used.
+     The coach says the student's name at 0.6-2.2, ~24.3 ("macam <name>"), ~64.3 and ~67.9: every cut avoids it (privacy).
 """
 import json, os, subprocess, sys, wave
 import numpy as np
@@ -42,8 +42,8 @@ EDL = [
     dict(name="a_swing", sec="after", clip="IMG_0331", a=5.80, b=8.30, speed=1.0),
     # fixes
     dict(name="m_f1", sec="analysis_a", clip=M, a=53.25, b=58.65, speed=1.0, fit=True),
-    dict(name="m_f2a", sec="analysis_a", clip=M, a=62.45, b=64.00, speed=1.0, fit=True),
-    dict(name="m_f2b", sec="analysis_a", clip=M, a=68.30, b=71.55, speed=1.0, fit=True),
+    dict(name="m_f2a", sec="analysis_a", clip=M, a=62.45, b=63.80, speed=1.0, fit=True, fade=0.012),   # "masuk" ends 63.79 (glottal k); 63.80 = the "m" of "macam <student name>"
+    dict(name="m_f2b", sec="analysis_a", clip=M, a=68.36, b=71.55, speed=1.0, fit=True),   # starts after "macam ni" (68.2)
     dict(name="m_f3", sec="analysis_a", clip=M, a=92.30, b=95.40, speed=1.0, fit=True),
     # HOMEWORK (owner: "front side to drill aka homework kena buat"): the face-on reps are the drill; the coach's line over them
     dict(name="fo_b", sec="drill", clip="IMG_0330", a=3.20, b=5.00, speed=1.0, voice=False),
@@ -190,7 +190,7 @@ def build_audio(tl):
         if s.get("kind") == "freeze" or not s.get("voice", True):
             continue
         g = gm if s["clip"] == M else seg_gain(s["clip"], s["a"], s["b"])
-        place(piece(s["clip"], s["a"], s["b"], 0.03), T(s["name"]), g, (s["clip"], s["a"], s["b"]))
+        place(piece(s["clip"], s["a"], s["b"], s.get("fade", 0.03)), T(s["name"]), g, (s["clip"], s["a"], s["b"]))
     # hook: room tone + the real strike on the slowed impact (peak one frame after the picture)
     g31 = seg_gain("IMG_0331", 5.8, 8.3)
     place(piece("IMG_0331", 1.0, 2.6, 0.1), 0.0, g31 - 6)
