@@ -53,3 +53,7 @@ Title line → "1 adjustment · 35 minit kemudian" (owner's figure; replaces the
 
 ## v5 (owner: "in 60min lesson")
 Hook slate title → "60 MIN LESSON" (house format: title = lesson length), marker line "before → after: 35 minit kemudian". Captions updated.
+
+## Delivery
+Owner approved v5 ("ok render", 2026-11-19). `final/ba-adjust_1080x1920.mp4`: 44.5 s, 1080×1920, 30 fps, H.264 High ~6.2 Mbps (mostly static analysis
+frames, under the 13 Mbps cap), AAC 256k, −14.1 LUFS, −2.9 dBTP.
