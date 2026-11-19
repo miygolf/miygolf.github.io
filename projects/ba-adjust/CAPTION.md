@@ -3,7 +3,7 @@
 ## TikTok
 
 ```
-1 adjustment je, tengok la beza dia 😮‍💨
+60 min lesson, baru 35 minit dah nampak beza 😮‍💨
 
 Awal-awal backswing dah cantik, on plane. Tapi bila downswing, tangan duduk atas plane, badan pulak terangkat sebab bodi tak clear 😅
 
@@ -23,7 +23,7 @@ Korang ada problem sama tak? Save dulu, try kat range nanti 📌
 ## Instagram
 
 ```
-1 adjustment, 35 minit kemudian 😮‍💨
+60 min lesson · before → after 35 minit 😮‍💨
 Before: tangan atas plane, badan terangkat.
 After: turun dalam plane, lutut masuk, finish cantik.
 Save, try kat range 📌

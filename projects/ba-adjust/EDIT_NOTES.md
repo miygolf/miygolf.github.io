@@ -50,3 +50,6 @@ before "macam <name>"; the early-extension line starts at 68.36. large-v3 + medi
 
 ## v4 (owner: "35min kemudian")
 Title line → "1 adjustment · 35 minit kemudian" (owner's figure; replaces the 18 min taken from the clips' record times). IG caption updated.
+
+## v5 (owner: "in 60min lesson")
+Hook slate title → "60 MIN LESSON" (house format: title = lesson length), marker line "before → after: 35 minit kemudian". Captions updated.
