@@ -47,3 +47,6 @@ npx hyperframes@0.9.32 render -q delivery -o renders/final_raw.mp4 && tools/mast
 ## v3 (owner: the name the coach says is the student's, not another player)
 The "macam <name>" in the coach's voice is the student. Cuts re-checked so it is never heard: "lepas tu lutut masuk" ends at 63.80 (12 ms fade)
 before "macam <name>"; the early-extension line starts at 68.36. large-v3 + medium on the final mix find no name. 44.6 s.
+
+## v4 (owner: "35min kemudian")
+Title line → "1 adjustment · 35 minit kemudian" (owner's figure; replaces the 18 min taken from the clips' record times). IG caption updated.

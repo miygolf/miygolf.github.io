@@ -23,7 +23,7 @@ Korang ada problem sama tak? Save dulu, try kat range nanti 📌
 ## Instagram
 
 ```
-1 adjustment, 18 minit kemudian 😮‍💨
+1 adjustment, 35 minit kemudian 😮‍💨
 Before: tangan atas plane, badan terangkat.
 After: turun dalam plane, lutut masuk, finish cantik.
 Save, try kat range 📌
