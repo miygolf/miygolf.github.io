@@ -10,11 +10,15 @@ Card #fbfbf8, ink #15171a, Reza charcoal #1b1b1b + gold #ffc93c, Saya coral #e24
 | film | clip | what |
 | --- | --- | --- |
 | 0.00–2.90 | IMG_0344 | hook: the putt dropping 0.5× (ball in at 2.85), freeze; "Recap hari ni" title on frame 0, MASUK stamp |
-| 2.90–6.00 | IMG_0338 14:25 | Saya, approach |
-| 6.00–10.40 | IMG_0344 14:33 | Saya, the putt at 1×: rolls in, picks it out; MASUK |
-| 10.40–22.20 | c1_1..4 14:55 | tee: Coach Reza, Saya, Taza, Kimi |
-| 22.20–30.70 | c2_1..4 15:04 | next tee: Taza, Coach Reza, Kimi, Saya |
+| 2.90–14.67 | c1_1..4 | tee: Coach Reza, Saya, Taza, Kimi ("Tee shot") |
+| 14.67–23.20 | c2_1..4 | next tee: Taza, Coach Reza, Kimi, Saya |
+| 23.20–26.30 | IMG_0338 | **Hole 18** (owner): Saya, approach |
+| 26.30–30.70 | IMG_0344 | Hole 18 putt at 1×: rolls in, picks it out; "Hole 18: MASUK! ⛳" |
 | 30.70–33.90 | IMG_0344 | Saya walking off the green, freeze; "The squad" lineup |
 
 Where tee shots landed is not visible (wide tee cams): no claims about results.
 Build: `tools/fetch.sh`, `python3 tools/build_aroll.py`, `python3 tools/build_index.py`, check, render, `tools/master.sh`.
+
+## v2 (owner: "vid iphone tu hole 18")
+The iPhone approach + putt are hole 18 → moved to the end so the round closes on the holed putt; badges "Hole 18 · Approach / Putt".
+The compose_video tee clips carry their export time (after the round), so their badges just say "Tee shot".

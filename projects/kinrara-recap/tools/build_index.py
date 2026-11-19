@@ -38,7 +38,7 @@ def badges_html():
     for i, (seg, who) in enumerate(WHO):
         name, role, c, ink = P[who]
         side = SIDE.get(seg, "L"); pos = "left:70px;" if side == "L" else "left:640px;"
-        hole = "Tee · 14:55" if seg.startswith("t1") else "Tee · 15:04" if seg.startswith("t2") else ("Approach · 14:25" if seg == "appr" else "Putt · 14:33")
+        hole = "Tee shot" if seg.startswith("t") else ("Hole 18 · Approach" if seg == "appr" else "Hole 18 · Putt")
         out.append(f'<div id="bd{i}" class="ov badge" style="{pos} --c:{c}; --bt:{ink};"><div class="strap"></div><div class="clip"></div>'
                    f'<div class="card"><div class="band mono">Kinrara · Flight 1</div><div class="nm">{name}</div>'
                    f'<div class="rl mono">{role}</div><div class="sh mono">{hole}</div></div></div>')
