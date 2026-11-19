@@ -125,3 +125,4 @@ Faiz P6–P8 **lab / telestrator** (graphite grid, red/lime, Archivo Black + Jet
 - Before/after (2026-11-18, preview v1): the coach sent his own analysis screen recording with voice-over — use it as the diagnosis (his words, his lines) and as the side-by-side proof.
   v2: the face-on clips were the drill → "homework"; owner added the student's WhatsApp reply as a testimonial — always pixelate + blur the contact's name and photo.
   Delivered v5 (2026-11-19): title "60 MIN LESSON · before → after: 35 minit kemudian" (owner's figures). When the coach's voice says the student's name, cut around it (the transcript may hear it as another name).
+- Teaser for the before & after (2026-11-19, `projects/ba-teaser/`, preview v1): 12 s cut-down in the same Film Slate look (series consistency beats a new look for a teaser of an existing video).
