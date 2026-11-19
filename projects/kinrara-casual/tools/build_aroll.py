@@ -179,7 +179,11 @@ def build_audio(tl):
     pcm = (np.clip(buf, -1, 1) * 32767).astype(np.int16)
     with wave.open(out, "wb") as w:
         w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR); w.writeframes(pcm.tobytes())
-    run(["ffmpeg", "-v", "error", "-y", "-i", out, "-af", "highpass=f=70,afftdn=nf=-42:nr=4,loudnorm=I=-16:TP=-2:LRA=11",
+    # owner: "remove background noises" (no speech in this video): strong broadband denoise on a learned noise floor, cut wind rumble
+    # and hiss, then a gate that only opens for strikes / the ball in the cup
+    run(["ffmpeg", "-v", "error", "-y", "-i", out, "-af",
+         "highpass=f=180,lowpass=f=9000,afftdn=nr=30:nf=-28:tn=1,afftdn=nr=20:nf=-35,"
+         "agate=threshold=0.06:ratio=8:attack=1:release=180:range=0.03,loudnorm=I=-18:TP=-2:LRA=15",
          "-ar", str(SR), "-ac", "2", os.path.join(ROOT, "assets", "voice.wav")])
 
 
