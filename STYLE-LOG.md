@@ -126,3 +126,9 @@ Faiz P6–P8 **lab / telestrator** (graphite grid, red/lime, Archivo Black + Jet
   v2: the face-on clips were the drill → "homework"; owner added the student's WhatsApp reply as a testimonial — always pixelate + blur the contact's name and photo.
   Delivered v5 (2026-11-19): title "60 MIN LESSON · before → after: 35 minit kemudian" (owner's figures). When the coach's voice says the student's name, cut around it (the transcript may hear it as another name).
 - Teaser for the before & after (2026-11-19, `projects/ba-teaser/`, preview v1): 12 s cut-down in the same Film Slate look (series consistency beats a new look for a teaser of an existing video). Delivered from preview v1.
+
+| Video | Look | Type | Palette | Motion signature |
+| --- | --- | --- | --- | --- |
+| **Kinrara recap (19 Nov, four-ball)** (branch `claude/gifted-davinci-2netbk`, `projects/kinrara-recap/`) | **Flight Pass**: tournament lanyard badges per player | Onest 800 + Spline Sans Mono 600 + Noto Color Emoji | card #fbfbf8, ink #15171a, charcoal+gold (coach), coral #e2452a, blue #1f7fd6, sand #e9c27a | badge drops on a coloured strap, clips in, sways, swings away; MASUK stamps on the holed putt; end "The squad" lineup of passes; real sound levelled, no music — **preview v1** |
+
+- Kinrara recap (2026-11-19): owner named who's who by clothing; the owner is labelled "Saya". Keep stamps/badges off faces when a golfer bends at the cup.

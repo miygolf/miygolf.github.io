@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Flight Pass": the day's four-ball introduced with tournament lanyard badges. Each player's first appearance in a block gets a badge that
+         swings down on its strap (player colour), clips in and sways; the putt gets a MASUK stamp; the end lineup shows all four passes.
+         Players (owner): Coach Reza black shirt, Kimi blue + navy bucket hat, SAYA (owner) blue + black cap, Taza white bucket hat.
+         Type: Onest 800/600 + Spline Sans Mono 600 + Noto Color Emoji.
+         Palette: card white #fbfbf8, ink #15171a, Reza charcoal #1b1b1b + gold #ffc93c, Saya coral #e2452a, Kimi sky #1f7fd6, Taza sand #e9c27a.
+         Safe band: x 60-930, y 168-1330. Faces (EDIT_NOTES.md): tee cams are wide (heads y 640-760) -> badges top-left y 190-560;
+         approach: golfer at the left (x 90-250) -> badge right; putt: head at y 480-560 / 760-920 -> badge top-left above it; end lineup top. */
+      @font-face { font-family: "Onest"; font-weight: 100 900; src: url("assets/fonts/Onest-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "SSM"; font-weight: 300 700; src: url("assets/fonts/SplineSansMono-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Noto Color Emoji"; font-weight: 400; src: url("assets/fonts/NotoColorEmoji.ttf") format("truetype"); font-display: block; }
+      :root { --card: #fbfbf8; --ink: #15171a; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
+      .ov { position: absolute; z-index: 6; opacity: 0; pointer-events: none; }
+      .emo { font-family: "Noto Color Emoji", sans-serif; font-weight: 400; }
+      .mono { font-family: "SSM", monospace; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+
+      /* ---- lanyard badge ---- */
+      .badge { top: 168px; width: 370px; transform-origin: 50% 0; filter: drop-shadow(0 14px 20px rgba(0,0,0,0.4)); }
+      .badge .strap { position: absolute; left: 50%; top: -260px; width: 34px; height: 292px; margin-left: -17px; background: var(--c);
+                      background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.18) 0 4px, transparent 4px 18px); }
+      .badge .clip { position: absolute; left: 50%; top: 22px; width: 54px; height: 30px; margin-left: -27px; border-radius: 8px; background: #b9bec5;
+                     box-shadow: inset 0 -4px 0 rgba(0,0,0,0.25); z-index: 2; }
+      .badge .card { position: relative; margin-top: 40px; background: var(--card); border-radius: 18px; overflow: hidden; color: var(--ink); }
+      .badge .card::before { content: ""; position: absolute; left: 50%; top: 14px; width: 66px; height: 12px; margin-left: -33px; border-radius: 6px; background: rgba(21,23,26,0.25); }
+      .badge .band { background: var(--c); padding: 34px 20px 10px; font-size: 24px; text-align: center; }
+      .badge .nm { font-family: "Onest"; font-weight: 800; font-size: 68px; line-height: 1; padding: 18px 22px 0; letter-spacing: -0.01em; }
+      .badge .rl { padding: 8px 22px 0; font-size: 28px; color: #5b6068; }
+      .badge .sh { margin: 14px 22px 20px; padding-top: 12px; border-top: 3px dashed rgba(21,23,26,0.2); font-size: 28px; color: var(--ink); }
+      .badge .band { color: var(--bt); }
+
+      /* ---- title / chips ---- */
+      #title { left: 60px; top: 196px; width: 870px; padding: 24px 30px 26px; background: var(--card); border-radius: 22px; color: var(--ink); box-shadow: 0 16px 34px rgba(0,0,0,0.35); }
+      #title .k { font-size: 28px; color: #5b6068; }
+      #title .h { font-family: "Onest"; font-weight: 800; font-size: 104px; line-height: 0.95; margin-top: 8px; letter-spacing: -0.02em; }
+      #title .dots { display: flex; gap: 10px; margin-top: 16px; }
+      #title .dots i { flex: 1; height: 12px; border-radius: 6px; }
+      .stamp { padding: 12px 26px 14px; border-radius: 14px; background: #e2452a; color: #fff; font-family: "Onest"; font-weight: 800; font-size: 96px; line-height: 1;
+               box-shadow: 0 12px 26px rgba(0,0,0,0.35); white-space: nowrap; }
+      #flash { position: absolute; inset: 0; z-index: 8; background: #fff; opacity: 0; pointer-events: none; }
+
+      /* ---- end lineup ---- */
+      #lineup { left: 60px; top: 196px; width: 870px; }
+      #lineup .hd { background: var(--card); border-radius: 22px 22px 0 0; padding: 20px 28px 16px; color: var(--ink); }
+      #lineup .hd .k { font-size: 28px; color: #5b6068; }
+      #lineup .hd .h { font-family: "Onest"; font-weight: 800; font-size: 76px; line-height: 1; margin-top: 4px; }
+      #lineup .row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; background: var(--card); border-radius: 0 0 22px 22px; padding: 0 16px 18px; }
+      #lineup .mini { background: var(--c); border-radius: 14px; padding: 14px 12px 14px; }
+      #lineup .mini .nm { font-family: "Onest"; font-weight: 800; font-size: 40px; line-height: 1; }
+      #lineup .mini .rl { font-size: 28px; margin-top: 6px; opacity: 0.85; }
+      #lineup .mini { color: var(--bt); }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="{{TOTAL}}" data-width="1080" data-height="1920" data-fps="30">
+      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="{{TOTAL}}" data-track-index="1" muted playsinline></video>
+
+      <div id="title" class="ov"><div class="k mono">19.11 · Kinrara Golf Club</div><div class="h">Recap hari ni <span class="emo" style="font-size:80px">⛳</span></div>
+        <div class="dots"><i style="background:#1b1b1b"></i><i style="background:#e2452a"></i><i style="background:#1f7fd6"></i><i style="background:#e9c27a"></i></div></div>
+      <div id="hk-stamp" class="ov" style="left:120px; top:1200px;"><div class="stamp">MASUK!</div></div>
+
+      {{BADGES}}
+      <div id="pt-stamp" class="ov" style="left:430px; top:820px;"><div class="stamp" style="font-size:80px;">MASUK! <span class="emo" style="font-size:64px">⛳</span></div></div>
+
+      <div id="lineup" class="ov"><div class="hd"><div class="k mono">Flight 1 · Kinrara · 19.11</div><div class="h">The squad <span class="emo" style="font-size:60px">🤝</span></div></div>
+        <div class="row">{{LINEUP}}</div></div>
+
+      <div id="flash"></div>
+{{AUDIO}}
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {{CONSTS}};
+        const T = K.T, B = K.B;
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        const hide0 = (el) => tl.set(el, { opacity: 0 }, 0);
+        function stamp(sel, t, t1) {
+          const el = $(sel); hide0(el);
+          tl.fromTo(el, { opacity: 0, scale: 1.8, rotation: -14 }, { opacity: 1, scale: 1, rotation: -6, duration: 0.2, ease: "power4.in", immediateRender: false }, t);
+          tl.fromTo(el, { x: 0 }, { x: 6, duration: 0.05, yoyo: true, repeat: 3, immediateRender: false }, t + 0.2);
+          if (t1 != null) tl.to(el, { opacity: 0, duration: 0.15 }, t1);
+        }
+        // hook
+        tl.set("#title", { opacity: 1 }, 0);
+        tl.from("#title .dots i", { scaleX: 0, transformOrigin: "0 50%", duration: 0.3, stagger: 0.08, ease: "power2.out" }, 0.05);
+        tl.fromTo("#flash", { opacity: 0.5 }, { opacity: 0, duration: 0.22, immediateRender: false }, T.hook_freeze.start);
+        stamp("#hk-stamp", B.hook_drop + 0.05, T.appr.start - 0.08);
+        tl.to("#title", { opacity: 0, y: -20, duration: 0.2 }, T.appr.start - 0.15);
+        // badges: drop on the strap, clip, sway, swing up and away
+        K.BADGES.forEach((b) => {
+          const el = $("#" + b.id); hide0(el);
+          tl.fromTo(el, { opacity: 1, y: -420, rotation: 6 }, { y: 0, rotation: -3, duration: 0.45, ease: "back.out(1.5)", immediateRender: false }, b.t0);
+          tl.to(el, { rotation: 2, duration: 0.7, yoyo: true, repeat: 1, ease: "sine.inOut" }, b.t0 + 0.45);
+          tl.to(el, { y: -460, rotation: -6, duration: 0.25, ease: "power2.in" }, b.t1);
+          tl.set(el, { opacity: 0 }, b.t1 + 0.25);
+        });
+        stamp("#pt-stamp", B.putt_drop + 0.1, T.putt.end - 0.1);
+        // end lineup
+        const lu = $("#lineup"); hide0(lu);
+        tl.fromTo(lu, { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out", immediateRender: false }, T.end_freeze.start + 0.1);
+        document.querySelectorAll("#lineup .mini").forEach((m, i) => {
+          tl.fromTo(m, { opacity: 0, y: -40, rotation: -4 }, { opacity: 1, y: 0, rotation: 0, duration: 0.3, ease: "back.out(2)", immediateRender: false }, T.end_freeze.start + 0.35 + i * 0.15);
+        });
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>

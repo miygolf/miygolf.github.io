@@ -1,0 +1,24 @@
+== IMG_0338 ms
+== IMG_0338 en
+== IMG_0344 ms
+[  4.54-  5.94]  Selamat tinggal
+== IMG_0344 en
+[  2.70-  3.32]  Bye!
+== c1_1 ms
+== c1_1 en
+== c1_2 ms
+== c1_2 en
+== c1_3 ms
+[  1.58-  2.38]  Terima kasih kerana menonton!
+== c1_3 en
+[  1.58-  2.38]  Thanks for watching!
+== c1_4 ms
+== c1_4 en
+== c2_1 ms
+== c2_1 en
+== c2_2 ms
+== c2_2 en
+== c2_3 ms
+== c2_3 en
+== c2_4 ms
+== c2_4 en

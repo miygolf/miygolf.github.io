@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Flight Pass": the day's four-ball introduced with tournament lanyard badges. Each player's first appearance in a block gets a badge that
+         swings down on its strap (player colour), clips in and sways; the putt gets a MASUK stamp; the end lineup shows all four passes.
+         Players (owner): Coach Reza black shirt, Kimi blue + navy bucket hat, SAYA (owner) blue + black cap, Taza white bucket hat.
+         Type: Onest 800/600 + Spline Sans Mono 600 + Noto Color Emoji.
+         Palette: card white #fbfbf8, ink #15171a, Reza charcoal #1b1b1b + gold #ffc93c, Saya coral #e2452a, Kimi sky #1f7fd6, Taza sand #e9c27a.
+         Safe band: x 60-930, y 168-1330. Faces (EDIT_NOTES.md): tee cams are wide (heads y 640-760) -> badges top-left y 190-560;
+         approach: golfer at the left (x 90-250) -> badge right; putt: head at y 480-560 / 760-920 -> badge top-left above it; end lineup top. */
+      @font-face { font-family: "Onest"; font-weight: 100 900; src: url("assets/fonts/Onest-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "SSM"; font-weight: 300 700; src: url("assets/fonts/SplineSansMono-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Noto Color Emoji"; font-weight: 400; src: url("assets/fonts/NotoColorEmoji.ttf") format("truetype"); font-display: block; }
+      :root { --card: #fbfbf8; --ink: #15171a; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
+      .ov { position: absolute; z-index: 6; opacity: 0; pointer-events: none; }
+      .emo { font-family: "Noto Color Emoji", sans-serif; font-weight: 400; }
+      .mono { font-family: "SSM", monospace; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+
+      /* ---- lanyard badge ---- */
+      .badge { top: 168px; width: 370px; transform-origin: 50% 0; filter: drop-shadow(0 14px 20px rgba(0,0,0,0.4)); }
+      .badge .strap { position: absolute; left: 50%; top: -260px; width: 34px; height: 292px; margin-left: -17px; background: var(--c);
+                      background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.18) 0 4px, transparent 4px 18px); }
+      .badge .clip { position: absolute; left: 50%; top: 22px; width: 54px; height: 30px; margin-left: -27px; border-radius: 8px; background: #b9bec5;
+                     box-shadow: inset 0 -4px 0 rgba(0,0,0,0.25); z-index: 2; }
+      .badge .card { position: relative; margin-top: 40px; background: var(--card); border-radius: 18px; overflow: hidden; color: var(--ink); }
+      .badge .card::before { content: ""; position: absolute; left: 50%; top: 14px; width: 66px; height: 12px; margin-left: -33px; border-radius: 6px; background: rgba(21,23,26,0.25); }
+      .badge .band { background: var(--c); padding: 34px 20px 10px; font-size: 24px; text-align: center; }
+      .badge .nm { font-family: "Onest"; font-weight: 800; font-size: 68px; line-height: 1; padding: 18px 22px 0; letter-spacing: -0.01em; }
+      .badge .rl { padding: 8px 22px 0; font-size: 28px; color: #5b6068; }
+      .badge .sh { margin: 14px 22px 20px; padding-top: 12px; border-top: 3px dashed rgba(21,23,26,0.2); font-size: 28px; color: var(--ink); }
+      .badge .band { color: var(--bt); }
+
+      /* ---- title / chips ---- */
+      #title { left: 60px; top: 196px; width: 870px; padding: 24px 30px 26px; background: var(--card); border-radius: 22px; color: var(--ink); box-shadow: 0 16px 34px rgba(0,0,0,0.35); }
+      #title .k { font-size: 28px; color: #5b6068; }
+      #title .h { font-family: "Onest"; font-weight: 800; font-size: 104px; line-height: 0.95; margin-top: 8px; letter-spacing: -0.02em; }
+      #title .dots { display: flex; gap: 10px; margin-top: 16px; }
+      #title .dots i { flex: 1; height: 12px; border-radius: 6px; }
+      .stamp { padding: 12px 26px 14px; border-radius: 14px; background: #e2452a; color: #fff; font-family: "Onest"; font-weight: 800; font-size: 96px; line-height: 1;
+               box-shadow: 0 12px 26px rgba(0,0,0,0.35); white-space: nowrap; }
+      #flash { position: absolute; inset: 0; z-index: 8; background: #fff; opacity: 0; pointer-events: none; }
+
+      /* ---- end lineup ---- */
+      #lineup { left: 60px; top: 196px; width: 870px; }
+      #lineup .hd { background: var(--card); border-radius: 22px 22px 0 0; padding: 20px 28px 16px; color: var(--ink); }
+      #lineup .hd .k { font-size: 28px; color: #5b6068; }
+      #lineup .hd .h { font-family: "Onest"; font-weight: 800; font-size: 76px; line-height: 1; margin-top: 4px; }
+      #lineup .row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; background: var(--card); border-radius: 0 0 22px 22px; padding: 0 16px 18px; }
+      #lineup .mini { background: var(--c); border-radius: 14px; padding: 14px 12px 14px; }
+      #lineup .mini .nm { font-family: "Onest"; font-weight: 800; font-size: 40px; line-height: 1; }
+      #lineup .mini .rl { font-size: 28px; margin-top: 6px; opacity: 0.85; }
+      #lineup .mini { color: var(--bt); }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="33.9" data-width="1080" data-height="1920" data-fps="30">
+      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="33.9" data-track-index="1" muted playsinline></video>
+
+      <div id="title" class="ov"><div class="k mono">19.11 · Kinrara Golf Club</div><div class="h">Recap hari ni <span class="emo" style="font-size:80px">⛳</span></div>
+        <div class="dots"><i style="background:#1b1b1b"></i><i style="background:#e2452a"></i><i style="background:#1f7fd6"></i><i style="background:#e9c27a"></i></div></div>
+      <div id="hk-stamp" class="ov" style="left:120px; top:1200px;"><div class="stamp">MASUK!</div></div>
+
+      <div id="bd0" class="ov badge" style="left:640px; --c:#e2452a; --bt:#ffffff;"><div class="strap"></div><div class="clip"></div><div class="card"><div class="band mono">Kinrara · Flight 1</div><div class="nm">Saya</div><div class="rl mono">Host</div><div class="sh mono">Approach · 14:25</div></div></div>
+      <div id="bd1" class="ov badge" style="left:70px; --c:#e2452a; --bt:#ffffff;"><div class="strap"></div><div class="clip"></div><div class="card"><div class="band mono">Kinrara · Flight 1</div><div class="nm">Saya</div><div class="rl mono">Host</div><div class="sh mono">Putt · 14:33</div></div></div>
+      <div id="bd2" class="ov badge" style="left:70px; --c:#1b1b1b; --bt:#ffc93c;"><div class="strap"></div><div class="clip"></div><div class="card"><div class="band mono">Kinrara · Flight 1</div><div class="nm">Coach Reza</div><div class="rl mono">Coach</div><div class="sh mono">Tee · 14:55</div></div></div>
+      <div id="bd3" class="ov badge" style="left:70px; --c:#e2452a; --bt:#ffffff;"><div class="strap"></div><div class="clip"></div><div class="card"><div class="band mono">Kinrara · Flight 1</div><div class="nm">Saya</div><div class="rl mono">Host</div><div class="sh mono">Tee · 14:55</div></div></div>
+      <div id="bd4" class="ov badge" style="left:70px; --c:#e9c27a; --bt:#15171a;"><div class="strap"></div><div class="clip"></div><div class="card"><div class="band mono">Kinrara · Flight 1</div><div class="nm">Taza</div><div class="rl mono">Player</div><div class="sh mono">Tee · 14:55</div></div></div>
+      <div id="bd5" class="ov badge" style="left:70px; --c:#1f7fd6; --bt:#ffffff;"><div class="strap"></div><div class="clip"></div><div class="card"><div class="band mono">Kinrara · Flight 1</div><div class="nm">Kimi</div><div class="rl mono">Player</div><div class="sh mono">Tee · 14:55</div></div></div>
+      <div id="bd6" class="ov badge" style="left:70px; --c:#e9c27a; --bt:#15171a;"><div class="strap"></div><div class="clip"></div><div class="card"><div class="band mono">Kinrara · Flight 1</div><div class="nm">Taza</div><div class="rl mono">Player</div><div class="sh mono">Tee · 15:04</div></div></div>
+      <div id="bd7" class="ov badge" style="left:70px; --c:#1b1b1b; --bt:#ffc93c;"><div class="strap"></div><div class="clip"></div><div class="card"><div class="band mono">Kinrara · Flight 1</div><div class="nm">Coach Reza</div><div class="rl mono">Coach</div><div class="sh mono">Tee · 15:04</div></div></div>
+      <div id="bd8" class="ov badge" style="left:70px; --c:#1f7fd6; --bt:#ffffff;"><div class="strap"></div><div class="clip"></div><div class="card"><div class="band mono">Kinrara · Flight 1</div><div class="nm">Kimi</div><div class="rl mono">Player</div><div class="sh mono">Tee · 15:04</div></div></div>
+      <div id="bd9" class="ov badge" style="left:70px; --c:#e2452a; --bt:#ffffff;"><div class="strap"></div><div class="clip"></div><div class="card"><div class="band mono">Kinrara · Flight 1</div><div class="nm">Saya</div><div class="rl mono">Host</div><div class="sh mono">Tee · 15:04</div></div></div>
+      <div id="pt-stamp" class="ov" style="left:430px; top:820px;"><div class="stamp" style="font-size:80px;">MASUK! <span class="emo" style="font-size:64px">⛳</span></div></div>
+
+      <div id="lineup" class="ov"><div class="hd"><div class="k mono">Flight 1 · Kinrara · 19.11</div><div class="h">The squad <span class="emo" style="font-size:60px">🤝</span></div></div>
+        <div class="row"><div class="mini" style="--c:#1b1b1b; --bt:#ffc93c;"><div class="nm">Coach Reza</div><div class="rl mono">Coach</div></div><div class="mini" style="--c:#e2452a; --bt:#ffffff;"><div class="nm">Saya</div><div class="rl mono">Host</div></div><div class="mini" style="--c:#1f7fd6; --bt:#ffffff;"><div class="nm">Kimi</div><div class="rl mono">Player</div></div><div class="mini" style="--c:#e9c27a; --bt:#15171a;"><div class="nm">Taza</div><div class="rl mono">Player</div></div></div></div>
+
+      <div id="flash"></div>
+      <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="33.9" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>
+      <audio data-hf-id="hf-s00" id="sfx-00" class="clip" src="assets/sfx/3005.mp3" data-start="0.000" data-duration="0.17" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- title pops, frame 0 -->
+      <audio data-hf-id="hf-s01" id="sfx-01" class="clip" src="assets/sfx/2073.mp3" data-start="1.790" data-duration="0.20" data-track-index="12" data-volume="0.6" data-audio-group="sfx"></audio> <!-- ball drops in the cup (0.5x) -->
+      <audio data-hf-id="hf-s02" id="sfx-02" class="clip" src="assets/sfx/2364.mp3" data-start="1.870" data-duration="0.14" data-track-index="13" data-volume="0.4" data-audio-group="sfx"></audio> <!-- MASUK stamp -->
+      <audio data-hf-id="hf-s03" id="sfx-03" class="clip" src="assets/sfx/1120.mp3" data-start="2.920" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- badge me -->
+      <audio data-hf-id="hf-s04" id="sfx-04" class="clip" src="assets/sfx/1120.mp3" data-start="6.020" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- badge me -->
+      <audio data-hf-id="hf-s05" id="sfx-05" class="clip" src="assets/sfx/2073.mp3" data-start="8.540" data-duration="0.20" data-track-index="12" data-volume="0.5" data-audio-group="sfx"></audio> <!-- drop (1x) -->
+      <audio data-hf-id="hf-s06" id="sfx-06" class="clip" src="assets/sfx/2364.mp3" data-start="8.640" data-duration="0.14" data-track-index="13" data-volume="0.35" data-audio-group="sfx"></audio> <!-- MASUK chip -->
+      <audio data-hf-id="hf-s07" id="sfx-07" class="clip" src="assets/sfx/1120.mp3" data-start="10.420" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- badge reza -->
+      <audio data-hf-id="hf-s08" id="sfx-08" class="clip" src="assets/sfx/1120.mp3" data-start="13.420" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- badge me -->
+      <audio data-hf-id="hf-s09" id="sfx-09" class="clip" src="assets/sfx/1120.mp3" data-start="15.820" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- badge taza -->
+      <audio data-hf-id="hf-s10" id="sfx-10" class="clip" src="assets/sfx/1120.mp3" data-start="19.120" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- badge kimi -->
+      <audio data-hf-id="hf-s11" id="sfx-11" class="clip" src="assets/sfx/1120.mp3" data-start="22.187" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- badge taza -->
+      <audio data-hf-id="hf-s12" id="sfx-12" class="clip" src="assets/sfx/1120.mp3" data-start="24.487" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- badge reza -->
+      <audio data-hf-id="hf-s13" id="sfx-13" class="clip" src="assets/sfx/1120.mp3" data-start="26.620" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- badge kimi -->
+      <audio data-hf-id="hf-s14" id="sfx-14" class="clip" src="assets/sfx/1120.mp3" data-start="29.053" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- badge me -->
+      <audio data-hf-id="hf-s15" id="sfx-15" class="clip" src="assets/sfx/175.mp3" data-start="30.310" data-duration="0.40" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- lineup -->
+      <audio data-hf-id="hf-s16" id="sfx-16" class="clip" src="assets/sfx/1120.mp3" data-start="30.950" data-duration="0.14" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- lineup badge 0 -->
+      <audio data-hf-id="hf-s17" id="sfx-17" class="clip" src="assets/sfx/1120.mp3" data-start="31.100" data-duration="0.14" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- lineup badge 1 -->
+      <audio data-hf-id="hf-s18" id="sfx-18" class="clip" src="assets/sfx/1120.mp3" data-start="31.250" data-duration="0.14" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- lineup badge 2 -->
+      <audio data-hf-id="hf-s19" id="sfx-19" class="clip" src="assets/sfx/1120.mp3" data-start="31.400" data-duration="0.14" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- lineup badge 3 -->
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {"T": {"hook_a": {"start": 0.0, "end": 1.9}, "hook_freeze": {"start": 1.9, "end": 2.9}, "appr": {"start": 2.9, "end": 6.0}, "putt": {"start": 6.0, "end": 10.4}, "t1_reza": {"start": 10.4, "end": 13.4}, "t1_me": {"start": 13.4, "end": 15.8}, "t1_taza": {"start": 15.8, "end": 19.1}, "t1_kimi": {"start": 19.1, "end": 22.1667}, "t2_taza": {"start": 22.1667, "end": 24.4667}, "t2_reza": {"start": 24.4667, "end": 26.6}, "t2_kimi": {"start": 26.6, "end": 29.0333}, "t2_me": {"start": 29.0333, "end": 30.7}, "end_freeze": {"start": 30.7, "end": 33.9}}, "B": {"appr_impact": 4.28, "t1_reza_impact": 11.54, "t1_me_impact": 15.31, "t1_taza_impact": 17.44, "t1_kimi_impact": 20.52, "t2_taza_impact": 23.457, "t2_reza_impact": 25.617, "t2_kimi_impact": 28.03, "t2_me_impact": 30.173, "hook_drop": 1.8, "putt_drop": 8.55}, "TOTAL": 33.9, "BADGES": [{"id": "bd0", "t0": 2.95, "t1": 5.85}, {"id": "bd1", "t0": 6.05, "t1": 10.25}, {"id": "bd2", "t0": 10.45, "t1": 13.25}, {"id": "bd3", "t0": 13.45, "t1": 15.65}, {"id": "bd4", "t0": 15.85, "t1": 18.95}, {"id": "bd5", "t0": 19.15, "t1": 22.017}, {"id": "bd6", "t0": 22.217, "t1": 24.317}, {"id": "bd7", "t0": 24.517, "t1": 26.45}, {"id": "bd8", "t0": 26.65, "t1": 28.883}, {"id": "bd9", "t0": 29.083, "t1": 30.55}]};
+        const T = K.T, B = K.B;
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        const hide0 = (el) => tl.set(el, { opacity: 0 }, 0);
+        function stamp(sel, t, t1) {
+          const el = $(sel); hide0(el);
+          tl.fromTo(el, { opacity: 0, scale: 1.8, rotation: -14 }, { opacity: 1, scale: 1, rotation: -6, duration: 0.2, ease: "power4.in", immediateRender: false }, t);
+          tl.fromTo(el, { x: 0 }, { x: 6, duration: 0.05, yoyo: true, repeat: 3, immediateRender: false }, t + 0.2);
+          if (t1 != null) tl.to(el, { opacity: 0, duration: 0.15 }, t1);
+        }
+        // hook
+        tl.set("#title", { opacity: 1 }, 0);
+        tl.from("#title .dots i", { scaleX: 0, transformOrigin: "0 50%", duration: 0.3, stagger: 0.08, ease: "power2.out" }, 0.05);
+        tl.fromTo("#flash", { opacity: 0.5 }, { opacity: 0, duration: 0.22, immediateRender: false }, T.hook_freeze.start);
+        stamp("#hk-stamp", B.hook_drop + 0.05, T.appr.start - 0.08);
+        tl.to("#title", { opacity: 0, y: -20, duration: 0.2 }, T.appr.start - 0.15);
+        // badges: drop on the strap, clip, sway, swing up and away
+        K.BADGES.forEach((b) => {
+          const el = $("#" + b.id); hide0(el);
+          tl.fromTo(el, { opacity: 1, y: -420, rotation: 6 }, { y: 0, rotation: -3, duration: 0.45, ease: "back.out(1.5)", immediateRender: false }, b.t0);
+          tl.to(el, { rotation: 2, duration: 0.7, yoyo: true, repeat: 1, ease: "sine.inOut" }, b.t0 + 0.45);
+          tl.to(el, { y: -460, rotation: -6, duration: 0.25, ease: "power2.in" }, b.t1);
+          tl.set(el, { opacity: 0 }, b.t1 + 0.25);
+        });
+        stamp("#pt-stamp", B.putt_drop + 0.1, T.putt.end - 0.1);
+        // end lineup
+        const lu = $("#lineup"); hide0(lu);
+        tl.fromTo(lu, { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out", immediateRender: false }, T.end_freeze.start + 0.1);
+        document.querySelectorAll("#lineup .mini").forEach((m, i) => {
+          tl.fromTo(m, { opacity: 0, y: -40, rotation: -4 }, { opacity: 1, y: 0, rotation: 0, duration: 0.3, ease: "back.out(2)", immediateRender: false }, T.end_freeze.start + 0.35 + i * 0.15);
+        });
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
