@@ -2,9 +2,8 @@
 """Kinrara Golf recap, 19 Nov 2026 (Drive folder 1JaOAR5R1cVyvUQVPdNlqJBex6J4nSiA_). One 1080x1920 30 fps A-roll in shooting order.
 Players (owner's names): Coach Reza = black shirt; Kimi = blue shirt, navy bucket hat; owner ("me", label SAYA) = blue patterned shirt, black cap;
 Taza = dark shirt, white bucket hat, knee brace.
-  IMG_0338 14:25 HOLE 18 (owner) approach (DTL), impact 8.08   IMG_0344 14:33 HOLE 18 putt: rolls in ~2.85, picks it out of the cup
-  c1_1..4  tee (palm tree): Reza, owner, Taza, Kimi            c2_1..4  next tee: Taza, Reza, Kimi, owner
-  (the compose_video files carry their export time, after the round, so they are placed before hole 18 and shown without a time)
+  IMG_0338 14:25 owner's approach (DTL), impact 8.08          IMG_0344 14:33 owner's putt: rolls in ~2.85, picks it out of the cup
+  c1_1..4  14:55 tee (palm tree): Reza, owner, Taza, Kimi     c2_1..4  15:04 next tee: Taza, Reza, Kimi, owner
 No speech in any clip (large-v3: only end-of-silence hallucinations) -> cut on picture beats.
 """
 import json, os, subprocess, sys, wave
@@ -22,6 +21,8 @@ ZC = [(0, 1.45, 920, 2900), (0.75, 1.55, 860, 2960)]          # hook: on the put
 EDL = [
     dict(name="hook_a", sec="hook", clip="IMG_0344", a=1.95, b=2.90, speed=0.5, zoom=ZC, voice=False),
     dict(name="hook_freeze", sec="hook", clip="IMG_0344", a=2.90, kind="freeze", dur=1.0, zoom=[(0, 1.55, 860, 2960), (1, 1.6, 850, 2970)], voice=False),
+    dict(name="appr", sec="appr", clip="IMG_0338", a=6.70, b=9.80, speed=1.0, who="me"),
+    dict(name="putt", sec="putt", clip="IMG_0344", a=0.30, b=4.70, speed=1.0, who="me"),
     dict(name="t1_reza", sec="tee1", clip="c1_1.mp4", a=0.00, b=3.00, speed=1.0, who="reza"),
     dict(name="t1_me", sec="tee1", clip="c1_2.mp4", a=5.30, b=7.70, speed=1.0, who="me"),
     dict(name="t1_taza", sec="tee1", clip="c1_3.mp4", a=0.40, b=3.70, speed=1.0, who="taza"),
@@ -30,9 +31,6 @@ EDL = [
     dict(name="t2_reza", sec="tee2", clip="c2_2.mp4", a=0.00, b=2.13, speed=1.0, who="reza"),
     dict(name="t2_kimi", sec="tee2", clip="c2_3.mp4", a=0.00, b=2.43, speed=1.0, who="kimi"),
     dict(name="t2_me", sec="tee2", clip="c2_4.mp4", a=0.00, b=1.66, speed=1.0, who="me"),
-    # HOLE 18 (owner): the iPhone approach and the holed putt close the round
-    dict(name="appr", sec="h18", clip="IMG_0338", a=6.70, b=9.80, speed=1.0, who="me"),
-    dict(name="putt", sec="h18", clip="IMG_0344", a=0.30, b=4.70, speed=1.0, who="me"),
     dict(name="end_freeze", sec="end", clip="IMG_0344", a=4.70, kind="freeze", dur=3.2, voice=False),
 ]
 IMPACTS = {"appr": 8.08, "t1_reza": 1.14, "t1_me": 7.21, "t1_taza": 2.04, "t1_kimi": 1.42, "t2_taza": 4.69, "t2_reza": 1.15, "t2_kimi": 1.43, "t2_me": 1.14}

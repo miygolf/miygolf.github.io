@@ -129,6 +129,6 @@ Faiz P6–P8 **lab / telestrator** (graphite grid, red/lime, Archivo Black + Jet
 
 | Video | Look | Type | Palette | Motion signature |
 | --- | --- | --- | --- | --- |
-| **Kinrara recap (19 Nov, four-ball)** (branch `claude/gifted-davinci-2netbk`, `projects/kinrara-recap/`) | **Flight Pass**: tournament lanyard badges per player | Onest 800 + Spline Sans Mono 600 + Noto Color Emoji | card #fbfbf8, ink #15171a, charcoal+gold (coach), coral #e2452a, blue #1f7fd6, sand #e9c27a | badge drops on a coloured strap, clips in, sways, swings away; MASUK stamps on the holed putt; end "The squad" lineup of passes; real sound levelled, no music — **preview v2** (hole 18 last) |
+| **Kinrara recap (19 Nov, four-ball)** (branch `claude/gifted-davinci-2netbk`, `projects/kinrara-recap/`) | **Flight Pass**: tournament lanyard badges per player | Onest 800 + Spline Sans Mono 600 + Noto Color Emoji | card #fbfbf8, ink #15171a, charcoal+gold (coach), coral #e2452a, blue #1f7fd6, sand #e9c27a | badge drops on a coloured strap, clips in, sways, swings away; MASUK stamps on the holed putt; end "The squad" lineup of passes; real sound levelled, no music — **delivered from preview v1** (owner chose v1 over the hole-18-last v2) |
 
 - Kinrara recap (2026-11-19): owner named who's who by clothing; the owner is labelled "Saya". Keep stamps/badges off faces when a golfer bends at the cup.

@@ -5,8 +5,8 @@
 ```
 Recap petang tadi kat Kinrara ⛳
 
-Tee shot satu-satu dengan squad: Coach Reza, Kimi, Taza & saya 🤝
-Last-last hole 18, putt MASUK 😮‍💨⛳
+Approach, putt MASUK 😮‍💨, lepas tu tee shot satu-satu dengan squad:
+Coach Reza, Kimi, Taza & saya 🤝
 
 Swing siapa paling cantik? Komen 👇
 
@@ -17,7 +17,7 @@ Swing siapa paling cantik? Komen 👇
 
 ```
 Kinrara recap ⛳
-Tee shot dengan squad, hole 18 putt masuk ⛳
+Putt masuk + tee shot dengan squad 🤝
 Coach Reza · Kimi · Taza · saya
 
 #golfmalaysia #golftips #golflesson #golfswing #kinraragolf #golfreels

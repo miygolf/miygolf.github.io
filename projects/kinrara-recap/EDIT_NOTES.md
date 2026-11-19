@@ -22,3 +22,8 @@ Build: `tools/fetch.sh`, `python3 tools/build_aroll.py`, `python3 tools/build_in
 ## v2 (owner: "vid iphone tu hole 18")
 The iPhone approach + putt are hole 18 → moved to the end so the round closes on the holed putt; badges "Hole 18 · Approach / Putt".
 The compose_video tee clips carry their export time (after the round), so their badges just say "Tee shot".
+
+## Delivery
+Owner chose **v1** ("render v1", 2026-11-19): original order (hole 18 approach + putt first, then the tee shots) with times on the badges.
+The v1 tool files were restored from git (commit 3211098) and rendered. `final/kinrara-recap_1080x1920.mp4`: 33.9 s, 1080×1920, 30 fps,
+H.264 High ~12.7 Mbps, AAC 256k, −14.0 LUFS, −2.9 dBTP. v2 (hole 18 last) stays in git history and previews/.
