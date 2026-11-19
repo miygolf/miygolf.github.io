@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Casual": the Kinrara recap told like a friend's phone story. Small lowercase Lexend in white with a soft shadow, no panels, no badges,
+         a thin underline under each name, simple fades. Hard cuts, real sound, one SFX. No music.
+         Type: Lexend 600/400 + Noto Color Emoji. Palette: white #ffffff, soft shadow, one accent (pale lime #e6ff7a) for "masuk".
+         Safe band: x 60-930, y 168-1330. Faces: name labels top-left (top-right on the approach, golfer on the left); "masuk" low by the cup. */
+      @font-face { font-family: "Lexend"; font-weight: 100 900; src: url("assets/fonts/Lexend-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Noto Color Emoji"; font-weight: 400; src: url("assets/fonts/NotoColorEmoji.ttf") format("truetype"); font-display: block; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
+      .ov { position: absolute; z-index: 6; opacity: 0; pointer-events: none; color: #fff; font-family: "Lexend", sans-serif;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.5);
+            -webkit-text-stroke: 7px rgba(10,12,14,0.62); paint-order: stroke fill; }
+      .emo { -webkit-text-stroke: 0; }
+      #scrim { position: absolute; left: 0; top: 0; width: 1080px; height: 640px; z-index: 5; pointer-events: none; opacity: 0;
+               background: linear-gradient(180deg, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0.26) 55%, rgba(0,0,0,0) 100%); }
+      .emo { font-family: "Noto Color Emoji", sans-serif; text-shadow: none; }
+      .lab { top: 210px; }
+      .lab .nm { font-weight: 600; font-size: 64px; line-height: 1; display: inline-block; padding-bottom: 8px; border-bottom: 4px solid rgba(255,255,255,0.9); box-shadow: 0 3px 0 rgba(0,0,0,0.35); }
+      .lab .nt { font-weight: 400; font-size: 34px; margin-top: 10px; opacity: 0.92; }
+      #title { left: 70px; top: 186px; }
+      #title .a { font-weight: 600; font-size: 76px; line-height: 1.05; }
+      #title .b { font-weight: 400; font-size: 38px; margin-top: 10px; opacity: 0.92; }
+      .masuk { font-weight: 700; font-size: 96px; color: #e6ff7a; }
+      #end { left: 70px; top: 210px; }
+      #end .a { font-weight: 600; font-size: 64px; line-height: 1.15; }
+      #end .b { font-weight: 400; font-size: 38px; margin-top: 12px; opacity: 0.92; }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="33.9" data-width="1080" data-height="1920" data-fps="30">
+      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="33.9" data-track-index="1" muted playsinline></video>
+      <div id="scrim"></div>
+      <div id="title" class="ov"><div class="a">kinrara, petang tadi <span class="emo" style="font-size:60px">☁️</span></div><div class="b">19.11 · recap santai</div></div>
+      <div id="m1" class="ov masuk" style="left:140px; top:1200px;">masuk <span class="emo" style="font-size:78px">🙌</span></div>
+      <div id="lb0" class="ov lab" style="right:150px; text-align:right;"><div class="nm">saya</div><div class="nt">hole 18 · approach</div></div>
+      <div id="lb1" class="ov lab" style="left:70px;"><div class="nm">saya</div><div class="nt">hole 18 · putt</div></div>
+      <div id="lb2" class="ov lab" style="left:70px;"><div class="nm">coach reza</div><div class="nt">tee shot</div></div>
+      <div id="lb3" class="ov lab" style="left:70px;"><div class="nm">saya</div><div class="nt">tee shot</div></div>
+      <div id="lb4" class="ov lab" style="left:70px;"><div class="nm">taza</div><div class="nt">tee shot</div></div>
+      <div id="lb5" class="ov lab" style="left:70px;"><div class="nm">kimi</div><div class="nt">tee shot</div></div>
+      <div id="lb6" class="ov lab" style="left:70px;"><div class="nm">taza</div><div class="nt">tee shot</div></div>
+      <div id="lb7" class="ov lab" style="left:70px;"><div class="nm">coach reza</div><div class="nt">tee shot</div></div>
+      <div id="lb8" class="ov lab" style="left:70px;"><div class="nm">kimi</div><div class="nt">tee shot</div></div>
+      <div id="lb9" class="ov lab" style="left:70px;"><div class="nm">saya</div><div class="nt">tee shot</div></div>
+      <div id="m2" class="ov masuk" style="left:470px; top:830px;">masuk <span class="emo" style="font-size:78px">🙌</span></div>
+      <div id="end" class="ov"><div class="a">coach reza · kimi<br>taza · saya <span class="emo" style="font-size:52px">🤝</span></div><div class="b">jumpa round depan</div></div>
+      <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="33.9" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>
+      <audio data-hf-id="hf-s0" id="sfx-0" class="clip" src="assets/sfx/2073.mp3" data-start="1.790" data-duration="0.20" data-track-index="12" data-volume="0.5" data-audio-group="sfx"></audio> <!-- ball drops -->
+      <audio data-hf-id="hf-s1" id="sfx-1" class="clip" src="assets/sfx/2073.mp3" data-start="8.540" data-duration="0.20" data-track-index="13" data-volume="0.45" data-audio-group="sfx"></audio> <!-- ball drops -->
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {"T": {"hook_a": {"start": 0.0, "end": 1.9}, "hook_freeze": {"start": 1.9, "end": 2.9}, "appr": {"start": 2.9, "end": 6.0}, "putt": {"start": 6.0, "end": 10.4}, "t1_reza": {"start": 10.4, "end": 13.4}, "t1_me": {"start": 13.4, "end": 15.8}, "t1_taza": {"start": 15.8, "end": 19.1}, "t1_kimi": {"start": 19.1, "end": 22.1667}, "t2_taza": {"start": 22.1667, "end": 24.4667}, "t2_reza": {"start": 24.4667, "end": 26.6}, "t2_kimi": {"start": 26.6, "end": 29.0333}, "t2_me": {"start": 29.0333, "end": 30.7}, "end_freeze": {"start": 30.7, "end": 33.9}}, "B": {"appr_impact": 4.28, "t1_reza_impact": 11.54, "t1_me_impact": 15.31, "t1_taza_impact": 17.44, "t1_kimi_impact": 20.52, "t2_taza_impact": 23.457, "t2_reza_impact": 25.617, "t2_kimi_impact": 28.03, "t2_me_impact": 30.173, "hook_drop": 1.8, "putt_drop": 8.55}, "LAB": [{"id": "lb0", "t0": 3.0, "t1": 5.88}, {"id": "lb1", "t0": 6.1, "t1": 10.28}, {"id": "lb2", "t0": 10.5, "t1": 13.28}, {"id": "lb3", "t0": 13.5, "t1": 15.68}, {"id": "lb4", "t0": 15.9, "t1": 18.98}, {"id": "lb5", "t0": 19.2, "t1": 22.047}, {"id": "lb6", "t0": 22.267, "t1": 24.347}, {"id": "lb7", "t0": 24.567, "t1": 26.48}, {"id": "lb8", "t0": 26.7, "t1": 28.913}, {"id": "lb9", "t0": 29.133, "t1": 30.58}]};
+        const T = K.T, B = K.B;
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        function fade(sel, t0, t1) {
+          const el = $(sel); tl.set(el, { opacity: 0 }, 0);
+          tl.fromTo(el, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.25, ease: "power2.out", immediateRender: false }, t0);
+          if (t1 != null) tl.to(el, { opacity: 0, duration: 0.2 }, t1);
+        }
+        tl.set("#title", { opacity: 1 }, 0);
+        tl.set("#scrim", { opacity: 1 }, 0);
+        tl.to("#title", { opacity: 0, duration: 0.2 }, T.appr.start - 0.2);
+        fade("#m1", B.hook_drop + 0.05, T.appr.start - 0.1);
+        K.LAB.forEach((l) => fade("#" + l.id, l.t0, l.t1));
+        fade("#m2", B.putt_drop + 0.08, T.putt.end - 0.1);
+        fade("#end", T.end_freeze.start + 0.15, null);
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
