@@ -13,6 +13,7 @@ Kita ubah 3 benda je:
 3️⃣ finish sampai habis
 
 Last-last swing dah shallow, finishing pun cantik 🔥
+Homework: buat drill tu banyak-banyak 📝
 
 Korang ada problem sama tak? Save dulu, try kat range nanti 📌
 

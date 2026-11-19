@@ -54,6 +54,9 @@
       .card.cause { top: 214px; border-left-color: var(--bef); }
       .card.note { top: 214px; border-left-color: var(--white); }
       .card.fix { top: 1010px; border-left-color: var(--aft); }
+      .card.hw { top: 940px; left: 60px; width: 350px; border-left-color: #ffd23f; }
+      .card.hw .no { background: #ffd23f; font-family: 'Noto Color Emoji'; font-size: 32px; }
+      .card.hw .said .w.hot.on { color: #ffd23f; }
       .card .hd { display: flex; align-items: center; gap: 12px; }
       .card .no { flex: 0 0 58px; height: 58px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: "Saira"; font-size: 46px; color: var(--slate); background: var(--white); }
       .card.cause .no { background: var(--bef); } .card.fix .no { background: var(--aft); }
@@ -96,9 +99,14 @@
 
       {{CARDS}}
 
-      <!-- replay tags (low: the face-on head is high) -->
-      <div id="rp-b" class="ov tag b mono" style="left:60px; top:1220px;">Before · 1×</div>
-      <div id="rp-a" class="ov tag a mono" style="left:60px; top:1220px;">After · 1×</div>
+      <!-- the student's reply (name and photo blurred for privacy) -->
+      <div id="dim" class="ov" style="left:0; top:0; width:1080px; height:1920px; background:rgba(10,10,10,0.72); z-index:5;"></div>
+      <div id="testi-tag" class="ov tag mono" style="left:60px; top:190px; border-color:#2ee59d; color:#2ee59d;">Lepas kelas, student cakap… <span class="emo">💬</span></div>
+      <div id="phone" class="ov" style="left:200px; top:262px; width:680px; height:1072px; border-radius:36px; overflow:hidden; border:8px solid #2a2a2a; box-shadow:0 24px 50px rgba(0,0,0,0.6);">
+        <img src="assets/img/testimonial.png" style="width:100%; height:100%; display:block;">
+        <div id="hl1" class="ov" style="left:10px; top:486px; width:430px; height:150px; border:5px solid #2ee59d; border-radius:20px; opacity:0;"></div>
+        <div id="hl2" class="ov" style="left:10px; top:848px; width:500px; height:90px; border:5px solid #2ee59d; border-radius:20px; opacity:0;"></div>
+      </div>
 
       <!-- CTA -->
       <div id="cta" class="ov slate"><div class="sticks"><div class="stk top"></div><div class="stk bot"></div></div>
@@ -158,10 +166,15 @@
           document.querySelectorAll("#" + c.id + " .w").forEach((w) => tl.set(w, { className: w.className + " on" }, parseFloat(w.dataset.t)));
         });
 
-        // replay
-        show("#rp-b", T.fo_b.start + 0.05, T.fo_b.end - 0.05);
-        show("#rp-a", T.fo_a.start + 0.05, T.fo_a.end - 0.05);
-        flash(B.fob_impact, 0.25); flash(B.foa_impact, 0.25);
+        // homework
+        // testimonial
+        show("#dim", T.testi.start, T.end_freeze.start - 0.05, { x: 0 });
+        show("#testi-tag", T.testi.start + 0.15, T.end_freeze.start - 0.1);
+        const ph = $("#phone"); hide0(ph);
+        tl.fromTo(ph, { opacity: 0, y: 120, rotation: 3 }, { opacity: 1, y: 0, rotation: 0, duration: 0.4, ease: "back.out(1.4)", immediateRender: false }, T.testi.start + 0.1);
+        tl.fromTo("#hl1", { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)", immediateRender: false }, T.testi.start + 0.9);
+        tl.fromTo("#hl2", { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)", immediateRender: false }, T.testi.start + 2.2);
+        tl.to(ph, { opacity: 0, y: -40, duration: 0.2 }, T.end_freeze.start - 0.2);
 
         // CTA over the after finish
         slate("#cta", T.end_freeze.start + 0.35, null);

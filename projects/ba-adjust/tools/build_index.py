@@ -29,6 +29,8 @@ CARDS = [
     ("k4", "m_f2a", "fix", "2", "Lutut masuk", [("Lepas", 62.58), ("tu", 62.94), ("*lutut", 63.02), ("*masuk.", 63.58)]),
     ("k4b", "m_f2b", "fix", "2", "Tak early extension", [("Kita", 68.40), ("tak", 68.72), ("adalah", 69.08), ("kes", 69.32), ("*early", 70.08), ("*extension", 70.92), ("tu.", 71.24)]),
     ("k5", "m_f3", "fix", "3", "Finish cantik", [("After", 92.40), ("ni", 93.22), ("*finishing", 93.52), ("*cantik", 94.60), ("je.", 95.08)]),
+    ("k6", "fo_b", "hw", "📝", "Homework: drill", [("Banyak", 100.52), ("kan", 100.92), ("*buat", 101.08), ("*drill", 101.26), ("tu", 101.50), ("lah,", 101.72),
+                                                    ("yang", 101.88), ("saya", 102.68), ("tunjuk", 103.34), ("tadi", 103.74), ("tu", 103.90), ("kan.", 104.04)]),
 ]
 
 
@@ -41,7 +43,8 @@ def cards_html():
             spans.append(f'<span class="{"w hot" if hot else "w"}" data-t="{film(t):.3f}">{html.escape(w)}</span>')
         out.append(f'<div id="{cid}" class="ov card {kind}"><div class="hd"><span class="no">{num}</span><span class="tt">{html.escape(head)}</span></div>'
                    f'<div class="said">“{" ".join(spans)}”</div><div class="by mono">— coach</div></div>')
-        data.append({"id": cid, "t0": round(S(seg) + 0.05, 3), "t1": round(E(seg) - 0.06, 3)})
+        t1 = E("fo_a") - 0.06 if seg == "fo_b" else E(seg) - 0.06
+        data.append({"id": cid, "t0": round(S(seg) + 0.05, 3), "t1": round(t1, 3)})
     return "\n      ".join(out), data
 
 
@@ -53,7 +56,8 @@ CUES = [
     (S("m_bs") + 0.02, "175.mp3", 0.35, "sweep into the coach's analysis"),
     (S("a_swing") + 0.02, "2167.mp3", 0.4, "slate clap: TAKE 02 AFTER"),
     (S("m_f1") + 0.02, "175.mp3", 0.35, "sweep into the analysis (after)"),
-    (S("fo_b") + 0.02, "2167.mp3", 0.35, "slate clap: replay"),
+    (S("fo_b") + 0.02, "175.mp3", 0.3, "sweep into the homework"),
+    (S("testi") + 0.05, "175.mp3", 0.3, "phone slides in"),
     (S("end_freeze") + 0.35, "2364.mp3", 0.35, "CTA"),
 ] + [(d_t0 + 0.05, "1120.mp3", 0.4, f"card {c[0]}") for c, d_t0 in zip(CARDS, [S(c[1]) for c in CARDS]) if c[0] != "k4b"]
 

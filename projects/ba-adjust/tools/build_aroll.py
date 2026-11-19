@@ -11,6 +11,7 @@ Sources (.src/, tools/fetch.sh):
      large-v3 (ms + en + crops): 6.6-10 "backswing angkat cantik je, on plane" · 31.0-35.8 "bila down swing tu, tangan tu di atas swing plane"
      · 80.3-85.4 "tengok, terangkat badan-badan, sebab bodi tak clear" · 53.4-58.4 "dia turun, dia dalam plane, so kita jadi shallow lah"
      · 62.6-63.8 "lepas tu lutut masuk" · 68.4-71.4 "kita tak adalah kes early extension tu" · 92.4-95.2 "after ni finishing cantik je"
+     · 100.5-104.0 "banyak kan buat drill tu lah, yang saya tunjuk tadi tu kan" (over the face-on reps = the drill, owner's note)
      The student's name (0.6-2.2) and the comparisons to another player ("macam N...") are not used.
 """
 import json, os, subprocess, sys, wave
@@ -33,7 +34,7 @@ EDL = [
     # BEFORE take at 1x, real strike
     dict(name="b_swing", sec="before", clip="IMG_0328", a=9.60, b=12.40, speed=1.0),
     # coach's analysis: backswing fine on both
-    dict(name="m_bs", sec="analysis_b", clip=M, a=6.55, b=10.20, speed=1.0, fit=True),
+    dict(name="m_bs", sec="analysis_b", clip=M, a=7.30, b=10.20, speed=1.0, fit=True),
     # cause 1, cause 2 (the coach's words over his own lines)
     dict(name="m_c1", sec="analysis_b", clip=M, a=31.35, b=36.10, speed=1.0, fit=True),
     dict(name="m_c2", sec="analysis_b", clip=M, a=80.20, b=85.70, speed=1.0, fit=True),
@@ -44,11 +45,13 @@ EDL = [
     dict(name="m_f2a", sec="analysis_a", clip=M, a=62.45, b=64.00, speed=1.0, fit=True),
     dict(name="m_f2b", sec="analysis_a", clip=M, a=68.30, b=71.55, speed=1.0, fit=True),
     dict(name="m_f3", sec="analysis_a", clip=M, a=92.30, b=95.40, speed=1.0, fit=True),
-    # full-speed replay, face-on: before then after
-    dict(name="fo_b", sec="replay", clip="IMG_0330", a=3.25, b=4.95, speed=1.0),
-    dict(name="fo_a", sec="replay", clip="IMG_0333", a=3.35, b=5.05, speed=1.0),
-    # end: after finish, freeze
-    dict(name="end_freeze", sec="end", clip="IMG_0331", a=7.95, kind="freeze", dur=3.4, voice=False),
+    # HOMEWORK (owner: "front side to drill aka homework kena buat"): the face-on reps are the drill; the coach's line over them
+    dict(name="fo_b", sec="drill", clip="IMG_0330", a=3.20, b=5.00, speed=1.0, voice=False),
+    dict(name="fo_a", sec="drill", clip="IMG_0333", a=3.30, b=5.10, speed=1.0, voice=False),
+    # the student's WhatsApp reply (name and photo blurred) over the after finish
+    dict(name="testi", sec="testi", clip="IMG_0331", a=7.95, kind="freeze", dur=4.3, voice=False),
+    # end: CTA
+    dict(name="end_freeze", sec="end", clip="IMG_0331", a=7.95, kind="freeze", dur=3.0, voice=False),
 ]
 
 def _lerp_expr(keys):
@@ -192,7 +195,14 @@ def build_audio(tl):
     g31 = seg_gain("IMG_0331", 5.8, 8.3)
     place(piece("IMG_0331", 1.0, 2.6, 0.1), 0.0, g31 - 6)
     place(piece("IMG_0331", SND["IMG_0331"] - 0.03, SND["IMG_0331"] + 0.4, 0.004), film_time(tl, "hook_a", IMP["IMG_0331"]) + 1 / FPS - 0.03, g31)
-    place(piece("IMG_0331", 1.0, 4.4, 0.1), T("end_freeze"), g31 - 8)
+    # drill: the coach's homework line over the face-on reps (their own strikes kept low under it)
+    dw = (100.40, 104.25)
+    place(piece(M, *dw, 0.03), T("fo_b") + 0.15, gm, (M, *dw))
+    for n, c in (("fo_b", "IMG_0330"), ("fo_a", "IMG_0333")):
+        s_ = next(x for x in EDL if x["name"] == n)
+        place(piece(c, s_["a"], s_["b"], 0.05), T(n), seg_gain(c, s_["a"], s_["b"]) - 9)
+    place(piece("IMG_0331", 1.0, 4.4, 0.1), T("testi"), g31 - 10)
+    place(piece("IMG_0331", 1.0, 4.0, 0.1), T("end_freeze"), g31 - 10)
     tl["_voice"] = placed
     json.dump(tl, open(os.path.join(ROOT, "edit", "timeline.json"), "w"), indent=1)
     out = os.path.join(ROOT, "edit", "voice_raw.wav")

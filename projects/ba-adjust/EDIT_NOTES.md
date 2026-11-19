@@ -23,8 +23,9 @@ Saira Extra Condensed 800 + IBM Plex Mono 600 + Caveat 700 + Noto Color Emoji. S
 | 4.90–18.77 | coach's analysis: ✓ backswing sama · 1 tangan atas plane · 2 badan terangkat (quote cards on the top panel) |
 | 18.77–21.27 | TAKE 02 AFTER at 1× |
 | 21.27–34.57 | analysis: 1 turun dalam plane · 2 lutut masuk / tak early extension · 3 finish cantik (cards on the bottom panel) |
-| 34.57–37.97 | full-speed face-on replay: before, after |
-| 37.97–41.37 | after finish freeze, CTA "Problem sama? / Save. Cuba kat range ↓" + recap |
+| 33.83–37.43 | v2 HOMEWORK: the face-on reps are the drill (owner); the coach's line "Banyak kan buat drill tu lah, yang saya tunjuk tadi tu kan" over them |
+| 37.43–41.73 | v2 the student's WhatsApp reply after class (name and profile photo pixelated + blurred), two bubbles outlined |
+| 41.73–44.73 | after finish freeze, CTA "Problem sama? / Save. Cuba kat range ↓" + recap |
 The coach's stacked analysis is the side-by-side proof (his own line); no measurements are claimed.
 Preview mix re-transcribed (medium): every quoted line heard. −14.0 LUFS, −2.7 dBTP.
 
@@ -36,3 +37,9 @@ npx hyperframes@0.9.32 render -q draft -o renders/preview_draft.mp4 && tools/mas
 # on "render":
 npx hyperframes@0.9.32 render -q delivery -o renders/final_raw.mp4 && tools/master.sh renders/final_raw.mp4 final/ba-adjust_1080x1920.mp4
 ```
+
+## v2 (owner: "front side to drill aka homework kena buat" + "blur nama privacy" with a WhatsApp screenshot)
+- The face-on section is now HOMEWORK: both face-on reps at 1× with the coach's drill line (large-v3 100.5–104.0); their strikes kept low under it.
+- New testimonial: the student's reply ("Nampak beza dia boss / Ini yg saya dok cari2 teknik dia tu / Alhamdulillah, puas hati dengan kelas tadi
+  boss…") in a phone frame over the dimmed after finish. Name and profile photo pixelated then blurred (`assets/img/testimonial.png`, made from
+  the owner's screenshot; the original is not in the repo). Backswing card trimmed 0.75 s. 44.7 s.
