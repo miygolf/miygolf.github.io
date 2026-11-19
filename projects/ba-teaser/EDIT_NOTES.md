@@ -13,3 +13,6 @@ Owner: "create short clip teaser" after delivering `projects/ba-adjust`. 12.2 s,
 
 No music; four soft slate/sweep/tick SFX. −14.1 LUFS, −2.9 dBTP. Mix re-transcribed (large-v3): both coach lines heard, no name.
 Build: as ba-adjust (`tools/build_aroll.py`, `tools/build_index.py`, `tools/master.sh`); sources are the ba-adjust `.src` files.
+
+## Delivery
+Owner approved v1 ("ok render", 2026-11-19). `final/ba-teaser_1080x1920.mp4`: 12.2 s, 1080×1920, 30 fps, H.264 High ~7.3 Mbps, AAC 256k, −14.1 LUFS, −2.9 dBTP.
