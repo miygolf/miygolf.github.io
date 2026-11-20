@@ -1,0 +1,27 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #ck-w { position: absolute; left: 120px; top: 300px; width: 768px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .row { display: flex; align-items: center; gap: 12px; font-family: "Space Mono", monospace; font-weight: 400; font-size: 36px; line-height: 1.25; color: #fff; text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 3px 1px 0 #000, -3px 1px 0 #000, 1px 3px 0 #000, -1px 3px 0 #000, 0 2px 8px rgba(0, 0, 0, 0.7); }
+    .ck { width: 38px; height: 38px; flex: 0 0 auto; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6)); }
+  </style>
+  <div id="root" data-composition-id="checklist" data-width="1080" data-height="1920">
+    <div id="ck-w">
+      <div id="ck0" class="row"><svg class="ck" viewBox="0 0 40 40" aria-hidden="true"><rect x="2" y="2" width="36" height="36" rx="8" fill="#3fbf3f" stroke="#1d7a1d" stroke-width="2"/><path d="M11 21l6 6 12-14" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Teh herba camomile</span></div>
+      <div id="ck1" class="row"><svg class="ck" viewBox="0 0 40 40" aria-hidden="true"><rect x="2" y="2" width="36" height="36" rx="8" fill="#3fbf3f" stroke="#1d7a1d" stroke-width="2"/><path d="M11 21l6 6 12-14" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Tiada kafein</span></div>
+      <div id="ck2" class="row"><svg class="ck" viewBox="0 0 40 40" aria-hidden="true"><rect x="2" y="2" width="36" height="36" rx="8" fill="#3fbf3f" stroke="#1d7a1d" stroke-width="2"/><path d="M11 21l6 6 12-14" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Bau wangi, rasa lembut</span></div>
+      <div id="ck3" class="row"><svg class="ck" viewBox="0 0 40 40" aria-hidden="true"><rect x="2" y="2" width="36" height="36" rx="8" fill="#3fbf3f" stroke="#1d7a1d" stroke-width="2"/><path d="M11 21l6 6 12-14" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Sesuai diminum waktu malam</span></div>
+      <div id="ck4" class="row"><svg class="ck" viewBox="0 0 40 40" aria-hidden="true"><rect x="2" y="2" width="36" height="36" rx="8" fill="#3fbf3f" stroke="#1d7a1d" stroke-width="2"/><path d="M11 21l6 6 12-14" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Celup, tunggu, siap</span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#ck0 .ck", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.22, ease: "back.out(3)" }, 0.15);
+    tl.fromTo("#ck1 .ck", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.22, ease: "back.out(3)" }, 0.45);
+    tl.fromTo("#ck2 .ck", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.22, ease: "back.out(3)" }, 0.75);
+    tl.fromTo("#ck3 .ck", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.22, ease: "back.out(3)" }, 1.05);
+    tl.fromTo("#ck4 .ck", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.22, ease: "back.out(3)" }, 1.35);
+    tl.set({}, {}, 13.98);
+    window.__timelines["checklist"] = tl;
+  </script>
+</template>

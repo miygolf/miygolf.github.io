@@ -1,0 +1,16 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #cta { position: absolute; left: 120px; top: 1120px; width: 768px; text-align: center; font-family: "Space Mono", monospace; font-weight: 400; font-size: 40px; line-height: 1.3; color: #fff; text-shadow: 3px 0px 0 #000, -3px 0px 0 #000, 0px 3px 0 #000, 0px -3px 0 #000, 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 3px 1px 0 #000, -3px 1px 0 #000, 1px 3px 0 #000, -1px 3px 0 #000, 0 2px 8px rgba(0, 0, 0, 0.7); }
+    #cta b { color: #ffd23f; font-weight: 400; }
+  </style>
+  <div id="root" data-composition-id="cta" data-width="1080" data-height="1920">
+    <div id="cta">Nak cuba? Tekan <b>beg kuning</b> ↓</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#cta", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.25, ease: "power2.out" }, 0.3);
+    tl.set({}, {}, 4.58);
+    window.__timelines["cta"] = tl;
+  </script>
+</template>
