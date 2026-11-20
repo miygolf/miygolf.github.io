@@ -1,61 +1,31 @@
 <!doctype html>
-<html lang="en">
+<html lang="ms">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=1920, height=1080" />
+    <meta name="viewport" content="width=1080, height=1920" />
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
     <style>
-      /* Placeholders: replace all three with the film's own palette and display face. */
-      :root {
-        --ground: #000;
-        --ink: #ffffff;
-        --font-display: sans-serif;
-      }
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      html,
-      body {
-        margin: 0;
-        width: 1920px;
-        height: 1080px;
-        overflow: hidden;
-        background: var(--ground);
-      }
-      #root {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: var(--font-display);
-      }
-      #title {
-        color: var(--ink);
-        font-size: 72px;
-        font-weight: 600;
-        letter-spacing: -0.03em;
-      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; background: #000; }
+      .shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
     </style>
   </head>
   <body>
-    <div
-      id="root"
-      data-composition-id="main"
-      data-start="0"
-      data-duration="10"
-      data-width="1920"
-      data-height="1080"
-    >
-      <h1 id="title" class="clip" data-start="0" data-duration="10" data-track-index="0">Title</h1>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="20" data-width="1080" data-height="1920">
+      <!-- Original BOH ad picture, unchanged; its own audio muted -->
+      <video id="v-ad" class="clip shot" src="assets/video/boh.mp4" data-start="0" data-duration="20" data-media-start="0" muted data-track-index="0"></video>
+
+      <!-- New voiceover: creator's own recording, each line placed on the original line's timing
+           (Boh as one word, kafein, 'Malam pun rasa lebih santai.' instead of 'Tidur pasti makin lena.') -->
+      <audio id="a-vo" class="clip" src="assets/audio/vo-new.m4a" data-start="0" data-duration="20" data-media-start="0" data-volume="1" data-track-index="1"></audio>
+
+      <!-- Original sound effects (water pour etc.) with the old voice muted -->
+      <audio id="a-sfx" class="clip" src="assets/audio/sfx-bed.m4a" data-start="0" data-duration="20" data-media-start="0" data-volume="0.8" data-track-index="2"></audio>
     </div>
     <script>
       const tl = gsap.timeline({ paused: true });
-      // Example: tl.fromTo("#title", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 0);
       window.__timelines["main"] = tl;
-      tl.seek(0);
     </script>
   </body>
 </html>
