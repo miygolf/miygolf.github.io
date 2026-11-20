@@ -17,3 +17,6 @@ Audio: range noise removed + gate (as Kinrara casual), strikes kept. No technica
 ## v2 (owner: "1st student single session, 2nd student beginner on his 2nd lesson, 3rd is my father")
 Labels: tags "single session" / "beginner · lesson ke-2" / "ayah saya ❤️"; polaroid captions the same; end prints "single session / beginner / ayah ❤️";
 title "3 orang, 3 swing" (the father is not a regular student). Captions updated.
+
+## Delivery
+Owner approved v2 ("render", 2026-11-20). `final/lesson-1120_1080x1920.mp4`: 18.1 s, 1080×1920, 30 fps, H.264 High ~11.8 Mbps, AAC 256k, −14.5 LUFS, −2.7 dBTP.

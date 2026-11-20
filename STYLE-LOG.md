@@ -136,6 +136,6 @@ Faiz P6–P8 **lab / telestrator** (graphite grid, red/lime, Archivo Black + Jet
 
 | Video | Look | Type | Palette | Motion signature |
 | --- | --- | --- | --- | --- |
-| **Lesson montage — 3 students, no names** (`projects/lesson-1120/`) | **Polaroid**: finishes freeze into instant prints on a cork board | Albert Sans 800/600 + Gochi Hand + Noto Color Emoji | print white #fbfaf6, cork #2a241d, marker #20242b, tape #f3e7b8, tomato #ff5a3c | 1× swing → 0.5× impact → finish shrinks/tilts into a polaroid with a marker caption, shutter + print SFX, end board of three prints; noise-cleaned strikes, no music — **preview v2** (labels: single session · beginner lesson 2 · ayah saya) |
+| **Lesson montage — 3 students, no names** (`projects/lesson-1120/`) | **Polaroid**: finishes freeze into instant prints on a cork board | Albert Sans 800/600 + Gochi Hand + Noto Color Emoji | print white #fbfaf6, cork #2a241d, marker #20242b, tape #f3e7b8, tomato #ff5a3c | 1× swing → 0.5× impact → finish shrinks/tilts into a polaroid with a marker caption, shutter + print SFX, end board of three prints; noise-cleaned strikes, no music — **delivered from preview v2** (labels: single session · beginner lesson 2 · ayah saya) |
 
 - Lesson montage (2026-11-20): three students, no names (owner) → "student 01/02/03". Keep the hook unzoomed when a title sits in the top band.
