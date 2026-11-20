@@ -6,7 +6,7 @@ import json, os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TL = json.load(open(os.path.join(ROOT, "edit", "timeline.json")))
 TOTAL = TL["_total"]; B = TL["_beats"]; S = lambda n: TL[n]["start"]; E = lambda n: TL[n]["end"]
-STU = [("01", "19.11 · malam"), ("02", "19.11 · malam"), ("03", "20.11 · pagi")]
+STU = [("single session", "19.11"), ("beginner · lesson 2", "19.11"), ("ayah saya ❤️", "20.11")]   # owner: 1st single session, 2nd beginner on his 2nd lesson, 3rd my father
 SFX = {"1430.mp3": (0.14, 0.40), "1440.mp3": (0.17, 0.62)}
 CUES = [(S("hook_freeze"), "1430.mp3", 0.5, "hook freeze shutter")]
 for i in range(1, 4):

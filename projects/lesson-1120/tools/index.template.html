@@ -21,7 +21,7 @@
       #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
       #print { position: absolute; left: -46px; top: -46px; width: 1172px; height: 2260px; border: 46px solid #fbfaf6; border-bottom-width: 340px;
                opacity: 0; box-shadow: 0 30px 60px rgba(0,0,0,0.55); pointer-events: none; }
-      #pcap { position: absolute; left: 0; top: 1964px; width: 1080px; text-align: center; font-family: "Gochi"; font-size: 170px; color: #20242b; opacity: 0; }
+      #pcap { position: absolute; left: 0; top: 1964px; width: 1080px; text-align: center; font-family: "Gochi"; font-size: 150px; color: #20242b; opacity: 0; white-space: nowrap; }
       .ov { position: absolute; z-index: 6; opacity: 0; pointer-events: none; }
       .emo { font-family: "Noto Color Emoji", sans-serif; }
       #title { left: 60px; top: 196px; width: 870px; }
@@ -50,13 +50,13 @@
         <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="{{TOTAL}}" data-track-index="1" muted playsinline></video>
         <div id="print"></div><div id="pcap"></div>
       </div>
-      <div id="title" class="ov"><div class="k">Golf lesson · minggu ni</div><div class="h">3 student,<br><b>3 swing</b> <span class="emo" style="font-size:80px">📸</span></div></div>
-      <div id="tg1" class="ov tag">student 01</div><div id="tg2" class="ov tag">student 02</div><div id="tg3" class="ov tag">student 03</div>
+      <div id="title" class="ov"><div class="k">Golf lesson · minggu ni</div><div class="h">3 orang,<br><b>3 swing</b> <span class="emo" style="font-size:80px">📸</span></div></div>
+      <div id="tg1" class="ov tag">single session</div><div id="tg2" class="ov tag">beginner · lesson ke-2</div><div id="tg3" class="ov tag">ayah saya <span class="emo" style="font-size:46px">❤️</span></div>
       <div id="board">
-        <div id="bt"><div class="k">Golf lesson · 19–20.11</div><div class="h">Swing minggu ni</div><div class="m">3 student, 3 finish ✍️</div></div>
-        <div id="pp1" class="pp" style="left:60px; top:700px;"><img src="assets/img/fin_IMG_0352.jpg"><div class="c">01 · 19.11</div></div>
-        <div id="pp2" class="pp" style="left:355px; top:660px;"><img src="assets/img/fin_IMG_0355.jpg"><div class="c">02 · 19.11</div></div>
-        <div id="pp3" class="pp" style="left:650px; top:710px;"><img src="assets/img/fin_IMG_0368.jpg"><div class="c">03 · 20.11</div></div>
+        <div id="bt"><div class="k">Golf lesson · 19–20.11</div><div class="h">Swing minggu ni</div><div class="m">3 orang, 3 finish ✍️</div></div>
+        <div id="pp1" class="pp" style="left:60px; top:700px;"><img src="assets/img/fin_IMG_0352.jpg"><div class="c">single session</div></div>
+        <div id="pp2" class="pp" style="left:355px; top:660px;"><img src="assets/img/fin_IMG_0355.jpg"><div class="c">beginner</div></div>
+        <div id="pp3" class="pp" style="left:650px; top:710px;"><img src="assets/img/fin_IMG_0368.jpg"><div class="c">ayah <span class="emo" style="font-size:32px">❤️</span></div></div>
       </div>
       <div id="flash"></div>
 {{AUDIO}}
@@ -81,7 +81,8 @@
           tl.to(tg, { opacity: 0, duration: 0.15 }, fin.start - 0.05);
           // finish freezes into a polaroid
           flash(fin.start, 0.85);
-          tl.set("#pcap", { textContent: "student " + K.STU[i - 1][0] }, fin.start);
+          tl.set("#pcap", { fontSize: (K.STU[i - 1][0].length > 15 ? 112 : 150) + "px" }, fin.start);
+          tl.set("#pcap", { innerHTML: K.STU[i - 1][0].replace("❤️", "<span class=\"emo\" style=\"font-size:120px\">❤️</span>") }, fin.start);
           tl.fromTo("#print", { opacity: 0 }, { opacity: 1, duration: 0.05, immediateRender: false }, fin.start);
           tl.fromTo("#pcap", { opacity: 0 }, { opacity: 1, duration: 0.3, immediateRender: false }, fin.start + 0.25);
           tl.fromTo("#stage", { scale: 1, rotation: 0 }, { scale: 0.74, rotation: i % 2 ? -3 : 3, duration: 0.35, ease: "power3.out", immediateRender: false }, fin.start + 0.02);

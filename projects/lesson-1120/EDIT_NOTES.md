@@ -13,3 +13,7 @@ Print white #fbfaf6, cork #2a241d, marker #20242b, tape #f3e7b8, tomato #ff5a3c.
 | per student (~5.5 s) | full swing 1× with its strike → 0.5× replay through impact (real strike) → finish freeze into a polaroid "student 0N" |
 | 15.07–18.07 | end board: "Swing minggu ni · 3 student, 3 finish ✍️" + three prints |
 Audio: range noise removed + gate (as Kinrara casual), strikes kept. No technical claims (no diagnosis given).
+
+## v2 (owner: "1st student single session, 2nd student beginner on his 2nd lesson, 3rd is my father")
+Labels: tags "single session" / "beginner · lesson ke-2" / "ayah saya ❤️"; polaroid captions the same; end prints "single session / beginner / ayah ❤️";
+title "3 orang, 3 swing" (the father is not a regular student). Captions updated.
