@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Polaroid": the week's lessons as instant photos. Each student's finish freezes, the frame shrinks into a white instant-print border
+         on a dark cork board with a marker caption ("student 01 · 19.11 malam"), a shutter + print-out whirr; the end board pins all three prints.
+         No names (owner). Type: Albert Sans 800/600 + Gochi Hand (marker) + Noto Color Emoji.
+         Palette: print white #fbfaf6, cork #2a241d, marker ink #20242b, tape #f3e7b8, accent tomato #ff5a3c.
+         Safe band: x 60-930, y 168-1330. Faces: heads at y 560-680 -> title/label top band; the print caption sits in its own bottom border. */
+      @font-face { font-family: "Albert"; font-weight: 100 900; src: url("assets/fonts/AlbertSans-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Gochi"; font-weight: 400; src: url("assets/fonts/GochiHand-Regular.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Noto Color Emoji"; font-weight: 400; src: url("assets/fonts/NotoColorEmoji.ttf") format("truetype"); font-display: block; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #2a241d; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden;
+              background: radial-gradient(circle at 30% 20%, #3a3127, #2a241d 60%), #2a241d; }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 50% 42%; z-index: 1; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+      #print { position: absolute; left: -46px; top: -46px; width: 1172px; height: 2260px; border: 46px solid #fbfaf6; border-bottom-width: 340px;
+               opacity: 0; box-shadow: 0 30px 60px rgba(0,0,0,0.55); pointer-events: none; }
+      #pcap { position: absolute; left: 0; top: 1964px; width: 1080px; text-align: center; font-family: "Gochi"; font-size: 170px; color: #20242b; opacity: 0; }
+      .ov { position: absolute; z-index: 6; opacity: 0; pointer-events: none; }
+      .emo { font-family: "Noto Color Emoji", sans-serif; }
+      #title { left: 60px; top: 196px; width: 870px; }
+      #title .k { font-family: "Albert"; font-weight: 600; font-size: 34px; color: #fff; letter-spacing: 0.08em; text-transform: uppercase;
+                  text-shadow: 0 2px 10px rgba(0,0,0,0.6); }
+      #title .h { font-family: "Albert"; font-weight: 800; font-size: 104px; line-height: 0.95; color: #fff; margin-top: 8px; text-shadow: 0 4px 18px rgba(0,0,0,0.55); }
+      #title .h b { color: #ff5a3c; }
+      .tag { left: 60px; top: 200px; padding: 10px 20px 12px; background: #fbfaf6; color: #20242b; font-family: "Gochi"; font-size: 56px; border-radius: 4px;
+             box-shadow: 0 8px 18px rgba(0,0,0,0.35); transform: rotate(-3deg); }
+      .tag::before { content: ""; position: absolute; left: 50%; top: -18px; width: 110px; height: 34px; margin-left: -55px; background: rgba(243,231,184,0.85); transform: rotate(4deg); }
+      #board { position: absolute; inset: 0; z-index: 7; opacity: 0; }
+      .pp { position: absolute; width: 280px; background: #fbfaf6; padding: 14px 14px 76px; box-shadow: 0 18px 34px rgba(0,0,0,0.5); }
+      .pp img { width: 100%; display: block; }
+      .pp .c { position: absolute; left: 0; right: 0; bottom: 14px; text-align: center; font-family: "Gochi"; font-size: 40px; color: #20242b; }
+      .pp::before { content: ""; position: absolute; left: 50%; top: -16px; width: 120px; height: 34px; margin-left: -60px; background: rgba(243,231,184,0.85); transform: rotate(-3deg); }
+      #bt { position: absolute; left: 60px; top: 196px; width: 870px; color: #fbfaf6; }
+      #bt .k { font-family: "Albert"; font-weight: 600; font-size: 34px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.85; }
+      #bt .h { font-family: "Albert"; font-weight: 800; font-size: 92px; line-height: 0.98; margin-top: 8px; }
+      #bt .m { font-family: "Gochi"; font-size: 60px; color: #f3e7b8; margin-top: 8px; }
+      #flash { position: absolute; inset: 0; z-index: 8; background: #fff; opacity: 0; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="{{TOTAL}}" data-width="1080" data-height="1920" data-fps="30">
+      <div id="stage">
+        <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="{{TOTAL}}" data-track-index="1" muted playsinline></video>
+        <div id="print"></div><div id="pcap"></div>
+      </div>
+      <div id="title" class="ov"><div class="k">Golf lesson · minggu ni</div><div class="h">3 student,<br><b>3 swing</b> <span class="emo" style="font-size:80px">📸</span></div></div>
+      <div id="tg1" class="ov tag">student 01</div><div id="tg2" class="ov tag">student 02</div><div id="tg3" class="ov tag">student 03</div>
+      <div id="board">
+        <div id="bt"><div class="k">Golf lesson · 19–20.11</div><div class="h">Swing minggu ni</div><div class="m">3 student, 3 finish ✍️</div></div>
+        <div id="pp1" class="pp" style="left:60px; top:700px;"><img src="assets/img/fin_IMG_0352.jpg"><div class="c">01 · 19.11</div></div>
+        <div id="pp2" class="pp" style="left:355px; top:660px;"><img src="assets/img/fin_IMG_0355.jpg"><div class="c">02 · 19.11</div></div>
+        <div id="pp3" class="pp" style="left:650px; top:710px;"><img src="assets/img/fin_IMG_0368.jpg"><div class="c">03 · 20.11</div></div>
+      </div>
+      <div id="flash"></div>
+{{AUDIO}}
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {{CONSTS}};
+        const T = K.T, B = K.B;
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        function flash(t, a) { tl.fromTo("#flash", { opacity: a }, { opacity: 0, duration: 0.25, immediateRender: false }, t); }
+        // title on frame 0
+        tl.set("#title", { opacity: 1 }, 0);
+        tl.to("#title", { opacity: 0, y: -20, duration: 0.2 }, T.s1_full.start - 0.15);
+        flash(T.hook_freeze.start, 0.6);
+        // students
+        [1, 2, 3].forEach((i) => {
+          const full = T["s" + i + "_full"], fin = T["s" + i + "_fin"], tg = "#tg" + i;
+          tl.set(tg, { opacity: 0 }, 0);
+          tl.fromTo(tg, { opacity: 0, y: -16, rotation: -8 }, { opacity: 1, y: 0, rotation: -3, duration: 0.25, ease: "back.out(2)", immediateRender: false }, full.start + 0.08);
+          tl.to(tg, { opacity: 0, duration: 0.15 }, fin.start - 0.05);
+          // finish freezes into a polaroid
+          flash(fin.start, 0.85);
+          tl.set("#pcap", { textContent: "student " + K.STU[i - 1][0] }, fin.start);
+          tl.fromTo("#print", { opacity: 0 }, { opacity: 1, duration: 0.05, immediateRender: false }, fin.start);
+          tl.fromTo("#pcap", { opacity: 0 }, { opacity: 1, duration: 0.3, immediateRender: false }, fin.start + 0.25);
+          tl.fromTo("#stage", { scale: 1, rotation: 0 }, { scale: 0.74, rotation: i % 2 ? -3 : 3, duration: 0.35, ease: "power3.out", immediateRender: false }, fin.start + 0.02);
+          tl.to("#stage", { scale: 1, rotation: 0, duration: 0.18, ease: "power2.in" }, fin.end - 0.18);
+          tl.set(["#print", "#pcap"], { opacity: 0 }, fin.end);
+        });
+        // end board
+        tl.set("#board", { opacity: 0 }, 0);
+        tl.set("#board", { opacity: 1 }, T.end_freeze.start);
+        tl.set("#stage", { opacity: 0 }, T.end_freeze.start);
+        tl.from("#bt", { opacity: 0, y: -20, duration: 0.3 }, T.end_freeze.start + 0.05);
+        [["#pp1", -4], ["#pp2", 1.5], ["#pp3", 4]].forEach(([s, r], k) => {
+          tl.fromTo(s, { opacity: 0, y: 120, rotation: r * 2 }, { opacity: 1, y: 0, rotation: r, duration: 0.4, ease: "back.out(1.6)", immediateRender: false }, T.end_freeze.start + 0.2 + k * 0.22);
+          tl.set(s, { opacity: 0 }, 0);
+        });
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>

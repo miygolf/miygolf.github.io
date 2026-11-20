@@ -133,3 +133,9 @@ Faiz P6–P8 **lab / telestrator** (graphite grid, red/lime, Archivo Black + Jet
 
 - Kinrara recap (2026-11-19): owner named who's who by clothing; the owner is labelled "Saya". Keep stamps/badges off faces when a golfer bends at the cup.
 | **Kinrara recap — casual version** (`projects/kinrara-casual/`) | **Casual**: phone-story lowercase text, no panels | Lexend 600/400 + Noto Color Emoji | white + thin dark outline, pale lime #e6ff7a accent | simple fades, underlined names, one SFX; same cut as kinrara-recap v1 — **preview v1** |
+
+| Video | Look | Type | Palette | Motion signature |
+| --- | --- | --- | --- | --- |
+| **Lesson montage — 3 students, no names** (`projects/lesson-1120/`) | **Polaroid**: finishes freeze into instant prints on a cork board | Albert Sans 800/600 + Gochi Hand + Noto Color Emoji | print white #fbfaf6, cork #2a241d, marker #20242b, tape #f3e7b8, tomato #ff5a3c | 1× swing → 0.5× impact → finish shrinks/tilts into a polaroid with a marker caption, shutter + print SFX, end board of three prints; noise-cleaned strikes, no music — **preview v1** |
+
+- Lesson montage (2026-11-20): three students, no names (owner) → "student 01/02/03". Keep the hook unzoomed when a title sits in the top band.
