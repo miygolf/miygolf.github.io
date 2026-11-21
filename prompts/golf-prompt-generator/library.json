@@ -1,0 +1,27 @@
+{
+  "cameras": {
+    "front 3/4": "front three-quarter view: camera about 45 degrees between face-on and target side, 4 m from the golfer, golfer centred, whole body and the ball visible, head in the upper third",
+    "face-on": "face-on view: camera square to the golfer's chest, 4 m away, whole body and the ball visible",
+    "down-the-line": "down-the-line view: camera behind the hands on the target line, 4 m back, whole body, ball and target line visible"
+  },
+  "faults": {
+    "early extension": {
+      "before_motion": "in the downswing the hips thrust toward the ball and the pelvis moves closer to the ball line, the spine stands up and loses its forward tilt, the head rises about 5 cm, the arms get trapped behind the body, the club exits left across the line and the clubface arrives slightly open",
+      "freeze_moment": "just before impact (shaft parallel to the ground in the downswing)",
+      "freeze_marks": "a thin vertical line on the golfer's back pocket / rear hip at address, and the same line at the freeze showing the hips have moved off it toward the ball; a small arrow showing the spine standing up",
+      "cause_text": "Pinggul tolak ke bola"
+    }
+  },
+  "ball_flight": {
+    "slice": "ball starts slightly left of target, then curves strongly to the right in a high weak arc and lands right of target",
+    "straighter": "ball starts on target and flies almost straight with a slight gentle draw, mid-high trajectory, lands near the target flag"
+  },
+  "adjustments": {
+    "feel lutut kanan tuck in ke kiri": {
+      "demo": "Coach Iqbal stands beside the golfer, places one hand lightly on the outside of the golfer's right knee and guides it in toward the left knee (toward the target) as the golfer slowly rehearses the start of the downswing; the hips stay back, the rear end stays on the line, the chest stays down",
+      "after_motion": "in the downswing the right knee works in toward the left knee, the hips rotate open instead of thrusting forward, the rear end stays on the original line, the spine keeps its forward tilt through impact, the arms have room in front of the body, the club exits on plane and the face arrives square",
+      "feel_text": "Lutut kanan masuk ke kiri",
+      "takeaway": "Lutut kanan masuk, pinggul kekal belakang"
+    }
+  }
+}

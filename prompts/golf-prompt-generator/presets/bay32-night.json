@@ -1,0 +1,24 @@
+{
+  "id": "bay32-night",
+  "source": "Drive folder 1vAvvjHm1jcRnv-GNmpjir7cBmisdTn-b (18 Nov 2026, range bay 32, night) - frames from projects/ba-adjust",
+  "consent_note": "This golfer is a real student. Use his likeness only with his permission; otherwise swap in a generic golfer lock or Coach Iqbal himself.",
+  "golfer": {
+    "identity": "Malaysian man in his mid-30s, short dark hair styled up, clean-shaven, medium-brown skin, athletic build, about 175 cm",
+    "clothing": "navy short-sleeve golf polo with thin irregular white horizontal streaks, polo collar, hem tucked in; slim dark charcoal golf trousers; black running-style golf shoes with neon-green soles; black golf glove on the left hand; no cap",
+    "club": "mid iron (7-iron), steel shaft, black grip, chrome head",
+    "proportions": "same height, limb length and stance width in every scene; right-handed",
+    "base_swing": "athletic setup with slight knee flex, neutral grip, one-piece takeaway, on-plane backswing to about parallel at the top, full balanced finish"
+  },
+  "coach": {
+    "identity": "Coach Iqbal - [fill from a reference photo: age, hair, build]",
+    "clothing": "[fill: e.g. plain black Y2G polo, black trousers, white cap]",
+    "rule": "Coach appears only in SCENE 3, beside the same golfer, same bay, same lighting"
+  },
+  "environment": {
+    "location": "covered-edge driving range bay in Malaysia at night; square bright-green artificial turf hitting mat on wet grey concrete with a painted yellow line; green plastic ball tray to the golfer's right",
+    "background": "floodlit natural-grass range with soft mounds, a dark tree line, distant streetlights and low-rise houses on the horizon; no readable brand signs",
+    "lighting": "cool white LED floodlights from high behind-left, crisp shadows on the mat, dark navy night sky, no lens flares",
+    "weather": "humid, ground slightly wet, still air"
+  },
+  "camera_lock": "tripod, 1080x1920 vertical, eye level about 1.2 m, 35 mm equivalent, fixed exposure and white balance, no camera move unless a scene says so"
+}
