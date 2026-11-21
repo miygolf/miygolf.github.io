@@ -1,0 +1,23 @@
+{
+  "id": "iqbal-bay32-night",
+  "source": "Golfer = Coach Iqbal himself (owner: 'guna saya sendiri sebagai golfer'); look from the Kinrara recap (19.11) and coach-duff clips. Bay = range bay 32 at night (Drive folder 1vAvvjHm1jcRnv-GNmpjir7cBmisdTn-b).",
+  "golfer": {
+    "identity": "Coach Iqbal: Malaysian man around 30, tall and lean (about 180 cm), short dark hair, clean-shaven, warm friendly face, light-brown skin",
+    "clothing": "navy short-sleeve golf polo with an all-over lighter blue-grey abstract camo print, polo collar, hem tucked in; black golf trousers with a black belt; black leather golf shoes; white golf glove on the left hand; plain black structured golf cap (no visible logo)",
+    "club": "mid iron (7-iron), steel shaft, black grip, chrome head",
+    "proportions": "same height, long limbs, slim build and the same stance width in every scene; right-handed",
+    "base_swing": "athletic setup with slight knee flex and a tall posture, neutral grip, one-piece takeaway, on-plane backswing to about parallel at the top, full balanced finish"
+  },
+  "coach": {
+    "same_as_golfer": true,
+    "identity": "Coach Iqbal (the same golfer)",
+    "rule": "Scene 3 is a solo demo: the same person, same clothes, same bay, same light, speaking-to-camera body language"
+  },
+  "environment": {
+    "location": "covered-edge driving range bay in Malaysia at night; square bright-green artificial turf hitting mat on wet grey concrete with a painted yellow line; green plastic ball tray to the golfer's right",
+    "background": "floodlit natural-grass range with soft mounds, a dark tree line, distant streetlights and low-rise houses on the horizon; no readable brand signs",
+    "lighting": "cool white LED floodlights from high behind-left, crisp shadows on the mat, dark navy night sky, no lens flares",
+    "weather": "humid, ground slightly wet, still air"
+  },
+  "camera_lock": "tripod, 1080x1920 vertical, eye level about 1.2 m, 35 mm equivalent, fixed exposure and white balance, no camera move unless a scene says so"
+}

@@ -75,9 +75,11 @@ def build(a):
          f"Nothing in the image changes; the highlight is added in the edit.",
          [f"Freeze marks: {fault['freeze_marks']}", f"Label: \"{fault['cause_text']}\"", "Optional: \"Ni punca slice\""]),
         ("SCENE 3 — ADJUSTMENT", c[2],
-         f"Same golfer, same spot, same light. {p['coach']['identity']} wearing {p['coach']['clothing']} enters from camera left. "
-         f"{adj['demo']}. Slow, calm, natural coaching movement; no ball is hit in this scene.",
-         [f"Feel cue: \"{adj['feel_text']}\"", f"Name tag (first appearance): \"{BRAND}\""]),
+         (f"Same golfer, same spot, same light, same clothes. {adj.get('demo_solo', adj['demo'])}. Slow, calm, natural coaching movement; no ball is hit in this scene."
+          if p["coach"].get("same_as_golfer") else
+          f"Same golfer, same spot, same light. {p['coach']['identity']} wearing {p['coach']['clothing']} enters from camera left. "
+          f"{adj['demo']}. Slow, calm, natural coaching movement; no ball is hit in this scene."),
+         [f"Feel cue: \"{adj['feel_text']}\"", f"Name tag (first appearance): \"{BRAND}\""] + (["Talking-head option: Coach Iqbal's own voice-over \"Cuba feel lutut kanan masuk ke kiri\" recorded separately"] if p["coach"].get("same_as_golfer") else [])),
         ("SCENE 4 — AFTER", c[3],
          f"The SAME golfer, identical setup, grip, posture, tempo and backswing as Scene 1. The ONLY change: {adj['after_motion']}. "
          f"BALL FLIGHT: {after_flight}. Balanced full finish, golfer watches the ball fly toward the target.",
@@ -113,7 +115,8 @@ def build(a):
             "- Keep every text overlay out of the AI generation (models garble text); add it in HyperFrames inside the safe band "
             "(x 60–930, y 168–1330 on 1080×1920), never over a face.",
             "- Reject any take where the swing changes beyond the one adjustment (grip, stance width, backswing length, tempo must match).",
-            "- Label the video as an AI-generated demonstration when it is posted, so viewers don't read it as a real student's result.",
+            "- Label the video as an AI-generated demonstration when it is posted, so viewers don't read it as a real result.",
+            "- For the best likeness, give the model 2-3 real photos of the golfer (face, full body in this outfit) as image references in every generation.",
             ""]
     return "\n".join(out), slug
 
@@ -122,7 +125,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--problem"); ap.add_argument("--fault"); ap.add_argument("--adjustment"); ap.add_argument("--result")
     ap.add_argument("--camera", default="front 3/4"); ap.add_argument("--duration", type=float, default=15)
-    ap.add_argument("--hook"); ap.add_argument("--preset", default=os.path.join(HERE, "presets", "bay32-night.json"))
+    ap.add_argument("--hook"); ap.add_argument("--preset", default=os.path.join(HERE, "presets", "iqbal-bay32-night.json"))
     ap.add_argument("--out"); ap.add_argument("--list", action="store_true")
     a = ap.parse_args()
     if a.list:

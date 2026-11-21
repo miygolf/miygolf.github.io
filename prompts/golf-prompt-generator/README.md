@@ -7,6 +7,7 @@ Reusable prompt system for AI-generated coaching shorts in the **BEFORE → IDEN
 | `SYSTEM_PROMPT.md` | system prompt for any chat LLM (generate new prompts by conversation) |
 | `generate.py` | offline generator: `python3 generate.py --problem slice --fault "early extension" --adjustment "feel lutut kanan tuck in ke kiri" --result straighter --camera "front 3/4" --duration 15` |
 | `library.json` | camera angles, faults (before motion, freeze moment, marks, cause text), adjustments (demo, after motion, feel cue, takeaway), ball flights — add new entries here |
+| `presets/iqbal-bay32-night.json` | **default for Coach Iqbal as the golfer** (look from Kinrara / coach-duff footage, `refs/coach-iqbal_look.png`); Scene 3 becomes a solo demo |
 | `presets/bay32-night.json` | identity + environment lock from the Drive folder 1vAvvjHm1jcRnv-GNmpjir7cBmisdTn-b footage (bay 32, night); coach fields to fill from a reference photo |
 | `outputs/` | generated prompts |
 
