@@ -1,0 +1,48 @@
+<template>
+  <style>
+    @font-face { font-family: "Plus Jakarta Sans"; font-style: normal; font-weight: 600 700; src: url("assets/fonts/PlusJakartaSans-var.woff2") format("woff2"); }
+    @font-face { font-family: "Fraunces"; font-style: italic; font-weight: 500; src: url("assets/fonts/Fraunces-Italic-500.woff2") format("woff2"); }
+    #root { position: absolute; inset: 0; }
+    #sp-w { position: absolute; left: 120px; top: 304px; width: 760px; color: #fff; }
+    .sp-h { font-family: "Fraunces", serif; font-style: italic; font-weight: 500; font-size: 78px; line-height: 1; letter-spacing: -0.02em; text-shadow: 4px 0 0 #24121b, -4px 0 0 #24121b, 0 4px 0 #24121b, 0 -4px 0 #24121b, 3px 3px 0 #24121b, -3px 3px 0 #24121b, 3px -3px 0 #24121b, -3px -3px 0 #24121b, 4px 2px 0 #24121b, -4px 2px 0 #24121b, 2px 4px 0 #24121b, -2px 4px 0 #24121b, 0 8px 16px rgba(36, 18, 27, 0.5); }
+    .sp-h b { font-weight: 500; color: #ffb3cc; }
+    .sp-r { display: flex; align-items: center; gap: 18px; margin-top: 12px; font-family: "Plus Jakarta Sans", sans-serif; font-weight: 600; font-size: 50px; line-height: 1.1; text-shadow: 3px 0 0 #24121b, -3px 0 0 #24121b, 0 3px 0 #24121b, 0 -3px 0 #24121b, 2px 2px 0 #24121b, -2px 2px 0 #24121b, 2px -2px 0 #24121b, -2px -2px 0 #24121b, 0 6px 12px rgba(36, 18, 27, 0.45); }
+    .sp-r .dot { color: #ffb3cc; }
+    #sp-h2 { margin-top: 28px; }
+    #sp-c { font-size: 40px; gap: 14px; }
+    .sw { display: inline-block; width: 30px; height: 30px; border-radius: 50%; box-shadow: 0 0 0 3px #24121b, 0 3px 8px rgba(36, 18, 27, 0.5); }
+    #sw-k { background: #111; box-shadow: 0 0 0 3px #fff, 0 3px 8px rgba(36, 18, 27, 0.5); }
+    #sw-w { background: #fff; }
+    #sw-t { background: rgba(255, 255, 255, 0.25); box-shadow: 0 0 0 3px #fff, inset 0 0 0 3px #24121b; }
+    .cl { display: inline-flex; align-items: center; gap: 10px; }
+  </style>
+  <div id="root" data-composition-id="spec" data-width="1080" data-height="1920">
+    <div id="sp-w">
+      <div id="sp-h1" class="sp-h"><b>3</b> saiz</div>
+      <div class="sp-r">
+        <span id="sz0">14 cm</span><span id="sd0" class="dot">·</span><span id="sz1">17 cm</span><span id="sd1" class="dot">·</span><span id="sz2">21 cm</span>
+      </div>
+      <div id="sp-h2" class="sp-h"><b>3</b> warna</div>
+      <div id="sp-c" class="sp-r">
+        <span id="cl0" class="cl"><i id="sw-k" class="sw"></i>hitam</span>
+        <span id="cl1" class="cl"><i id="sw-w" class="sw"></i>putih</span>
+        <span id="cl2" class="cl"><i id="sw-t" class="sw"></i>transparent</span>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#sp-h1", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.24, ease: "power3.out" }, 0.05);
+    // each size lands as that hanger is laid down in the footage (14 → 17 → 21)
+    [0.25, 1.15, 2.05].forEach((t, i) => {
+      tl.fromTo("#sz" + i, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.22, ease: "back.out(2.6)" }, t);
+      if (i > 0) tl.fromTo("#sd" + (i - 1), { opacity: 0 }, { opacity: 1, duration: 0.15 }, t - 0.05);
+    });
+    tl.fromTo("#sp-h2", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.24, ease: "power3.out" }, 0.6);
+    [0.75, 0.9, 1.05].forEach((t, i) => {
+      tl.fromTo("#cl" + i, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.22, ease: "power3.out" }, t);
+    });
+    tl.to("#sp-w", { opacity: 0, x: -24, duration: 0.14, ease: "power2.in" }, 2.76);
+    window.__timelines["spec"] = tl;
+  </script>
+</template>

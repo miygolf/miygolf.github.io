@@ -1,0 +1,36 @@
+<template>
+  <style>
+    @font-face { font-family: "Plus Jakarta Sans"; font-style: normal; font-weight: 600 700; src: url("assets/fonts/PlusJakartaSans-var.woff2") format("woff2"); }
+    @font-face { font-family: "Fraunces"; font-style: italic; font-weight: 500; src: url("assets/fonts/Fraunces-Italic-500.woff2") format("woff2"); }
+    #root { position: absolute; inset: 0; }
+    #br-w { position: absolute; left: 120px; top: 330px; width: 760px; }
+    .br-l { font-family: "Fraunces", serif; font-style: italic; font-weight: 500; font-size: 108px; line-height: 1.02; letter-spacing: -0.02em; color: #fff; text-shadow: 4px 0 0 #24121b, -4px 0 0 #24121b, 0 4px 0 #24121b, 0 -4px 0 #24121b, 3px 3px 0 #24121b, -3px 3px 0 #24121b, 3px -3px 0 #24121b, -3px -3px 0 #24121b, 4px 2px 0 #24121b, -4px 2px 0 #24121b, 2px 4px 0 #24121b, -2px 4px 0 #24121b, 0 8px 16px rgba(36, 18, 27, 0.5); }
+    .br-l em { font-style: italic; color: #ffb3cc; }
+    .ln { overflow: hidden; padding: 0 16px 14px 8px; margin: 0 -16px -14px -8px; }
+    .ln > span { display: inline-block; }
+    .st { position: absolute; width: 34px; height: 34px; filter: drop-shadow(0 0 6px rgba(36, 18, 27, 0.7)); }
+    #st1 { left: 690px; top: 300px; }
+    #st2 { left: 742px; top: 362px; width: 22px; height: 22px; }
+    #st3 { left: 640px; top: 540px; width: 26px; height: 26px; }
+  </style>
+  <div id="root" data-composition-id="broll" data-width="1080" data-height="1920">
+    <div id="br-w">
+      <div class="ln br-l"><span id="br-l0">Satu tudung,</span></div>
+      <div class="ln br-l"><span id="br-l1">satu <em>hanger.</em></span></div>
+    </div>
+    <svg id="st1" class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c.7 6.4 4.6 10.6 12 12-7.4 1.4-11.3 5.6-12 12-.7-6.4-4.6-10.6-12-12C7.4 10.6 11.3 6.4 12 0z" fill="#ffd6e3"/></svg>
+    <svg id="st2" class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c.7 6.4 4.6 10.6 12 12-7.4 1.4-11.3 5.6-12 12-.7-6.4-4.6-10.6-12-12C7.4 10.6 11.3 6.4 12 0z" fill="#ffd6e3"/></svg>
+    <svg id="st3" class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c.7 6.4 4.6 10.6 12 12-7.4 1.4-11.3 5.6-12 12-.7-6.4-4.6-10.6-12-12C7.4 10.6 11.3 6.4 12 0z" fill="#ffd6e3"/></svg>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#br-l0", { yPercent: 110 }, { yPercent: 0, duration: 0.36, ease: "power3.out" }, 0.12);
+    tl.fromTo("#br-l1", { yPercent: 110 }, { yPercent: 0, duration: 0.36, ease: "power3.out" }, 0.4);
+    ["#st1", "#st2", "#st3"].forEach((s, i) => {
+      tl.fromTo(s, { scale: 0, rotation: -40, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: 0.3, ease: "back.out(2.6)" }, 0.55 + i * 0.12);
+      tl.to(s, { scale: 0.7, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 2 }, 0.9 + i * 0.15);
+    });
+    tl.to(["#br-w", "#st1", "#st2", "#st3"], { opacity: 0, y: -16, duration: 0.18, ease: "power2.in" }, 2.8);
+    window.__timelines["broll"] = tl;
+  </script>
+</template>

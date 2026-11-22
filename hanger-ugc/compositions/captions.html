@@ -1,0 +1,83 @@
+<template>
+  <style>
+    @font-face { font-family: "Plus Jakarta Sans"; font-style: normal; font-weight: 600 700; src: url("assets/fonts/PlusJakartaSans-var.woff2") format("woff2"); }
+    @font-face { font-family: "Fraunces"; font-style: italic; font-weight: 500; src: url("assets/fonts/Fraunces-Italic-500.woff2") format("woff2"); }
+    #root { position: absolute; inset: 0; }
+    .cap { position: absolute; left: 120px; top: 1124px; width: 660px; text-align: center; font-family: "Plus Jakarta Sans", sans-serif; font-weight: 700; font-size: 74px; line-height: 1.1; letter-spacing: -0.015em; word-spacing: 0.1em;
+      text-shadow: 4px 0 0 #24121b, -4px 0 0 #24121b, 0 4px 0 #24121b, 0 -4px 0 #24121b, 3px 3px 0 #24121b, -3px 3px 0 #24121b, 3px -3px 0 #24121b, -3px -3px 0 #24121b, 4px 2px 0 #24121b, -4px 2px 0 #24121b, 2px 4px 0 #24121b, -2px 4px 0 #24121b, 0 8px 16px rgba(36, 18, 27, 0.5); }
+    .cap .w { display: inline-block; color: #ffffff; opacity: 0.62; }
+  </style>
+  <div id="root" data-composition-id="captions" data-width="1080" data-height="1920">
+    <div id="c0" class="cap clip" data-start="0.0" data-duration="1.70"><span id="c0w0" class="w">Mana</span> <span id="c0w1" class="w kw">hangar</span> <span id="c0w2" class="w kw">tudung</span> <span id="c0w3" class="w">aku?</span></div>
+    <div id="c1" class="cap clip" data-start="1.78" data-duration="1.50"><span id="c1w0" class="w">Eh,</span> <span id="c1w1" class="w">aku</span> <span id="c1w2" class="w">punya</span> <span id="c1w3" class="w">lah.</span></div>
+    <div id="c2" class="cap clip" data-start="3.3" data-duration="1.80"><span id="c2w0" class="w">Tapi</span> <span id="c2w1" class="w kw">sebiji</span> <span id="c2w2" class="w">macam</span> <span id="c2w3" class="w">aku.</span></div>
+    <div id="c3" class="cap clip" data-start="5.3" data-duration="1.55"><span id="c3w0" class="w">Hangar</span> <span id="c3w1" class="w kw">mini</span> <span id="c3w2" class="w">ni</span> <span id="c3w3" class="w kw">viral.</span></div>
+    <div id="c4" class="cap clip" data-start="6.9" data-duration="2.05"><span id="c4w0" class="w">Tudung</span> <span id="c4w1" class="w kw">tersusun</span> <span id="c4w2" class="w kw">kemas.</span></div>
+    <div id="c5" class="cap clip" data-start="11.98" data-duration="1.42"><span id="c5w0" class="w">Kan</span> <span id="c5w1" class="w">kau</span> <span id="c5w2" class="w kw">rembat</span> <span id="c5w3" class="w">tadi?</span></div>
+    <div id="c6" class="cap clip" data-start="16.32" data-duration="1.08"><span id="c6w0" class="w">Jom</span> <span id="c6w1" class="w kw">borong</span> <span id="c6w2" class="w">sekarang.</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // karaoke: the whole line is on screen, each word lights up as it is spoken; keywords turn blush
+    tl.to("#c0w0", { opacity: 1, y: -6, scale: 1.06, color: "#ffffff", duration: 0.1, ease: "power2.out" }, 0.000);
+    tl.to("#c0w0", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 0.120);
+    tl.to("#c0w1", { opacity: 1, y: -6, scale: 1.06, color: "#ffb3cc", duration: 0.1, ease: "power2.out" }, 0.480);
+    tl.to("#c0w1", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 0.600);
+    tl.to("#c0w2", { opacity: 1, y: -6, scale: 1.06, color: "#ffb3cc", duration: 0.1, ease: "power2.out" }, 0.760);
+    tl.to("#c0w2", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 0.880);
+    tl.to("#c0w3", { opacity: 1, y: -6, scale: 1.06, color: "#ffffff", duration: 0.1, ease: "power2.out" }, 1.000);
+    tl.to("#c0w3", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 1.120);
+    tl.to("#c1w0", { opacity: 1, y: -6, scale: 1.06, color: "#ffffff", duration: 0.1, ease: "power2.out" }, 1.820);
+    tl.to("#c1w0", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 1.940);
+    tl.to("#c1w1", { opacity: 1, y: -6, scale: 1.06, color: "#ffffff", duration: 0.1, ease: "power2.out" }, 2.340);
+    tl.to("#c1w1", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 2.460);
+    tl.to("#c1w2", { opacity: 1, y: -6, scale: 1.06, color: "#ffffff", duration: 0.1, ease: "power2.out" }, 2.460);
+    tl.to("#c1w2", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 2.580);
+    tl.to("#c1w3", { opacity: 1, y: -6, scale: 1.06, color: "#ffffff", duration: 0.1, ease: "power2.out" }, 2.740);
+    tl.to("#c1w3", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 2.860);
+    tl.fromTo("#c1", { y: 14 }, { y: 0, duration: 0.18, ease: "power3.out", immediateRender: false }, 1.780);
+    tl.to("#c2w0", { opacity: 1, y: -6, scale: 1.06, color: "#ffffff", duration: 0.1, ease: "power2.out" }, 3.320);
+    tl.to("#c2w0", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 3.440);
+    tl.to("#c2w1", { opacity: 1, y: -6, scale: 1.06, color: "#ffb3cc", duration: 0.1, ease: "power2.out" }, 3.620);
+    tl.to("#c2w1", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 3.740);
+    tl.to("#c2w2", { opacity: 1, y: -6, scale: 1.06, color: "#ffffff", duration: 0.1, ease: "power2.out" }, 4.060);
+    tl.to("#c2w2", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 4.180);
+    tl.to("#c2w3", { opacity: 1, y: -6, scale: 1.06, color: "#ffffff", duration: 0.1, ease: "power2.out" }, 4.300);
+    tl.to("#c2w3", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 4.420);
+    tl.fromTo("#c2", { y: 14 }, { y: 0, duration: 0.18, ease: "power3.out", immediateRender: false }, 3.300);
+    tl.to("#c3w0", { opacity: 1, y: -6, scale: 1.06, color: "#ffffff", duration: 0.1, ease: "power2.out" }, 5.360);
+    tl.to("#c3w0", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 5.480);
+    tl.to("#c3w1", { opacity: 1, y: -6, scale: 1.06, color: "#ffb3cc", duration: 0.1, ease: "power2.out" }, 5.620);
+    tl.to("#c3w1", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 5.740);
+    tl.to("#c3w2", { opacity: 1, y: -6, scale: 1.06, color: "#ffffff", duration: 0.1, ease: "power2.out" }, 5.860);
+    tl.to("#c3w2", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 5.980);
+    tl.to("#c3w3", { opacity: 1, y: -6, scale: 1.06, color: "#ffb3cc", duration: 0.1, ease: "power2.out" }, 6.080);
+    tl.to("#c3w3", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 6.200);
+    tl.fromTo("#c3", { y: 14 }, { y: 0, duration: 0.18, ease: "power3.out", immediateRender: false }, 5.300);
+    tl.to("#c4w0", { opacity: 1, y: -6, scale: 1.06, color: "#ffffff", duration: 0.1, ease: "power2.out" }, 6.940);
+    tl.to("#c4w0", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 7.060);
+    tl.to("#c4w1", { opacity: 1, y: -6, scale: 1.06, color: "#ffb3cc", duration: 0.1, ease: "power2.out" }, 7.300);
+    tl.to("#c4w1", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 7.420);
+    tl.to("#c4w2", { opacity: 1, y: -6, scale: 1.06, color: "#ffb3cc", duration: 0.1, ease: "power2.out" }, 7.820);
+    tl.to("#c4w2", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 7.940);
+    tl.fromTo("#c4", { y: 14 }, { y: 0, duration: 0.18, ease: "power3.out", immediateRender: false }, 6.900);
+    tl.to("#c5w0", { opacity: 1, y: -6, scale: 1.06, color: "#ffffff", duration: 0.1, ease: "power2.out" }, 12.030);
+    tl.to("#c5w0", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 12.150);
+    tl.to("#c5w1", { opacity: 1, y: -6, scale: 1.06, color: "#ffffff", duration: 0.1, ease: "power2.out" }, 12.150);
+    tl.to("#c5w1", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 12.270);
+    tl.to("#c5w2", { opacity: 1, y: -6, scale: 1.06, color: "#ffb3cc", duration: 0.1, ease: "power2.out" }, 12.310);
+    tl.to("#c5w2", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 12.430);
+    tl.to("#c5w3", { opacity: 1, y: -6, scale: 1.06, color: "#ffffff", duration: 0.1, ease: "power2.out" }, 12.690);
+    tl.to("#c5w3", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 12.810);
+    tl.fromTo("#c5", { y: 14 }, { y: 0, duration: 0.18, ease: "power3.out", immediateRender: false }, 11.980);
+    tl.to("#c6w0", { opacity: 1, y: -6, scale: 1.06, color: "#ffffff", duration: 0.1, ease: "power2.out" }, 16.380);
+    tl.to("#c6w0", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 16.500);
+    tl.to("#c6w1", { opacity: 1, y: -6, scale: 1.06, color: "#ffb3cc", duration: 0.1, ease: "power2.out" }, 16.600);
+    tl.to("#c6w1", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 16.720);
+    tl.to("#c6w2", { opacity: 1, y: -6, scale: 1.06, color: "#ffffff", duration: 0.1, ease: "power2.out" }, 16.880);
+    tl.to("#c6w2", { y: 0, scale: 1, duration: 0.16, ease: "power2.inOut" }, 17.000);
+    tl.fromTo("#c6", { y: 14 }, { y: 0, duration: 0.18, ease: "power3.out", immediateRender: false }, 16.320);
+    tl.set({}, {}, 19.95);
+    window.__timelines["captions"] = tl;
+  </script>
+</template>

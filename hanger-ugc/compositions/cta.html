@@ -1,0 +1,33 @@
+<template>
+  <style>
+    @font-face { font-family: "Plus Jakarta Sans"; font-style: normal; font-weight: 600 700; src: url("assets/fonts/PlusJakartaSans-var.woff2") format("woff2"); }
+    @font-face { font-family: "Fraunces"; font-style: italic; font-weight: 500; src: url("assets/fonts/Fraunces-Italic-500.woff2") format("woff2"); }
+    #root { position: absolute; inset: 0; }
+    #ct-w { position: absolute; left: 120px; top: 1130px; width: 660px; display: flex; flex-direction: column; align-items: center; }
+    #ct-l { font-family: "Plus Jakarta Sans", sans-serif; font-weight: 700; font-size: 74px; line-height: 1.1; letter-spacing: -0.015em; color: #fff; text-shadow: 4px 0 0 #24121b, -4px 0 0 #24121b, 0 4px 0 #24121b, 0 -4px 0 #24121b, 3px 3px 0 #24121b, -3px 3px 0 #24121b, 3px -3px 0 #24121b, -3px -3px 0 #24121b, 4px 2px 0 #24121b, -4px 2px 0 #24121b, 2px 4px 0 #24121b, -2px 4px 0 #24121b, 0 8px 16px rgba(36, 18, 27, 0.5); }
+    #ct-l b { font-weight: 700; color: #ffc81e; }
+    #ct-chip { display: flex; align-items: center; gap: 14px; margin-top: 10px; font-family: "Plus Jakarta Sans", sans-serif; font-weight: 600; font-size: 42px; color: #fff; text-shadow: 3px 0 0 #24121b, -3px 0 0 #24121b, 0 3px 0 #24121b, 0 -3px 0 #24121b, 2px 2px 0 #24121b, -2px 2px 0 #24121b, 2px -2px 0 #24121b, -2px -2px 0 #24121b, 0 6px 12px rgba(36, 18, 27, 0.45); }
+    #ct-bag, #ct-arrow { flex: 0 0 auto; filter: drop-shadow(0 0 4px rgba(36, 18, 27, 0.9)); }
+    #ct-bag { width: 50px; height: 50px; }
+    #ct-arrow { width: 30px; height: 38px; }
+  </style>
+  <div id="root" data-composition-id="cta" data-width="1080" data-height="1920">
+    <div id="ct-w">
+      <div id="ct-l">Tekan <b>beg kuning</b></div>
+      <div id="ct-chip">
+        <svg id="ct-bag" viewBox="0 0 48 48" aria-hidden="true"><path d="M16 17v-3a8 8 0 0 1 16 0v3" fill="none" stroke="#ffc81e" stroke-width="4" stroke-linecap="round" /><path d="M8 17h32l-2.5 25a3 3 0 0 1-3 2.7h-21a3 3 0 0 1-3-2.7z" fill="#ffc81e" /></svg>
+        <span>di bawah</span>
+        <svg id="ct-arrow" viewBox="0 0 30 36" aria-hidden="true"><path d="M15 3v26M5 20l10 11 10-11" fill="none" stroke="#ffc81e" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#ct-l", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.2, ease: "power3.out" }, 0.0);
+    tl.fromTo("#ct-bag", { scale: 0, rotation: -18 }, { scale: 1, rotation: 0, duration: 0.3, ease: "back.out(2.8)" }, 0.32);
+    tl.fromTo("#ct-chip", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power2.out" }, 0.3);
+    tl.fromTo("#ct-arrow", { y: -4 }, { y: 7, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 5 }, 0.6);
+    tl.set({}, {}, 2.53);
+    window.__timelines["cta"] = tl;
+  </script>
+</template>
