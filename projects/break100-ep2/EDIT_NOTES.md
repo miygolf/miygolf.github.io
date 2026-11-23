@@ -37,3 +37,7 @@ cd parts/pN && python3 tools/build_voice.py && python3 tools/build_music.py <tot
 npx hyperframes@0.9.32 check && npx hyperframes@0.9.32 render -q draft -o renders/draft.mp4 && ../../tools/master.sh renders/draft.mp4 ../../previews/break100-ep2_partN_preview_v1.mp4
 # on "render": render -q delivery -o renders/final_raw.mp4 && ../../tools/master.sh renders/final_raw.mp4 ../../final/break100-ep2_partN_1080x1920.mp4
 ```
+
+## Delivery
+Owner approved v2 ("aku like style ni … render terus", 2026-11-23). `final/break100-ep2_part1_1080x1920.mp4` (46.0 s) and `final/break100-ep2_part2_1080x1920.mp4` (45.4 s): 1080×1920, 30 fps, H.264, AAC 256k, −14.1 LUFS, −2.9 dBTP.
+Workflow saved as the `break100-episode` skill (`.claude/skills/break100-episode/`).

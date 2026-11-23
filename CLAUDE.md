@@ -10,6 +10,7 @@ Each past video's project lives on its own `ccr-*` branch (`git branch -r`), not
   Many golf clips have no speech: if so, cut on picture beats (takeaway, top, transition, impact, finish).
 - **Every video gets a new look** (type, palette, motion signature) that is not already in `STYLE-LOG.md`, and is logged there after delivery.
   What carries over is the structure, copy voice and sound rules below, not the visuals.
+  Exception: the **Break 100** series (slide video + voice-over) keeps Ep1's cream "Range Map" look. Use the `break100-episode` skill (`.claude/skills/break100-episode/`).
 - Never put animation or text over a face. Keep all text inside the TikTok/IG safe band: y 168–1330 and x 60–930 on 1080×1920
   (status bar at the top, action rail on the right, caption/handle at the bottom).
 - Remove repeats, waggles, waiting and walk-offs. Open on the strongest hook, with text on frame 0.
