@@ -139,3 +139,9 @@ Faiz P6–P8 **lab / telestrator** (graphite grid, red/lime, Archivo Black + Jet
 | **Lesson montage — 3 students, no names** (`projects/lesson-1120/`) | **Polaroid**: finishes freeze into instant prints on a cork board | Albert Sans 800/600 + Gochi Hand + Noto Color Emoji | print white #fbfaf6, cork #2a241d, marker #20242b, tape #f3e7b8, tomato #ff5a3c | 1× swing → 0.5× impact → finish shrinks/tilts into a polaroid with a marker caption, shutter + print SFX, end board of three prints; noise-cleaned strikes, no music — **delivered from preview v2** (labels: single session · beginner lesson 2 · ayah saya) |
 
 - Lesson montage (2026-11-20): three students, no names (owner) → "student 01/02/03". Keep the hook unzoomed when a title sits in the top band.
+
+| Video | Look | Type | Palette | Motion signature |
+| --- | --- | --- | --- | --- |
+| **MIY GOLF Ep1 · Break 100 (voice-over explainer, no footage)** (`projects/break100-ep1/`) | **Range Map**: printed course-guide page, top-down diagrams | Hanken Grotesk 800/600 + Geist Mono 600 + Noto Color Emoji | paper #f3eee2, ink #141714, fairway #2f8a3e, light fairway #a8d68f, rough #6fae5a, flag red #e8412c | plotter-drawn dashed lines, flags pop, result dots stamp in per shot, red-pen strike/circle, green page sweep with a yardage stake between drills, ink caption strip; voice re-ordered for the hook; no music — **preview v1** |
+
+- Break 100 Ep1 (2026-11-23): owner sent a silent slide video + a separate voice-over → rebuild the slides in HyperFrames around the voice, hook line moved to the front, repeat dropped.
