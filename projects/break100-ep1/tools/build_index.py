@@ -81,7 +81,7 @@ def cues():
 
 def audio_tags():
     L = [f'      <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="{VM['total_voice'] - 0.1:.3f}" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>',
-         f'      <audio data-hf-id="hf-music" id="music" class="clip" src="assets/music_bed.wav" data-start="0" data-duration="{TOTAL}" data-track-index="11" data-volume="1" data-audio-group="music"></audio> <!-- Mixkit 135 Sleepy Cat, ducked under the voice (tools/build_music.py) -->']
+         f'      <audio data-hf-id="hf-music" id="music" class="clip" src="assets/music_bed.wav" data-start="0" data-duration="{TOTAL}" data-track-index="11" data-volume="1" data-audio-group="music"></audio> <!-- Mixkit 175 Digital Clouds, continuous bed, gentle dip under the voice (tools/build_music.py) -->']
     busy = {}
     for i, (beat, f, vol, note) in enumerate(sorted(cues())):
         peak, length = SFX[f]; st = max(0.0, beat - peak); length = min(length, TOTAL - st)

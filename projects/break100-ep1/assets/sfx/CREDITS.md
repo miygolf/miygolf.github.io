@@ -16,4 +16,5 @@ Mixkit (https://mixkit.co), Mixkit free licence. File name = Mixkit id. No music
 ## Music (v3, owner: "tambah background music slow je")
 | id | Mixkit title | used for |
 | --- | --- | --- |
-| music 135 | Sleepy Cat (lo-fi, ~67 bpm) — https://assets.mixkit.co/music/135/135.mp3, Mixkit free licence | slow bed under the whole video, ducked by the voice (`tools/build_music.py`) |
+| music 175 | Digital Clouds (corporate / chill) — https://assets.mixkit.co/music/175/175.mp3, Mixkit free licence | v4: continuous presentation-style bed, steady level, gentle 3 dB dip under the voice (`tools/build_music.py`) |
+| music 135 | Sleepy Cat (lo-fi) | v3 only (replaced: too sleepy, heavy ducking) |

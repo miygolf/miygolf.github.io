@@ -55,3 +55,8 @@ Owner approved v2 ("render", 2026-11-23). `final/break100-ep1_1080x1920.mp4`: 61
 Mixkit "Sleepy Cat" (music id 135, lo-fi ~67 bpm) as `assets/music_bed.wav`: trimmed to the film, 1.5 s fade-in / 2.5 s fade-out, sidechain-ducked
 by the voice (ratio 3, release 0.5 s). Measured: while speaking the voice sits **18.3 dB above** the music; in pauses the music rises to −30 dBFS.
 Preview mix re-transcribed (medium): every line still heard. −14.0 LUFS, −2.8 dBTP. Build: `python3 tools/build_music.py <total>` after build_voice.py.
+
+## v4 (owner: "background music yang berterusan macam kau buat presentation, bagi orang rasa best untuk dengar sampai habis")
+Replaced "Sleepy Cat" + heavy ducking with Mixkit **"Digital Clouds"** (music id 175, corporate/chill, steady): one continuous bed from frame 0 to the
+end card, level held at about −27 dBFS in every 2 s window (−24…−30), only a gentle compressor dip under the voice (ratio 1.6, slow release) so it
+never pumps; the voice sits ~13 dB on top. Mix re-transcribed (medium): every line heard. −14.0 LUFS, −2.9 dBTP.
