@@ -50,3 +50,8 @@ The owner's source video and recording stay in `.src/` (not committed).
 
 ## Delivery
 Owner approved v2 ("render", 2026-11-23). `final/break100-ep1_1080x1920.mp4`: 61.9 s, 1080×1920, 30 fps, H.264 High CRF 17 (flat graphics compress to ~0.5 Mbps), AAC 256k, −14.0 LUFS, −2.8 dBTP.
+
+## v3 (owner: "Kau tambah background music slow je")
+Mixkit "Sleepy Cat" (music id 135, lo-fi ~67 bpm) as `assets/music_bed.wav`: trimmed to the film, 1.5 s fade-in / 2.5 s fade-out, sidechain-ducked
+by the voice (ratio 3, release 0.5 s). Measured: while speaking the voice sits **18.3 dB above** the music; in pauses the music rises to −30 dBFS.
+Preview mix re-transcribed (medium): every line still heard. −14.0 LUFS, −2.8 dBTP. Build: `python3 tools/build_music.py <total>` after build_voice.py.

@@ -12,3 +12,8 @@ Mixkit (https://mixkit.co), Mixkit free licence. File name = Mixkit id. No music
 | 2125 | Quick Shot Golf | punch strike |
 | 1489 | Air woosh | low punch flight drawing |
 | 2073 | Game ball tap | lag putts rolling up to the cup |
+
+## Music (v3, owner: "tambah background music slow je")
+| id | Mixkit title | used for |
+| --- | --- | --- |
+| music 135 | Sleepy Cat (lo-fi, ~67 bpm) — https://assets.mixkit.co/music/135/135.mp3, Mixkit free licence | slow bed under the whole video, ducked by the voice (`tools/build_music.py`) |
