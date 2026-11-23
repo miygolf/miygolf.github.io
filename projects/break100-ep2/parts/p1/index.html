@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Blueprint" (MIY GOLF Ep2 · Break 100): each drill drafted as a cyanotype plan. White line-work drawn on, dimension lines with end ticks
+         (5 cm, 1 m), a drafting title block for the episode, architect's hand-lettering for notes, a parallel rule slides down the sheet between drills.
+         Type: Archivo 800/600 (wdth 112-125) + JetBrains Mono 700 + Architects Daughter + Noto Color Emoji.
+         Palette: blueprint #123f7d / deep #0a2a59, line #eaf2ff, pencil yellow #ffd84a, red pencil #ff7a66.
+         No footage, no faces. Safe band x 60-930, y 168-1330. */
+      @font-face { font-family: "Archivo"; font-weight: 100 900; font-stretch: 62% 125%; src: url("assets/fonts/Archivo-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "JBM"; font-weight: 100 800; src: url("assets/fonts/JetBrainsMono-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "AD"; font-weight: 400; src: url("assets/fonts/ArchitectsDaughter.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Noto Color Emoji"; font-weight: 400; src: url("assets/fonts/NotoColorEmoji.ttf") format("truetype"); font-display: block; }
+      :root { --bp: #123f7d; --deep: #0a2a59; --ln: #eaf2ff; --yl: #ffd84a; --rd: #ff7a66; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #123f7d; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background-color: var(--bp); color: var(--ln); font-family: "Archivo", sans-serif;
+              background-image: linear-gradient(rgba(234,242,255,0.16) 2px, transparent 2px), linear-gradient(90deg, rgba(234,242,255,0.16) 2px, transparent 2px),
+                                linear-gradient(rgba(234,242,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(234,242,255,0.06) 1px, transparent 1px);
+              background-size: 150px 150px, 150px 150px, 30px 30px, 30px 30px; background-position: -15px -15px; }
+      .ov { position: absolute; opacity: 0; z-index: 4; pointer-events: none; }
+      .scene { position: absolute; inset: 0; opacity: 0; z-index: 3; }
+      .scene .ov { z-index: 4; }
+      .mono { font-family: "JBM", monospace; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+      .hand { font-family: "AD", cursive; color: var(--yl); }
+      .emo { font-family: "Noto Color Emoji", sans-serif; font-weight: 400; }
+      .h { font-family: "Archivo"; font-weight: 800; font-stretch: 112%; line-height: 0.98; letter-spacing: -0.01em; }
+      svg text { font-family: "JBM", monospace; font-weight: 700; }
+      svg .hand { font-family: "AD", cursive; fill: var(--yl); font-weight: 400; }
+
+      #hdr { left: 60px; top: 196px; width: 870px; display: flex; align-items: center; gap: 14px; opacity: 1; z-index: 5; font-size: 28px; }
+      #hdr .b { color: var(--yl); }
+      #hdr .e { color: rgba(234,242,255,0.75); }
+      #ptag { color: var(--deep); background: var(--yl); padding: 3px 10px 5px; border-radius: 6px; display: none; }
+      #hdr .bars { margin-left: auto; display: flex; gap: 8px; }
+      #hdr .bars i { width: 60px; height: 8px; border: 2px solid rgba(234,242,255,0.6); position: relative; overflow: hidden; }
+      #hdr .bars i b { position: absolute; inset: 0; background: var(--yl); transform-origin: 0 50%; transform: scaleX(0); }
+
+      /* drill heading: outlined number + title block */
+      .dh { left: 60px; top: 262px; width: 870px; display: flex; gap: 26px; align-items: center; }
+      .dh .no { font-family: "Archivo"; font-weight: 900; font-stretch: 125%; font-size: 168px; line-height: 0.85; color: rgba(255,216,74,0.18); -webkit-text-stroke: 4px var(--yl); }
+      .dh .k { font-size: 28px; color: var(--yl); }
+      .dh .tt { font-size: 70px; margin-top: 8px; }
+      .map { position: absolute; left: 60px; top: 520px; width: 870px; height: 480px; opacity: 0; z-index: 4; overflow: visible; }
+      .note { font-size: 44px; }
+      .chip { padding: 12px 22px 14px; background: var(--yl); color: var(--deep); border-radius: 10px; font-family: "Archivo"; font-weight: 800; font-size: 44px;
+              white-space: nowrap; box-shadow: 6px 6px 0 var(--deep); }
+      .chipr { background: var(--rd); color: #2a0d08; }
+
+      /* hook */
+      #hk-t { left: 60px; top: 290px; width: 870px; font-size: 132px; }
+      #hk-t em { font-style: normal; color: var(--yl); position: relative; }
+      #hk-ul { position: absolute; left: 60px; top: 0; width: 0; height: 0; }
+
+      /* episode title block */
+      #tb { left: 60px; top: 300px; width: 870px; border: 4px solid var(--ln); display: grid; grid-template-columns: 1fr 1fr; background: rgba(10,42,89,0.55); }
+      #tb > div { padding: 18px 24px 22px; border-right: 3px solid rgba(234,242,255,0.7); border-bottom: 3px solid rgba(234,242,255,0.7); }
+      #tb > div:nth-child(2n) { border-right: none; }
+      #tb > div:nth-child(n+3) { border-bottom: none; }
+      #tb .l { font-size: 28px; color: rgba(234,242,255,0.75); }
+      #tb .v { font-size: 74px; margin-top: 6px; }
+      #tb .v.y { color: var(--yl); }
+      #stamp { left: 590px; top: 612px; padding: 10px 24px 12px; border: 5px solid var(--rd); color: var(--rd); font-size: 46px; transform: rotate(-8deg); background: rgba(10,42,89,0.8); }
+      #tiles { left: 60px; top: 720px; width: 870px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+      #tiles > div { border: 3px solid var(--ln); padding: 16px 16px 18px; background: rgba(10,42,89,0.6); opacity: 0; }
+      #tiles .n { font-family: "Archivo"; font-weight: 900; font-stretch: 125%; font-size: 64px; color: var(--yl); line-height: 1; }
+      #tiles .t { font-family: "Archivo"; font-weight: 800; font-size: 34px; line-height: 1.05; margin-top: 10px; }
+      #tiles .m { font-size: 28px; margin-top: 10px; color: rgba(234,242,255,0.75); }
+      #clock { left: 60px; top: 1020px; width: 870px; }
+      #clock .bar { height: 14px; border: 3px solid var(--ln); position: relative; }
+      #clock .bar i { position: absolute; inset: 0; background: var(--yl); transform-origin: 0 50%; transform: scaleX(0); }
+      #clock .lb { display: flex; justify-content: space-between; font-size: 28px; margin-top: 10px; }
+
+      /* tallies */
+      .tally { left: 60px; top: 1036px; width: 870px; display: flex; align-items: center; gap: 10px; }
+      .tally .lab { font-size: 28px; width: 150px; color: rgba(234,242,255,0.8); }
+      .tally i { width: 42px; height: 42px; border-radius: 50%; border: 4px solid var(--ln); background: transparent; display: block; }
+      .tally i.in { background: var(--yl); border-color: var(--yl); }
+      .tally i.out { border-color: var(--rd); background: rgba(255,122,102,0.25); }
+      .tally .sc { margin-left: auto; font-family: "Archivo"; font-weight: 800; font-size: 56px; }
+
+      /* putt stat card */
+      #stat { left: 60px; top: 560px; width: 870px; border: 4px solid var(--ln); background: var(--deep); padding: 28px 30px 30px; }
+      #stat .k { font-size: 28px; color: var(--yl); }
+      #stat .row { margin-top: 26px; }
+      #stat .row .nm { display: flex; justify-content: space-between; font-family: "Archivo"; font-weight: 800; font-size: 40px; }
+      #stat .row .nm b { font-stretch: 125%; font-size: 64px; color: var(--yl); line-height: 1; }
+      #stat .row .tr { height: 30px; border: 3px solid var(--ln); margin-top: 10px; position: relative; }
+      #stat .row .tr i { position: absolute; inset: 0; background: var(--ln); transform-origin: 0 50%; transform: scaleX(0); }
+      #stat .row.s .tr i { background: var(--yl); }
+      #stat .src { font-size: 28px; margin-top: 22px; color: rgba(234,242,255,0.7); }
+
+      /* q2: part-2 opening line */
+      #q2k { left: 60px; top: 290px; font-size: 28px; color: var(--yl); }
+      #q2t { left: 60px; top: 340px; width: 870px; font-size: 116px; }
+      #q2t em { font-style: normal; color: var(--yl); }
+      #q2t s { text-decoration: none; position: relative; }
+
+      /* CTA / end card */
+      #cq { left: 60px; top: 320px; width: 870px; }
+      #cq .k, #oq .k { font-family: "AD"; font-size: 46px; color: var(--yl); }
+      #cq .t { font-size: 100px; font-stretch: 100%; margin-top: 10px; }
+      #cq .t em, #ot em { font-style: normal; color: var(--yl); }
+      #cdots { left: 60px; top: 830px; display: flex; gap: 14px; }
+      #cdots i { width: 66px; height: 66px; border-radius: 50%; border: 5px solid var(--ln); display: block; }
+      #ctell { left: 60px; top: 940px; font-size: 64px; }
+      #cwa { left: 60px; top: 1050px; font-size: 28px; color: rgba(234,242,255,0.8); }
+      #oq { left: 60px; top: 320px; width: 870px; }
+      #ot { font-size: 120px; margin-top: 10px; }
+      #olist { left: 60px; top: 560px; width: 870px; }
+      #olist > div { display: flex; align-items: center; gap: 22px; border-bottom: 3px dashed rgba(234,242,255,0.45); padding: 18px 0; opacity: 0; }
+      #olist .n { font-family: "Archivo"; font-weight: 900; font-stretch: 125%; font-size: 60px; color: var(--yl); width: 110px; }
+      #olist .t { font-family: "Archivo"; font-weight: 800; font-size: 54px; }
+      #olist .ck { margin-left: auto; font-family: "AD"; font-size: 60px; color: var(--yl); }
+      #onext { left: 60px; top: 1010px; }
+
+      .cap { left: 60px; top: 1176px; width: 870px; padding: 18px 26px 22px; background: var(--deep); border: 3px solid var(--ln); color: var(--ln);
+             font-family: "Archivo"; font-weight: 600; font-size: 40px; line-height: 1.22; z-index: 6; }
+      #like { z-index: 7; }
+      #rule { position: absolute; left: 0; top: -80px; width: 1080px; height: 56px; z-index: 8; opacity: 0; background: rgba(234,242,255,0.92);
+              border-top: 3px solid var(--ln); border-bottom: 3px solid var(--deep);
+              background-image: repeating-linear-gradient(90deg, var(--deep) 0 3px, transparent 3px 30px), repeating-linear-gradient(90deg, var(--deep) 0 3px, transparent 3px 150px);
+              background-size: 100% 18px, 100% 34px; background-repeat: no-repeat; }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="45.94" data-width="1080" data-height="1920" data-fps="30">
+      <div id="hdr" class="ov mono"><span class="b">MIY Golf</span><span class="e">Ep2 · Break 100</span><span id="ptag"></span><span class="bars"><i><b></b></i><i><b></b></i><i><b></b></i></span></div>
+
+      <!-- HOOK: masuk bunker 3 kali -->
+      <div id="sc-hook" class="scene">
+        <div id="hk-t" class="ov h">Masuk bunker,<br><em id="hk-3">3 kali</em> baru<br>keluar?</div>
+        <svg class="map" id="mh" viewBox="0 0 870 380" style="top:770px; height:380px;">
+          <defs><pattern id="sand" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="16" stroke="rgba(255,216,74,0.45)" stroke-width="3"/></pattern></defs>
+          <path d="M 0 150 L 120 150 C 200 150 230 320 380 320 C 500 320 560 250 610 100 L 870 100" fill="none" stroke="#eaf2ff" stroke-width="5"/>
+          <path d="M 120 150 C 200 150 230 320 380 320 C 500 320 560 250 610 100 Z" fill="url(#sand)" stroke="none"/>
+          <text x="250" y="365" font-size="28" fill="#eaf2ff">BUNKER</text><text x="720" y="140" font-size="28" fill="#eaf2ff">GREEN</text>
+          <line x1="800" y1="100" x2="800" y2="0" stroke="#eaf2ff" stroke-width="4"/><path d="M 800 0 L 846 16 L 800 32 Z" fill="#ff7a66"/>
+          <circle cx="330" cy="306" r="12" fill="#eaf2ff"/>
+          <path id="a1" d="M 330 306 Q 470 60 585 150" fill="none" stroke="#ff7a66" stroke-width="5" stroke-dasharray="12 10"/>
+          <path id="a2" d="M 330 306 Q 450 130 560 210" fill="none" stroke="#ff7a66" stroke-width="5" stroke-dasharray="12 10"/>
+          <path id="a3" d="M 330 306 Q 560 -60 760 96" fill="none" stroke="#ffd84a" stroke-width="6" stroke-dasharray="14 10"/>
+          <text id="x1" class="hand" x="570" y="140" font-size="44">1 ✗</text>
+          <text id="x2" class="hand" x="520" y="250" font-size="44">2 ✗</text>
+          <text id="x3" class="hand" x="700" y="60" font-size="48">3 ✓</text>
+        </svg>
+      </div>
+
+      <!-- EPISODE: title block + 3 drills -->
+      <div id="sc-ep" class="scene">
+        <div id="tb" class="ov"><div><div class="l mono">Projek</div><div class="v h">Break 100</div></div><div><div class="l mono">Episod</div><div class="v h y">02</div></div>
+          <div><div class="l mono">Masa</div><div class="v h">30 minit</div></div><div><div class="l mono">Drill</div><div class="v h y">3</div></div></div>
+        <div id="stamp" class="ov mono">Untuk kau</div>
+        <div id="tiles" class="ov"><div><div class="n">01</div><div class="t">Garisan dalam pasir</div><div class="m mono">10 min</div></div>
+          <div><div class="n">02</div><div class="t">Chip ke tuala</div><div class="m mono">10 min</div></div>
+          <div><div class="n">03</div><div class="t">Bulatan 1 meter</div><div class="m mono">10 min</div></div></div>
+        <div id="clock" class="ov"><div class="bar"><i></i></div><div class="lb mono"><span>0</span><span>30 minit</span></div></div>
+      </div>
+
+      <!-- DRILL 1: garisan dalam pasir -->
+      <div id="sc-d1" class="scene">
+        <div class="ov dh" id="d1h"><div class="no">01</div><div><div class="k mono">Drill 1 · 10 minit</div><div class="tt h">Garisan<br>dalam pasir</div></div></div>
+        <svg class="map" id="m1" viewBox="0 0 870 480">
+          <defs><pattern id="sand1" width="18" height="18" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="18" stroke="rgba(255,216,74,0.28)" stroke-width="3"/></pattern></defs>
+          <ellipse id="bk" cx="390" cy="250" rx="360" ry="190" fill="url(#sand1)" stroke="#eaf2ff" stroke-width="5"/>
+          <text x="60" y="40" font-size="28" fill="#eaf2ff">PELAN · BUNKER</text>
+          <path d="M 770 250 L 850 250 M 830 232 L 850 250 L 830 268" fill="none" stroke="#eaf2ff" stroke-width="4"/><text x="764" y="225" font-size="28" fill="#eaf2ff">GREEN</text>
+          <line id="ln" x1="330" y1="70" x2="330" y2="430" stroke="#ffd84a" stroke-width="6" stroke-dasharray="16 10"/>
+          <g id="sp1" class="spl"><path d="M 330 150 m -26 0 l 14 0 M 330 150 m 12 0 l 14 0 M 330 150 m 0 -26 l 0 14 M 330 150 m -18 -18 l 9 9 M 330 150 m 18 -18 l -9 9" stroke="#eaf2ff" stroke-width="5" stroke-linecap="round"/></g>
+          <g id="sp2" class="spl"><path d="M 330 230 m -26 0 l 14 0 M 330 230 m 12 0 l 14 0 M 330 230 m 0 -26 l 0 14 M 330 230 m -18 -18 l 9 9 M 330 230 m 18 -18 l -9 9" stroke="#eaf2ff" stroke-width="5" stroke-linecap="round"/></g>
+          <g id="sp3" class="spl"><path d="M 330 310 m -26 0 l 14 0 M 330 310 m 12 0 l 14 0 M 330 310 m 0 -26 l 0 14 M 330 310 m -18 -18 l 9 9 M 330 310 m 18 -18 l -9 9" stroke="#eaf2ff" stroke-width="5" stroke-linecap="round"/></g>
+          <text id="n1" class="hand" x="370" y="140" font-size="40">pukul tepat kat garisan</text>
+          <text id="n2" class="hand" x="370" y="190" font-size="40">tanpa bola dulu ✓</text>
+          <circle id="b1" cx="400" cy="330" r="15" fill="#eaf2ff"/>
+          <g id="dim"><path d="M 330 372 L 400 372 M 330 358 L 330 386 M 400 358 L 400 386" stroke="#ffd84a" stroke-width="4"/>
+            <text x="418" y="382" font-size="30" fill="#ffd84a">5 CM · 1 INCI</text></g>
+          <text id="n3" class="hand" x="440" y="318" font-size="36">dah konsisten? letak bola</text>
+          <text id="n4" class="hand" x="360" y="474" font-size="34">dekat / jauh lubang: tak kisah</text>
+        </svg>
+        <div id="t1" class="ov tally"><span class="lab mono">Target</span><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><span class="sc">8/10</span></div>
+      </div>
+
+      <!-- Q2 (part 2 opens on its strongest line) -->
+      <div id="sc-q2" class="scene">
+        <div id="q2k" class="ov mono">Drill 2 · Chip ke tuala</div>
+        <div id="q2t" class="ov h">Fokus tempat<br><em>mendarat</em>,<br>bukan <s id="q2s">lubang<svg viewBox="0 0 400 40" preserveAspectRatio="none" style="position:absolute; left:-10px; top:46%; width:110%; height:40px; overflow:visible;"><path id="q2x" d="M 0 24 C 120 6 260 34 400 12" fill="none" stroke="#ff7a66" stroke-width="12" stroke-linecap="round"/></svg></s>.</div>
+        <svg class="map" id="mq" viewBox="0 0 870 260" style="top:890px; height:260px;">
+          <rect x="60" y="90" width="260" height="150" fill="none" stroke="#ffd84a" stroke-width="5"/>
+          <path d="M 60 120 L 320 120 M 60 150 L 320 150 M 60 180 L 320 180 M 60 210 L 320 210" stroke="rgba(255,216,74,0.35)" stroke-width="3"/>
+          <circle cx="190" cy="165" r="16" fill="#eaf2ff"/><text class="hand" x="80" y="70" font-size="44">tuala ✓</text>
+          <circle cx="640" cy="200" r="16" fill="#0a2a59" stroke="#eaf2ff" stroke-width="4"/><line x1="640" y1="200" x2="640" y2="70" stroke="#eaf2ff" stroke-width="4"/><path d="M 640 70 L 684 86 L 640 102 Z" fill="#ff7a66"/>
+          <text x="700" y="210" font-size="44" fill="#ff7a66">✗</text>
+        </svg>
+      </div>
+
+      <!-- DRILL 2: chip ke tuala -->
+      <div id="sc-d2" class="scene">
+        <div class="ov dh" id="d2h"><div class="no">02</div><div><div class="k mono">Drill 2 · 10 minit</div><div class="tt h">Chip<br>ke tuala</div></div></div>
+        <svg class="map" id="m2" viewBox="0 0 870 480">
+          <defs><pattern id="tw" width="16" height="16" patternUnits="userSpaceOnUse"><line x1="0" y1="8" x2="16" y2="8" stroke="rgba(255,216,74,0.35)" stroke-width="3"/></pattern></defs>
+          <ellipse cx="450" cy="240" rx="400" ry="200" fill="rgba(234,242,255,0.05)" stroke="#eaf2ff" stroke-width="5"/>
+          <text x="60" y="40" font-size="28" fill="#eaf2ff">PELAN · GREEN</text>
+          <circle cx="700" cy="230" r="13" fill="#0a2a59" stroke="#eaf2ff" stroke-width="4"/><line x1="700" y1="230" x2="700" y2="100" stroke="#eaf2ff" stroke-width="4"/><path d="M 700 100 L 744 116 L 700 132 Z" fill="#ff7a66"/><text id="grl" style="opacity:0" class="hand" x="600" y="330" font-size="40">green</text>
+          <g id="towel" style="opacity:0"><rect x="230" y="170" width="190" height="130" fill="url(#tw)" stroke="#ffd84a" stroke-width="5"/>
+</g>
+          <text id="twl" class="hand" x="150" y="152" font-size="36">tuala = tempat mendarat</text>
+          <circle cx="110" cy="420" r="12" fill="#eaf2ff"/><text x="132" y="430" font-size="28" fill="#eaf2ff">CHIP</text>
+          <circle class="land" data-o="262 200" cx="262" cy="200" r="13" fill="#ffd84a" stroke="#0a2a59" stroke-width="3"/>
+          <g class="land" data-o="530 215"><circle cx="530" cy="215" r="13" fill="none" stroke="#ff7a66" stroke-width="4"/><path d="M 523 208 L 537 222 M 537 208 L 523 222" stroke="#ff7a66" stroke-width="4"/></g>
+          <circle class="land" data-o="300 262" cx="300" cy="262" r="13" fill="#ffd84a" stroke="#0a2a59" stroke-width="3"/>
+          <circle class="land" data-o="350 205" cx="350" cy="205" r="13" fill="#ffd84a" stroke="#0a2a59" stroke-width="3"/>
+          <g class="land" data-o="200 340"><circle cx="200" cy="340" r="13" fill="none" stroke="#ff7a66" stroke-width="4"/><path d="M 193 333 L 207 347 M 207 333 L 193 347" stroke="#ff7a66" stroke-width="4"/></g>
+          <circle class="land" data-o="392 250" cx="392" cy="250" r="13" fill="#ffd84a" stroke="#0a2a59" stroke-width="3"/>
+          <g class="land" data-o="490 320"><circle cx="490" cy="320" r="13" fill="none" stroke="#ff7a66" stroke-width="4"/><path d="M 483 313 L 497 327 M 497 313 L 483 327" stroke="#ff7a66" stroke-width="4"/></g>
+          <circle class="land" data-o="282 232" cx="282" cy="232" r="13" fill="#ffd84a" stroke="#0a2a59" stroke-width="3"/>
+          <circle class="land" data-o="340 280" cx="340" cy="280" r="13" fill="#ffd84a" stroke="#0a2a59" stroke-width="3"/>
+          <g class="land" data-o="160 220"><circle cx="160" cy="220" r="13" fill="none" stroke="#ff7a66" stroke-width="4"/><path d="M 153 213 L 167 227 M 167 213 L 153 227" stroke="#ff7a66" stroke-width="4"/></g>
+        </svg>
+        <div id="t2" class="ov tally"><span class="lab mono">Atas tuala</span><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><span class="sc">6/10</span></div>
+        <div id="ch2" class="ov chip" style="left:60px; top:1040px;">Fokus: tempat mendarat, bukan lubang</div>
+      </div>
+
+      <!-- DRILL 3: bulatan 1 meter -->
+      <div id="sc-d3" class="scene">
+        <div class="ov dh" id="d3h"><div class="no">03</div><div><div class="k mono">Drill 3 · 10 minit</div><div class="tt h">Bulatan<br>1 meter</div></div></div>
+        <svg class="map" id="m3" viewBox="0 0 870 480">
+          <text x="600" y="60" font-size="28" fill="#eaf2ff">PELAN · LUBANG</text>
+          <circle cx="330" cy="250" r="220" fill="rgba(234,242,255,0.05)" stroke="#eaf2ff" stroke-width="4"/>
+          <circle id="ring" cx="330" cy="250" r="150" fill="none" stroke="#ffd84a" stroke-width="5" stroke-dasharray="14 10"/>
+          <g id="rad"><path d="M 330 250 L 436 144 M 425 133 L 447 155" stroke="#ffd84a" stroke-width="4"/><text x="446" y="128" font-size="34" fill="#ffd84a">1 M</text></g>
+          <circle cx="330" cy="250" r="15" fill="#0a2a59" stroke="#eaf2ff" stroke-width="4"/>
+          <circle class="rb" data-o="460 325" cx="460" cy="325" r="15" fill="#eaf2ff" stroke="#0a2a59" stroke-width="3"/>
+          <circle class="rb" data-o="330 400" cx="330" cy="400" r="15" fill="#eaf2ff" stroke="#0a2a59" stroke-width="3"/>
+          <circle class="rb" data-o="200 325" cx="200" cy="325" r="15" fill="#eaf2ff" stroke="#0a2a59" stroke-width="3"/>
+          <circle class="rb" data-o="200 175" cx="200" cy="175" r="15" fill="#eaf2ff" stroke="#0a2a59" stroke-width="3"/>
+          <circle class="rb" data-o="330 100" cx="330" cy="100" r="15" fill="#eaf2ff" stroke="#0a2a59" stroke-width="3"/>
+          <circle class="rb" data-o="460 175" cx="460" cy="175" r="15" fill="#eaf2ff" stroke="#0a2a59" stroke-width="3"/>
+          <text x="620" y="190" font-size="30" fill="#eaf2ff">MASUK</text>
+          <text id="cnt" x="620" y="290" font-size="110" fill="#ffd84a" style="font-family:Archivo; font-weight:900; font-stretch:125%;">0/6</text>
+          <text id="rst" class="hand" x="600" y="360" font-size="40" fill="#ff7a66" style="fill:#ff7a66">terlepas 1?</text>
+          <text id="rst2" class="hand" x="600" y="410" font-size="40" fill="#ff7a66" style="fill:#ff7a66">buat balik ↺</text>
+        </svg>
+        <div id="stat" class="ov"><div class="k mono">Putt <span id="kaki">3–6 kaki (1–2 m)</span> · masuk</div>
+          <div class="row" id="r60"><div class="nm"><span>Handicap tengah–tinggi</span><b id="p60">60%</b></div><div class="tr"><i id="b60"></i></div></div>
+          <div class="row s" id="r76"><div class="nm"><span>Scratch golfer</span><b id="p76">76%</b></div><div class="tr"><i id="b76"></i></div></div>
+          <div class="src mono">Sumber: MyGolfSpy</div></div>
+      </div>
+
+      <!-- OUT (part 2 end) -->
+      <div id="sc-out" class="scene">
+        <div id="oq" class="ov"><div class="k">Pergi practice area minggu ni.</div><div class="h" id="ot"></div></div>
+        <div id="olist" class="ov"><div><span class="n">01</span><span class="t">Garisan dalam pasir</span><span class="ck">✓</span></div>
+          <div><span class="n">02</span><span class="t">Chip ke tuala</span><span class="ck">✓</span></div>
+          <div><span class="n">03</span><span class="t">Bulatan 1 meter</span><span class="ck">✓</span></div></div>
+        <div id="onext" class="ov chip"></div>
+      </div>
+
+      <!-- CTA (part 1 end) -->
+      <div id="sc-cta" class="scene">
+        <div id="cq" class="ov"><div class="k">Pergi practice area minggu ni.</div><div class="t h">Dari 10, berapa keluar bunker <em>sekali?</em></div></div>
+        <div id="cdots" class="ov"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div id="ctell" class="ov h">Bagitahu aku <span class="emo" style="font-size:56px">👇</span></div>
+        <div id="cwa" class="ov mono">Lesson: WhatsApp 019-872 8829</div>
+      </div>
+
+      <div id="cap0" class="ov cap">Kau pernah masuk bunker 3 kali baru keluar?</div>
+      <div id="cap1" class="ov cap">Episod 2, Break 100.</div>
+      <div id="cap2" class="ov cap">Episod ni untuk kau. 30 minit, 3 drill.</div>
+      <div id="cap3" class="ov cap">Satu: lukis satu garisan atas pasir,</div>
+      <div id="cap4" class="ov cap">pukul tepat kat garisan. Tak payah bola dulu.</div>
+      <div id="cap5" class="ov cap">Dah konsisten? Letak bola 5 cm (1 inci) depan garisan.</div>
+      <div id="cap6" class="ov cap">Target 8/10 keluar sekali. Dekat ke jauh lubang, tak kisah.</div>
+      <div id="cap7" class="ov cap">Pergi practice area minggu ni. Bagitahu aku: dari 10, berapa keluar bunker sekali pukul?</div>
+      <div id="like" class="ov chip" style="left:60px; top:1176px; font-size:52px; padding:16px 28px 18px;"></div>
+      <div id="rule" data-layout-ignore></div>
+      <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="43.440" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>
+      <audio data-hf-id="hf-music" id="music" class="clip" src="assets/music_bed.wav" data-start="0" data-duration="45.94" data-track-index="11" data-volume="1" data-audio-group="music"></audio> <!-- Mixkit 175 Digital Clouds, continuous bed (tools/build_music.py) -->
+      <audio data-hf-id="hf-s00" id="sfx-00" class="clip" src="assets/sfx/3005.mp3" data-start="0.020" data-duration="0.17" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- title on frame 0 -->
+      <audio data-hf-id="hf-s01" id="sfx-01" class="clip" src="assets/sfx/2568.mp3" data-start="2.100" data-duration="0.12" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- arc 1 hits the lip ✗ -->
+      <audio data-hf-id="hf-s02" id="sfx-02" class="clip" src="assets/sfx/2568.mp3" data-start="3.150" data-duration="0.12" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- arc 2 ✗ -->
+      <audio data-hf-id="hf-s03" id="sfx-03" class="clip" src="assets/sfx/2364.mp3" data-start="4.240" data-duration="0.14" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- arc 3 out ✓ -->
+      <audio data-hf-id="hf-s04" id="sfx-04" class="clip" src="assets/sfx/166.mp3" data-start="4.540" data-duration="0.50" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- parallel rule slides (ep) -->
+      <audio data-hf-id="hf-s05" id="sfx-05" class="clip" src="assets/sfx/3005.mp3" data-start="4.910" data-duration="0.17" data-track-index="13" data-volume="0.35" data-audio-group="sfx"></audio> <!-- title block -->
+      <audio data-hf-id="hf-s06" id="sfx-06" class="clip" src="assets/sfx/2364.mp3" data-start="7.720" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- UNTUK KAU stamp -->
+      <audio data-hf-id="hf-s07" id="sfx-07" class="clip" src="assets/sfx/1120.mp3" data-start="8.730" data-duration="0.14" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- drill tile 1 -->
+      <audio data-hf-id="hf-s08" id="sfx-08" class="clip" src="assets/sfx/1120.mp3" data-start="8.980" data-duration="0.14" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- drill tile 2 -->
+      <audio data-hf-id="hf-s09" id="sfx-09" class="clip" src="assets/sfx/1120.mp3" data-start="9.230" data-duration="0.14" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- drill tile 3 -->
+      <audio data-hf-id="hf-s10" id="sfx-10" class="clip" src="assets/sfx/166.mp3" data-start="10.330" data-duration="0.50" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- parallel rule slides (d1) -->
+      <audio data-hf-id="hf-s11" id="sfx-11" class="clip" src="assets/sfx/1489.mp3" data-start="12.190" data-duration="0.90" data-track-index="12" data-volume="0.25" data-audio-group="sfx"></audio> <!-- line drawn in the sand -->
+      <audio data-hf-id="hf-s12" id="sfx-12" class="clip" src="assets/sfx/2125.mp3" data-start="15.360" data-duration="0.30" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- splash 1 on the line -->
+      <audio data-hf-id="hf-s13" id="sfx-13" class="clip" src="assets/sfx/2568.mp3" data-start="15.870" data-duration="0.12" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- splash 2 -->
+      <audio data-hf-id="hf-s14" id="sfx-14" class="clip" src="assets/sfx/2568.mp3" data-start="16.220" data-duration="0.12" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- splash 3 -->
+      <audio data-hf-id="hf-s15" id="sfx-15" class="clip" src="assets/sfx/2357.mp3" data-start="21.970" data-duration="0.32" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- ball placed -->
+      <audio data-hf-id="hf-s16" id="sfx-16" class="clip" src="assets/sfx/2568.mp3" data-start="24.140" data-duration="0.12" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- 5 cm dimension -->
+      <audio data-hf-id="hf-s17" id="sfx-17" class="clip" src="assets/sfx/2568.mp3" data-start="27.800" data-duration="0.12" data-track-index="12" data-volume="0.25" data-audio-group="sfx"></audio> <!-- target dot 1 -->
+      <audio data-hf-id="hf-s18" id="sfx-18" class="clip" src="assets/sfx/2568.mp3" data-start="27.940" data-duration="0.12" data-track-index="12" data-volume="0.25" data-audio-group="sfx"></audio> <!-- target dot 2 -->
+      <audio data-hf-id="hf-s19" id="sfx-19" class="clip" src="assets/sfx/2568.mp3" data-start="28.080" data-duration="0.12" data-track-index="12" data-volume="0.25" data-audio-group="sfx"></audio> <!-- target dot 3 -->
+      <audio data-hf-id="hf-s20" id="sfx-20" class="clip" src="assets/sfx/2568.mp3" data-start="28.220" data-duration="0.12" data-track-index="12" data-volume="0.25" data-audio-group="sfx"></audio> <!-- target dot 4 -->
+      <audio data-hf-id="hf-s21" id="sfx-21" class="clip" src="assets/sfx/2568.mp3" data-start="28.360" data-duration="0.12" data-track-index="12" data-volume="0.25" data-audio-group="sfx"></audio> <!-- target dot 5 -->
+      <audio data-hf-id="hf-s22" id="sfx-22" class="clip" src="assets/sfx/2568.mp3" data-start="28.500" data-duration="0.12" data-track-index="12" data-volume="0.25" data-audio-group="sfx"></audio> <!-- target dot 6 -->
+      <audio data-hf-id="hf-s23" id="sfx-23" class="clip" src="assets/sfx/2568.mp3" data-start="28.640" data-duration="0.12" data-track-index="12" data-volume="0.25" data-audio-group="sfx"></audio> <!-- target dot 7 -->
+      <audio data-hf-id="hf-s24" id="sfx-24" class="clip" src="assets/sfx/2568.mp3" data-start="28.780" data-duration="0.12" data-track-index="12" data-volume="0.25" data-audio-group="sfx"></audio> <!-- target dot 8 -->
+      <audio data-hf-id="hf-s25" id="sfx-25" class="clip" src="assets/sfx/2568.mp3" data-start="28.920" data-duration="0.12" data-track-index="12" data-volume="0.25" data-audio-group="sfx"></audio> <!-- target dot 9 -->
+      <audio data-hf-id="hf-s26" id="sfx-26" class="clip" src="assets/sfx/2568.mp3" data-start="29.060" data-duration="0.12" data-track-index="12" data-volume="0.25" data-audio-group="sfx"></audio> <!-- target dot 10 -->
+      <audio data-hf-id="hf-s27" id="sfx-27" class="clip" src="assets/sfx/3005.mp3" data-start="29.170" data-duration="0.17" data-track-index="13" data-volume="0.35" data-audio-group="sfx"></audio> <!-- 8/10 -->
+      <audio data-hf-id="hf-s28" id="sfx-28" class="clip" src="assets/sfx/166.mp3" data-start="32.850" data-duration="0.50" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- parallel rule slides (cta) -->
+      <audio data-hf-id="hf-s29" id="sfx-29" class="clip" src="assets/sfx/3005.mp3" data-start="36.990" data-duration="0.17" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- 10 circles -->
+      <audio data-hf-id="hf-s30" id="sfx-30" class="clip" src="assets/sfx/3005.mp3" data-start="42.410" data-duration="0.17" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- like-for-part-2 chip -->
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {"W": {"bunker": 1.75, "tiga": 2.17, "keluar": 3.85, "untuk": 7.73, "minit": 8.83, "garisan": 13.0, "pukul": 15.42, "tepat": 15.9, "payah": 17.86, "konsisten": 19.94, "letak": 22.16, "cm": 24.14, "target": 26.7, "lapan": 27.7, "kisah": 30.84, "lubang1": 32.56, "pergi": 33.12, "bagitahu": 36.36, "dari10": 37.02, "bunker2": 40.7, "sekali2": 41.24}, "TOTAL": 45.94, "CAP": [{"id": "cap0", "t0": 0.0, "t1": 4.81}, {"id": "cap1", "t0": 4.84, "t1": 6.995}, {"id": "cap2", "t0": 7.025, "t1": 10.6}, {"id": "cap3", "t0": 10.63, "t1": 14.155}, {"id": "cap4", "t0": 14.185, "t1": 19.24}, {"id": "cap5", "t0": 19.27, "t1": 25.87}, {"id": "cap6", "t0": 25.9, "t1": 33.12}, {"id": "cap7", "t0": 33.15, "t1": 45.84}], "SEC": {"hook": 0.29, "ep": 4.89, "d1": 10.68, "cta": 33.2}, "P": {"hook": [0.29, 4.33], "ep": [4.89, 6.68], "forkau": [7.075, 10.34], "d1a": [10.68, 14.235], "d1b": [14.235, 19.32], "d1c": [19.32, 25.95], "d1d": [25.95, 32.88], "cta": [33.2, 43.12]}, "PART": {"part": 1, "label": "1/2", "pieces": ["hook", "ep", "forkau", "d1a", "d1b", "d1c", "d1d", "cta"], "like": "Like untuk part 2"}, "LIKE_T": 42.44, "D1": [1, 1, 0, 1, 1, 1, 1, 0, 1, 1], "D2": [1, 0, 1, 1, 0, 1, 0, 1, 1, 0]};
+        const W = K.W, P = K.P, SEC = K.SEC, PART = K.PART || {};
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        const $$ = (s) => document.querySelectorAll(s);
+        const has = (k) => W[k] != null;
+        function scene(sel, a, b) { tl.set(sel, { opacity: 0 }, 0); tl.set(sel, { opacity: 1 }, a < 0.5 ? 0 : a); if (b != null) tl.set(sel, { opacity: 0 }, b); }
+        function pop(sel, t, from, t1) {
+          const el = typeof sel === "string" ? $(sel) : sel; tl.set(el, { opacity: 0 }, 0);
+          if (t < 0.3) { tl.set(el, { opacity: 1 }, 0); }
+          else tl.fromTo(el, Object.assign({ opacity: 0, y: 24 }, from || {}), { opacity: 1, y: 0, x: 0, scale: 1, rotation: 0, duration: 0.32, ease: "power3.out", immediateRender: false }, t);
+          if (t1 != null) tl.to(el, { opacity: 0, duration: 0.15 }, t1);
+        }
+        function draw(sel, t, d) {        // solid stroke drawn on
+          const p = $(sel), L = p.getTotalLength();
+          tl.set(p, { attr: { "stroke-dasharray": `${L} ${L}`, "stroke-dashoffset": L } }, 0);
+          tl.to(p, { attr: { "stroke-dashoffset": 0 }, duration: d || 0.5, ease: "power2.inOut" }, t);
+        }
+        function write(sel, t, d) {       // hand-lettering written left to right
+          const el = $(sel); tl.set(el, { opacity: 0 }, 0);
+          tl.fromTo(el, { opacity: 1, clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: d || 0.5, ease: "power1.inOut", immediateRender: false }, t);
+        }
+        function arc(sel, t, d) {         // dashed flight path revealed along its length
+          const el = $(sel); tl.set(el, { opacity: 0 }, 0);
+          tl.fromTo(el, { opacity: 1, clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: d || 0.45, ease: "power1.out", immediateRender: false }, t);
+        }
+        function rule(t) {                // parallel rule slides down the sheet between drills
+          if (t == null || t < 0.5) return;
+          tl.set("#rule", { opacity: 1 }, t - 0.3);
+          tl.fromTo("#rule", { y: 0 }, { y: 2080, duration: 0.55, ease: "power2.inOut", immediateRender: false }, t - 0.3);
+          tl.set("#rule", { opacity: 0 }, t + 0.26);
+        }
+        const after = (t) => { const v = Object.values(SEC).filter((x) => x > t + 0.01); return v.length ? Math.min(...v) : null; };
+        const head = (sel, t) => pop(sel, t + 0.05);
+
+        // header + drill progress
+        tl.set("#hdr", { opacity: 1 }, 0);
+        if (PART.label) { const pt = $("#ptag"); pt.textContent = PART.label; pt.style.display = "inline-block"; }
+        const DS = [SEC.d1, SEC.q2 != null ? SEC.q2 : SEC.d2, SEC.d3];
+        DS.forEach((t, i) => { if (t != null) tl.to(`#hdr .bars i:nth-child(${i + 1}) b`, { scaleX: 1, duration: 0.5, ease: "power2.out" }, Math.max(t + 0.1, 0)); });
+
+        // captions
+        K.CAP.forEach((c) => { tl.set("#" + c.id, { opacity: 0 }, 0);
+          if (c.t0 < 0.3) tl.set("#" + c.id, { opacity: 1 }, 0);
+          else tl.fromTo("#" + c.id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.16, immediateRender: false }, c.t0);
+          tl.set("#" + c.id, { opacity: 0 }, c.t1); });
+
+        // HOOK
+        if (SEC.hook != null) {
+          scene("#sc-hook", 0, after(SEC.hook));
+          pop("#hk-t", 0);
+          pop("#mh", 0.15, { y: 0 });
+          if (has("tiga")) tl.fromTo("#hk-3", { color: "#eaf2ff" }, { color: "#ffd84a", duration: 0.2, immediateRender: false }, W.tiga);
+          const tA = has("bunker") ? W.bunker : 1.2, tK = has("keluar") ? W.keluar : tA + 2;
+          arc("#a1", tA, 0.4); pop("#x1", tA + 0.4, { scale: 0.6, y: 0 });
+          arc("#a2", (tA + tK) / 2, 0.4); pop("#x2", (tA + tK) / 2 + 0.4, { scale: 0.6, y: 0 });
+          arc("#a3", tK - 0.1, 0.55); pop("#x3", tK + 0.45, { scale: 0.6, y: 0 });
+        }
+        // EPISODE
+        if (SEC.ep != null) {
+          rule(SEC.ep);
+          scene("#sc-ep", SEC.ep, after(SEC.ep));
+          pop("#tb", SEC.ep + 0.05);
+          if (has("untuk")) pop("#stamp", W.untuk, { scale: 1.6, rotation: -20, y: 0 });
+          if (has("minit")) {
+            tl.set("#tiles", { opacity: 1 }, W.minit - 0.1);
+            $$("#tiles > div").forEach((el, i) => tl.fromTo(el, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3, ease: "back.out(2)", immediateRender: false }, W.minit + i * 0.25));
+            pop("#clock", W.minit + 0.2);
+            tl.to("#clock .bar i", { scaleX: 1, duration: 1.2, ease: "power1.inOut" }, W.minit + 0.4);
+          }
+        }
+        // DRILL 1
+        if (SEC.d1 != null) {
+          rule(SEC.d1);
+          scene("#sc-d1", SEC.d1, after(SEC.d1));
+          head("#d1h", SEC.d1);
+          pop("#m1", SEC.d1 + 0.2, { y: 30 });
+          ["#ln", "#sp1", "#sp2", "#sp3", "#n1", "#n2", "#b1", "#dim", "#n3", "#n4"].forEach((s) => tl.set(s, { opacity: 0 }, 0));
+          tl.set("#ln", { opacity: 1 }, W.garisan - 0.15);
+          tl.fromTo("#ln", { attr: { y2: 70 } }, { attr: { y2: 430 }, duration: 0.6, ease: "power2.inOut", immediateRender: false }, W.garisan - 0.15);
+          ["#sp1", "#sp2", "#sp3"].forEach((s, i) => tl.fromTo(s, { opacity: 0, scale: 0.3, svgOrigin: `330 ${150 + 80 * i}` }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(3)", immediateRender: false }, W.pukul + 0.1 + i * 0.35));
+          write("#n1", W.tepat, 0.6);
+          write("#n2", W.payah, 0.5);
+          write("#n3", W.konsisten - 0.1, 0.6);
+          tl.fromTo("#b1", { opacity: 0, attr: { cy: 280 } }, { opacity: 1, attr: { cy: 330 }, duration: 0.3, ease: "bounce.out", immediateRender: false }, W.letak);
+          tl.set("#dim", { opacity: 1 }, W.cm - 0.1);
+          tl.fromTo("#dim", { scaleX: 0, svgOrigin: "330 372" }, { scaleX: 1, duration: 0.35, ease: "power2.out", immediateRender: false }, W.cm - 0.1);
+          tl.to(["#n1", "#n2"], { opacity: 0.35, duration: 0.3 }, W.konsisten);
+          pop("#t1", W.target, { y: 20 });
+          const D1 = K.D1;
+          D1.forEach((v, i) => tl.set($$("#t1 i")[i], { className: v ? "in" : "out" }, W.lapan + 0.1 + i * 0.14));
+          tl.from("#t1 .sc", { opacity: 0, scale: 0.6, duration: 0.25, ease: "back.out(3)" }, W.lapan + 1.5);
+          write("#n4", W.kisah - 0.1, 0.7);
+          if (has("lubang1")) tl.fromTo("#t1 .sc", { scale: 1.2, color: "#ffd84a" }, { scale: 1, color: "#eaf2ff", duration: 0.4, ease: "back.out(3)", immediateRender: false }, W.lubang1);
+        }
+        // Q2 (part 2 opening line)
+        if (SEC.q2 != null) {
+          scene("#sc-q2", SEC.q2, after(SEC.q2));
+          pop("#q2k", SEC.q2); pop("#q2t", SEC.q2);
+          pop("#mq", SEC.q2 + 0.4, { y: 30 });
+          draw("#q2x", W.bukan + 0.15, 0.35);
+        }
+        // DRILL 2
+        if (SEC.d2 != null) {
+          rule(SEC.d2);
+          scene("#sc-d2", SEC.d2, after(SEC.d2));
+          head("#d2h", SEC.d2);
+          pop("#m2", SEC.d2 + 0.2, { y: 30 });
+          tl.set("#towel", { opacity: 0 }, 0);
+          tl.fromTo("#towel", { opacity: 0, scale: 0.7, svgOrigin: "325 235" }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)", immediateRender: false }, W.tuala);
+          if (has("kedua")) tl.fromTo("#d2h .no", { scale: 1.25, transformOrigin: "0% 50%" }, { scale: 1, duration: 0.35, ease: "back.out(3)", immediateRender: false }, W.kedua);
+          if (has("green")) write("#grl", W.green, 0.4); else tl.set("#grl", { opacity: 0 }, 0);
+          write("#twl", has("mendarat") ? W.mendarat - 0.3 : W.tuala + 0.4, 0.7);
+          $$(".land").forEach((el, i) => { tl.set(el, { opacity: 0 }, 0);
+            tl.fromTo(el, { opacity: 0, scale: 2.2, svgOrigin: el.dataset.o }, { opacity: 1, scale: 1, duration: 0.2, ease: "power3.out", immediateRender: false }, W.chip + 0.25 + i * 0.16); });
+          pop("#t2", W.kira - 0.1, { y: 20 });
+          K.D2.forEach((v, i) => tl.set($$("#t2 i")[i], { className: v ? "in" : "out" }, W.kira + 0.1 + i * 0.1));
+          tl.from("#t2 .sc", { opacity: 0, scale: 0.6, duration: 0.25, ease: "back.out(3)" }, W.kira + 1.2);
+          if (SEC.q2 == null && has("fokus")) { tl.to("#t2", { opacity: 0, duration: 0.2 }, W.fokus - 0.2); pop("#ch2", W.fokus, { scale: 0.8, y: 0 }); }
+        }
+        // DRILL 3
+        if (SEC.d3 != null) {
+          rule(SEC.d3);
+          scene("#sc-d3", SEC.d3, after(SEC.d3));
+          head("#d3h", SEC.d3);
+          pop("#m3", SEC.d3 + 0.2, { y: 30 });
+          ["#ring", "#rad", "#rst", "#rst2"].forEach((s) => tl.set(s, { opacity: 0 }, 0));
+          tl.fromTo("#ring", { opacity: 0, scale: 0.2, rotation: -90, svgOrigin: "330 250" }, { opacity: 1, scale: 1, rotation: 0, duration: 0.5, ease: "power3.out", immediateRender: false }, W.bulatan);
+          tl.fromTo("#rad", { opacity: 0, scale: 0, svgOrigin: "330 250" }, { opacity: 1, scale: 1, duration: 0.35, ease: "power2.out", immediateRender: false }, W.meter);
+          const balls = $$(".rb"), cnt = $("#cnt");
+          balls.forEach((el, i) => { tl.set(el, { opacity: 0 }, 0);
+            tl.fromTo(el, { opacity: 0, scale: 0.2, svgOrigin: el.dataset.o }, { opacity: 1, scale: 1, duration: 0.2, ease: "back.out(3)", immediateRender: false }, W.susun + 0.1 + i * 0.12); });
+          // roll in one by one ("masukkan semua berturut-turut"), counter 1/6 .. 6/6
+          balls.forEach((el, i) => {
+            const t = W.masukkan + 0.1 + i * 0.3;
+            tl.to(el, { attr: { cx: 330, cy: 250 }, duration: 0.24, ease: "power2.in" }, t);
+            tl.set(el, { opacity: 0 }, t + 0.24);
+            tl.set(cnt, { textContent: `${i + 1}/6` }, t + 0.24);
+          });
+          tl.set(cnt, { textContent: "0/6" }, 0);
+          // terlepas satu: reset
+          write("#rst", W.terlepas, 0.5);
+          tl.set(cnt, { textContent: "0/6", fill: "#ff7a66" }, W.terlepas + 0.4);
+          tl.fromTo(cnt, { x: 0 }, { x: 8, duration: 0.05, yoyo: true, repeat: 3, immediateRender: false }, W.terlepas + 0.4);
+          write("#rst2", W.balik - 0.2, 0.5);
+          // putt stat
+          tl.to("#m3", { opacity: 0, duration: 0.25 }, W.putt - 0.05);
+          pop("#stat", W.putt, { y: 30 });
+          ["#r60", "#r76"].forEach((s) => tl.set(s, { opacity: 0 }, 0));
+          if (has("kaki")) tl.fromTo("#kaki", { color: "#eaf2ff" }, { color: "#ffd84a", duration: 0.2, yoyo: true, repeat: 1, immediateRender: false }, W.kaki);
+          tl.fromTo("#r60", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out", immediateRender: false }, has("handicap") ? W.handicap : W.p60 - 0.6);
+          tl.fromTo("#r76", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out", immediateRender: false }, has("scratch") ? W.scratch : W.p76 - 0.6);
+          tl.to("#b60", { scaleX: 0.60, duration: 0.7, ease: "power2.out" }, W.p60 - 0.1);
+          tl.from("#p60", { opacity: 0, scale: 0.6, duration: 0.25, ease: "back.out(3)" }, W.p60 + 0.3);
+          tl.to("#b76", { scaleX: 0.76, duration: 0.7, ease: "power2.out" }, W.p76 - 0.1);
+          tl.from("#p76", { opacity: 0, scale: 0.6, duration: 0.25, ease: "back.out(3)" }, W.p76 + 0.3);
+        }
+        // OUT (part 2 end)
+        if (SEC.out != null) {
+          rule(SEC.out);
+          scene("#sc-out", SEC.out, null);
+          $("#ot").innerHTML = PART.out_title || ""; $("#onext").innerHTML = PART.out_next || "";
+          pop("#oq", SEC.out + 0.05);
+          tl.set("#olist", { opacity: 1 }, SEC.out + 0.5);
+          $$("#olist > div").forEach((el, i) => tl.fromTo(el, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out", immediateRender: false }, SEC.out + 0.5 + i * 0.3));
+          pop("#onext", SEC.out + 1.6, { scale: 0.8, y: 0 });
+        }
+        // CTA (part 1 end)
+        if (SEC.cta != null) {
+          rule(SEC.cta);
+          scene("#sc-cta", SEC.cta, null);
+          pop("#cq", SEC.cta + 0.05);
+          pop("#cdots", W.dari10 - 0.1);
+          $$("#cdots i").forEach((d, i) => tl.fromTo(d, { scale: 0.6 }, { scale: 1, duration: 0.2, ease: "back.out(3)", immediateRender: false }, W.dari10 + i * 0.06));
+          pop("#ctell", W.bagitahu - 0.05);
+          tl.to("#cdots i", { backgroundColor: "#ffd84a", duration: 0.12, stagger: 0.1, yoyo: true, repeat: 1 }, W.bunker2 - 0.2);
+          pop("#cwa", W.sekali2 + 0.4);
+        }
+        // "Like untuk part 2" (owner)
+        if (PART.like && K.LIKE_T != null) {
+          $("#like").innerHTML = PART.like + ' <span class="emo" style="font-size:48px">👍</span>';
+          K.CAP.forEach((c) => { if (c.t1 > K.LIKE_T) tl.set("#" + c.id, { opacity: 0 }, K.LIKE_T); });
+          pop("#like", K.LIKE_T, { scale: 0.8, y: 0 });
+          tl.fromTo("#like", { scale: 1.08 }, { scale: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, K.LIKE_T + 1.0);
+        }
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
