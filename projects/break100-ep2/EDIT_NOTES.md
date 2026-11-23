@@ -17,7 +17,9 @@ diagrams) + separate voice-over `.src/vo.wav` (89 s). Neither is committed.
     (3–6 kaki: 60% handicap tengah–tinggi vs 76% scratch, source MyGolfSpy as on the owner's slide) → "Pergi practice area minggu ni." + 3-drill recap card.
 - Check: each part's voice and final mix re-transcribed (large-v3): every phrase complete, no "Ok", no word leaking across a cut.
 
-## Look: "Blueprint"
+## Look: "Range Map" (same as Ep1, owner: "ikut tema episod 1 yang paling awal tu … aku suka warna cream yellowish punya background")
+v1 preview used a new "Blueprint" look; v2 switches to Ep1's cream-paper Range Map (Hanken Grotesk + Geist Mono, fairway green, red pen, green page sweep with the yardage stake, ink caption strip).
+v1 notes:
 Cyanotype drafting sheet: white line-work drawn on, dimension lines with end ticks (5 cm · 1 inci, 1 M), drafting title block for the episode
 (+ red-pencil "UNTUK KAU" stamp), Architects Daughter hand-lettered notes written on left→right, a parallel rule slides down between drills.
 Archivo 800/900 (wdth 112–125) + JetBrains Mono 700 + Architects Daughter. Blueprint #123f7d / #0a2a59, line #eaf2ff, pencil yellow #ffd84a, red pencil #ff7a66.

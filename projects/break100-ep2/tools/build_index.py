@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Writes index.html for MIY GOLF Ep2 "Break 100" (bunker line / chip to towel / 1 m circle) in the "Blueprint" look, every beat anchored to a
+"""Writes index.html for MIY GOLF Ep2 "Break 100" (bunker line / chip to towel / 1 m circle) in the Ep1 "Range Map" look (owner's choice), every beat anchored to a
 word of the owner's voice-over (edit/voice_map.json from tools/build_voice.py). The owner's slide video (.src/ep2.mp4) is the storyboard
 (content, numbers, wording); no footage. SFX: Mixkit (assets/sfx/CREDITS.md). Music: continuous Mixkit "Digital Clouds" bed (tools/build_music.py).
 Split parts: part.json (tools/make_parts.py) picks the pieces; scenes whose phrases are absent are skipped.
@@ -47,9 +47,9 @@ CAPS = [("hook", "Kau pernah masuk bunker 3 kali baru keluar?"), ("ep", "Episod 
         ("d1c", "Dah konsisten? Letak bola 5 cm (1 inci) depan garisan."), ("d1d", "Target 8/10 keluar sekali. Dekat ke jauh lubang, tak kisah."),
         ("d2a", "Dua: letak tuala atas green, tempat bola mendarat."), ("d2b", "Chip 10 bola, kira berapa mendarat atas tuala."),
         ("d2c", "Fokus tempat mendarat, bukan lubang."),
-        ("d3a", "Last: susun 6 bola, bulatan 1 meter keliling lubang. Masuk semua berturut-turut."), ("d3b", "Terlepas satu? Buat balik."),
+        ("d3a", "Last: 6 bola, bulatan 1 meter keliling lubang. Masuk semua berturut-turut."), ("d3b", "Terlepas satu? Buat balik."),
         ("d3c", "Putt 3–6 kaki: handicap tengah–tinggi masuk 60% je."), ("d3d", "Scratch golfer: 76%."),
-        ("cta", "Pergi practice area minggu ni. Bagitahu aku: dari 10, berapa keluar bunker sekali pukul?"), ("out", "Pergi practice area minggu ni.")]
+        ("cta", "Pergi practice area minggu ni. Dari 10, berapa keluar bunker sekali pukul?"), ("out", "Pergi practice area minggu ni.")]
 CAPS = sorted([c for c in CAPS if c[0] in P], key=lambda c: S(c[0]))
 
 
@@ -82,9 +82,9 @@ def land_svg():
     ii, oo, out = iter(IN_PTS), iter(OUT_PTS), []
     for v in D2:
         x, y = next(ii) if v else next(oo)
-        if v: out.append(f'<circle class="land" data-o="{x} {y}" cx="{x}" cy="{y}" r="13" fill="#ffd84a" stroke="#0a2a59" stroke-width="3"/>')
-        else: out.append(f'<g class="land" data-o="{x} {y}"><circle cx="{x}" cy="{y}" r="13" fill="none" stroke="#ff7a66" stroke-width="4"/>'
-                         f'<path d="M {x-7} {y-7} L {x+7} {y+7} M {x+7} {y-7} L {x-7} {y+7}" stroke="#ff7a66" stroke-width="4"/></g>')
+        if v: out.append(f'<circle class="land" data-o="{x} {y}" cx="{x}" cy="{y}" r="13" fill="#2f8a3e" stroke="#fff" stroke-width="3"/>')
+        else: out.append(f'<g class="land" data-o="{x} {y}"><circle cx="{x}" cy="{y}" r="13" fill="none" stroke="#e8412c" stroke-width="4"/>'
+                         f'<path d="M {x-7} {y-7} L {x+7} {y+7} M {x+7} {y-7} L {x-7} {y+7}" stroke="#e8412c" stroke-width="4"/></g>')
     return "\n          ".join(out)
 
 
@@ -92,7 +92,7 @@ def ring_svg():
     out = []
     for a in (30, 90, 150, 210, 270, 330):
         x, y = 330 + 150 * math.cos(math.radians(a)), 250 + 150 * math.sin(math.radians(a))
-        out.append(f'<circle class="rb" data-o="{x:.0f} {y:.0f}" cx="{x:.0f}" cy="{y:.0f}" r="15" fill="#eaf2ff" stroke="#0a2a59" stroke-width="3"/>')
+        out.append(f'<circle class="rb" data-o="{x:.0f} {y:.0f}" cx="{x:.0f}" cy="{y:.0f}" r="15" fill="#fff" stroke="#141714" stroke-width="4"/>')
     return "\n          ".join(out)
 
 

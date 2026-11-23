@@ -5,125 +5,124 @@
     <meta name="viewport" content="width=1080, height=1920">
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
     <style>
-      /* "Blueprint" (MIY GOLF Ep2 · Break 100): each drill drafted as a cyanotype plan. White line-work drawn on, dimension lines with end ticks
-         (5 cm, 1 m), a drafting title block for the episode, architect's hand-lettering for notes, a parallel rule slides down the sheet between drills.
-         Type: Archivo 800/600 (wdth 112-125) + JetBrains Mono 700 + Architects Daughter + Noto Color Emoji.
-         Palette: blueprint #123f7d / deep #0a2a59, line #eaf2ff, pencil yellow #ffd84a, red pencil #ff7a66.
+      /* "Range Map" (owner, Ep2: "ikut tema episod 1 yang paling awal tu … aku suka warna cream yellowish punya background"): same look as Ep1 —
+         printed course-guide page, cream paper with a dot grid, top-down diagrams drawn like a plotter, red pen for the coach's marks, grass-green
+         page sweep with a white/red yardage stake between drills, word-timed captions on an ink strip.
+         Type: Hanken Grotesk 800/700/600 + Geist Mono 600/700 + Noto Color Emoji.
+         Palette: paper #f3eee2, ink #141714, fairway #2f8a3e, light fairway #a8d68f, rough #6fae5a, flag red #e8412c, sand #e7d6a6.
          No footage, no faces. Safe band x 60-930, y 168-1330. */
-      @font-face { font-family: "Archivo"; font-weight: 100 900; font-stretch: 62% 125%; src: url("assets/fonts/Archivo-VF.ttf") format("truetype"); font-display: block; }
-      @font-face { font-family: "JBM"; font-weight: 100 800; src: url("assets/fonts/JetBrainsMono-VF.ttf") format("truetype"); font-display: block; }
-      @font-face { font-family: "AD"; font-weight: 400; src: url("assets/fonts/ArchitectsDaughter.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Hanken"; font-weight: 100 900; src: url("assets/fonts/HankenGrotesk-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Geist"; font-weight: 100 900; src: url("assets/fonts/GeistMono-VF.ttf") format("truetype"); font-display: block; }
       @font-face { font-family: "Noto Color Emoji"; font-weight: 400; src: url("assets/fonts/NotoColorEmoji.ttf") format("truetype"); font-display: block; }
-      :root { --bp: #123f7d; --deep: #0a2a59; --ln: #eaf2ff; --yl: #ffd84a; --rd: #ff7a66; }
+      :root { --paper: #f3eee2; --ink: #141714; --fw: #2f8a3e; --lf: #a8d68f; --rough: #6fae5a; --red: #e8412c; --sand: #e7d6a6; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #123f7d; }
-      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background-color: var(--bp); color: var(--ln); font-family: "Archivo", sans-serif;
-              background-image: linear-gradient(rgba(234,242,255,0.16) 2px, transparent 2px), linear-gradient(90deg, rgba(234,242,255,0.16) 2px, transparent 2px),
-                                linear-gradient(rgba(234,242,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(234,242,255,0.06) 1px, transparent 1px);
-              background-size: 150px 150px, 150px 150px, 30px 30px, 30px 30px; background-position: -15px -15px; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #f3eee2; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--paper); font-family: "Hanken", sans-serif; color: var(--ink);
+              background-image: radial-gradient(rgba(20,23,20,0.08) 1.2px, transparent 1.4px); background-size: 36px 36px; }
       .ov { position: absolute; opacity: 0; z-index: 4; pointer-events: none; }
       .scene { position: absolute; inset: 0; opacity: 0; z-index: 3; }
       .scene .ov { z-index: 4; }
-      .mono { font-family: "JBM", monospace; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
-      .hand { font-family: "AD", cursive; color: var(--yl); }
+      .mono { font-family: "Geist", monospace; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
       .emo { font-family: "Noto Color Emoji", sans-serif; font-weight: 400; }
-      .h { font-family: "Archivo"; font-weight: 800; font-stretch: 112%; line-height: 0.98; letter-spacing: -0.01em; }
-      svg text { font-family: "JBM", monospace; font-weight: 700; }
-      svg .hand { font-family: "AD", cursive; fill: var(--yl); font-weight: 400; }
+      .h { font-family: "Hanken"; font-weight: 800; color: var(--ink); line-height: 0.95; letter-spacing: -0.02em; }
+      svg text { font-family: "Geist", monospace; font-weight: 700; letter-spacing: 0.04em; }
+      svg .hand { font-family: "Geist", monospace; font-weight: 700; font-size: 28px; text-transform: uppercase; fill: var(--ink); }
+      #x1, #x2, #x3 { font-size: 40px; }
 
-      #hdr { left: 60px; top: 196px; width: 870px; display: flex; align-items: center; gap: 14px; opacity: 1; z-index: 5; font-size: 28px; }
-      #hdr .b { color: var(--yl); }
-      #hdr .e { color: rgba(234,242,255,0.75); }
-      #ptag { color: var(--deep); background: var(--yl); padding: 3px 10px 5px; border-radius: 6px; display: none; }
+      #hdr { left: 60px; top: 196px; width: 870px; display: flex; align-items: center; gap: 16px; opacity: 1; z-index: 5; font-size: 28px; }
+      #hdr .b { color: var(--fw); }
+      #hdr .e { color: rgba(20,23,20,0.6); }
+      #ptag { color: #fff; background: var(--fw); padding: 4px 12px 6px; border-radius: 8px; display: none; }
       #hdr .bars { margin-left: auto; display: flex; gap: 8px; }
-      #hdr .bars i { width: 60px; height: 8px; border: 2px solid rgba(234,242,255,0.6); position: relative; overflow: hidden; }
-      #hdr .bars i b { position: absolute; inset: 0; background: var(--yl); transform-origin: 0 50%; transform: scaleX(0); }
+      #hdr .bars i { width: 64px; height: 8px; border-radius: 4px; background: rgba(20,23,20,0.15); position: relative; overflow: hidden; }
+      #hdr .bars i b { position: absolute; inset: 0; background: var(--fw); transform-origin: 0 50%; transform: scaleX(0); }
 
-      /* drill heading: outlined number + title block */
-      .dh { left: 60px; top: 262px; width: 870px; display: flex; gap: 26px; align-items: center; }
-      .dh .no { font-family: "Archivo"; font-weight: 900; font-stretch: 125%; font-size: 168px; line-height: 0.85; color: rgba(255,216,74,0.18); -webkit-text-stroke: 4px var(--yl); }
-      .dh .k { font-size: 28px; color: var(--yl); }
-      .dh .tt { font-size: 70px; margin-top: 8px; }
-      .map { position: absolute; left: 60px; top: 520px; width: 870px; height: 480px; opacity: 0; z-index: 4; overflow: visible; }
-      .note { font-size: 44px; }
-      .chip { padding: 12px 22px 14px; background: var(--yl); color: var(--deep); border-radius: 10px; font-family: "Archivo"; font-weight: 800; font-size: 44px;
-              white-space: nowrap; box-shadow: 6px 6px 0 var(--deep); }
-      .chipr { background: var(--rd); color: #2a0d08; }
+      /* drill headline (Ep1) */
+      .dh { left: 60px; top: 276px; width: 870px; }
+      .dh .no { display: flex; align-items: center; gap: 18px; transform-origin: 0% 50%; }
+      .dh .no b { font-family: "Hanken"; font-weight: 800; font-size: 140px; line-height: 0.85; color: var(--fw); }
+      .dh .no span { padding: 8px 16px 10px; border: 3px solid var(--ink); border-radius: 999px; font-size: 28px; color: var(--ink); }
+      .dh .tt { font-size: 82px; margin-top: 12px; white-space: nowrap; }
+      .map { position: absolute; left: 60px; top: 536px; width: 870px; height: 480px; opacity: 0; z-index: 4; overflow: visible; }
+      .chip { padding: 12px 22px 14px; background: var(--fw); color: #fff; border-radius: 12px; font-family: "Hanken"; font-weight: 800; font-size: 44px;
+              box-shadow: 6px 6px 0 var(--ink); white-space: nowrap; }
+      .chipr { background: var(--red); }
 
       /* hook */
-      #hk-t { left: 60px; top: 290px; width: 870px; font-size: 132px; }
-      #hk-t em { font-style: normal; color: var(--yl); position: relative; }
-      #hk-ul { position: absolute; left: 60px; top: 0; width: 0; height: 0; }
+      #hk-t { left: 60px; top: 290px; width: 870px; font-size: 136px; }
+      #hk-t em { font-style: normal; color: var(--fw); }
 
-      /* episode title block */
-      #tb { left: 60px; top: 300px; width: 870px; border: 4px solid var(--ln); display: grid; grid-template-columns: 1fr 1fr; background: rgba(10,42,89,0.55); }
-      #tb > div { padding: 18px 24px 22px; border-right: 3px solid rgba(234,242,255,0.7); border-bottom: 3px solid rgba(234,242,255,0.7); }
+      /* episode card (Ep1 card) */
+      #tb { left: 60px; top: 300px; width: 870px; border: 4px solid var(--ink); border-radius: 10px; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; background: #fff; }
+      #tb > div { padding: 16px 22px 20px; border-right: 3px solid var(--ink); border-bottom: 3px solid var(--ink); }
       #tb > div:nth-child(2n) { border-right: none; }
       #tb > div:nth-child(n+3) { border-bottom: none; }
-      #tb .l { font-size: 28px; color: rgba(234,242,255,0.75); }
-      #tb .v { font-size: 74px; margin-top: 6px; }
-      #tb .v.y { color: var(--yl); }
-      #stamp { left: 590px; top: 612px; padding: 10px 24px 12px; border: 5px solid var(--rd); color: var(--rd); font-size: 46px; transform: rotate(-8deg); background: rgba(10,42,89,0.8); }
-      #tiles { left: 60px; top: 720px; width: 870px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-      #tiles > div { border: 3px solid var(--ln); padding: 16px 16px 18px; background: rgba(10,42,89,0.6); opacity: 0; }
-      #tiles .n { font-family: "Archivo"; font-weight: 900; font-stretch: 125%; font-size: 64px; color: var(--yl); line-height: 1; }
-      #tiles .t { font-family: "Archivo"; font-weight: 800; font-size: 34px; line-height: 1.05; margin-top: 10px; }
-      #tiles .m { font-size: 28px; margin-top: 10px; color: rgba(234,242,255,0.75); }
-      #clock { left: 60px; top: 1020px; width: 870px; }
-      #clock .bar { height: 14px; border: 3px solid var(--ln); position: relative; }
-      #clock .bar i { position: absolute; inset: 0; background: var(--yl); transform-origin: 0 50%; transform: scaleX(0); }
-      #clock .lb { display: flex; justify-content: space-between; font-size: 28px; margin-top: 10px; }
+      #tb .l { font-size: 28px; color: rgba(20,23,20,0.6); }
+      #tb .v { font-size: 80px; margin-top: 6px; }
+      #tb .v.y { color: var(--fw); }
+      #stamp { left: 590px; top: 612px; padding: 10px 24px 12px; border: 5px solid var(--red); border-radius: 10px; color: var(--red); font-size: 44px; transform: rotate(-8deg); background: var(--paper); }
+      #tiles { left: 60px; top: 730px; width: 870px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+      #tiles > div { background: #fff; border: 4px solid var(--ink); border-radius: 16px; padding: 18px 18px 20px; box-shadow: 8px 8px 0 var(--ink); opacity: 0; }
+      #tiles .n { font-family: "Hanken"; font-weight: 800; font-size: 84px; line-height: 0.9; color: var(--fw); }
+      #tiles .t { font-family: "Hanken"; font-weight: 800; font-size: 34px; line-height: 1.05; margin-top: 10px; }
+      #tiles .m { font-size: 28px; margin-top: 10px; color: rgba(20,23,20,0.7); }
+      #clock { left: 60px; top: 1040px; width: 870px; }
+      #clock .bar { height: 26px; border-radius: 13px; background: rgba(20,23,20,0.12); overflow: hidden; position: relative; }
+      #clock .bar i { position: absolute; inset: 0; background: var(--fw); transform-origin: 0 50%; transform: scaleX(0); }
+      #clock .lb { display: flex; justify-content: space-between; font-size: 28px; margin-top: 12px; }
 
-      /* tallies */
-      .tally { left: 60px; top: 1036px; width: 870px; display: flex; align-items: center; gap: 10px; }
-      .tally .lab { font-size: 28px; width: 150px; color: rgba(234,242,255,0.8); }
-      .tally i { width: 42px; height: 42px; border-radius: 50%; border: 4px solid var(--ln); background: transparent; display: block; }
-      .tally i.in { background: var(--yl); border-color: var(--yl); }
-      .tally i.out { border-color: var(--rd); background: rgba(255,122,102,0.25); }
-      .tally .sc { margin-left: auto; font-family: "Archivo"; font-weight: 800; font-size: 56px; }
+      /* tallies (Ep1 result rows) */
+      .tally { left: 60px; top: 1040px; width: 870px; display: flex; align-items: center; gap: 10px; }
+      .tally .lab { font-size: 28px; width: 160px; }
+      .tally i { width: 40px; height: 40px; border-radius: 50%; border: 3px solid rgba(20,23,20,0.35); background: transparent; display: block; }
+      .tally i.in { background: var(--fw); border-color: var(--fw); }
+      .tally i.out { background: var(--red); border-color: var(--red); }
+      .tally .sc { margin-left: auto; font-family: "Hanken"; font-weight: 800; font-size: 54px; }
 
       /* putt stat card */
-      #stat { left: 60px; top: 560px; width: 870px; border: 4px solid var(--ln); background: var(--deep); padding: 28px 30px 30px; }
-      #stat .k { font-size: 28px; color: var(--yl); }
-      #stat .row { margin-top: 26px; }
-      #stat .row .nm { display: flex; justify-content: space-between; font-family: "Archivo"; font-weight: 800; font-size: 40px; }
-      #stat .row .nm b { font-stretch: 125%; font-size: 64px; color: var(--yl); line-height: 1; }
-      #stat .row .tr { height: 30px; border: 3px solid var(--ln); margin-top: 10px; position: relative; }
-      #stat .row .tr i { position: absolute; inset: 0; background: var(--ln); transform-origin: 0 50%; transform: scaleX(0); }
-      #stat .row.s .tr i { background: var(--yl); }
-      #stat .src { font-size: 28px; margin-top: 22px; color: rgba(234,242,255,0.7); }
+      #stat { left: 60px; top: 560px; width: 870px; border: 4px solid var(--ink); border-radius: 16px; background: #fff; padding: 26px 30px 28px; box-shadow: 8px 8px 0 var(--ink); }
+      #stat .k { font-size: 28px; color: var(--fw); }
+      #stat .row { margin-top: 24px; }
+      #stat .row .nm { display: flex; justify-content: space-between; align-items: baseline; font-family: "Hanken"; font-weight: 800; font-size: 42px; }
+      #stat .row .nm b { font-size: 76px; color: var(--ink); line-height: 1; }
+      #stat .row.s .nm b { color: var(--fw); }
+      #stat .row .tr { height: 30px; border-radius: 15px; background: rgba(20,23,20,0.12); margin-top: 10px; position: relative; overflow: hidden; }
+      #stat .row .tr i { position: absolute; inset: 0; background: var(--ink); transform-origin: 0 50%; transform: scaleX(0); }
+      #stat .row.s .tr i { background: var(--fw); }
+      #stat .src { font-size: 28px; margin-top: 22px; color: rgba(20,23,20,0.6); }
 
       /* q2: part-2 opening line */
-      #q2k { left: 60px; top: 290px; font-size: 28px; color: var(--yl); }
-      #q2t { left: 60px; top: 340px; width: 870px; font-size: 116px; }
-      #q2t em { font-style: normal; color: var(--yl); }
+      #q2k { left: 60px; top: 290px; font-size: 30px; color: var(--fw); }
+      #q2t { left: 60px; top: 340px; width: 870px; font-size: 124px; }
+      #q2t em { font-style: normal; color: var(--fw); }
       #q2t s { text-decoration: none; position: relative; }
 
-      /* CTA / end card */
-      #cq { left: 60px; top: 320px; width: 870px; }
-      #cq .k, #oq .k { font-family: "AD"; font-size: 46px; color: var(--yl); }
-      #cq .t { font-size: 100px; font-stretch: 100%; margin-top: 10px; }
-      #cq .t em, #ot em { font-style: normal; color: var(--yl); }
-      #cdots { left: 60px; top: 830px; display: flex; gap: 14px; }
-      #cdots i { width: 66px; height: 66px; border-radius: 50%; border: 5px solid var(--ln); display: block; }
-      #ctell { left: 60px; top: 940px; font-size: 64px; }
-      #cwa { left: 60px; top: 1050px; font-size: 28px; color: rgba(234,242,255,0.8); }
-      #oq { left: 60px; top: 320px; width: 870px; }
-      #ot { font-size: 120px; margin-top: 10px; }
+      /* CTA / end card (Ep1) */
+      #cq { left: 60px; top: 330px; width: 870px; }
+      #cq .k, #oq .k { font-size: 40px; color: rgba(20,23,20,0.7); font-weight: 600; }
+      #cq .t { font-size: 108px; margin-top: 12px; }
+      #cq .t em, #ot em { font-style: normal; color: var(--fw); }
+      #cdots { left: 60px; top: 840px; display: flex; gap: 14px; }
+      #cdots i { width: 66px; height: 66px; border-radius: 50%; border: 5px solid var(--ink); background: #fff; display: block; }
+      #ctell { left: 60px; top: 960px; font-size: 64px; }
+      #cwa { left: 60px; top: 1070px; font-size: 30px; color: rgba(20,23,20,0.7); }
+      #oq { left: 60px; top: 330px; width: 870px; }
+      #ot { font-size: 124px; margin-top: 12px; }
       #olist { left: 60px; top: 560px; width: 870px; }
-      #olist > div { display: flex; align-items: center; gap: 22px; border-bottom: 3px dashed rgba(234,242,255,0.45); padding: 18px 0; opacity: 0; }
-      #olist .n { font-family: "Archivo"; font-weight: 900; font-stretch: 125%; font-size: 60px; color: var(--yl); width: 110px; }
-      #olist .t { font-family: "Archivo"; font-weight: 800; font-size: 54px; }
-      #olist .ck { margin-left: auto; font-family: "AD"; font-size: 60px; color: var(--yl); }
+      #olist > div { display: flex; align-items: center; gap: 22px; background: #fff; border: 4px solid var(--ink); border-radius: 16px; box-shadow: 6px 6px 0 var(--ink);
+                     padding: 14px 24px; margin-bottom: 18px; opacity: 0; }
+      #olist .n { font-family: "Hanken"; font-weight: 800; font-size: 64px; color: var(--fw); width: 64px; line-height: 1; }
+      #olist .t { font-family: "Hanken"; font-weight: 800; font-size: 50px; }
+      #olist .ck { margin-left: auto; font-family: "Hanken"; font-weight: 800; font-size: 56px; color: var(--fw); }
       #onext { left: 60px; top: 1010px; }
 
-      .cap { left: 60px; top: 1176px; width: 870px; padding: 18px 26px 22px; background: var(--deep); border: 3px solid var(--ln); color: var(--ln);
-             font-family: "Archivo"; font-weight: 600; font-size: 40px; line-height: 1.22; z-index: 6; }
+      .cap { left: 60px; top: 1176px; width: 870px; padding: 18px 26px 22px; background: var(--ink); color: var(--paper); border-radius: 14px;
+             font-family: "Hanken"; font-weight: 700; font-size: 42px; line-height: 1.18; z-index: 6; }
       #like { z-index: 7; }
-      #rule { position: absolute; left: 0; top: -80px; width: 1080px; height: 56px; z-index: 8; opacity: 0; background: rgba(234,242,255,0.92);
-              border-top: 3px solid var(--ln); border-bottom: 3px solid var(--deep);
-              background-image: repeating-linear-gradient(90deg, var(--deep) 0 3px, transparent 3px 30px), repeating-linear-gradient(90deg, var(--deep) 0 3px, transparent 3px 150px);
-              background-size: 100% 18px, 100% 34px; background-repeat: no-repeat; }
+      /* page sweep (Ep1) */
+      #sweep { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 9; background: var(--fw); opacity: 0; pointer-events: none; }
+      #sweep .stake { position: absolute; left: 50%; top: 0; bottom: 0; width: 56px; margin-left: -28px;
+                      background: repeating-linear-gradient(180deg, #fff 0 120px, var(--red) 120px 240px); }
     </style>
   </head>
   <body>
@@ -134,15 +133,15 @@
       <div id="sc-hook" class="scene">
         <div id="hk-t" class="ov h">Masuk bunker,<br><em id="hk-3">3 kali</em> baru<br>keluar?</div>
         <svg class="map" id="mh" viewBox="0 0 870 380" style="top:770px; height:380px;">
-          <defs><pattern id="sand" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="16" stroke="rgba(255,216,74,0.45)" stroke-width="3"/></pattern></defs>
-          <path d="M 0 150 L 120 150 C 200 150 230 320 380 320 C 500 320 560 250 610 100 L 870 100" fill="none" stroke="#eaf2ff" stroke-width="5"/>
+          <defs><pattern id="sand" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="16" height="16" fill="#e7d6a6"/><line x1="0" y1="0" x2="0" y2="16" stroke="rgba(20,23,20,0.12)" stroke-width="3"/></pattern></defs>
+          <path d="M 0 150 L 120 150 C 200 150 230 320 380 320 C 500 320 560 250 610 100 L 870 100" fill="none" stroke="#141714" stroke-width="5"/>
           <path d="M 120 150 C 200 150 230 320 380 320 C 500 320 560 250 610 100 Z" fill="url(#sand)" stroke="none"/>
-          <text x="250" y="365" font-size="28" fill="#eaf2ff">BUNKER</text><text x="720" y="140" font-size="28" fill="#eaf2ff">GREEN</text>
-          <line x1="800" y1="100" x2="800" y2="0" stroke="#eaf2ff" stroke-width="4"/><path d="M 800 0 L 846 16 L 800 32 Z" fill="#ff7a66"/>
-          <circle cx="330" cy="306" r="12" fill="#eaf2ff"/>
-          <path id="a1" d="M 330 306 Q 470 60 585 150" fill="none" stroke="#ff7a66" stroke-width="5" stroke-dasharray="12 10"/>
-          <path id="a2" d="M 330 306 Q 450 130 560 210" fill="none" stroke="#ff7a66" stroke-width="5" stroke-dasharray="12 10"/>
-          <path id="a3" d="M 330 306 Q 560 -60 760 96" fill="none" stroke="#ffd84a" stroke-width="6" stroke-dasharray="14 10"/>
+          <text x="250" y="365" font-size="28" fill="#141714">BUNKER</text><text x="720" y="140" font-size="28" fill="#141714">GREEN</text>
+          <line x1="800" y1="100" x2="800" y2="0" stroke="#141714" stroke-width="4"/><path d="M 800 0 L 846 16 L 800 32 Z" fill="#e8412c"/>
+          <circle cx="330" cy="306" r="12" fill="#fff" stroke="#141714" stroke-width="4"/>
+          <path id="a1" d="M 330 306 Q 470 60 585 150" fill="none" stroke="#e8412c" stroke-width="5" stroke-dasharray="12 10"/>
+          <path id="a2" d="M 330 306 Q 450 130 560 210" fill="none" stroke="#e8412c" stroke-width="5" stroke-dasharray="12 10"/>
+          <path id="a3" d="M 330 306 Q 560 -60 760 96" fill="none" stroke="#2f8a3e" stroke-width="6" stroke-dasharray="14 10"/>
           <text id="x1" class="hand" x="570" y="140" font-size="44">1 ✗</text>
           <text id="x2" class="hand" x="520" y="250" font-size="44">2 ✗</text>
           <text id="x3" class="hand" x="700" y="60" font-size="48">3 ✓</text>
@@ -162,21 +161,21 @@
 
       <!-- DRILL 1: garisan dalam pasir -->
       <div id="sc-d1" class="scene">
-        <div class="ov dh" id="d1h"><div class="no">01</div><div><div class="k mono">Drill 1 · 10 minit</div><div class="tt h">Garisan<br>dalam pasir</div></div></div>
+        <div class="ov dh" id="d1h"><div class="no"><b>1</b><span class="mono">10 minit</span></div><div class="tt h">Garisan dalam pasir</div></div>
         <svg class="map" id="m1" viewBox="0 0 870 480">
-          <defs><pattern id="sand1" width="18" height="18" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="18" stroke="rgba(255,216,74,0.28)" stroke-width="3"/></pattern></defs>
-          <ellipse id="bk" cx="390" cy="250" rx="360" ry="190" fill="url(#sand1)" stroke="#eaf2ff" stroke-width="5"/>
-          <text x="60" y="40" font-size="28" fill="#eaf2ff">PELAN · BUNKER</text>
-          <path d="M 770 250 L 850 250 M 830 232 L 850 250 L 830 268" fill="none" stroke="#eaf2ff" stroke-width="4"/><text x="764" y="225" font-size="28" fill="#eaf2ff">GREEN</text>
-          <line id="ln" x1="330" y1="70" x2="330" y2="430" stroke="#ffd84a" stroke-width="6" stroke-dasharray="16 10"/>
-          <g id="sp1" class="spl"><path d="M 330 150 m -26 0 l 14 0 M 330 150 m 12 0 l 14 0 M 330 150 m 0 -26 l 0 14 M 330 150 m -18 -18 l 9 9 M 330 150 m 18 -18 l -9 9" stroke="#eaf2ff" stroke-width="5" stroke-linecap="round"/></g>
-          <g id="sp2" class="spl"><path d="M 330 230 m -26 0 l 14 0 M 330 230 m 12 0 l 14 0 M 330 230 m 0 -26 l 0 14 M 330 230 m -18 -18 l 9 9 M 330 230 m 18 -18 l -9 9" stroke="#eaf2ff" stroke-width="5" stroke-linecap="round"/></g>
-          <g id="sp3" class="spl"><path d="M 330 310 m -26 0 l 14 0 M 330 310 m 12 0 l 14 0 M 330 310 m 0 -26 l 0 14 M 330 310 m -18 -18 l 9 9 M 330 310 m 18 -18 l -9 9" stroke="#eaf2ff" stroke-width="5" stroke-linecap="round"/></g>
+          <defs><pattern id="sand1" width="18" height="18" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="18" height="18" fill="#e7d6a6"/><line x1="0" y1="0" x2="0" y2="18" stroke="rgba(20,23,20,0.10)" stroke-width="3"/></pattern></defs>
+          <ellipse id="bk" cx="390" cy="250" rx="360" ry="190" fill="url(#sand1)" stroke="#141714" stroke-width="5"/>
+          <text x="60" y="40" font-size="28" fill="#141714">PELAN · BUNKER</text>
+          <path d="M 770 250 L 850 250 M 830 232 L 850 250 L 830 268" fill="none" stroke="#141714" stroke-width="4"/><text x="764" y="225" font-size="28" fill="#141714">GREEN</text>
+          <line id="ln" x1="330" y1="70" x2="330" y2="430" stroke="#2f8a3e" stroke-width="6" stroke-dasharray="16 10"/>
+          <g id="sp1" class="spl"><path d="M 330 150 m -26 0 l 14 0 M 330 150 m 12 0 l 14 0 M 330 150 m 0 -26 l 0 14 M 330 150 m -18 -18 l 9 9 M 330 150 m 18 -18 l -9 9" stroke="#141714" stroke-width="5" stroke-linecap="round"/></g>
+          <g id="sp2" class="spl"><path d="M 330 230 m -26 0 l 14 0 M 330 230 m 12 0 l 14 0 M 330 230 m 0 -26 l 0 14 M 330 230 m -18 -18 l 9 9 M 330 230 m 18 -18 l -9 9" stroke="#141714" stroke-width="5" stroke-linecap="round"/></g>
+          <g id="sp3" class="spl"><path d="M 330 310 m -26 0 l 14 0 M 330 310 m 12 0 l 14 0 M 330 310 m 0 -26 l 0 14 M 330 310 m -18 -18 l 9 9 M 330 310 m 18 -18 l -9 9" stroke="#141714" stroke-width="5" stroke-linecap="round"/></g>
           <text id="n1" class="hand" x="370" y="140" font-size="40">pukul tepat kat garisan</text>
           <text id="n2" class="hand" x="370" y="190" font-size="40">tanpa bola dulu ✓</text>
-          <circle id="b1" cx="400" cy="330" r="15" fill="#eaf2ff"/>
-          <g id="dim"><path d="M 330 372 L 400 372 M 330 358 L 330 386 M 400 358 L 400 386" stroke="#ffd84a" stroke-width="4"/>
-            <text x="418" y="382" font-size="30" fill="#ffd84a">5 CM · 1 INCI</text></g>
+          <circle id="b1" cx="400" cy="330" r="15" fill="#fff" stroke="#141714" stroke-width="4"/>
+          <g id="dim"><path d="M 330 372 L 400 372 M 330 358 L 330 386 M 400 358 L 400 386" stroke="#2f8a3e" stroke-width="4"/>
+            <text x="418" y="382" font-size="30" fill="#2f8a3e">5 CM · 1 INCI</text></g>
           <text id="n3" class="hand" x="440" y="318" font-size="36">dah konsisten? letak bola</text>
           <text id="n4" class="hand" x="360" y="474" font-size="34">dekat / jauh lubang: tak kisah</text>
         </svg>
@@ -186,38 +185,38 @@
       <!-- Q2 (part 2 opens on its strongest line) -->
       <div id="sc-q2" class="scene">
         <div id="q2k" class="ov mono">Drill 2 · Chip ke tuala</div>
-        <div id="q2t" class="ov h">Fokus tempat<br><em>mendarat</em>,<br>bukan <s id="q2s">lubang<svg viewBox="0 0 400 40" preserveAspectRatio="none" style="position:absolute; left:-10px; top:46%; width:110%; height:40px; overflow:visible;"><path id="q2x" d="M 0 24 C 120 6 260 34 400 12" fill="none" stroke="#ff7a66" stroke-width="12" stroke-linecap="round"/></svg></s>.</div>
+        <div id="q2t" class="ov h">Fokus tempat<br><em>mendarat</em>,<br>bukan <s id="q2s">lubang<svg viewBox="0 0 400 40" preserveAspectRatio="none" style="position:absolute; left:-10px; top:46%; width:110%; height:40px; overflow:visible;"><path id="q2x" d="M 0 24 C 120 6 260 34 400 12" fill="none" stroke="#e8412c" stroke-width="12" stroke-linecap="round"/></svg></s>.</div>
         <svg class="map" id="mq" viewBox="0 0 870 260" style="top:890px; height:260px;">
-          <rect x="60" y="90" width="260" height="150" fill="none" stroke="#ffd84a" stroke-width="5"/>
-          <path d="M 60 120 L 320 120 M 60 150 L 320 150 M 60 180 L 320 180 M 60 210 L 320 210" stroke="rgba(255,216,74,0.35)" stroke-width="3"/>
-          <circle cx="190" cy="165" r="16" fill="#eaf2ff"/><text class="hand" x="80" y="70" font-size="44">tuala ✓</text>
-          <circle cx="640" cy="200" r="16" fill="#0a2a59" stroke="#eaf2ff" stroke-width="4"/><line x1="640" y1="200" x2="640" y2="70" stroke="#eaf2ff" stroke-width="4"/><path d="M 640 70 L 684 86 L 640 102 Z" fill="#ff7a66"/>
-          <text x="700" y="210" font-size="44" fill="#ff7a66">✗</text>
+          <rect x="60" y="90" width="260" height="150" fill="#fff" stroke="#141714" stroke-width="5"/>
+          <path d="M 60 120 L 320 120 M 60 150 L 320 150 M 60 180 L 320 180 M 60 210 L 320 210" stroke="rgba(20,23,20,0.18)" stroke-width="3"/>
+          <circle cx="190" cy="165" r="16" fill="#fff" stroke="#141714" stroke-width="4"/><text class="hand" x="80" y="70" font-size="44">tuala ✓</text>
+          <circle cx="640" cy="200" r="16" fill="#141714" stroke="#141714" stroke-width="4"/><line x1="640" y1="200" x2="640" y2="70" stroke="#141714" stroke-width="4"/><path d="M 640 70 L 684 86 L 640 102 Z" fill="#e8412c"/>
+          <text x="700" y="210" font-size="44" fill="#e8412c">✗</text>
         </svg>
       </div>
 
       <!-- DRILL 2: chip ke tuala -->
       <div id="sc-d2" class="scene">
-        <div class="ov dh" id="d2h"><div class="no">02</div><div><div class="k mono">Drill 2 · 10 minit</div><div class="tt h">Chip<br>ke tuala</div></div></div>
+        <div class="ov dh" id="d2h"><div class="no"><b>2</b><span class="mono">10 minit</span></div><div class="tt h">Chip ke tuala</div></div>
         <svg class="map" id="m2" viewBox="0 0 870 480">
-          <defs><pattern id="tw" width="16" height="16" patternUnits="userSpaceOnUse"><line x1="0" y1="8" x2="16" y2="8" stroke="rgba(255,216,74,0.35)" stroke-width="3"/></pattern></defs>
-          <ellipse cx="450" cy="240" rx="400" ry="200" fill="rgba(234,242,255,0.05)" stroke="#eaf2ff" stroke-width="5"/>
-          <text x="60" y="40" font-size="28" fill="#eaf2ff">PELAN · GREEN</text>
-          <circle cx="700" cy="230" r="13" fill="#0a2a59" stroke="#eaf2ff" stroke-width="4"/><line x1="700" y1="230" x2="700" y2="100" stroke="#eaf2ff" stroke-width="4"/><path d="M 700 100 L 744 116 L 700 132 Z" fill="#ff7a66"/><text id="grl" style="opacity:0" class="hand" x="600" y="330" font-size="40">green</text>
-          <g id="towel" style="opacity:0"><rect x="230" y="170" width="190" height="130" fill="url(#tw)" stroke="#ffd84a" stroke-width="5"/>
+          <defs><pattern id="tw" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="16" height="16" fill="#fff"/><line x1="0" y1="8" x2="16" y2="8" stroke="rgba(20,23,20,0.18)" stroke-width="3"/></pattern></defs>
+          <ellipse cx="450" cy="240" rx="400" ry="200" fill="#a8d68f" stroke="#141714" stroke-width="5"/>
+          <text x="60" y="40" font-size="28" fill="#141714">PELAN · GREEN</text>
+          <circle cx="700" cy="230" r="13" fill="#141714" stroke="#141714" stroke-width="4"/><line x1="700" y1="230" x2="700" y2="100" stroke="#141714" stroke-width="4"/><path d="M 700 100 L 744 116 L 700 132 Z" fill="#e8412c"/><text id="grl" style="opacity:0" class="hand" x="600" y="330" font-size="40">green</text>
+          <g id="towel" style="opacity:0"><rect x="230" y="170" width="190" height="130" fill="url(#tw)" stroke="#141714" stroke-width="5"/>
 </g>
           <text id="twl" class="hand" x="150" y="152" font-size="36">tuala = tempat mendarat</text>
-          <circle cx="110" cy="420" r="12" fill="#eaf2ff"/><text x="132" y="430" font-size="28" fill="#eaf2ff">CHIP</text>
-          <circle class="land" data-o="262 200" cx="262" cy="200" r="13" fill="#ffd84a" stroke="#0a2a59" stroke-width="3"/>
-          <g class="land" data-o="530 215"><circle cx="530" cy="215" r="13" fill="none" stroke="#ff7a66" stroke-width="4"/><path d="M 523 208 L 537 222 M 537 208 L 523 222" stroke="#ff7a66" stroke-width="4"/></g>
-          <circle class="land" data-o="300 262" cx="300" cy="262" r="13" fill="#ffd84a" stroke="#0a2a59" stroke-width="3"/>
-          <circle class="land" data-o="350 205" cx="350" cy="205" r="13" fill="#ffd84a" stroke="#0a2a59" stroke-width="3"/>
-          <g class="land" data-o="200 340"><circle cx="200" cy="340" r="13" fill="none" stroke="#ff7a66" stroke-width="4"/><path d="M 193 333 L 207 347 M 207 333 L 193 347" stroke="#ff7a66" stroke-width="4"/></g>
-          <circle class="land" data-o="392 250" cx="392" cy="250" r="13" fill="#ffd84a" stroke="#0a2a59" stroke-width="3"/>
-          <g class="land" data-o="490 320"><circle cx="490" cy="320" r="13" fill="none" stroke="#ff7a66" stroke-width="4"/><path d="M 483 313 L 497 327 M 497 313 L 483 327" stroke="#ff7a66" stroke-width="4"/></g>
-          <circle class="land" data-o="282 232" cx="282" cy="232" r="13" fill="#ffd84a" stroke="#0a2a59" stroke-width="3"/>
-          <circle class="land" data-o="340 280" cx="340" cy="280" r="13" fill="#ffd84a" stroke="#0a2a59" stroke-width="3"/>
-          <g class="land" data-o="160 220"><circle cx="160" cy="220" r="13" fill="none" stroke="#ff7a66" stroke-width="4"/><path d="M 153 213 L 167 227 M 167 213 L 153 227" stroke="#ff7a66" stroke-width="4"/></g>
+          <circle cx="110" cy="420" r="12" fill="#fff" stroke="#141714" stroke-width="4"/><text x="132" y="430" font-size="28" fill="#141714">CHIP</text>
+          <circle class="land" data-o="262 200" cx="262" cy="200" r="13" fill="#2f8a3e" stroke="#fff" stroke-width="3"/>
+          <g class="land" data-o="530 215"><circle cx="530" cy="215" r="13" fill="none" stroke="#e8412c" stroke-width="4"/><path d="M 523 208 L 537 222 M 537 208 L 523 222" stroke="#e8412c" stroke-width="4"/></g>
+          <circle class="land" data-o="300 262" cx="300" cy="262" r="13" fill="#2f8a3e" stroke="#fff" stroke-width="3"/>
+          <circle class="land" data-o="350 205" cx="350" cy="205" r="13" fill="#2f8a3e" stroke="#fff" stroke-width="3"/>
+          <g class="land" data-o="200 340"><circle cx="200" cy="340" r="13" fill="none" stroke="#e8412c" stroke-width="4"/><path d="M 193 333 L 207 347 M 207 333 L 193 347" stroke="#e8412c" stroke-width="4"/></g>
+          <circle class="land" data-o="392 250" cx="392" cy="250" r="13" fill="#2f8a3e" stroke="#fff" stroke-width="3"/>
+          <g class="land" data-o="490 320"><circle cx="490" cy="320" r="13" fill="none" stroke="#e8412c" stroke-width="4"/><path d="M 483 313 L 497 327 M 497 313 L 483 327" stroke="#e8412c" stroke-width="4"/></g>
+          <circle class="land" data-o="282 232" cx="282" cy="232" r="13" fill="#2f8a3e" stroke="#fff" stroke-width="3"/>
+          <circle class="land" data-o="340 280" cx="340" cy="280" r="13" fill="#2f8a3e" stroke="#fff" stroke-width="3"/>
+          <g class="land" data-o="160 220"><circle cx="160" cy="220" r="13" fill="none" stroke="#e8412c" stroke-width="4"/><path d="M 153 213 L 167 227 M 167 213 L 153 227" stroke="#e8412c" stroke-width="4"/></g>
         </svg>
         <div id="t2" class="ov tally"><span class="lab mono">Atas tuala</span><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><span class="sc">6/10</span></div>
         <div id="ch2" class="ov chip" style="left:60px; top:1040px;">Fokus: tempat mendarat, bukan lubang</div>
@@ -225,23 +224,23 @@
 
       <!-- DRILL 3: bulatan 1 meter -->
       <div id="sc-d3" class="scene">
-        <div class="ov dh" id="d3h"><div class="no">03</div><div><div class="k mono">Drill 3 · 10 minit</div><div class="tt h">Bulatan<br>1 meter</div></div></div>
+        <div class="ov dh" id="d3h"><div class="no"><b>3</b><span class="mono">10 minit</span></div><div class="tt h">Bulatan 1 meter</div></div>
         <svg class="map" id="m3" viewBox="0 0 870 480">
-          <text x="600" y="60" font-size="28" fill="#eaf2ff">PELAN · LUBANG</text>
-          <circle cx="330" cy="250" r="220" fill="rgba(234,242,255,0.05)" stroke="#eaf2ff" stroke-width="4"/>
-          <circle id="ring" cx="330" cy="250" r="150" fill="none" stroke="#ffd84a" stroke-width="5" stroke-dasharray="14 10"/>
-          <g id="rad"><path d="M 330 250 L 436 144 M 425 133 L 447 155" stroke="#ffd84a" stroke-width="4"/><text x="446" y="128" font-size="34" fill="#ffd84a">1 M</text></g>
-          <circle cx="330" cy="250" r="15" fill="#0a2a59" stroke="#eaf2ff" stroke-width="4"/>
-          <circle class="rb" data-o="460 325" cx="460" cy="325" r="15" fill="#eaf2ff" stroke="#0a2a59" stroke-width="3"/>
-          <circle class="rb" data-o="330 400" cx="330" cy="400" r="15" fill="#eaf2ff" stroke="#0a2a59" stroke-width="3"/>
-          <circle class="rb" data-o="200 325" cx="200" cy="325" r="15" fill="#eaf2ff" stroke="#0a2a59" stroke-width="3"/>
-          <circle class="rb" data-o="200 175" cx="200" cy="175" r="15" fill="#eaf2ff" stroke="#0a2a59" stroke-width="3"/>
-          <circle class="rb" data-o="330 100" cx="330" cy="100" r="15" fill="#eaf2ff" stroke="#0a2a59" stroke-width="3"/>
-          <circle class="rb" data-o="460 175" cx="460" cy="175" r="15" fill="#eaf2ff" stroke="#0a2a59" stroke-width="3"/>
-          <text x="620" y="190" font-size="30" fill="#eaf2ff">MASUK</text>
-          <text id="cnt" x="620" y="290" font-size="110" fill="#ffd84a" style="font-family:Archivo; font-weight:900; font-stretch:125%;">0/6</text>
-          <text id="rst" class="hand" x="600" y="360" font-size="40" fill="#ff7a66" style="fill:#ff7a66">terlepas 1?</text>
-          <text id="rst2" class="hand" x="600" y="410" font-size="40" fill="#ff7a66" style="fill:#ff7a66">buat balik ↺</text>
+          <text x="600" y="60" font-size="28" fill="#141714">PELAN · LUBANG</text>
+          <circle cx="330" cy="250" r="220" fill="#a8d68f" stroke="#141714" stroke-width="4"/>
+          <circle id="ring" cx="330" cy="250" r="150" fill="none" stroke="#141714" stroke-width="5" stroke-dasharray="14 10"/>
+          <g id="rad"><path d="M 330 250 L 436 144 M 425 133 L 447 155" stroke="#141714" stroke-width="4"/><text x="446" y="128" font-size="34" fill="#141714">1 M</text></g>
+          <circle cx="330" cy="250" r="15" fill="#141714" stroke="#141714" stroke-width="4"/>
+          <circle class="rb" data-o="460 325" cx="460" cy="325" r="15" fill="#fff" stroke="#141714" stroke-width="4"/>
+          <circle class="rb" data-o="330 400" cx="330" cy="400" r="15" fill="#fff" stroke="#141714" stroke-width="4"/>
+          <circle class="rb" data-o="200 325" cx="200" cy="325" r="15" fill="#fff" stroke="#141714" stroke-width="4"/>
+          <circle class="rb" data-o="200 175" cx="200" cy="175" r="15" fill="#fff" stroke="#141714" stroke-width="4"/>
+          <circle class="rb" data-o="330 100" cx="330" cy="100" r="15" fill="#fff" stroke="#141714" stroke-width="4"/>
+          <circle class="rb" data-o="460 175" cx="460" cy="175" r="15" fill="#fff" stroke="#141714" stroke-width="4"/>
+          <text x="620" y="190" font-size="30" fill="#141714">MASUK</text>
+          <text id="cnt" x="620" y="290" font-size="110" fill="#2f8a3e" style="font-family:Hanken; font-weight:800;">0/6</text>
+          <text id="rst" class="hand" x="600" y="360" font-size="40" fill="#e8412c" style="fill:#e8412c">terlepas 1?</text>
+          <text id="rst2" class="hand" x="600" y="410" font-size="40" fill="#e8412c" style="fill:#e8412c">buat balik ↺</text>
         </svg>
         <div id="stat" class="ov"><div class="k mono">Putt <span id="kaki">3–6 kaki (1–2 m)</span> · masuk</div>
           <div class="row" id="r60"><div class="nm"><span>Handicap tengah–tinggi</span><b id="p60">60%</b></div><div class="tr"><i id="b60"></i></div></div>
@@ -269,13 +268,13 @@
       <div id="cap0" class="ov cap">Fokus tempat mendarat, bukan lubang.</div>
       <div id="cap1" class="ov cap">Dua: letak tuala atas green, tempat bola mendarat.</div>
       <div id="cap2" class="ov cap">Chip 10 bola, kira berapa mendarat atas tuala.</div>
-      <div id="cap3" class="ov cap">Last: susun 6 bola, bulatan 1 meter keliling lubang. Masuk semua berturut-turut.</div>
+      <div id="cap3" class="ov cap">Last: 6 bola, bulatan 1 meter keliling lubang. Masuk semua berturut-turut.</div>
       <div id="cap4" class="ov cap">Terlepas satu? Buat balik.</div>
       <div id="cap5" class="ov cap">Putt 3–6 kaki: handicap tengah–tinggi masuk 60% je.</div>
       <div id="cap6" class="ov cap">Scratch golfer: 76%.</div>
       <div id="cap7" class="ov cap">Pergi practice area minggu ni.</div>
       <div id="like" class="ov chip" style="left:60px; top:1176px; font-size:52px; padding:16px 28px 18px;"></div>
-      <div id="rule" data-layout-ignore></div>
+      <div id="sweep" data-layout-ignore><div class="stake"></div></div>
       <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="42.920" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>
       <audio data-hf-id="hf-music" id="music" class="clip" src="assets/music_bed.wav" data-start="0" data-duration="45.42" data-track-index="11" data-volume="1" data-audio-group="music"></audio> <!-- Mixkit 175 Digital Clouds, continuous bed (tools/build_music.py) -->
       <audio data-hf-id="hf-s00" id="sfx-00" class="clip" src="assets/sfx/3005.mp3" data-start="0.020" data-duration="0.17" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- title on frame 0 -->
@@ -347,11 +346,11 @@
           const el = $(sel); tl.set(el, { opacity: 0 }, 0);
           tl.fromTo(el, { opacity: 1, clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: d || 0.45, ease: "power1.out", immediateRender: false }, t);
         }
-        function rule(t) {                // parallel rule slides down the sheet between drills
+        function rule(t) {                // Ep1 page sweep: grass-green page with the yardage stake wipes across between sections
           if (t == null || t < 0.5) return;
-          tl.set("#rule", { opacity: 1 }, t - 0.3);
-          tl.fromTo("#rule", { y: 0 }, { y: 2080, duration: 0.55, ease: "power2.inOut", immediateRender: false }, t - 0.3);
-          tl.set("#rule", { opacity: 0 }, t + 0.26);
+          tl.set("#sweep", { opacity: 1 }, t - 0.28);
+          tl.fromTo("#sweep", { x: -1180 }, { x: 1180, duration: 0.56, ease: "power2.inOut", immediateRender: false }, t - 0.28);
+          tl.set("#sweep", { opacity: 0 }, t + 0.3);
         }
         const after = (t) => { const v = Object.values(SEC).filter((x) => x > t + 0.01); return v.length ? Math.min(...v) : null; };
         const head = (sel, t) => pop(sel, t + 0.05);
@@ -373,7 +372,7 @@
           scene("#sc-hook", 0, after(SEC.hook));
           pop("#hk-t", 0);
           pop("#mh", 0.15, { y: 0 });
-          if (has("tiga")) tl.fromTo("#hk-3", { color: "#eaf2ff" }, { color: "#ffd84a", duration: 0.2, immediateRender: false }, W.tiga);
+          if (has("tiga")) tl.fromTo("#hk-3", { color: "#141714" }, { color: "#2f8a3e", duration: 0.2, immediateRender: false }, W.tiga);
           const tA = has("bunker") ? W.bunker : 1.2, tK = has("keluar") ? W.keluar : tA + 2;
           arc("#a1", tA, 0.4); pop("#x1", tA + 0.4, { scale: 0.6, y: 0 });
           arc("#a2", (tA + tK) / 2, 0.4); pop("#x2", (tA + tK) / 2 + 0.4, { scale: 0.6, y: 0 });
@@ -414,7 +413,7 @@
           D1.forEach((v, i) => tl.set($$("#t1 i")[i], { className: v ? "in" : "out" }, W.lapan + 0.1 + i * 0.14));
           tl.from("#t1 .sc", { opacity: 0, scale: 0.6, duration: 0.25, ease: "back.out(3)" }, W.lapan + 1.5);
           write("#n4", W.kisah - 0.1, 0.7);
-          if (has("lubang1")) tl.fromTo("#t1 .sc", { scale: 1.2, color: "#ffd84a" }, { scale: 1, color: "#eaf2ff", duration: 0.4, ease: "back.out(3)", immediateRender: false }, W.lubang1);
+          if (has("lubang1")) tl.fromTo("#t1 .sc", { scale: 1.2, color: "#2f8a3e" }, { scale: 1, color: "#141714", duration: 0.4, ease: "back.out(3)", immediateRender: false }, W.lubang1);
         }
         // Q2 (part 2 opening line)
         if (SEC.q2 != null) {
@@ -463,14 +462,14 @@
           tl.set(cnt, { textContent: "0/6" }, 0);
           // terlepas satu: reset
           write("#rst", W.terlepas, 0.5);
-          tl.set(cnt, { textContent: "0/6", fill: "#ff7a66" }, W.terlepas + 0.4);
+          tl.set(cnt, { textContent: "0/6", fill: "#e8412c" }, W.terlepas + 0.4);
           tl.fromTo(cnt, { x: 0 }, { x: 8, duration: 0.05, yoyo: true, repeat: 3, immediateRender: false }, W.terlepas + 0.4);
           write("#rst2", W.balik - 0.2, 0.5);
           // putt stat
           tl.to("#m3", { opacity: 0, duration: 0.25 }, W.putt - 0.05);
           pop("#stat", W.putt, { y: 30 });
           ["#r60", "#r76"].forEach((s) => tl.set(s, { opacity: 0 }, 0));
-          if (has("kaki")) tl.fromTo("#kaki", { color: "#eaf2ff" }, { color: "#ffd84a", duration: 0.2, yoyo: true, repeat: 1, immediateRender: false }, W.kaki);
+          if (has("kaki")) tl.fromTo("#kaki", { color: "#2f8a3e" }, { color: "#e8412c", duration: 0.2, yoyo: true, repeat: 1, immediateRender: false }, W.kaki);
           tl.fromTo("#r60", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out", immediateRender: false }, has("handicap") ? W.handicap : W.p60 - 0.6);
           tl.fromTo("#r76", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out", immediateRender: false }, has("scratch") ? W.scratch : W.p76 - 0.6);
           tl.to("#b60", { scaleX: 0.60, duration: 0.7, ease: "power2.out" }, W.p60 - 0.1);
@@ -496,7 +495,7 @@
           pop("#cdots", W.dari10 - 0.1);
           $$("#cdots i").forEach((d, i) => tl.fromTo(d, { scale: 0.6 }, { scale: 1, duration: 0.2, ease: "back.out(3)", immediateRender: false }, W.dari10 + i * 0.06));
           pop("#ctell", W.bagitahu - 0.05);
-          tl.to("#cdots i", { backgroundColor: "#ffd84a", duration: 0.12, stagger: 0.1, yoyo: true, repeat: 1 }, W.bunker2 - 0.2);
+          tl.to("#cdots i", { backgroundColor: "#a8d68f", duration: 0.12, stagger: 0.1, yoyo: true, repeat: 1 }, W.bunker2 - 0.2);
           pop("#cwa", W.sekali2 + 0.4);
         }
         // "Like untuk part 2" (owner)
