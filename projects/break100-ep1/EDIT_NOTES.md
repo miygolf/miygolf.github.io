@@ -47,3 +47,6 @@ The owner's source video and recording stay in `.src/` (not committed).
 - Only pauses longer than 0.55 s are shortened (to 0.32 s, keeping 0.20 s after the last sound); 0.32 s between phrases, 0.55 s after the hook.
 - Every animation / caption anchor is shifted by its phrase's measured onset offset, so graphics land on the words.
 - Check: each phrase's last 1.6 s re-transcribed on its own (large-v3) — every final word complete. 61.9 s, −14.0 LUFS, −2.8 dBTP.
+
+## Delivery
+Owner approved v2 ("render", 2026-11-23). `final/break100-ep1_1080x1920.mp4`: 61.9 s, 1080×1920, 30 fps, H.264 High CRF 17 (flat graphics compress to ~0.5 Mbps), AAC 256k, −14.0 LUFS, −2.8 dBTP.

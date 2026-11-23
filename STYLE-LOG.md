@@ -142,7 +142,7 @@ Faiz P6–P8 **lab / telestrator** (graphite grid, red/lime, Archivo Black + Jet
 
 | Video | Look | Type | Palette | Motion signature |
 | --- | --- | --- | --- | --- |
-| **MIY GOLF Ep1 · Break 100 (voice-over explainer, no footage)** (`projects/break100-ep1/`) | **Range Map**: printed course-guide page, top-down diagrams | Hanken Grotesk 800/600 + Geist Mono 600 + Noto Color Emoji | paper #f3eee2, ink #141714, fairway #2f8a3e, light fairway #a8d68f, rough #6fae5a, flag red #e8412c | plotter-drawn dashed lines, flags pop, result dots stamp in per shot, red-pen strike/circle, green page sweep with a yardage stake between drills, ink caption strip; voice re-ordered for the hook; no music — **preview v2** (cuts measured on the audio, endings kept) |
+| **MIY GOLF Ep1 · Break 100 (voice-over explainer, no footage)** (`projects/break100-ep1/`) | **Range Map**: printed course-guide page, top-down diagrams | Hanken Grotesk 800/600 + Geist Mono 600 + Noto Color Emoji | paper #f3eee2, ink #141714, fairway #2f8a3e, light fairway #a8d68f, rough #6fae5a, flag red #e8412c | plotter-drawn dashed lines, flags pop, result dots stamp in per shot, red-pen strike/circle, green page sweep with a yardage stake between drills, ink caption strip; voice re-ordered for the hook; no music — **delivered from preview v2** (cuts measured on the audio, endings kept) |
 
 - Break 100 Ep1 (2026-11-23): owner sent a silent slide video + a separate voice-over → rebuild the slides in HyperFrames around the voice, hook line moved to the front, repeat dropped.
   v2 lesson: never trust transcript word ends for cuts (they can run 0.5 s early); measure the decay on the audio and keep the tail — the owner wants phrase endings heard clearly.
