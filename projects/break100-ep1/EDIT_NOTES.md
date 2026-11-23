@@ -60,3 +60,14 @@ Preview mix re-transcribed (medium): every line still heard. −14.0 LUFS, −2.
 Replaced "Sleepy Cat" + heavy ducking with Mixkit **"Digital Clouds"** (music id 175, corporate/chill, steady): one continuous bed from frame 0 to the
 end card, level held at about −27 dBFS in every 2 s window (−24…−30), only a gentle compressor dip under the voice (ratio 1.6, slow release) so it
 never pumps; the voice sits ~13 dB on top. Mix re-transcribed (medium): every line heard. −14.0 LUFS, −2.9 dBTP.
+
+## Split into 3 posts (owner: "pecahkan video seminit ni pada 3 video, so aku boleh hantar seminggu tu 3 video")
+`python3 tools/make_parts.py` makes `parts/p1..p3`, each a standalone HyperFrames project with a `part.json` (pieces + order + end-card text).
+`build_voice.py` picks and orders the pieces from `part.json`; `build_index.py` and the template skip scenes whose phrases are absent.
+- **Part 1/3 (38.0 s)**: hook "30 minit je. 3 drill…" → Episod 1 → intro → Drill 1 tee off → full CTA "bagitahu aku berapa masuk dari 10".
+- **Part 2/3 (21.1 s)**: opens on "Ini pukulan masa kau belakang pokok." (drill title on frame 0) → Drill 2 punch → "Pergi range minggu ni." + "Next: Drill 3" card.
+- **Part 3/3 (13.1 s)**: "Yang ketiga, lag jauh." → Drill 3 lag putt → "Pergi range minggu ni." + "3 drill siap" recap card.
+Header shows the part ("1/3"…), the progress bars start with the earlier drills already filled. Same v4 continuous music bed (Digital Clouds).
+Music fix: the bed used to end ~0.4–3 s early (loudnorm's look-ahead was dropped when the sidechain key ended); both inputs are now padded.
+Each part's voice re-transcribed (large-v3): every phrase ending heard, no word from a neighbouring phrase leaks into a cut.
+Build per part: `cd parts/pN && python3 tools/build_voice.py && python3 tools/build_music.py <total> && python3 tools/build_index.py`, then render + `tools/master.sh`.

@@ -109,7 +109,7 @@
   </head>
   <body>
     <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="{{TOTAL}}" data-width="1080" data-height="1920" data-fps="30">
-      <div id="hdr" class="ov mono"><span class="b">MIY Golf</span><span class="e">Episod 1 · Break 100</span><span class="bars"><i><b></b></i><i><b></b></i><i><b></b></i></span></div>
+      <div id="hdr" class="ov mono"><span class="b">MIY Golf</span><span class="e">Episod 1 · Break 100</span><span id="ptag" style="font-size:28px; color:#fff; background:#2f8a3e; padding:4px 12px 6px; border-radius:8px; display:none;"></span><span class="bars"><i><b></b></i><i><b></b></i><i><b></b></i></span></div>
 
       <!-- HOOK -->
       <div id="sc-hook" class="scene">
@@ -189,6 +189,13 @@
         <div id="chb" class="ov chip" style="left:60px; top:540px;">Berhenti dekat. Bukan masuk.</div>
       </div>
 
+      <!-- OUT (split parts 2 and 3) -->
+      <div id="sc-out" class="scene">
+        <div id="oq" class="ov" style="left:60px; top:330px; width:870px;"><div class="k" style="font-size:40px; color:rgba(20,23,20,0.7); font-weight:600;">Pergi range minggu ni.</div>
+          <div class="t h" id="ot" style="font-size:112px; margin-top:12px;"></div></div>
+        <div id="onext" class="ov chip" style="left:60px; top:820px;"></div>
+      </div>
+
       <!-- CTA -->
       <div id="sc-cta" class="scene">
         <div id="cq" class="ov"><div class="k">Pergi range minggu ni.</div><div class="t h">Driver kau dapat berapa <em>dari 10?</em></div></div>
@@ -209,7 +216,7 @@
         const tl = gsap.timeline({ paused: true });
         const $ = (s) => document.querySelector(s);
         const $$ = (s) => document.querySelectorAll(s);
-        function scene(sel, a, b) { tl.set(sel, { opacity: 0 }, 0); tl.set(sel, { opacity: 1 }, a); if (b != null) tl.set(sel, { opacity: 0 }, b); }
+        function scene(sel, a, b) { tl.set(sel, { opacity: 0 }, 0); tl.set(sel, { opacity: 1 }, a < 0.5 ? 0 : a); if (b != null) tl.set(sel, { opacity: 0 }, b); }
         function pop(sel, t, from, t1) {
           const el = $(sel); tl.set(el, { opacity: 0 }, 0);
           tl.fromTo(el, Object.assign({ opacity: 0, y: 24 }, from || {}), { opacity: 1, y: 0, x: 0, scale: 1, rotation: 0, duration: 0.32, ease: "power3.out", immediateRender: false }, t);
@@ -225,14 +232,25 @@
           tl.fromTo(p, { opacity: 0, attr: { "stroke-dashoffset": 200 } }, { opacity: 1, attr: { "stroke-dashoffset": 0 }, duration: d || 0.6, ease: "none", immediateRender: false }, t);
         }
         function sweep(t) {
+          if (t == null || t < 0.5) return;
           tl.set("#sweep", { opacity: 1 }, t - 0.28);
           tl.fromTo("#sweep", { x: -1180 }, { x: 1180, duration: 0.56, ease: "power2.inOut", immediateRender: false }, t - 0.28);
           tl.set("#sweep", { opacity: 0 }, t + 0.3);
         }
 
-        // header + drill progress
+        // header + drill progress (in a split part, earlier drills are already filled)
         tl.set("#hdr", { opacity: 1 }, 0);
-        [SEC.d1, SEC.d2, SEC.d3].forEach((t, i) => tl.to(`#hdr .bars i:nth-child(${i + 1}) b`, { scaleX: 1, duration: 0.5, ease: "power2.out" }, t + 0.1));
+        const PART = K.PART || {};
+        if (PART.label) { const pt = $("#ptag"); pt.textContent = PART.label; pt.style.display = "inline-block"; }
+        if (PART.hdr) $("#hdr .e").textContent = PART.hdr;
+        const first = [SEC.d1, SEC.d2, SEC.d3].findIndex((x) => x != null);
+        [SEC.d1, SEC.d2, SEC.d3].forEach((t, i) => {
+          const b = `#hdr .bars i:nth-child(${i + 1}) b`;
+          if (t != null) tl.to(b, { scaleX: 1, duration: 0.5, ease: "power2.out" }, Math.max(t + 0.1, 0));
+          else if (first >= 0 && i < first) tl.set(b, { scaleX: 1 }, 0);
+        });
+        const after = (t) => { const v = Object.values(SEC).filter((x) => x > t + 0.01); return v.length ? Math.min(...v) : null; };
+        const head = (sel, t) => { if (t < 0.5) { tl.set(sel, { opacity: 1 }, 0); } else pop(sel, t + 0.05); };   // frame-0 text when a part opens on a drill
 
         // captions
         K.CAP.forEach((c) => { tl.set("#" + c.id, { opacity: 0 }, 0);
@@ -240,6 +258,7 @@
           tl.set("#" + c.id, { opacity: 0 }, c.t1); });
 
         // HOOK (frame 0)
+        if (P.hook1) {
         scene("#sc-hook", 0, P.ep[0] - 0.15);
         tl.set("#big30", { opacity: 1 }, 0);
         tl.from("#big30", { scale: 1.15, transformOrigin: "0% 50%", duration: 0.35, ease: "back.out(1.8)" }, 0);
@@ -247,14 +266,18 @@
         pop("#nocantik", W.tak - 0.05);
         tl.to("#strike", { scaleX: 1, duration: 0.3, ease: "power2.out" }, W.cantik + 0.05);
 
+        }
         // EPISODE
+        if (P.ep) {
         scene("#sc-ep", P.ep[0] - 0.15, P.intro[0] - 0.1);
         pop("#brk", P.ep[0] - 0.1);
         pop("#card", W.break + 0.2);
         tl.to("#c100x", { scaleX: 1, duration: 0.25, ease: "power2.out" }, W.break + 0.45);
         draw("#c99p", W.break + 0.6, 0.45);
 
+        }
         // INTRO
+        if (P.intro) {
         scene("#sc-intro", P.intro[0] - 0.1, SEC.d1 - 0.05);
         tl.set("#tiles", { opacity: 1 }, P.intro[0] - 0.1);
         $$("#tiles .tile").forEach((el, i) => { tl.set(el, { opacity: 0 }, 0);
@@ -262,10 +285,12 @@
         pop("#timer", P.intro[0]);
         tl.to("#timer .bar i", { scaleX: 1, duration: 1.4, ease: "power1.inOut" }, W.tiga);
 
+        }
         // DRILL 1
+        if (SEC.d1 != null) {
         sweep(SEC.d1);
-        scene("#sc-d1", SEC.d1, SEC.d2);
-        pop("#d1h", SEC.d1 + 0.05);
+        scene("#sc-d1", SEC.d1, after(SEC.d1));
+        head("#d1h", SEC.d1);
         pop("#m1", SEC.d1 + 0.15, { y: 30 });
         ["#f1", "#f2"].forEach((f, i) => { tl.set(f, { opacity: 0 }, 0);
           tl.fromTo(f, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3, ease: "back.out(3)", immediateRender: false }, W.sasaran + i * 0.25); });
@@ -292,11 +317,17 @@
         tl.to("#shots", { opacity: 0.25, duration: 0.3 }, W.hybrid);
         pop("#ch2", W.kayu - 0.1, { scale: 0.8, y: 0 });
 
+        }
         // DRILL 2
+        if (SEC.d2 != null) {
         sweep(SEC.d2);
-        scene("#sc-d2", SEC.d2, SEC.d3);
-        pop("#d2h", SEC.d2 + 0.05);
+        scene("#sc-d2", SEC.d2, after(SEC.d2));
+        head("#d2h", SEC.d2);
         pop("#m2", SEC.d2 + 0.15, { y: 30 });
+        if (PART.part && SEC.d2 < 0.5) {   // split part 2 opens on "belakang pokok": re-mark the drill when the voice names it
+          tl.fromTo("#d2h .no b", { scale: 1.35 }, { scale: 1, duration: 0.35, ease: "back.out(3)", immediateRender: false }, W.kedua);
+          tl.fromTo("#d2h .sb", { x: -24, opacity: 0.3 }, { x: 0, opacity: 1, duration: 0.3, ease: "power3.out", immediateRender: false }, W["7iron"]);
+        }
         draw("#hi", W.rendah - 0.2, 0.55); pop("#hix", W.rendah + 0.35, { scale: 1.6, y: 0 });
         tl.to(["#hi", "#hix"], { opacity: 0.25, duration: 0.25 }, W.punch);
         draw("#lo", W.punch + 0.1, 0.8);
@@ -306,10 +337,12 @@
         tl.fromTo("#ch8", { scale: 1.15 }, { scale: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, W.lapan);
         tl.to("#tree", { x: 6, duration: 0.6, yoyo: true, repeat: 3, ease: "sine.inOut" }, W.jarang);
 
+        }
         // DRILL 3
+        if (SEC.d3 != null) {
         sweep(SEC.d3);
-        scene("#sc-d3", SEC.d3, SEC.cta);
-        pop("#d3h", SEC.d3 + 0.05);
+        scene("#sc-d3", SEC.d3, after(SEC.d3));
+        head("#d3h", SEC.d3);
         pop("#m3", SEC.d3 + 0.15, { y: 30 });
         tl.from("#zone", { attr: { r: 8 }, duration: 0.4, ease: "back.out(2)" }, W.panjang - 0.1);
         pop("#zlab", W.panjang);
@@ -322,15 +355,27 @@
         pop("#chb", W.panjang + 0.5, { scale: 0.8, y: 0 });
         tl.fromTo("#chb", { scale: 1.12 }, { scale: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, W.bukanmasuk);
 
+        }
+        // OUT (split parts)
+        if (SEC.out != null) {
+          sweep(SEC.out);
+          scene("#sc-out", SEC.out, null);
+          $("#ot").innerHTML = PART.out_title || ""; $("#onext").innerHTML = PART.out_next || "";
+          pop("#oq", SEC.out + 0.05);
+          pop("#onext", SEC.out + 1.2, { scale: 0.8, y: 0 });
+        }
         // CTA
+        if (SEC.cta != null) {
         sweep(SEC.cta);
         scene("#sc-cta", SEC.cta, null);
         pop("#cq", SEC.cta + 0.05);
+        if (W.buat != null) tl.fromTo("#cq .t", { scale: 1.05, transformOrigin: "0% 50%" }, { scale: 1, duration: 0.35, ease: "back.out(3)", immediateRender: false }, W.buat);
         pop("#cdots", W.teeoff2);
         $$("#cdots i").forEach((d, i) => tl.fromTo(d, { scale: 0.6 }, { scale: 1, duration: 0.2, ease: "back.out(3)", immediateRender: false }, W.teeoff2 + i * 0.06));
         pop("#ctell", W.bagitahu - 0.05);
         tl.to("#cdots i", { backgroundColor: "#a8d68f", duration: 0.12, stagger: 0.1, yoyo: true, repeat: 1 }, W.teeoff2 + 1.2);
         pop("#cwa", W.dari10 + 0.2);
+        }
         window.__timelines["main"] = tl;
       })();
     </script>

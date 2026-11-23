@@ -27,13 +27,21 @@ def ft(src):
 
 S = lambda k: P[k]["start"]; E = lambda k: P[k]["end"]
 # word anchors (recording seconds, large-v3)
-W = {k: ft(v) for k, v in {
+def _try(v):
+    try:
+        return ft(v)
+    except ValueError:
+        return None
+
+
+_W = {k: _try(v) for k, v in {
     "minit": 2.52, "drill3": 3.86, "tak": 4.92, "cantik": 5.64, "break": 1.44, "range": 9.42, "tiga": 10.82,
     "satu": 11.94, "sasaran": 13.22, "fairway": 14.70, "pukul10": 16.42, "driver": 17.26, "kira": 18.62, "masuk1": 20.24,
     "bawah6": 21.50, "hybrid": 23.40, "wood": 24.22, "mana": 25.48, "kayu": 28.42, "teeoff": 30.32,
     "kedua": 31.56, "7iron": 32.66, "rendah": 34.36, "punch": 36.00, "meter": 37.74, "pokok": 39.78, "jarang": 42.26, "lapan": 47.44,
     "ketiga": 49.10, "lag": 49.66, "berhenti": 51.84, "panjang": 53.84, "bukanmasuk": 56.76,
-    "pergi": 58.82, "teeoff2": 62.62, "bagitahu": 64.32, "dari10": 67.00}.items()}
+    "pergi": 58.82, "buat": 61.20, "teeoff2": 62.62, "bagitahu": 64.32, "dari10": 67.00}.items()}
+W = {k: v for k, v in _W.items() if v is not None}
 
 # captions: one short line per piece (spoken words, cleaned)
 CAPS = [("hook1", "30 minit je."), ("hook2", "3 drill. Tak payah swing cantik."), ("ep", "Episod 1, Break 100."),
@@ -43,39 +51,45 @@ CAPS = [("hook1", "30 minit je."), ("hook2", "3 drill. Tak payah swing cantik.")
         ("d2a", "Yang kedua, 7 iron, bola rendah atau punch, 20–30 meter."), ("d2b", "Ini pukulan masa kau belakang pokok."),
         ("d2c", "Jarang orang latih kat range, sebab tu hole jadi 8."),
         ("d3a", "Yang ketiga, lag putt jauh."), ("d3b", "Objektif: berhenti dalam 1 panjang putter, bukan masuk."),
-        ("cta", "Pergi range minggu ni, buat drill tee off tu, bagitahu aku berapa masuk dari 10.")]
+        ("cta", "Pergi range minggu ni, buat drill tee off tu, bagitahu aku berapa masuk dari 10."), ("out", "Pergi range minggu ni.")]
+CAPS = sorted([c for c in CAPS if c[0] in P], key=lambda c: S(c[0]))
 
 
 def caps_html():
     out, data = [], []
     for i, (k, t) in enumerate(CAPS):
         out.append(f'<div id="cap{i}" class="ov cap">{html.escape(t)}</div>')
-        data.append({"id": f"cap{i}", "t0": round(S(k) - 0.05, 3), "t1": round((S(CAPS[i + 1][0]) - 0.08) if i + 1 < len(CAPS) else TOTAL - 0.1, 3)})
+        data.append({"id": f"cap{i}", "t0": round(S(k) - 0.05, 3) if S(k) > 0.5 else 0.0, "t1": round((S(CAPS[i + 1][0]) - 0.08) if i + 1 < len(CAPS) else TOTAL - 0.1, 3)})
     return "\n      ".join(out), data
 
 
 SFX = {"2568.mp3": (0.00, 0.12), "1120.mp3": (0.10, 0.14), "3005.mp3": (0.03, 0.17), "2125.mp3": (0.16, 0.30), "2073.mp3": (0.01, 0.20),
        "166.mp3": (0.30, 0.50), "1489.mp3": (0.71, 0.90), "2364.mp3": (0.01, 0.14), "2357.mp3": (0.24, 0.32)}
-SEC = {"d1": S("d1a"), "d2": S("d2a"), "d3": S("d3a"), "cta": S("cta")}
+_G = {"d1": ["d1a", "d1b", "d1c", "d1d", "d1e"], "d2": ["d2a", "d2b", "d2c"], "d3": ["d3a", "d3b"], "cta": ["cta"], "out": ["out"]}
+SEC = {k: min(S(x) for x in v if x in P) for k, v in _G.items() if any(x in P for x in v)}
+PART = json.load(open(os.path.join(ROOT, "part.json"))) if os.path.exists(os.path.join(ROOT, "part.json")) else {}
 
 
 def cues():
-    c = [(0.05, "3005.mp3", 0.35, "30 MINIT stamps in"), (W["drill3"], "2364.mp3", 0.35, "3 DRILL"), (W["cantik"] + 0.1, "2568.mp3", 0.45, "red pen strike"),
-         (W["break"], "3005.mp3", 0.35, "BREAK 100"), (W["break"] + 0.6, "2364.mp3", 0.3, "99 circled"),
-         (S("intro") + 0.1, "1120.mp3", 0.35, "tile 1"), (S("intro") + 0.35, "1120.mp3", 0.35, "tile 2"), (S("intro") + 0.6, "1120.mp3", 0.35, "tile 3")]
+    c = []
+    add = lambda key, dt, f, v, n: c.append((W[key] + dt, f, v, n)) if key in W else None
+    if "hook1" in P: c.append((0.05, "3005.mp3", 0.35, "30 MINIT stamps in"))
+    elif PART: c.append((0.05, "3005.mp3", 0.35, "part card on frame 0"))
+    add("drill3", 0, "2364.mp3", 0.35, "3 DRILL"); add("cantik", 0.1, "2568.mp3", 0.45, "red pen strike")
+    add("break", 0, "3005.mp3", 0.35, "BREAK 100"); add("break", 0.6, "2364.mp3", 0.3, "99 circled")
+    if "intro" in P:
+        c += [(S("intro") + 0.1 + k * 0.25, "1120.mp3", 0.35, f"tile {k + 1}") for k in range(3)]
     for k, t in SEC.items():
-        c.append((t - 0.12, "166.mp3", 0.3, f"page slide {k}"))
-    c += [(W["sasaran"], "2357.mp3", 0.3, "flag 1"), (W["sasaran"] + 0.25, "2357.mp3", 0.3, "flag 2")]
+        if t > 0.5: c.append((t - 0.12, "166.mp3", 0.3, f"page slide {k}"))
+    add("sasaran", 0, "2357.mp3", 0.3, "flag 1"); add("sasaran", 0.25, "2357.mp3", 0.3, "flag 2")
     for i in range(10):
-        c.append((W["kira"] + 0.1 + i * 0.16, "2568.mp3", 0.3, f"driver dot {i}"))
-    for i in range(10):
-        c.append((W["hybrid"] + 0.1 + i * 0.12, "2568.mp3", 0.25, f"hybrid dot {i}"))
-    c += [(W["kayu"], "3005.mp3", 0.35, "tee-off chip"),
-          (W["punch"] + 0.05, "2125.mp3", 0.35, "punch strike"), (W["punch"] + 0.25, "1489.mp3", 0.25, "low flight draws"),
-          (W["jarang"] + 0.3, "3005.mp3", 0.3, "hole-8 chip"), (W["lapan"], "2364.mp3", 0.4, "8 pulse"),
-          (W["berhenti"], "2073.mp3", 0.35, "putt 1"), (W["berhenti"] + 0.5, "2073.mp3", 0.3, "putt 2"), (W["berhenti"] + 1.0, "2073.mp3", 0.3, "putt 3"),
-          (W["bukanmasuk"], "2364.mp3", 0.35, "BUKAN MASUK"),
-          (W["dari10"], "3005.mp3", 0.35, "dari 10?")]
+        add("kira", 0.1 + i * 0.16, "2568.mp3", 0.3, f"driver dot {i}"); add("hybrid", 0.1 + i * 0.12, "2568.mp3", 0.25, f"hybrid dot {i}")
+    add("kayu", 0, "3005.mp3", 0.35, "tee-off chip")
+    add("punch", 0.05, "2125.mp3", 0.35, "punch strike"); add("punch", 0.25, "1489.mp3", 0.25, "low flight draws")
+    add("jarang", 0.3, "3005.mp3", 0.3, "hole-8 chip"); add("lapan", 0, "2364.mp3", 0.4, "8 pulse")
+    for k in range(3): add("berhenti", 0.5 * k, "2073.mp3", 0.35 if k == 0 else 0.3, f"putt {k + 1}")
+    add("bukanmasuk", 0, "2364.mp3", 0.35, "BUKAN MASUK"); add("dari10", 0, "3005.mp3", 0.35, "dari 10?")
+    if "out" in P: c.append((S("out") + 1.2, "3005.mp3", 0.3, "next-part card"))
     return c
 
 
@@ -93,7 +107,7 @@ def audio_tags():
 
 def main():
     caps, capdata = caps_html()
-    consts = {"W": W, "TOTAL": TOTAL, "CAP": capdata, "SEC": SEC, "P": {k: [S(k), E(k)] for k in P}}
+    consts = {"W": W, "TOTAL": TOTAL, "CAP": capdata, "SEC": SEC, "P": {k: [S(k), E(k)] for k in P}, "PART": PART}
     tpl = open(os.path.join(ROOT, "tools", "index.template.html")).read()
     out = (tpl.replace("{{TOTAL}}", str(TOTAL)).replace("{{AUDIO}}", audio_tags()).replace("{{CAPS}}", caps)
               .replace("{{CONSTS}}", json.dumps(consts, ensure_ascii=False)))

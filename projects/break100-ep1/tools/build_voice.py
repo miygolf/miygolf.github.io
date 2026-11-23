@@ -36,6 +36,13 @@ PIECES = [
     ("d3b", 50.50, 57.66, "Objektif cuma untuk berhenti dalam panjang putter dari lubang, bukan masuk."),
     ("cta", 58.68, 67.98, "Pergi range minggu ni, buat drill tee off tu, lepas tu bagitahu aku berapa yang masuk dari 10."),
 ]
+# extra piece for the split parts: "Pergi range minggu ni." alone (59.58-60.90, "buat" follows at 61.14)
+EXTRA = {"out": ("out", 59.55, 60.90, "Pergi range minggu ni.")}
+_pj = os.path.join(ROOT, "part.json")
+if os.path.exists(_pj):                      # split version: pick and order pieces per part (see tools/make_parts.py)
+    _keys = json.load(open(_pj))["pieces"]
+    _all = {pc[0]: pc for pc in PIECES}; _all.update(EXTRA)
+    PIECES = [_all[k] for k in _keys]
 
 
 def load():
@@ -147,7 +154,7 @@ def main():
             pieces.append({"key": key, "src": [pa, pb], "start": round(st, 3), "end": round(en, 3), "text": text, "offset": round(off, 2),
                            "map": [[round(s_, 2), round(t + l_, 3)] for s_, l_ in tmap[::5] if pa - 0.3 <= s_ <= pb + 1.2]})
         buf.append(seg); t += len(seg) / SR
-        g = 0.55 if run[-1][0] == "hook2" else GAP       # a breath after the hook so it lands before the episode title
+        g = 0.55 if run[-1][0] in ("hook2", "d2b") else GAP       # a breath after the hook so it lands before the episode title
         buf.append(np.zeros(int(g * SR), np.float32)); t += g
     y = np.concatenate(buf)
     os.makedirs(os.path.join(ROOT, "edit"), exist_ok=True)

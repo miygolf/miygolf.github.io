@@ -16,7 +16,7 @@ voice = os.path.join(ROOT, "assets", "voice.wav")
 out = os.path.join(ROOT, "assets", "music_bed.wav")
 fc = (f"[0:a]atrim=0:{total},asetpts=N/SR/TB,aresample=48000,aformat=channel_layouts=stereo,"
       f"loudnorm=I=-27:TP=-6:LRA=5,afade=t=in:d=0.6,afade=t=out:st={total - 2.2}:d=2.2[m];"
-      "[1:a]aresample=48000,aformat=channel_layouts=stereo,apad[k];"
-      "[m][k]sidechaincompress=threshold=0.12:ratio=1.6:attack=120:release=900:makeup=1[d]")
+      f"[1:a]aresample=48000,aformat=channel_layouts=stereo,apad=whole_dur={total + 6}[k];"
+      "[m]apad=whole_dur=1000[mp];[mp][k]sidechaincompress=threshold=0.12:ratio=1.6:attack=120:release=900:makeup=1[d]")
 subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", src, "-i", voice, "-filter_complex", fc, "-map", "[d]", "-t", str(total), out], check=True)
 print("music bed", out)
