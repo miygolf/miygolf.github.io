@@ -12,10 +12,11 @@ import json, os, shutil
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PARTS = {
     "p1": {"part": 1, "label": "1/3", "hdr": "Ep1 · Break 100",
-           "pieces": ["hook1", "hook2", "ep", "intro", "d1a", "d1b", "d1c", "d1d", "d1e", "cta"]},
+           "pieces": ["hook1", "hook2", "ep", "intro", "d1a", "d1b", "d1c", "d1d", "d1e", "cta"],
+           "like": "Like untuk part 2 &amp; seterusnya"},
     "p2": {"part": 2, "label": "2/3", "hdr": "Ep1 · Break 100",
            "pieces": ["d2b", "d2a", "d2c", "out"],
-           "out_title": "Punch rendah,<br>20–30 meter.", "out_next": "Next: Drill 3 · Lag putt jauh →"},
+           "out_title": "Punch rendah,<br>20–30 meter.", "out_next": "Next: Drill 3 · Lag putt jauh →", "like": "Like untuk part 3", "like_top": 950},
     "p3": {"part": 3, "label": "3/3", "hdr": "Ep1 · Break 100",
            "pieces": ["d3a", "d3b", "out"],
            "out_title": "3 drill siap.<br>Tee off. Punch.<br>Lag putt.", "out_next": "Save. Try minggu ni ↓"},

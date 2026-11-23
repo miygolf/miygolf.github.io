@@ -71,3 +71,8 @@ Header shows the part ("1/3"…), the progress bars start with the earlier drill
 Music fix: the bed used to end ~0.4–3 s early (loudnorm's look-ahead was dropped when the sidechain key ended); both inputs are now padded.
 Each part's voice re-transcribed (large-v3): every phrase ending heard, no word from a neighbouring phrase leaks into a cut.
 Build per part: `cd parts/pN && python3 tools/build_voice.py && python3 tools/build_music.py <total> && python3 tools/build_index.py`, then render + `tools/master.sh`.
+
+### Like chips + delivery (owner: "selepas epi1 like untuk part 2 & seterusnya then kau render")
+Part 1 ends with a green "Like untuk part 2 & seterusnya 👍" chip after the last word ("dari 10"), in the caption strip's place once the voice is done
+(~2.4 s on screen, pop SFX). Part 2 gets "Like untuk part 3 👍" under its Next card. Part 3 (last) has none. Set by `like` / `like_top` in part.json.
+Rendered at delivery quality, mastered with tools/master.sh: `final/break100-ep1_part{1,2,3}_1080x1920.mp4`.

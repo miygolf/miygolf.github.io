@@ -68,6 +68,10 @@ SFX = {"2568.mp3": (0.00, 0.12), "1120.mp3": (0.10, 0.14), "3005.mp3": (0.03, 0.
 _G = {"d1": ["d1a", "d1b", "d1c", "d1d", "d1e"], "d2": ["d2a", "d2b", "d2c"], "d3": ["d3a", "d3b"], "cta": ["cta"], "out": ["out"]}
 SEC = {k: min(S(x) for x in v if x in P) for k, v in _G.items() if any(x in P for x in v)}
 PART = json.load(open(os.path.join(ROOT, "part.json"))) if os.path.exists(os.path.join(ROOT, "part.json")) else {}
+# "Like untuk part N" chip: after the last spoken word (the CTA's "dari 10", or the out line's chip), ~2.4 s on screen
+LIKE_T = None
+if PART.get("like"):
+    LIKE_T = round(W["dari10"] + 0.8, 3) if "dari10" in W else round(S("out") + 1.9, 3)
 
 
 def cues():
@@ -90,6 +94,7 @@ def cues():
     for k in range(3): add("berhenti", 0.5 * k, "2073.mp3", 0.35 if k == 0 else 0.3, f"putt {k + 1}")
     add("bukanmasuk", 0, "2364.mp3", 0.35, "BUKAN MASUK"); add("dari10", 0, "3005.mp3", 0.35, "dari 10?")
     if "out" in P: c.append((S("out") + 1.2, "3005.mp3", 0.3, "next-part card"))
+    if LIKE_T is not None: c.append((LIKE_T, "3005.mp3", 0.3, "like-for-next-part chip"))
     return c
 
 
@@ -107,7 +112,7 @@ def audio_tags():
 
 def main():
     caps, capdata = caps_html()
-    consts = {"W": W, "TOTAL": TOTAL, "CAP": capdata, "SEC": SEC, "P": {k: [S(k), E(k)] for k in P}, "PART": PART}
+    consts = {"W": W, "TOTAL": TOTAL, "CAP": capdata, "SEC": SEC, "P": {k: [S(k), E(k)] for k in P}, "PART": PART, "LIKE_T": LIKE_T}
     tpl = open(os.path.join(ROOT, "tools", "index.template.html")).read()
     out = (tpl.replace("{{TOTAL}}", str(TOTAL)).replace("{{AUDIO}}", audio_tags()).replace("{{CAPS}}", caps)
               .replace("{{CONSTS}}", json.dumps(consts, ensure_ascii=False)))

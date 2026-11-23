@@ -204,6 +204,7 @@
         <div id="cwa" class="ov mono">Lesson: WhatsApp 019-872 8829</div>
       </div>
 
+      <div id="like" class="ov chip" style="left:60px; top:1176px; font-size:52px; padding:16px 28px 18px;"></div>   <!-- split parts: "Like untuk part 2" (owner) -->
       <div id="cap0" class="ov cap">Yang ketiga, lag putt jauh.</div>
       <div id="cap1" class="ov cap">Objektif: berhenti dalam 1 panjang putter, bukan masuk.</div>
       <div id="cap2" class="ov cap">Pergi range minggu ni.</div>
@@ -221,7 +222,7 @@
     <script>
       (function () {
         window.__timelines = window.__timelines || {};
-        const K = {"W": {"ketiga": 1.03, "lag": 1.59, "berhenti": 3.07, "panjang": 4.39, "bukanmasuk": 7.31}, "TOTAL": 13.13, "CAP": [{"id": "cap0", "t0": 0.0, "t1": 1.65}, {"id": "cap1", "t0": 1.68, "t1": 8.73}, {"id": "cap2", "t0": 8.76, "t1": 13.03}], "SEC": {"d3": 0.25, "out": 8.81}, "P": {"d3a": [0.25, 1.73], "d3b": [1.73, 8.49], "out": [8.81, 10.31]}, "PART": {"part": 3, "label": "3/3", "hdr": "Ep1 · Break 100", "pieces": ["d3a", "d3b", "out"], "out_title": "3 drill siap.<br>Tee off. Punch.<br>Lag putt.", "out_next": "Save. Try minggu ni ↓"}};
+        const K = {"W": {"ketiga": 1.03, "lag": 1.59, "berhenti": 3.07, "panjang": 4.39, "bukanmasuk": 7.31}, "TOTAL": 13.13, "CAP": [{"id": "cap0", "t0": 0.0, "t1": 1.65}, {"id": "cap1", "t0": 1.68, "t1": 8.73}, {"id": "cap2", "t0": 8.76, "t1": 13.03}], "SEC": {"d3": 0.25, "out": 8.81}, "P": {"d3a": [0.25, 1.73], "d3b": [1.73, 8.49], "out": [8.81, 10.31]}, "PART": {"part": 3, "label": "3/3", "hdr": "Ep1 · Break 100", "pieces": ["d3a", "d3b", "out"], "out_title": "3 drill siap.<br>Tee off. Punch.<br>Lag putt.", "out_next": "Save. Try minggu ni ↓"}, "LIKE_T": null};
         const W = K.W, P = K.P, SEC = K.SEC;
         const tl = gsap.timeline({ paused: true });
         const $ = (s) => document.querySelector(s);
@@ -385,6 +386,13 @@
         pop("#ctell", W.bagitahu - 0.05);
         tl.to("#cdots i", { backgroundColor: "#a8d68f", duration: 0.12, stagger: 0.1, yoyo: true, repeat: 1 }, W.teeoff2 + 1.2);
         pop("#cwa", W.dari10 + 0.2);
+        }
+        if (PART.like && K.LIKE_T != null) {   // owner: "selepas epi1 like untuk part 2 & seterusnya" - takes the caption strip's place once the voice is done
+          $("#like").innerHTML = PART.like + ' <span class="emo" style="font-size:48px">👍</span>';
+          if (PART.like_top) $("#like").style.top = PART.like_top + "px";
+          K.CAP.forEach((c) => { if (c.t1 > K.LIKE_T) tl.set("#" + c.id, { opacity: 0 }, K.LIKE_T); });
+          pop("#like", K.LIKE_T, { scale: 0.8, y: 0 });
+          tl.fromTo("#like", { scale: 1.08 }, { scale: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, K.LIKE_T + 1.0);
         }
         window.__timelines["main"] = tl;
       })();

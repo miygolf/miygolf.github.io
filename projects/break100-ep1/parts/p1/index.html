@@ -204,6 +204,7 @@
         <div id="cwa" class="ov mono">Lesson: WhatsApp 019-872 8829</div>
       </div>
 
+      <div id="like" class="ov chip" style="left:60px; top:1176px; font-size:52px; padding:16px 28px 18px;"></div>   <!-- split parts: "Like untuk part 2" (owner) -->
       <div id="cap0" class="ov cap">30 minit je.</div>
       <div id="cap1" class="ov cap">3 drill. Tak payah swing cantik.</div>
       <div id="cap2" class="ov cap">Episod 1, Break 100.</div>
@@ -251,11 +252,12 @@
       <audio data-hf-id="hf-s31" id="sfx-31" class="clip" src="assets/sfx/3005.mp3" data-start="24.470" data-duration="0.17" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- tee-off chip -->
       <audio data-hf-id="hf-s32" id="sfx-32" class="clip" src="assets/sfx/166.mp3" data-start="26.500" data-duration="0.50" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- page slide cta -->
       <audio data-hf-id="hf-s33" id="sfx-33" class="clip" src="assets/sfx/3005.mp3" data-start="34.790" data-duration="0.17" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- dari 10? -->
+      <audio data-hf-id="hf-s34" id="sfx-34" class="clip" src="assets/sfx/3005.mp3" data-start="35.590" data-duration="0.17" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- like-for-next-part chip -->
     </div>
     <script>
       (function () {
         window.__timelines = window.__timelines || {};
-        const K = {"W": {"minit": 0.57, "drill3": 2.15, "tak": 3.21, "cantik": 3.93, "break": 6.22, "range": 6.72, "tiga": 8.12, "satu": 9.52, "sasaran": 10.8, "fairway": 11.94, "pukul10": 13.78, "driver": 14.62, "kira": 15.7, "masuk1": 17.32, "bawah6": 18.58, "hybrid": 20.48, "wood": 21.3, "mana": 22.08, "kayu": 24.5, "teeoff": 26.4, "pergi": 27.04, "buat": 29.42, "teeoff2": 30.44, "bagitahu": 32.14, "dari10": 34.82}, "TOTAL": 38.04, "CAP": [{"id": "cap0", "t0": 0.0, "t1": 2.03}, {"id": "cap1", "t0": 2.06, "t1": 4.72}, {"id": "cap2", "t0": 4.75, "t1": 6.44}, {"id": "cap3", "t0": 6.47, "t1": 9.4}, {"id": "cap4", "t0": 9.43, "t1": 13.1}, {"id": "cap5", "t0": 13.13, "t1": 15.58}, {"id": "cap6", "t0": 15.61, "t1": 17.9}, {"id": "cap7", "t0": 17.93, "t1": 21.96}, {"id": "cap8", "t0": 21.99, "t1": 26.84}, {"id": "cap9", "t0": 26.87, "t1": 37.94}], "SEC": {"d1": 9.48, "cta": 26.92}, "P": {"hook1": [0.37, 1.79], "hook2": [2.11, 4.25], "ep": [4.8, 6.14], "intro": [6.52, 9.16], "d1a": [9.48, 12.86], "d1b": [13.18, 15.34], "d1c": [15.66, 17.66], "d1d": [17.98, 21.72], "d1e": [22.04, 26.6], "cta": [26.92, 35.22]}, "PART": {"part": 1, "label": "1/3", "hdr": "Ep1 · Break 100", "pieces": ["hook1", "hook2", "ep", "intro", "d1a", "d1b", "d1c", "d1d", "d1e", "cta"]}};
+        const K = {"W": {"minit": 0.57, "drill3": 2.15, "tak": 3.21, "cantik": 3.93, "break": 6.22, "range": 6.72, "tiga": 8.12, "satu": 9.52, "sasaran": 10.8, "fairway": 11.94, "pukul10": 13.78, "driver": 14.62, "kira": 15.7, "masuk1": 17.32, "bawah6": 18.58, "hybrid": 20.48, "wood": 21.3, "mana": 22.08, "kayu": 24.5, "teeoff": 26.4, "pergi": 27.04, "buat": 29.42, "teeoff2": 30.44, "bagitahu": 32.14, "dari10": 34.82}, "TOTAL": 38.04, "CAP": [{"id": "cap0", "t0": 0.0, "t1": 2.03}, {"id": "cap1", "t0": 2.06, "t1": 4.72}, {"id": "cap2", "t0": 4.75, "t1": 6.44}, {"id": "cap3", "t0": 6.47, "t1": 9.4}, {"id": "cap4", "t0": 9.43, "t1": 13.1}, {"id": "cap5", "t0": 13.13, "t1": 15.58}, {"id": "cap6", "t0": 15.61, "t1": 17.9}, {"id": "cap7", "t0": 17.93, "t1": 21.96}, {"id": "cap8", "t0": 21.99, "t1": 26.84}, {"id": "cap9", "t0": 26.87, "t1": 37.94}], "SEC": {"d1": 9.48, "cta": 26.92}, "P": {"hook1": [0.37, 1.79], "hook2": [2.11, 4.25], "ep": [4.8, 6.14], "intro": [6.52, 9.16], "d1a": [9.48, 12.86], "d1b": [13.18, 15.34], "d1c": [15.66, 17.66], "d1d": [17.98, 21.72], "d1e": [22.04, 26.6], "cta": [26.92, 35.22]}, "PART": {"part": 1, "label": "1/3", "hdr": "Ep1 · Break 100", "pieces": ["hook1", "hook2", "ep", "intro", "d1a", "d1b", "d1c", "d1d", "d1e", "cta"], "like": "Like untuk part 2 &amp; seterusnya"}, "LIKE_T": 35.62};
         const W = K.W, P = K.P, SEC = K.SEC;
         const tl = gsap.timeline({ paused: true });
         const $ = (s) => document.querySelector(s);
@@ -419,6 +421,13 @@
         pop("#ctell", W.bagitahu - 0.05);
         tl.to("#cdots i", { backgroundColor: "#a8d68f", duration: 0.12, stagger: 0.1, yoyo: true, repeat: 1 }, W.teeoff2 + 1.2);
         pop("#cwa", W.dari10 + 0.2);
+        }
+        if (PART.like && K.LIKE_T != null) {   // owner: "selepas epi1 like untuk part 2 & seterusnya" - takes the caption strip's place once the voice is done
+          $("#like").innerHTML = PART.like + ' <span class="emo" style="font-size:48px">👍</span>';
+          if (PART.like_top) $("#like").style.top = PART.like_top + "px";
+          K.CAP.forEach((c) => { if (c.t1 > K.LIKE_T) tl.set("#" + c.id, { opacity: 0 }, K.LIKE_T); });
+          pop("#like", K.LIKE_T, { scale: 0.8, y: 0 });
+          tl.fromTo("#like", { scale: 1.08 }, { scale: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, K.LIKE_T + 1.0);
         }
         window.__timelines["main"] = tl;
       })();

@@ -204,6 +204,7 @@
         <div id="cwa" class="ov mono">Lesson: WhatsApp 019-872 8829</div>
       </div>
 
+      <div id="like" class="ov chip" style="left:60px; top:1176px; font-size:52px; padding:16px 28px 18px;"></div>   <!-- split parts: "Like untuk part 2" (owner) -->
       <div id="cap0" class="ov cap">Ini pukulan masa kau belakang pokok.</div>
       <div id="cap1" class="ov cap">Yang kedua, 7 iron, bola rendah atau punch, 20–30 meter.</div>
       <div id="cap2" class="ov cap">Jarang orang latih kat range, sebab tu hole jadi 8.</div>
@@ -218,11 +219,12 @@
       <audio data-hf-id="hf-s04" id="sfx-04" class="clip" src="assets/sfx/2364.mp3" data-start="16.310" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- 8 pulse -->
       <audio data-hf-id="hf-s05" id="sfx-05" class="clip" src="assets/sfx/166.mp3" data-start="16.320" data-duration="0.50" data-track-index="13" data-volume="0.3" data-audio-group="sfx"></audio> <!-- page slide out -->
       <audio data-hf-id="hf-s06" id="sfx-06" class="clip" src="assets/sfx/3005.mp3" data-start="17.910" data-duration="0.17" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- next-part card -->
+      <audio data-hf-id="hf-s07" id="sfx-07" class="clip" src="assets/sfx/3005.mp3" data-start="18.610" data-duration="0.17" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- like-for-next-part chip -->
     </div>
     <script>
       (function () {
         window.__timelines = window.__timelines || {};
-        const K = {"W": {"kedua": 4.24, "7iron": 5.34, "rendah": 7.04, "punch": 8.3, "meter": 10.04, "pokok": 1.93, "jarang": 11.14, "lapan": 16.32}, "TOTAL": 21.06, "CAP": [{"id": "cap0", "t0": 0.0, "t1": 3.42}, {"id": "cap1", "t0": 3.45, "t1": 10.3}, {"id": "cap2", "t0": 10.33, "t1": 16.66}, {"id": "cap3", "t0": 16.69, "t1": 20.96}], "SEC": {"d2": 0.3, "out": 16.74}, "P": {"d2b": [0.3, 2.95], "d2a": [3.5, 10.06], "d2c": [10.38, 16.42], "out": [16.74, 18.24]}, "PART": {"part": 2, "label": "2/3", "hdr": "Ep1 · Break 100", "pieces": ["d2b", "d2a", "d2c", "out"], "out_title": "Punch rendah,<br>20–30 meter.", "out_next": "Next: Drill 3 · Lag putt jauh →"}};
+        const K = {"W": {"kedua": 4.24, "7iron": 5.34, "rendah": 7.04, "punch": 8.3, "meter": 10.04, "pokok": 1.93, "jarang": 11.14, "lapan": 16.32}, "TOTAL": 21.06, "CAP": [{"id": "cap0", "t0": 0.0, "t1": 3.42}, {"id": "cap1", "t0": 3.45, "t1": 10.3}, {"id": "cap2", "t0": 10.33, "t1": 16.66}, {"id": "cap3", "t0": 16.69, "t1": 20.96}], "SEC": {"d2": 0.3, "out": 16.74}, "P": {"d2b": [0.3, 2.95], "d2a": [3.5, 10.06], "d2c": [10.38, 16.42], "out": [16.74, 18.24]}, "PART": {"part": 2, "label": "2/3", "hdr": "Ep1 · Break 100", "pieces": ["d2b", "d2a", "d2c", "out"], "out_title": "Punch rendah,<br>20–30 meter.", "out_next": "Next: Drill 3 · Lag putt jauh →", "like": "Like untuk part 3", "like_top": 950}, "LIKE_T": 18.64};
         const W = K.W, P = K.P, SEC = K.SEC;
         const tl = gsap.timeline({ paused: true });
         const $ = (s) => document.querySelector(s);
@@ -386,6 +388,13 @@
         pop("#ctell", W.bagitahu - 0.05);
         tl.to("#cdots i", { backgroundColor: "#a8d68f", duration: 0.12, stagger: 0.1, yoyo: true, repeat: 1 }, W.teeoff2 + 1.2);
         pop("#cwa", W.dari10 + 0.2);
+        }
+        if (PART.like && K.LIKE_T != null) {   // owner: "selepas epi1 like untuk part 2 & seterusnya" - takes the caption strip's place once the voice is done
+          $("#like").innerHTML = PART.like + ' <span class="emo" style="font-size:48px">👍</span>';
+          if (PART.like_top) $("#like").style.top = PART.like_top + "px";
+          K.CAP.forEach((c) => { if (c.t1 > K.LIKE_T) tl.set("#" + c.id, { opacity: 0 }, K.LIKE_T); });
+          pop("#like", K.LIKE_T, { scale: 0.8, y: 0 });
+          tl.fromTo("#like", { scale: 1.08 }, { scale: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, K.LIKE_T + 1.0);
         }
         window.__timelines["main"] = tl;
       })();

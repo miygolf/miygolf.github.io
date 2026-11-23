@@ -40,6 +40,7 @@ Drill 1 dulu, tee off yang tak hilang bola:
 3️⃣ bawah 6? try hybrid atau 3 wood, mana lagi banyak masuk tu la kayu tee off kau
 
 Driver korang dapat berapa dari 10? Komen bawah 👇 Save dulu, try kat range 📌
+Like untuk part 2 & seterusnya 👍
 
 #golfmalaysia #golftips #golflesson #golfswing #break100 #fyp
 ```
@@ -49,7 +50,7 @@ Driver korang dapat berapa dari 10? Komen bawah 👇 Save dulu, try kat range �
 ```
 Break 100 · Drill 1/3: tee off ⛳
 10 bola driver, 2 sasaran tepi fairway. Bawah 6? Try hybrid / 3 wood.
-Driver korang dapat berapa dari 10? 👇
+Driver korang dapat berapa dari 10? 👇 Like untuk part 2 👍
 
 #golfmalaysia #golftips #golflesson #golfswing #break100 #golfreels
 ```
@@ -64,7 +65,8 @@ Drill 2, punch keluar dari masalah:
 2️⃣ pukul bola rendah, punch je
 3️⃣ target 20 ke 30 meter
 
-Jarang gila orang latih benda ni kat range. Save dulu, try minggu ni 📌 Drill 3 next 👀
+Jarang gila orang latih benda ni kat range. Save dulu, try minggu ni 📌
+Like untuk part 3 👍
 
 #golfmalaysia #golftips #golflesson #golfswing #break100 #fyp
 ```
