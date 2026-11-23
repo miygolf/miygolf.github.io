@@ -329,6 +329,7 @@
         pop("#cdots", W.teeoff2);
         $$("#cdots i").forEach((d, i) => tl.fromTo(d, { scale: 0.6 }, { scale: 1, duration: 0.2, ease: "back.out(3)", immediateRender: false }, W.teeoff2 + i * 0.06));
         pop("#ctell", W.bagitahu - 0.05);
+        tl.to("#cdots i", { backgroundColor: "#a8d68f", duration: 0.12, stagger: 0.1, yoyo: true, repeat: 1 }, W.teeoff2 + 1.2);
         pop("#cwa", W.dari10 + 0.2);
         window.__timelines["main"] = tl;
       })();

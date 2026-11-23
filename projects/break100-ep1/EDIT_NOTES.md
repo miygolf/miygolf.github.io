@@ -37,3 +37,13 @@ npx hyperframes@0.9.32 render -q draft -o renders/preview_draft.mp4 && tools/mas
 npx hyperframes@0.9.32 render -q delivery -o renders/final_raw.mp4 && tools/master.sh renders/final_raw.mp4 final/break100-ep1_1080x1920.mp4
 ```
 The owner's source video and recording stay in `.src/` (not committed).
+
+## v2 (owner: "part awkward moment tu kau jangan potong yang hujung-hujung … bagi dengar jelas")
+- Whisper's word times on this recording run 0.4–0.8 s EARLY ("3 drill" is really at 4.38 s, "Aku" at 42.18 s, "Pergi" at 59.62 s),
+  so v1's cuts clipped phrase endings and its 12–100 ms fade-outs sat on the last syllable.
+- Every cut is now measured on the audio: a phrase ends where the voice has decayed (60 ms under −48 dBFS) plus up to 0.15 s of tail,
+  stopping before the next measured onset; it starts 0.04 s before the first sound (or snaps forward if the transcript start is in silence;
+  if phrases run together, at the quietest 10 ms point). The fade-out only covers the silent tail. Phrases that run on are never split.
+- Only pauses longer than 0.55 s are shortened (to 0.32 s, keeping 0.20 s after the last sound); 0.32 s between phrases, 0.55 s after the hook.
+- Every animation / caption anchor is shifted by its phrase's measured onset offset, so graphics land on the words.
+- Check: each phrase's last 1.6 s re-transcribed on its own (large-v3) — every final word complete. 61.9 s, −14.0 LUFS, −2.8 dBTP.

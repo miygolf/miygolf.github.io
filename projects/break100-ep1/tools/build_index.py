@@ -17,6 +17,7 @@ def ft(src):
     for p in VM["pieces"]:
         a, b = p["src"]
         if a - 0.02 <= src <= b + 0.02:
+            src = src + p.get("offset", 0.0)           # transcript time -> real sound (measured per phrase)
             m = p["map"]; best = m[0]
             for s, f in m:
                 if s <= src: best = (s, f)
