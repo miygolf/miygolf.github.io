@@ -38,7 +38,7 @@
 
       .cap { left: 60px; top: 1218px; max-width: 870px; padding: 12px 22px 15px; border-radius: 12px; background: rgba(10,10,12,0.62);
              font-family: "Gabarito"; font-weight: 700; font-size: 44px; line-height: 1.16; color: #fff; z-index: 7; }
-      #aroll { transform-origin: 450px 1022px; }   /* the landed balls by the flag (IMG_0413 frame) */
+      #aroll { transform-origin: 700px 978px; }   /* the landed ball, right of the middle pin (IMG_0413 frame) */
       #ring { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 5; opacity: 0; pointer-events: none; overflow: visible; }
       #flash { position: absolute; inset: 0; z-index: 8; background: #fff; opacity: 0; pointer-events: none; }
     </style>
@@ -46,7 +46,7 @@
   <body>
     <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="{{TOTAL}}" data-width="1080" data-height="1920" data-fps="30">
       <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="{{TOTAL}}" data-track-index="1" muted playsinline></video>
-      <svg id="ring" viewBox="0 0 1080 1920"><ellipse id="ringc" cx="540" cy="1006" rx="220" ry="118" fill="none" stroke="#f6c514" stroke-width="10" stroke-linecap="round" transform="rotate(-4 540 1006)" style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.45))"/></svg>
+      <svg id="ring" viewBox="0 0 1080 1920"><ellipse id="ringc" cx="620" cy="1002" rx="92" ry="64" fill="none" stroke="#f6c514" stroke-width="9" stroke-linecap="round" transform="rotate(-4 620 1002)" style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.45))"/></svg>
       {{TAPES}}
       {{CAPS}}
       <div id="flash"></div>
@@ -79,7 +79,7 @@
         });
         K.FLASH.forEach((t) => tl.fromTo("#flash", { opacity: 0.45 }, { opacity: 0, duration: 0.2, immediateRender: false }, t));
         // landing: punch in on the flag once the phone settles on the green, draw a ring round the landing area, back to 1x on the cut
-        // owner v5: "zoom in dekat bola land tu" -> 4.5x, following the tracked balls (keys from build_index.py)
+        // owner v5/v6: "zoom in dekat bola land tu", "pin tengah belah kanan" -> 3x on that ball, following the tracked balls (keys from build_index.py)
         tl.set("#aroll", { scale: 1, x: 0, y: 0 }, Math.max(K.LAND - 0.05, 0));
         K.ZOOM.forEach((k, i) => { if (i + 1 < K.ZOOM.length) { const n = K.ZOOM[i + 1];
           tl.fromTo("#aroll", { scale: k[1], x: k[2], y: k[3] }, { scale: n[1], x: n[2], y: n[3], duration: n[0] - k[0], ease: "none", immediateRender: false }, k[0]); } });

@@ -58,3 +58,7 @@ npx hyperframes@0.9.32 check && npx hyperframes@0.9.32 render -q draft -o render
 ## v5 (owner: "zoom in dekat bola land tu")
 - The punch-in is now 4.5x on the two balls by the flag and follows them: `tools/track_balls.py` tracks them in IMG_0413 5.9-8.2 s (the handheld
   phone drifts ~100 px), `build_index.py` turns the track into scale/translate keys that keep them centred, so the ring stays on them.
+
+## v6 (owner: "salah tu area kau zoom in tu, dia duduk belah kanan. Pin tengah belah kanan")
+- The landed ball is the one right of the middle pin, at the right pin's base (IMG_0413 6.6 s: x 700 / y 978). Tracked (relative-brightness test, the ball is
+  ~6 px), 3x punch-in that keeps it at (620, 1000) with both pins in frame, small ring on it.
