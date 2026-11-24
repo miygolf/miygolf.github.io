@@ -69,7 +69,8 @@
                           { clipPath: "inset(0 0% 0 0)", x: 0, duration: t.print, ease: `steps(${t.steps})`, immediateRender: false }, t.t0);
             tl.to(el, { rotation: t.r, duration: 0.18, ease: "back.out(3)" }, t.t0 + t.print);
           }
-          tl.to(el, { rotation: t.r + 7, y: -16, opacity: 0, duration: 0.18, ease: "power2.in" }, t.t1 - 0.18);
+          (t.pulse || []).forEach((p) => tl.fromTo(el, { scale: 1 }, { scale: 1.1, duration: 0.14, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, p));
+          if (t.t1 < K.TOTAL - 0.05) tl.to(el, { rotation: t.r + 7, y: -16, opacity: 0, duration: 0.18, ease: "power2.in" }, t.t1 - 0.18);   // the ending tapes stay to the last frame
         });
         K.CAP.forEach((c) => {
           const el = $("#" + c.id);

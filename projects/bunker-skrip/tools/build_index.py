@@ -10,6 +10,7 @@ TL = json.load(open(os.path.join(ROOT, "edit", "timeline.json")))
 FW = json.load(open(os.path.join(ROOT, "edit", "film_words.json")))
 TOTAL = TL["_total"]; IMP = TL["_impacts"]
 S = lambda n: TL[n]["start"]; E = lambda n: TL[n]["end"]
+QPLUG = 17.12 - 13.58                               # IMG_0418: "Macam mana nak pukul bola plug?" starts 3.54 s into the CTA
 LAND = round(S("slow2") + (6.0 - 3.55), 3)        # IMG_0413 6.0: the phone has settled on the green -> punch in on the landed ball
 # owner v5 "zoom in dekat bola land tu": 3x punch-in that follows the two balls (edit/ball_track.json, tools/track_balls.py) and keeps them
 # at C on screen while the handheld phone drifts. Element transform: p' = O + T + s(p - O), O = CSS transform-origin.
@@ -66,7 +67,8 @@ T = [
     ("penalty", "Club jangan sentuh pasir", "r", W("penalty", "club"), 1.0, False),
     ("penalty", "Penalty 2 pukulan", "w", W("penalty", "club") + 0.9, -1.5, True),
     ("cta", "Komen \"bunker\" <span class='emo' style='font-size:50px'>👇</span>", "y", W("cta", "bang", 0, S("cta") + 0.8), -1.5, True),
-    ("cta", "Next: bola plug <span class='emo' style='font-size:48px'>🍳</span>", "k", W("cta", "plug", 0, S("cta") + 2.5), 1.2, False),
+    ("cta", "Macam mana nak pukul", "k", S("cta") + QPLUG, 1.2, False),            # owner v7: highlight the plug question
+    ("cta", "bola plug? <span class='emo' style='font-size:66px'>🍳</span>", "r", S("cta") + QPLUG + 0.55, -2.0, True),
 ]
 # spoken captions (cleaned), (text, t0, t1)
 CAP = [
@@ -80,7 +82,8 @@ CAP = [
     ("Contoh macam ni…", S("contoh") + 0.4, IMP["contoh"] - 0.3),
     ("Pukul line tu. Letak depan line.", E("contoh") - 0.75, E("letak") - 0.05),
     ("One more thing: dalam pasir, club tu jangan sentuh pasir.", S("penalty") + 0.65, E("penalty") - 0.05, 586),
-    ("Komen \"bunker\" kalau korang nak bola plug.", S("cta") + 0.05, E("cta"), 640),
+    ("Komen \"bunker\" kalau korang nak bola plug.", S("cta") + 0.05, S("cta") + QPLUG - 0.05, 640),
+    ("Macam mana nak pukul bola plug?", S("cta") + QPLUG, TOTAL, 640),
 ]
 
 
@@ -99,7 +102,10 @@ def tapes():
         nch = max(len(plain), 4)
         style = f"top:{y}px;" + (f" opacity:1; transform: rotate({r}deg);" if t0 < 0.2 else "")
         out.append(f'<div id="tp{i}" class="ov tape {col}{" big" if big else ""}" style="{style}">{txt}</div>')
-        data.append({"id": f"tp{i}", "t0": round(t0, 3), "t1": round(b, 3), "r": r, "print": round(min(0.05 * nch, 0.55), 2), "steps": min(nch, 14)})
+        pulse = []
+        if sec == "cta":                                     # owner v7: highlight the ending - the CTA tapes pulse on the plug question and at the end
+            pulse = [round(S("cta") + QPLUG + 1.2, 3), round(TOTAL - 1.0, 3)] if "Komen" in txt or "plug" in txt else [round(TOTAL - 1.0, 3)]
+        data.append({"id": f"tp{i}", "t0": round(t0, 3), "t1": round(b, 3), "r": r, "print": round(min(0.05 * nch, 0.55), 2), "steps": min(nch, 14), "pulse": pulse})
     return "\n      ".join(out), data
 
 
@@ -127,6 +133,7 @@ def cues(td):
         c.append((t["t0"] + 0.02, f, v, f"tape prints: {html.unescape(txt.split('</span>')[-1])[:28]}"))
     c.append((IMP["slow"] - 0.05, "1489.mp3", 0.3, "slow-mo blast (air whoosh under the real strike)"))
     c.append((LAND + 0.75, "2364.mp3", 0.35, "ring drawn round the landed ball"))
+    c.append((S("cta") + QPLUG + 1.2, "2364.mp3", 0.4, "plug question tapes pulse"))
     return c
 
 

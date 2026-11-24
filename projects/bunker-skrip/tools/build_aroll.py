@@ -17,7 +17,7 @@ and re-transcribed as a crop; picture checked on contact sheets):
                     the balls by the yellow flag (frame ~x 430-470 / y 1020, flag base x 572 / y 1080); earlier practice balls lie there too
   IMG_0418          1.64-6.42 "one more thing dalam pasir, korang jangan sentuh, club tu jangan sentuh pasir"  (cut before "sebab ni consider
                     penalty area": a bunker is not a penalty area; the rule is a 2-stroke penalty, shown on screen as in the owner's script)
-                    13.24-16.50 "komen bunker kalau korang nak bola plug."
+                    13.24-16.50 "komen bunker kalau korang nak bola plug."  17.12-18.20 "Macam mana nak pukul bola plug?"
   Not used: IMG_0414/0415 (same shot as 0413), egg_fry (the next video), IMG_0417 0-45 (set-up chatter, camera too close).
 """
 import json, os, subprocess, sys, wave
@@ -48,8 +48,8 @@ EDL = [
     dict(name="slow", clip="s13", a=2.55, b=3.55, speed=0.5, own=False, vo=[("s19", 31.80, 32.30, None)]),  # strike placed on the impact
     dict(name="slow2", clip="s13", a=3.55, b=8.20, own=False),    # owner v4: follow the pan until the phone settles on the green (5.9) and hold
     dict(name="penalty", clip="s18", a=1.55, b=6.65, own=True),
-    dict(name="cta", clip="s18", a=13.58, b=16.78, own=True),
-    dict(name="end", clip="s18", a=16.74, kind="freeze", dur=1.6),
+    dict(name="cta", clip="s18", a=13.58, b=18.30, own=True),               # owner v7: through "Macam mana nak pukul bola plug?" (17.12-18.20)
+    dict(name="end", clip="s18", a=18.26, kind="freeze", dur=1.6),
 ]
 IMPACTS = {"hook": 8.43, "skull": 32.98, "contoh": 100.09, "letakshot": 127.87, "shot": 3.07, "slow": 3.07}
 STRIKE = 31.86          # IMG_0419 impact transient: the real bunker strike laid on IMG_0413's silent impacts
