@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Label Maker": the owner's bunker script as embossed label-maker tape. Each tip prints out of the machine letter by letter
+         (stepped reveal), sticks on the frame with a small tilt and a hard shadow, and peels off when the section ends.
+         Tapes: black (the steps), yellow (the key cue), red (the mistake / the penalty), white (the detail). Spoken words as a plain caption pill.
+         Type: Oswald 600 (tape, uppercase, wide tracking) + Gabarito 700 (captions) + Noto Color Emoji.
+         Palette: tape black #1c1c1e, tape yellow #f6c514, tape red #d3262e, tape white #f1efe8, emboss white #f7f7f2, emboss ink #17171a.
+         Safe band x 60-930, y 168-1330. Faces (contact sheets): full-body shots head y 280-460; the close talk (rahsia) face y 0-600;
+         IMG_0418 talking head y 420-800 -> tapes from y 860 (760 on full-body shots), captions at y 1218. */
+      @font-face { font-family: "Oswald"; font-weight: 200 700; src: url("assets/fonts/Oswald-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Gabarito"; font-weight: 400 900; src: url("assets/fonts/Gabarito-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Noto Color Emoji"; font-weight: 400; src: url("assets/fonts/NotoColorEmoji.ttf") format("truetype"); font-display: block; }
+      :root { --black: #1c1c1e; --yellow: #f6c514; --red: #d3262e; --white: #f1efe8; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
+      .ov { position: absolute; opacity: 0; z-index: 6; pointer-events: none; }
+      .emo { font-family: "Noto Color Emoji", sans-serif; font-weight: 400; letter-spacing: 0; }
+
+      .tape { left: 60px; height: 96px; padding: 0 30px 2px; display: flex; align-items: center; white-space: nowrap; border-radius: 5px;
+              font-family: "Oswald"; font-weight: 600; font-size: 58px; letter-spacing: 0.09em; text-transform: uppercase;
+              color: #f7f7f2; text-shadow: 0 2px 0 rgba(0,0,0,0.55), 0 -1px 0 rgba(255,255,255,0.28);
+              box-shadow: 0 12px 24px rgba(0,0,0,0.38); transform-origin: 0 50%; }
+      .tape::before { content: ""; position: absolute; inset: 0; border-radius: 5px; pointer-events: none;
+                      background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0) 38%, rgba(0,0,0,0.18)); }
+      .tape.k { background: var(--black); }
+      .tape.y { background: var(--yellow); color: #17171a; text-shadow: 0 1px 0 rgba(255,255,255,0.55), 0 -1px 0 rgba(0,0,0,0.25); }
+      .tape.r { background: var(--red); }
+      .tape.w { background: var(--white); color: #17171a; text-shadow: 0 1px 0 rgba(255,255,255,0.8), 0 -1px 0 rgba(0,0,0,0.2); }
+      .tape.big { height: 120px; font-size: 76px; }
+      .tape .n { margin-right: 22px; padding-right: 22px; border-right: 3px dashed currentColor; opacity: 0.85; }
+
+      .cap { left: 60px; top: 1218px; max-width: 870px; padding: 12px 22px 15px; border-radius: 12px; background: rgba(10,10,12,0.62);
+             font-family: "Gabarito"; font-weight: 700; font-size: 44px; line-height: 1.16; color: #fff; z-index: 7; }
+      #flash { position: absolute; inset: 0; z-index: 8; background: #fff; opacity: 0; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="41.0667" data-width="1080" data-height="1920" data-fps="30">
+      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="41.0667" data-track-index="1" muted playsinline></video>
+      <div id="tp0" class="ov tape k big" style="top:780px; opacity:1; transform: rotate(-2.0deg);">Bola tak keluar</div>
+      <div id="tp1" class="ov tape y big" style="top:906px; opacity:1; transform: rotate(1.5deg);">bunker?</div>
+      <div id="tp2" class="ov tape r" style="top:1032px;">Top · skull ✗</div>
+      <div id="tp3" class="ov tape k" style="top:860px;">Rahsia dia:</div>
+      <div id="tp4" class="ov tape r" style="top:966px;">Jangan pukul bola ✗</div>
+      <div id="tp5" class="ov tape y big" style="top:1072px;">Pukul pasir ✓</div>
+      <div id="tp6" class="ov tape k" style="top:780px;"><span class='n'>01</span>Buka face, baru grip</div>
+      <div id="tp7" class="ov tape y" style="top:886px;">Face open ✓</div>
+      <div id="tp8" class="ov tape k" style="top:780px;"><span class='n'>02</span>Kaki lebar</div>
+      <div id="tp9" class="ov tape w" style="top:886px;">Benam dalam pasir</div>
+      <div id="tp10" class="ov tape k" style="top:780px;"><span class='n'>03</span>Bola depan · berat kiri</div>
+      <div id="tp11" class="ov tape y big" style="top:886px;">Blast!</div>
+      <div id="tp12" class="ov tape k" style="top:780px;">Drill: lukis 1 line</div>
+      <div id="tp13" class="ov tape w" style="top:780px;">Tanpa bola dulu</div>
+      <div id="tp14" class="ov tape y big" style="top:780px;">Target = line</div>
+      <div id="tp15" class="ov tape r" style="top:906px;">Bukan bola ✗</div>
+      <div id="tp16" class="ov tape k" style="top:780px;">Bola depan line sikit</div>
+      <div id="tp17" class="ov tape k" style="top:780px;">Swing penuh</div>
+      <div id="tp18" class="ov tape r" style="top:886px;">Jangan slow down</div>
+      <div id="tp19" class="ov tape y big" style="top:780px;">Pasir yang bawa</div>
+      <div id="tp20" class="ov tape k big" style="top:906px;">bola keluar</div>
+      <div id="tp21" class="ov tape k" style="top:230px;">One more thing</div>
+      <div id="tp22" class="ov tape r" style="top:336px;">Club jangan sentuh pasir</div>
+      <div id="tp23" class="ov tape w big" style="top:442px;">Penalty 2 pukulan</div>
+      <div id="tp24" class="ov tape y big" style="top:230px;">Komen "bunker" <span class='emo' style='font-size:50px'>👇</span></div>
+      <div id="tp25" class="ov tape k" style="top:356px;">Next: bola plug <span class='emo' style='font-size:48px'>🍳</span></div>
+      <div id="cap0" class="ov cap">Alamak.</div>
+      <div id="cap1" class="ov cap">Ataupun… top, skull.</div>
+      <div id="cap2" class="ov cap">Rahsia dia, korang jangan pukul bola. Korang pukul pasir.</div>
+      <div id="cap3" class="ov cap">Grip ke logo, cut sikit, so bagi dia open.</div>
+      <div id="cap4" class="ov cap">Korang kangkang besar-besar.</div>
+      <div id="cap5" class="ov cap">Weight belah kiri, and then blast.</div>
+      <div id="cap6" class="ov cap">Korang buat satu line. Tak payah pukul bola dulu.</div>
+      <div id="cap7" class="ov cap">Contoh macam ni…</div>
+      <div id="cap8" class="ov cap">Pukul line tu. Letak depan line.</div>
+      <div id="cap9" class="ov cap" style="top:640px">One more thing dalam pasir, korang jangan sentuh… club tu jangan sentuh pasir.</div>
+      <div id="cap10" class="ov cap" style="top:640px">Komen &quot;bunker&quot; kalau korang nak bola plug.</div>
+      <div id="flash"></div>
+      <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="41.0667" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>
+      <audio data-hf-id="hf-s00" id="sfx-00" class="clip" src="assets/sfx/2568.mp3" data-start="0.040" data-duration="0.12" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- frame-0 tapes -->
+      <audio data-hf-id="hf-s01" id="sfx-01" class="clip" src="assets/sfx/2364.mp3" data-start="3.543" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- tape prints: Top · skull ✗ -->
+      <audio data-hf-id="hf-s02" id="sfx-02" class="clip" src="assets/sfx/2568.mp3" data-start="5.233" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Rahsia dia: -->
+      <audio data-hf-id="hf-s03" id="sfx-03" class="clip" src="assets/sfx/2364.mp3" data-start="7.043" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- tape prints: Jangan pukul bola ✗ -->
+      <audio data-hf-id="hf-s04" id="sfx-04" class="clip" src="assets/sfx/2568.mp3" data-start="7.513" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Pukul pasir ✓ -->
+      <audio data-hf-id="hf-s05" id="sfx-05" class="clip" src="assets/sfx/2568.mp3" data-start="8.333" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Buka face, baru grip -->
+      <audio data-hf-id="hf-s06" id="sfx-06" class="clip" src="assets/sfx/2568.mp3" data-start="10.953" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Face open ✓ -->
+      <audio data-hf-id="hf-s07" id="sfx-07" class="clip" src="assets/sfx/2568.mp3" data-start="12.303" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Kaki lebar -->
+      <audio data-hf-id="hf-s08" id="sfx-08" class="clip" src="assets/sfx/2568.mp3" data-start="12.853" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Benam dalam pasir -->
+      <audio data-hf-id="hf-s09" id="sfx-09" class="clip" src="assets/sfx/2568.mp3" data-start="13.770" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Bola depan · berat kiri -->
+      <audio data-hf-id="hf-s10" id="sfx-10" class="clip" src="assets/sfx/2568.mp3" data-start="15.887" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Blast! -->
+      <audio data-hf-id="hf-s11" id="sfx-11" class="clip" src="assets/sfx/2568.mp3" data-start="16.937" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Drill: lukis 1 line -->
+      <audio data-hf-id="hf-s12" id="sfx-12" class="clip" src="assets/sfx/2568.mp3" data-start="18.170" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Tanpa bola dulu -->
+      <audio data-hf-id="hf-s13" id="sfx-13" class="clip" src="assets/sfx/2568.mp3" data-start="21.213" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Target = line -->
+      <audio data-hf-id="hf-s14" id="sfx-14" class="clip" src="assets/sfx/2364.mp3" data-start="21.803" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- tape prints: Bukan bola ✗ -->
+      <audio data-hf-id="hf-s15" id="sfx-15" class="clip" src="assets/sfx/2568.mp3" data-start="23.070" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Bola depan line sikit -->
+      <audio data-hf-id="hf-s16" id="sfx-16" class="clip" src="assets/sfx/2568.mp3" data-start="24.187" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Swing penuh -->
+      <audio data-hf-id="hf-s17" id="sfx-17" class="clip" src="assets/sfx/2364.mp3" data-start="24.537" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- tape prints: Jangan slow down -->
+      <audio data-hf-id="hf-s18" id="sfx-18" class="clip" src="assets/sfx/1489.mp3" data-start="28.280" data-duration="0.90" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- slow-mo blast (air whoosh under the real strike) -->
+      <audio data-hf-id="hf-s19" id="sfx-19" class="clip" src="assets/sfx/2568.mp3" data-start="29.060" data-duration="0.12" data-track-index="13" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Pasir yang bawa -->
+      <audio data-hf-id="hf-s20" id="sfx-20" class="clip" src="assets/sfx/2568.mp3" data-start="29.410" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: bola keluar -->
+      <audio data-hf-id="hf-s21" id="sfx-21" class="clip" src="assets/sfx/2568.mp3" data-start="31.287" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: One more thing -->
+      <audio data-hf-id="hf-s22" id="sfx-22" class="clip" src="assets/sfx/2364.mp3" data-start="34.517" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- tape prints: Club jangan sentuh pasir -->
+      <audio data-hf-id="hf-s23" id="sfx-23" class="clip" src="assets/sfx/2364.mp3" data-start="35.417" data-duration="0.14" data-track-index="12" data-volume="0.5" data-audio-group="sfx"></audio> <!-- tape prints: Penalty 2 pukulan -->
+      <audio data-hf-id="hf-s24" id="sfx-24" class="clip" src="assets/sfx/2568.mp3" data-start="37.087" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints:  -->
+      <audio data-hf-id="hf-s25" id="sfx-25" class="clip" src="assets/sfx/2568.mp3" data-start="39.347" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints:  -->
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {"TAPES": [{"id": "tp0", "t0": 0.0, "t1": 5.163, "r": -2.0, "print": 0.55, "steps": 14}, {"id": "tp1", "t0": 0.0, "t1": 5.163, "r": 1.5, "print": 0.35, "steps": 7}, {"id": "tp2", "t0": 3.533, "t1": 5.163, "r": -1.5, "print": 0.55, "steps": 13}, {"id": "tp3", "t0": 5.213, "t1": 8.263, "r": -1.5, "print": 0.55, "steps": 11}, {"id": "tp4", "t0": 7.033, "t1": 8.263, "r": 1.0, "print": 0.55, "steps": 14}, {"id": "tp5", "t0": 7.493, "t1": 8.263, "r": -1.0, "print": 0.55, "steps": 13}, {"id": "tp6", "t0": 8.313, "t1": 12.233, "r": -1.2, "print": 0.55, "steps": 14}, {"id": "tp7", "t0": 10.933, "t1": 12.233, "r": 1.2, "print": 0.55, "steps": 11}, {"id": "tp8", "t0": 12.283, "t1": 13.7, "r": -1.0, "print": 0.5, "steps": 10}, {"id": "tp9", "t0": 12.833, "t1": 13.7, "r": 1.0, "print": 0.55, "steps": 14}, {"id": "tp10", "t0": 13.75, "t1": 16.867, "r": -1.2, "print": 0.55, "steps": 14}, {"id": "tp11", "t0": 15.867, "t1": 16.867, "r": 2.0, "print": 0.3, "steps": 6}, {"id": "tp12", "t0": 16.917, "t1": 18.1, "r": -1.2, "print": 0.55, "steps": 14}, {"id": "tp13", "t0": 18.15, "t1": 21.143, "r": 1.0, "print": 0.55, "steps": 14}, {"id": "tp14", "t0": 21.193, "t1": 23.0, "r": -1.2, "print": 0.55, "steps": 13}, {"id": "tp15", "t0": 21.793, "t1": 23.0, "r": 1.2, "print": 0.55, "steps": 12}, {"id": "tp16", "t0": 23.05, "t1": 24.117, "r": -1.0, "print": 0.55, "steps": 14}, {"id": "tp17", "t0": 24.167, "t1": 28.99, "r": -1.2, "print": 0.55, "steps": 11}, {"id": "tp18", "t0": 24.527, "t1": 28.99, "r": 1.2, "print": 0.55, "steps": 14}, {"id": "tp19", "t0": 29.04, "t1": 31.217, "r": -1.5, "print": 0.55, "steps": 14}, {"id": "tp20", "t0": 29.39, "t1": 31.217, "r": 1.2, "print": 0.55, "steps": 11}, {"id": "tp21", "t0": 31.267, "t1": 37.017, "r": -1.2, "print": 0.55, "steps": 14}, {"id": "tp22", "t0": 34.507, "t1": 37.017, "r": 1.0, "print": 0.55, "steps": 14}, {"id": "tp23", "t0": 35.407, "t1": 37.017, "r": -1.5, "print": 0.55, "steps": 14}, {"id": "tp24", "t0": 37.067, "t1": 41.067, "r": -1.5, "print": 0.2, "steps": 4}, {"id": "tp25", "t0": 39.327, "t1": 41.067, "r": 1.2, "print": 0.2, "steps": 4}], "CAP": [{"id": "cap0", "t0": 2.17, "t1": 2.633}, {"id": "cap1", "t0": 2.633, "t1": 5.083}, {"id": "cap2", "t0": 5.183, "t1": 8.183}, {"id": "cap3", "t0": 8.233, "t1": 12.183}, {"id": "cap4", "t0": 12.283, "t1": 13.7}, {"id": "cap5", "t0": 13.75, "t1": 16.817}, {"id": "cap6", "t0": 16.917, "t1": 19.483}, {"id": "cap7", "t0": 19.533, "t1": 21.033}, {"id": "cap8", "t0": 22.25, "t1": 24.65}, {"id": "cap9", "t0": 31.217, "t1": 36.217}, {"id": "cap10", "t0": 36.317, "t1": 39.467}], "FLASH": [21.243, 29.04], "TOTAL": 41.0667};
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        // tapes: print out letter by letter (stepped), settle with a tilt, peel off at the end of their section
+        K.TAPES.forEach((t) => {
+          const el = $("#" + t.id);
+          if (t.t0 < 0.2) {
+            // frame 0: visible from the markup (inline style), no zero-time set
+          } else {
+            tl.set(el, { opacity: 0 }, 0);
+            tl.fromTo(el, { opacity: 1, rotation: 0, x: -10, clipPath: "inset(0 100% 0 0)" },
+                          { clipPath: "inset(0 0% 0 0)", x: 0, duration: t.print, ease: `steps(${t.steps})`, immediateRender: false }, t.t0);
+            tl.to(el, { rotation: t.r, duration: 0.18, ease: "back.out(3)" }, t.t0 + t.print);
+          }
+          tl.to(el, { rotation: t.r + 7, y: -16, opacity: 0, duration: 0.18, ease: "power2.in" }, t.t1 - 0.18);
+        });
+        K.CAP.forEach((c) => {
+          const el = $("#" + c.id);
+          tl.set(el, { opacity: 0 }, 0);
+          tl.fromTo(el, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.12, immediateRender: false }, Math.max(c.t0, 0.001));
+          tl.set(el, { opacity: 0 }, c.t1);
+        });
+        K.FLASH.forEach((t) => tl.fromTo("#flash", { opacity: 0.45 }, { opacity: 0, duration: 0.2, immediateRender: false }, t));
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
