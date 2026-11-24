@@ -10,7 +10,21 @@ TL = json.load(open(os.path.join(ROOT, "edit", "timeline.json")))
 FW = json.load(open(os.path.join(ROOT, "edit", "film_words.json")))
 TOTAL = TL["_total"]; IMP = TL["_impacts"]
 S = lambda n: TL[n]["start"]; E = lambda n: TL[n]["end"]
-LAND = round(S("slow2") + (6.0 - 3.55), 3)        # IMG_0413 6.0: the phone has settled on the green -> punch in on the flag
+LAND = round(S("slow2") + (6.0 - 3.55), 3)        # IMG_0413 6.0: the phone has settled on the green -> punch in on the landed balls
+# owner v5 "zoom in dekat bola land tu": 3x punch-in that follows the two balls (edit/ball_track.json, tools/track_balls.py) and keeps them
+# at C on screen while the handheld phone drifts. Element transform: p' = O + T + s(p - O), O = CSS transform-origin.
+O, C, ZMAX = (450.0, 1022.0), (540.0, 1000.0), 4.5
+def zoom_keys():
+    tr = json.load(open(os.path.join(ROOT, "edit", "ball_track.json")))
+    keys = []
+    for src_t, bx, by, _n in tr:
+        t = S("slow2") + (src_t - 3.55)
+        if t < LAND or t > E("slow2"): continue
+        u = min(1.0, (t - LAND) / 0.9); e = u * u * (3 - 2 * u)              # smoothstep ramp over 0.9 s
+        sc = 1 + (ZMAX - 1) * e
+        tx = (C[0] - O[0] - sc * (bx - O[0])) * e; ty = (C[1] - O[1] - sc * (by - O[1])) * e
+        keys.append([round(t, 3), round(sc, 3), round(tx, 1), round(ty, 1)])
+    return keys
 
 
 def W(seg, word, nth=0, default=None):
@@ -112,7 +126,7 @@ def cues(td):
         if "Penalty" in txt: f, v = "2364.mp3", 0.5
         c.append((t["t0"] + 0.02, f, v, f"tape prints: {html.unescape(txt.split('</span>')[-1])[:28]}"))
     c.append((IMP["slow"] - 0.05, "1489.mp3", 0.3, "slow-mo blast (air whoosh under the real strike)"))
-    c.append((LAND + 0.55, "2364.mp3", 0.35, "ring drawn round the landing area"))
+    c.append((LAND + 0.75, "2364.mp3", 0.35, "ring drawn round the landed balls"))
     return c
 
 
@@ -129,7 +143,7 @@ def audio_tags(td):
 
 def main():
     th, td = tapes(); ch, cd = caps()
-    consts = {"LAND": LAND, "LAND_END": E("slow2"), "TAPES": td, "CAP": cd, "FLASH": [IMP["contoh"], IMP["letakshot"], IMP["slow"]], "TOTAL": TOTAL}
+    consts = {"LAND": LAND, "LAND_END": E("slow2"), "ZOOM": zoom_keys(), "TAPES": td, "CAP": cd, "FLASH": [IMP["contoh"], IMP["letakshot"], IMP["slow"]], "TOTAL": TOTAL}
     tpl = open(os.path.join(ROOT, "tools", "index.template.html")).read()
     out = (tpl.replace("{{TOTAL}}", str(TOTAL)).replace("{{TAPES}}", th).replace("{{CAPS}}", ch).replace("{{AUDIO}}", audio_tags(td))
               .replace("{{CONSTS}}", json.dumps(consts, ensure_ascii=False)))

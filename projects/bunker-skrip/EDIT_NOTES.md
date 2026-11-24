@@ -54,3 +54,7 @@ npx hyperframes@0.9.32 check && npx hyperframes@0.9.32 render -q draft -o render
   the landing area by the flag rather than claiming one ball.
 - IMG_0418 opens with the coach walking back from the phone (face high, 1.55-2.2 s): the penalty tapes and caption now start once he is seated (+0.65 s),
   the caption is two lines at y 586, and the green tape is never carried onto the talking head. 47.4 s.
+
+## v5 (owner: "zoom in dekat bola land tu")
+- The punch-in is now 4.5x on the two balls by the flag and follows them: `tools/track_balls.py` tracks them in IMG_0413 5.9-8.2 s (the handheld
+  phone drifts ~100 px), `build_index.py` turns the track into scale/translate keys that keep them centred, so the ring stays on them.
