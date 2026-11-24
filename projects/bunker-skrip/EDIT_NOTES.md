@@ -67,3 +67,6 @@ npx hyperframes@0.9.32 check && npx hyperframes@0.9.32 render -q draft -o render
 - The CTA now runs through "Macam mana nak pukul bola plug?" (IMG_0418 17.12-18.20) before the hold. Highlight: MACAM MANA NAK PUKUL (black) +
   BOLA PLUG? 🍳 (big red) print on the question, the three CTA tapes pulse on it (pop) and again before the end, and stay to the last frame;
   the question has its own caption. 48.9 s.
+
+## Delivery
+Owner said "render" (2026-11-24) on v7. `final/bunker-skrip_1080x1920.mp4`: 48.9 s, 1080×1920, 30 fps, H.264 ~13 Mbps, AAC 256k, −14.3 LUFS, −2.8 dBTP. No music.
