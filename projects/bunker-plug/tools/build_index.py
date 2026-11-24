@@ -36,7 +36,7 @@ T = [
     ("hit", "Bola keluar ✓", "y", IMP["hit"] + 0.25, -1.5, True),
     ("slow", "Replay: face tertutup", "k", S("slow") + 0.6, -1.2, False),
     ("pan", "Atas green ✓", "y", S("pan") + 1.6, 1.2, True),
-    ("end", "Save. Cuba kat range ↓", "y", W("end", "siap", 0, S("end") + 1.4) - 0.2, -1.5, False),
+    ("end", "Save. Cuba kat bunker ↓", "y", W("end", "siap", 0, S("end") + 1.4) - 0.2, -1.5, False),
     ("end", "Face terbuka ✗ · tutup ✓", "k", W("end", "siap", 0, S("end") + 1.4) + 0.25, 1.2, False),
 ]
 # spoken captions (cleaned), (text, t0, t1, [top])

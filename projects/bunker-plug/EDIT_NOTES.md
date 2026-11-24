@@ -15,7 +15,7 @@ upload video tu." Source: `egg_fry` from the same Drive folder (1V5O7fsTQ3tDUyWB
 | 14.4–16.9 | egg_fry 32.6–35.0 | closed-face strike (34.05), the ball comes out | BOLA KELUAR ✓ |
 | 16.9–18.6 | egg_fry 33.7–34.55 at 0.5x | replay, real strike on the impact | REPLAY: FACE TERTUTUP |
 | 18.6–23.4 | egg_fry 35.0–39.8 | the phone pans to the green | ATAS GREEN ✓ |
-| 23.4–26.4 | egg_fry 40.9–42.7 + hold | "Okey, itu dia. Siap." | SAVE. CUBA KAT RANGE ↓ / FACE TERBUKA ✗ · TUTUP ✓ |
+| 23.4–26.4 | egg_fry 40.9–42.7 + hold | "Okey, itu dia. Siap." | SAVE. CUBA KAT BUNKER ↓ / FACE TERBUKA ✗ · TUTUP ✓ |
 
 - Every tape is the coach's own words (or the owner's "fried egg"); no technique claim beyond "tutup face, biar, pukul".
 - Pauses inside the speech tightened by cutting between phrases (9.8–10.6 / 11.4–12.9, 25.5–27.1 / 28.4–29.7); every phrase re-transcribed: complete.
@@ -31,3 +31,6 @@ tools/fetch.sh && python3 tools/build_aroll.py && python3 tools/film_words.py &&
 npx hyperframes@0.9.32 check && npx hyperframes@0.9.32 render -q draft -o renders/draft.mp4 && tools/master.sh renders/draft.mp4 previews/bunker-plug_preview_vN.mp4
 # on "render": render -q delivery -o renders/final_raw.mp4 && tools/master.sh renders/final_raw.mp4 final/bunker-plug_1080x1920.mp4
 ```
+
+## v2 (owner: "save cuba dekat range tu kau ubah kepada save cuba dekat bunker")
+End tape now SAVE. CUBA KAT BUNKER ↓ (captions updated too).
