@@ -34,3 +34,6 @@ npx hyperframes@0.9.32 check && npx hyperframes@0.9.32 render -q draft -o render
 
 ## v2 (owner: "save cuba dekat range tu kau ubah kepada save cuba dekat bunker")
 End tape now SAVE. CUBA KAT BUNKER ↓ (captions updated too).
+
+## Delivery
+Owner: "kau render terus je lepas kau tukar benda tu" (2026-11-24) on v2. `final/bunker-plug_1080x1920.mp4`: 26.5 s, 1080×1920, 30 fps, H.264, AAC 256k, no music.
