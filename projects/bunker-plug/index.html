@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Label Maker" (same look as projects/bunker-skrip: this is its follow-up, for the "BUNKER" comments): embossed label-maker tape. Each tip prints out of the machine letter by letter
+         (stepped reveal), sticks on the frame with a small tilt and a hard shadow, and peels off when the section ends.
+         Tapes: black (the steps), yellow (the key cue), red (the mistake / the penalty), white (the detail). Spoken words as a plain caption pill.
+         Type: Oswald 600 (tape, uppercase, wide tracking) + Gabarito 700 (captions) + Noto Color Emoji.
+         Palette: tape black #1c1c1e, tape yellow #f6c514, tape red #d3262e, tape white #f1efe8, emboss white #f7f7f2, emboss ink #17171a.
+         Safe band x 60-930, y 168-1330. Faces (contact sheets): full-body shots head y 280-460; the close talk (rahsia) face y 0-600;
+         IMG_0418 talking head y 420-800 -> tapes from y 860 (760 on full-body shots), captions at y 1218. */
+      @font-face { font-family: "Oswald"; font-weight: 200 700; src: url("assets/fonts/Oswald-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Gabarito"; font-weight: 400 900; src: url("assets/fonts/Gabarito-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Noto Color Emoji"; font-weight: 400; src: url("assets/fonts/NotoColorEmoji.ttf") format("truetype"); font-display: block; }
+      :root { --black: #1c1c1e; --yellow: #f6c514; --red: #d3262e; --white: #f1efe8; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
+      .ov { position: absolute; opacity: 0; z-index: 6; pointer-events: none; }
+      .emo { font-family: "Noto Color Emoji", sans-serif; font-weight: 400; letter-spacing: 0; }
+
+      .tape { left: 60px; height: 96px; padding: 0 30px 2px; display: flex; align-items: center; white-space: nowrap; border-radius: 5px;
+              font-family: "Oswald"; font-weight: 600; font-size: 58px; letter-spacing: 0.09em; text-transform: uppercase;
+              color: #f7f7f2; text-shadow: 0 2px 0 rgba(0,0,0,0.55), 0 -1px 0 rgba(255,255,255,0.28);
+              box-shadow: 0 12px 24px rgba(0,0,0,0.38); transform-origin: 0 50%; }
+      .tape::before { content: ""; position: absolute; inset: 0; border-radius: 5px; pointer-events: none;
+                      background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0) 38%, rgba(0,0,0,0.18)); }
+      .tape.k { background: var(--black); }
+      .tape.y { background: var(--yellow); color: #17171a; text-shadow: 0 1px 0 rgba(255,255,255,0.55), 0 -1px 0 rgba(0,0,0,0.25); }
+      .tape.r { background: var(--red); }
+      .tape.w { background: var(--white); color: #17171a; text-shadow: 0 1px 0 rgba(255,255,255,0.8), 0 -1px 0 rgba(0,0,0,0.2); }
+      .tape.big { height: 120px; font-size: 76px; }
+      .tape .n { margin-right: 22px; padding-right: 22px; border-right: 3px dashed currentColor; opacity: 0.85; }
+
+      .cap { left: 60px; top: 1218px; max-width: 870px; padding: 12px 22px 15px; border-radius: 12px; background: rgba(10,10,12,0.62);
+             font-family: "Gabarito"; font-weight: 700; font-size: 44px; line-height: 1.16; color: #fff; z-index: 7; }
+      #flash { position: absolute; inset: 0; z-index: 8; background: #fff; opacity: 0; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="26.4333" data-width="1080" data-height="1920" data-fps="30">
+      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="26.4333" data-track-index="1" muted playsinline></video>
+      <div id="tp0" class="ov tape k" style="top:230px; opacity:1; transform: rotate(-1.5deg);">Korang komen "bunker"</div>
+      <div id="tp1" class="ov tape r big" style="top:336px; opacity:1; transform: rotate(1.5deg);">Bola plug? <span class='emo' style='font-size:66px'>🍳</span></div>
+      <div id="tp2" class="ov tape y big" style="top:780px;">Bola plug = fried egg</div>
+      <div id="tp3" class="ov tape w" style="top:780px;">Face terbuka (normal)</div>
+      <div id="tp4" class="ov tape r" style="top:886px;">Bola tak keluar ✗</div>
+      <div id="tp5" class="ov tape k" style="top:780px;">Contoh: face terbuka</div>
+      <div id="tp6" class="ov tape r big" style="top:886px;">Bola kat situ je ✗</div>
+      <div id="tp7" class="ov tape k big" style="top:780px;">Tip dia:</div>
+      <div id="tp8" class="ov tape w" style="top:906px;">Face terbuka ✗</div>
+      <div id="tp9" class="ov tape y big" style="top:1012px;">Tutup face club ✓</div>
+      <div id="tp10" class="ov tape w" style="top:780px;">Biar je macam ni</div>
+      <div id="tp11" class="ov tape k" style="top:886px;">Then pukul</div>
+      <div id="tp12" class="ov tape y big" style="top:780px;">Bola keluar ✓</div>
+      <div id="tp13" class="ov tape k" style="top:780px;">Replay: face tertutup</div>
+      <div id="tp14" class="ov tape y big" style="top:780px;">Atas green ✓</div>
+      <div id="tp15" class="ov tape y" style="top:230px;">Save. Cuba kat range ↓</div>
+      <div id="tp16" class="ov tape k" style="top:336px;">Face terbuka ✗ · tutup ✓</div>
+      <div id="cap0" class="ov cap" style="top:640px">Macam mana nak pukul bola plug?</div>
+      <div id="cap1" class="ov cap">Ini normal. Kalau korang buat macam ni, bola tak keluar.</div>
+      <div id="cap2" class="ov cap">Contoh…</div>
+      <div id="cap3" class="ov cap">So bola kat situ je.</div>
+      <div id="cap4" class="ov cap">Tip dia.</div>
+      <div id="cap5" class="ov cap">Instead of club face terbuka, korang tutupkan dia macam ni.</div>
+      <div id="cap6" class="ov cap">Biar je macam ni, ni pukul.</div>
+      <div id="cap7" class="ov cap" style="top:640px">Okey, itu dia. Siap.</div>
+      <div id="flash"></div>
+      <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="26.4333" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>
+      <audio data-hf-id="hf-s00" id="sfx-00" class="clip" src="assets/sfx/2568.mp3" data-start="0.040" data-duration="0.12" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- frame-0 tapes -->
+      <audio data-hf-id="hf-s01" id="sfx-01" class="clip" src="assets/sfx/2568.mp3" data-start="1.387" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Bola plug = fried egg -->
+      <audio data-hf-id="hf-s02" id="sfx-02" class="clip" src="assets/sfx/2568.mp3" data-start="3.137" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Face terbuka (normal) -->
+      <audio data-hf-id="hf-s03" id="sfx-03" class="clip" src="assets/sfx/2364.mp3" data-start="4.310" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- tape prints: Bola tak keluar ✗ -->
+      <audio data-hf-id="hf-s04" id="sfx-04" class="clip" src="assets/sfx/2568.mp3" data-start="5.503" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Contoh: face terbuka -->
+      <audio data-hf-id="hf-s05" id="sfx-05" class="clip" src="assets/sfx/2364.mp3" data-start="7.273" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- tape prints: Bola kat situ je ✗ -->
+      <audio data-hf-id="hf-s06" id="sfx-06" class="clip" src="assets/sfx/2568.mp3" data-start="9.107" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Tip dia: -->
+      <audio data-hf-id="hf-s07" id="sfx-07" class="clip" src="assets/sfx/2568.mp3" data-start="9.753" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Face terbuka ✗ -->
+      <audio data-hf-id="hf-s08" id="sfx-08" class="clip" src="assets/sfx/2568.mp3" data-start="11.370" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Tutup face club ✓ -->
+      <audio data-hf-id="hf-s09" id="sfx-09" class="clip" src="assets/sfx/2568.mp3" data-start="13.337" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Biar je macam ni -->
+      <audio data-hf-id="hf-s10" id="sfx-10" class="clip" src="assets/sfx/2568.mp3" data-start="14.307" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Then pukul -->
+      <audio data-hf-id="hf-s11" id="sfx-11" class="clip" src="assets/sfx/2568.mp3" data-start="16.173" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Bola keluar ✓ -->
+      <audio data-hf-id="hf-s12" id="sfx-12" class="clip" src="assets/sfx/2568.mp3" data-start="17.487" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Replay: face tertutup -->
+      <audio data-hf-id="hf-s13" id="sfx-13" class="clip" src="assets/sfx/1489.mp3" data-start="16.807" data-duration="0.90" data-track-index="13" data-volume="0.3" data-audio-group="sfx"></audio> <!-- slow-mo replay (air whoosh under the real strike) -->
+      <audio data-hf-id="hf-s14" id="sfx-14" class="clip" src="assets/sfx/2568.mp3" data-start="20.187" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Atas green ✓ -->
+      <audio data-hf-id="hf-s15" id="sfx-15" class="clip" src="assets/sfx/2568.mp3" data-start="24.847" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Save. Cuba kat range ↓ -->
+      <audio data-hf-id="hf-s16" id="sfx-16" class="clip" src="assets/sfx/2568.mp3" data-start="25.297" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Face terbuka ✗ · tutup ✓ -->
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {"TAPES": [{"id": "tp0", "t0": 0.0, "t1": 1.247, "r": -1.5, "print": 0.55, "steps": 14, "pulse": []}, {"id": "tp1", "t0": 0.0, "t1": 1.247, "r": 1.5, "print": 0.2, "steps": 4, "pulse": []}, {"id": "tp2", "t0": 1.367, "t1": 3.067, "r": -1.2, "print": 0.55, "steps": 14, "pulse": []}, {"id": "tp3", "t0": 3.117, "t1": 5.433, "r": -1.0, "print": 0.55, "steps": 14, "pulse": []}, {"id": "tp4", "t0": 4.3, "t1": 5.433, "r": 1.2, "print": 0.55, "steps": 14, "pulse": []}, {"id": "tp5", "t0": 5.483, "t1": 9.037, "r": -1.0, "print": 0.55, "steps": 14, "pulse": []}, {"id": "tp6", "t0": 7.263, "t1": 9.037, "r": 1.5, "print": 0.55, "steps": 14, "pulse": []}, {"id": "tp7", "t0": 9.087, "t1": 13.267, "r": -1.5, "print": 0.4, "steps": 8, "pulse": []}, {"id": "tp8", "t0": 9.733, "t1": 13.267, "r": -1.0, "print": 0.55, "steps": 14, "pulse": []}, {"id": "tp9", "t0": 11.35, "t1": 13.267, "r": 1.2, "print": 0.55, "steps": 14, "pulse": []}, {"id": "tp10", "t0": 13.317, "t1": 16.103, "r": 1.0, "print": 0.55, "steps": 14, "pulse": []}, {"id": "tp11", "t0": 14.287, "t1": 16.103, "r": -1.0, "print": 0.5, "steps": 10, "pulse": []}, {"id": "tp12", "t0": 16.153, "t1": 17.417, "r": -1.5, "print": 0.55, "steps": 13, "pulse": []}, {"id": "tp13", "t0": 17.467, "t1": 20.117, "r": -1.2, "print": 0.55, "steps": 14, "pulse": []}, {"id": "tp14", "t0": 20.167, "t1": 23.347, "r": 1.2, "print": 0.55, "steps": 12, "pulse": []}, {"id": "tp15", "t0": 24.827, "t1": 26.433, "r": -1.5, "print": 0.55, "steps": 14, "pulse": [25.433]}, {"id": "tp16", "t0": 25.277, "t1": 26.433, "r": 1.2, "print": 0.55, "steps": 14, "pulse": [25.433]}], "CAP": [{"id": "cap0", "t0": 0.0, "t1": 2.4}, {"id": "cap1", "t0": 3.097, "t1": 5.433}, {"id": "cap2", "t0": 5.483, "t1": 6.563}, {"id": "cap3", "t0": 7.363, "t1": 9.037}, {"id": "cap4", "t0": 9.087, "t1": 9.613}, {"id": "cap5", "t0": 9.663, "t1": 12.547}, {"id": "cap6", "t0": 12.597, "t1": 14.997}, {"id": "cap7", "t0": 23.667, "t1": 26.433}], "FLASH": [6.763, 15.903, 17.567], "TOTAL": 26.4333};
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        // tapes: print out letter by letter (stepped), settle with a tilt, peel off at the end of their section
+        K.TAPES.forEach((t) => {
+          const el = $("#" + t.id);
+          if (t.t0 < 0.2) {
+            // frame 0: visible from the markup (inline style), no zero-time set
+          } else {
+            tl.set(el, { opacity: 0 }, 0);
+            tl.fromTo(el, { opacity: 1, rotation: 0, x: -10, clipPath: "inset(0 100% 0 0)" },
+                          { clipPath: "inset(0 0% 0 0)", x: 0, duration: t.print, ease: `steps(${t.steps})`, immediateRender: false }, t.t0);
+            tl.to(el, { rotation: t.r, duration: 0.18, ease: "back.out(3)" }, t.t0 + t.print);
+          }
+          (t.pulse || []).forEach((p) => tl.fromTo(el, { scale: 1 }, { scale: 1.1, duration: 0.14, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, p));
+          if (t.t1 < K.TOTAL - 0.05) tl.to(el, { rotation: t.r + 7, y: -16, opacity: 0, duration: 0.18, ease: "power2.in" }, t.t1 - 0.18);   // the ending tapes stay to the last frame
+        });
+        K.CAP.forEach((c) => {
+          const el = $("#" + c.id);
+          tl.set(el, { opacity: 0 }, 0);
+          tl.fromTo(el, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.12, immediateRender: false }, Math.max(c.t0, 0.001));
+          tl.set(el, { opacity: 0 }, c.t1);
+        });
+        K.FLASH.forEach((t) => tl.fromTo("#flash", { opacity: 0.45 }, { opacity: 0, duration: 0.2, immediateRender: false }, t));
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
