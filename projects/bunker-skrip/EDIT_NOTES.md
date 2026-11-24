@@ -10,7 +10,7 @@ followed to the green), demo_top_n_skull (ball stays in / skull), egg_fry (for t
 | 0.0–2.6 | 1 | demo 7.45–10.10: ball stays in, "Alamak." | BOLA TAK KELUAR / BUNKER? (frame 0) |
 | 2.6–5.1 | 1 | demo 31.7–34.2 skull + voice IMG_0417 "Ataupun, top, skull." | TOP · SKULL ✗ |
 | 5.1–8.2 | 2 | IMG_0417 47.04–50.15 "Rahsia dia, korang jangan pukul bola, korang pukul pasir." | RAHSIA DIA / JANGAN PUKUL BOLA ✗ / PUKUL PASIR ✓ |
-| 8.2–12.2 | 3 | IMG_0419 club face close-up + voice IMG_0417 "grip ke logo, cut sikit, so bagi dia open." | 01 BUKA FACE, BARU GRIP / FACE OPEN ✓ |
+| 3 | IMG_0419 club face close-up + voice IMG_0417 "cut sikit, so bagi dia open." ("grip ke logo" removed, owner v3) | 01 BUKA FACE, BARU GRIP / FACE OPEN ✓ |
 | 12.2–13.7 | 3 | IMG_0417 "korang kangkang besar-besar." | 02 KAKI LEBAR / BENAM DALAM PASIR |
 | 13.7–16.9 | 3 | IMG_0417 "Weight belah kiri, and then blast." | 03 BOLA DEPAN · BERAT KIRI / BLAST! |
 | 16.9–24.1 | 4 | IMG_0417 line drill: "korang buat satu line", "tak payah pukul bola dulu", "contoh macam ni" + swing on the line, "pukul line tu", "letak depan line" | DRILL: LUKIS 1 LINE / TANPA BOLA DULU / TARGET = LINE / BUKAN BOLA ✗ / BOLA DEPAN LINE SIKIT |
@@ -43,3 +43,7 @@ tools/fetch.sh && python3 tools/build_aroll.py && python3 tools/film_words.py &&
 npx hyperframes@0.9.32 check && npx hyperframes@0.9.32 render -q draft -o renders/draft.mp4 && tools/master.sh renders/draft.mp4 previews/bunker-skrip_preview_vN.mp4
 # on "render": render -q delivery -o renders/final_raw.mp4 && tools/master.sh renders/final_raw.mp4 final/bunker-skrip_1080x1920.mp4
 ```
+
+## v3 (owner: "part yang ukur depan line tu kau bagi nampak penuh, bagi ada shot kat situ. grip ke logo buang")
+- "Grip ke logo" cut from the face section (voice now starts at "cut sikit").
+- The ball set in front of the line is shown in full (IMG_0417 116.4–119.5), then a jump cut to the address and the shot from it (126.2–128.65, impact 127.87, his "Eh!"), with a PUKUL LINE ✓ tape on the impact.

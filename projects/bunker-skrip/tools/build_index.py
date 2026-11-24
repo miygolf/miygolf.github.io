@@ -21,7 +21,7 @@ def W(seg, word, nth=0, default=None):
 # sections: tapes stack inside a section and peel off when it ends
 SEC = {"hook": (0.0, E("skull")), "rahsia": (S("rahsia"), E("rahsia")), "face": (S("face"), E("face")), "stance": (S("stance"), E("stance")),
        "weight": (S("weight"), E("weight")), "line": (S("line"), E("line")), "nobola": (S("nobola"), E("nobola")),
-       "contoh": (S("contoh"), E("contoh")), "letak": (S("letak"), E("letak")), "shot": (S("shot"), E("shot")),
+       "contoh": (S("contoh"), E("contoh")), "letak": (S("letak"), E("letakshot")), "shot": (S("shot"), E("shot")),
        "slow": (S("slow"), E("slow2")), "penalty": (S("penalty"), E("penalty")), "cta": (S("cta"), TOTAL)}
 BASE = {"rahsia": 860, "shot": 1010, "slow": 1010, "penalty": 230, "cta": 230}   # rahsia: below the close face; IMG_0418 talking head sits LOW (face y 900-1330): tapes + captions go above it
 # (section, text, colour k/y/r/w, film time, tilt deg, big?) — wording from the owner's script, numbers = the set-up steps
@@ -42,7 +42,8 @@ T = [
     ("contoh", "Target = line", "y", IMP["contoh"] - 0.05, -1.2, True),
     ("contoh", "Bukan bola ✗", "r", IMP["contoh"] + 0.55, 1.2, False),
     ("letak", "Bola depan line sikit", "k", S("letak") + 0.05, -1.0, False),
-    ("shot", "Swing penuh", "k", S("shot") + 0.1, -1.2, False),
+    ("letak", "Pukul line ✓", "y", IMP["letakshot"] - 0.05, 1.5, True),
+    ("shot", "Swing penuh", "k", S("shot") + 0.55, -1.2, False),
     ("shot", "Jangan slow down", "r", IMP["shot"] - 0.45, 1.2, False),
     ("slow", "Pasir yang bawa", "y", IMP["slow"], -1.5, True), ("slow", "bola keluar", "k", IMP["slow"] + 0.35, 1.2, True),
     ("penalty", "One more thing", "k", S("penalty") + 0.1, -1.2, False),
@@ -56,7 +57,7 @@ CAP = [
     ("Alamak.", S("hook") + 2.17, E("hook")),
     ("Ataupun… top, skull.", W("skull", "ataupun"), E("skull") - 0.05),
     ("Rahsia dia, korang jangan pukul bola. Korang pukul pasir.", S("rahsia") + 0.05, E("rahsia") - 0.05),
-    ("Grip ke logo, cut sikit, so bagi dia open.", W("face", "grip"), E("face") - 0.05),
+    ("Cut sikit, so bagi dia open.", S("face") + 0.08, E("face") - 0.05),
     ("Korang kangkang besar-besar.", S("stance") + 0.05, E("stance") - 0.05),
     ("Weight belah kiri, and then blast.", S("weight") + 0.05, E("weight") - 0.05),
     ("Korang buat satu line. Tak payah pukul bola dulu.", S("line") + 0.05, E("nobola") - 0.05),
@@ -124,7 +125,7 @@ def audio_tags(td):
 
 def main():
     th, td = tapes(); ch, cd = caps()
-    consts = {"TAPES": td, "CAP": cd, "FLASH": [IMP["contoh"], IMP["slow"]], "TOTAL": TOTAL}
+    consts = {"TAPES": td, "CAP": cd, "FLASH": [IMP["contoh"], IMP["letakshot"], IMP["slow"]], "TOTAL": TOTAL}
     tpl = open(os.path.join(ROOT, "tools", "index.template.html")).read()
     out = (tpl.replace("{{TOTAL}}", str(TOTAL)).replace("{{TAPES}}", th).replace("{{CAPS}}", ch).replace("{{AUDIO}}", audio_tags(td))
               .replace("{{CONSTS}}", json.dumps(consts, ensure_ascii=False)))

@@ -8,10 +8,10 @@ Clip map (large-v3 word times; on this phone they run ~0.3-0.5 s early, so every
 and re-transcribed as a crop; picture checked on contact sheets):
   demo_top_n_skull  7.67 top, 8.43 impact (sand flies, ball stays in), 9.20-9.80 "Alamak."   32.3 top, 32.98 impact = skull
   IMG_0417          46.36-49.92 "Okey, rahsia dia, korang jangan pukul bola, korang pukul pasir." (close to the phone, face top of frame)
-                    57.58-59.76 "korang kangkang besar-besar."   72.40-77.10 "grip ke logo, cut sikit, so bagi dia open."
+                    57.58-59.76 "korang kangkang besar-besar."   75.16-77.10 "cut sikit, so bagi dia open." ("grip ke logo" before it is cut, owner v3)
                     77.28-80.08 "Weight belah kiri, and then blast."   86.64-87.88 "korang buat satu line." (drawing the line, side-on)
                     91.06-92.20 "Tak payah pukul bola dulu."   97.86-98.74 "Contoh macam ni." swing, 100.09 impact on the line, 100.86-101.64 "Pukul line tu."
-                    116.56-117.46 "Letak depan line." (rakes a ball in front of the line)   43.14-45.40 "Ataupun, top, skull." (voice over the skull)
+                    116.56-117.46 "Letak depan line." (rakes a ball in front of the line, 116.4-119.5 shown in full); 126.2-128.65 address + shot, impact 127.87   43.14-45.40 "Ataupun, top, skull." (voice over the skull)
   IMG_0419          12.0-16.9 club face held up to the phone (open face);  31.86 impact (its strike sound is used on IMG_0413)
   IMG_0413          2.67 top, 3.07 impact (sand splash, no sound on this clip), 3.33-4.7 pan to the green
   IMG_0418          1.64-6.42 "one more thing dalam pasir, korang jangan sentuh, club tu jangan sentuh pasir"  (cut before "sebab ni consider
@@ -35,13 +35,14 @@ EDL = [
     dict(name="skull", clip="demo", a=31.70, b=34.20, own=False,
          vo=[("demo", 32.86, 33.40, 1.16), ("s17", 43.20, 45.62, 0.0)]),                      # skull strike + "Ataupun, top, skull."
     dict(name="rahsia", clip="s17", a=47.04, b=50.15, own=True),
-    dict(name="face", clip="s19", a=12.30, b=16.30, own=False, vo=[("s17", 73.45, 77.36, 0.05)]),
+    dict(name="face", clip="s19", a=12.40, b=14.80, own=False, vo=[("s17", 75.10, 77.36, 0.05)]),   # owner v3: "grip ke logo" (73.64-74.32) removed
     dict(name="stance", clip="s17", a=58.70, b=60.18, own=True),
     dict(name="weight", clip="s17", a=77.30, b=80.47, own=True),
     dict(name="line", clip="s17", a=86.88, b=88.10, own=True),
     dict(name="nobola", clip="s17", a=91.40, b=92.45, own=True),
     dict(name="contoh", clip="s17", a=97.98, b=101.85, own=True),
-    dict(name="letak", clip="s17", a=116.66, b=117.72, own=True),
+    dict(name="letak", clip="s17", a=116.40, b=119.45, own=True),            # owner v3: the ball set in front of the line, in full
+    dict(name="letakshot", clip="s17", a=126.20, b=128.65, own=True),       # ... and the shot from there (impact 127.87, "Eh!")
     dict(name="shot", clip="s13", a=1.75, b=5.70, own=False, vo=[("s19", 31.80, 32.30, None)]),  # owner v2: IMG_0413 here (impact 3.07, pan to the green); it has no sound -> IMG_0419's real strike on the impact
     dict(name="slow", clip="s13", a=2.55, b=3.55, speed=0.5, own=False, vo=[("s19", 31.80, 32.30, None)]),  # strike placed on the impact
     dict(name="slow2", clip="s13", a=3.55, b=4.70, own=False),
@@ -49,7 +50,7 @@ EDL = [
     dict(name="cta", clip="s18", a=13.58, b=16.78, own=True),
     dict(name="end", clip="s18", a=16.74, kind="freeze", dur=1.6),
 ]
-IMPACTS = {"hook": 8.43, "skull": 32.98, "contoh": 100.09, "shot": 3.07, "slow": 3.07}
+IMPACTS = {"hook": 8.43, "skull": 32.98, "contoh": 100.09, "letakshot": 127.87, "shot": 3.07, "slow": 3.07}
 STRIKE = 31.86          # IMG_0419 impact transient: the real bunker strike laid on IMG_0413's silent impacts
 
 
