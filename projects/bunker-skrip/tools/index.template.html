@@ -38,12 +38,15 @@
 
       .cap { left: 60px; top: 1218px; max-width: 870px; padding: 12px 22px 15px; border-radius: 12px; background: rgba(10,10,12,0.62);
              font-family: "Gabarito"; font-weight: 700; font-size: 44px; line-height: 1.16; color: #fff; z-index: 7; }
+      #aroll { transform-origin: 520px 1000px; }
+      #ring { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 5; opacity: 0; pointer-events: none; overflow: visible; }
       #flash { position: absolute; inset: 0; z-index: 8; background: #fff; opacity: 0; pointer-events: none; }
     </style>
   </head>
   <body>
     <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="{{TOTAL}}" data-width="1080" data-height="1920" data-fps="30">
       <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="{{TOTAL}}" data-track-index="1" muted playsinline></video>
+      <svg id="ring" viewBox="0 0 1080 1920"><ellipse id="ringc" cx="470" cy="1075" rx="215" ry="120" fill="none" stroke="#f6c514" stroke-width="10" stroke-linecap="round" transform="rotate(-6 470 1075)" style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.45))"/></svg>
       {{TAPES}}
       {{CAPS}}
       <div id="flash"></div>
@@ -75,6 +78,13 @@
           tl.set(el, { opacity: 0 }, c.t1);
         });
         K.FLASH.forEach((t) => tl.fromTo("#flash", { opacity: 0.45 }, { opacity: 0, duration: 0.2, immediateRender: false }, t));
+        // landing: punch in on the flag once the phone settles on the green, draw a ring round the landing area, back to 1x on the cut
+        tl.to("#aroll", { scale: 1.8, duration: 0.7, ease: "power2.inOut" }, K.LAND);
+        tl.set("#aroll", { scale: 1 }, K.LAND_END);
+        const rc = document.querySelector("#ringc"), L = rc.getTotalLength();
+        tl.set("#ring", { opacity: 1 }, K.LAND + 0.55);
+        tl.fromTo(rc, { attr: { "stroke-dasharray": `${L} ${L}`, "stroke-dashoffset": L } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.5, ease: "power2.inOut", immediateRender: false }, K.LAND + 0.55);
+        tl.set("#ring", { opacity: 0 }, K.LAND_END);
         window.__timelines["main"] = tl;
       })();
     </script>

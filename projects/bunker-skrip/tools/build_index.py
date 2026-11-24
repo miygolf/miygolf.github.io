@@ -10,6 +10,7 @@ TL = json.load(open(os.path.join(ROOT, "edit", "timeline.json")))
 FW = json.load(open(os.path.join(ROOT, "edit", "film_words.json")))
 TOTAL = TL["_total"]; IMP = TL["_impacts"]
 S = lambda n: TL[n]["start"]; E = lambda n: TL[n]["end"]
+LAND = round(S("slow2") + (6.0 - 3.55), 3)        # IMG_0413 6.0: the phone has settled on the green -> punch in on the flag
 
 
 def W(seg, word, nth=0, default=None):
@@ -23,7 +24,7 @@ SEC = {"hook": (0.0, E("skull")), "rahsia": (S("rahsia"), E("rahsia")), "face": 
        "weight": (S("weight"), E("weight")), "line": (S("line"), E("line")), "nobola": (S("nobola"), E("nobola")),
        "contoh": (S("contoh"), E("contoh")), "letak": (S("letak"), E("letakshot")), "shot": (S("shot"), E("shot")),
        "slow": (S("slow"), E("slow2")), "penalty": (S("penalty"), E("penalty")), "cta": (S("cta"), TOTAL)}
-BASE = {"rahsia": 860, "shot": 1010, "slow": 1010, "penalty": 230, "cta": 230}   # rahsia: below the close face; IMG_0418 talking head sits LOW (face y 900-1330): tapes + captions go above it
+BASE = {"rahsia": 860, "shot": 1010, "slow": 1010, "land": 420, "penalty": 230, "cta": 230}   # rahsia: below the close face; IMG_0418 talking head sits LOW (face y 900-1330): tapes + captions go above it
 # (section, text, colour k/y/r/w, film time, tilt deg, big?) — wording from the owner's script, numbers = the set-up steps
 T = [
     ("hook", "Bola tak keluar", "k", 0.0, -2.0, True), ("hook", "bunker?", "y", 0.0, 1.5, True),
@@ -46,7 +47,8 @@ T = [
     ("shot", "Swing penuh", "k", S("shot") + 0.55, -1.2, False),
     ("shot", "Jangan slow down", "r", IMP["shot"] - 0.45, 1.2, False),
     ("slow", "Pasir yang bawa", "y", IMP["slow"], -1.5, True), ("slow", "bola keluar", "k", IMP["slow"] + 0.35, 1.2, True),
-    ("penalty", "One more thing", "k", S("penalty") + 0.1, -1.2, False),
+    ("land", "Mendarat atas green ✓", "y", LAND + 0.6, -1.5, False),
+    ("penalty", "One more thing", "k", S("penalty") + 0.65, -1.2, False),   # IMG_0418 1.55-2.2: he walks back from the phone, face high -> wait
     ("penalty", "Club jangan sentuh pasir", "r", W("penalty", "club"), 1.0, False),
     ("penalty", "Penalty 2 pukulan", "w", W("penalty", "club") + 0.9, -1.5, True),
     ("cta", "Komen \"bunker\" <span class='emo' style='font-size:50px'>👇</span>", "y", W("cta", "bang", 0, S("cta") + 0.8), -1.5, True),
@@ -63,7 +65,7 @@ CAP = [
     ("Korang buat satu line. Tak payah pukul bola dulu.", S("line") + 0.05, E("nobola") - 0.05),
     ("Contoh macam ni…", S("contoh") + 0.4, IMP["contoh"] - 0.3),
     ("Pukul line tu. Letak depan line.", E("contoh") - 0.75, E("letak") - 0.05),
-    ("One more thing dalam pasir, korang jangan sentuh… club tu jangan sentuh pasir.", S("penalty") + 0.05, E("penalty") - 0.05, 640),
+    ("One more thing: dalam pasir, club tu jangan sentuh pasir.", S("penalty") + 0.65, E("penalty") - 0.05, 586),
     ("Komen \"bunker\" kalau korang nak bola plug.", S("cta") + 0.05, E("cta"), 640),
 ]
 
@@ -76,6 +78,7 @@ def tapes():
         # a section's tapes stay until the next section's first tape prints (readable even when the speech is quick)
         nxt = order.index(sec) + 1
         b = first[order[nxt]] - 0.05 if nxt < len(order) else TOTAL
+        if sec == "land": b = E("slow2") - 0.02          # never carried onto the talking head (his face is high there)
         k = stack.get(sec, 0); stack[sec] = k + 1
         y = BASE.get(sec, 780) + sum(126 if T[j][5] else 106 for j in range(len(T)) if T[j][0] == sec and j < i)
         plain = html.unescape(txt.split("</span>")[-1]) if "<span" in txt else txt
@@ -109,6 +112,7 @@ def cues(td):
         if "Penalty" in txt: f, v = "2364.mp3", 0.5
         c.append((t["t0"] + 0.02, f, v, f"tape prints: {html.unescape(txt.split('</span>')[-1])[:28]}"))
     c.append((IMP["slow"] - 0.05, "1489.mp3", 0.3, "slow-mo blast (air whoosh under the real strike)"))
+    c.append((LAND + 0.55, "2364.mp3", 0.35, "ring drawn round the landing area"))
     return c
 
 
@@ -125,7 +129,7 @@ def audio_tags(td):
 
 def main():
     th, td = tapes(); ch, cd = caps()
-    consts = {"TAPES": td, "CAP": cd, "FLASH": [IMP["contoh"], IMP["letakshot"], IMP["slow"]], "TOTAL": TOTAL}
+    consts = {"LAND": LAND, "LAND_END": E("slow2"), "TAPES": td, "CAP": cd, "FLASH": [IMP["contoh"], IMP["letakshot"], IMP["slow"]], "TOTAL": TOTAL}
     tpl = open(os.path.join(ROOT, "tools", "index.template.html")).read()
     out = (tpl.replace("{{TOTAL}}", str(TOTAL)).replace("{{TAPES}}", th).replace("{{CAPS}}", ch).replace("{{AUDIO}}", audio_tags(td))
               .replace("{{CONSTS}}", json.dumps(consts, ensure_ascii=False)))

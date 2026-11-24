@@ -47,3 +47,10 @@ npx hyperframes@0.9.32 check && npx hyperframes@0.9.32 render -q draft -o render
 ## v3 (owner: "part yang ukur depan line tu kau bagi nampak penuh, bagi ada shot kat situ. grip ke logo buang")
 - "Grip ke logo" cut from the face section (voice now starts at "cut sikit").
 - The ball set in front of the line is shown in full (IMG_0417 116.4–119.5), then a jump cut to the address and the shot from it (126.2–128.65, impact 127.87, his "Eh!"), with a PUKUL LINE ✓ tape on the impact.
+
+## v4 (owner: "last part yang slow motion tu, yang full swing tu, kau bagi nampak bola tu land kat mana")
+- The slow-motion shot now follows the phone's pan to the end of IMG_0413 (to 8.2 s) where it settles on the green, punches in 1.8x on the yellow flag,
+  and draws a yellow ring round the balls beside it, with a MENDARAT ATAS GREEN ✓ tape. Other practice balls already lie on that green, so the ring marks
+  the landing area by the flag rather than claiming one ball.
+- IMG_0418 opens with the coach walking back from the phone (face high, 1.55-2.2 s): the penalty tapes and caption now start once he is seated (+0.65 s),
+  the caption is two lines at y 586, and the green tape is never carried onto the talking head. 47.4 s.

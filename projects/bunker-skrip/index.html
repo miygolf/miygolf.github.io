@@ -38,12 +38,15 @@
 
       .cap { left: 60px; top: 1218px; max-width: 870px; padding: 12px 22px 15px; border-radius: 12px; background: rgba(10,10,12,0.62);
              font-family: "Gabarito"; font-weight: 700; font-size: 44px; line-height: 1.16; color: #fff; z-index: 7; }
+      #aroll { transform-origin: 520px 1000px; }
+      #ring { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 5; opacity: 0; pointer-events: none; overflow: visible; }
       #flash { position: absolute; inset: 0; z-index: 8; background: #fff; opacity: 0; pointer-events: none; }
     </style>
   </head>
   <body>
-    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="43.9" data-width="1080" data-height="1920" data-fps="30">
-      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="43.9" data-track-index="1" muted playsinline></video>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="47.3667" data-width="1080" data-height="1920" data-fps="30">
+      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="47.3667" data-track-index="1" muted playsinline></video>
+      <svg id="ring" viewBox="0 0 1080 1920"><ellipse id="ringc" cx="470" cy="1075" rx="215" ry="120" fill="none" stroke="#f6c514" stroke-width="10" stroke-linecap="round" transform="rotate(-6 470 1075)" style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.45))"/></svg>
       <div id="tp0" class="ov tape k big" style="top:780px; opacity:1; transform: rotate(-2.0deg);">Bola tak keluar</div>
       <div id="tp1" class="ov tape y big" style="top:906px; opacity:1; transform: rotate(1.5deg);">bunker?</div>
       <div id="tp2" class="ov tape r" style="top:1032px;">Top · skull ✗</div>
@@ -66,11 +69,12 @@
       <div id="tp19" class="ov tape r" style="top:1116px;">Jangan slow down</div>
       <div id="tp20" class="ov tape y big" style="top:1010px;">Pasir yang bawa</div>
       <div id="tp21" class="ov tape k big" style="top:1136px;">bola keluar</div>
-      <div id="tp22" class="ov tape k" style="top:230px;">One more thing</div>
-      <div id="tp23" class="ov tape r" style="top:336px;">Club jangan sentuh pasir</div>
-      <div id="tp24" class="ov tape w big" style="top:442px;">Penalty 2 pukulan</div>
-      <div id="tp25" class="ov tape y big" style="top:230px;">Komen "bunker" <span class='emo' style='font-size:50px'>👇</span></div>
-      <div id="tp26" class="ov tape k" style="top:356px;">Next: bola plug <span class='emo' style='font-size:48px'>🍳</span></div>
+      <div id="tp22" class="ov tape y" style="top:420px;">Mendarat atas green ✓</div>
+      <div id="tp23" class="ov tape k" style="top:230px;">One more thing</div>
+      <div id="tp24" class="ov tape r" style="top:336px;">Club jangan sentuh pasir</div>
+      <div id="tp25" class="ov tape w big" style="top:442px;">Penalty 2 pukulan</div>
+      <div id="tp26" class="ov tape y big" style="top:230px;">Komen "bunker" <span class='emo' style='font-size:50px'>👇</span></div>
+      <div id="tp27" class="ov tape k" style="top:356px;">Next: bola plug <span class='emo' style='font-size:48px'>🍳</span></div>
       <div id="cap0" class="ov cap">Alamak.</div>
       <div id="cap1" class="ov cap">Ataupun… top, skull.</div>
       <div id="cap2" class="ov cap">Rahsia dia, korang jangan pukul bola. Korang pukul pasir.</div>
@@ -80,10 +84,10 @@
       <div id="cap6" class="ov cap">Korang buat satu line. Tak payah pukul bola dulu.</div>
       <div id="cap7" class="ov cap">Contoh macam ni…</div>
       <div id="cap8" class="ov cap">Pukul line tu. Letak depan line.</div>
-      <div id="cap9" class="ov cap" style="top:640px">One more thing dalam pasir, korang jangan sentuh… club tu jangan sentuh pasir.</div>
+      <div id="cap9" class="ov cap" style="top:586px">One more thing: dalam pasir, club tu jangan sentuh pasir.</div>
       <div id="cap10" class="ov cap" style="top:640px">Komen &quot;bunker&quot; kalau korang nak bola plug.</div>
       <div id="flash"></div>
-      <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="43.9" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>
+      <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="47.3667" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>
       <audio data-hf-id="hf-s00" id="sfx-00" class="clip" src="assets/sfx/2568.mp3" data-start="0.040" data-duration="0.12" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- frame-0 tapes -->
       <audio data-hf-id="hf-s01" id="sfx-01" class="clip" src="assets/sfx/2364.mp3" data-start="3.543" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- tape prints: Top · skull ✗ -->
       <audio data-hf-id="hf-s02" id="sfx-02" class="clip" src="assets/sfx/2568.mp3" data-start="5.233" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Rahsia dia: -->
@@ -106,16 +110,18 @@
       <audio data-hf-id="hf-s19" id="sfx-19" class="clip" src="assets/sfx/1489.mp3" data-start="31.113" data-duration="0.90" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- slow-mo blast (air whoosh under the real strike) -->
       <audio data-hf-id="hf-s20" id="sfx-20" class="clip" src="assets/sfx/2568.mp3" data-start="31.893" data-duration="0.12" data-track-index="13" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Pasir yang bawa -->
       <audio data-hf-id="hf-s21" id="sfx-21" class="clip" src="assets/sfx/2568.mp3" data-start="32.243" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: bola keluar -->
-      <audio data-hf-id="hf-s22" id="sfx-22" class="clip" src="assets/sfx/2568.mp3" data-start="34.120" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: One more thing -->
-      <audio data-hf-id="hf-s23" id="sfx-23" class="clip" src="assets/sfx/2364.mp3" data-start="37.350" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- tape prints: Club jangan sentuh pasir -->
-      <audio data-hf-id="hf-s24" id="sfx-24" class="clip" src="assets/sfx/2364.mp3" data-start="38.250" data-duration="0.14" data-track-index="12" data-volume="0.5" data-audio-group="sfx"></audio> <!-- tape prints: Penalty 2 pukulan -->
-      <audio data-hf-id="hf-s25" id="sfx-25" class="clip" src="assets/sfx/2568.mp3" data-start="39.920" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints:  -->
-      <audio data-hf-id="hf-s26" id="sfx-26" class="clip" src="assets/sfx/2568.mp3" data-start="42.180" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints:  -->
+      <audio data-hf-id="hf-s22" id="sfx-22" class="clip" src="assets/sfx/2364.mp3" data-start="35.823" data-duration="0.14" data-track-index="12" data-volume="0.35" data-audio-group="sfx"></audio> <!-- ring drawn round the landing area -->
+      <audio data-hf-id="hf-s23" id="sfx-23" class="clip" src="assets/sfx/2568.mp3" data-start="35.903" data-duration="0.12" data-track-index="13" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: Mendarat atas green ✓ -->
+      <audio data-hf-id="hf-s24" id="sfx-24" class="clip" src="assets/sfx/2568.mp3" data-start="38.137" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints: One more thing -->
+      <audio data-hf-id="hf-s25" id="sfx-25" class="clip" src="assets/sfx/2364.mp3" data-start="40.817" data-duration="0.14" data-track-index="12" data-volume="0.4" data-audio-group="sfx"></audio> <!-- tape prints: Club jangan sentuh pasir -->
+      <audio data-hf-id="hf-s26" id="sfx-26" class="clip" src="assets/sfx/2364.mp3" data-start="41.717" data-duration="0.14" data-track-index="12" data-volume="0.5" data-audio-group="sfx"></audio> <!-- tape prints: Penalty 2 pukulan -->
+      <audio data-hf-id="hf-s27" id="sfx-27" class="clip" src="assets/sfx/2568.mp3" data-start="43.387" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints:  -->
+      <audio data-hf-id="hf-s28" id="sfx-28" class="clip" src="assets/sfx/2568.mp3" data-start="45.647" data-duration="0.12" data-track-index="12" data-volume="0.28" data-audio-group="sfx"></audio> <!-- tape prints:  -->
     </div>
     <script>
       (function () {
         window.__timelines = window.__timelines || {};
-        const K = {"TAPES": [{"id": "tp0", "t0": 0.0, "t1": 5.163, "r": -2.0, "print": 0.55, "steps": 14}, {"id": "tp1", "t0": 0.0, "t1": 5.163, "r": 1.5, "print": 0.35, "steps": 7}, {"id": "tp2", "t0": 3.533, "t1": 5.163, "r": -1.5, "print": 0.55, "steps": 13}, {"id": "tp3", "t0": 5.213, "t1": 8.263, "r": -1.5, "print": 0.55, "steps": 11}, {"id": "tp4", "t0": 7.033, "t1": 8.263, "r": 1.0, "print": 0.55, "steps": 14}, {"id": "tp5", "t0": 7.493, "t1": 8.263, "r": -1.0, "print": 0.55, "steps": 13}, {"id": "tp6", "t0": 8.313, "t1": 10.633, "r": -1.2, "print": 0.55, "steps": 14}, {"id": "tp7", "t0": 9.333, "t1": 10.633, "r": 1.2, "print": 0.55, "steps": 11}, {"id": "tp8", "t0": 10.683, "t1": 12.1, "r": -1.0, "print": 0.5, "steps": 10}, {"id": "tp9", "t0": 11.233, "t1": 12.1, "r": 1.0, "print": 0.55, "steps": 14}, {"id": "tp10", "t0": 12.15, "t1": 15.267, "r": -1.2, "print": 0.55, "steps": 14}, {"id": "tp11", "t0": 14.267, "t1": 15.267, "r": 2.0, "print": 0.3, "steps": 6}, {"id": "tp12", "t0": 15.317, "t1": 16.5, "r": -1.2, "print": 0.55, "steps": 14}, {"id": "tp13", "t0": 16.55, "t1": 19.543, "r": 1.0, "print": 0.55, "steps": 14}, {"id": "tp14", "t0": 19.593, "t1": 21.4, "r": -1.2, "print": 0.55, "steps": 13}, {"id": "tp15", "t0": 20.193, "t1": 21.4, "r": 1.2, "print": 0.55, "steps": 12}, {"id": "tp16", "t0": 21.45, "t1": 27.4, "r": -1.0, "print": 0.55, "steps": 14}, {"id": "tp17", "t0": 26.053, "t1": 27.4, "r": 1.5, "print": 0.55, "steps": 12}, {"id": "tp18", "t0": 27.45, "t1": 31.823, "r": -1.2, "print": 0.55, "steps": 11}, {"id": "tp19", "t0": 27.77, "t1": 31.823, "r": 1.2, "print": 0.55, "steps": 14}, {"id": "tp20", "t0": 31.873, "t1": 34.05, "r": -1.5, "print": 0.55, "steps": 14}, {"id": "tp21", "t0": 32.223, "t1": 34.05, "r": 1.2, "print": 0.55, "steps": 11}, {"id": "tp22", "t0": 34.1, "t1": 39.85, "r": -1.2, "print": 0.55, "steps": 14}, {"id": "tp23", "t0": 37.34, "t1": 39.85, "r": 1.0, "print": 0.55, "steps": 14}, {"id": "tp24", "t0": 38.24, "t1": 39.85, "r": -1.5, "print": 0.55, "steps": 14}, {"id": "tp25", "t0": 39.9, "t1": 43.9, "r": -1.5, "print": 0.2, "steps": 4}, {"id": "tp26", "t0": 42.16, "t1": 43.9, "r": 1.2, "print": 0.2, "steps": 4}], "CAP": [{"id": "cap0", "t0": 2.17, "t1": 2.633}, {"id": "cap1", "t0": 2.633, "t1": 5.083}, {"id": "cap2", "t0": 5.183, "t1": 8.263}, {"id": "cap3", "t0": 8.313, "t1": 10.633}, {"id": "cap4", "t0": 10.683, "t1": 12.1}, {"id": "cap5", "t0": 12.15, "t1": 15.217}, {"id": "cap6", "t0": 15.317, "t1": 17.883}, {"id": "cap7", "t0": 17.933, "t1": 19.433}, {"id": "cap8", "t0": 20.65, "t1": 24.383}, {"id": "cap9", "t0": 34.05, "t1": 39.05}, {"id": "cap10", "t0": 39.15, "t1": 42.3}], "FLASH": [19.643, 26.103, 31.873], "TOTAL": 43.9};
+        const K = {"LAND": 35.283, "LAND_END": 37.4667, "TAPES": [{"id": "tp0", "t0": 0.0, "t1": 5.163, "r": -2.0, "print": 0.55, "steps": 14}, {"id": "tp1", "t0": 0.0, "t1": 5.163, "r": 1.5, "print": 0.35, "steps": 7}, {"id": "tp2", "t0": 3.533, "t1": 5.163, "r": -1.5, "print": 0.55, "steps": 13}, {"id": "tp3", "t0": 5.213, "t1": 8.263, "r": -1.5, "print": 0.55, "steps": 11}, {"id": "tp4", "t0": 7.033, "t1": 8.263, "r": 1.0, "print": 0.55, "steps": 14}, {"id": "tp5", "t0": 7.493, "t1": 8.263, "r": -1.0, "print": 0.55, "steps": 13}, {"id": "tp6", "t0": 8.313, "t1": 10.633, "r": -1.2, "print": 0.55, "steps": 14}, {"id": "tp7", "t0": 9.333, "t1": 10.633, "r": 1.2, "print": 0.55, "steps": 11}, {"id": "tp8", "t0": 10.683, "t1": 12.1, "r": -1.0, "print": 0.5, "steps": 10}, {"id": "tp9", "t0": 11.233, "t1": 12.1, "r": 1.0, "print": 0.55, "steps": 14}, {"id": "tp10", "t0": 12.15, "t1": 15.267, "r": -1.2, "print": 0.55, "steps": 14}, {"id": "tp11", "t0": 14.267, "t1": 15.267, "r": 2.0, "print": 0.3, "steps": 6}, {"id": "tp12", "t0": 15.317, "t1": 16.5, "r": -1.2, "print": 0.55, "steps": 14}, {"id": "tp13", "t0": 16.55, "t1": 19.543, "r": 1.0, "print": 0.55, "steps": 14}, {"id": "tp14", "t0": 19.593, "t1": 21.4, "r": -1.2, "print": 0.55, "steps": 13}, {"id": "tp15", "t0": 20.193, "t1": 21.4, "r": 1.2, "print": 0.55, "steps": 12}, {"id": "tp16", "t0": 21.45, "t1": 27.4, "r": -1.0, "print": 0.55, "steps": 14}, {"id": "tp17", "t0": 26.053, "t1": 27.4, "r": 1.5, "print": 0.55, "steps": 12}, {"id": "tp18", "t0": 27.45, "t1": 31.823, "r": -1.2, "print": 0.55, "steps": 11}, {"id": "tp19", "t0": 27.77, "t1": 31.823, "r": 1.2, "print": 0.55, "steps": 14}, {"id": "tp20", "t0": 31.873, "t1": 35.833, "r": -1.5, "print": 0.55, "steps": 14}, {"id": "tp21", "t0": 32.223, "t1": 35.833, "r": 1.2, "print": 0.55, "steps": 11}, {"id": "tp22", "t0": 35.883, "t1": 37.447, "r": -1.5, "print": 0.55, "steps": 14}, {"id": "tp23", "t0": 38.117, "t1": 43.317, "r": -1.2, "print": 0.55, "steps": 14}, {"id": "tp24", "t0": 40.807, "t1": 43.317, "r": 1.0, "print": 0.55, "steps": 14}, {"id": "tp25", "t0": 41.707, "t1": 43.317, "r": -1.5, "print": 0.55, "steps": 14}, {"id": "tp26", "t0": 43.367, "t1": 47.367, "r": -1.5, "print": 0.2, "steps": 4}, {"id": "tp27", "t0": 45.627, "t1": 47.367, "r": 1.2, "print": 0.2, "steps": 4}], "CAP": [{"id": "cap0", "t0": 2.17, "t1": 2.633}, {"id": "cap1", "t0": 2.633, "t1": 5.083}, {"id": "cap2", "t0": 5.183, "t1": 8.263}, {"id": "cap3", "t0": 8.313, "t1": 10.633}, {"id": "cap4", "t0": 10.683, "t1": 12.1}, {"id": "cap5", "t0": 12.15, "t1": 15.217}, {"id": "cap6", "t0": 15.317, "t1": 17.883}, {"id": "cap7", "t0": 17.933, "t1": 19.433}, {"id": "cap8", "t0": 20.65, "t1": 24.383}, {"id": "cap9", "t0": 38.117, "t1": 42.517}, {"id": "cap10", "t0": 42.617, "t1": 45.767}], "FLASH": [19.643, 26.103, 31.873], "TOTAL": 47.3667};
         const tl = gsap.timeline({ paused: true });
         const $ = (s) => document.querySelector(s);
         // tapes: print out letter by letter (stepped), settle with a tilt, peel off at the end of their section
@@ -138,6 +144,13 @@
           tl.set(el, { opacity: 0 }, c.t1);
         });
         K.FLASH.forEach((t) => tl.fromTo("#flash", { opacity: 0.45 }, { opacity: 0, duration: 0.2, immediateRender: false }, t));
+        // landing: punch in on the flag once the phone settles on the green, draw a ring round the landing area, back to 1x on the cut
+        tl.to("#aroll", { scale: 1.8, duration: 0.7, ease: "power2.inOut" }, K.LAND);
+        tl.set("#aroll", { scale: 1 }, K.LAND_END);
+        const rc = document.querySelector("#ringc"), L = rc.getTotalLength();
+        tl.set("#ring", { opacity: 1 }, K.LAND + 0.55);
+        tl.fromTo(rc, { attr: { "stroke-dasharray": `${L} ${L}`, "stroke-dashoffset": L } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.5, ease: "power2.inOut", immediateRender: false }, K.LAND + 0.55);
+        tl.set("#ring", { opacity: 0 }, K.LAND_END);
         window.__timelines["main"] = tl;
       })();
     </script>

@@ -13,7 +13,8 @@ and re-transcribed as a crop; picture checked on contact sheets):
                     91.06-92.20 "Tak payah pukul bola dulu."   97.86-98.74 "Contoh macam ni." swing, 100.09 impact on the line, 100.86-101.64 "Pukul line tu."
                     116.56-117.46 "Letak depan line." (rakes a ball in front of the line, 116.4-119.5 shown in full); 126.2-128.65 address + shot, impact 127.87   43.14-45.40 "Ataupun, top, skull." (voice over the skull)
   IMG_0419          12.0-16.9 club face held up to the phone (open face);  31.86 impact (its strike sound is used on IMG_0413)
-  IMG_0413          2.67 top, 3.07 impact (sand splash, no sound on this clip), 3.33-4.7 pan to the green
+  IMG_0413          2.67 top, 3.07 impact (sand splash, no sound on this clip), 3.33-5.9 pan to the green, 5.9-8.2 holds on the green:
+                    the balls by the yellow flag (frame ~x 430-470 / y 1020, flag base x 572 / y 1080); earlier practice balls lie there too
   IMG_0418          1.64-6.42 "one more thing dalam pasir, korang jangan sentuh, club tu jangan sentuh pasir"  (cut before "sebab ni consider
                     penalty area": a bunker is not a penalty area; the rule is a 2-stroke penalty, shown on screen as in the owner's script)
                     13.24-16.50 "komen bunker kalau korang nak bola plug."
@@ -45,7 +46,7 @@ EDL = [
     dict(name="letakshot", clip="s17", a=126.20, b=128.65, own=True),       # ... and the shot from there (impact 127.87, "Eh!")
     dict(name="shot", clip="s13", a=1.75, b=5.70, own=False, vo=[("s19", 31.80, 32.30, None)]),  # owner v2: IMG_0413 here (impact 3.07, pan to the green); it has no sound -> IMG_0419's real strike on the impact
     dict(name="slow", clip="s13", a=2.55, b=3.55, speed=0.5, own=False, vo=[("s19", 31.80, 32.30, None)]),  # strike placed on the impact
-    dict(name="slow2", clip="s13", a=3.55, b=4.70, own=False),
+    dict(name="slow2", clip="s13", a=3.55, b=8.20, own=False),    # owner v4: follow the pan until the phone settles on the green (5.9) and hold
     dict(name="penalty", clip="s18", a=1.55, b=6.65, own=True),
     dict(name="cta", clip="s18", a=13.58, b=16.78, own=True),
     dict(name="end", clip="s18", a=16.74, kind="freeze", dur=1.6),
