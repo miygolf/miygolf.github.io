@@ -23,7 +23,7 @@ SEC = {"hook": (0.0, E("skull")), "rahsia": (S("rahsia"), E("rahsia")), "face": 
        "weight": (S("weight"), E("weight")), "line": (S("line"), E("line")), "nobola": (S("nobola"), E("nobola")),
        "contoh": (S("contoh"), E("contoh")), "letak": (S("letak"), E("letak")), "shot": (S("shot"), E("shot")),
        "slow": (S("slow"), E("slow2")), "penalty": (S("penalty"), E("penalty")), "cta": (S("cta"), TOTAL)}
-BASE = {"rahsia": 860, "penalty": 230, "cta": 230}   # rahsia: below the close face; IMG_0418 talking head sits LOW (face y 900-1330): tapes + captions go above it
+BASE = {"rahsia": 860, "shot": 1010, "slow": 1010, "penalty": 230, "cta": 230}   # rahsia: below the close face; IMG_0418 talking head sits LOW (face y 900-1330): tapes + captions go above it
 # (section, text, colour k/y/r/w, film time, tilt deg, big?) — wording from the owner's script, numbers = the set-up steps
 T = [
     ("hook", "Bola tak keluar", "k", 0.0, -2.0, True), ("hook", "bunker?", "y", 0.0, 1.5, True),

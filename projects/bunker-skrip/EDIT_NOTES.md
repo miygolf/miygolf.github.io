@@ -14,7 +14,7 @@ followed to the green), demo_top_n_skull (ball stays in / skull), egg_fry (for t
 | 12.2–13.7 | 3 | IMG_0417 "korang kangkang besar-besar." | 02 KAKI LEBAR / BENAM DALAM PASIR |
 | 13.7–16.9 | 3 | IMG_0417 "Weight belah kiri, and then blast." | 03 BOLA DEPAN · BERAT KIRI / BLAST! |
 | 16.9–24.1 | 4 | IMG_0417 line drill: "korang buat satu line", "tak payah pukul bola dulu", "contoh macam ni" + swing on the line, "pukul line tu", "letak depan line" | DRILL: LUKIS 1 LINE / TANPA BOLA DULU / TARGET = LINE / BUKAN BOLA ✗ / BOLA DEPAN LINE SIKIT |
-| 24.1–28.0 | 5 | IMG_0419 shot (real strike), the phone follows the ball to the green | SWING PENUH / JANGAN SLOW DOWN |
+| 24.1–28.0 | 5 | IMG_0413 shot at 1x (owner v2: "klip 0:25 ganti dengan" IMG_0413), the phone follows the ball to the green; the clip has no sound, so IMG_0419's real strike sits on the impact | SWING PENUH / JANGAN SLOW DOWN |
 | 28.0–31.2 | 5 | IMG_0413 impact at 0.5x (every 60 fps frame) + the pan to the green; IMG_0419's strike placed on the impact | PASIR YANG BAWA / BOLA KELUAR |
 | 31.2–36.3 | 6 | IMG_0418 "one more thing dalam pasir, korang jangan sentuh… club tu jangan sentuh pasir" | ONE MORE THING / CLUB JANGAN SENTUH PASIR / PENALTY 2 PUKULAN |
 | 36.3–41.1 | 6 | IMG_0418 "komen bunker kalau korang nak bola plug." + 1.6 s hold | KOMEN "BUNKER" 👇 / NEXT: BOLA PLUG 🍳 |
@@ -40,6 +40,6 @@ penalty (2364), an air woosh under the slow-motion blast (1489). Master: −14 L
 ## Build
 ```
 tools/fetch.sh && python3 tools/build_aroll.py && python3 tools/film_words.py && python3 tools/build_index.py
-npx hyperframes@0.9.32 check && npx hyperframes@0.9.32 render -q draft -o renders/draft.mp4 && tools/master.sh renders/draft.mp4 previews/bunker-skrip_preview_v1.mp4
+npx hyperframes@0.9.32 check && npx hyperframes@0.9.32 render -q draft -o renders/draft.mp4 && tools/master.sh renders/draft.mp4 previews/bunker-skrip_preview_vN.mp4
 # on "render": render -q delivery -o renders/final_raw.mp4 && tools/master.sh renders/final_raw.mp4 final/bunker-skrip_1080x1920.mp4
 ```

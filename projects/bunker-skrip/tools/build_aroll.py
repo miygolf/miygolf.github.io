@@ -12,7 +12,7 @@ and re-transcribed as a crop; picture checked on contact sheets):
                     77.28-80.08 "Weight belah kiri, and then blast."   86.64-87.88 "korang buat satu line." (drawing the line, side-on)
                     91.06-92.20 "Tak payah pukul bola dulu."   97.86-98.74 "Contoh macam ni." swing, 100.09 impact on the line, 100.86-101.64 "Pukul line tu."
                     116.56-117.46 "Letak depan line." (rakes a ball in front of the line)   43.14-45.40 "Ataupun, top, skull." (voice over the skull)
-  IMG_0419          12.0-16.9 club face held up to the phone (open face);  31.86 impact (sand spray), 33.9-35.6 the phone follows the ball to the green
+  IMG_0419          12.0-16.9 club face held up to the phone (open face);  31.86 impact (its strike sound is used on IMG_0413)
   IMG_0413          2.67 top, 3.07 impact (sand splash, no sound on this clip), 3.33-4.7 pan to the green
   IMG_0418          1.64-6.42 "one more thing dalam pasir, korang jangan sentuh, club tu jangan sentuh pasir"  (cut before "sebab ni consider
                     penalty area": a bunker is not a penalty area; the rule is a 2-stroke penalty, shown on screen as in the owner's script)
@@ -42,14 +42,15 @@ EDL = [
     dict(name="nobola", clip="s17", a=91.40, b=92.45, own=True),
     dict(name="contoh", clip="s17", a=97.98, b=101.85, own=True),
     dict(name="letak", clip="s17", a=116.66, b=117.72, own=True),
-    dict(name="shot", clip="s19", a=30.95, b=34.90, own=True),                                 # impact 31.86, then the ball to the green
+    dict(name="shot", clip="s13", a=1.75, b=5.70, own=False, vo=[("s19", 31.80, 32.30, None)]),  # owner v2: IMG_0413 here (impact 3.07, pan to the green); it has no sound -> IMG_0419's real strike on the impact
     dict(name="slow", clip="s13", a=2.55, b=3.55, speed=0.5, own=False, vo=[("s19", 31.80, 32.30, None)]),  # strike placed on the impact
     dict(name="slow2", clip="s13", a=3.55, b=4.70, own=False),
     dict(name="penalty", clip="s18", a=1.55, b=6.65, own=True),
     dict(name="cta", clip="s18", a=13.58, b=16.78, own=True),
     dict(name="end", clip="s18", a=16.74, kind="freeze", dur=1.6),
 ]
-IMPACTS = {"hook": 8.43, "skull": 32.98, "contoh": 100.09, "shot": 31.86, "slow": 3.07}
+IMPACTS = {"hook": 8.43, "skull": 32.98, "contoh": 100.09, "shot": 3.07, "slow": 3.07}
+STRIKE = 31.86          # IMG_0419 impact transient: the real bunker strike laid on IMG_0413's silent impacts
 
 
 def seg_dur(s):
@@ -144,7 +145,7 @@ def build_audio(tl):
             place(piece(s["clip"], s["a"], s["b"]), T, (s["clip"], s["a"], s["b"]))
         for c, a, b, off in s.get("vo", []):
             if off is None:   # real strike on the slowed impact (picture first, sound peak one frame later)
-                off = (IMPACTS[s["name"]] - s["a"]) / s.get("speed", 1.0) + 1 / FPS - (IMPACTS["shot"] - a)
+                off = (IMPACTS[s["name"]] - s["a"]) / s.get("speed", 1.0) + 1 / FPS - (STRIKE - a)
             place(piece(c, a, b, 0.01), T + off, (c, a, b))
     tl["_voice"] = placed
     out = os.path.join(ROOT, "edit", "voice_raw.wav")
