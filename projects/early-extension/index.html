@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Posture Chart": the swing read like a physio posture assessment. A teal plumb line drops from the top on the back of the hips at
+         address (with its bob), a red marker shows where the hips are at impact, an arrow measures the gap; the coach's points arrive as
+         clinical chart rows (tab slides in, row wipes open, a tick lands); the before/after is a two-panel assessment sheet.
+         Type: Familjen Grotesk 700/600 + Reddit Mono 600 + Noto Color Emoji.
+         Palette: chart white #f5f8f7, ink #13202b, teal #0e8c8f, marker red #e2483d, mint #d8efe9.
+         Safe band x 60-930, y 168-1330; faces: head y 320-580 at x 420-680 on the range shots -> rows sit top-left (short) or low. */
+      @font-face { font-family: "Familjen"; font-weight: 400 700; src: url("assets/fonts/FamiljenGrotesk-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "RMono"; font-weight: 200 900; src: url("assets/fonts/RedditMono-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Noto Color Emoji"; font-weight: 400; src: url("assets/fonts/NotoColorEmoji.ttf") format("truetype"); font-display: block; }
+      :root { --chart: #f5f8f7; --ink: #13202b; --teal: #0e8c8f; --red: #e2483d; --mint: #d8efe9; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #13202b; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #13202b; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
+      .ov { position: absolute; opacity: 0; z-index: 6; pointer-events: none; }
+      .emo { font-family: "Noto Color Emoji", sans-serif; font-weight: 400; }
+
+      /* chart row */
+      .row { display: flex; align-items: stretch; white-space: nowrap; box-shadow: 0 10px 22px rgba(0,0,0,0.30); border-radius: 6px; overflow: hidden; }
+      .row .tab { width: 14px; background: var(--teal); }
+      .row .tx { padding: 12px 22px 14px 18px; background: var(--chart); color: var(--ink); font-family: "Familjen"; font-weight: 700; font-size: 46px; line-height: 1.05; }
+      .row .tx .k { font-family: "RMono"; font-weight: 600; font-size: 28px; letter-spacing: 0.06em; color: var(--teal); margin-right: 14px; vertical-align: 6px; }
+      .row.big .tx { font-size: 62px; padding: 14px 26px 16px 20px; }
+      .row.bad .tab { background: var(--red); } .row.bad .tx .k { color: var(--red); }
+      .row.ink .tab { background: var(--teal); } .row.ink .tx { background: var(--ink); color: var(--chart); }
+      .row.good .tx { background: var(--teal); color: #fff; } .row.good .tab { background: var(--ink); } .row.good .tx .k { color: var(--mint); }
+      .row.badfill .tx { background: var(--red); color: #fff; } .row.badfill .tab { background: var(--ink); }
+
+      .cap { left: 60px; top: 1210px; max-width: 870px; padding: 10px 20px 13px; border-radius: 10px; background: rgba(19,32,43,0.74);
+             font-family: "Familjen"; font-weight: 600; font-size: 40px; line-height: 1.18; color: #fff; z-index: 7; }
+      .tag { font-family: "RMono"; font-weight: 600; font-size: 30px; letter-spacing: 0.08em; padding: 6px 12px 8px; border-radius: 4px; color: #fff; }
+
+      svg.meas { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 5; overflow: visible; opacity: 0; pointer-events: none; }
+      #flash { position: absolute; inset: 0; z-index: 8; background: #fff; opacity: 0; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="37.5" data-width="1080" data-height="1920" data-fps="30">
+      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="37.5" data-track-index="1" muted playsinline></video>
+      <svg class="meas" id="m_hook" viewBox="0 0 1080 1920"><line class="plumb" x1="24" y1="780" x2="24" y2="1150" stroke="#0e8c8f" stroke-width="7" stroke-linecap="round"/><path class="bob" d="M 24 1150 l -13 -22 l 26 0 z" fill="#0e8c8f"/><line class="imp" x1="110" y1="820" x2="110" y2="1120" stroke="#e2483d" stroke-width="7" stroke-dasharray="12 9" stroke-linecap="round"/><path class="arrow" d="M 24 985 L 110 985" fill="none" stroke="#e2483d" stroke-width="6" stroke-linecap="round"/><path class="head" d="M 96 975 L 110 985 L 96 995" fill="none" stroke="#e2483d" stroke-width="6" stroke-linecap="round"/><g class="mtag"><rect x="140" y="1060" rx="4" width="349" height="46" fill="#e2483d"/><text x="153" y="1093" font-family="RMono" font-weight="600" font-size="30" fill="#fff" letter-spacing="2">PUNGGUNG KE DEPAN</text></g></svg>
+      <svg class="meas" id="m_before" viewBox="0 0 1080 1920"><line class="plumb" x1="15.1" y1="606.3" x2="15.1" y2="794.7" stroke="#0e8c8f" stroke-width="7" stroke-linecap="round"/><path class="bob" d="M 15.1 794.7 l -13 -22 l 26 0 z" fill="#0e8c8f"/><line class="imp" x1="69.1" y1="646.3" x2="69.1" y2="764.7" stroke="#e2483d" stroke-width="7" stroke-dasharray="12 9" stroke-linecap="round"/><path class="arrow" d="M 15.1 709.9 L 69.1 709.9" fill="none" stroke="#e2483d" stroke-width="6" stroke-linecap="round"/><path class="head" d="M 55.099999999999994 699.9 L 69.1 709.9 L 55.099999999999994 719.9" fill="none" stroke="#e2483d" stroke-width="6" stroke-linecap="round"/><g class="mtag"><rect x="60" y="1112" rx="4" width="273" height="46" fill="#e2483d"/><text x="73" y="1145" font-family="RMono" font-weight="600" font-size="30" fill="#fff" letter-spacing="2">LARI KE DEPAN</text></g></svg>
+      <svg class="meas" id="m_after" viewBox="0 0 1080 1920"><line class="plumb" x1="565.1" y1="606.3" x2="565.1" y2="794.7" stroke="#0e8c8f" stroke-width="7" stroke-linecap="round"/><path class="bob" d="M 565.1 794.7 l -13 -22 l 26 0 z" fill="#0e8c8f"/><line class="imp" x1="580.8" y1="646.3" x2="580.8" y2="764.7" stroke="#e2483d" stroke-width="7" stroke-dasharray="12 9" stroke-linecap="round"/><path class="arrow" d="M 565.1 709.9 L 580.8 709.9" fill="none" stroke="#e2483d" stroke-width="6" stroke-linecap="round"/><g class="mtag"><rect x="600" y="1112" rx="4" width="102" height="46" fill="#0e8c8f"/><text x="613" y="1145" font-family="RMono" font-weight="600" font-size="30" fill="#fff" letter-spacing="2">STAY</text></g></svg>
+      <div id="r0" class="ov row ink big" style="left:60px; top:190px; opacity:1;"><div class="tab"></div><div class="tx">Punggung lari</div></div>
+      <div id="r1" class="ov row badfill big" style="left:60px; top:294px; opacity:1;"><div class="tab"></div><div class="tx">masa downswing?</div></div>
+      <div id="r2" class="ov row bad" style="left:60px; top:1120px;"><div class="tab"></div><div class="tx">= Early extension</div></div>
+      <div id="r3" class="ov row bad" style="left:60px; top:930px;"><div class="tab"></div><div class="tx"><span class='k'>01</span>Space tangan hilang</div></div>
+      <div id="r4" class="ov row bad" style="left:60px; top:1030px;"><div class="tab"></div><div class="tx"><span class='k'>02</span>Shank · block kanan · thin</div></div>
+      <div id="r5" class="ov row ink big" style="left:60px; top:190px;"><div class="tab"></div><div class="tx">Drill dia simple je</div></div>
+      <div id="r6" class="ov row " style="left:60px; top:302px;"><div class="tab"></div><div class="tx">Kerusi / golf bag / dinding</div></div>
+      <div id="r7" class="ov row " style="left:60px; top:930px;"><div class="tab"></div><div class="tx"><span class='k'>01</span>Setup: punggung touch kerusi</div></div>
+      <div id="r8" class="ov row " style="left:60px; top:1030px;"><div class="tab"></div><div class="tx"><span class='k'>02</span>Backswing: punggung kanan stay</div></div>
+      <div id="r9" class="ov row good" style="left:60px; top:1120px;"><div class="tab"></div><div class="tx"><span class='k'>03</span>Downswing: punggung kiri tolak kerusi</div></div>
+      <div id="r10" class="ov row good big" style="left:60px; top:920px;"><div class="tab"></div><div class="tx">Slow dulu · 10 kali</div></div>
+      <div id="r11" class="ov row " style="left:60px; top:1050px;"><div class="tab"></div><div class="tx">Rasa punggung stay kat belakang</div></div>
+      <div id="r12" class="ov row good big" style="left:60px; top:930px;"><div class="tab"></div><div class="tx">That's it ✓</div></div>
+      <div id="r13" class="ov row ink" style="left:60px; top:350px;"><div class="tab"></div><div class="tx">Before</div></div>
+      <div id="r14" class="ov row good" style="left:600px; top:350px;"><div class="tab"></div><div class="tx">After</div></div>
+      <div id="r15" class="ov row ink big" style="left:60px; top:1196px;"><div class="tab"></div><div class="tx">Nampak beza dia?</div></div>
+      <div id="r16" class="ov row ink" style="left:60px; top:840px;"><div class="tab"></div><div class="tx">Try dulu sebelum warm-up</div></div>
+      <div id="r17" class="ov row good big" style="left:60px; top:936px;"><div class="tab"></div><div class="tx">Komen "DRILL" <span class='emo' style='font-size:52px'>👇</span></div></div>
+      <div id="r18" class="ov row " style="left:60px; top:1062px;"><div class="tab"></div><div class="tx">Part 2: rotation</div></div>
+      <div id="cap0" class="ov cap">Apa itu early extension?</div>
+      <div id="cap1" class="ov cap">First of all, dia angkat backswing, dia naik badan.</div>
+      <div id="cap2" class="ov cap">Lepas tu bila dia turun, dia turun je macam tu.</div>
+      <div id="cap3" class="ov cap">Ambil golf bag ataupun kerusi.</div>
+      <div id="cap4" class="ov cap">Kerusi ni sebagai kita nak dapatkan rasa je.</div>
+      <div id="cap5" class="ov cap">Angkat backswing.</div>
+      <div id="cap6" class="ov cap">Downswing tu bagi rasa, tolak je kerusi tu.</div>
+      <div id="cap7" class="ov cap">Then follow through.</div>
+      <div id="cap8" class="ov cap">Buat slow-slow, backswing slow je.</div>
+      <div id="cap9" class="ov cap">Okey, itu dia.</div>
+      <div id="flash"></div>
+      <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="37.5" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>
+      <audio data-hf-id="hf-s00" id="sfx-00" class="clip" src="assets/sfx/2568.mp3" data-start="0.040" data-duration="0.12" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- frame-0 rows -->
+      <audio data-hf-id="hf-s01" id="sfx-01" class="clip" src="assets/sfx/1489.mp3" data-start="0.007" data-duration="0.90" data-track-index="13" data-volume="0.25" data-audio-group="sfx"></audio> <!-- into slow motion -->
+      <audio data-hf-id="hf-s02" id="sfx-02" class="clip" src="assets/sfx/2364.mp3" data-start="2.023" data-duration="0.14" data-track-index="12" data-volume="0.32" data-audio-group="sfx"></audio> <!-- impact marker (m_hook) -->
+      <audio data-hf-id="hf-s03" id="sfx-03" class="clip" src="assets/sfx/2364.mp3" data-start="2.703" data-duration="0.14" data-track-index="12" data-volume="0.38" data-audio-group="sfx"></audio> <!-- row: = Early extension -->
+      <audio data-hf-id="hf-s04" id="sfx-04" class="clip" src="assets/sfx/2364.mp3" data-start="8.733" data-duration="0.14" data-track-index="12" data-volume="0.38" data-audio-group="sfx"></audio> <!-- row: Space tangan hilang -->
+      <audio data-hf-id="hf-s05" id="sfx-05" class="clip" src="assets/sfx/2364.mp3" data-start="9.920" data-duration="0.14" data-track-index="12" data-volume="0.38" data-audio-group="sfx"></audio> <!-- row: Shank · block kanan · thin -->
+      <audio data-hf-id="hf-s06" id="sfx-06" class="clip" src="assets/sfx/2568.mp3" data-start="12.180" data-duration="0.12" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- row: Drill dia simple je -->
+      <audio data-hf-id="hf-s07" id="sfx-07" class="clip" src="assets/sfx/2568.mp3" data-start="12.830" data-duration="0.12" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- row: Kerusi / golf bag / dinding -->
+      <audio data-hf-id="hf-s08" id="sfx-08" class="clip" src="assets/sfx/2568.mp3" data-start="14.397" data-duration="0.12" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- row: Setup: punggung touch kerusi -->
+      <audio data-hf-id="hf-s09" id="sfx-09" class="clip" src="assets/sfx/2568.mp3" data-start="17.977" data-duration="0.12" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- row: Backswing: punggung kanan stay -->
+      <audio data-hf-id="hf-s10" id="sfx-10" class="clip" src="assets/sfx/2568.mp3" data-start="19.997" data-duration="0.12" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- row: Downswing: punggung kiri tolak -->
+      <audio data-hf-id="hf-s11" id="sfx-11" class="clip" src="assets/sfx/2568.mp3" data-start="25.097" data-duration="0.12" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- row: Slow dulu · 10 kali -->
+      <audio data-hf-id="hf-s12" id="sfx-12" class="clip" src="assets/sfx/2568.mp3" data-start="26.197" data-duration="0.12" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- row: Rasa punggung stay kat belakan -->
+      <audio data-hf-id="hf-s13" id="sfx-13" class="clip" src="assets/sfx/2568.mp3" data-start="29.354" data-duration="0.12" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- row: That's it ✓ -->
+      <audio data-hf-id="hf-s14" id="sfx-14" class="clip" src="assets/sfx/1489.mp3" data-start="29.240" data-duration="0.90" data-track-index="13" data-volume="0.25" data-audio-group="sfx"></audio> <!-- into the split slow motion -->
+      <audio data-hf-id="hf-s15" id="sfx-15" class="clip" src="assets/sfx/2568.mp3" data-start="29.980" data-duration="0.12" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- row: After -->
+      <audio data-hf-id="hf-s16" id="sfx-16" class="clip" src="assets/sfx/2364.mp3" data-start="31.357" data-duration="0.14" data-track-index="12" data-volume="0.32" data-audio-group="sfx"></audio> <!-- impact marker (m_before) -->
+      <audio data-hf-id="hf-s17" id="sfx-17" class="clip" src="assets/sfx/2364.mp3" data-start="31.557" data-duration="0.14" data-track-index="12" data-volume="0.32" data-audio-group="sfx"></audio> <!-- impact marker (m_after) -->
+      <audio data-hf-id="hf-s18" id="sfx-18" class="clip" src="assets/sfx/2568.mp3" data-start="32.097" data-duration="0.12" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- row: Nampak beza dia? -->
+      <audio data-hf-id="hf-s19" id="sfx-19" class="clip" src="assets/sfx/2568.mp3" data-start="34.230" data-duration="0.12" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- row: Try dulu sebelum warm-up -->
+      <audio data-hf-id="hf-s20" id="sfx-20" class="clip" src="assets/sfx/2568.mp3" data-start="34.930" data-duration="0.12" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- row: Komen "DRILL"  -->
+      <audio data-hf-id="hf-s21" id="sfx-21" class="clip" src="assets/sfx/2568.mp3" data-start="35.530" data-duration="0.12" data-track-index="12" data-volume="0.26" data-audio-group="sfx"></audio> <!-- row: Part 2: rotation -->
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {"ROWS": [{"id": "r0", "t0": 0.0, "t1": 4.767}, {"id": "r1", "t0": 0.0, "t1": 4.767}, {"id": "r2", "t0": 2.683, "t1": 4.767}, {"id": "r3", "t0": 8.713, "t1": 12.1}, {"id": "r4", "t0": 9.9, "t1": 12.1}, {"id": "r5", "t0": 12.15, "t1": 14.067}, {"id": "r6", "t0": 12.8, "t1": 14.067}, {"id": "r7", "t0": 14.367, "t1": 24.967}, {"id": "r8", "t0": 17.947, "t1": 24.967}, {"id": "r9", "t0": 19.967, "t1": 24.967}, {"id": "r10", "t0": 25.067, "t1": 28.067}, {"id": "r11", "t0": 26.167, "t1": 28.067}, {"id": "r12", "t0": 29.324, "t1": 29.9}, {"id": "r13", "t0": 29.95, "t1": 34.0}, {"id": "r14", "t0": 29.95, "t1": 34.0}, {"id": "r15", "t0": 32.067, "t1": 34.0}, {"id": "r16", "t0": 34.2, "t1": 37.5}, {"id": "r17", "t0": 34.9, "t1": 37.5}, {"id": "r18", "t0": 35.5, "t1": 37.5}], "CAP": [{"id": "cap0", "t0": 1.433, "t1": 3.783}, {"id": "cap1", "t0": 4.817, "t1": 9.25}, {"id": "cap2", "t0": 9.35, "t1": 12.1}, {"id": "cap3", "t0": 12.15, "t1": 14.067}, {"id": "cap4", "t0": 14.117, "t1": 17.897}, {"id": "cap5", "t0": 17.947, "t1": 19.867}, {"id": "cap6", "t0": 19.967, "t1": 23.717}, {"id": "cap7", "t0": 23.767, "t1": 24.967}, {"id": "cap8", "t0": 25.017, "t1": 28.017}, {"id": "cap9", "t0": 34.72, "t1": 37.5}], "MEAS": [{"id": "m_hook", "t0": 1.483, "t1": 3.833}, {"id": "m_before", "t0": 30.817, "t1": 33.367}, {"id": "m_after", "t0": 31.017, "t1": 33.367}], "FLASH": [1.4333, 29.174, 30.7667], "TOTAL": 37.5};
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        // chart rows: the tab slides in, the row wipes open, settles; slides out left at the end of its section
+        K.ROWS.forEach((r) => {
+          const el = $("#" + r.id);
+          if (r.t0 >= 0.2) {
+            tl.set(el, { opacity: 0 }, 0);
+            tl.fromTo(el, { opacity: 1, x: -60, clipPath: "inset(0 100% 0 0)" }, { x: 0, clipPath: "inset(0 0% 0 0)", duration: 0.32, ease: "power3.out", immediateRender: false }, r.t0);
+          }
+          if (r.t1 < K.TOTAL - 0.05) tl.to(el, { x: -80, opacity: 0, duration: 0.18, ease: "power2.in" }, r.t1 - 0.18);
+        });
+        K.CAP.forEach((c) => {
+          const el = $("#" + c.id);
+          tl.set(el, { opacity: 0 }, 0);
+          tl.fromTo(el, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.12, immediateRender: false }, Math.max(c.t0, 0.001));
+          tl.set(el, { opacity: 0 }, c.t1);
+        });
+        // measurements: plumb line drops with its bob, impact marker, arrow, tags
+        K.MEAS.forEach((m) => {
+          const g = $("#" + m.id);
+          tl.set(g, { opacity: 0 }, 0);
+          tl.set(g, { opacity: 1 }, m.t0);
+          g.querySelectorAll(".plumb").forEach((p) => {
+            const L = p.getTotalLength();
+            tl.fromTo(p, { attr: { "stroke-dashoffset": L, "stroke-dasharray": `${L} ${L}` } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.45, ease: "power2.out", immediateRender: false }, m.t0);
+            tl.set(p, { attr: { "stroke-dasharray": "14 10", "stroke-dashoffset": 0 } }, m.t0 + 0.46);
+          });
+          g.querySelectorAll(".bob").forEach((b) => tl.fromTo(b, { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.45, ease: "bounce.out", immediateRender: false }, m.t0 + 0.1));
+          g.querySelectorAll(".imp").forEach((p) => tl.fromTo(p, { opacity: 0, scaleY: 0, transformOrigin: "50% 50%" }, { opacity: 1, scaleY: 1, duration: 0.25, ease: "power2.out", immediateRender: false }, m.t0 + 0.55));
+          g.querySelectorAll(".arrow").forEach((p) => { const L = p.getTotalLength();
+            tl.fromTo(p, { attr: { "stroke-dasharray": `${L} ${L}`, "stroke-dashoffset": L } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.3, ease: "power2.out", immediateRender: false }, m.t0 + 0.8); });
+          g.querySelectorAll(".head").forEach((p) => tl.fromTo(p, { opacity: 0 }, { opacity: 1, duration: 0.1, immediateRender: false }, m.t0 + 1.08));
+          g.querySelectorAll(".mtag").forEach((p, i) => tl.fromTo(p, { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.25, immediateRender: false }, m.t0 + 1.1 + i * 0.15));
+          tl.to(g, { opacity: 0, duration: 0.15 }, m.t1 - 0.15);
+        });
+        K.FLASH.forEach((t) => tl.fromTo("#flash", { opacity: 0.4 }, { opacity: 0, duration: 0.2, immediateRender: false }, t));
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
