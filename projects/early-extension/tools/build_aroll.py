@@ -17,7 +17,9 @@ Clip map (crop transcripts, large-v3, on the sound; energy; picture on contact s
   180.4-181.5 "Okay, itu dia."  (walks up to the phone)
 Measured (upright frame, rows y 970-1030, leftmost trouser pixel = back of the hips): swing 1 address x ~24 -> impact ~110 (hips move ~85 px
 towards the ball = early extension); last swing address ~40 -> impact ~65 (~25 px). Left frame edge is background, not trousers (not clipped).
-No talking-head takes of script shots 2 and 6 and no wall in the footage: those lines are on screen; the drill shown is the chair (same feel).
+  155.55-174.05 drill 3 (gripped down): "7 iron, tak kisahlah berapa iron pun, korang pegang pendek. Sebab kalau korang early extension, korang akan
+              miss the ball completely. So untuk kita dapatkan stay, stay bawah, pegang je pendek untuk rasakan ... buntut kita ni ke belakang."
+No talking-head takes of script shots 2 and 6 and no wall in the footage: those lines are on screen; the drill shown is the grip-down drill (owner v2).
 """
 import json, os, subprocess, sys, wave
 import numpy as np
@@ -42,10 +44,12 @@ EDL = [
     dict(name="demoA", a=29.50, b=31.55, own=True),
     dict(name="demoB", a=33.65, b=36.10, own=True),
     dict(name="demoC", a=37.30, b=40.10, own=True),
-    dict(name="kerusi0", a=117.00, b=118.95, vo=[(102.62, 104.55, 0.0)]),                   # "Ambil golf bag ataupun kerusi."
-    dict(name="kerusi", a=119.90, b=130.80, own=True),
-    dict(name="slow", a=89.55, b=92.65, own=True),
-    dict(name="chairhit", a=132.90, b=134.75, own=True),
+    # owner v2: "drill tu kau ambil footage yang last kali tu, yang aku choke down, yang aku pegang pendek tu"
+    dict(name="choke1", a=155.55, b=158.45, own=True),       # "7 iron, tak kisahlah berapa iron pun, korang pegang pendek."
+    dict(name="choke2", a=159.85, b=163.45, own=True),       # "Sebab kalau korang early extension, korang akan miss the ball completely."
+    dict(name="choke3", a=164.22, b=170.65, own=True),       # "So untuk kita dapatkan stay, stay bawah, pegang je pendek untuk rasakan"
+    dict(name="choke4", a=172.70, b=174.05, own=True),       # "buntut kita ni ke belakang." (false start "but" 171.6 cut)
+    dict(name="chokehit", a=174.10, b=176.30, own=True),     # the swing gripped down, impact 175.668
     dict(name="splitpre", kind="split", a=I1 - PRE, a2=I3 - PRE, src_dur=PRE, speed=0.5),
     dict(name="splitfreeze", kind="splitfreeze", a=I1, a2=I3, dur=2.6),
     dict(name="splitpost", kind="split", a=I1, a2=I3, src_dur=POST, speed=0.5),
@@ -171,7 +175,7 @@ def build_audio(tl):
 
 if __name__ == "__main__":
     tl = timeline()
-    tl["_impacts"] = {"hook": tl["hookfreeze"]["start"], "chair": round(tl["chairhit"]["start"] + (I2 - 132.90), 3), "split": tl["splitfreeze"]["start"]}
+    tl["_impacts"] = {"hook": tl["hookfreeze"]["start"], "choke": round(tl["chokehit"]["start"] + (I3 - 174.10), 3), "split": tl["splitfreeze"]["start"]}
     os.makedirs(os.path.join(ROOT, "edit"), exist_ok=True); os.makedirs(os.path.join(ROOT, "assets"), exist_ok=True)
     if "--audio-only" not in sys.argv:
         build_video()

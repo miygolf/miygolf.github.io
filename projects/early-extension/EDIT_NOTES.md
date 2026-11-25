@@ -40,3 +40,10 @@ tools/fetch.sh && python3 tools/build_aroll.py && python3 tools/film_words.py &&
 npx hyperframes@0.9.32 check && npx hyperframes@0.9.32 render -q draft -o renders/draft.mp4 && tools/master.sh renders/draft.mp4 previews/early-extension_preview_vN.mp4
 # on "render": render -q delivery -o renders/final_raw.mp4 && tools/master.sh renders/final_raw.mp4 final/early-extension_1080x1920.mp4
 ```
+
+## v2 (owner: "drill tu kau ambil footage yang last kali tu, yang aku choke down, yang aku pegang pendek tu")
+The drill is now drill 3, gripped down (IMG_0448 155.5-176.3): "7 iron, tak kisahlah berapa iron pun, korang pegang pendek. Sebab kalau korang early
+extension, korang akan miss the ball completely. So untuk kita dapatkan stay, stay bawah, pegang je pendek untuk rasakan ... buntut kita ni ke belakang."
+(false start "but" cut), then the gripped-down swing at 1x. Rows: DRILL DIA SIMPLE JE / PEGANG PENDEK (CHOKE DOWN) / EARLY EXTENSION = MISS BOLA /
+01 SETUP: PEGANG PENDEK / 02 STAY BAWAH / 03 RASA PUNGGUNG KE BELAKANG / SLOW DULU · 10 KALI / THAT'S IT ✓. Chair drill and "buat slow-slow" removed.
+The split's "after" is this same swing. 36.2 s.

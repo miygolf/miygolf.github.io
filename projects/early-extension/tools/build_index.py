@@ -47,21 +47,21 @@ MEAS = [
 
 # ---- chart rows: (section-end, text, style, t0, x, y, tag) ----
 H1, H2 = 190, 290          # top rows (range shots: head starts ~y 320 at x 420+, keep these short)
-L1, L2, L3 = 930, 1030, 1130
+L1, L2, L3 = 900, 996, 1092
 R = [
     (E("hookpost"), "Punggung lari", "ink big", 0.0, 60, H1, ""),
     (E("hookpost"), "masa downswing?", "badfill big", 0.0, 60, H1 + 104, ""),
     (E("hookpost"), "= Early extension", "bad", S("hookfreeze") + 1.25, 60, 1120, ""),
     (E("demoC"), "Space tangan hilang", "bad", W("demoB", "naik", 0, S("demoB") + 1.4), 60, L1, "01"),
     (E("demoC"), "Shank · block kanan · thin", "bad", S("demoC") + 0.6, 60, L2, "02"),
-    (E("kerusi0"), "Drill dia simple je", "ink big", S("kerusi0") + 0.05, 60, H1, ""),
-    (E("kerusi0"), "Kerusi / golf bag / dinding", "", S("kerusi0") + 0.7, 60, H1 + 112, ""),
-    (E("kerusi"), "Setup: punggung touch kerusi", "", S("kerusi") + 0.3, 60, L1, "01"),
-    (E("kerusi"), "Backswing: punggung kanan stay", "", W("kerusi", "angkat", 0, S("kerusi") + 3.8), 60, L2, "02"),
-    (E("kerusi"), "Downswing: punggung kiri tolak kerusi", "good", W("kerusi", "down", 0, S("kerusi") + 5.9), 60, L3 - 10, "03"),
-    (E("slow"), "Slow dulu · 10 kali", "good big", S("slow") + 0.1, 60, L1 - 10, ""),
-    (E("slow"), "Rasa punggung stay kat belakang", "", S("slow") + 1.2, 60, L2 + 20, ""),
-    (E("chairhit"), "That's it ✓", "good big", IMP["chair"] + 0.15, 60, L1, ""),
+    (E("choke1"), "Drill dia simple je", "ink big", S("choke1") + 0.05, 60, H1, ""),
+    (E("choke1"), "Pegang pendek (choke down)", "good", W("choke1", "pegang", 0, S("choke1") + 2.3), 60, H1 + 112, ""),
+    (E("choke2"), "Early extension = miss bola", "bad", W("choke2", "miss", 0, S("choke2") + 2.6) - 0.1, 60, L1, ""),
+    (E("choke4"), "Setup: pegang pendek", "", S("choke3") + 0.2, 60, L1, "01"),
+    (E("choke4"), "Stay bawah", "", W("choke3", "bawah", 0, S("choke3") + 3.4), 60, L2, "02"),
+    (E("choke4"), "Rasa punggung ke belakang", "good", S("choke4") + 0.05, 60, L3 - 10, "03"),
+    (E("chokehit"), "Slow dulu · 10 kali", "good big", S("chokehit") + 0.05, 60, L1 - 10, ""),
+    (E("chokehit"), "That's it ✓", "ink", IMP["choke"] + 0.15, 60, L2 + 30, ""),
     (E("splitpost"), "Before", "ink", S("splitpre") + 0.05, 60, 350, ""),
     (E("splitpost"), "After", "good", S("splitpre") + 0.05, 600, 350, ""),
     (E("splitpost"), "Nampak beza dia?", "ink big", S("splitfreeze") + 1.3, 60, 1196, ""),
@@ -73,12 +73,9 @@ CAP = [
     ("Apa itu early extension?", W("hookfreeze", "apa"), E("hookfreeze") - 0.05),
     ("First of all, dia angkat backswing, dia naik badan.", S("demoA") + 0.05, E("demoB") - 0.05),
     ("Lepas tu bila dia turun, dia turun je macam tu.", S("demoC") + 0.05, E("demoC") - 0.05),
-    ("Ambil golf bag ataupun kerusi.", S("kerusi0") + 0.05, E("kerusi0") - 0.05),
-    ("Kerusi ni sebagai kita nak dapatkan rasa je.", S("kerusi") + 0.05, W("kerusi", "angkat", 0, S("kerusi") + 3.8) - 0.05),
-    ("Angkat backswing.", W("kerusi", "angkat", 0, S("kerusi") + 3.8), W("kerusi", "down", 0, S("kerusi") + 5.9) - 0.1),
-    ("Downswing tu bagi rasa, tolak je kerusi tu.", W("kerusi", "down", 0, S("kerusi") + 5.9), W("kerusi", "then", 0, S("kerusi") + 9.7) - 0.05),
-    ("Then follow through.", W("kerusi", "then", 0, S("kerusi") + 9.7), E("kerusi") - 0.03),
-    ("Buat slow-slow, backswing slow je.", S("slow") + 0.05, E("slow") - 0.05),
+    ("7 iron, tak kisahlah berapa iron pun, korang pegang pendek.", S("choke1") + 0.05, E("choke1") - 0.03),
+    ("Sebab kalau korang early extension, korang akan miss the ball completely.", S("choke2") + 0.05, E("choke2") - 0.03),
+    ("So untuk dapatkan stay bawah, pegang je pendek… rasakan buntut kita ni ke belakang.", S("choke3") + 0.05, E("choke4") - 0.03),
     ("Okey, itu dia.", W("end", "okey", 0, S("end") + 0.7), TOTAL),
 ]
 CAPTOP = {}
@@ -141,7 +138,7 @@ def main():
     rh, rd = rows(); ch, cd = caps()
     mh = "\n      ".join(m["svg"](m["id"]) for m in MEAS)
     consts = {"ROWS": rd, "CAP": cd, "MEAS": [{"id": m["id"], "t0": round(m["t0"], 3), "t1": round(m["t1"], 3)} for m in MEAS],
-              "FLASH": [IMP["hook"], IMP["chair"], IMP["split"]], "TOTAL": TOTAL}
+              "FLASH": [IMP["hook"], IMP["choke"], IMP["split"]], "TOTAL": TOTAL}
     tpl = open(os.path.join(ROOT, "tools", "index.template.html")).read()
     out = (tpl.replace("{{TOTAL}}", str(TOTAL)).replace("{{MEAS}}", mh).replace("{{ROWS}}", rh).replace("{{CAPS}}", ch)
               .replace("{{AUDIO}}", audio_tags(rd)).replace("{{CONSTS}}", json.dumps(consts, ensure_ascii=False)))
