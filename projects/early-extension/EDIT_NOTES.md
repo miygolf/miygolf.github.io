@@ -47,3 +47,6 @@ extension, korang akan miss the ball completely. So untuk kita dapatkan stay, st
 (false start "but" cut), then the gripped-down swing at 1x. Rows: DRILL DIA SIMPLE JE / PEGANG PENDEK (CHOKE DOWN) / EARLY EXTENSION = MISS BOLA /
 01 SETUP: PEGANG PENDEK / 02 STAY BAWAH / 03 RASA PUNGGUNG KE BELAKANG / SLOW DULU · 10 KALI / THAT'S IT ✓. Chair drill and "buat slow-slow" removed.
 The split's "after" is this same swing. 36.2 s.
+
+## Delivery
+Owner said "render" (2026-11-25) on v2. `final/early-extension_1080x1920.mp4`: 36.2 s, 1080×1920, 30 fps, H.264, AAC 256k, no music.
