@@ -12,3 +12,6 @@ Footage: `../farhan-tip/tools/fetch.sh` -> farhan-tip/.src (not committed); this
 - Sound: his voice (light denoise) + Mixkit 2568/2364 for rows. No music. Master −14 LUFS, ≤ −1 dBTP.
 
 Build: `python3 tools/build_aroll.py && python3 tools/build_index.py && npx hyperframes@0.9.32 render -q draft -o renders/draft.mp4 && tools/master.sh renders/draft.mp4 previews/farhan-outside_preview_vN.mp4`
+
+## Delivery
+Owner: "ok render" (2026-11-26) on v1. `final/farhan-outside_1080x1920.mp4`, 1080×1920, 30 fps, H.264, AAC 256k, no music.
