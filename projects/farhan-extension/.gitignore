@@ -1,0 +1,11 @@
+.src/
+renders/
+edit/segs/
+edit/voice_raw.wav
+assets/aroll.mp4
+assets/voice.wav
+previous/
+final/*.mp4
+previews/*.mp4
+.hyperframes/
+__pycache__/

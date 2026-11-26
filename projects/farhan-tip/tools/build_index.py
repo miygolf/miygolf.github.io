@@ -12,19 +12,21 @@ TOTAL = TL["total"]
 SEGS = [s for s in TL["segs"] if s.get("kind") != "freeze"]
 
 
-def F(src):
-    """source time -> film time (a time inside a removed pause maps to the next kept frame)"""
-    if src == "end": return TOTAL
-    for s in SEGS:
-        if s["a"] - 1e-3 <= src <= s["b"] + 1e-3: return round(s["start"] + src - s["a"], 3)
-        if src < s["a"]: return s["start"]
+def F(t, clip=None):
+    """source time (in `clip`, default C.SRC) -> film time (a time inside a removed pause maps to the next kept frame)"""
+    if t == "end": return TOTAL
+    clip = clip or C.SRC
+    segs = [s for s in SEGS if s.get("src", C.SRC) == clip]
+    for s in segs:
+        if s["a"] - 1e-3 <= t <= s["b"] + 1e-3: return round(s["start"] + t - s["a"], 3)
+        if t < s["a"]: return s["start"]
     return TOTAL
 
 
 def rows():
     out, data = [], []
     for i, r in enumerate(C.ROWS):
-        t0, t1 = F(r["t"]), F(r["until"])
+        t0, t1 = F(r["t"], r.get("src")), F(r["until"], r.get("usrc", r.get("src")))
         kk = f"<span class='k'>{r['tag']}</span>" if r.get("tag") else ""
         vis = " opacity:1;" if t0 < 0.2 else ""
         out.append(f'<div id="r{i}" class="ov row {r.get("st", "")}" style="left:{r.get("x", 60)}px; top:{r["y"]}px;{vis}"><div class="tab"></div><div class="tx">{kk}{r["text"]}</div></div>')
@@ -34,10 +36,12 @@ def rows():
 
 def caps():
     out, data = [], []
-    for i, (txt, a, b, *top) in enumerate(C.CAPS):
-        t0, t1 = F(a), F(b)
+    def cs(c): return c[3] if len(c) > 3 and isinstance(c[3], str) else None
+    for i, cap in enumerate(C.CAPS):
+        txt, a, b = cap[:3]; top = [x for x in cap[3:] if isinstance(x, int)]
+        t0, t1 = F(a, cs(cap)), F(b, cs(cap))
         floor = 0.5 + 0.3 * len(txt.split()) + 0.1
-        nxt = F(C.CAPS[i + 1][1]) - 0.05 if i + 1 < len(C.CAPS) else TOTAL
+        nxt = F(C.CAPS[i + 1][1], cs(C.CAPS[i + 1])) - 0.05 if i + 1 < len(C.CAPS) else TOTAL
         t1 = max(t1, min(t0 + floor, nxt))
         st = f' style="top:{top[0]}px"' if top else ""
         out.append(f'<div id="cap{i}" class="ov cap"{st}>{html.escape(txt)}</div>')

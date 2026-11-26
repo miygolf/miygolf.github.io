@@ -10,23 +10,28 @@ import numpy as np
 
 PROJ = os.getcwd()
 spec = importlib.util.spec_from_file_location("content", os.path.join(PROJ, "content.py")); C = importlib.util.module_from_spec(spec); spec.loader.exec_module(C)
-SRC = os.path.join(PROJ, ".src", C.SRC)
+SRCS = sorted({p.get("src", C.SRC) for p in C.PIECES})      # pieces may come from several clips (piece key "src")
 SEG = os.path.join(PROJ, "edit", "segs")
 FPS, SR = 30, 48000
 
 
-def load():
-    raw = subprocess.run(["ffmpeg", "-v", "error", "-i", SRC, "-map", "0:a:0", "-vn", "-ac", "1", "-ar", str(SR), "-f", "f32le", "-"], capture_output=True).stdout
+def path(src): return os.path.join(PROJ, ".src", src)
+
+
+def load(src):
+    raw = subprocess.run(["ffmpeg", "-v", "error", "-i", path(src), "-map", "0:a:0", "-vn", "-ac", "1", "-ar", str(SR), "-f", "f32le", "-"], capture_output=True).stdout
     return np.frombuffer(raw, np.float32).copy()
 
 
-X = load()
 H = int(0.02 * SR)
-DB = np.array([20 * np.log10(np.sqrt(np.mean(X[i * H:(i + 1) * H] ** 2)) + 1e-9) for i in range(len(X) // H)])
-THR = np.percentile(DB, 10) + 8
+AUD = {}
+for _s in SRCS:
+    _x = load(_s); _db = np.array([20 * np.log10(np.sqrt(np.mean(_x[i * H:(i + 1) * H] ** 2)) + 1e-9) for i in range(len(_x) // H)])
+    AUD[_s] = (_x, _db, np.percentile(_db, 10) + 8)
 
 
-def subsegments(a, b):
+def subsegments(src, a, b):
+    X, DB, THR = AUD[src]
     """split [a,b] at pauses > 0.5 s (under floor + 8 dB): keep 0.16 s after the sound, 0.12 s before the next"""
     out, cur = [], a
     i, j0 = int(a / 0.02), int(b / 0.02)
@@ -45,10 +50,11 @@ def subsegments(a, b):
 
 SEGS = []
 for p in C.PIECES:
-    for k, (a, b) in enumerate(subsegments(p["a"], p["b"])):
-        SEGS.append(dict(name=f"{p['name']}{k}", piece=p["name"], a=a, b=b))
+    src = p.get("src", C.SRC)
+    for k, (a, b) in enumerate(subsegments(src, p["a"], p["b"])):
+        SEGS.append(dict(name=f"{p['name']}{k}", piece=p["name"], src=src, a=a, b=b))
 if getattr(C, "HOLD", 0):
-    SEGS.append(dict(name="hold", piece="hold", a=SEGS[-1]["b"] - 0.04, kind="freeze", dur=C.HOLD))
+    SEGS.append(dict(name="hold", piece="hold", src=SEGS[-1]["src"], a=SEGS[-1]["b"] - 0.04, kind="freeze", dur=C.HOLD))
 
 
 def frames(d): return int(round(d * FPS))
@@ -68,9 +74,9 @@ def build_segment(i, s):
     enc = ["-frames:v", str(n), "-an", "-c:v", "libx264", "-preset", "medium", "-crf", "14", "-pix_fmt", "yuv420p",
            "-color_primaries", "bt709", "-color_trc", "bt709", "-colorspace", "bt709", "-g", "15", out]
     if s.get("kind") == "freeze":
-        cmd = ["ffmpeg", "-v", "error", "-y", "-ss", f"{s['a']:.3f}", "-i", SRC, "-vf", f"trim=end_frame=1,setpts=PTS-STARTPTS,fps={FPS},tpad=stop_mode=clone:stop_duration={s['dur'] + 1},{SC}"]
+        cmd = ["ffmpeg", "-v", "error", "-y", "-ss", f"{s['a']:.3f}", "-i", path(s["src"]), "-vf", f"trim=end_frame=1,setpts=PTS-STARTPTS,fps={FPS},tpad=stop_mode=clone:stop_duration={s['dur'] + 1},{SC}"]
     else:
-        cmd = ["ffmpeg", "-v", "error", "-y", "-ss", f"{s['a']:.3f}", "-t", f"{s['b'] - s['a'] + 0.3:.3f}", "-i", SRC, "-vf", f"fps={FPS},{SC}"]
+        cmd = ["ffmpeg", "-v", "error", "-y", "-ss", f"{s['a']:.3f}", "-t", f"{s['b'] - s['a'] + 0.3:.3f}", "-i", path(s["src"]), "-vf", f"fps={FPS},{SC}"]
     run(cmd + enc); return out
 
 
@@ -89,7 +95,7 @@ def main():
     buf = np.zeros(int((t + 0.5) * SR), np.float32)
     for s in tl["segs"]:
         if s.get("kind") == "freeze": continue
-        x = X[int(s["a"] * SR):int(s["b"] * SR)].copy(); f = int(0.012 * SR)
+        x = AUD[s["src"]][0][int(s["a"] * SR):int(s["b"] * SR)].copy(); f = int(0.012 * SR)
         x[:f] *= np.linspace(0, 1, f); x[-f:] *= np.linspace(1, 0, f)
         i = int(s["start"] * SR); buf[i:i + len(x)] += x[:len(buf) - i]
     raw = os.path.join(PROJ, "edit", "voice_raw.wav")
@@ -98,7 +104,7 @@ def main():
     run(["ffmpeg", "-v", "error", "-y", "-i", raw, "-af", "highpass=f=80,afftdn=nf=-40:nr=6,acompressor=threshold=-24dB:ratio=2.5:attack=8:release=200:makeup=2,loudnorm=I=-16:TP=-2:LRA=11",
          "-ar", str(SR), "-ac", "2", os.path.join(PROJ, "assets", "voice.wav")])
     json.dump(tl, open(os.path.join(PROJ, "edit", "timeline.json"), "w"), indent=1)
-    for s in tl["segs"]: print(f"  {s['start']:6.2f}-{s['end']:6.2f}  {s['name']:10} src {s['a']:.2f}-{s.get('b', s['a']):.2f}")
+    for s in tl["segs"]: print(f"  {s['start']:6.2f}-{s['end']:6.2f}  {s['name']:10} {s['src']} {s['a']:.2f}-{s.get('b', s['a']):.2f}")
     print("total", tl["total"])
 
 
