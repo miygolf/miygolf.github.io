@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Posture Chart" (same look as projects/early-extension; Coach Farhan series): the swing read like a physio posture assessment. A teal plumb line drops from the top on the back of the hips at
+         address (with its bob), a red marker shows where the hips are at impact, an arrow measures the gap; the coach's points arrive as
+         clinical chart rows (tab slides in, row wipes open, a tick lands); the before/after is a two-panel assessment sheet.
+         Type: Familjen Grotesk 700/600 + Reddit Mono 600 + Noto Color Emoji.
+         Palette: chart white #f5f8f7, ink #13202b, teal #0e8c8f, marker red #e2483d, mint #d8efe9.
+         Safe band x 60-930, y 168-1330; faces: head y 320-580 at x 420-680 on the range shots -> rows sit top-left (short) or low. */
+      @font-face { font-family: "Familjen"; font-weight: 400 700; src: url("assets/fonts/FamiljenGrotesk-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "RMono"; font-weight: 200 900; src: url("assets/fonts/RedditMono-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Noto Color Emoji"; font-weight: 400; src: url("assets/fonts/NotoColorEmoji.ttf") format("truetype"); font-display: block; }
+      :root { --chart: #f5f8f7; --ink: #13202b; --teal: #0e8c8f; --red: #e2483d; --mint: #d8efe9; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #13202b; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #13202b; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
+      .ov { position: absolute; opacity: 0; z-index: 6; pointer-events: none; }
+      .emo { font-family: "Noto Color Emoji", sans-serif; font-weight: 400; }
+
+      /* chart row */
+      .row { display: flex; align-items: stretch; white-space: nowrap; box-shadow: 0 10px 22px rgba(0,0,0,0.30); border-radius: 6px; overflow: hidden; }
+      .row .tab { width: 14px; background: var(--teal); }
+      .row .tx { padding: 12px 22px 14px 18px; background: var(--chart); color: var(--ink); font-family: "Familjen"; font-weight: 700; font-size: 46px; line-height: 1.05; }
+      .row .tx .k { font-family: "RMono"; font-weight: 600; font-size: 28px; letter-spacing: 0.06em; color: var(--teal); margin-right: 14px; vertical-align: 6px; }
+      .row.big .tx { font-size: 62px; padding: 14px 26px 16px 20px; }
+      .row.bad .tab { background: var(--red); } .row.bad .tx .k { color: var(--red); }
+      .row.ink .tab { background: var(--teal); } .row.ink .tx { background: var(--ink); color: var(--chart); }
+      .row.good .tx { background: var(--teal); color: #fff; } .row.good .tab { background: var(--ink); } .row.good .tx .k { color: var(--mint); }
+      .row.badfill .tx { background: var(--red); color: #fff; } .row.badfill .tab { background: var(--ink); }
+
+      .cap { left: 60px; top: 1210px; max-width: 870px; padding: 10px 20px 13px; border-radius: 10px; background: rgba(19,32,43,0.74);
+             font-family: "Familjen"; font-weight: 600; font-size: 40px; line-height: 1.18; color: #fff; z-index: 7; }
+      .tag { font-family: "RMono"; font-weight: 600; font-size: 30px; letter-spacing: 0.08em; padding: 6px 12px 8px; border-radius: 4px; color: #fff; }
+
+      svg.meas { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 5; overflow: visible; opacity: 0; pointer-events: none; }
+      #flash { position: absolute; inset: 0; z-index: 8; background: #fff; opacity: 0; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="{{TOTAL}}" data-width="1080" data-height="1920" data-fps="30">
+      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="{{TOTAL}}" data-track-index="1" muted playsinline></video>
+      {{MEAS}}
+      {{ROWS}}
+      {{CAPS}}
+      <div id="flash"></div>
+{{AUDIO}}
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {{CONSTS}};
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        // chart rows: the tab slides in, the row wipes open, settles; slides out left at the end of its section
+        K.ROWS.forEach((r) => {
+          const el = $("#" + r.id);
+          if (r.t0 >= 0.2) {
+            tl.set(el, { opacity: 0 }, 0);
+            tl.fromTo(el, { opacity: 1, x: -60, clipPath: "inset(0 100% 0 0)" }, { x: 0, clipPath: "inset(0 0% 0 0)", duration: 0.32, ease: "power3.out", immediateRender: false }, r.t0);
+          }
+          if (r.t1 < K.TOTAL - 0.05) tl.to(el, { x: -80, opacity: 0, duration: 0.18, ease: "power2.in" }, r.t1 - 0.18);
+        });
+        K.CAP.forEach((c) => {
+          const el = $("#" + c.id);
+          tl.set(el, { opacity: 0 }, 0);
+          tl.fromTo(el, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.12, immediateRender: false }, Math.max(c.t0, 0.001));
+          tl.set(el, { opacity: 0 }, c.t1);
+        });
+        // measurements: plumb line drops with its bob, impact marker, arrow, tags
+        K.MEAS.forEach((m) => {
+          const g = $("#" + m.id);
+          tl.set(g, { opacity: 0 }, 0);
+          tl.set(g, { opacity: 1 }, m.t0);
+          g.querySelectorAll(".plumb").forEach((p) => {
+            const L = p.getTotalLength();
+            tl.fromTo(p, { attr: { "stroke-dashoffset": L, "stroke-dasharray": `${L} ${L}` } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.45, ease: "power2.out", immediateRender: false }, m.t0);
+            tl.set(p, { attr: { "stroke-dasharray": "14 10", "stroke-dashoffset": 0 } }, m.t0 + 0.46);
+          });
+          g.querySelectorAll(".bob").forEach((b) => tl.fromTo(b, { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.45, ease: "bounce.out", immediateRender: false }, m.t0 + 0.1));
+          g.querySelectorAll(".imp").forEach((p) => tl.fromTo(p, { opacity: 0, scaleY: 0, transformOrigin: "50% 50%" }, { opacity: 1, scaleY: 1, duration: 0.25, ease: "power2.out", immediateRender: false }, m.t0 + 0.55));
+          g.querySelectorAll(".arrow").forEach((p) => { const L = p.getTotalLength();
+            tl.fromTo(p, { attr: { "stroke-dasharray": `${L} ${L}`, "stroke-dashoffset": L } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.3, ease: "power2.out", immediateRender: false }, m.t0 + 0.8); });
+          g.querySelectorAll(".head").forEach((p) => tl.fromTo(p, { opacity: 0 }, { opacity: 1, duration: 0.1, immediateRender: false }, m.t0 + 1.08));
+          g.querySelectorAll(".mtag").forEach((p, i) => tl.fromTo(p, { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.25, immediateRender: false }, m.t0 + 1.1 + i * 0.15));
+          tl.to(g, { opacity: 0, duration: 0.15 }, m.t1 - 0.15);
+        });
+        K.FLASH.forEach((t) => tl.fromTo("#flash", { opacity: 0.4 }, { opacity: 0, duration: 0.2, immediateRender: false }, t));
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,182 @@
+{
+ "segs": [
+  {
+   "name": "hook0",
+   "piece": "hook",
+   "a": 12.55,
+   "b": 13.44,
+   "start": 0.0,
+   "end": 0.9
+  },
+  {
+   "name": "hook1",
+   "piece": "hook",
+   "a": 13.92,
+   "b": 16.58,
+   "start": 0.9,
+   "end": 3.5667
+  },
+  {
+   "name": "hook2",
+   "piece": "hook",
+   "a": 17.42,
+   "b": 20.32,
+   "start": 3.5667,
+   "end": 6.4667
+  },
+  {
+   "name": "hook3",
+   "piece": "hook",
+   "a": 21.08,
+   "b": 22.74,
+   "start": 6.4667,
+   "end": 8.1333
+  },
+  {
+   "name": "hook4",
+   "piece": "hook",
+   "a": 23.06,
+   "b": 24.45,
+   "start": 8.1333,
+   "end": 9.5333
+  },
+  {
+   "name": "demo0",
+   "piece": "demo",
+   "a": 59.45,
+   "b": 60.28,
+   "start": 9.5333,
+   "end": 10.3667
+  },
+  {
+   "name": "demo1",
+   "piece": "demo",
+   "a": 60.52,
+   "b": 63.66,
+   "start": 10.3667,
+   "end": 13.5
+  },
+  {
+   "name": "demo2",
+   "piece": "demo",
+   "a": 64.46,
+   "b": 66.22,
+   "start": 13.5,
+   "end": 15.2667
+  },
+  {
+   "name": "demo3",
+   "piece": "demo",
+   "a": 67.52,
+   "b": 69.96,
+   "start": 15.2667,
+   "end": 17.7
+  },
+  {
+   "name": "demo4",
+   "piece": "demo",
+   "a": 70.42,
+   "b": 71.08,
+   "start": 17.7,
+   "end": 18.3667
+  },
+  {
+   "name": "demo5",
+   "piece": "demo",
+   "a": 71.76,
+   "b": 73.32,
+   "start": 18.3667,
+   "end": 19.9333
+  },
+  {
+   "name": "demo6",
+   "piece": "demo",
+   "a": 73.64,
+   "b": 76.28,
+   "start": 19.9333,
+   "end": 22.5667
+  },
+  {
+   "name": "demo7",
+   "piece": "demo",
+   "a": 76.66,
+   "b": 79.95,
+   "start": 22.5667,
+   "end": 25.8667
+  },
+  {
+   "name": "fix0",
+   "piece": "fix",
+   "a": 82.1,
+   "b": 82.54,
+   "start": 25.8667,
+   "end": 26.3
+  },
+  {
+   "name": "fix1",
+   "piece": "fix",
+   "a": 83.04,
+   "b": 85.62,
+   "start": 26.3,
+   "end": 28.8667
+  },
+  {
+   "name": "fix2",
+   "piece": "fix",
+   "a": 86.14,
+   "b": 87.76,
+   "start": 28.8667,
+   "end": 30.5
+  },
+  {
+   "name": "fix3",
+   "piece": "fix",
+   "a": 88.48,
+   "b": 91.16,
+   "start": 30.5,
+   "end": 33.1667
+  },
+  {
+   "name": "fix4",
+   "piece": "fix",
+   "a": 92.06,
+   "b": 92.62,
+   "start": 33.1667,
+   "end": 33.7333
+  },
+  {
+   "name": "fix5",
+   "piece": "fix",
+   "a": 93.06,
+   "b": 94.78,
+   "start": 33.7333,
+   "end": 35.4667
+  },
+  {
+   "name": "fix6",
+   "piece": "fix",
+   "a": 95.3,
+   "b": 95.88,
+   "start": 35.4667,
+   "end": 36.0333
+  },
+  {
+   "name": "fix7",
+   "piece": "fix",
+   "a": 96.22,
+   "b": 97.1,
+   "start": 36.0333,
+   "end": 36.9
+  },
+  {
+   "name": "hold",
+   "piece": "hold",
+   "a": 97.05999999999999,
+   "kind": "freeze",
+   "dur": 1.6,
+   "start": 36.9,
+   "end": 38.5
+  }
+ ],
+ "total": 38.5
+}
