@@ -3,6 +3,7 @@
   {
    "name": "hook0",
    "piece": "hook",
+   "src": "IMG_0434.MOV",
    "a": 12.55,
    "b": 13.44,
    "start": 0.0,
@@ -11,6 +12,7 @@
   {
    "name": "hook1",
    "piece": "hook",
+   "src": "IMG_0434.MOV",
    "a": 13.92,
    "b": 16.58,
    "start": 0.9,
@@ -19,6 +21,7 @@
   {
    "name": "hook2",
    "piece": "hook",
+   "src": "IMG_0434.MOV",
    "a": 17.42,
    "b": 20.32,
    "start": 3.5667,
@@ -27,6 +30,7 @@
   {
    "name": "hook3",
    "piece": "hook",
+   "src": "IMG_0434.MOV",
    "a": 21.08,
    "b": 22.74,
    "start": 6.4667,
@@ -35,6 +39,7 @@
   {
    "name": "hook4",
    "piece": "hook",
+   "src": "IMG_0434.MOV",
    "a": 23.06,
    "b": 24.45,
    "start": 8.1333,
@@ -43,6 +48,7 @@
   {
    "name": "demo0",
    "piece": "demo",
+   "src": "IMG_0434.MOV",
    "a": 59.45,
    "b": 60.28,
    "start": 9.5333,
@@ -51,6 +57,7 @@
   {
    "name": "demo1",
    "piece": "demo",
+   "src": "IMG_0434.MOV",
    "a": 60.52,
    "b": 63.66,
    "start": 10.3667,
@@ -59,6 +66,7 @@
   {
    "name": "demo2",
    "piece": "demo",
+   "src": "IMG_0434.MOV",
    "a": 64.46,
    "b": 66.22,
    "start": 13.5,
@@ -67,6 +75,7 @@
   {
    "name": "demo3",
    "piece": "demo",
+   "src": "IMG_0434.MOV",
    "a": 67.52,
    "b": 69.96,
    "start": 15.2667,
@@ -75,6 +84,7 @@
   {
    "name": "demo4",
    "piece": "demo",
+   "src": "IMG_0434.MOV",
    "a": 70.42,
    "b": 71.08,
    "start": 17.7,
@@ -83,6 +93,7 @@
   {
    "name": "demo5",
    "piece": "demo",
+   "src": "IMG_0434.MOV",
    "a": 71.76,
    "b": 73.32,
    "start": 18.3667,
@@ -91,6 +102,7 @@
   {
    "name": "demo6",
    "piece": "demo",
+   "src": "IMG_0434.MOV",
    "a": 73.64,
    "b": 76.28,
    "start": 19.9333,
@@ -99,6 +111,7 @@
   {
    "name": "demo7",
    "piece": "demo",
+   "src": "IMG_0434.MOV",
    "a": 76.66,
    "b": 79.95,
    "start": 22.5667,
@@ -107,6 +120,7 @@
   {
    "name": "fix0",
    "piece": "fix",
+   "src": "IMG_0434.MOV",
    "a": 82.1,
    "b": 82.54,
    "start": 25.8667,
@@ -115,6 +129,7 @@
   {
    "name": "fix1",
    "piece": "fix",
+   "src": "IMG_0434.MOV",
    "a": 83.04,
    "b": 85.62,
    "start": 26.3,
@@ -123,6 +138,7 @@
   {
    "name": "fix2",
    "piece": "fix",
+   "src": "IMG_0434.MOV",
    "a": 86.14,
    "b": 87.76,
    "start": 28.8667,
@@ -131,6 +147,7 @@
   {
    "name": "fix3",
    "piece": "fix",
+   "src": "IMG_0434.MOV",
    "a": 88.48,
    "b": 91.16,
    "start": 30.5,
@@ -139,6 +156,7 @@
   {
    "name": "fix4",
    "piece": "fix",
+   "src": "IMG_0434.MOV",
    "a": 92.06,
    "b": 92.62,
    "start": 33.1667,
@@ -147,6 +165,7 @@
   {
    "name": "fix5",
    "piece": "fix",
+   "src": "IMG_0434.MOV",
    "a": 93.06,
    "b": 94.78,
    "start": 33.7333,
@@ -155,6 +174,7 @@
   {
    "name": "fix6",
    "piece": "fix",
+   "src": "IMG_0434.MOV",
    "a": 95.3,
    "b": 95.88,
    "start": 35.4667,
@@ -163,6 +183,7 @@
   {
    "name": "fix7",
    "piece": "fix",
+   "src": "IMG_0434.MOV",
    "a": 96.22,
    "b": 97.1,
    "start": 36.0333,
@@ -171,6 +192,7 @@
   {
    "name": "hold",
    "piece": "hold",
+   "src": "IMG_0434.MOV",
    "a": 97.05999999999999,
    "kind": "freeze",
    "dur": 1.6,

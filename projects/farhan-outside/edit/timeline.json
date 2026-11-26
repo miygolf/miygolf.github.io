@@ -3,6 +3,7 @@
   {
    "name": "hook0",
    "piece": "hook",
+   "src": "IMG_0433.MOV",
    "a": 10.8,
    "b": 12.2,
    "start": 0.0,
@@ -11,6 +12,7 @@
   {
    "name": "hook1",
    "piece": "hook",
+   "src": "IMG_0433.MOV",
    "a": 12.7,
    "b": 15.1,
    "start": 1.4,
@@ -19,6 +21,7 @@
   {
    "name": "hook2",
    "piece": "hook",
+   "src": "IMG_0433.MOV",
    "a": 15.38,
    "b": 16.2,
    "start": 3.8,
@@ -27,6 +30,7 @@
   {
    "name": "hook3",
    "piece": "hook",
+   "src": "IMG_0433.MOV",
    "a": 17.66,
    "b": 18.95,
    "start": 4.6333,
@@ -35,6 +39,7 @@
   {
    "name": "demo0",
    "piece": "demo",
+   "src": "IMG_0433.MOV",
    "a": 19.75,
    "b": 23.06,
    "start": 5.9333,
@@ -43,6 +48,7 @@
   {
    "name": "demo1",
    "piece": "demo",
+   "src": "IMG_0433.MOV",
    "a": 23.3,
    "b": 24.2,
    "start": 9.2333,
@@ -51,6 +57,7 @@
   {
    "name": "demo2",
    "piece": "demo",
+   "src": "IMG_0433.MOV",
    "a": 25.64,
    "b": 27.46,
    "start": 10.1333,
@@ -59,6 +66,7 @@
   {
    "name": "demo3",
    "piece": "demo",
+   "src": "IMG_0433.MOV",
    "a": 28.12,
    "b": 29.74,
    "start": 11.9667,
@@ -67,6 +75,7 @@
   {
    "name": "demo4",
    "piece": "demo",
+   "src": "IMG_0433.MOV",
    "a": 30.48,
    "b": 31.56,
    "start": 13.6,
@@ -75,6 +84,7 @@
   {
    "name": "demo5",
    "piece": "demo",
+   "src": "IMG_0433.MOV",
    "a": 32.42,
    "b": 33.55,
    "start": 14.6667,
@@ -83,6 +93,7 @@
   {
    "name": "why0",
    "piece": "why",
+   "src": "IMG_0433.MOV",
    "a": 40.65,
    "b": 42.46,
    "start": 15.8,
@@ -91,6 +102,7 @@
   {
    "name": "why1",
    "piece": "why",
+   "src": "IMG_0433.MOV",
    "a": 42.88,
    "b": 44.86,
    "start": 17.6,
@@ -99,6 +111,7 @@
   {
    "name": "why2",
    "piece": "why",
+   "src": "IMG_0433.MOV",
    "a": 45.44,
    "b": 48.94,
    "start": 19.5667,
@@ -107,6 +120,7 @@
   {
    "name": "why3",
    "piece": "why",
+   "src": "IMG_0433.MOV",
    "a": 49.5,
    "b": 53.35,
    "start": 23.0667,
@@ -115,6 +129,7 @@
   {
    "name": "check0",
    "piece": "check",
+   "src": "IMG_0433.MOV",
    "a": 57.7,
    "b": 58.32,
    "start": 26.9333,
@@ -123,6 +138,7 @@
   {
    "name": "check1",
    "piece": "check",
+   "src": "IMG_0433.MOV",
    "a": 59.4,
    "b": 64.0,
    "start": 27.5667,
@@ -131,6 +147,7 @@
   {
    "name": "close0",
    "piece": "close",
+   "src": "IMG_0433.MOV",
    "a": 75.55,
    "b": 77.02,
    "start": 32.1667,
@@ -139,6 +156,7 @@
   {
    "name": "close1",
    "piece": "close",
+   "src": "IMG_0433.MOV",
    "a": 78.08,
    "b": 81.72,
    "start": 33.6333,
@@ -147,6 +165,7 @@
   {
    "name": "close2",
    "piece": "close",
+   "src": "IMG_0433.MOV",
    "a": 82.42,
    "b": 84.35,
    "start": 37.2667,
@@ -155,6 +174,7 @@
   {
    "name": "num10",
    "piece": "num1",
+   "src": "IMG_0433.MOV",
    "a": 90.95,
    "b": 92.9,
    "start": 39.2,
@@ -163,6 +183,7 @@
   {
    "name": "num11",
    "piece": "num1",
+   "src": "IMG_0433.MOV",
    "a": 93.7,
    "b": 94.76,
    "start": 41.1667,
@@ -171,6 +192,7 @@
   {
    "name": "num12",
    "piece": "num1",
+   "src": "IMG_0433.MOV",
    "a": 95.08,
    "b": 97.46,
    "start": 42.2333,
@@ -179,6 +201,7 @@
   {
    "name": "num13",
    "piece": "num1",
+   "src": "IMG_0433.MOV",
    "a": 98.06,
    "b": 98.62,
    "start": 44.6,
@@ -187,6 +210,7 @@
   {
    "name": "hold",
    "piece": "hold",
+   "src": "IMG_0433.MOV",
    "a": 98.58,
    "kind": "freeze",
    "dur": 1.6,
