@@ -14,3 +14,6 @@ Same "Posture Chart" look as the other Coach Farhan tips. Footage: `../farhan-ti
 
 Not used: the "pening aku" ending (174-181 s): too unclear to caption reliably; the wrong-way explanation (0432 0-29 s), for length.
 Pauses > 0.5 s cut to ~0.3 s; final voice re-transcribed: complete. Rows top band only (max 3). No music; −14 LUFS.
+
+## Delivery
+Owner: "render" (2026-11-26) on v1. `final/farhan-extension_1080x1920.mp4`: 47.9 s, 1080×1920, 30 fps, H.264, AAC 256k, no music.
