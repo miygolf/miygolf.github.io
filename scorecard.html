@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MIY Golf — 9-Hole Scorecard</title>
+<link rel="icon" type="image/png" href="icon.png?v=2">
+<meta name="description" content="MIY Golf Beat 36 nine-hole scorecard for students. Fill it in on your phone or print it.">
+<style>
+  :root {
+    --green-900: #0f2a1d;
+    --green-700: #1c4a33;
+    --green-500: #2f7a52;
+    --cream: #f6f2e8;
+    --paper: #fffdf8;
+    --ink: #17211b;
+    --muted: #5d6b62;
+    --line: #c9c2b0;
+    --line-soft: #e2dccd;
+    --gold: #c39a3f;
+    --red: #b3261e;
+    --d1: #c0392b; --d2: #d4a017; --d3: #2f7a52; --d4: #2b6cb0; --d5: #6b46c1;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    background: var(--cream);
+    -webkit-font-smoothing: antialiased;
+  }
+  input, textarea, button { font: inherit; color: inherit; }
+
+  /* ---------- Toolbar (screen only) ---------- */
+  .toolbar {
+    max-width: 1163px; margin: 0 auto; padding: 16px 16px 12px;
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between;
+  }
+  .toolbar h1 { font-family: Georgia, serif; font-size: 1.2rem; margin: 0; color: var(--green-900); }
+  .toolbar p { margin: 2px 0 0; font-size: .85rem; color: var(--muted); }
+  .toolbar .actions { display: flex; gap: 8px; }
+  .btn {
+    border: 0; border-radius: 999px; padding: 10px 18px; cursor: pointer; font-weight: 600; font-size: .9rem;
+    background: var(--gold); color: #1d1605;
+  }
+  .btn.ghost { background: transparent; box-shadow: inset 0 0 0 1.5px var(--green-700); color: var(--green-700); }
+
+  .scroller { overflow-x: auto; padding: 0 16px 32px; -webkit-overflow-scrolling: touch; }
+
+  /* ---------- Sheet (A4 landscape) ---------- */
+  .sheet {
+    width: 1123px; min-height: 760px; margin: 0 auto;
+    background: var(--paper); box-shadow: 0 10px 30px rgba(15,42,29,.12);
+    padding: 26px 28px 18px; display: flex; flex-direction: column;
+  }
+  .card {
+    flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) 250px;
+    border: 2px solid var(--green-900);
+  }
+  .main { padding: 14px 14px 14px; display: flex; flex-direction: column; gap: 12px; }
+
+  /* Header fields */
+  .head { display: grid; grid-template-columns: minmax(0,1.6fr) minmax(0,1fr) minmax(0,1.3fr); gap: 10px 22px; align-items: end; }
+  .field { display: flex; align-items: flex-end; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--green-900); }
+  .field span { white-space: nowrap; padding-bottom: 3px; }
+  .field input {
+    flex: 1; min-width: 0; border: 0; border-bottom: 1.5px solid var(--ink); background: transparent;
+    font-size: 15px; font-weight: 500; text-transform: none; letter-spacing: 0; padding: 2px 4px; outline: none;
+  }
+  .field input:focus { border-bottom-color: var(--gold); }
+
+  .head2 { display: grid; grid-template-columns: minmax(0,1.6fr) minmax(0,1fr) minmax(0,1.3fr); gap: 22px; align-items: center; }
+  .divs { display: flex; gap: 8px; }
+  .div {
+    width: 48px; height: 48px; border-radius: 50%; border: 3px solid var(--c); background: #fff; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.05; padding: 0;
+    font-size: 9px; font-weight: 700; color: var(--ink);
+  }
+  .div b { font-size: 10px; color: var(--c); }
+  .div[aria-pressed="true"] { background: var(--c); color: #fff; }
+  .div[aria-pressed="true"] b { color: #fff; }
+  .stack { display: flex; flex-direction: column; gap: 8px; }
+
+  /* Score table */
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; border: 2px solid var(--gold); }
+  th, td { border: 1px solid var(--line); text-align: center; vertical-align: middle; }
+  thead th { background: var(--green-900); color: #fff; font-size: 12px; font-weight: 700; height: 26px; letter-spacing: .03em; }
+  thead th.label { text-align: left; padding-left: 10px; }
+  col.c-label { width: 172px; }
+  col.c-total { width: 76px; }
+  td.label { text-align: left; padding: 6px 10px; font-size: 13px; font-weight: 700; line-height: 1.2; }
+  td.label small { display: block; font-size: 10px; font-weight: 400; color: var(--muted); margin-top: 1px; }
+  .tag { display: inline-block; font-size: 8.5px; font-weight: 800; letter-spacing: .06em; padding: 2px 5px; border-radius: 2px; color: #fff; background: var(--green-700); margin-bottom: 3px; text-transform: uppercase; }
+  .tag.gold { background: var(--gold); color: #1d1605; }
+  .tag.dark { background: #3b4a42; }
+  tr.r-score td { height: 58px; }
+  tr.r-gir td { height: 58px; }
+  tr.r-putts td { height: 50px; }
+  tr.r-p4 td { height: 46px; }
+  tr.r-first td { height: 56px; }
+  tr.sep td { border-top: 2px solid var(--gold); }
+  td.total { background: #f3efe3; font-weight: 700; font-size: 17px; }
+  td.total small { display: block; font-size: 10px; font-weight: 500; color: var(--muted); }
+
+  .cell { width: 100%; height: 100%; border: 0; background: transparent; text-align: center; outline: none; padding: 0; }
+  .big { font-size: 24px; font-family: "Bradley Hand", "Segoe Print", "Comic Sans MS", cursive; }
+  .cell:focus { background: #fbf3dc; }
+  .gir { display: flex; flex-direction: column; height: 100%; }
+  .gir button { flex: 1; border: 0; background: transparent; cursor: pointer; font-size: 24px; line-height: 1; padding: 0; }
+  .gir button[data-v="hit"] { color: var(--green-500); }
+  .gir button[data-v="miss"] { color: var(--red); }
+  .gir input, .first input.leave { height: 16px; font-size: 10.5px; border: 0; border-top: 1px dashed var(--line-soft); text-align: center; background: transparent; outline: none; width: 100%; color: var(--ink); }
+  .first { display: flex; flex-direction: column; height: 100%; }
+  .first .cell { flex: 1; font-size: 20px; }
+  .first input.leave { color: var(--red); font-weight: 600; }
+
+  /* Info strip */
+  .info { display: grid; grid-template-columns: 70px 1.2fr 1.2fr 1.2fr 1.1fr 1fr; border: 1px solid var(--line); background: #f8f5ec; font-size: 10.5px; }
+  .info > div { padding: 6px 8px; border-left: 1px solid var(--line); line-height: 1.3; }
+  .info > div:first-child { border-left: 0; font-family: Georgia, serif; font-size: 22px; font-weight: 700; color: var(--green-900); display: flex; align-items: center; justify-content: center; }
+  .info b { display: block; font-size: 11px; color: var(--green-900); }
+  .info span { color: var(--muted); }
+
+  /* Partner */
+  table.partner { border: 1px solid var(--line); }
+  table.partner thead th { background: #3b4a42; height: 22px; font-size: 11px; }
+  table.partner td { height: 34px; }
+  table.partner td.label input { width: 100%; border: 0; background: transparent; outline: none; font-size: 13px; }
+
+  .notes { flex: 1; min-height: 50px; display: flex; flex-direction: column; border: 1px solid var(--line); }
+  .notes span { font-size: 10.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--green-900); padding: 5px 8px 0; }
+  .notes textarea { flex: 1; border: 0; background: transparent; resize: none; outline: none; padding: 4px 8px; font-size: 14px;
+    background-image: repeating-linear-gradient(transparent 0 23px, var(--line-soft) 23px 24px); line-height: 24px; }
+
+  /* ---------- Side panel ---------- */
+  .side {
+    background: var(--green-900); color: #fff; padding: 16px 16px 14px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background: #fff; box-shadow: 0 0 0 2px var(--gold); }
+  .brand .t1 { font-family: Georgia, serif; font-size: 22px; line-height: 1; letter-spacing: .02em; }
+  .brand .t1 b { color: var(--gold); font-weight: 600; }
+  .brand .t2 { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; opacity: .8; margin-top: 4px; }
+  .side h3 { margin: 4px 0 0; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); text-align: center; }
+  .boxes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .box { background: #fff; color: var(--ink); border-radius: 6px; height: 46px; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; }
+  .box.me { border: 2.5px solid var(--gold); font-family: "Bradley Hand", "Segoe Print", "Comic Sans MS", cursive; font-weight: 600; font-size: 21px; }
+  .box.me.win { color: var(--green-500); }
+  .box.me small { font-size: 13px; margin-left: 3px; }
+  .box-labels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; text-align: center; font-size: 10px; font-weight: 700; letter-spacing: .1em; opacity: .85; margin-top: -4px; }
+  .side label { font-size: 10.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin-top: 4px; }
+  .side textarea {
+    width: 100%; border: 2.5px solid var(--gold); border-radius: 6px; background: #fff; color: var(--red);
+    font-family: "Bradley Hand", "Segoe Print", "Comic Sans MS", cursive; font-size: 15px; padding: 6px 8px;
+    resize: none; height: 66px; outline: none;
+  }
+  .side .spacer { flex: 1; }
+  .side .coach { font-size: 10px; opacity: .75; line-height: 1.4; border-top: 1px solid rgba(255,255,255,.2); padding-top: 8px; }
+  .side .coach b { color: var(--gold); }
+
+  .foot { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); padding-top: 8px; }
+
+  /* ---------- Print ---------- */
+  @page { size: A4 landscape; margin: 7mm; }
+  @media print {
+    body { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .toolbar { display: none; }
+    .scroller { padding: 0; overflow: visible; }
+    .sheet { width: 283mm; min-height: 0; height: 195mm; box-shadow: none; padding: 0; }
+    .cell:focus { background: transparent; }
+    .side textarea::placeholder, .field input::placeholder { color: transparent; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div>
+    <h1>Beat 36 — 9-Hole Scorecard</h1>
+    <p>Fill in on your phone (it saves automatically), or print a blank card / save as PDF.</p>
+  </div>
+  <div class="actions">
+    <button class="btn ghost" id="clear" type="button">Clear card</button>
+    <button class="btn" id="print" type="button">Print / Save PDF</button>
+  </div>
+</div>
+
+<div class="scroller">
+<div class="sheet">
+  <div class="card">
+    <div class="main">
+      <div class="head">
+        <label class="field"><span>Player:</span><input data-k="player" autocomplete="off"></label>
+        <label class="field"><span>Date:</span><input data-k="date" autocomplete="off"></label>
+        <label class="field"><span>Time / Hole:</span><input data-k="time" autocomplete="off"></label>
+      </div>
+
+      <div class="head2">
+        <div class="divs" role="group" aria-label="Division">
+          <button type="button" class="div" style="--c:var(--d1)" data-div="1"><b>DIV 1</b>25m</button>
+          <button type="button" class="div" style="--c:var(--d2)" data-div="2"><b>DIV 2</b>50m</button>
+          <button type="button" class="div" style="--c:var(--d3)" data-div="3"><b>DIV 3</b>100m</button>
+          <button type="button" class="div" style="--c:var(--d4)" data-div="4"><b>DIV 4</b>150m</button>
+          <button type="button" class="div" style="--c:var(--d5)" data-div="5"><b>DIV 5</b>200m</button>
+        </div>
+        <div class="stack">
+          <label class="field"><span>Tee box:</span><input data-k="tee" autocomplete="off"></label>
+          <label class="field"><span>Meters:</span><input data-k="meters" inputmode="numeric" autocomplete="off"></label>
+        </div>
+        <div class="stack">
+          <label class="field"><span>Player signature:</span><input data-k="sig1" autocomplete="off"></label>
+          <label class="field"><span>Partner signature:</span><input data-k="sig2" autocomplete="off"></label>
+        </div>
+      </div>
+
+      <table id="score">
+        <colgroup><col class="c-label"><col span="9"><col class="c-total"></colgroup>
+        <thead><tr><th class="label">HOLE NUMBER</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>TOTAL</th></tr></thead>
+        <tbody>
+          <tr class="r-score"><td class="label"><span class="tag gold">My score</span><br>My Score</td></tr>
+          <tr class="r-gir"><td class="label"><span class="tag dark">Div 1–4</span><br>Green in Regulation<small>✓ hit / ✗ miss. Note the miss below</small></td></tr>
+          <tr class="r-putts"><td class="label">Total Putts<small>Anything you can mark on the green</small></td></tr>
+          <tr class="r-p4 sep"><td class="label"><span class="tag dark">Div 5–10 Advanced</span><br>Putts &lt; 4 ft</td></tr>
+          <tr class="r-first"><td class="label">1st Putt Distance <span style="color:var(--red)">(ft)</span><small>Below: distance left after 1st putt</small></td></tr>
+        </tbody>
+      </table>
+
+      <div class="info">
+        <div>GIR</div>
+        <div><b>What is a Green in Regulation?</b><span>Ball on the green with enough shots left for 2 putts.</span></div>
+        <div><b>Division 1 – 5</b><span>25 m – 200 m tees. Hit the green in 2 shots or less.</span></div>
+        <div><b>2 Shots</b><span>Every hole counts as a par 4 at Div 1–5.</span></div>
+        <div><b>Division 6 – 10</b><span>Full course from the tee box.</span></div>
+        <div><b>Par 3 | 1 shot<br>Par 4 | 2 shots<br>Par 5 | 3 shots</b></div>
+      </div>
+
+      <table class="partner" id="partner">
+        <colgroup><col class="c-label"><col span="9"><col class="c-total"></colgroup>
+        <thead><tr><th class="label">PLAYING PARTNER</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>TOTAL</th></tr></thead>
+        <tbody><tr><td class="label"><input data-k="pname" placeholder="Name:" autocomplete="off"></td></tr></tbody>
+      </table>
+
+      <label class="notes"><span>Round notes (club used, miss pattern, mindset)</span><textarea data-k="notes"></textarea></label>
+    </div>
+
+    <aside class="side">
+      <div class="brand">
+        <img src="logo.jpg?v=2" alt="MIY Golf logo">
+        <div><div class="t1">MIY <b>Golf</b></div><div class="t2">Beat 36 Challenge</div></div>
+      </div>
+
+      <h3>Targets for beating 36</h3>
+      <div class="boxes"><div class="box">6</div><div class="box">15</div><div class="box">36</div></div>
+      <div class="box-labels"><div>GREENS</div><div>PUTTS</div><div>SCORE</div></div>
+
+      <h3>My round</h3>
+      <div class="boxes">
+        <div class="box me" id="r-greens"></div>
+        <div class="box me" id="r-putts"></div>
+        <div class="box me" id="r-score"></div>
+      </div>
+
+      <label for="strength">My strength today was:</label>
+      <textarea id="strength" data-k="strength"></textarea>
+
+      <label for="improve">To beat 36, I need to improve:</label>
+      <textarea id="improve" data-k="improve"></textarea>
+
+      <div class="spacer"></div>
+      <div class="coach">Coach notes / next lesson focus:<br><br><b>MIY Golf</b> · Coach Iqbal Yusoff</div>
+    </aside>
+  </div>
+  <div class="foot"><span>MIY Golf — Beat 36 · 9-Hole Scorecard</span><span>miygolf.github.io</span></div>
+</div>
+</div>
+
+<script>
+(function () {
+  var KEY = 'miy-scorecard-v1';
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { state = {}; }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+  var rows = document.querySelectorAll('#score tbody tr');
+  var partnerRow = document.querySelector('#partner tbody tr');
+
+  function numInput(key, cls) {
+    var i = document.createElement('input');
+    i.className = 'cell ' + (cls || 'big');
+    i.inputMode = 'numeric'; i.autocomplete = 'off'; i.maxLength = 3;
+    i.dataset.k = key;
+    return i;
+  }
+  function td(child) { var c = document.createElement('td'); if (child) c.appendChild(child); return c; }
+
+  for (var h = 1; h <= 9; h++) {
+    rows[0].appendChild(td(numInput('s' + h)));
+
+    var g = document.createElement('div'); g.className = 'gir';
+    var b = document.createElement('button'); b.type = 'button'; b.dataset.h = h; b.setAttribute('aria-label', 'Green in regulation hole ' + h);
+    var note = document.createElement('input'); note.dataset.k = 'gn' + h; note.autocomplete = 'off'; note.maxLength = 10; note.setAttribute('aria-label', 'Miss note hole ' + h);
+    g.appendChild(b); g.appendChild(note);
+    rows[1].appendChild(td(g));
+
+    rows[2].appendChild(td(numInput('p' + h)));
+    rows[3].appendChild(td(numInput('q' + h)));
+
+    var f = document.createElement('div'); f.className = 'first';
+    f.appendChild(numInput('f' + h, ''));
+    var lv = document.createElement('input'); lv.className = 'leave'; lv.dataset.k = 'l' + h; lv.autocomplete = 'off'; lv.maxLength = 6; lv.setAttribute('aria-label', 'Left after first putt hole ' + h);
+    f.appendChild(lv);
+    rows[4].appendChild(td(f));
+
+    partnerRow.appendChild(td(numInput('ps' + h)));
+  }
+  var totals = {};
+  ['score', 'gir', 'putts', 'p4', 'first'].forEach(function (k, i) {
+    var c = document.createElement('td'); c.className = 'total'; rows[i].appendChild(c); totals[k] = c;
+  });
+  var pTotal = document.createElement('td'); pTotal.className = 'total'; partnerRow.appendChild(pTotal);
+
+  function sum(prefix) {
+    var t = 0, n = 0;
+    for (var h = 1; h <= 9; h++) { var v = parseFloat(state[prefix + h]); if (!isNaN(v)) { t += v; n++; } }
+    return { t: t, n: n };
+  }
+  function render() {
+    document.querySelectorAll('.gir button').forEach(function (btn) {
+      var v = state['g' + btn.dataset.h] || '';
+      btn.dataset.v = v; btn.textContent = v === 'hit' ? '✓' : v === 'miss' ? '✗' : '';
+    });
+    document.querySelectorAll('.div').forEach(function (d) { d.setAttribute('aria-pressed', state.div === d.dataset.div ? 'true' : 'false'); });
+
+    var s = sum('s'), p = sum('p'), q = sum('q'), f = sum('f'), ps = sum('ps');
+    var hits = 0, marked = 0;
+    for (var h = 1; h <= 9; h++) { if (state['g' + h]) marked++; if (state['g' + h] === 'hit') hits++; }
+
+    totals.score.textContent = s.n ? s.t : '';
+    totals.gir.textContent = marked ? hits : '';
+    totals.putts.textContent = p.n ? p.t : '';
+    totals.p4.textContent = q.n ? q.t : '';
+    totals.first.innerHTML = f.n ? Math.round(f.t / f.n) + '<small>avg ft</small>' : '';
+    pTotal.textContent = ps.n ? ps.t : '';
+
+    var rg = document.getElementById('r-greens'), rp = document.getElementById('r-putts'), rs = document.getElementById('r-score');
+    rg.textContent = marked ? hits : ''; rg.classList.toggle('win', marked > 0 && hits >= 6);
+    rp.textContent = p.n ? p.t : ''; rp.classList.toggle('win', p.n === 9 && p.t <= 15);
+    if (s.n) {
+      var diff = s.t - 36;
+      rs.innerHTML = s.t + (s.n === 9 ? '<small>(' + (diff > 0 ? '+' : diff < 0 ? '−' : '±') + Math.abs(diff) + ')</small>' : '');
+      rs.classList.toggle('win', s.n === 9 && s.t < 36);
+    } else { rs.textContent = ''; rs.classList.remove('win'); }
+  }
+
+  document.querySelectorAll('[data-k]').forEach(function (el) {
+    if (state[el.dataset.k] != null) el.value = state[el.dataset.k];
+    el.addEventListener('input', function () { state[el.dataset.k] = el.value; save(); render(); });
+  });
+  document.addEventListener('click', function (e) {
+    var g = e.target.closest('.gir button');
+    if (g) {
+      var k = 'g' + g.dataset.h, v = state[k] || '';
+      state[k] = v === '' ? 'hit' : v === 'hit' ? 'miss' : '';
+      save(); render(); return;
+    }
+    var d = e.target.closest('.div');
+    if (d) { state.div = state.div === d.dataset.div ? '' : d.dataset.div; save(); render(); }
+  });
+  document.getElementById('print').addEventListener('click', function () { window.print(); });
+  document.getElementById('clear').addEventListener('click', function () {
+    if (!confirm('Clear the whole card?')) return;
+    state = {}; save();
+    document.querySelectorAll('[data-k]').forEach(function (el) { el.value = ''; });
+    render();
+  });
+  render();
+})();
+</script>
+</body>
+</html>
