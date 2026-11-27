@@ -40,3 +40,4 @@ Owner: "kau render terus je lepas kau tukar benda tu" (2026-11-24) on v2. `final
 
 ## v3 (owner: "align wording a bit higher so viewer can see the club")
 All tapes now start at y 200 and the captions sit at y 640, so the club head and the ball (y ~1000-1250 in the sand close-ups) are never covered.
+Re-rendered on v3 (owner: "render", 2026-11-27): `final/bunker-plug_1080x1920.mp4` replaced.
