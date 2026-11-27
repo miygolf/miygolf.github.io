@@ -37,3 +37,6 @@ End tape now SAVE. CUBA KAT BUNKER ↓ (captions updated too).
 
 ## Delivery
 Owner: "kau render terus je lepas kau tukar benda tu" (2026-11-24) on v2. `final/bunker-plug_1080x1920.mp4`: 26.5 s, 1080×1920, 30 fps, H.264, AAC 256k, no music.
+
+## v3 (owner: "align wording a bit higher so viewer can see the club")
+All tapes now start at y 200 and the captions sit at y 640, so the club head and the ball (y ~1000-1250 in the sand close-ups) are never covered.

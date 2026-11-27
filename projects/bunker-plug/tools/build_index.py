@@ -19,6 +19,8 @@ def W(seg, word, nth=0, default=None):
 # sections: tapes stack inside a section and peel off when the next section's first tape prints
 SEC = {k: (S(k), E(k)) for k in ("q", "plug", "normal", "fail", "tip", "face", "biar", "hit", "slow", "pan", "end")}
 BASE = {"q": 230, "end": 230}          # talking heads: the face is low (q) / close (end) -> tapes at the top
+# owner v3 ("align wording a bit higher so viewer can see the club"): every tape starts at y 200 and captions sit at y 640,
+# so the club head and the ball (y ~1000-1250 in the sand close-ups) stay clear
 # (section, text, colour k/y/r/w, film time, tilt deg, big?) - the coach's own words; "fried egg" is the owner's word from the bunker script
 T = [
     ("q", "Korang komen \"bunker\"", "k", 0.0, -1.5, False),
@@ -62,7 +64,7 @@ def tapes():
         b = first[order[nxt]] - 0.05 if nxt < len(order) else TOTAL
         if sec in ("q", "pan"): b = min(b, E(sec) - 0.02)          # never carried across a cut onto / off a talking head
         k = stack.get(sec, 0); stack[sec] = k + 1
-        y = BASE.get(sec, 780) + sum(126 if T[j][5] else 106 for j in range(len(T)) if T[j][0] == sec and j < i)
+        y = BASE.get(sec, 200) + sum(126 if T[j][5] else 106 for j in range(len(T)) if T[j][0] == sec and j < i)
         plain = html.unescape(txt.split("</span>")[-1]) if "<span" in txt else txt
         nch = max(len(plain), 4)
         style = f"top:{y}px;" + (f" opacity:1; transform: rotate({r}deg);" if t0 < 0.2 else "")
@@ -78,7 +80,7 @@ def caps():
         floor = 0.5 + 0.3 * len(txt.split()) + 0.1                    # readable floor, may run past the cut, never into the next line
         nxt = CAP[i + 1][1] - 0.05 if i + 1 < len(CAP) else TOTAL
         t1 = max(t1, min(t0 + floor, nxt))
-        st = f' style="top:{top[0]}px"' if top else ""
+        st = f' style="top:{top[0] if top else 640}px"'
         out.append(f'<div id="cap{i}" class="ov cap"{st}>{html.escape(txt)}</div>')
         data.append({"id": f"cap{i}", "t0": round(t0, 3), "t1": round(t1, 3)})
     return "\n      ".join(out), data
