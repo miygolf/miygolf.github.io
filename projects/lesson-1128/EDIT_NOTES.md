@@ -23,3 +23,6 @@ Master −14 LUFS; limiter lowered to 0.56 in this project's master.sh (the stri
 
 ## v2 (owner: "tak perlu cta")
 End CTA removed: the video ends on a 1.6 s freeze of swing 5's finish with the full stamp card pulsing. Captions: WhatsApp line removed. 22.0 s.
+
+## Delivery
+Owner: "render" (2026-11-28) on v2. `final/lesson-1128_1080x1920.mp4`: 22.0 s, 1080×1920, 30 fps, H.264, AAC 256k, no music.
