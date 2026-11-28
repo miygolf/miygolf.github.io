@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* "Stamp Card": the day's lessons as a café loyalty card. A cream card with five round slots sits at the top; on each swing's impact
+         a rubber stamp slams into the next slot (scale-down + ink bleed + small tilt), the slow replay gets a corner tag, and the end card
+         shows the full card. Type: Bowlby One (stamps, headline) + Urbanist 800/600 (labels) + Noto Color Emoji.
+         Palette: card cream #fbf3e4, ink navy #1d2b45, stamp red #e8452c, stamp outline #b8321e, kraft line #e3d3b4.
+         Safe band x 60-930, y 168-1330; faces (contact sheets): heads at y ~520-1000 on these range shots -> card only in y 190-470. */
+      @font-face { font-family: "Bowlby"; font-weight: 400; src: url("assets/fonts/BowlbyOne.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Urbanist"; font-weight: 100 900; src: url("assets/fonts/Urbanist-VF.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Noto Color Emoji"; font-weight: 400; src: url("assets/fonts/NotoColorEmoji.ttf") format("truetype"); font-display: block; }
+      :root { --card: #fbf3e4; --ink: #1d2b45; --red: #e8452c; --red2: #b8321e; --kraft: #e3d3b4; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
+      #aroll { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
+      .ov { position: absolute; opacity: 0; z-index: 6; pointer-events: none; }
+      .emo { font-family: "Noto Color Emoji", sans-serif; font-weight: 400; }
+
+      #card { left: 60px; top: 190px; width: 870px; height: 270px; background: var(--card); border-radius: 22px; z-index: 6;
+              box-shadow: 0 16px 34px rgba(0,0,0,0.35); padding: 22px 30px; opacity: 1; }
+      #card::after { content: ""; position: absolute; left: 18px; right: 18px; top: 18px; bottom: 18px; border: 3px dashed var(--kraft); border-radius: 14px; }
+      #card .hd { display: flex; justify-content: space-between; align-items: baseline; position: relative; z-index: 1; }
+      #card .t { font-family: "Bowlby"; font-size: 52px; color: var(--ink); line-height: 1; letter-spacing: 0.01em; }
+      #card .d { font-family: "Urbanist"; font-weight: 800; font-size: 30px; color: var(--red); letter-spacing: 0.06em; }
+      #slots { display: flex; justify-content: space-between; margin-top: 22px; position: relative; z-index: 1; }
+      .slot { width: 132px; height: 132px; border-radius: 50%; border: 4px dashed rgba(29,43,69,0.40); position: relative;
+              display: flex; align-items: center; justify-content: center; font-family: "Urbanist"; font-weight: 800; font-size: 30px; color: rgba(29,43,69,0.62); }
+      .stamp { position: absolute; inset: -4px; border-radius: 50%; border: 7px solid var(--red); background: #fbe3d8;
+               display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--red); opacity: 0;
+               box-shadow: inset 0 0 0 4px rgba(232,69,44,0.25); }
+      .stamp b { font-family: "Bowlby"; font-weight: 400; font-size: 62px; line-height: 1; }
+      .stamp i { font-style: normal; font-family: "Urbanist"; font-weight: 800; font-size: 20px; letter-spacing: 0.12em; }
+
+      #hook { left: 60px; top: 490px; z-index: 6; }
+      #hook .big { font-family: "Bowlby"; font-size: 76px; line-height: 1.02; color: var(--card); background: var(--ink); padding: 14px 26px 18px; border-radius: 16px; box-shadow: 0 12px 26px rgba(0,0,0,0.35); }
+      .tag { left: 60px; top: 1250px; padding: 10px 20px 12px; border-radius: 12px; background: var(--ink); color: var(--card);
+             font-family: "Urbanist"; font-weight: 800; font-size: 40px; z-index: 6; }
+      .tag .r { color: #ff8a6b; }
+      #endcta { left: 60px; top: 1060px; width: 870px; z-index: 6; }
+      #endcta .l1 { display: inline-block; font-family: "Bowlby"; font-size: 64px; color: var(--card); line-height: 1.05; background: var(--ink); padding: 12px 22px 16px; border-radius: 14px; }
+      #endcta .l2 { display: inline-block; margin-top: 18px; padding: 12px 22px 14px; border-radius: 12px; background: var(--red); color: #fff;
+                    font-family: "Urbanist"; font-weight: 800; font-size: 42px; }
+      #flash { position: absolute; inset: 0; z-index: 8; background: #fff; opacity: 0; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="{{TOTAL}}" data-width="1080" data-height="1920" data-fps="30">
+      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="{{TOTAL}}" data-track-index="1" muted playsinline></video>
+      <div id="card" class="ov"><div class="hd"><div class="t">Lesson hari ni</div><div class="d">SABTU · 28.11</div></div>
+        <div id="slots">{{SLOTS}}</div></div>
+      <div id="hook" class="ov" style="opacity:1"><div class="big">Recap<br>lesson ⛳</div></div>
+      {{TAGS}}
+      <div id="endcta" class="ov"><div class="l1">Next swing<br>korang pulak?</div><div class="l2">Book lesson: WhatsApp 019-872 8829</div></div>
+      <div id="flash"></div>
+{{AUDIO}}
+    </div>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const K = {{CONSTS}};
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        // hook title: on frame 0, leaves when swing 1 starts
+        tl.to("#hook", { opacity: 0, y: -20, duration: 0.2 }, K.S1 - 0.2);
+        // stamps slam in on each 1x impact
+        K.STAMPS.forEach((t, i) => {
+          const el = $("#st" + i);
+          tl.set(el, { opacity: 0 }, 0);
+          tl.fromTo(el, { opacity: 0, scale: 2.4, rotation: -28 }, { opacity: 1, scale: 1, rotation: K.ROT[i], duration: 0.16, ease: "power4.in", immediateRender: false }, t);
+          tl.fromTo(el, { boxShadow: "0 0 0 0 rgba(232,69,44,0.55)" }, { boxShadow: "0 0 0 22px rgba(232,69,44,0)", duration: 0.35, ease: "power2.out", immediateRender: false }, t + 0.16);
+          tl.fromTo("#card", { y: 0 }, { y: 6, duration: 0.05, yoyo: true, repeat: 1, immediateRender: false }, t + 0.16);
+          tl.fromTo("#flash", { opacity: 0.32 }, { opacity: 0, duration: 0.18, immediateRender: false }, t);
+        });
+        // replay tags
+        K.TAGS.forEach((g) => { const el = $("#" + g.id); tl.set(el, { opacity: 0 }, 0);
+          tl.fromTo(el, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.2, ease: "power3.out", immediateRender: false }, g.t0);
+          tl.to(el, { opacity: 0, duration: 0.12 }, g.t1 - 0.12); });
+        // end: full card pulses, CTA
+        tl.fromTo("#card", { scale: 1 }, { scale: 1.04, duration: 0.18, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false, transformOrigin: "50% 0%" }, K.END + 0.1);
+        tl.set("#endcta", { opacity: 0 }, 0);
+        tl.fromTo("#endcta", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out", immediateRender: false }, K.END + 0.35);
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
