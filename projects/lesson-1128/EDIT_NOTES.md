@@ -20,3 +20,6 @@ Faces: heads at y ~520-1000 -> card top band, tags/CTA low (y 1060-1330).
 ## Sound
 Real sound + Mixkit 3005 (title, end), 2364 (each stamp), 1489 (into each replay, low). No music.
 Master −14 LUFS; limiter lowered to 0.56 in this project's master.sh (the strikes overshot −1 dBTP at 0.708): −4.8 dBTP.
+
+## v2 (owner: "tak perlu cta")
+End CTA removed: the video ends on a 1.6 s freeze of swing 5's finish with the full stamp card pulsing. Captions: WhatsApp line removed. 22.0 s.

@@ -41,16 +41,12 @@
       .tag { left: 60px; top: 1250px; padding: 10px 20px 12px; border-radius: 12px; background: var(--ink); color: var(--card);
              font-family: "Urbanist"; font-weight: 800; font-size: 40px; z-index: 6; }
       .tag .r { color: #ff8a6b; }
-      #endcta { left: 60px; top: 1060px; width: 870px; z-index: 6; }
-      #endcta .l1 { display: inline-block; font-family: "Bowlby"; font-size: 64px; color: var(--card); line-height: 1.05; background: var(--ink); padding: 12px 22px 16px; border-radius: 14px; }
-      #endcta .l2 { display: inline-block; margin-top: 18px; padding: 12px 22px 14px; border-radius: 12px; background: var(--red); color: #fff;
-                    font-family: "Urbanist"; font-weight: 800; font-size: 42px; }
       #flash { position: absolute; inset: 0; z-index: 8; background: #fff; opacity: 0; pointer-events: none; }
     </style>
   </head>
   <body>
-    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="23.2" data-width="1080" data-height="1920" data-fps="30">
-      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="23.2" data-track-index="1" muted playsinline></video>
+    <div data-hf-id="hf-root" id="root" data-composition-id="main" data-start="0" data-duration="22.0" data-width="1080" data-height="1920" data-fps="30">
+      <video data-hf-id="hf-aroll" id="aroll" class="clip" src="assets/aroll.mp4" data-start="0" data-duration="22.0" data-track-index="1" muted playsinline></video>
       <div id="card" class="ov"><div class="hd"><div class="t">Lesson hari ni</div><div class="d">SABTU · 28.11</div></div>
         <div id="slots"><div class="slot">1<div class="stamp" id="st0"><b>01</b></div></div><div class="slot">2<div class="stamp" id="st1"><b>02</b></div></div><div class="slot">3<div class="stamp" id="st2"><b>03</b></div></div><div class="slot">4<div class="stamp" id="st3"><b>04</b></div></div><div class="slot">5<div class="stamp" id="st4"><b>05</b></div></div></div></div>
       <div id="hook" class="ov" style="opacity:1"><div class="big">Recap<br>lesson ⛳</div></div>
@@ -59,9 +55,8 @@
       <div id="tg3" class="ov tag"><span class="r">0.5×</span> replay</div>
       <div id="tg4" class="ov tag"><span class="r">0.5×</span> replay</div>
       <div id="tg5" class="ov tag"><span class="r">0.5×</span> replay</div>
-      <div id="endcta" class="ov"><div class="l1">Next swing<br>korang pulak?</div><div class="l2">Book lesson: WhatsApp 019-872 8829</div></div>
       <div id="flash"></div>
-      <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="23.2" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>
+      <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="22.0" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>
       <audio data-hf-id="hf-s00" id="sfx-00" class="clip" src="assets/sfx/3005.mp3" data-start="0.010" data-duration="0.17" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- card + title on frame 0 -->
       <audio data-hf-id="hf-s01" id="sfx-01" class="clip" src="assets/sfx/2364.mp3" data-start="3.891" data-duration="0.14" data-track-index="12" data-volume="0.45" data-audio-group="sfx"></audio> <!-- stamp 1 lands -->
       <audio data-hf-id="hf-s02" id="sfx-02" class="clip" src="assets/sfx/1489.mp3" data-start="4.510" data-duration="0.90" data-track-index="12" data-volume="0.18" data-audio-group="sfx"></audio> <!-- into replay 1 -->
@@ -73,12 +68,11 @@
       <audio data-hf-id="hf-s08" id="sfx-08" class="clip" src="assets/sfx/1489.mp3" data-start="15.043" data-duration="0.90" data-track-index="12" data-volume="0.18" data-audio-group="sfx"></audio> <!-- into replay 4 -->
       <audio data-hf-id="hf-s09" id="sfx-09" class="clip" src="assets/sfx/2364.mp3" data-start="17.925" data-duration="0.14" data-track-index="12" data-volume="0.45" data-audio-group="sfx"></audio> <!-- stamp 5 lands -->
       <audio data-hf-id="hf-s10" id="sfx-10" class="clip" src="assets/sfx/1489.mp3" data-start="18.710" data-duration="0.90" data-track-index="12" data-volume="0.18" data-audio-group="sfx"></audio> <!-- into replay 5 -->
-      <audio data-hf-id="hf-s11" id="sfx-11" class="clip" src="assets/sfx/3005.mp3" data-start="20.720" data-duration="0.17" data-track-index="12" data-volume="0.3" data-audio-group="sfx"></audio> <!-- end CTA -->
     </div>
     <script>
       (function () {
         window.__timelines = window.__timelines || {};
-        const K = {"STAMPS": [3.741, 6.918, 10.545, 14.664, 17.775], "ROT": [-8, 6, -4, 9, -6], "TAGS": [{"id": "tg1", "t0": 5.22, "t1": 6.2}, {"id": "tg2", "t0": 8.22, "t1": 9.2}, {"id": "tg3", "t0": 12.22, "t1": 13.2}, {"id": "tg4", "t0": 15.753, "t1": 16.733}, {"id": "tg5", "t0": 19.42, "t1": 20.4}], "S1": 2.3, "END": 20.4, "TOTAL": 23.2};
+        const K = {"STAMPS": [3.741, 6.918, 10.545, 14.664, 17.775], "ROT": [-8, 6, -4, 9, -6], "TAGS": [{"id": "tg1", "t0": 5.22, "t1": 6.2}, {"id": "tg2", "t0": 8.22, "t1": 9.2}, {"id": "tg3", "t0": 12.22, "t1": 13.2}, {"id": "tg4", "t0": 15.753, "t1": 16.733}, {"id": "tg5", "t0": 19.42, "t1": 20.4}], "S1": 2.3, "END": 20.4, "TOTAL": 22.0};
         const tl = gsap.timeline({ paused: true });
         const $ = (s) => document.querySelector(s);
         // hook title: on frame 0, leaves when swing 1 starts
@@ -96,10 +90,8 @@
         K.TAGS.forEach((g) => { const el = $("#" + g.id); tl.set(el, { opacity: 0 }, 0);
           tl.fromTo(el, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.2, ease: "power3.out", immediateRender: false }, g.t0);
           tl.to(el, { opacity: 0, duration: 0.12 }, g.t1 - 0.12); });
-        // end: full card pulses, CTA
+        // end: the full card pulses (owner: no CTA)
         tl.fromTo("#card", { scale: 1 }, { scale: 1.04, duration: 0.18, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false, transformOrigin: "50% 0%" }, K.END + 0.1);
-        tl.set("#endcta", { opacity: 0 }, 0);
-        tl.fromTo("#endcta", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out", immediateRender: false }, K.END + 0.35);
         window.__timelines["main"] = tl;
       })();
     </script>

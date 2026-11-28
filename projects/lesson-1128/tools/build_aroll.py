@@ -22,7 +22,7 @@ EDL = [dict(name="hook", clip="IMG_0494", a=IMP["IMG_0494"] - 0.45, b=IMP["IMG_0
 for i, (c, a, b) in enumerate(SWINGS, 1):
     EDL.append(dict(name=f"s{i}", clip=c, a=a, b=b, own=True))
     EDL.append(dict(name=f"r{i}", clip=c, a=IMP[c] - 0.28, b=IMP[c] + 0.22, speed=0.5, strike=True))
-EDL.append(dict(name="end", clip="IMG_0505", a=4.30, kind="freeze", dur=2.8))     # end card on swing 5's finish (the take ends with a finger over the lens)
+EDL.append(dict(name="end", clip="IMG_0505", a=4.30, kind="freeze", dur=1.6))    # owner: "tak perlu cta" -> short hold on the full card     # end card on swing 5's finish (the take ends with a finger over the lens)
 
 
 def src(c): return os.path.join(ROOT, ".src", c + ".MOV")

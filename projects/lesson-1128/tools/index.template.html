@@ -41,10 +41,6 @@
       .tag { left: 60px; top: 1250px; padding: 10px 20px 12px; border-radius: 12px; background: var(--ink); color: var(--card);
              font-family: "Urbanist"; font-weight: 800; font-size: 40px; z-index: 6; }
       .tag .r { color: #ff8a6b; }
-      #endcta { left: 60px; top: 1060px; width: 870px; z-index: 6; }
-      #endcta .l1 { display: inline-block; font-family: "Bowlby"; font-size: 64px; color: var(--card); line-height: 1.05; background: var(--ink); padding: 12px 22px 16px; border-radius: 14px; }
-      #endcta .l2 { display: inline-block; margin-top: 18px; padding: 12px 22px 14px; border-radius: 12px; background: var(--red); color: #fff;
-                    font-family: "Urbanist"; font-weight: 800; font-size: 42px; }
       #flash { position: absolute; inset: 0; z-index: 8; background: #fff; opacity: 0; pointer-events: none; }
     </style>
   </head>
@@ -55,7 +51,6 @@
         <div id="slots">{{SLOTS}}</div></div>
       <div id="hook" class="ov" style="opacity:1"><div class="big">Recap<br>lesson ⛳</div></div>
       {{TAGS}}
-      <div id="endcta" class="ov"><div class="l1">Next swing<br>korang pulak?</div><div class="l2">Book lesson: WhatsApp 019-872 8829</div></div>
       <div id="flash"></div>
 {{AUDIO}}
     </div>
@@ -80,10 +75,8 @@
         K.TAGS.forEach((g) => { const el = $("#" + g.id); tl.set(el, { opacity: 0 }, 0);
           tl.fromTo(el, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.2, ease: "power3.out", immediateRender: false }, g.t0);
           tl.to(el, { opacity: 0, duration: 0.12 }, g.t1 - 0.12); });
-        // end: full card pulses, CTA
+        // end: the full card pulses (owner: no CTA)
         tl.fromTo("#card", { scale: 1 }, { scale: 1.04, duration: 0.18, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false, transformOrigin: "50% 0%" }, K.END + 0.1);
-        tl.set("#endcta", { opacity: 0 }, 0);
-        tl.fromTo("#endcta", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out", immediateRender: false }, K.END + 0.35);
         window.__timelines["main"] = tl;
       })();
     </script>

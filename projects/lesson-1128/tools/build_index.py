@@ -19,7 +19,6 @@ def audio_tags():
     c = [(0.04, "3005.mp3", 0.3, "card + title on frame 0")]
     for i, t in enumerate(STAMPS): c.append((t + 0.16, "2364.mp3", 0.45, f"stamp {i + 1} lands"))
     for i in range(1, N + 1): c.append((S(f"r{i}") + 0.02, "1489.mp3", 0.18, f"into replay {i}"))
-    c.append((S("end") + 0.35, "3005.mp3", 0.3, "end CTA"))
     L = [f'      <audio data-hf-id="hf-voice" id="voice" class="clip" src="assets/voice.wav" data-start="0" data-duration="{TOTAL}" data-track-index="10" data-volume="1" data-audio-group="voiceover"></audio>']
     busy = {}
     for k, (beat, f, vol, note) in enumerate(sorted(c)):
